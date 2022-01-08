@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Lsj.Util.CsBuilder
@@ -18,6 +16,7 @@ namespace Lsj.Util.CsBuilder
             get;
             set;
         }
+
         /// <summary>
         /// Visibility
         /// </summary>
@@ -26,6 +25,7 @@ namespace Lsj.Util.CsBuilder
             get;
             set;
         }
+
         /// <summary>
         /// Name
         /// </summary>
@@ -34,6 +34,7 @@ namespace Lsj.Util.CsBuilder
             get;
             set;
         }
+
         /// <summary>
         /// Members
         /// </summary>
@@ -41,6 +42,7 @@ namespace Lsj.Util.CsBuilder
         {
             get;
         } = new List<ClassMember>();
+
         /// <summary>
         /// Convert To String
         /// </summary>
@@ -49,10 +51,10 @@ namespace Lsj.Util.CsBuilder
         public override string ToString(int i)
         {
             var sb = new StringBuilder();
-            if (this.Namespace != null)
+            if (Namespace != null)
             {
                 sb.Append(NULL, i * 4);
-                sb.AppendLine($@"namespace {this.Namespace}");
+                sb.AppendLine($@"namespace {Namespace}");
                 sb.Append(NULL, i * 4);
                 sb.AppendLine("{");
                 i++;
@@ -69,7 +71,7 @@ namespace Lsj.Util.CsBuilder
             i--;
             sb.Append(NULL, i * 4);
             sb.AppendLine("}");
-            if (this.Namespace != null)
+            if (Namespace != null)
             {
                 i--;
                 sb.Append(NULL, i * 4);
@@ -77,6 +79,7 @@ namespace Lsj.Util.CsBuilder
             }
             return sb.ToString();
         }
+
         /// <summary>
         /// Convert To String
         /// </summary>

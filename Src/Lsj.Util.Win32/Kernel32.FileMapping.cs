@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -241,7 +242,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFileMapping([In] HANDLE hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] DWORD flProtect,
-            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [In] LPWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -628,7 +629,7 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFile"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID MapViewOfFile([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
+        public static extern LPVOID MapViewOfFile([In] HANDLE hFileMappingObject, [In] ACCESS_MASK dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
             [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap);
 
         /// <summary>
@@ -888,7 +889,7 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFileEx"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileEx", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID MapViewOfFileEx([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
+        public static extern LPVOID MapViewOfFileEx([In] HANDLE hFileMappingObject, [In] ACCESS_MASK dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
             [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap, [In] LPVOID lpBaseAddress);
 
         /// <summary>
@@ -1069,8 +1070,7 @@ namespace Lsj.Util.Win32
         /// the handle returned by <see cref="OpenFileMapping"/> with a call to <see cref="CloseHandle"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenFileMappingW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenFileMapping([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE OpenFileMapping([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPWSTR lpName);
 
         /// <summary>
         /// <para>

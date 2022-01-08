@@ -20,6 +20,7 @@ using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.Winmm;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
@@ -168,8 +169,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateRemoteThread([In] HANDLE hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags,
-            [Out] out DWORD lpThreadId);
+            [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags, [Out] out DWORD lpThreadId);
 
         /// <summary>
         /// <para>
@@ -266,8 +266,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateRemoteThreadEx([In] HANDLE hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter,
-            [In] ThreadCreationFlags dwCreationFlags, [In] LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList, [Out] out DWORD lpThreadId);
+            [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags,
+            [In] LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList, [Out] out DWORD lpThreadId);
 
         /// <summary>
         /// <para>
@@ -364,8 +364,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateThread([In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter,
-            [In] ThreadCreationFlags dwCreationFlags, [Out] out DWORD lpThreadId);
+            [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags, [Out] out DWORD lpThreadId);
 
         /// <summary>
         /// <para>
@@ -409,6 +408,45 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitThread([In] DWORD dwExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the number of the processor the current thread was running on during the call to this function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumber"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The function returns the current processor number.
+        /// </returns>
+        /// <remarks>
+        /// This function is used to provide information for estimating process performance.
+        /// On systems with more than 64 logical processors, the <see cref="GetCurrentProcessorNumber"/> function returns the processor number
+        /// within the processor group to which the logical processor is assigned.
+        /// Use the <see cref="GetCurrentProcessorNumberEx"/> function to retrieve the processor group and number of the current processor.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessorNumber", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetCurrentProcessorNumber();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the processor group and number of the logical processor in which the calling thread is running.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumberex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ProcNumber">
+        /// A pointer to a <see cref="PROCESSOR_NUMBER"/> structure that receives the processor group to
+        /// which the logical processor is assigned and the number of the logical processor within its group.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the <paramref name="ProcNumber"/> parameter contains the group and processor number
+        /// of the processor on which the calling thread is running.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessorNumberEx", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetCurrentProcessorNumberEx([Out] out PROCESSOR_NUMBER ProcNumber);
 
         /// <summary>
         /// <para>
@@ -461,6 +499,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCurrentThreadId();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the boundaries of the stack that was allocated by the system for the current thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadstacklimits"/>
+        /// </para>
+        /// </summary>
+        /// <param name="LowLimit">
+        /// A pointer variable that receives the lower boundary of the current thread stack.
+        /// </param>
+        /// <param name="HighLimit">
+        /// A pointer variable that receives the upper boundary of the current thread stack.
+        /// </param>
+        /// <remarks>
+        /// It is possible for user-mode code to execute in stack memory that is outside the region allocated by the system when the thread was created.
+        /// Callers can use the <see cref="GetCurrentThreadStackLimits"/> function to verify that the current stack pointer is within the returned limits.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadStackLimits", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetCurrentThreadStackLimits([Out] out ULONG_PTR LowLimit, [Out] out ULONG_PTR HighLimit);
 
         /// <summary>
         /// <para>
@@ -596,6 +655,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the processor number of the ideal processor for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadidealprocessorex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread for which to retrieve the ideal processor.
+        /// This handle must have been created with the <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="lpIdealProcessor">
+        /// Points to <see cref="PROCESSOR_NUMBER"/> structure to receive the number of the ideal processor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadIdealProcessorEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetThreadIdealProcessorEx([In] HANDLE hThread, [Out] out PROCESSOR_NUMBER lpIdealProcessor);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority value for the specified thread.
         /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
         /// </para>
@@ -701,8 +784,8 @@ namespace Lsj.Util.Win32
         /// To retrieve the number of CPU clock cycles used by the threads, use the <see cref="QueryThreadCycleTime"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetThreadTimes([In] HANDLE hThread, [Out] out Structs.FILETIME lpCreationTime, [Out] out Structs.FILETIME lpExitTime,
-            [Out] out Structs.FILETIME lpKernelTime, [Out] out Structs.FILETIME lpUserTime);
+        public static extern BOOL GetThreadTimes([In] HANDLE hThread, [Out] out FILETIME lpCreationTime, [Out] out FILETIME lpExitTime,
+            [Out] out FILETIME lpKernelTime, [Out] out FILETIME lpUserTime);
 
         /// <summary>
         /// <para>
@@ -1340,6 +1423,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Terminates a thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread to be terminated.
+        /// The handle must have the <see cref="THREAD_TERMINATE"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="dwExitCode">
+        /// The exit code for the thread.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="TerminateThread"/> is used to cause a thread to exit.
+        /// When this occurs, the target thread has no chance to execute any user-mode code.
+        /// DLLs attached to the thread are not notified that the thread is terminating.
+        /// The system frees the thread's initial stack.
+        /// Windows Server 2003 and Windows XP:  The target thread's initial stack is not freed, causing a resource leak.
+        /// <see cref="TerminateThread"/> is a dangerous function that should only be used in the most extreme cases.
+        /// You should call <see cref="TerminateThread"/> only if you know exactly what the target thread is doing,
+        /// and you control all of the code that the target thread could possibly be running at the time of the termination.
+        /// For example, <see cref="TerminateThread"/> can result in the following problems:
+        /// If the target thread owns a critical section, the critical section will not be released.
+        /// If the target thread is allocating memory from the heap, the heap lock will not be released.
+        /// If the target thread is executing certain kernel32 calls when it is terminated, the kernel32 state for the thread's process could be inconsistent.
+        /// If the target thread is manipulating the global state of a shared DLL, the state of the DLL could be destroyed, affecting other users of the DLL
+        /// A thread cannot protect itself against <see cref="TerminateThread"/>, other than by controlling access to its handles.
+        /// The thread handle returned by the <see cref="CreateThread"/> and <see cref="CreateProcess"/> functions has <see cref="THREAD_TERMINATE"/> access,
+        /// so any caller holding one of these handles can terminate your thread.
+        /// If the target thread is the last thread of a process when this function is called, the thread's process is also terminated.
+        /// The state of the thread object becomes signaled, releasing any other threads that had been waiting for the thread to terminate.
+        /// The thread's termination status changes from <see cref="STILL_ACTIVE"/> to the value of the dwExitCode parameter.
+        /// Terminating a thread does not necessarily remove the thread object from the system.
+        /// A thread object is deleted when the last thread handle is closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TerminateThread([In] HANDLE hThread, [In] DWORD dwExitCode);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the first thread of any process encountered in a system snapshot.
         /// </para>
         /// <para>
@@ -1563,53 +1694,5 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsSetValue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TlsSetValue([In] DWORD dwTlsIndex, [In] LPVOID lpTlsValue);
-
-        /// <summary>
-        /// <para>
-        /// Terminates a thread.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hThread">
-        /// A handle to the thread to be terminated.
-        /// The handle must have the <see cref="THREAD_TERMINATE"/> access right.
-        /// For more information, see Thread Security and Access Rights.
-        /// </param>
-        /// <param name="dwExitCode">
-        /// The exit code for the thread.
-        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit value.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// <see cref="TerminateThread"/> is used to cause a thread to exit.
-        /// When this occurs, the target thread has no chance to execute any user-mode code.
-        /// DLLs attached to the thread are not notified that the thread is terminating.
-        /// The system frees the thread's initial stack.
-        /// Windows Server 2003 and Windows XP:  The target thread's initial stack is not freed, causing a resource leak.
-        /// <see cref="TerminateThread"/> is a dangerous function that should only be used in the most extreme cases.
-        /// You should call <see cref="TerminateThread"/> only if you know exactly what the target thread is doing,
-        /// and you control all of the code that the target thread could possibly be running at the time of the termination.
-        /// For example, <see cref="TerminateThread"/> can result in the following problems:
-        /// If the target thread owns a critical section, the critical section will not be released.
-        /// If the target thread is allocating memory from the heap, the heap lock will not be released.
-        /// If the target thread is executing certain kernel32 calls when it is terminated, the kernel32 state for the thread's process could be inconsistent.
-        /// If the target thread is manipulating the global state of a shared DLL, the state of the DLL could be destroyed, affecting other users of the DLL
-        /// A thread cannot protect itself against <see cref="TerminateThread"/>, other than by controlling access to its handles.
-        /// The thread handle returned by the <see cref="CreateThread"/> and <see cref="CreateProcess"/> functions has <see cref="THREAD_TERMINATE"/> access,
-        /// so any caller holding one of these handles can terminate your thread.
-        /// If the target thread is the last thread of a process when this function is called, the thread's process is also terminated.
-        /// The state of the thread object becomes signaled, releasing any other threads that had been waiting for the thread to terminate.
-        /// The thread's termination status changes from <see cref="STILL_ACTIVE"/> to the value of the dwExitCode parameter.
-        /// Terminating a thread does not necessarily remove the thread object from the system.
-        /// A thread object is deleted when the last thread handle is closed.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TerminateThread([In] HANDLE hThread, [In] DWORD dwExitCode);
     }
 }

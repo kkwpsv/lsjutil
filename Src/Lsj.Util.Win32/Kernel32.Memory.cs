@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
@@ -257,7 +258,7 @@ namespace Lsj.Util.Win32
         /// To obtain a handle to the process heap of the calling process, use the <see cref="GetProcessHeap"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetProcessHeaps([In] DWORD NumberOfHeaps, [MarshalAs(UnmanagedType.LPArray)][In][Out] HANDLE[] ProcessHeaps);
+        public static extern DWORD GetProcessHeaps([In] DWORD NumberOfHeaps, [In][Out] HANDLE[] ProcessHeaps);
 
         /// <summary>
         /// <para>
@@ -831,6 +832,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the size of the largest committed free block in the specified heap.
+        /// If the Disable heap coalesce on free global flag is set, this function also coalesces adjacent free blocks of memory in the heap.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapcompact"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap access options. This parameter can be the following value.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used.
+        /// For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function, specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// Do not specify this value when accessing the process heap.
+        /// The system may create additional threads within the application's process, such as a CTRL+C handler, that simultaneously access the process heap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the size of the largest committed free block in the heap, in bytes.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// In the unlikely case that there is absolutely no space available in the heap,
+        /// the function return value is zero, and <see cref="GetLastError"/> returns the value <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapCompact"/> function is primarily useful for debugging.
+        /// Ordinarily, the system compacts the heap whenever the HeapFree function is called,
+        /// and the <see cref="HeapCompact"/> function returns the size of the largest free block in the heap but does not compact the heap any further.
+        /// If the Disable heap coalesce on free global flag is set during debugging, the system does not compact the heap
+        /// and calling the <see cref="HeapCompact"/> function does compact the heap.
+        /// For more information about global flags, see the GFlags documentation.
+        /// There is no guarantee that an application can successfully allocate a memory block of the size returned by <see cref="HeapCompact"/>.
+        /// Other threads or the commit threshold might prevent such an allocation.
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization, but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapCompact", ExactSpelling = true, SetLastError = true)]
+        public static extern SIZE_T HeapCompact([In] HANDLE hHeap, [In] HeapFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Creates a private heap object that can be used by the calling process.
         /// The function reserves space in the virtual address space of the process and allocates physical storage
         /// for a specified initial portion of this block.
@@ -1290,6 +1343,30 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T HeapSize([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
+
+        /// <summary>
+        /// <para>
+        /// Summarizes the specified heap.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsummary"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be summarized.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap summary options.
+        /// </param>
+        /// <param name="lpSummary">
+        /// Receives a pointer to a <see cref="Heap_Summary"/> structure representing the heap summary.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> on success.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSummary", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HeapSummary([In] HANDLE hHeap, [In] DWORD dwFlags, [Out] out HEAP_SUMMARY lpSummary);
 
         /// <summary>
         /// <para>

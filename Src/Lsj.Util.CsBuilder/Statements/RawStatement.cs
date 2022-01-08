@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace Lsj.Util.CsBuilder.Statements
 {
@@ -24,6 +21,7 @@ namespace Lsj.Util.CsBuilder.Statements
         /// </summary>
         /// <returns></returns>
         public override string ToString() => ToString(0);
+
         /// <summary>
         /// Convert To String
         /// </summary>

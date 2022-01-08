@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Lsj.Util.Collections;
-
-
 
 namespace Lsj.Util.CsBuilder
 {
@@ -20,7 +16,8 @@ namespace Lsj.Util.CsBuilder
         {
             get;
             set;
-        } = Visibility.None;
+        }
+
         /// <summary>
         /// Name
         /// </summary>
@@ -28,23 +25,25 @@ namespace Lsj.Util.CsBuilder
         {
             get;
             set;
-        } = "MethodName";
+        }
+
         /// <summary>
         /// Return type
         /// </summary>
-        public Type ReturnType
+        public string ReturnType
         {
             get;
             set;
-        } = typeof(void);
+        }
+
         /// <summary>
         /// Param
         /// </summary>
-        public SafeDictionary<string, Type> Params
+        public SafeDictionary<string, string> Params
         {
             get;
             set;
-        } = new SafeDictionary<string, Type>();
+        } = new SafeDictionary<string, string>();
 
         /// <summary>
         /// Statements
@@ -55,13 +54,12 @@ namespace Lsj.Util.CsBuilder
             set;
         } = new List<Statement>();
 
-
-
         /// <summary>
         /// Convert To String
         /// </summary>
         /// <returns></returns>
         public override string ToString() => ToString(0);
+
         /// <summary>
         /// Convert To String
         /// </summary>
@@ -71,10 +69,10 @@ namespace Lsj.Util.CsBuilder
         {
             var sb = new StringBuilder();
             sb.Append(NULL, i * 4);
-            sb.Append($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType.Name} {Name} (");
+            sb.Append($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType} {Name} (");
             foreach (var param in Params)
             {
-                sb.Append($@"{param.Value.Name} {param.Key} ");
+                sb.Append($@"{param.Value} {param.Key} ");
             }
             sb.Remove(sb.Length - 1, 1);
             sb.AppendLine(")");
@@ -86,10 +84,8 @@ namespace Lsj.Util.CsBuilder
                 sb.Append(statement.ToString(i + 1));
             }
 
-
             sb.Append(NULL, i * 4);
             sb.AppendLine("}");
-
 
             return sb.ToString();
         }

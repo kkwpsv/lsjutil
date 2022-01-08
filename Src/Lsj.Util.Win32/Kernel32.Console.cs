@@ -555,53 +555,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves a handle to the specified standard device (standard input, standard output, or standard error).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getstdhandle"/>
-        /// </para>
-        /// </summary>
-        /// <param name="nStdHandle">
-        /// The standard device. This parameter can be one of the following values.
-        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device. Initially, this is the console input buffer, CONIN$.
-        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device. Initially, this is the active console screen buffer, CONOUT$.
-        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device. Initially, this is the active console screen buffer, CONOUT$.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to the specified device,
-        /// or a redirected handle set by a previous call to <see cref="SetStdHandle"/>.
-        /// The handle has <see cref="GENERIC_READ"/> and <see cref="GENERIC_WRITE"/> access rights,
-        /// unless the application has used <see cref="SetStdHandle"/> to set a standard handle with lesser access.
-        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If an application does not have associated standard handles, such as a service running on an interactive desktop,
-        /// and has not redirected them, the return value is <see cref="IntPtr.Zero"/>.
-        /// </returns>
-        /// <remarks>
-        /// Handles returned by <see cref="GetStdHandle"/> can be used by applications that need to read from or write to the console.
-        /// When a console is created, the standard input handle is a handle to the console's input buffer,
-        /// and the standard output and standard error handles are handles of the console's active screen buffer.
-        /// These handles can be used by the <see cref="ReadFile"/> and <see cref="WriteFile"/> functions,
-        /// or by any of the console functions that access the console input buffer or a screen buffer
-        /// (for example, the <see cref="ReadConsoleInput"/>, <see cref="WriteConsole"/>, or <see cref="GetConsoleScreenBufferInfo"/> functions).
-        /// The standard handles of a process may be redirected by a call to <see cref="SetStdHandle"/>,
-        /// in which case <see cref="GetStdHandle"/> returns the redirected handle.
-        /// If the standard handles have been redirected, you can specify the CONIN$ value in a call to the <see cref="CreateFile"/> function
-        /// to get a handle to a console's input buffer.
-        /// Similarly, you can specify the CONOUT$ value to get a handle to a console's active screen buffer.
-        /// Attach/detach behavior
-        /// When attaching to a new console, standard handles are always replaced with console handles
-        /// unless <see cref="STARTF_USESTDHANDLES"/> was specified during process creation.
-        /// If the existing value of the standard handle is <see cref="IntPtr.Zero"/>, or the existing value of the standard handle
-        /// looks like a console pseudohandle, the handle is replaced with a console handle.
-        /// When a parent uses both <see cref="CREATE_NEW_CONSOLE"/> and <see cref="STARTF_USESTDHANDLES"/> to create a console process,
-        /// standard handles will not be replaced unless the existing value of the standard handle is <see cref="IntPtr.Zero"/> or a console pseudohandle.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE GetStdHandle([In] DWORD nStdHandle);
-
-        /// <summary>
-        /// <para>
         /// Reads data from the specified console input buffer without removing it from the buffer.
         /// </para>
         /// <para>
@@ -1052,38 +1005,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleWindowInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleWindowInfo([In] HANDLE hConsoleOutput, [In] BOOL bAbsolute, [In] in SMALL_RECT lpConsoleWindow);
-
-        /// <summary>
-        /// <para>
-        /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setstdhandle"/>
-        /// </para>
-        /// </summary>
-        /// <param name="nStdHandle">
-        /// The standard device for which the handle is to be set. This parameter can be one of the following values.
-        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device.
-        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device.
-        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device.
-        /// </param>
-        /// <param name="hHandle">
-        /// The handle for the standard device.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The standard handles of a process may have been redirected by a call to <see cref="SetStdHandle"/>,
-        /// in which case <see cref="GetStdHandle"/> will return the redirected handle.
-        /// If the standard handles have been redirected, you can specify the CONIN$ value
-        /// in a call to the <see cref="CreateFile"/> function to get a handle to a console's input buffer.
-        /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetStdHandle([In] DWORD nStdHandle, [In] HANDLE hHandle);
 
         /// <summary>
         /// <para>

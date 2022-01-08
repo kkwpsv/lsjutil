@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
@@ -331,8 +331,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD dwOpenMode, [In] DWORD dwPipeMode,
-            [In] DWORD nMaxInstances, [In] DWORD nOutBufferSize, [In] DWORD nInBufferSize, [In] DWORD nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern HANDLE CreateNamedPipe([In] LPWSTR lpName, [In] DWORD dwOpenMode, [In] DWORD dwPipeMode, [In] DWORD nMaxInstances,
+            [In] DWORD nOutBufferSize, [In] DWORD nInBufferSize, [In] DWORD nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -421,6 +421,37 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DisconnectNamedPipe([In] HANDLE hNamedPipe);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the client computer name for the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeclientcomputernamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Pipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="ClientComputerName">
+        /// The computer name.
+        /// </param>
+        /// <param name="ClientComputerNameLength">
+        /// The size of the <paramref name="ClientComputerName"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeClientComputerNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNamedPipeClientComputerName([In] HANDLE Pipe, [In] LPWSTR ClientComputerName, [In] ULONG ClientComputerNameLength);
 
         /// <summary>
         /// <para>
@@ -546,6 +577,45 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeInfo([In] HANDLE hNamedPipe, [Out] DWORD lpFlags, [Out] DWORD lpOutBufferSize,
             [Out] DWORD lpInBufferSize, [Out] DWORD lpMaxInstances);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ImpersonateNamedPipeClient"/> function impersonates a named-pipe client application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to a named pipe.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="fALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ImpersonateNamedPipeClient"/> function allows the server end of a named pipe to impersonate the client end.
+        /// When this function is called, the named-pipe file system changes the thread of the calling process to
+        /// start impersonating the security context of the last message read from the pipe.
+        /// Only the server end of the pipe can call this function.
+        /// The server can call the <see cref="RevertToSelf"/> function when the impersonation is complete.
+        /// Important
+        /// If the <see cref="ImpersonateNamedPipeClient"/> function fails, the client is not impersonated,
+        /// and all subsequent client requests are made in the security context of the process that called the function.
+        /// If the calling process is running as a privileged account, it can perform actions that the client would not be allowed to perform.
+        /// To avoid security risks, the calling process should always check the return value.
+        /// If the return value indicates that the function call failed, no client requests should be executed.
+        /// All impersonate functions, including <see cref="ImpersonateNamedPipeClient"/> allow the requested impersonation if one of the following is true:
+        /// The requested impersonation level of the token is less than SecurityImpersonation, such as SecurityIdentification or SecurityAnonymous.
+        /// The caller has the SeImpersonatePrivilege privilege.
+        /// A process (or another process in the caller's logon session) created the token 
+        /// using explicit credentials through <see cref="LogonUser"/> or <see cref="LsaLogonUser"/> function.
+        /// The authenticated identity is same as the caller.
+        /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateNamedPipeClient([In] HANDLE hNamedPipe);
 
         /// <summary>
         /// <para>

@@ -49,6 +49,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function.
+        /// Specify a pointer to this function when calling the <see cref="InitOnceExecuteOnce"/> function.
+        /// The <see cref="PINIT_ONCE_FN"/> type defines a pointer to this callback function.
+        /// InitOnceCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nc-synchapi-pinit_once_fn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="InitOnce">
+        /// A pointer to the one-time initialization structure.
+        /// </param>
+        /// <param name="Parameter">
+        /// An optional parameter that was passed to the callback function.
+        /// </param>
+        /// <param name="Context">
+        /// The data to be stored with the one-time initialization structure.
+        /// If Context references a value, the low-order <see cref="INIT_ONCE_CTX_RESERVED_BITS"/> of the value must be zero.
+        /// If Context points to a data structure, the data structure must be DWORD-aligned.
+        /// </param>
+        /// <returns>
+        /// If the function returns <see cref="TRUE"/>, the block is marked as initialized.
+        /// If the function returns <see cref="FALSE"/>, the block is not marked as initialized and the call to <see cref="InitOnceExecuteOnce"/> fails.
+        /// To communicate additional error information, call <see cref="SetLastError"/> before returning <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function can create a synchronization object and return it in the lpContext parameter.
+        /// </remarks>
+        public delegate BOOL PinitOnceFn([In][Out] ref INIT_ONCE InitOnce, [In] PVOID Parameter, [Out] out PVOID Context);
+
+        /// <summary>
+        /// <para>
         /// An application-defined function that serves as the starting address for a timer callback or a registered wait callback.
         /// Specify this address when calling the <see cref="CreateTimerQueueTimer"/>, <see cref="RegisterWaitForSingleObject"/> function.
         /// The <see cref="WAITORTIMERCALLBACK"/> type defines a pointer to this callback function.
@@ -131,6 +163,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes a synchronization barrier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-deletesynchronizationbarrier"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBarrier">
+        /// A pointer to the synchronization barrier to delete.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DeleteSynchronizationBarrier"/> function always returns <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="DeleteSynchronizationBarrier"/> releases a synchronization barrier when it is no longer needed.
+        /// It is safe to call <see cref="DeleteSynchronizationBarrier"/> immediately after calling <see cref="EnterSynchronizationBarrier"/>
+        /// because that function ensures that all threads in the barrier have finished using it before allowing the barrier to be released.
+        /// If a synchronization barrier will never be deleted, threads can
+        /// specify the <see cref="SYNCHRONIZATION_BARRIER_FLAGS_NO_DELETE"/> flag when they enter the barrier.
+        /// This flag causes the function to skip the extra work required for deletion safety, which can improve performance.
+        /// All threads using the barrier must specify this flag; if any thread does not, the flag is ignored.
+        /// Be careful when using <see cref="SYNCHRONIZATION_BARRIER_FLAGS_NO_DELETE"/>,
+        /// because deleting a barrier while this flag is in effect may result in an invalid handle access
+        /// and cause one or more threads to become permanently blocked.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeleteSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier);
+
+        /// <summary>
+        /// <para>
         /// Waits for ownership of the specified critical section object.
         /// The function returns when the calling thread is granted ownership.
         /// </para>
@@ -179,6 +240,56 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterCriticalSection", ExactSpelling = true, SetLastError = true)]
         public static extern void EnterCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
+
+        /// <summary>
+        /// <para>
+        /// Causes the calling thread to wait at a synchronization barrier until the maximum number of threads have entered the barrier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-entersynchronizationbarrier"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBarrier">
+        /// A pointer to an initialized synchronization barrier.
+        /// Use the <see cref="InitializeSynchronizationBarrier"/> function to initialize the barrier.
+        /// <see cref="SYNCHRONIZATION_BARRIER"/> is an opaque structure that should not be modified by the application.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags that control the behavior of threads that enter this barrier.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="SYNCHRONIZATION_BARRIER_FLAGS_BLOCK_ONLY"/>:
+        /// Specifies that the thread entering the barrier should block immediately until the last thread enters the barrier.
+        /// For more information, see Remarks.
+        /// <see cref="SYNCHRONIZATION_BARRIER_FLAGS_SPIN_ONLY"/>:
+        /// Specifies that the thread entering the barrier should spin until the last thread enters the barrier,
+        /// even if the spinning thread exceeds the barrier's maximum spin count.
+        /// For more information, see Remarks.
+        /// <see cref="SYNCHRONIZATION_BARRIER_FLAGS_NO_DELETE"/>:
+        /// Specifies that the function can skip the work required to ensure that it is safe to delete the barrier, which can improve performance.
+        /// All threads that enter this barrier must specify the flag; otherwise, the flag is ignored.
+        /// This flag should be used only if the barrier will never be deleted.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> for the last thread to signal the barrier.
+        /// Threads that signal the barrier before the last thread signals it receive a return value of <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The default behavior for threads entering a synchronization barrier is to spin
+        /// until the maximum spin count of the barrier is reached, and then block.
+        /// This allows threads to resume quickly if the last thread enters the barrier in a relatively short time.
+        /// However, if the last thread takes relatively longer to arrive,
+        /// threads already in the barrier block so they stop consuming processor time while waiting.
+        /// A thread can override the default behavior of the barrier
+        /// by specifying <see cref="SYNCHRONIZATION_BARRIER_FLAGS_BLOCK_ONLY"/> or <see cref="SYNCHRONIZATION_BARRIER_FLAGS_SPIN_ONLY"/>.
+        /// However, keep in mind that using these flags can affect performance.
+        /// Spinning indefinitely keeps a processor from servicing other threads,
+        /// while premature blocking incurs the overhead of swapping the thread off the processor,
+        /// awakening the thread when it unblocks, and swapping it back onto the processor again.
+        /// In general it is better to allow the barrier to manage threads and use these flags
+        /// only if performance testing indicates the application would benefit from them.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnterSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -243,6 +354,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Initializes a new synchronization barrier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializesynchronizationbarrier"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBarrier">
+        /// A pointer to the <see cref="SYNCHRONIZATION_BARRIER"/> structure to initialize.
+        /// This is an opaque structure that should not be modified by applications.
+        /// </param>
+        /// <param name="lTotalThreads">
+        /// The maximum number of threads that can enter this barrier.
+        /// After the maximum number of threads have entered the barrier, all threads continue.
+        /// </param>
+        /// <param name="lSpinCount">
+        /// The number of times an individual thread should spin while waiting for other threads to arrive at the barrier.
+        /// If this parameter is -1, the thread spins 2000 times.
+        /// If the thread exceeds <paramref name="lSpinCount"/>, the thread blocks
+        /// unless it called <see cref="EnterSynchronizationBarrier"/> with <see cref="SYNCHRONIZATION_BARRIER_FLAGS_SPIN_ONLY"/>.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the barrier was successfully initialized.
+        /// If the barrier was not successfully initialized, this function returns <see cref="FALSE"/>.
+        /// Use <see cref="GetLastError"/> to get extended error information.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitializeSynchronizationBarrier([Out] out SYNCHRONIZATION_BARRIER lpBarrier, [In] LONG lTotalThreads, [In] LONG lSpinCount);
+
+        /// <summary>
+        /// <para>
         /// Initializes a critical section object and sets the spin count for the critical section.
         /// When a thread tries to acquire a critical section that is locked, the thread spins:
         /// it enters a loop which iterates spin count times, checking to see if the lock is released.
@@ -298,11 +439,238 @@ namespace Lsj.Util.Win32
         /// Instead, the calling thread can acquire ownership of the critical section if it is released during the spin operation.
         /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
         /// For example, the heap manager uses a spin count of roughly 4,000 for its per-heap critical sections.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0403 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSectionAndSpinCount", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeCriticalSectionAndSpinCount([In][Out] ref CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount);
+
+        /// <summary>
+        /// <para>
+        /// Initializes a critical section object with a spin count and optional flags.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializecriticalsectionex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCriticalSection">
+        /// A pointer to the critical section object.
+        /// </param>
+        /// <param name="dwSpinCount">
+        /// The spin count for the critical section object.
+        /// On single-processor systems, the spin count is ignored and the critical section spin count is set to 0 (zero).
+        /// On multiprocessor systems, if the critical section is unavailable, the calling thread spins <paramref name="dwSpinCount"/> times
+        /// before performing a wait operation on a semaphore associated with the critical section.
+        /// If the critical section becomes free during the spin operation, the calling thread avoids the wait operation.
+        /// </param>
+        /// <param name="Flags">
+        /// This parameter can be 0 or the following value.
+        /// <see cref="CRITICAL_SECTION_NO_DEBUG_INFO"/>: The critical section is created without debug information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The threads of a single process can use a critical section object for mutual-exclusion synchronization.
+        /// There is no guarantee about the order that threads obtain ownership of the critical section.
+        /// However, the system is fair to all threads.
+        /// The process is responsible for allocating the memory used by a critical section object,
+        /// which it can do by declaring a variable of type <see cref="CRITICAL_SECTION"/>.
+        /// Before using a critical section, some thread of the process must initialize the object.
+        /// You can subsequently modify the spin count by calling the <see cref="SetCriticalSectionSpinCount"/> function.
+        /// After a critical section object is initialized, the threads of the process can specify the object in the <see cref="EnterCriticalSection"/>,
+        /// <see cref="TryEnterCriticalSection"/>, or <see cref="LeaveCriticalSection"/> function to provide mutually exclusive access to a shared resource.
+        /// For similar synchronization between the threads of different processes, use a mutex object.
+        /// A critical section object cannot be moved or copied.
+        /// The process must also not modify the object, but must treat it as logically opaque.
+        /// Use only the critical section functions to manage critical section objects.
+        /// When you have finished using the critical section, call the <see cref="DeleteCriticalSection"/> function.
+        /// A critical section object must be deleted before it can be reinitialized.
+        /// Initializing a critical section that is already initialized results in undefined behavior.
+        /// The spin count is useful for critical sections of short duration that can experience high levels of contention.
+        /// Consider a worst-case scenario, in which an application on an SMP system has two or three threads constantly allocating
+        /// and releasing memory from the heap.
+        /// The application serializes the heap with a critical section.
+        /// In the worst-case scenario, contention for the critical section is constant,
+        /// and each thread makes an processing-intensive call to the <see cref="WaitForSingleObject"/> function.
+        /// However, if the spin count is set properly, the calling thread does not immediately
+        /// call <see cref="WaitForSingleObject"/> when contention occurs.
+        /// Instead, the calling thread can acquire ownership of the critical section if it is released during the spin operation.
+        /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
+        /// For example, the heap manager uses a spin count of roughly 4,000 for its per-heap critical sections.
+        /// This gives great performance and scalability in almost all worst-case scenarios.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSectionEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitializeCriticalSectionEx([In][Out] ref CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount, [In] DWORD Flags);
+
+        /// <summary>
+        /// <para>
+        /// Begins one-time initialization.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initoncebegininitialize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpInitOnce">
+        /// A pointer to the one-time initialization structure.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can have a value of 0, or one or more of the following flags.
+        /// <see cref="INIT_ONCE_ASYNC"/>:
+        /// Enables multiple initialization attempts to execute in parallel.
+        /// If this flag is used, subsequent calls to this function will fail unless this flag is also specified.
+        /// <see cref="INIT_ONCE_CHECK_ONLY"/>:
+        /// This function call does not begin initialization.
+        /// The return value indicates whether initialization has already completed.
+        /// If the function returns <see cref="TRUE"/>, the <paramref name="lpContext"/> parameter receives the data.
+        /// </param>
+        /// <param name="fPending">
+        /// If the function succeeds, this parameter indicates the current initialization status.
+        /// If this parameter is <see cref="TRUE"/> and <paramref name="dwFlags"/> contains <see cref="INIT_ONCE_CHECK_ONLY"/>,
+        /// the initialization is pending and the context data is invalid.
+        /// If this parameter is <see cref="FALSE"/>, initialization has already completed
+        /// and the caller can retrieve the context data from the <paramref name="lpContext"/> parameter.
+        /// If this parameter is <see cref="TRUE"/> and dwFlags does not contain <see cref="INIT_ONCE_CHECK_ONLY"/>,
+        /// initialization has been started and the caller can perform the initialization tasks.
+        /// </param>
+        /// <param name="lpContext">
+        /// An optional parameter that receives the data stored with the one-time initialization structure upon success.
+        /// The low-order <see cref="INIT_ONCE_CTX_RESERVED_BITS"/> bits of the data are always zero.
+        /// </param>
+        /// <returns>
+        /// If <see cref="INIT_ONCE_CHECK_ONLY"/> is not specified and the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If <see cref="INIT_ONCE_CHECK_ONLY"/> is specified and initialization has completed, the return value is <see cref="TRUE"/>.
+        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function can be used for either synchronous or asynchronous one-time initialization.
+        /// For asynchronous one-time initialization, use the <see cref="INIT_ONCE_ASYNC"/> flag.
+        /// To specify a callback function to execute during synchronous one-time initialization, see the <see cref="InitOnceExecuteOnce"/> function.
+        /// If this function succeeds, the thread can create a synchronization object and
+        /// specify in the <paramref name="lpContext"/> parameter of the <see cref="InitOnceComplete"/> function.
+        /// A one-time initialization object cannot be moved or copied.
+        /// The process must not modify the initialization object, and must instead treat it as logically opaque.
+        /// Only use the one-time initialization functions to manage one-time initialization objects.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceBeginInitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitOnceBeginInitialize([In][Out] ref INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Completes one-time initialization started with the <see cref="InitOnceBeginInitialize"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initoncecomplete"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpInitOnce">
+        /// A pointer to the one-time initialization structure.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one of the following flags.
+        /// <see cref="INIT_ONCE_ASYNC"/>:
+        /// Operate in asynchronous mode.
+        /// This enables multiple completion attempts to execute in parallel.
+        /// This flag must match the flag passed in the corresponding call to the <see cref="InitOnceBeginInitialize"/> function.
+        /// This flag may not be combined with <see cref="INIT_ONCE_INIT_FAILED"/>.
+        /// <see cref="INIT_ONCE_INIT_FAILED"/>:
+        /// The initialization attempt failed.
+        /// This flag may not be combined with <see cref="INIT_ONCE_ASYNC"/>.
+        /// To fail an asynchronous initialization, merely abandon it (that is, do not call the InitOnceComplete function).
+        /// </param>
+        /// <param name="lpContext">
+        /// A pointer to the data to be stored with the one-time initialization structure.
+        /// This data is returned in the lpContext parameter passed to subsequent calls to the <see cref="InitOnceBeginInitialize"/> function.
+        /// If <paramref name="lpContext"/> points to a value, the low-order <see cref="INIT_ONCE_CTX_RESERVED_BITS"/> of the value must be zero.
+        /// If <paramref name="lpContext"/> points to a data structure, the data structure must be DWORD-aligned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceComplete", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitOnceComplete([In][Out] ref INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [In] LPVOID lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Executes the specified function successfully one time.
+        /// No other threads that specify the same one-time initialization structure can execute the specified function
+        /// while it is being executed by the current thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initonceexecuteonce"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpInitOnce">
+        /// A pointer to the one-time initialization structure.
+        /// </param>
+        /// <param name="InitFn">
+        /// A pointer to an application-defined InitOnceCallback function.
+        /// </param>
+        /// <param name="Parameter">
+        /// A parameter to be passed to the callback function.
+        /// </param>
+        /// <param name="lpContext">
+        /// An optional parameter that receives the data stored with the one-time initialization structure upon success.
+        /// The low-order <see cref="INIT_ONCE_CTX_RESERVED_BITS"/> bits of the data are always zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is used for synchronous one-time initialization.
+        /// For asynchronous one-time initialization, use the <see cref="InitOnceBeginInitialize"/> function with the <see cref="INIT_ONCE_ASYNC"/> flag.
+        /// Only one thread at a time can execute the callback function specified by <paramref name="InitFn"/>.
+        /// Other threads that specify the same one-time initialization structure block until the callback finishes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceExecuteOnce", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitOnceExecuteOnce([In][Out] ref INIT_ONCE lpInitOnce, [In] PINIT_ONCE_FN InitFn, [In] PVOID Parameter, [Out] out LPVOID lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Initializes a one-time initialization structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initonceinitialize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="InitOnce">
+        /// A pointer to the one-time initialization structure.
+        /// </param>
+        /// <remarks>
+        /// The <see cref="InitOnceInitialize"/> function is used to initialize a one-time initialization structure dynamically.
+        /// To initialize the structure statically, assign the constant <see cref="INIT_ONCE_STATIC_INIT"/> to the structure variable.
+        /// A one-time initialization object cannot be moved or copied.
+        /// The process must not modify the initialization object, and must instead treat it as logically opaque.
+        /// Only use the one-time initialization functions to manage one-time initialization objects.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceInitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern void InitOnceInitialize([Out] out INIT_ONCE InitOnce);
+
+        /// <summary>
+        /// <para>
+        /// Initializes the head of a singly linked list.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/interlockedapi/nf-interlockedapi-initializeslisthead"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// A pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of a singly linked list.
+        /// This structure is for system use only.
+        /// </param>
+        /// <remarks>
+        /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary.
+        /// Unaligned items can cause unpredictable results. See _aligned_malloc.
+        /// To add items to the list, use the <see cref="InterlockedPushEntrySList"/> function.
+        /// To remove items from the list, use the <see cref="InterlockedPopEntrySList"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSListHead", ExactSpelling = true, SetLastError = true)]
+        public static extern void InitializeSListHead([In][Out] ref SLIST_HEADER ListHead);
 
         /// <summary>
         /// <para>
@@ -506,6 +874,105 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a 32-bit variable to the specified value as an atomic operation.
+        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        /// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
+        /// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Target">
+        /// A pointer to the value to be exchanged.
+        /// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
+        /// </param>
+        /// <param name="Value">
+        /// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
+        /// </param>
+        /// <returns>
+        /// The function returns the initial value of the <paramref name="Target"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        /// This function is atomic with respect to calls to other interlocked functions.
+        /// This function is implemented using a compiler intrinsic where possible.
+        /// For more information, see the WinBase.h header file and _InterlockedExchange.
+        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
+        /// Note  This function is supported on Windows RT-based systems.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG InterlockedExchange([In][Out] ref LONG Target, [In] LONG Value);
+
+        /// <summary>
+        /// <para>
+        /// Sets a 32-bit variable to the specified value as an atomic operation.
+        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        /// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
+        /// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange16"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Destination">
+        /// A pointer to the value to be exchanged.
+        /// The function sets this variable to <paramref name="ExChange"/>, and returns its prior value.
+        /// </param>
+        /// <param name="ExChange">
+        /// The value to be exchanged with the value pointed to by <paramref name="Destination"/>.
+        /// </param>
+        /// <returns>
+        /// The function returns the initial value of the <paramref name="Destination"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        /// This function is atomic with respect to calls to other interlocked functions.
+        /// This function is implemented using a compiler intrinsic where possible.
+        /// For more information, see the WinBase.h header file and _InterlockedExchange16.
+        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
+        /// Note  This function is supported on Windows RT-based systems.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange16", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG InterlockedExchange16([In][Out] ref SHORT Destination, [In] SHORT ExChange);
+
+        /// <summary>
+        /// <para>
+        /// Sets a 32-bit variable to the specified value as an atomic operation.
+        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        /// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
+        /// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange32"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Target">
+        /// A pointer to the value to be exchanged.
+        /// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
+        /// </param>
+        /// <param name="Value">
+        /// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
+        /// </param>
+        /// <returns>
+        /// The function returns the initial value of the <paramref name="Target"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        /// This function is atomic with respect to calls to other interlocked functions.
+        /// This function is implemented using a compiler intrinsic where possible.
+        /// For more information, see the WinBase.h header file and _InterlockedExchange64.
+        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire64 instead.
+        /// Note  This function is supported on Windows RT-based systems.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange64", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG InterlockedExchange64([In][Out] ref LONG64 Target, [In] LONG64 Value);
+
+        /// <summary>
+        /// <para>
         /// Performs an atomic addition of two 32-bit values.
         /// To operate on 64-bit values, use the <see cref="InterlockedExchangeAdd64"/> function.
         /// </para>
@@ -610,6 +1077,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Removes all items from a singly linked list.
+        /// Access to the list is synchronized on a multiprocessor system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/interlockedapi/nf-interlockedapi-interlockedflushslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// Pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of the singly linked list.
+        /// This structure is for system use only.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the items removed from the list.
+        /// If the list is empty, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary;
+        /// otherwise, this function will behave unpredictably. See _aligned_malloc.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedFlushSList", ExactSpelling = true, SetLastError = true)]
+        public static extern PSLIST_ENTRY InterlockedFlushSList([In][Out] ref SLIST_HEADER ListHead);
+
+        /// <summary>
+        /// <para>
         /// Increments (increases by one) the value of the specified 32-bit variable as an atomic operation.
         /// To operate on 64-bit values, use the <see cref="InterlockedIncrement64"/> function.
         /// </para>
@@ -665,6 +1156,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement64", ExactSpelling = true, SetLastError = true)]
         public static extern LONG64 InterlockedIncrement64([In][Out] ref LONG64 Addend);
+
+        /// <summary>
+        /// <para>
+        /// Removes an item from the front of a singly linked list.
+        /// Access to the list is synchronized on a multiprocessor system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/interlockedapi/nf-interlockedapi-interlockedpopentryslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// Pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of a singly linked list.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the item removed from the list.
+        /// If the list is empty, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary; otherwise, this function will behave unpredictably.
+        /// See _aligned_malloc.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPopEntrySList", ExactSpelling = true, SetLastError = true)]
+        public static extern PSLIST_ENTRY InterlockedPopEntrySList([In][Out] ref SLIST_HEADER ListHead);
+
+        /// <summary>
+        /// <para>
+        /// Inserts an item at the front of a singly linked list.
+        /// Access to the list is synchronized on a multiprocessor system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/interlockedapi/nf-interlockedapi-interlockedpushentryslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// Pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of a singly linked list.
+        /// </param>
+        /// <param name="ListEntry">
+        /// Pointer to an <see cref="SLIST_ENTRY"/> structure that represents an item in a singly linked list.
+        /// </param>
+        /// <returns>
+        /// The return value is the previous first item in the list.
+        /// If the list was previously empty, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary; otherwise, this function will behave unpredictably.
+        /// See _aligned_malloc.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPushEntrySList", ExactSpelling = true, SetLastError = true)]
+        public static extern PSLIST_ENTRY InterlockedPushEntrySList([In][Out] ref SLIST_HEADER ListHead, [In] PSLIST_ENTRY ListEntry);
 
         /// <summary>
         /// <para>
@@ -927,6 +1467,33 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult MsgWaitForMultipleObjectsEx([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In] HANDLE[] pHandles,
             [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask, [In] MsgWaitForMultipleObjectsExFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the number of entries in the specified singly linked list.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/interlockedapi/nf-interlockedapi-querydepthslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// A pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of a singly linked list.
+        /// This structure is for system use only.
+        /// The list must be previously initialized with the <see cref="InitializeSListHead"/> function.
+        /// </param>
+        /// <returns>
+        /// The function returns the number of entries in the list, up to a maximum value of 65535.
+        /// </returns>
+        /// <remarks>
+        /// The system does not limit the number of entries in a singly linked list.
+        /// However, the return value of QueryDepthSList is truncated to 16 bits, so the maximum value it can return is 65535.
+        /// If the specified singly linked list contains more than 65535 entries, <see cref="QueryDepthSList"/> returns the number of entries in the list modulo 65535.
+        /// For example, if the specified list contains 65536 entries, <see cref="QueryDepthSList"/> returns zero.
+        /// The return value of <see cref="QueryDepthSList"/> should not be relied upon in multithreaded applications
+        /// because the item count can be changed at any time by another thread.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDepthSList", ExactSpelling = true, SetLastError = true)]
+        public static extern USHORT QueryDepthSList([In] in SLIST_HEADER ListHead);
 
         /// <summary>
         /// <para>
@@ -1330,6 +1897,44 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepConditionVariableSRW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SleepConditionVariableSRW([In][Out] ref CONDITION_VARIABLE ConditionVariable,
             [In][Out] ref CRITICAL_SECTION CriticalSection, [In] DWORD dwMilliseconds, [In] ULONG Flags);
+
+        /// <summary>
+        /// <para>
+        /// Attempts to acquire a slim reader/writer (SRW) lock in exclusive mode.
+        /// If the call is successful, the calling thread takes ownership of the lock.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockexclusive"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SRWLock">
+        /// A pointer to the SRW lock.
+        /// </param>
+        /// <returns>
+        /// If the lock is successfully acquired, the return value is <see cref="BOOLEAN.TRUE"/>.
+        /// if the current thread could not acquire the lock, the return value is <see cref="BOOLEAN.FALSE"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockExclusive", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOLEAN TryAcquireSRWLockExclusive([In][Out] ref SRWLOCK SRWLock);
+
+        /// <summary>
+        /// <para>
+        /// Attempts to acquire a slim reader/writer (SRW) lock in shared mode.
+        /// If the call is successful, the calling thread takes ownership of the lock.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockshared"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SRWLock">
+        /// A pointer to the SRW lock.
+        /// </param>
+        /// <returns>
+        /// If the lock is successfully acquired, the return value is <see cref="BOOLEAN.TRUE"/>.
+        /// if the current thread could not acquire the lock, the return value is <see cref="BOOLEAN.FALSE"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockShared", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOLEAN TryAcquireSRWLockShared([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
         /// <para>
@@ -1740,6 +2345,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Waits for the value at the specified address to change.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitonaddress"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Address">
+        /// The address on which to wait.
+        /// If the value at <paramref name="Address"/> differs from the value at <paramref name="CompareAddress"/>, the function returns immediately.
+        /// If the values are the same, the function does not return until another thread in the same process signals that
+        /// the value at <paramref name="Address"/> has changed by calling <see cref="WakeByAddressSingle"/> or <see cref="WakeByAddressAll"/>
+        /// or the timeout elapses, whichever comes first.
+        /// </param>
+        /// <param name="CompareAddress">
+        /// A pointer to the location of the previously observed value at <paramref name="Address"/>.
+        /// The function returns when the value at Address differs from the value at <paramref name="CompareAddress"/>.
+        /// </param>
+        /// <param name="AddressSize">
+        /// The size of the value, in bytes.
+        /// This parameter can be 1, 2, 4, or 8.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The number of milliseconds to wait before the operation times out.
+        /// If this parameter is <see cref="INFINITE"/>, the thread waits indefinitely.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the wait succeeded.
+        /// If the operation fails, the function returns <see cref="FALSE"/>.
+        /// If the wait fails, call <see cref="GetLastError"/> to obtain extended error information.
+        /// In particular, if the operation times out, <see cref="GetLastError"/> returns <see cref="ERROR_TIMEOUT"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WaitOnAddress"/> function can be used by a thread to wait for a particular value
+        /// to change from some undesired value to any other value.
+        /// <see cref="WaitOnAddress"/> is more efficient than using the Sleep function inside a while loop
+        /// because <see cref="WaitOnAddress"/> does not interfere with the thread scheduler.
+        /// <see cref="WaitOnAddress"/> is also simpler to use than an event object because it is not necessary
+        /// to create and initialize an event and then make sure it is synchronized correctly with the value.
+        /// <see cref="WaitOnAddress"/> is not affected by low-memory conditions, other than potentially waking the thread early as noted below.
+        /// Any thread within the same process that changes the value at the address on which threads are waiting
+        /// should call <see cref="WakeByAddressSingle"/> to wake a single waiting thread or <see cref="WakeByAddressAll"/> to wake all waiting threads.
+        /// If <see cref="WakeByAddressSingle"/> is called, other waiting threads continue to wait.
+        /// Note WaitOnAddress is guaranteed to return when the address is signaled, but it is also allowed to return for other reasons.
+        /// For this reason, after <see cref="WaitOnAddress"/> returns the caller should compare the new value
+        /// with the original undesired value to confirm that the value has actually changed.
+        /// For example, the following circumstances can result in waking the thread early:
+        /// Low memory conditions
+        /// A previous wake on the same address was abandoned
+        /// Executing code on a checked build of the operating system
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitOnAddress", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WaitOnAddress([In] PVOID Address, [In] PVOID CompareAddress, [In] SIZE_T AddressSize, [In] DWORD dwMilliseconds);
+
+        /// <summary>
+        /// <para>
         /// Wake all threads waiting on the specified condition variable.
         /// </para>
         /// <para>
@@ -1756,6 +2416,43 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeAllConditionVariable", ExactSpelling = true, SetLastError = true)]
         public static extern void WakeAllConditionVariable([In][Out] ref CONDITION_VARIABLE ConditionVariable);
+
+        /// <summary>
+        /// <para>
+        /// Wakes all threads that are waiting for the value of an address to change.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakebyaddressall"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Address">
+        /// The address to signal.
+        /// If any threads have previously called <see cref="WaitOnAddress"/> for this address, the system wakes all of the waiting threads.
+        /// </param>
+        /// <remarks>
+        /// Only threads within the same process can be woken.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeByAddressAll", ExactSpelling = true, SetLastError = true)]
+        public static extern void WakeByAddressAll([In] PVOID Address);
+
+        /// <summary>
+        /// <para>
+        /// Wakes one thread that is waiting for the value of an address to change.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakebyaddresssingle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Address">
+        /// The address to signal.
+        /// If another thread has previously called <see cref="WaitOnAddress"/> for this address, the system wakes the waiting thread.
+        /// If multiple threads are waiting for this address, the system wakes the first thread to wait.
+        /// </param>
+        /// <remarks>
+        /// Only a thread within the same process can be woken.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeByAddressSingle", ExactSpelling = true, SetLastError = true)]
+        public static extern void WakeByAddressSingle([In] PVOID Address);
 
         /// <summary>
         /// <para>

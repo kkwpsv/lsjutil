@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -20,6 +21,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.Toolhelp32SnapshotFlags;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
@@ -333,12 +335,9 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
+        public static extern BOOL CreateProcess([In] LPCWSTR lpApplicationName, [In] LPWSTR lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
             [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] BOOL bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
+            [In] LPVOID lpEnvironment, [In] LPCWSTR lpCurrentDirectory, [In] in STARTUPINFO lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>
@@ -492,47 +491,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Expands environment-variable strings and replaces them with the values defined for the current user.
-        /// To specify the environment block for a particular user or the system, use the ExpandEnvironmentStringsForUser function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-expandenvironmentstringsw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpSrc">
-        /// A buffer that contains one or more environment-variable strings in the form: %variableName%.
-        /// For each such reference, the %variableName% portion is replaced with the current value of that environment variable.
-        /// Case is ignored when looking up the environment-variable name.
-        /// If the name is not found, the %variableName% portion is left unexpanded.
-        /// Note that this function does not support all the features that Cmd.exe supports.
-        /// For example, it does not support %variableName:str1= str2 % or % variableName:~offset,length%.
-        /// </param>
-        /// <param name="lpDst">
-        /// A pointer to a buffer that receives the result of expanding the environment variable strings in the <paramref name="lpSrc"/> buffer.
-        /// Note that this buffer cannot be the same as the <paramref name="lpSrc"/> buffer.
-        /// </param>
-        /// <param name="nSize">
-        /// The maximum number of characters that can be stored in the buffer pointed to by the <paramref name="lpDst"/> parameter.
-        /// When using ANSI strings, the buffer size should be the string length, plus terminating null character, plus one.
-        /// When using Unicode strings, the buffer size should be the string length plus the terminating null character.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the number of TCHARs stored in the destination buffer, including the terminating null character.
-        /// If the destination buffer is too small to hold the expanded string, the return value is the required buffer size, in characters.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The size of the <paramref name="lpSrc"/> and <paramref name="lpDst"/> buffers is limited to 32K.
-        /// To replace folder names in a fully qualified path with their associated environment-variable strings,
-        /// use the <see cref="PathUnExpandEnvStrings"/> function.
-        /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In] string lpSrc, [In] IntPtr lpDst, [In] DWORD nSize);
-
-        /// <summary>
-        /// <para>
         /// Flushes the instruction cache for the specified process.
         /// </para>
         /// <para>
@@ -563,68 +521,18 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Frees a block of environment strings.
+        /// Flushes the write queue of each processor that is running a thread of the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-freeenvironmentstringsw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushprocesswritebuffers"/>
         /// </para>
         /// </summary>
-        /// <param name="penv"></param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
         /// <remarks>
-        /// If you used the ANSI version of <see cref="GetEnvironmentStrings"/>, be sure to use the ANSI version of <see cref="FreeEnvironmentStrings"/>.
-        /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
-        /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
+        /// The function generates an interprocessor interrupt (IPI) to all processors that are part of the current process affinity.
+        /// It guarantees the visibility of write operations performed on one processor to the other processors.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FreeEnvironmentStrings([In] IntPtr penv);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the current directory for the current process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcurrentdirectory"/>
-        /// </para>
-        /// </summary>
-        /// <param name="nBufferLength">
-        /// The length of the buffer for the current directory string, in TCHARs.
-        /// The buffer length must include room for a terminating null character.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// A pointer to the buffer that receives the current directory string.
-        /// This null-terminated string specifies the absolute path to the current directory.
-        /// To determine the required buffer size, set this parameter to <see langword="null"/> and the <paramref name="nBufferLength"/> parameter to 0.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value specifies the number of characters that are written to the buffer,
-        /// not including the terminating null character.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If the buffer that is pointed to by <paramref name="lpBuffer"/> is not large enough,
-        /// the return value specifies the required size of the buffer, in characters, including the null-terminating character.
-        /// </returns>
-        /// <remarks>
-        /// Each process has a single current directory that consists of two parts:
-        /// A disk designator that is either a drive letter followed by a colon, or a server name followed by a share name (\\servername\sharename)
-        /// A directory on the disk designator
-        /// To set the current directory, use the <see cref="SetCurrentDirectory"/> function.
-        /// Multithreaded applications and shared library code should not use the <see cref="GetCurrentDirectory"/> function
-        /// and should avoid using relative path names.
-        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
-        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
-        /// that may also be reading or setting this value.
-        /// This limitation also applies to the <see cref="SetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
-        /// The exception being when the application is guaranteed to be running in a single thread,
-        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
-        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetCurrentDirectory([In] DWORD nBufferLength, [In] IntPtr lpBuffer);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushProcessWriteBuffers", ExactSpelling = true, SetLastError = true)]
+        public static extern void FlushProcessWriteBuffers();
 
         /// <summary>
         /// <para>
@@ -673,64 +581,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCurrentProcessId();
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the environment variables for the current process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentstringsw"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// If the function succeeds, the return value is a pointer to the environment block of the current process.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="GetEnvironmentStrings"/> function returns a pointer to a block of memory
-        /// that contains the environment variables of the calling process (both the system and the user environment variables).
-        /// Each environment block contains the environment variables in the following format:
-        /// Var1 Value1 Var2 Value2 Var3 Value3 VarN ValueN Treat this memory as read-only; do not modify it directly.
-        /// To add or change an environment variable, use the <see cref="GetEnvironmentVariable"/> and <see cref="SetEnvironmentVariable"/> functions.
-        /// When the block returned by <see cref="GetEnvironmentStrings"/> is no longer needed,
-        /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
-        /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetEnvironmentStrings();
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the contents of the specified variable from the environment block of the calling process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpName">
-        /// The name of the environment variable.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// A pointer to a buffer that receives the contents of the specified environment variable as a null-terminated string.
-        /// An environment variable has a maximum size limit of 32,767 characters, including the null-terminating character.
-        /// </param>
-        /// <param name="nSize">
-        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter, including the null-terminating character, in characters.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the number of characters stored in the buffer pointed to by <paramref name="lpBuffer"/>,
-        /// not including the terminating null character.
-        /// If <paramref name="lpBuffer"/> is not large enough to hold the data, the return value is the buffer size, in characters,
-        /// required to hold the string and its terminating null character and the contents of <paramref name="lpBuffer"/> are undefined.
-        /// If the function fails, the return value is zero.
-        /// If the specified environment variable was not found in the environment block,
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_ENVVAR_NOT_FOUND"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function can retrieve either a system environment variable or a user environment variable.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] IntPtr lpBuffer, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -873,6 +723,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the number of open handles that belong to the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-processthreadsapi-getprocesshandlecount"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose handle count is being requested.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="pdwHandleCount">
+        /// A pointer to a variable that receives the number of open handles that belong to the specified process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function retrieves information about the executive objects for the process.
+        /// For more information, see Kernel Objects.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHandleCount", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessHandleCount([In] HANDLE hProcess, [In][Out] ref DWORD pdwHandleCount);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the process identifier of the specified process.
         /// </para>
         /// <para>
@@ -990,6 +869,116 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves mitigation policy settings for the calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-processthreadsapi-getprocessmitigationpolicy"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="MitigationPolicy">
+        /// The mitigation policy to retrieve. This parameter can be one of the following values.
+        /// <see cref="ProcessDEPPolicy"/>:
+        /// The data execution prevention (DEP) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_DEP_POLICY"/> structure
+        /// that specifies the DEP policy flags.
+        /// <see cref="ProcessASLRPolicy"/>:
+        /// The data execution prevention (DEP) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_ASLR_POLICY"/> structure
+        /// that specifies the ASLR policy flags.
+        /// <see cref="ProcessDynamicCodePolicy"/>:
+        /// The dynamic code policy of the process. When turned on, the process cannot generate dynamic code or modify existing executable code.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_DYNAMIC_CODE_POLICY"/> structure
+        /// that specifies the dynamic code policy flags.
+        /// <see cref="ProcessStrictHandleCheckPolicy"/>:
+        /// The process will receive a fatal error if it manipulates a handle that is not valid.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_STRICT_HANDLE_CHECK_POLICY"/> structure
+        /// that specifies the handle check policy flags.
+        /// <see cref="ProcessSystemCallDisablePolicy"/>:
+        /// Disables the ability to use NTUser/GDI functions at the lowest layer.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="qPROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
+        /// that specifies the system call disable policy flags.
+        /// <see cref="ProcessMitigationOptionsMask"/>:
+        /// Returns the mask of valid bits for all the mitigation options on the system.
+        /// An application can set many mitigation options without querying the operating system for mitigation options
+        /// by combining bitwise with the mask to exclude all non-supported bits at once.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="ULONG64"/> bit vector for the mask, or a two-element array of <see cref="ULONG64"/> bit vectors.
+        /// <see cref="ProcessExtensionPointDisablePolicy"/>:
+        /// Prevents certain built-in third party extension points from being enabled, preventing legacy extension point DLLs from being loaded into the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY"/> structure
+        /// that specifies the extension point disable policy flags.
+        /// <see cref="ProcessControlFlowGuardPolicy"/>:
+        /// The Control Flow Guard (CFG) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_CONTROL_FLOW_GUARD_POLICY"/> structure
+        /// that specifies the CFG policy flags.
+        /// <see cref="ProcessSignaturePolicy"/>:
+        /// The policy of a process that can restrict image loading to those images that are either signed by Microsoft,
+        /// by the Windows Store, or by Microsoft, the Windows Store and the Windows Hardware Quality Labs (WHQL).
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY"/> structure
+        /// that specifies the signature policy flags.
+        /// <see cref="ProcessFontDisablePolicy"/>:
+        /// The policy regarding font loading for the process. When turned on, the process cannot load non-system fonts.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_FONT_DISABLE_POLICY"/> structure
+        /// that specifies the policy flags for font loading.
+        /// <see cref="ProcessImageLoadPolicy"/>:
+        /// The policy regarding image loading for the process, which determines the types of executable images that are allowed to be mapped into the process.
+        /// When turned on, images cannot be loaded from some locations, such a remote devices or files that have the low mandatory label.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_IMAGE_LOAD_POLICY"/> structure
+        /// that specifies the policy flags for image loading.
+        /// <see cref="ProcessSideChannelIsolationPolicy"/>:
+        /// Windows 10, version 1809 and above: The policy regarding isolation of side channels for the specified process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_SIDE_CHANNEL_ISOLATION_POLICY"/> structure
+        /// that specifies the policy flags for side channel isolation.
+        /// <see cref="ProcessUserShadowStackPolicy"/>:
+        /// Windows 10, version 2004 and above: The policy regarding user-mode Hardware-enforced Stack Protection for the specified process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_USER_SHADOW_STACK_POLICY"/> structure
+        /// that specifies the policy flags for user-mode Hardware-enforced Stack Protection.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessDEPPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_DEP_POLICY"/> structure that receives the DEP policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessASLRPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_ASLR_POLICY"/> structure that receives the ASLR policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessDynamicCodePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_DYNAMIC_CODE_POLICY"/> structure that receives the dynamic code policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessStrictHandleCheckPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_STRICT_HANDLE_CHECK_POLICY"/> structure that specifies the handle check policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessSystemCallDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure that specifies the system call disable policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessMitigationOptionsMask"/>,
+        /// this parameter points to a <see cref="ULONG64"/> bit vector for the mask or a two-element array of ULONG64 bit vectors.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessExtensionPointDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY"/> structure that specifies the extension point disable policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessControlFlowGuardPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_CONTROL_FLOW_GUARD_POLICY"/> structure that specifies the CFG policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessSignaturePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY"/> structure that receives the signature policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessFontDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_FONT_DISABLE_POLICY"/> structure that receives the policy flags for font loading.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessImageLoadPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_IMAGE_LOAD_POLICY"/> structure that receives the policy flags for image loading.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessUserShadowStackPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_USER_SHADOW_STACK_POLICY"/> structure
+        /// that receives the policy flags for user-mode Hardware-enforced Stack Protection.
+        /// </param>
+        /// <param name="dwLength">
+        /// The size of lpBuffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To retrieve error values defined for this function, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessMitigationPolicy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessMitigationPolicy([In] HANDLE hProcess, [In] PROCESS_MITIGATION_POLICY MitigationPolicy,
+            [In] PVOID lpBuffer, [In] SIZE_T dwLength);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority boost control state of the specified process.
         /// </para>
         /// <para>
@@ -1067,8 +1056,38 @@ namespace Lsj.Util.Win32
         /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetProcessTimes([In] HANDLE hProcess, [Out] out Structs.FILETIME lpCreationTime, [Out] out Structs.FILETIME lpExitTime,
-            [Out] out Structs.FILETIME lpKernelTime, [Out] out Structs.FILETIME lpUserTime);
+        public static extern BOOL GetProcessTimes([In] HANDLE hProcess, [Out] out FILETIME lpCreationTime, [Out] out FILETIME lpExitTime,
+            [Out] out FILETIME lpKernelTime, [Out] out FILETIME lpUserTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the major and minor version numbers of the system on which the specified process expects to run.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessversion"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessId">
+        /// The process identifier of the process of interest.
+        /// A value of zero specifies the calling process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the version of the system on which the process expects to run.
+        /// The high word of the return value contains the major version number.
+        /// The low word of the return value contains the minor version number.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails if <paramref name="ProcessId"/> is an invalid value.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetProcessVersion"/> function performs less quickly when <paramref name="ProcessId"/> is nonzero,
+        /// specifying a process other than the calling process.
+        /// The version number returned by this function is the version number stamped in the image header of the .exe file the process is running.
+        /// Linker programs set this value.
+        /// If this function is called from a 32-bit application running on WOW64, the specified process must be a 32-bit process or the function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessVersion", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetProcessVersion([In] DWORD ProcessId);
 
         /// <summary>
         /// <para>
@@ -1229,6 +1248,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the Remote Desktop Services session associated with a specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-processidtosessionid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// Specifies a process identifier.
+        /// Use the <see cref="GetCurrentProcessId"/> function to retrieve the process identifier for the current process.
+        /// </param>
+        /// <param name="pSessionId">
+        /// Pointer to a variable that receives the identifier of the Remote Desktop Services session under which the specified process is running.
+        /// To retrieve the identifier of the session currently attached to the console, use the <see cref="WTSGetActiveConsoleSessionId"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Callers must hold the <see cref="PROCESS_QUERY_INFORMATION"/> access right for the specified process.
+        /// For more information, see Process Security and Access Rights.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ProcessIdToSessionId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ProcessIdToSessionId([In] DWORD dwProcessId, [Out] out DWORD pSessionId);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the full name of the executable image for the specified process.
         /// </para>
         /// <para>
@@ -1258,11 +1305,34 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
-        /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryFullProcessImageName([In] HANDLE hProcess, [In] DWORD dwFlags, [In] IntPtr lpExeName, [In][Out] ref DWORD lpdwSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the affinity update mode of the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-queryprocessaffinityupdatemode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpdwFlags">
+        /// The affinity update mode. This parameter can be one of the following values.
+        /// 0: Dynamic update of the process affinity by the system is disabled.
+        /// <see cref="PROCESS_AFFINITY_ENABLE_AUTO_UPDATE"/>: Dynamic update of the process affinity by the system is enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessAffinityUpdateMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryProcessAffinityUpdateMode([In] HANDLE hProcess, [Out] out DWORD lpdwFlags);
 
         /// <summary>
         /// <para>
@@ -1385,143 +1455,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Searches for a specified file in a specified path.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-searchpathw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpPath">
-        /// The path to be searched for the file.
-        /// If this parameter is <see cref="NULL"/>, the function searches for a matching file using a registry-dependent system search path.
-        /// For more information, see the Remarks section.
-        /// </param>
-        /// <param name="lpFileName">
-        /// The name of the file for which to search.
-        /// </param>
-        /// <param name="lpExtension">
-        /// The extension to be added to the file name when searching for the file.
-        /// The first character of the file name extension must be a period (.).
-        /// The extension is added only if the specified file name does not end with an extension.
-        /// If a file name extension is not required or if the file name contains an extension, this parameter can be <see cref="NULL"/>.
-        /// </param>
-        /// <param name="nBufferLength">
-        /// The size of the buffer that receives the valid path and file name (including the terminating null character), in TCHARs.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// A pointer to the buffer to receive the path and file name of the file found. The string is a null-terminated string.
-        /// </param>
-        /// <param name="lpFilePart">
-        /// A pointer to the variable to receive the address (within <paramref name="lpBuffer"/>) of the last component of the valid path and file name,
-        /// which is the address of the character immediately following the final backslash () in the path.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the value returned is the length, in TCHARs, of the string that is copied to the buffer,
-        /// not including the terminating null character.
-        /// If the return value is greater than <paramref name="nBufferLength"/>, the value returned is the size of the buffer
-        /// that is required to hold the path, including the terminating null character.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the <paramref name="lpPath"/> parameter is <see cref="NULL"/>, <see cref="SearchPath"/> searches
-        /// for a matching file based on the current value of the following registry value:
-        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\SafeProcessSearchMode
-        /// When the value of this REG_DWORD registry value is set to 1,
-        /// <see cref="SearchPath"/> first searches the folders that are specified in the system path, and then searches the current working folder.
-        /// When the value of this registry value is set to 0, the computer first searches the current working folder,
-        /// and then searches the folders that are specified in the system path.
-        /// The system default value for this registry key is 0.
-        /// The search mode used by the <see cref="SearchPath"/> function can also be set per-process by calling the <see cref="SetSearchPathMode"/> function.
-        /// The <see cref="SearchPath"/> function is not recommended as a method of locating a .dll file
-        /// if the intended use of the output is in a call to the <see cref="LoadLibrary"/> function.
-        /// This can result in locating the wrong .dll file because the search order of the <see cref="SearchPath"/> function
-        /// differs from the search order used by the <see cref="LoadLibrary"/> function.
-        /// If you need to locate and load a .dll file, use the <see cref="LoadLibrary"/> function.
-        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SearchPath"/>),
-        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SearchPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SearchPath([MarshalAs(UnmanagedType.LPWStr)][In] string lpPath,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpExtension,
-            [In] DWORD nBufferLength, [In] IntPtr lpBuffer, [Out] IntPtr lpFilePart);
-
-        /// <summary>
-        /// <para>
-        /// Changes the current directory for the current process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcurrentdirectory"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpPathName">
-        /// The path to the new current directory.
-        /// This parameter may specify a relative path or a full path.
-        /// In either case, the full path of the specified directory is calculated and stored as the current directory.
-        /// For more information, see File Names, Paths, and Namespaces.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// The final character before the null character must be a backslash ('').
-        /// If you do not specify the backslash, it will be added for you; therefore, specify <see cref="MAX_PATH"/>-2 characters
-        /// for the path unless you include the trailing backslash, in which case, specify <see cref="MAX_PATH"/>-1 characters for the path.
-        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SetCurrentDirectory"/>),
-        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Each process has a single current directory made up of two parts:
-        /// A disk designator that is either a drive letter followed by a colon, or a server name and share name (\\servername\sharename)
-        /// A directory on the disk designator
-        /// Multithreaded applications and shared library code should not use the <see cref="SetCurrentDirectory"/> function
-        /// and should avoid using relative path names.
-        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
-        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
-        /// that may also be reading or setting this value.
-        /// This limitation also applies to the <see cref="GetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
-        /// The exception being when the application is guaranteed to be running in a single thread,
-        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
-        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName);
-
-        /// <summary>
-        /// <para>
-        /// Sets the contents of the specified environment variable for the current process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setenvironmentvariablew"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpName">
-        /// The name of the environment variable.
-        /// The operating system creates the environment variable if it does not exist and <paramref name="lpValue"/> is not <see langword="null"/>.
-        /// </param>
-        /// <param name="lpValue">
-        /// The contents of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters.
-        /// For more information, see Environment Variables.
-        /// Windows Server 2003 and Windows XP:  The total size of the environment block for a process may not exceed 32,767 characters.
-        /// If this parameter is <see langword="null"/>, the variable is deleted from the current process's environment.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function has no effect on the system environment variables or the environment variables of other processes.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpValue);
-
-        /// <summary>
-        /// <para>
         /// Sets the priority class for the specified process.
         /// This value together with the priority value of each thread of the process determines each thread's base priority level.
         /// </para>
@@ -1576,7 +1509,7 @@ namespace Lsj.Util.Win32
         /// Sets a processor affinity mask for the threads of the specified process.
         /// </para>
         /// <para>
-        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1589,8 +1522,8 @@ namespace Lsj.Util.Win32
         /// On a system with more than 64 processors, the affinity mask must specify processors in a single processor group.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// If the process affinity mask requests a processor that is not configured in the system, the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
         /// On a system with more than 64 processors, if the calling process contains threads in more than one processor group,
@@ -1614,6 +1547,149 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the affinity update mode of the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessaffinityupdatemode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must be returned by the <see cref="GetCurrentProcess"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The affinity update mode. This parameter can be one of the following values.
+        /// 0: Disables dynamic update of the process affinity by the system.
+        /// <see cref="PROCESS_AFFINITY_ENABLE_AUTO_UPDATE"/>: Enables dynamic update of the process affinity by the system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system can adjust process affinity under various conditions, such as when a processor is added dynamically.
+        /// By default, dynamic updates to the process affinity are disabled for each process.
+        /// Processes should use this function to indicate whether they can handle dynamic adjustment of process affinity by the system.
+        /// After a process enables affinity update mode, it can call this function to disable it.
+        /// However, a process cannot enable affinity update mode after it has used this function to disable it.
+        /// Child processes do not inherit the affinity update mode of the parent process.
+        /// The affinity update mode must be explicitly set for each child process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessAffinityUpdateMode([In] HANDLE hProcess, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Sets a mitigation policy for the calling process. Mitigation policies enable a process to harden itself against various types of attacks.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
+        /// </para>
+        /// </summary>
+        /// <param name="MitigationPolicy">
+        /// The mitigation policy to retrieve. This parameter can be one of the following values.
+        /// <see cref="ProcessDEPPolicy"/>:
+        /// The data execution prevention (DEP) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_DEP_POLICY"/> structure
+        /// that specifies the DEP policy flags.
+        /// <see cref="ProcessASLRPolicy"/>:
+        /// The data execution prevention (DEP) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_ASLR_POLICY"/> structure
+        /// that specifies the ASLR policy flags.
+        /// <see cref="ProcessDynamicCodePolicy"/>:
+        /// The dynamic code policy of the process. When turned on, the process cannot generate dynamic code or modify existing executable code.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_DYNAMIC_CODE_POLICY"/> structure
+        /// that specifies the dynamic code policy flags.
+        /// <see cref="ProcessStrictHandleCheckPolicy"/>:
+        /// The process will receive a fatal error if it manipulates a handle that is not valid.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_STRICT_HANDLE_CHECK_POLICY"/> structure
+        /// that specifies the handle check policy flags.
+        /// <see cref="ProcessSystemCallDisablePolicy"/>:
+        /// Disables the ability to use NTUser/GDI functions at the lowest layer.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="qPROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
+        /// that specifies the system call disable policy flags.
+        /// <see cref="ProcessMitigationOptionsMask"/>:
+        /// Returns the mask of valid bits for all the mitigation options on the system.
+        /// An application can set many mitigation options without querying the operating system for mitigation options
+        /// by combining bitwise with the mask to exclude all non-supported bits at once.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="ULONG64"/> bit vector for the mask, or a two-element array of <see cref="ULONG64"/> bit vectors.
+        /// <see cref="ProcessExtensionPointDisablePolicy"/>:
+        /// Prevents certain built-in third party extension points from being enabled, preventing legacy extension point DLLs from being loaded into the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY"/> structure
+        /// that specifies the extension point disable policy flags.
+        /// <see cref="ProcessControlFlowGuardPolicy"/>:
+        /// The Control Flow Guard (CFG) policy of the process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_CONTROL_FLOW_GUARD_POLICY"/> structure
+        /// that specifies the CFG policy flags.
+        /// Note  This value is not currently supported.
+        /// <see cref="ProcessSignaturePolicy"/>:
+        /// The policy of a process that can restrict image loading to those images that are either signed by Microsoft,
+        /// by the Windows Store, or by Microsoft, the Windows Store and the Windows Hardware Quality Labs (WHQL).
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY"/> structure
+        /// that specifies the signature policy flags.
+        /// <see cref="ProcessFontDisablePolicy"/>:
+        /// The policy regarding font loading for the process. When turned on, the process cannot load non-system fonts.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_FONT_DISABLE_POLICY"/> structure
+        /// that specifies the policy flags for font loading.
+        /// <see cref="ProcessImageLoadPolicy"/>:
+        /// The policy regarding image loading for the process, which determines the types of executable images that are allowed to be mapped into the process.
+        /// When turned on, images cannot be loaded from some locations, such a remote devices or files that have the low mandatory label.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_IMAGE_LOAD_POLICY"/> structure
+        /// that specifies the policy flags for image loading.
+        /// <see cref="ProcessUserShadowStackPolicy"/>:
+        /// Windows 10, version 2004 and above: The policy regarding user-mode Hardware-enforced Stack Protection for the specified process.
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_USER_SHADOW_STACK_POLICY"/> structure
+        /// that specifies the policy flags for user-mode Hardware-enforced Stack Protection.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessDEPPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_DEP_POLICY"/> structure that receives the DEP policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessASLRPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_ASLR_POLICY"/> structure that receives the ASLR policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessDynamicCodePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_DYNAMIC_CODE_POLICY"/> structure that receives the dynamic code policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessStrictHandleCheckPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_STRICT_HANDLE_CHECK_POLICY"/> structure that specifies the handle check policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessSystemCallDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure that specifies the system call disable policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessMitigationOptionsMask"/>,
+        /// this parameter points to a <see cref="ULONG64"/> bit vector for the mask or a two-element array of ULONG64 bit vectors.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessExtensionPointDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_EXTENSION_POINT_DISABLE_POLICY"/> structure that specifies the extension point disable policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessControlFlowGuardPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_CONTROL_FLOW_GUARD_POLICY"/> structure that specifies the CFG policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessSignaturePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY"/> structure that receives the signature policy flags.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessFontDisablePolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_FONT_DISABLE_POLICY"/> structure that receives the policy flags for font loading.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessImageLoadPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_IMAGE_LOAD_POLICY"/> structure that receives the policy flags for image loading.
+        /// If the <paramref name="MitigationPolicy"/> parameter is <see cref="ProcessUserShadowStackPolicy"/>,
+        /// this parameter points to a <see cref="PROCESS_MITIGATION_USER_SHADOW_STACK_POLICY"/> structure
+        /// that receives the policy flags for user-mode Hardware-enforced Stack Protection.
+        /// </param>
+        /// <param name="dwLength">
+        /// The size of <paramref name="lpBuffer"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To retrieve error values defined for this function, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Setting mitigation policy for a process helps prevent an attacker from exploiting security vulnerabilities.
+        /// Use the <see cref="SetProcessMitigationPolicy"/> function to enable or disable security mitigation programmatically.
+        /// For maximum effectiveness, mitigation policies should be applied before or during process initialization.
+        /// For example, setting the ASLR policy that enables forced relocation of images is effective
+        /// only if it is applied before all of the images in a process have been loaded.
+        /// ASLR mitigation policies cannot be made less restrictive after they have been applied.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessMitigationPolicy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessMitigationPolicy([In] PROCESS_MITIGATION_POLICY MitigationPolicy, [In] PVOID lpBuffer, [In] SIZE_T dwLength);
+
+        /// <summary>
+        /// <para>
         /// Disables or enables the ability of the system to temporarily boost the priority of the threads of the specified process.
         /// </para>
         /// <para>
@@ -1630,8 +1706,8 @@ namespace Lsj.Util.Win32
         /// If the parameter is <see langword="false"/>, dynamic boosting is enabled.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -1644,6 +1720,45 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessPriorityBoost([In] HANDLE hProcess, [In] BOOL bDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
+        /// Sets shutdown parameters for the currently calling process.
+        /// This function sets a shutdown order for a process relative to the other processes in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessshutdownparameters"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwLevel">
+        /// The shutdown priority for a process relative to other processes in the system.
+        /// The system shuts down processes from high <paramref name="dwLevel"/> values to low.
+        /// The highest and lowest shutdown priorities are reserved for system components.
+        /// This parameter must be in the following range of values.
+        /// 000-0FF: System reserved last shutdown range.
+        /// 100-1FF: Application reserved last shutdown range.
+        /// 200-2FF: Application reserved "in between" shutdown range.
+        /// 300-3FF: Application reserved first shutdown range.
+        /// 400-4FF: System reserved first shutdown range.
+        /// All processes start at shutdown level 0x280.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be the following value.
+        /// <see cref="SHUTDOWN_NORETRY"/>:
+        /// The system terminates the process without displaying a retry dialog box for the user.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Applications running in the system security context do not get shut down by the operating system.
+        /// They get notified of shutdown or logoff through the callback function installable via <see cref="SetConsoleCtrlHandler"/>.
+        /// They also get notified in the order specified by the <paramref name="dwLevel"/> parameter.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessShutdownParameters", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessShutdownParameters([In] DWORD dwLevel, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>

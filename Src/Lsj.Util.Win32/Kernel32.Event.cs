@@ -98,8 +98,7 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateEvent([In] in SECURITY_ATTRIBUTES lpEventAttributes, [In] BOOL bManualReset, [In] BOOL bInitialState,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE CreateEvent([In] in SECURITY_ATTRIBUTES lpEventAttributes, [In] BOOL bManualReset, [In] BOOL bInitialState, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -169,7 +168,7 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateEventEx([In] in SECURITY_ATTRIBUTES lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName,
+        public static extern HANDLE CreateEventEx([In] in SECURITY_ATTRIBUTES lpEventAttributes, [In] LPCWSTR lpName,
             [In] CreateEventExFlags dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>

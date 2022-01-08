@@ -7,11 +7,15 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
+using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
+using static Lsj.Util.Win32.Enums.GetTimeFormatFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -159,6 +163,94 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Decodes a pointer that was previously encoded with <see cref="EncodePointer"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432242(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Ptr">
+        /// The pointer to be decoded.
+        /// </param>
+        /// <returns>
+        /// The function returns the decoded pointer.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodePointer", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID DecodePointer([In]PVOID Ptr);
+
+        /// <summary>
+        /// <para>
+        /// Decodes a pointer that was previously encoded with <see cref="EncodeSystemPointer"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432243(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Ptr">
+        /// The pointer to be decoded.
+        /// </param>
+        /// <returns>
+        /// The function returns the decoded pointer.
+        /// </returns>
+        /// <remarks>
+        /// Using <see cref="EncodeSystemPointer"/>/<see cref="DecodeSystemPointer"/> is faster than using <see cref="EncodePointer"/>/<see cref="DecodePointer"/>,
+        /// but the encoded system pointers are more vulnerable to attack because the value can be predicted on a per-machine basis.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodeSystemPointer", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID DecodeSystemPointer([In] PVOID Ptr);
+
+        /// <summary>
+        /// <para>
+        /// Encodes the specified pointer.
+        /// Encoded pointers can be used to provide another layer of protection for pointer values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432254(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Ptr">
+        /// The pointer to be encoded.
+        /// </param>
+        /// <returns>
+        /// The function returns the encoded pointer.
+        /// </returns>
+        /// <remarks>
+        /// Encoding globally available pointers helps protect them from being exploited.
+        /// The <see cref="EncodePointer"/> function obfuscates the pointer value with a secret so that it cannot be predicted by an external agent.
+        /// The secret used by <see cref="EncodePointer"/> is different for each process.
+        /// A pointer must be decoded before it can be used.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodePointer", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID EncodePointer([In] PVOID Ptr);
+
+        /// <summary>
+        /// <para>
+        /// Encodes the specified pointer with a system-specific value.
+        /// Encoded pointers can be used to provide another layer of protection for pointer values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432255(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Ptr">
+        /// The system pointer to be encoded.
+        /// </param>
+        /// <returns>
+        /// The function returns the encoded pointer.
+        /// </returns>
+        /// <remarks>
+        /// Encoding globally available pointers helps protect them from being exploited.
+        /// The <see cref="EncodeSystemPointer"/> function obfuscates the pointer value with a secret so that it cannot be predicted by an external agent.
+        /// The secret used by EncodeSystemPointer is the same for each process on a given computer, and is known to all the processes on that computer.
+        /// A pointer must be decoded before it can be used.
+        /// Using <see cref="EncodeSystemPointer"/>/<see cref="DecodeSystemPointer"/> is faster than using <see cref="EncodePointer"/>/<see cref="DecodePointer"/>,
+        /// but the encoded system pointers are more vulnerable to attack because the value can be predicted on a per-machine basis.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodeSystemPointer", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID EncodeSystemPointer([In] PVOID Ptr);
+
+        /// <summary>
+        /// <para>
         /// Enumerates the code pages that are either installed on or supported by an operating system.
         /// </para>
         /// <para>
@@ -211,79 +303,187 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves information about any valid installed or available code page.
+        /// Formats a date as a date string for a locale specified by the locale identifier.
+        /// The function formats either a specified date or the local system date.
+        /// Note
+        /// For interoperability reasons, the application should prefer the <see cref="GetDateFormatEx"/> function to <see cref="GetDateFormat"/>
+        /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
+        /// Any application that will be run only on Windows Vista and later should use <see cref="GetDateFormatEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfoexw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-getdateformatw"/>
         /// </para>
         /// </summary>
-        /// <param name="CodePage">
-        /// Identifier for the code page for which to retrieve information.
-        /// The application can specify the code page identifier for any installed or available code page, or one of the following predefined values.
-        /// See Code Page Identifiers for a list of identifiers for ANSI and other code pages.
-        /// <see cref="CP_ACP"/>: Use the system default Windows ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use the system default OEM code page.
-        /// <see cref="CP_THREAD_ACP"/>: Use the current thread's ANSI code page.
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale this function formats the date string for.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
+        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
         /// </param>
         /// <param name="dwFlags">
-        /// Reserved; must be 0.
+        /// Flags specifying date format options.
+        /// For detailed definitions, see the dwFlags parameter of <see cref="GetDateFormatEx"/>.
         /// </param>
-        /// <param name="lpCPInfoEx">
-        /// Pointer to a <see cref="CPINFOEX"/> structure that receives information about the code page.
+        /// <param name="lpDate">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the date information to format.
+        /// The application sets this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system date.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a format picture string that is used to form the date.
+        /// Possible values for the format picture string are defined in Day, Month, Year, and Era Format Pictures.
+        /// The function uses the specified locale only for information not specified in the format picture string,
+        /// for example, the day and month names for the locale.
+        /// The application can set this parameter to <see cref="NULL"/> to format the string according to the date format for the specified locale.
+        /// </param>
+        /// <param name="lpDateStr">
+        /// Pointer to a buffer in which this function retrieves the formatted date string.
+        /// </param>
+        /// <param name="cchDate">
+        /// Size, in characters, of the <paramref name="lpDateStr"/> buffer.
+        /// The application can set this parameter to 0 to return the buffer size required to hold the formatted date string.
+        /// In this case, the buffer indicated by <paramref name="lpDateStr"/> is not used.
         /// </param>
         /// <returns>
-        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// Returns the number of characters written to the <paramref name="lpDateStr"/> buffer if successful.
+        /// If the cchDate parameter is set to 0, the function returns the number of characters required to hold the formatted date string,
+        /// including the terminating null character.
+        /// The function returns 0 if it does not succeed.
         /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to NULL
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
         /// </returns>
         /// <remarks>
-        /// The information retrieved in the <see cref="CPINFOEX"/> structure is not always useful for all code pages.
-        /// To determine buffer sizes, for example, the application should call <see cref="MultiByteToWideChar"/>
-        /// or <see cref="WideCharToMultiByte"/> to request an accurate buffer size.
-        /// If <see cref="CPINFOEX"/> settings indicate that a lead byte exists,
-        /// the conversion function does not necessarily handle lead bytes differently,
-        /// for example, in the case of a missing or illegal trail byte.
         /// Note
-        /// The winnls.h header defines <see cref="GetCPInfoEx"/> as an alias which automatically
-        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
-        /// that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
+        /// This API is being updated to support the May 2019 Japanese era change.
+        /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// See Remarks for <see cref="GetDateFormatEx"/>.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark ("?").
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCPInfoExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCPInfoEx([In] CodePages CodePage, [In] DWORD dwFlags, [Out] out CPINFOEX lpCPInfoEx);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDateFormatW", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDateFormat([In] LCID Locale, [In] GetDateFormatFlags dwFlags, [In] in SYSTEMTIME lpDate,
+            [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate);
 
         /// <summary>
         /// <para>
-        /// Retrieves information about the current version of a specified NLS capability for a locale specified by name.
+        /// Formats a date as a date string for a locale specified by name.
+        /// The function formats either a specified date or the local system date.
         /// Note
-        /// The application should call this function in preference to <see cref="GetNLSVersion"/> if designed to run only on Windows Vista and later.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getnlsversionex"/>
+        /// The application should call this function in preference to GetDateFormat if designed to run only on Windows Vista and later.
+        /// Note
+        /// This function can format data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// </summary>
-        /// <param name="function">
-        /// The NLS capability to query.
-        /// This value must be <see cref="COMPARE_STRING"/>.
-        /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
-        /// </param>
-        /// <param name="lpLocaleName">
+        /// <param name="Locale">
         /// Pointer to a locale name, or one of the following predefined values.
         /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
         /// </param>
-        /// <param name="lpVersionInformation">
-        /// Pointer to an <see cref="NLSVERSIONINFOEX"/> structure.
-        /// The application must initialize the <see cref="NLSVERSIONINFOEX.dwNLSVersionInfoSize"/> member to <code>sizeof(NLSVERSIONINFOEX)</code>.
-        /// Note
-        /// On Windows Vista and later, the function can alternatively provide version information in an <see cref="NLSVERSIONINFO"/> structure.
+        /// <param name="dwFlags">
+        /// Flags specifying various function options that can be set if <paramref name="lpFormat"/> is set to <see cref="NULL"/>.
+        /// The application can specify a combination of the following values and <see cref="LOCALE_USE_CP_ACP"/> or <see cref="LOCALE_NOUSEROVERRIDE"/>.
+        /// Caution
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// If the application does not specify <see cref="DATE_YEARMONTH"/>, <see cref="DATE_MONTHDAY"/>,
+        /// <see cref="DATE_SHORTDATE"/>, or <see cref="DATE_LONGDATE"/>, and <paramref name="lpFormat"/> is set to <see cref="NULL"/>,
+        /// <see cref="DATE_SHORTDATE"/> is the default.
         /// </param>
-        /// <returns></returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNLSVersionEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetNLSVersionEx([In] SYSNLS_FUNCTION function, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLocaleName,
-            [In] in NLSVERSIONINFOEX lpVersionInformation);
+        /// <param name="lpDate">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the date information to format.
+        /// The application can set this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system date.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a format picture string that is used to form the date.
+        /// Possible values for the format picture string are defined in Day, Month, Year, and Era Format Pictures.
+        /// For example, to get the date string "Wed, Aug 31 94", the application uses the picture string "ddd',' MMM dd yy".
+        /// The function uses the specified locale only for information not specified in the format picture string,
+        /// for example, the day and month names for the locale.
+        /// The application can set this parameter to NULL to format the string according to the date format for the specified locale.
+        /// </param>
+        /// <param name="lpDateStr">
+        /// Pointer to a buffer in which this function retrieves the formatted date string.
+        /// </param>
+        /// <param name="cchDate">
+        /// Size, in characters, of the <paramref name="lpDateStr"/> buffer.
+        /// The application can set this parameter to 0 to return the buffer size required to hold the formatted date string.
+        /// In this case, the buffer indicated by <paramref name="lpDateStr"/> is not used.
+        /// </param>
+        /// <param name="lpCalendar">
+        /// Reserved; must set to <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// Returns the number of characters written to the <paramref name="lpDateStr"/> buffer if successful.
+        /// If the <paramref name="cchDate"/> parameter is set to 0,
+        /// the function returns the number of characters required to hold the formatted date string, including the terminating null character.
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to NULL.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// This API is being updated to support the May 2019 Japanese era change.
+        /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// The earliest date supported by this function is January 1, 1601.
+        /// The day name, abbreviated day name, month name, and abbreviated month name are all localized based on the locale identifier.
+        /// The date values in the structure indicated by <paramref name="lpDate"/> must be valid.
+        /// The function checks each of the date values: year, month, day, and day of week.
+        /// If the day of the week is incorrect, the function uses the correct value, and returns no error.
+        /// If any of the other date values are outside the correct range, the function fails, and sets the last error to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// The function ignores the time members of the <see cref="SYSTEMTIME"/> structure indicated by <paramref name="lpDate"/>.
+        /// These include <see cref="SYSTEMTIME.wHour"/>, <see cref="SYSTEMTIME.wMinute"/>,
+        /// <see cref="SYSTEMTIME.wSecond"/>, and <see cref="SYSTEMTIME.wMilliseconds"/>.
+        /// If the <paramref name="lpFormat"/> parameter contains a bad format string,
+        /// the function returns no errors, but just forms the best possible date string.
+        /// For example, the only year pictures that are valid are L"yyyy" and L"yy", where the "L" indicates a Unicode (16-bit characters) string.
+        /// If L"y" is passed in, the function assumes L"yy". If L"yyy" is passed in, the function assumes L"yyyy".
+        /// If more than four date (L"dddd") or four month (L"MMMM") pictures are passed in, the function defaults to L"dddd" or L"MMMM".
+        /// The application should enclose any text that should remain in its exact form in the date string within single quotation marks in the date format picture.
+        /// The single quotation mark can also be used as an escape character to allow the single quotation mark itself to be displayed in the date string.
+        /// However, the escape sequence must be enclosed within two single quotation marks.
+        /// For example, to display the date as "May '93", the format string is: L"MMMM ''''yy".
+        /// The first and last single quotation marks are the enclosing quotation marks.
+        /// The second and third single quotation marks are the escape sequence to allow the single quotation mark to be displayed before the century.
+        /// When the date picture contains both a numeric form of the day (either d or dd) and the full month name (MMMM),
+        /// the genitive form of the month name is retrieved in the date string.
+        /// To obtain the default short and long date format without performing any actual formatting,
+        /// the application should use <see cref="GetLocaleInfoEx"/> with the <see cref="LOCALE_SSHORTDATE"/> or <see cref="LOCALE_SLONGDATE"/> constant.
+        /// To get the date format for an alternate calendar, the application uses <see cref="GetLocaleInfoEx"/> with the <see cref="LOCALE_IOPTIONALCALENDAR"/> constant.
+        /// To get the date format for a particular calendar, the application uses <see cref="GetCalendarInfoEx"/>, passing the appropriate Calendar Identifier.
+        /// It can call <see cref="EnumCalendarInfoEx"/> or <see cref="EnumDateFormatsEx"/> to retrieve date formats for a particular calendar.
+        /// This function can retrieve data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// The <see cref="DATE_LONGDATE"/> format includes two kinds of date patterns:
+        /// patterns that include the day of the week and patterns that do not include the day of the week.
+        /// For example, "Tuesday, October 18, 2016" or "October 18, 2016".
+        /// If your application needs to ensure that dates use one of these kinds of patterns and not the other kind,
+        /// your application should perform the following actions:
+        /// Call the <see cref="EnumDateFormatsExEx"/> function to get all of the date formats for the <see cref="DATE_LONGDATE"/> format.
+        /// Look for the first date format passed to the callback function that you specified for <see cref="EnumDateFormatsExEx"/>
+        /// that matches your requested calendar identifier and has a date format string that matches the requirements of your application.
+        /// For example, look for the first date format that includes "dddd" if your application requires that
+        /// the date include the full name of the day of the week, or look for the first date format that includes neither "ddd" nor "dddd"
+        /// if your application requires that the date includes nether the abbreviated name nor the full name of the day of the week.
+        /// Call the <see cref="GetDateFormatEx"/> function with the <paramref name="lpFormat"/> parameter set to the date format string
+        /// that you identified as the appropriate format in the callback function.
+        /// If the presence or absence of the day of the week in the long date format does not matter to your application,
+        /// your application can call <see cref="GetDateFormatEx"/> directly without first enumerating all of the long date formats by calling <see cref="EnumDateFormatsExEx"/>.
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the Windows.Globalization namespace,
+        /// it must first convert the tags by calling ResolveLocaleName.
+        /// Beginning in Windows 8:
+        /// <see cref="GetDateFormatEx"/> is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDateFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDateFormatEx([In] LCID Locale, [In] GetDateFormatFlags dwFlags, [In] in SYSTEMTIME lpDate,
+            [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate, [In] LPCWSTR lpCalendar);
 
         /// <summary>
         /// <para>
@@ -346,6 +546,182 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern FARPROC GetProcAddress([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In] string lpProcName);
+
+        /// <summary>
+        /// <para>
+        /// Formats time as a time string for a locale specified by identifier.
+        /// The function formats either a specified time or the local system time.
+        /// Note
+        /// For interoperability reasons, the application should prefer the <see cref="GetTimeFormatEx"/> function to <see cref="GetTimeFormat"/>
+        /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
+        /// Any application that will be run only on Windows Vista and later should use <see cref="GetTimeFormatEx"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
+        /// <see cref="LOCALE_INVARIANT"/>,  <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags specifying time format options.
+        /// For detailed definitions see the <paramref name="dwFlags"/> parameter of <see cref="GetTimeFormatEx"/>.
+        /// </param>
+        /// <param name="lpTime">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time information to format.
+        /// The application can set this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system time.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a format picture to use to format the time string.
+        /// If the application sets this parameter to <see cref="NULL"/>, the function formats the string according to the time format of the specified locale.
+        /// If the application does not set the parameter to <see cref="NULL"/>, the function uses the locale only for information not specified
+        /// in the format picture string, for example, the locale-specific time markers.
+        /// For information about the format picture string, see the Remarks section.
+        /// </param>
+        /// <param name="lpTimeStr">
+        /// Pointer to a buffer in which this function retrieves the formatted time string.
+        /// </param>
+        /// <param name="cchTime">
+        /// Size, in TCHAR values, for the time string buffer indicated by <paramref name="lpTimeStr"/>.
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function returns the required size for the time string buffer,
+        /// and does not use the <paramref name="lpTimeStr"/> parameter.
+        /// </param>
+        /// <returns>
+        /// Returns the number of TCHAR values retrieved in the buffer indicated by <paramref name="lpTimeStr"/>.
+        /// If the <paramref name="cchTime"/> parameter is set to 0, the function returns the size of the buffer required
+        /// to hold the formatted time string, including a terminating null character.
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_OUTOFMEMORY"/>. Not enough storage was available to complete this operation.
+        /// </returns>
+        /// <remarks>
+        /// See Remarks for <see cref="GetTimeFormatEx"/>.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// Starting with Windows 8:
+        /// GetTimeFormat is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatW", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetTimeFormat([In] LCID Locale, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
+            [In] LPWSTR lpTimeStr, [In] int cchTime);
+
+        /// <summary>
+        /// <para>
+        /// Formats time as a time string for a locale specified by name.
+        /// The function formats either a specified time or the local system time.
+        /// Note
+        /// The application should call this function in preference to GetTimeFormat if designed to run only on Windows Vista and later.
+        /// Note
+        /// This function can format data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleName">
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags specifying time format options.
+        /// The application can specify a combination of the following values and <see cref="LOCALE_USE_CP_ACP"/> or <see cref="LOCALE_NOUSEROVERRIDE"/>.
+        /// Caution
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// <see cref="TIME_NOMINUTESORSECONDS"/>, <see cref="TIME_NOSECONDS"/>, <see cref="TIME_NOTIMEMARKER"/>, <see cref="TIME_FORCE24HOURFORMAT"/>
+        /// </param>
+        /// <param name="lpTime">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time information to format.
+        /// The application can set this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system time.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a format picture to use to format the time string.
+        /// If the application sets this parameter to <see cref="NULL"/>, the function formats the string according to the time format of the specified locale.
+        /// If the application does not set the parameter to <see cref="NULL"/>, the function uses the locale only
+        /// for information not specified in the format picture string, for example, the locale-specific time markers.
+        /// For information about the format picture string, see the Remarks section.
+        /// </param>
+        /// <param name="lpTimeStr">
+        /// Pointer to a buffer in which this function retrieves the formatted time string.
+        /// </param>
+        /// <param name="cchTime">
+        /// Size, in characters, for the time string buffer indicated by <paramref name="lpTimeStr"/>.
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function returns the required size for the time string buffer, and does not use the <paramref name="lpTimeStr"/> parameter.
+        /// </param>
+        /// <returns>
+        /// Returns the number of TCHAR values retrieved in the buffer indicated by <paramref name="lpTimeStr"/>.
+        /// If the <paramref name="cchTime"/> parameter is set to 0, the function returns the size of the buffer required
+        /// to hold the formatted time string, including a terminating null character.
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_OUTOFMEMORY"/>. Not enough storage was available to complete this operation.
+        /// </returns>
+        /// <remarks>
+        /// If a time marker exists and the <see cref="TIME_NOTIMEMARKER"/> flag is not set,
+        /// the function localizes the time marker based on the specified locale identifier.
+        /// Examples of time markers are "AM" and "PM" for English (United States).
+        /// The time values in the structure indicated by lpTime must be valid.
+        /// The function checks each of the time values to determine that it is within the appropriate range of values.
+        /// If any of the time values are outside the correct range, the function fails, and sets the last error to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// The function ignores the date members of the <see cref="SYSTEMTIME"/> structure.
+        /// These include: <see cref="SYSTEMTIME.wYear"/>, <see cref="SYSTEMTIME.wMonth"/>,
+        /// <see cref="SYSTEMTIME.wDayOfWeek"/>, and <see cref="SYSTEMTIME.wDay"/>.
+        /// If <see cref="TIME_NOMINUTESORSECONDS"/> or <see cref="TIME_NOSECONDS"/> is specified,
+        /// the function removes the separators preceding the minutes and/or seconds members.
+        /// If <see cref="TIME_NOTIMEMARKER"/> is specified, the function removes the separators preceding and following the time marker.
+        /// If <see cref="TIME_FORCE24HOURFORMAT"/> is specified, the function displays any existing time marker,
+        /// unless the <see cref="TIME_NOTIMEMARKER"/> flag is also set.
+        /// The function does not include milliseconds as part of the formatted time string.
+        /// The function returns no errors for a bad format string, but just forms the best possible time string.
+        /// If more than two hour, minute, second, or time marker format pictures are passed in, the function defaults to two.
+        /// For example, the only time marker pictures that are valid are "t" and "tt". If "ttt" is passed in, the function assumes "tt".
+        /// To obtain the time format without performing any actual formatting,
+        /// the application should use the <see cref="GetLocaleInfoEx"/> function, specifying <see cref="LOCALE_STIMEFORMAT"/>.
+        /// The application can use the following elements to construct a format picture string.
+        /// If spaces are used to separate the elements in the format string, these spaces appear in the same location in the output string.
+        /// The letters must be in uppercase or lowercase as shown, for example, "ss", not "SS".
+        /// Characters in the format string that are enclosed in single quotation marks appear in the same location and unchanged in the output string.
+        /// Picture	Meaning
+        /// h       Hours with no leading zero for single-digit hours; 12-hour clock
+        /// hh	    Hours with leading zero for single-digit hours; 12-hour clock
+        /// H	    Hours with no leading zero for single-digit hours; 24-hour clock
+        /// HH	    Hours with leading zero for single-digit hours; 24-hour clock
+        /// m	    Minutes with no leading zero for single-digit minutes
+        /// mm	    Minutes with leading zero for single-digit minutes
+        /// s	    Seconds with no leading zero for single-digit seconds
+        /// ss	    Seconds with leading zero for single-digit seconds
+        /// t	    One character time marker string, such as A or P
+        /// tt	    Multi-character time marker string, such as AM or PM
+        /// For example, to get the time string
+        /// "11:29:40 PM"
+        /// the application should use the picture string
+        /// "hh':'mm':'ss tt"
+        /// This function can retrieve data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the Windows.Globalization namespace,
+        /// it must first convert the tags by calling ResolveLocaleName.
+        /// Beginning in Windows 8:
+        /// <see cref="GetTimeFormatEx"/> is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetTimeFormatEx([In] LPCWSTR lpLocaleName, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
+            [In] LPWSTR lpTimeStr, [In] int cchTime);
 
         /// <summary>
         /// <para>
@@ -524,108 +900,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
-
-        /// <summary>
-        /// <para>
-        /// Determines if a specified character is a lead byte for the system default Windows ANSI code page (<see cref="CP_ACP"/>).
-        /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
-        /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte"/>
-        /// </para>
-        /// </summary>
-        /// <param name="TestChar">
-        /// The character to test.
-        /// </param>
-        /// <returns>
-        /// Returns a <see cref="TRUE"/> value if the test character is potentially a lead byte.
-        /// The function returns <see cref="FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function does not validate the presence or validity of a trail byte.
-        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence that the application
-        /// using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
-        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
-        /// potentially leading to unexpected errors or buffer size mismatches.
-        /// In general, instead of attempting low-level manipulation of code page data,
-        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
-        /// Lead byte values are specific to each distinct DBCS.
-        /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
-        /// To make sense of a DBCS string, an application normally starts at the beginning of a string and scans forward,
-        /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
-        /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsDBCSLeadByte([In] BYTE TestChar);
-
-        /// <summary>
-        /// <para>
-        /// Determines if a specified character is potentially a lead byte.
-        /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="CodePage">
-        /// Identifier of the code page used to check lead byte ranges.
-        /// This parameter can be one of the code page identifiers defined in Unicode and Character Set Constants
-        /// or one of the following predefined values.
-        /// This function validates lead byte values only in code pages 932, 936, 949, 950, and 1361.
-        /// <see cref="CP_ACP"/>: Use system default Windows ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
-        /// <see cref="CP_THREAD_ACP"/>: Use the Windows ANSI code page for the current thread. 
-        /// </param>
-        /// <param name="TestChar">
-        /// The character to test.
-        /// </param>
-        /// <returns>
-        /// Returns a nonzero value if the byte is a lead byte.
-        /// The function returns 0 if the byte is not a lead byte or if the character is a single-byte character.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Note
-        /// This function does not validate the presence or validity of a trail byte.
-        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence
-        /// that the application using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
-        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
-        /// potentially leading to unexpected errors or buffer size mismatches.
-        /// In general, instead of attempting low-level manipulation of code page data,
-        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
-        /// Lead byte values are specific to each distinct DBCS.
-        /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
-        /// Thus, <see cref="IsDBCSLeadByteEx"/> can only indicate a potential lead byte value.
-        /// To make sense of a DBCS string, an application normally starts at the beginning of the string and scans forward,
-        /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
-        /// To back up, the application should use <see cref="CharPrevExA"/> instead of attempting to develop its own algorithm.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByteEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsDBCSLeadByteEx([In] UINT CodePage, [In] BYTE TestChar);
-
-        /// <summary>
-        /// <para>
-        /// Determines if a specified code page is valid.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidcodepage"/>
-        /// </para>
-        /// </summary>
-        /// <param name="CodePage">
-        /// Code page identifier for the code page to check.
-        /// </param>
-        /// <returns>
-        /// Returns a <see cref="TRUE"/> value if the code page is valid, or <see cref="FALSE"/> if the code page is invalid.
-        /// </returns>
-        /// <remarks>
-        /// A code page is considered valid only if it is installed on the operating system. Unicode is preferred.
-        /// Starting with Windows Vista, all code pages that can be installed are loaded by default.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidCodePage", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsValidCodePage([In] UINT CodePage);
 
         /// <summary>
         /// MakeProcInstance

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Reflection;
-
-
+﻿using System.Text;
 
 namespace Lsj.Util.CsBuilder
 {
@@ -21,6 +15,7 @@ namespace Lsj.Util.CsBuilder
             get;
             set;
         } = Visibility.None;
+
         /// <summary>
         /// Name
         /// </summary>
@@ -28,23 +23,23 @@ namespace Lsj.Util.CsBuilder
         {
             get;
             set;
-        } = "AutoPropertyName";
+        }
+
         /// <summary>
         /// Return Type
         /// </summary>
-        public Type ReturnType
+        public string ReturnType
         {
             get;
             set;
-        } = typeof(void);
-
-
+        }
 
         /// <summary>
         /// Convert To String
         /// </summary>
         /// <returns></returns>
         public override string ToString() => ToString(0);
+
         /// <summary>
         /// Convert To String
         /// </summary>
@@ -54,7 +49,7 @@ namespace Lsj.Util.CsBuilder
         {
             var sb = new StringBuilder();
             sb.Append(NULL, i * 4);
-            sb.AppendLine($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType.GetTypeName()} {Name}");
+            sb.AppendLine($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType} {Name}");
             sb.Append(NULL, i * 4);
             sb.AppendLine("{");
             sb.Append(NULL, (i + 1) * 4);
@@ -63,7 +58,6 @@ namespace Lsj.Util.CsBuilder
             sb.AppendLine("set;");
             sb.Append(NULL, i * 4);
             sb.AppendLine("}");
-
 
             return sb.ToString();
         }

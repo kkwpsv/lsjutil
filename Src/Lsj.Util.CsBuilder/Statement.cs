@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-namespace Lsj.Util.CsBuilder
+﻿namespace Lsj.Util.CsBuilder
 {
     /// <summary>
     /// Statemetn
@@ -12,6 +6,7 @@ namespace Lsj.Util.CsBuilder
     public abstract class Statement
     {
         internal static char BLANK = ' ';
+
         /// <summary>
         /// Convert To String
         /// </summary>

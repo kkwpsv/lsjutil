@@ -24,6 +24,48 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
+        /// It is called when the asynchronous input and output (I/O) operation is completed or canceled and the calling thread is in an alertable state
+        /// (by using the <see cref="SleepEx"/>, <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
+        /// or <see cref="WaitForMultipleObjectsEx"/> function with the fAlertable parameter set to <see cref="TRUE"/>).
+        /// The <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/> type defines a pointer to this callback function.
+        /// FileIOCompletionRoutine is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwErrorCode">
+        /// The I/O completion status. This parameter can be one of the system error codes.
+        /// </param>
+        /// <param name="dwNumberOfBytesTransfered">
+        /// The number of bytes transferred. If an error occurs, this parameter is zero.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to the <see cref="OVERLAPPED"/> structure specified by the asynchronous I/O function.
+        /// The system does not use the <see cref="OVERLAPPED"/> structure after the completion routine is called,
+        /// so the completion routine can deallocate the memory used by the overlapped structure.
+        /// </param>
+        /// <remarks>
+        /// The return value for an asynchronous operation is 0 (<see cref="ERROR_SUCCESS"/>) if the operation completed successfully
+        /// or if the operation completed with a warning.
+        /// To determine whether an I/O operation was completed successfully, check that dwErrorCode is 0,
+        /// call <see cref="GetOverlappedResult"/>, then call <see cref="GetLastError"/>.
+        /// For example, if the buffer was not large enough to receive all of the data from a call to <see cref="ReadFileEx"/>,
+        /// dwErrorCode is set to 0, <see cref="GetOverlappedResult"/> fails, and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// Returning from this function allows another pending I/O completion routine to be called.
+        /// All waiting completion routines are called before the alertable thread's wait is completed with a return code of <see cref="WAIT_IO_COMPLETION"/>.
+        /// The system may call the waiting completion routines in any order.
+        /// They may or may not be called in the order the I/O functions are completed.
+        /// Each time the system calls a completion routine, it uses some of the application's stack.
+        /// If the completion routine does additional asynchronous I/O and alertable waits, the stack may grow.
+        /// For more information, see Asynchronous Procedure Calls.
+        /// </remarks>
+        public delegate void LpoverlappedCompletionRoutine([In] SystemErrorCodes dwErrorCode, [In] DWORD dwNumberOfBytesTransfered, [In] in OVERLAPPED lpOverlapped);
+
+
+        /// <summary>
+        /// <para>
         /// Cancels all pending input and output (I/O) operations that are issued by the calling thread for the specified file.
         /// The function does not cancel I/O operations that other threads issue for a file handle.
         /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.

@@ -16,6 +16,35 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Determines whether the specified process is being debugged.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-checkremotedebuggerpresent"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// </param>
+        /// <param name="pbDebuggerPresent">
+        /// A pointer to a variable that the function sets to <see cref="TRUE"/> if the specified process is being debugged, or <see cref="FALSE"/> otherwise.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The "remote" in <see cref="CheckRemoteDebuggerPresent"/> does not imply that the debugger necessarily resides on a different computer;
+        /// instead, it indicates that the debugger resides in a separate and parallel process.
+        /// Use the <see cref="IsDebuggerPresent"/> function to detect whether the calling process is running under the debugger.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0501 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckRemoteDebuggerPresent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckRemoteDebuggerPresent([In] HANDLE hProcess, [In][Out] ref BOOL pbDebuggerPresent);
+
+        /// <summary>
+        /// <para>
         /// Enables a debugger to continue a thread that previously reported a debugging event.
         /// </para>
         /// <para>
@@ -202,6 +231,63 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the calling process is being debugged by a user-mode debugger.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the current process is running in the context of a debugger, the return value is <see cref="TRUE"/>.
+        /// If the current process is not running in the context of a debugger, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function allows an application to determine whether or not it is being debugged, so that it can modify its behavior.
+        /// For example, an application could provide additional information using the <see cref="OutputDebugString"/> function if it is being debugged.
+        /// To determine whether a remote process is being debugged, use the <see cref="CheckRemoteDebuggerPresent"/> function.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDebuggerPresent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsDebuggerPresent();
+
+        /// <summary>
+        /// <para>
+        /// Sends a string to the debugger for display.
+        /// Important
+        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
+        /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
+        /// debuggers are required to call <see cref="WaitForDebugEventEx"/> to opt into the new behavior.
+        /// On calling <see cref="WaitForDebugEventEx"/>, the operating system will know that the debugger supports Unicode
+        /// and is specifically opting into receiving Unicode strings.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpOutputString">
+        /// The null-terminated string to be displayed.
+        /// </param>
+        /// <remarks>
+        /// If the application has no debugger, the system debugger displays the string if the filter mask allows it.
+        /// (Note that this function calls the DbgPrint function to display the string.
+        /// For details on how the filter mask controls what the system debugger displays,
+        /// see the DbgPrint function in the Windows Driver Kit (WDK) on MSDN.)
+        /// If the application has no debugger and the system debugger is not active, <see cref="OutputDebugString"/> does nothing.
+        /// Prior to Windows Vista: The system debugger does not filter content.
+        /// <see cref="OutputDebugString"/> converts the specified string based on the current system locale information
+        /// and passes it to OutputDebugStringA to be displayed.
+        /// As a result, some Unicode characters may not be displayed correctly.
+        /// Applications should send very minimal debug output and provide a way for the user to enable or disable its use.
+        /// To provide more detailed tracing, see Event Tracing.
+        /// Visual Studio has changed how it handles the display of these strings throughout its revision history.
+        /// Refer to the Visual Studio documentation for details of how your version deals with this.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OutputDebugStringW", ExactSpelling = true, SetLastError = true)]
+        public static extern void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)][In] string lpOutputString);
+
+        /// <summary>
+        /// <para>
         /// Waits for a debugging event to occur in a process being debugged.
         /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
         /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
@@ -295,40 +381,5 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEventEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WaitForDebugEventEx([Out] out DEBUG_EVENT lpDebugEvent, [In] DWORD dwMilliseconds);
-
-        /// <summary>
-        /// <para>
-        /// Sends a string to the debugger for display.
-        /// Important
-        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
-        /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
-        /// debuggers are required to call <see cref="WaitForDebugEventEx"/> to opt into the new behavior.
-        /// On calling <see cref="WaitForDebugEventEx"/>, the operating system will know that the debugger supports Unicode
-        /// and is specifically opting into receiving Unicode strings.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpOutputString">
-        /// The null-terminated string to be displayed.
-        /// </param>
-        /// <remarks>
-        /// If the application has no debugger, the system debugger displays the string if the filter mask allows it.
-        /// (Note that this function calls the DbgPrint function to display the string.
-        /// For details on how the filter mask controls what the system debugger displays,
-        /// see the DbgPrint function in the Windows Driver Kit (WDK) on MSDN.)
-        /// If the application has no debugger and the system debugger is not active, <see cref="OutputDebugString"/> does nothing.
-        /// Prior to Windows Vista: The system debugger does not filter content.
-        /// <see cref="OutputDebugString"/> converts the specified string based on the current system locale information
-        /// and passes it to OutputDebugStringA to be displayed.
-        /// As a result, some Unicode characters may not be displayed correctly.
-        /// Applications should send very minimal debug output and provide a way for the user to enable or disable its use.
-        /// To provide more detailed tracing, see Event Tracing.
-        /// Visual Studio has changed how it handles the display of these strings throughout its revision history.
-        /// Refer to the Visual Studio documentation for details of how your version deals with this.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OutputDebugStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)][In] string lpOutputString);
     }
 }

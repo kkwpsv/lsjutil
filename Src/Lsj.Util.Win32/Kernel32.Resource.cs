@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.LANGID;
@@ -68,8 +69,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LoadString"/> function will extract the string resource from its corresponding section.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRSRC FindResource([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpType);
+        public static extern HRSRC FindResource([In] HMODULE hModule, [In] LPCWSTR lpName, [In] LPCWSTR lpType);
 
         /// <summary>
         /// <para>
@@ -108,8 +108,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRSRC FindResourceEx([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][In]string lpType,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]WORD wLanguage);
+        public static extern HRSRC FindResourceEx([In] HMODULE hModule, [In] LPCWSTR lpType, [In] LPCWSTR lpName, [In] WORD wLanguage);
 
         /// <summary>
         /// <para>
@@ -143,7 +142,7 @@ namespace Lsj.Util.Win32
             "For 32-bit Windows applications, it is not necessary to free the resources loaded using LoadResource." +
             "If used on 32 or 64-bit Windows systems, this function will return FALSE.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeResource", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FreeResource([In]HGLOBAL hResData);
+        public static extern BOOL FreeResource([In] HGLOBAL hResData);
 
         /// <summary>
         /// <para>
@@ -185,7 +184,7 @@ namespace Lsj.Util.Win32
         /// followed by <see cref="DestroyIcon"/> when done.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadResource", ExactSpelling = true, SetLastError = true)]
-        public static extern HGLOBAL LoadResource([In]HMODULE hModule, [In]HRSRC hResInfo);
+        public static extern HGLOBAL LoadResource([In] HMODULE hModule, [In] HRSRC hResInfo);
 
         /// <summary>
         /// <para>
@@ -215,7 +214,7 @@ namespace Lsj.Util.Win32
         /// when it was used to lock a global memory block allocated by <see cref="LoadResource"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockResource", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID LockResource([In]HGLOBAL hResData);
+        public static extern LPVOID LockResource([In] HGLOBAL hResData);
 
         /// <summary>
         /// <para>
@@ -257,6 +256,6 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SizeofResource", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SizeofResource([In]HMODULE hModule, [In]HRSRC hResInfo);
+        public static extern DWORD SizeofResource([In] HMODULE hModule, [In] HRSRC hResInfo);
     }
 }

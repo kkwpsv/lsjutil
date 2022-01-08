@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -137,8 +138,7 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateWaitableTimer([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] BOOL bManualReset,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName);
+        public static extern HANDLE CreateWaitableTimer([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] BOOL bManualReset, [In] LPCWSTR lpTimerName);
 
         /// <summary>
         /// <para>
@@ -200,8 +200,8 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateWaitableTimerEx([In] in SECURITY_ATTRIBUTES lpTimerAttributes,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
+        public static extern HANDLE CreateWaitableTimerEx([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] LPCWSTR lpTimerName,
+            [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -332,8 +332,6 @@ namespace Lsj.Util.Win32
         /// When a synchronization timer is set to the signaled state,
         /// it remains in this state until a thread completes a wait operation on the timer object.
         /// If the system time is adjusted, the due time of any outstanding absolute timers is adjusted.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// To use a timer to schedule an event for a window, use the <see cref="SetTimer"/> function.
         /// APIs that deal with timers use various different hardware clocks.
         /// These clocks may have resolutions significantly different from what you expect:
@@ -346,5 +344,96 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWaitableTimer([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
             [In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] BOOL fResume);
+
+        /// <summary>
+        /// <para>
+        /// Activates the specified waitable timer.
+        /// When the due time arrives, the timer is signaled and the thread that set the timer calls the optional completion routine.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setwaitabletimerex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hTimer">
+        /// A handle to the timer object.
+        /// The <see cref="CreateWaitableTimer"/> or <see cref="OpenWaitableTimer"/> function returns this handle.
+        /// The handle must have the <see cref="TIMER_MODIFY_STATE"/> access right.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <param name="lpDueTime">
+        /// The time after which the state of the timer is to be set to signaled, in 100 nanosecond intervals.
+        /// Use the format described by the <see cref="FILETIME"/> structure.
+        /// Positive values indicate absolute time.
+        /// Be sure to use a UTC-based absolute time, as the system uses UTC-based time internally.
+        /// Negative values indicate relative time.
+        /// The actual timer accuracy depends on the capability of your hardware.
+        /// For more information about UTC-based time, see System Time.
+        /// </param>
+        /// <param name="lPeriod">
+        /// The period of the timer, in milliseconds.
+        /// If <paramref name="lPeriod"/> is zero, the timer is signaled once.
+        /// If <paramref name="lPeriod"/> is greater than zero, the timer is periodic.
+        /// A periodic timer automatically reactivates each time the period elapses,
+        /// until the timer is canceled using the <see cref="CancelWaitableTimer"/> function or reset using <see cref="SetWaitableTimer"/>.
+        /// If <paramref name="lPeriod"/> is less than zero, the function fails.
+        /// </param>
+        /// <param name="pfnCompletionRoutine">
+        /// A pointer to an optional completion routine.
+        /// The completion routine is application-defined function of type <see cref="PTIMERAPCROUTINE"/> to be executed when the timer is signaled.
+        /// For more information on the timer callback function, see <see cref="PTIMERAPCROUTINE"/>.
+        /// For more information about APCs and thread pool threads, see Remarks.
+        /// </param>
+        /// <param name="lpArgToCompletionRoutine">
+        /// A pointer to a structure that is passed to the completion routine.
+        /// </param>
+        /// <param name="WakeContext">
+        /// Pointer to a <see cref="REASON_CONTEXT"/> structure that contains context information for the timer.
+        /// </param>
+        /// <param name="TolerableDelay">
+        /// The tolerable delay for expiration time, in milliseconds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetWaitableTimerEx"/> function is similar to the <see cref="SetWaitableTimer"/> function,
+        /// except <see cref="SetWaitableTimerEx"/> can be used to specify a context string and a tolerable delay for expiration of the timer.
+        /// Timers are initially inactive.
+        /// To activate a timer, call <see cref="SetWaitableTimerEx"/>.
+        /// If the timer is already active when you call <see cref="SetWaitableTimerEx"/>, the timer is stopped, then it is reactivated.
+        /// Stopping the timer in this manner does not set the timer state to signaled, so threads blocked in a wait operation on the timer remain blocked.
+        /// However, it does cancel any pending completion routines.
+        /// When the specified due time arrives, the timer becomes inactive and the optional APC is queued to the thread that set the timer.
+        /// The state of the timer is set to signaled, the timer is reactivated using the specified period,
+        /// and the thread that set the timer calls the completion routine when it enters an alertable wait state.
+        /// If the timer is set before the thread enters an alertable wait state, the APC is canceled.
+        /// For more information, see <see cref="QueueUserAPC"/>.
+        /// Note that APCs do not work as well as other signaling mechanisms for thread pool threads
+        /// because the system controls the lifetime of thread pool threads,
+        /// so it is possible for a thread to be terminated before the notification is delivered.
+        /// Instead of using the <paramref name="pfnCompletionRoutine"/> parameter or another APC-based signaling mechanism,
+        /// use a waitable object such as a timer created with <see cref="CreateThreadpoolTimer"/>.
+        /// For I/O, use an I/O completion object created with <see cref="CreateThreadpoolIo"/> or an hEvent-based <see cref="OVERLAPPED"/> structure
+        /// where the event can be passed to the <see cref="SetThreadpoolWait"/> function.
+        /// If the thread that set the timer terminates and there is an associated completion routine, the timer is canceled.
+        /// However, the state of the timer remains unchanged.
+        /// If there is no completion routine, then terminating the thread has no effect on the timer.
+        /// When a manual-reset timer is set to the signaled state,
+        /// it remains in this state until <see cref="SetWaitableTimerEx"/> is called to reset the timer.
+        /// As a result, a periodic manual-reset timer is set to the signaled state when the initial due time arrives
+        /// and remains signaled until it is reset.
+        /// When a synchronization timer is set to the signaled state,
+        /// it remains in this state until a thread completes a wait operation on the timer object.
+        /// If the system time is adjusted, the due time of any outstanding absolute timers is adjusted.
+        /// If the thread that called <see cref="SetWaitableTimerEx"/> exits, the timer is canceled.
+        /// This stops the timer before it can be set to the signaled state and cancels outstanding APCs; it does not change the signaled state of the timer.
+        /// To use a timer to schedule an event for a window, use the <see cref="SetTimer"/> function.
+        /// APIs that deal with timers use various different hardware clocks.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimerEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWaitableTimerEx([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
+            [In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] in REASON_CONTEXT WakeContext, [In] ULONG TolerableDelay);
     }
 }

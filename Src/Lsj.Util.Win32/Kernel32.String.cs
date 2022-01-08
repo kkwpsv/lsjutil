@@ -133,8 +133,8 @@ namespace Lsj.Util.Win32
         /// Before Windows 8, both versions were declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareString([In] LCID Locale, [In] StringFlags dwCmpFlags, [In] StringHandle lpString1,
-            [In] int cchCount1, [In] StringHandle lpString2, [In] int cchCount2);
+        public static extern CompareStringResults CompareString([In] LCID Locale, [In] StringFlags dwCmpFlags, [In] LPCWSTR lpString1,
+            [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2);
 
         /// <summary>
         /// <para>
@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32
         /// Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringOrdinal", ExactSpelling = true, SetLastError = true)]
-        public static extern int CompareStringOrdinal([In] StringHandle lpString1, [In] int cchCount1, [In] StringHandle lpString2,
+        public static extern int CompareStringOrdinal([In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2,
             [In] int cchCount2, [In] BOOL bIgnoreCase);
 
         /// <summary>
@@ -336,8 +336,370 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
         public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] StringFlags dwCmpFlags,
-            [In] StringHandle lpString1, [In] int cchCount1, [In] StringHandle lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
+            [In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
             [In] LPVOID lpReserved, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Locates a Unicode string (wide characters) in another Unicode string for a non-linguistic comparison.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-findstringordinal"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFindStringOrdinalFlags">
+        /// Flags specifying details of the find operation.
+        /// These flags are mutually exclusive, with <see cref="FIND_FROMSTART"/> being the default.
+        /// The application can specify just one of the find flags.
+        /// <see cref="FIND_FROMSTART"/>, <see cref="FIND_FROMEND"/>, <see cref="FIND_STARTSWITH"/>, <see cref="FIND_ENDSWITH"/>
+        /// </param>
+        /// <param name="lpStringSource">
+        /// Pointer to the source string, in which the function searches for the string specified by <paramref name="lpStringValue"/>.
+        /// </param>
+        /// <param name="cchSource">
+        /// Size, in characters excluding the terminating null character, of the string indicated by <paramref name="lpStringSource"/>.
+        /// The application must normally specify a positive number, or 0.
+        /// The application can specify -1 if the source string is null-terminated and the function should calculate the size automatically.
+        /// </param>
+        /// <param name="lpStringValue">
+        /// Pointer to the search string for which the function searches in the source string.
+        /// </param>
+        /// <param name="cchValue">
+        /// Size, in characters excluding the terminating null character, of the string indicated by <paramref name="lpStringSource"/>.
+        /// The application must normally specify a positive number, or 0.
+        /// The application can specify -1 if the string is null-terminated and the function should calculate the size automatically.
+        /// </param>
+        /// <param name="bIgnoreCase">
+        /// <see cref="TRUE"/> if the function is to perform a case-insensitive comparison, and <see cref="FALSE"/> otherwise.
+        /// The comparison is not a linguistic operation and is not appropriate for all locales and languages.
+        /// Its behavior is similar to that for English.
+        /// </param>
+        /// <returns>
+        /// Returns a 0-based index into the source string indicated by <paramref name="lpStringSource"/> if successful.
+        /// If the function succeeds, the found string is the same size as the value of <paramref name="lpStringValue"/>.
+        /// A return value of 0 indicates that the function found a match at the beginning of the source string.
+        /// The function returns -1 if it does not succeed or if it does not find the search string.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>: The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
+        /// <see cref="ERROR_SUCCESS"/>: The action completed successfully but yielded no results.
+        /// </returns>
+        /// <remarks>
+        /// Since <see cref="FindStringOrdinal"/> provides a binary comparison, it does not return linguistically appropriate results.
+        /// The ordinal comparison might be mistaken for English sorting behavior.
+        /// However, it does not find matches when characters vary by linguistically insignificant amounts.
+        /// See Sorting for information about choosing an appropriate sorting function.
+        /// In contrast to NLS functions that return 0 for failure, this function returns -1 if it fails.
+        /// On success, it returns a 0-based index. Use of this index helps the function avoid off-by-one errors and one-character buffer overruns.
+        /// This function is one of the few NLS functions that calls <see cref="SetLastError"/> even when it succeeds.
+        /// It makes this call to clear the last error in a thread when it fails to match the search string.
+        /// This clears the value returned by <see cref="GetLastError"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindStringOrdinal", ExactSpelling = true, SetLastError = true)]
+        public static extern int FindStringOrdinal([In] FindStringFlags dwFindStringOrdinalFlags, [In] LPCWSTR lpStringSource, [In] int cchSource,
+            [In] LPCWSTR lpStringValue, [In] int cchValue, [In] BOOL bIgnoreCase);
+
+        /// <summary>
+        /// <para>
+        /// Maps one Unicode string to another, performing the specified transformation.
+        /// For an overview of the use of the string functions, see Strings.
+        /// Caution
+        /// Using <see cref="FoldString"/> incorrectly can compromise the security of your application.
+        /// Strings that are not mapped correctly can produce invalid input.
+        /// Test strings to make sure they are valid before using them and provide error handlers.
+        /// For more information, see Security Considerations: International Features.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-foldstringw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwMapFlags">
+        /// Flags specifying the type of transformation to use during string mapping.
+        /// This parameter can be a combination of the following values.
+        /// <see cref="MAP_COMPOSITE"/>:
+        /// Map accented characters to decomposed characters, that is,
+        /// characters in which a base character and one or more nonspacing characters each have distinct code point values.
+        /// For example, Ä is represented by A + ¨: LATIN CAPITAL LETTER A (U+0041) + COMBINING DIAERESIS (U+0308).
+        /// This flag is equivalent to normalization form D in Windows Vista.
+        /// Note that this flag cannot be used with <see cref="MB_PRECOMPOSED"/>.
+        /// <see cref="MAP_EXPAND_LIGATURES"/>:
+        /// Expand all ligature characters so that they are represented by their two-character equivalent.
+        /// For example, the ligature "æ" (U+00e6) expands to the two characters "a" (U+0061) + "e" (U+0065).
+        /// This value cannot be combined with <see cref="MAP_PRECOMPOSED"/> or <see cref="MAP_COMPOSITE"/>.
+        /// <see cref="MAP_FOLDCZONE"/>:
+        /// Fold compatibility zone characters into standard Unicode equivalents.
+        /// This flag is equivalent to normalization form KD in Windows Vista, if the <see cref="MAP_COMPOSITE"/> flag is also set.
+        /// If the composite flag is not set (default), this flag is equivalent to normalization form KC in Windows Vista.
+        /// <see cref="MAP_FOLDDIGITS"/>:
+        /// Map all digits to Unicode characters 0 through 9.
+        /// <see cref="MAP_PRECOMPOSED"/>:
+        /// Map accented characters to precomposed characters, in which the accent and base character are combined into a single character value.
+        /// This flag is equivalent to normalization form C in Windows Vista. This value cannot be combined with <see cref="MAP_COMPOSITE"/>.
+        /// </param>
+        /// <param name="lpSrcStr">
+        /// Pointer to a source string that the function maps.
+        /// </param>
+        /// <param name="cchSrc">
+        /// Size, in characters, of the source string indicated by <paramref name="lpSrcStr"/>, excluding the terminating null character.
+        /// The application can set the parameter to any negative value to specify that the source string is null-terminated.
+        /// In this case, the function calculates the string length automatically, and null-terminates the mapped string indicated by <paramref name="lpDestStr"/>.
+        /// </param>
+        /// <param name="lpDestStr">
+        /// Pointer to a buffer in which this function retrieves the mapped string.
+        /// </param>
+        /// <param name="cchDest">
+        /// Size, in characters, of the destination string indicated by <paramref name="lpDestStr"/>.
+        /// If space for a terminating null character is included in <paramref name="cchSrc"/>,
+        /// <paramref name="cchDest"/> must also include space for a terminating null character.
+        /// The application can set <paramref name="cchDest"/> to 0.
+        /// In this case, the function does not use the <paramref name="lpDestStr"/> parameter and returns the required buffer size for the mapped string.
+        /// If the <see cref="MAP_FOLDDIGITS"/> flag is specified, the return value is the maximum size required,
+        /// even if the actual number of characters needed is smaller than the maximum size.
+        /// If the maximum size is not passed, the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// </param>
+        /// <returns>
+        /// Returns the number of characters in the translated string, including a terminating null character, if successful.
+        /// If the function succeeds and the value of <paramref name="cchDest"/> is 0,
+        /// the return value is the size of the buffer required to hold the translated string, including a terminating null character.
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_DATA"/>. The data was invalid.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_MOD_NOT_FOUND"/>. The module was not found.
+        /// <see cref="ERROR_OUTOFMEMORY"/>. Not enough storage was available to complete this operation.
+        /// <see cref="ERROR_PROC_NOT_FOUND"/>. The required procedure was not found.
+        /// </returns>
+        /// <remarks>
+        /// The values of the <paramref name="lpSrcStr"/> and and <paramref name="lpDestStr"/> parameters must not be the same
+        /// If they are the same, the function fails with <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// The compatibility zone in Unicode consists of characters in the range 0xF900 through 0xFFEF
+        /// that are assigned to characters from other encoding standards for characters but are actually variants of characters already in Unicode.
+        /// The compatibility zone is used to support round-trip mapping to these standards.
+        /// Applications can use the <see cref="MAP_FOLDCZONE"/> flag to avoid supporting the duplication of characters in the compatibility zone.
+        /// Starting with Windows Vista:
+        /// This function supports Unicode normalization. All Unicode compatibility characters are mapped.
+        /// Starting with Windows Vista:
+        /// The transformations indicated by the <see cref="MAP_FOLDCZONE"/>, <see cref="MAP_PRECOMPOSED"/>, and <see cref="MAP_COMPOSITE"/> flags
+        /// use Unicode normalization forms KC, C, and D (through the <see cref="NormalizeString"/> function) to do the mappings.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FoldStringW", ExactSpelling = true, SetLastError = true)]
+        public static extern int FoldString([In] DWORD dwMapFlags, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves character type information for the characters in the specified Unicode source string.
+        /// For each character in the string, the function sets one or more bits in the corresponding 16-bit element of the output array.
+        /// Each bit identifies a given character type, for example, letter, digit, or neither.
+        /// Caution
+        /// Using the <see cref="GetStringType"/> function incorrectly can compromise the security of your application.
+        /// To avoid a buffer overflow, the application must set the output buffer size correctly.
+        /// For more security information, see Security Considerations: Windows User Interface.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-getstringtypew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwInfoType">
+        /// Flags specifying the character type information to retrieve.
+        /// This parameter can have the following values.
+        /// The character types are divided into different levels as described in the Remarks section.
+        /// <see cref="CT_CTYPE1"/>:
+        /// Retrieve character type information.
+        /// <see cref="CT_CTYPE2"/>:
+        /// Retrieve bidirectional layout information.
+        /// <see cref="CT_CTYPE3"/>:
+        /// Retrieve text processing information.
+        /// </param>
+        /// <param name="lpSrcStr">
+        /// Pointer to the Unicode string for which to retrieve the character types.
+        /// The string is assumed to be null-terminated if <paramref name="cchSrc"/> is set to any negative value.
+        /// </param>
+        /// <param name="cchSrc">
+        /// Size, in characters, of the string indicated by <paramref name="lpSrcStr"/>.
+        /// If the size includes a terminating null character, the function retrieves character type information for that character.
+        /// If the application sets the size to any negative integer,
+        /// the source string is assumed to be null-terminated and the function calculates the size automatically
+        /// with an additional character for the null termination.
+        /// </param>
+        /// <param name="lpCharType">
+        /// Pointer to an array of 16-bit values.
+        /// The length of this array must be large enough to receive one 16-bit value for each character in the source string.
+        /// If <paramref name="cchSrc"/> is not a negative number, <paramref name="lpCharType"/> should be an array of words with <paramref name="cchSrc"/> elements.
+        /// If <paramref name="cchSrc"/> is set to a negative number, <paramref name="lpSrcStr"/> is an array of words with <paramref name="lpSrcStr"/> + 1 elements.
+        /// When the function returns, this array contains one word corresponding to each character in the source string.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// For an overview of the use of the string functions, see Strings.
+        /// The values of the <paramref name="lpSrcStr"/> and <paramref name="lpCharType"/> parameters must not be the same.
+        /// If they are the same, the function fails with <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// The Locale parameter used by the corresponding GetStringTypeA function is not used by this function.
+        /// Because of the parameter difference, an application cannot automatically invoke the proper ANSI or Unicode version of a GetStringType* function
+        /// through the use of the #define UNICODE switch.
+        /// An application can circumvent this limitation by using <see cref="GetStringTypeEx"/>, which is the recommended function.
+        /// Supported Character Types
+        /// The character type bits are divided into several levels.
+        /// The information for one level can be retrieved by a single call to this function.
+        /// Each level is limited to 16 bits of information so that the other mapping functions,
+        /// which are limited to 16 bits of representation per character, can also return character type information.
+        /// Ctype 1
+        /// These types support ANSI C and POSIX (LC_CTYPE) character typing functions.
+        /// A bitwise-OR of these values is retrieved in the array in the output buffer when <paramref name="dwInfoType"/> is set to <see cref="CT_CTYPE1"/>.
+        /// For DBCS locales, the type attributes apply to both narrow characters and wide characters.
+        /// The Japanese hiragana and katakana characters, and the kanji ideograph characters all have the <see cref="C1_ALPHA"/> attribute.
+        /// Name                        Value   Meaning
+        /// <see cref="C1_UPPER"/>      0x0001  Uppercase
+        /// <see cref="C1_LOWER"/>      0x0002  Lowercase
+        /// <see cref="C1_DIGIT"/>      0x0004  Decimal digits
+        /// <see cref="C1_SPACE"/>      0x0008  Space characters
+        /// <see cref="C1_PUNCT"/>      0x0010  Punctuation
+        /// <see cref="C1_CNTRL"/>      0x0020  Control characters
+        /// <see cref="C1_BLANK"/>      0x0040  Blank characters
+        /// <see cref="C1_XDIGIT"/>     0x0080  Hexadecimal digits
+        /// <see cref="C1_ALPHA"/>      0x0100  Any linguistic character: alphabetical, syllabary, or ideographic
+        /// <see cref="C1_DEFINED"/>    0x0200  A defined character, but not one of the other C1_* types
+        /// The following character types are either constant or computable from basic types and do not need to be supported by this function.
+        /// Type            Description
+        /// Alphanumeric    Alphabetical characters and digits (<see cref="C1_ALPHA"/> and <see cref="C1_DIGIT"/>)
+        /// Printable       raphic characters and blanks (all C1_* types except <see cref="C1_CNTRL"/>)
+        /// Ctype 2
+        /// These types support proper layout of Unicode text. For DBCS locales, the character type applies to both narrow and wide characters.
+        /// The direction attributes are assigned so that the bidirectional layout algorithm standardized by Unicode produces accurate results.
+        /// These types are mutually exclusive. For more information about the use of these attributes, see The Unicode Standard.
+        /// Name                                Value   Meaning
+        /// Strong
+        /// <see cref="C2_LEFTTORIGHT"/>        0x0001  Left to right
+        /// <see cref="C2_RIGHTTOLEFT"/>        0x0002  Right to left
+        /// Weak
+        /// <see cref="C2_EUROPENUMBER"/>       0x0003  European number, European digit
+        /// <see cref="C2_EUROPESEPARATOR"/>    0x0004  European numeric separator
+        /// <see cref="C2_EUROPETERMINATOR"/>   0x0005  European numeric terminator
+        /// <see cref="C2_ARABICNUMBER"/>       0x0006  Arabic number
+        /// <see cref="C2_COMMONSEPARATOR"/>    0x0007  Common numeric separator
+        /// Neutral
+        /// <see cref="C2_BLOCKSEPARATOR"/>     0x0008  Block separator
+        /// <see cref="C2_SEGMENTSEPARATOR"/>   0x0009  Segment separator
+        /// <see cref="C2_WHITESPACE"/>         0x000A  White space
+        /// <see cref="C2_OTHERNEUTRAL"/>       0x000B  Other neutrals
+        /// Not applicable
+        /// <see cref="C2_NOTAPPLICABLE"/>      0x0000  No implicit directionality (for example, control codes)
+        /// Ctype 3
+        /// These types are intended to be placeholders for extensions to the POSIX types required for general text processing or for the standard C library functions.
+        /// A bitwise-OR of these values is retrieved when dwInfoType is set to <see cref="CT_CTYPE3"/>.
+        /// For DBCS locales, the Ctype 3 attributes apply to both narrow characters and wide characters.
+        /// The Japanese hiragana and katakana characters, and the kanji ideograph characters all have the <see cref="C3_ALPHA"/> attribute.
+        /// Name                            Value   Meaning
+        /// <see cref="C3_NONSPACING"/>     0x0001  Nonspacing mark
+        /// <see cref="C3_DIACRITIC"/>      0x0002  Diacritic nonspacing mark
+        /// <see cref="C3_VOWELMARK"/>      0x0004  Vowel nonspacing mark
+        /// <see cref="C3_SYMBOL"/>         0x0008  Symbol
+        /// <see cref="C3_KATAKANA"/>       0x0010  Katakana character
+        /// <see cref="C3_HIRAGANA"/>       0x0020  Hiragana character
+        /// <see cref="C3_HALFWIDTH"/>      0x0040  Half-width (narrow) character
+        /// <see cref="C3_FULLWIDTH"/>      0x0080  Full-width (wide) character
+        /// <see cref="C3_IDEOGRAPH"/>      0x0100  Ideographic character
+        /// <see cref="C3_KASHIDA"/>        0x0200  Arabic kashida character
+        /// <see cref="C3_LEXICAL"/>        0x0400  Punctuation which is counted as part of the word (kashida, hyphen, feminine/masculine ordinal indicators, equal sign, and so forth)
+        /// <see cref="C3_ALPHA"/>          0x8000  All linguistic characters (alphabetical, syllabary, and ideographic)
+        /// <see cref="C3_HIGHSURROGATE"/>  0x0800  Windows Vista: High surrogate code unit
+        /// <see cref="C3_LOWSURROGATE"/>   0x1000  Windows Vista: Low surrogate code unit
+        /// Not applicable
+        /// <see cref="C3_NOTAPPLICABLE"/>  0x0000  Not applicable
+        /// <see cref="C3_HIGHSURROGATE"/> and <see cref="C3_LOWSURROGATE"/> are listed only for completeness, and should never be provided to this function.
+        /// They are relevant only for Unicode.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetStringType([In] DWORD dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves character type information for the characters in the specified source string.
+        /// For each character in the string, the function sets one or more bits in the corresponding 16-bit element of the output array.
+        /// Each bit identifies a given character type, for example, letter, digit, or neither.
+        /// Caution
+        /// Using the <see cref="GetStringTypeEx"/> function incorrectly can compromise the security of your application.
+        /// To avoid a buffer overflow, the application must set the output buffer size correctly.
+        /// For more security information, see Security Considerations: Windows User Interface.
+        /// Note
+        /// Unlike its close relatives GetStringTypeA and GetStringTypeW, this function exhibits appropriate ANSI or Unicode behavior
+        /// through the use of the #define UNICODE switch.
+        /// This is the recommended function for character type retrieval.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-getstringtypew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale.
+        /// This value uniquely defines the ANSI code page.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </param>
+        /// <param name="dwInfoType">
+        /// Flags specifying the character type information to retrieve.
+        /// For possible flag values, see the dwInfoType parameter of <see cref="GetStringType"/>.
+        /// For detailed information about the character type bits, see Remarks for <see cref="GetStringType"/>.
+        /// </param>
+        /// <param name="lpSrcStr">
+        /// Pointer to the Unicode string for which to retrieve the character types.
+        /// The string is assumed to be null-terminated if <paramref name="cchSrc"/> is set to any negative value.
+        /// </param>
+        /// <param name="cchSrc">
+        /// Size, in characters, of the string indicated by <paramref name="lpSrcStr"/>.
+        /// If the size includes a terminating null character, the function retrieves character type information for that character.
+        /// If the application sets the size to any negative integer,
+        /// the source string is assumed to be null-terminated and the function calculates the size automatically
+        /// with an additional character for the null termination.
+        /// </param>
+        /// <param name="lpCharType">
+        /// Pointer to an array of 16-bit values.
+        /// The length of this array must be large enough to receive one 16-bit value for each character in the source string.
+        /// If <paramref name="cchSrc"/> is not a negative number, <paramref name="lpCharType"/> should be an array of words with <paramref name="cchSrc"/> elements.
+        /// If <paramref name="cchSrc"/> is set to a negative number, <paramref name="lpSrcStr"/> is an array of words with <paramref name="lpSrcStr"/> + 1 elements.
+        /// When the function returns, this array contains one word corresponding to each character in the source string.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// For an overview of the use of the string functions, see Strings.
+        /// Using the ANSI code page for the supplied locale, this function translates the source string from ANSI to Unicode.
+        /// It then analyzes each Unicode character for character type information.
+        /// The ANSI version of this function converts the source string to Unicode and calls the corresponding <see cref="GetStringType"/> function.
+        /// Thus the words in the output buffer correspond not to the original ANSI string but to its Unicode equivalent.
+        /// The conversion from ANSI to Unicode can result in a change in string length, for example, a pair of ANSI characters can map to a single Unicode character.
+        /// Therefore, the correspondence between the words in the output buffer and the characters in the original ANSI string
+        /// is not one-to-one in all cases, for example, multibyte strings.
+        /// Thus, the ANSI version of this function is of limited use for multi-character strings.
+        /// The Unicode version of the function is recommended instead.
+        /// This function circumvents a limitation caused by the difference in parameters between GetStringTypeA and GetStringTypeW.
+        /// Because of the parameter difference, an application cannot automatically invoke the proper ANSI or Unicode version of a GetStringType* function
+        /// through the use of the #define UNICODE switch.
+        /// On the other hand, <see cref="GetStringTypeEx"/>, behaves properly with regard to that switch. Thus it is the recommended function.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// The values of the lpSrcStr and lpCharType parameters must not be the same.
+        /// If they are the same, the function fails with <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// The Locale parameter is only used to perform string conversion to Unicode.
+        /// It has nothing to do with the CTYPE* values supplied by the application.
+        /// These values are solely determined by Unicode code points, and do not vary on a locale basis.
+        /// For example, Greek letters are specified as <see cref="C1_ALPHA"/> for any value of Locale.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetStringTypeEx([In] LCID Locale, [In] DWORD dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
 
 #pragma warning disable IDE1006
 

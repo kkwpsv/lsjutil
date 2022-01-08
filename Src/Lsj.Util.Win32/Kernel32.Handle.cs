@@ -1,11 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.DuplicateHandleOptions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.HandleInformationFlags;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
@@ -74,6 +75,37 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseHandle([In] HANDLE hObject);
+
+        /// <summary>
+        /// <para>
+        /// Compares two object handles to determine if they refer to the same underlying kernel object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFirstObjectHandle">
+        /// The first object handle to compare.
+        /// </param>
+        /// <param name="hSecondObjectHandle">
+        /// The second object handle to compare.
+        /// </param>
+        /// <returns>
+        /// A Boolean value that indicates if the two handles refer to the same underlying kernel object.
+        /// <see cref="TRUE"/> if the same, otherwise <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CompareObjectHandles"/> function is useful to determine if two kernel handles refer to the same kernel object
+        /// without imposing a requirement that specific access rights be granted to either handle in order to perform the comparison.
+        /// For example, if a process desires to determine whether a process handle is a handle to the current process,
+        /// a call to <code>CompareObjectHandles (GetCurrentProcess (), hProcess)</code>  can be used to determine if hProcess refers to the current process.
+        /// Notably, this does not require the use of object-specific access rights, whereas in this example,
+        /// calling <see cref="GetProcessId"/> to check the process IDs of two process handles imposes a requirement
+        /// that the handles grant <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access.
+        /// However it is legal for a process handle to not have that access right granted depending on how the handle is intended to be used.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareObjectHandles", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CompareObjectHandles([In] HANDLE hFirstObjectHandle, [In] HANDLE hSecondObjectHandle);
 
         /// <summary>
         /// <para>
@@ -231,5 +263,59 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DuplicateHandle([In] HANDLE hSourceProcessHandle, [In] HANDLE hSourceHandle, [In] HANDLE hTargetProcessHandle,
             [Out] out HANDLE lpTargetHandle, [In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] DuplicateHandleOptions dwOptions);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves certain properties of an object handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-gethandleinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hObject">
+        /// A handle to an object whose information is to be retrieved.
+        /// You can specify a handle to one of the following types of objects:
+        /// access token, console input buffer, console screen buffer, event, file, file mapping, job, mailslot,
+        /// mutex, pipe, printer, process, registry key, semaphore, serial communication device, socket, thread, or waitable timer.
+        /// </param>
+        /// <param name="lpdwFlags">
+        /// A pointer to a variable that receives a set of bit flags that specify properties of the object handle or 0.
+        /// The following values are defined.
+        /// <see cref="HANDLE_FLAG_INHERIT"/>, <see cref="HANDLE_FLAG_PROTECT_FROM_CLOSE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetHandleInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetHandleInformation([In] HANDLE hObject, [Out] out HandleInformationFlags lpdwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Sets certain properties of an object handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-sethandleinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hObject">
+        /// A handle to an object whose information is to be retrieved.
+        /// You can specify a handle to one of the following types of objects:
+        /// access token, console input buffer, console screen buffer, event, file, file mapping, job, mailslot,
+        /// mutex, pipe, printer, process, registry key, semaphore, serial communication device, socket, thread, or waitable timer.
+        /// </param>
+        /// <param name="dwMask">
+        /// A mask that specifies the bit flags to be changed.
+        /// Use the same constants shown in the description of <paramref name="dwFlags"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Set of bit flags that specifies properties of the object handle.
+        /// This parameter can be 0 or one or more of the following values.
+        /// <see cref="HANDLE_FLAG_INHERIT"/>, <see cref="HANDLE_FLAG_PROTECT_FROM_CLOSE"/>
+        /// </param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetHandleInformation([In] HANDLE hObject, [In] HandleInformationFlags dwMask, [In] HandleInformationFlags dwFlags);
     }
 }

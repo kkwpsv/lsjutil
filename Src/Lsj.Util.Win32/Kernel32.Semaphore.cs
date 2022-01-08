@@ -95,7 +95,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateSemaphore([In] in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In] LONG lInitialCount,
-            [In] LONG lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+            [In] LONG lMaximumCount, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpName">
         /// The name of the semaphore object.
-        /// The name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// The name is limited to <see cref="MAX_PATH"/> characters.
         /// Name comparison is case sensitive.
         /// If <paramref name="lpName"/> matches the name of an existing named semaphore object,
         /// this function requests the <see cref="SEMAPHORE_ALL_ACCESS"/> access right.
@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreExW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateSemaphoreEx([In] in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In] LONG lInitialCount,
-            [In] LONG lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
+            [In] LONG lMaximumCount, [In] LPCWSTR lpName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>

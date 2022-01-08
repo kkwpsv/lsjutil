@@ -1,15 +1,21 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HFILE;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
+using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_ACTION;
+using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_TYPE;
+using static Lsj.Util.Win32.Enums.CopyFileFlags;
+using static Lsj.Util.Win32.Enums.DefineDosDeviceFlags;
 using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
 using static Lsj.Util.Win32.Enums.DriveTypes;
 using static Lsj.Util.Win32.Enums.ErrorModes;
@@ -24,11 +30,14 @@ using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
 using static Lsj.Util.Win32.Enums.FileTypes;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
-using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
+using static Lsj.Util.Win32.Enums.GetFinalPathNameByHandleFlags;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.LockFileExFlags;
+using static Lsj.Util.Win32.Enums.LPPROGRESS_ROUTINECallbackReasons;
+using static Lsj.Util.Win32.Enums.LPPROGRESS_ROUTINEResults;
+using static Lsj.Util.Win32.Enums.MoveFileFlags;
 using static Lsj.Util.Win32.Enums.MoveMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.ReplaceFileFlags;
@@ -37,8 +46,6 @@ using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.TXFS_MINIVERSION;
-using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.SetupAPI;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -63,48 +70,345 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
 
+        /// <summary>
+        /// SYMBOLIC_LINK_FLAG_DIRECTORY 
+        /// </summary>
+        public const uint SYMBOLIC_LINK_FLAG_DIRECTORY = 0x1;
+
+        /// <summary>
+        /// SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 
+        /// </summary>
+        public const uint SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE = 0x2;
+
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
-        /// It is called when the asynchronous input and output (I/O) operation is completed or canceled and the calling thread is in an alertable state
-        /// (by using the <see cref="SleepEx"/>, <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
-        /// or <see cref="WaitForMultipleObjectsEx"/> function with the fAlertable parameter set to <see cref="TRUE"/>).
-        /// The <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/> type defines a pointer to this callback function.
-        /// FileIOCompletionRoutine is a placeholder for the application-defined function name.
+        /// An application-defined callback function used with the <see cref="CopyFileEx"/>,
+        /// <see cref="MoveFileTransacted"/>, and <see cref="MoveFileWithProgress"/> functions.
+        /// It is called when a portion of a copy or move operation is completed.
+        /// The <see cref="LPPROGRESS_ROUTINE"/> type defines a pointer to this callback function.
+        /// CopyProgressRoutine is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
         /// </para>
         /// </summary>
-        /// <param name="dwErrorCode">
-        /// The I/O completion status. This parameter can be one of the system error codes.
+        /// <param name="TotalFileSize">
+        /// The total size of the file, in bytes.
         /// </param>
-        /// <param name="dwNumberOfBytesTransfered">
-        /// The number of bytes transferred. If an error occurs, this parameter is zero.
+        /// <param name="TotalBytesTransferred">
+        /// The total number of bytes transferred from the source file to the destination file since the copy operation began.
         /// </param>
-        /// <param name="lpOverlapped">
-        /// A pointer to the <see cref="OVERLAPPED"/> structure specified by the asynchronous I/O function.
-        /// The system does not use the <see cref="OVERLAPPED"/> structure after the completion routine is called,
-        /// so the completion routine can deallocate the memory used by the overlapped structure.
+        /// <param name="StreamSize">
+        /// The total size of the current file stream, in bytes.
+        /// </param>
+        /// <param name="StreamBytesTransferred">
+        /// The total number of bytes in the current stream that have been transferred from the source file to the destination file since the copy operation began.
+        /// </param>
+        /// <param name="dwStreamNumber">
+        /// A handle to the current stream. The first time CopyProgressRoutine is called, the stream number is 1.
+        /// </param>
+        /// <param name="dwCallbackReason">
+        /// The reason that CopyProgressRoutine was called. This parameter can be one of the following values.
+        /// <see cref="CALLBACK_CHUNK_FINISHED"/>, <see cref="CALLBACK_STREAM_SWITCH"/>
+        /// </param>
+        /// <param name="hSourceFile">
+        /// A handle to the source file.
+        /// </param>
+        /// <param name="hDestinationFile">
+        /// A handle to the destination file
+        /// </param>
+        /// <param name="lpData">
+        /// Argument passed to CopyProgressRoutine by <see cref="CopyFileEx"/>, <see cref="MoveFileTransacted"/>, or <see cref="MoveFileWithProgress"/>.
+        /// </param>
+        /// <returns>
+        /// The CopyProgressRoutine function should return one of the following values.
+        /// <see cref="PROGRESS_CANCEL"/>, <see cref="PROGRESS_CONTINUE"/>, <see cref="PROGRESS_QUIET"/>, <see cref="PROGRESS_STOP"/>
+        /// </returns>
+        /// <remarks>
+        /// An application can use this information to display a progress bar that shows the total number of bytes copied as a percent of the total file size.
+        /// </remarks>
+        public delegate LPPROGRESS_ROUTINEResults LpprogressRoutine([In] LARGE_INTEGER TotalFileSize, [In] LARGE_INTEGER TotalBytesTransferred, [In] LARGE_INTEGER StreamSize,
+            [In] LARGE_INTEGER StreamBytesTransferred, [In] DWORD dwStreamNumber, [In] LPPROGRESS_ROUTINECallbackReasons dwCallbackReason, [In] HANDLE hSourceFile,
+            [In] HANDLE hDestinationFile, [In] LPVOID lpData);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="CopyFile2"/> function.
+        /// It is called when a portion of a copy or move operation is completed.
+        /// The <see cref="PCOPYFILE2_PROGRESS_ROUTINE"/> type defines a pointer to this callback function.
+        /// CopyFile2ProgressRoutine is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-pcopyfile2_progress_routine"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pMessage">
+        /// Pointer to a <see cref="COPYFILE2_MESSAGE"/> structure.
+        /// </param>
+        /// <param name="pvCallbackContext">
+        /// Copy of value passed in the <see cref="COPYFILE2_EXTENDED_PARAMETERS.pvCallbackContext"/> member
+        /// of the <see cref="COPYFILE2_EXTENDED_PARAMETERS"/> structure passed to <see cref="CopyFile2"/>.
         /// </param>
         /// <remarks>
-        /// The return value for an asynchronous operation is 0 (<see cref="ERROR_SUCCESS"/>) if the operation completed successfully
-        /// or if the operation completed with a warning.
-        /// To determine whether an I/O operation was completed successfully, check that dwErrorCode is 0,
-        /// call <see cref="GetOverlappedResult"/>, then call <see cref="GetLastError"/>.
-        /// For example, if the buffer was not large enough to receive all of the data from a call to <see cref="ReadFileEx"/>,
-        /// dwErrorCode is set to 0, <see cref="GetOverlappedResult"/> fails, and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
-        /// Returning from this function allows another pending I/O completion routine to be called.
-        /// All waiting completion routines are called before the alertable thread's wait is completed with a return code of <see cref="WAIT_IO_COMPLETION"/>.
-        /// The system may call the waiting completion routines in any order.
-        /// They may or may not be called in the order the I/O functions are completed.
-        /// Each time the system calls a completion routine, it uses some of the application's stack.
-        /// If the completion routine does additional asynchronous I/O and alertable waits, the stack may grow.
-        /// For more information, see Asynchronous Procedure Calls.
+        /// The <see cref="COPYFILE2_CALLBACK_STREAM_FINISHED"/> message is the last message for a paused copy.
+        /// If <see cref="COPYFILE2_PROGRESS_PAUSE"/> is returned in response to a <see cref="COPYFILE2_CALLBACK_STREAM_FINISHED"/> message
+        /// then no further callbacks will be sent.
         /// </remarks>
-        public delegate void LpoverlappedCompletionRoutine([In] SystemErrorCodes dwErrorCode, [In] DWORD dwNumberOfBytesTransfered, [In] in OVERLAPPED lpOverlapped);
+        public delegate COPYFILE2_MESSAGE_ACTION Pcopyfile2ProgressRoutine([In] COPYFILE2_MESSAGE pMessage, [In] PVOID pvCallbackContext);
 
+
+        /// <summary>
+        /// <para>
+        /// Compares two file times.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-comparefiletime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileTime1">
+        /// A pointer to a <see cref="FILETIME"/> structure that specifies the first file time.
+        /// </param>
+        /// <param name="lpFileTime2">
+        /// A pointer to a <see cref="FILETIME"/> structure that specifies the second file time.
+        /// </param>
+        /// <returns>
+        /// The return value is one of the following values.
+        /// -1: First file time is earlier than second file time.
+        /// 0:  First file time is equal to second file time.
+        /// 1:  First file time is later than second file time.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareFileTime", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG CompareFileTime([In] in FILETIME lpFileTime1, [In] in FILETIME lpFileTime2);
+
+        /// <summary>
+        /// <para>
+        /// Copies an existing file to a new file.
+        /// The <see cref="CopyFileEx"/> function provides two additional capabilities.
+        /// <see cref="CopyFileEx"/> can call a specified callback function each time a portion of the copy operation is completed,
+        /// and <see cref="CopyFileEx"/> can be canceled during the copy operation.
+        /// To perform this operation as a transacted operation, use the <see cref="CopyFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExistingFileName">
+        /// The name of an existing file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// If <paramref name="lpExistingFileName"/> does not exist, <see cref="CopyFile"/> fails,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// </param>
+        /// <param name="lpNewFileName">
+        /// The name of the new file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="bFailIfExists">
+        /// If this parameter is <see cref="TRUE"/> and the new file specified by <paramref name="lpNewFileName"/> already exists, the function fails.
+        /// If this parameter is <see cref="FALSE"/> and the new file already exists, the function overwrites the existing file and succeeds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The security resource properties (ATTRIBUTE_SECURITY_INFORMATION) for the existing file are copied to the new file.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// Security resource properties for the existing file are not copied to the new file until Windows 8 and Windows Server 2012.
+        /// File attributes for the existing file are copied to the new file.
+        /// For example, if an existing file has the <see cref="FILE_ATTRIBUTE_READONLY"/> file attribute,
+        /// a copy created through a call to <see cref="CopyFile"/> will also have the <see cref="FILE_ATTRIBUTE_READONLY"/> file attribute.
+        /// For more information, see Retrieving and Changing File Attributes.
+        /// This function fails with ERROR_ACCESS_DENIED if the destination file already exists
+        /// and has the <see cref="FILE_ATTRIBUTE_HIDDEN"/> or <see cref="FILE_ATTRIBUTE_READONLY"/> attribute set.
+        /// When <see cref="CopyFile"/> is used to copy an encrypted file,
+        /// it attempts to encrypt the destination file with the keys used in the encryption of the source file.
+        /// If this cannot be done, this function attempts to encrypt the destination file with default keys.
+        /// If neither of these methods can be done, CopyFile fails with an <see cref="ERROR_ENCRYPTION_FAILED"/> error code.
+        /// Symbolic link behavior—If the source file is a symbolic link, the actual file copied is the target of the symbolic link.
+        /// If the destination file already exists and is a symbolic link, the target of the symbolic link is overwritten by the source file
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CopyFile([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] BOOL bFailIfExists);
+
+        /// <summary>
+        /// <para>
+        /// Copies an existing file to a new file, notifying the application of its progress through a callback function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-copyfile2"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pwszExistingFileName">
+        /// The name of an existing file.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// If <paramref name="pwszExistingFileName"/> does not exist, <see cref="CopyFile2"/> fails
+        /// returns <code>HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)</code>.
+        /// </param>
+        /// <param name="pwszNewFileName">
+        /// The name of the new file.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="pExtendedParameters">
+        /// Optional address of a <see cref="COPYFILE2_EXTENDED_PARAMETERS"/> structure.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value will return <see cref="TRUE"/> when passed to the <see cref="SUCCEEDED"/> macro.
+        /// <see cref="S_OK"/>: The copy operation completed successfully.
+        /// <code>HRESULT_FROM_WIN32(ERROR_REQUEST_PAUSED)</code>:
+        /// The copy operation was paused by a <see cref="COPYFILE2_PROGRESS_PAUSE"/> return from the <see cref="CopyFile2ProgressRoutine"/> callback function.
+        /// <code>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</code>:
+        /// The copy operation was paused by a <see cref="COPYFILE2_PROGRESS_CANCEL"/> or <see cref="COPYFILE2_PROGRESS_STOP"/>
+        /// return from the CopyFile2ProgressRoutine callback function.
+        /// <code>HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS)</code>:
+        /// The <see cref="COPYFILE2_EXTENDED_PARAMETERS.dwCopyFlags"/> member of the <see cref="COPYFILE2_EXTENDED_PARAMETERS"/> structure passed
+        /// through the <paramref name="pExtendedParameters"/> parameter contains the <see cref="COPY_FILE_FAIL_IF_EXISTS"/> flag and a conflicting name existed.
+        /// <code>HRESULT_FROM_WIN32(ERROR_FILE_EXISTS)</code>:
+        /// The <see cref="COPYFILE2_EXTENDED_PARAMETERS.dwCopyFlags"/> member of the <see cref="COPYFILE2_EXTENDED_PARAMETERS"/> structure passed
+        /// through the <paramref name="pExtendedParameters"/> parameter contains the <see cref="COPY_FILE_FAIL_IF_EXISTS"/> flag and a conflicting name existed.
+        /// </returns>
+        /// <remarks>
+        /// This function preserves extended attributes, OLE structured storage, NTFS file system alternate data streams, and file attributes.
+        /// Security attributes for the existing file are not copied to the new file.
+        /// To copy security attributes, use the <see cref="SHFileOperation"/> function.
+        /// This function fails with <code>HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED)</code> if the destination file already exists
+        /// and has the <see cref="FILE_ATTRIBUTE_HIDDEN"/> or <see cref="FILE_ATTRIBUTE_READONLY"/> attribute set.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFile2", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CopyFile2([In] LPCWSTR pwszExistingFileName, [In] LPCWSTR pwszNewFileName, [In] in COPYFILE2_EXTENDED_PARAMETERS pExtendedParameters);
+
+        /// <summary>
+        /// <para>
+        /// Copies an existing file to a new file, notifying the application of its progress through a callback function.
+        /// To perform this operation as a transacted operation, use the <see cref="CopyFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-copyfileexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExistingFileName">
+        /// The name of an existing file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// If <paramref name="lpExistingFileName"/> does not exist, <see cref="CopyFile"/> fails,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// </param>
+        /// <param name="lpNewFileName">
+        /// The name of the new file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (CopyFileW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpProgressRoutine">
+        /// The address of a callback function of type <see cref="LPPROGRESS_ROUTINE"/> that is called each time another portion of the file has been copied.
+        /// This parameter can be <see cref="NULL"/>.
+        /// For more information on the progress callback function, see the CopyProgressRoutine function.
+        /// </param>
+        /// <param name="lpData">
+        /// The argument to be passed to the callback function.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="pbCancel">
+        /// If this flag is set to <see cref="TRUE"/> during the copy operation, the operation is canceled.
+        /// Otherwise, the copy operation will continue to completion.
+        /// </param>
+        /// <param name="dwCopyFlags">
+        /// Flags that specify how the file is to be copied.
+        /// This parameter can be a combination of the following values.
+        /// <see cref="COPY_FILE_ALLOW_DECRYPTED_DESTINATION"/>:
+        /// An attempt to copy an encrypted file will succeed even if the destination copy cannot be encrypted.
+        /// <see cref="COPY_FILE_COPY_SYMLINK"/>:
+        /// f the source file is a symbolic link, the destination file is also a symbolic link pointing to the same file that the source symbolic link is pointing to.
+        /// Windows Server 2003 and Windows XP: This value is not supported.
+        /// <see cref="COPY_FILE_FAIL_IF_EXISTS"/>:
+        /// The copy operation fails immediately if the target file already exists.
+        /// <see cref="COPY_FILE_NO_BUFFERING"/>:
+        /// The copy operation is performed using unbuffered I/O, bypassing system I/O cache resources.
+        /// Recommended for very large file transfers.
+        /// Windows Server 2003 and Windows XP: This value is not supported.
+        /// <see cref="COPY_FILE_OPEN_SOURCE_FOR_WRITE"/>:
+        /// The file is copied and the original file is opened for write access.
+        /// <see cref="COPY_FILE_RESTARTABLE"/>:
+        /// Progress of the copy is tracked in the target file in case the copy fails.
+        /// The failed copy can be restarted at a later time by specifying the same values
+        /// for <paramref name="lpExistingFileName"/> and <paramref name="lpNewFileName"/> as those used in the call that failed.
+        /// This can significantly slow down the copy operation as the new file may be flushed multiple times during the copy operation.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>. To get extended error information call <see cref="GetLastError"/>.
+        /// If <paramref name="lpProgressRoutine"/> returns <see cref="PROGRESS_CANCEL"/> due to the user canceling the operation,
+        /// <see cref="CopyFileEx"/> will return <see cref="FALSE"/> and <see cref="GetLastError"/> will return <see cref="ERROR_REQUEST_ABORTED"/>.
+        /// In this case, the partially copied destination file is deleted.
+        /// If <paramref name="lpProgressRoutine"/> returns <see cref="PROGRESS_STOP"/> due to the user stopping the operation,
+        /// <see cref="CopyFileEx"/> will return <see cref="FALSE"/> and <see cref="GetLastError"/> will return <see cref="ERROR_REQUEST_ABORTED"/>.
+        /// In this case, the partially copied destination file is left intact.
+        /// </returns>
+        /// <remarks>
+        /// This function preserves extended attributes, OLE structured storage, NTFS file system alternate data streams, security resource attributes, and file attributes.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// Security resource attributes (ATTRIBUTE_SECURITY_INFORMATION) for the existing file are not copied to the new file until Windows 8 and Windows Server 2012.
+        /// The security resource properties (ATTRIBUTE_SECURITY_INFORMATION) for the existing file are copied to the new file.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// Security resource properties for the existing file are not copied to the new file until Windows 8 and Windows Server 2012.
+        /// This function fails with <see cref="ERROR_ACCESS_DENIED"/> if the destination file already exists
+        /// and has the <see cref="FILE_ATTRIBUTE_HIDDEN"/> or <see cref="FILE_ATTRIBUTE_READONLY"/> attribute set.
+        /// When encrypted files are copied using <see cref="CopyFileEx"/>, the function attempts to encrypt the destination file
+        /// with the keys used in the encryption of the source file. If this cannot be done, this function attempts to encrypt the destination file with default keys.
+        /// If both of these methods cannot be done, <see cref="CopyFileEx"/> fails with an <see cref="ERROR_ENCRYPTION_FAILED"/> error code.
+        /// If you want <see cref="CopyFileEx"/> to complete the copy operation even if the destination file cannot be encrypted,
+        /// include the <see cref="COPY_FILE_ALLOW_DECRYPTED_DESTINATION"/> as the value of the <paramref name="dwCopyFlags"/> parameter in your call to <see cref="CopyFileEx"/>.
+        /// If <see cref="COPY_FILE_COPY_SYMLINK"/> is specified, the following rules apply:
+        /// If the source file is a symbolic link, the symbolic link is copied, not the target file.
+        /// If the source file is not a symbolic link, there is no change in behavior.
+        /// If the destination file is an existing symbolic link, the symbolic link is overwritten, not the target file.
+        /// If <see cref="COPY_FILE_FAIL_IF_EXISTS"/> is also specified, and the destination file is an existing symbolic link, the operation fails in all cases.
+        /// If <see cref="COPY_FILE_COPY_SYMLINK"/> is not specified, the following rules apply:
+        /// If <see cref="COPY_FILE_FAIL_IF_EXISTS"/> is also specified, and the destination file is an existing symbolic link,
+        /// the operation fails only if the target of the symbolic link exists.
+        /// If <see cref="COPY_FILE_FAIL_IF_EXISTS"/> is not specified, there is no change in behavior.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// If you are writing an application that is optimizing file copy operations across a LAN,
+        /// consider using the <see cref="TransmitFile"/> function from Windows Sockets (Winsock).
+        /// <see cref="TransmitFile"/> supports high-performance network transfers and provides a simple interface to send the contents of a file to a remote computer.
+        /// To use <see cref="TransmitFile"/>, you must write a Winsock client application that sends the file from the source computer
+        /// as well as a Winsock server application that uses other Winsock functions to receive the file on the remote computer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
+            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags);
 
         /// <summary>
         /// <para>
@@ -154,8 +458,7 @@ namespace Lsj.Util.Win32
         /// and report that inheritance is in effect. See Automatic Propagation of Inheritable ACEs for more information.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
-            [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern BOOL CreateDirectory([In] LPCWSTR lpPathName, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -218,76 +521,142 @@ namespace Lsj.Util.Win32
         /// that inheritance is in effect. For more information, see Automatic Propagation of Inheritable ACEs.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern BOOL CreateDirectoryEx([In] LPCWSTR lpTemplateDirectory, [In] LPCWSTR lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
-        /// Creates a new directory as a transacted operation, with the attributes of a specified template directory.
-        /// If the underlying file system supports security on files and directories,
-        /// the function applies a specified security descriptor to the new directory.
-        /// The new directory retains the other attributes of the specified template directory.
+        /// Establishes a hard link between an existing file and a new file.
+        /// This function is only supported on the NTFS file system, and only for files, not directories.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateHardLinkTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectorytransactedw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createhardlinkw"/>
         /// </para>
         /// </summary>
-        /// <param name="lpTemplateDirectory">
-        /// The path of the directory to use as a template when creating the new directory. This parameter can be <see langword="null"/>.
+        /// <param name="lpFileName">
+        /// The name of the new file.
+        /// This parameter may include the path but cannot specify the name of a directory.
         /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
         /// For more information, see Naming a File.
-        /// The directory must reside on the local computer; otherwise, the function fails and
-        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </param>
-        /// <param name="lpNewDirectory">
-        /// The path of the directory to be created.
+        /// <param name="lpExistingFileName">
+        /// The name of the existing file.
+        /// This parameter may include the path cannot specify the name of a directory.
         /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
         /// For more information, see Naming a File.
+        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </param>
         /// <param name="lpSecurityAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
-        /// The <paramref name="lpSecurityAttributes"/> member of the structure specifies a security descriptor for the new directory.
-        /// If <paramref name="lpSecurityAttributes"/> is <see langword="null"/>, the directory gets a default security descriptor.
-        /// The access control lists (ACL) in the default security descriptor for a directory are inherited from its parent directory.
-        /// The target file system must support security on files and directories for this parameter to have an effect.
-        /// This is indicated when <see cref="GetVolumeInformation"/> returns <see cref="FS_PERSISTENT_ACLS"/>.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// Reserved; must be <see cref="NULL"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Possible errors include the following.
-        /// <see cref="ERROR_ALREADY_EXISTS"/>: The specified directory already exists.
-        /// <see cref="ERROR_EFS_NOT_ALLOWED_IN_TRANSACTION"/>:
-        /// You cannot create a child directory with a parent directory that has encryption disabled.
-        /// <see cref="ERROR_PATH_NOT_FOUND"/>:
-        /// One or more intermediate directories do not exist.
-        /// This function only creates the final directory in the path.
+        /// The maximum number of hard links that can be created with this function is 1023 per file.
+        /// If more than 1023 links are created for a file, an error results.
+        /// If you pass a name longer than <see cref="MAX_PATH"/> characters to
+        /// the <paramref name="lpFileName"/> or <paramref name="lpExistingFileName"/> parameter of the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateDirectoryTransacted"/> function allows you to create directories that inherit stream information from other directories.
-        /// This function is useful, for example, when you are using Macintosh directories,
-        /// which have a resource stream that is needed to properly identify directory contents as an attribute.
-        /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
-        /// On volumes formatted for such a file system, a new directory inherits the compression and encryption attributes of its parent directory.
-        /// This function fails with <see cref="ERROR_EFS_NOT_ALLOWED_IN_TRANSACTION"/> if you try to create a child directory
-        /// with a parent directory that has encryption disabled.
-        /// You can obtain a handle to a directory by calling the <see cref="CreateFileTransacted"/> function
-        /// with the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> flag set.
+        /// Any directory entry for a file that is created with <see cref="CreateFile"/> or <see cref="CreateHardLink"/> is a hard link to an associated file.
+        /// An additional hard link that is created with the <see cref="CreateHardLink"/> function allows you to have multiple directory entries for a file,
+        /// that is, multiple hard links to the same file, which can be different names in the same directory, or the same or different names in different directories.
+        /// However, all hard links to a file must be on the same volume.
+        /// Because hard links are only directory entries for a file, many changes to that file are instantly visible to applications
+        /// that access it through the hard links that reference it.
+        /// However, the directory entry size and attribute information is updated only for the link through which the change was made.
+        /// The security descriptor belongs to the file to which a hard link points.
+        /// The link itself is only a directory entry, and does not have a security descriptor.
+        /// Therefore, when you change the security descriptor of a hard link, you a change the security descriptor of the underlying file,
+        /// and all hard links that point to the file allow the newly specified access.
+        /// You cannot give a file different security descriptors on a per-hard-link basis.
+        /// This function does not modify the security descriptor of the file to be linked to,
+        /// even if security descriptor information is passed in the <paramref name="lpSecurityAttributes"/> parameter.
+        /// Use <see cref="DeleteFile"/> to delete hard links.
+        /// You can delete them in any order regardless of the order in which they are created.
+        /// Flags, attributes, access, and sharing that are specified in CreateFile operate on a per-file basis.
+        /// That is, if you open a file that does not allow sharing, another application cannot share the file by creating a new hard link to the file.
+        /// When you create a hard link on the NTFS file system, the file attribute information
+        /// in the directory entry is refreshed only when the file is opened, or when <see cref="GetFileInformationByHandle"/> is called with the handle of a specific file.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function creates a hard link to the target.
         /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, HANDLE hTransaction);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHardLinkW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CreateHardLink([In] LPCWSTR lpFileName, [In] LPCWSTR lpExistingFileName, [In] IntPtr lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Creates a symbolic link.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateSymbolicLinkTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSymlinkFileName">
+        /// The symbolic link to be created.
+        /// This parameter may include the path.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpTargetFileName">
+        /// The name of the target for the symbolic link to be created.
+        /// If lpTargetFileName has a device name associated with it, the link is treated as an absolute link; otherwise, the link is treated as a relative link.
+        /// This parameter may include the path.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Indicates whether the link target, <paramref name="lpTargetFileName"/>, is a directory.
+        /// 0x0:
+        /// The link target is a file.
+        /// <see cref="SYMBOLIC_LINK_FLAG_DIRECTORY"/>:
+        /// The link target is a directory.
+        /// <see cref="SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE"/>:
+        /// Specify this flag to allow creation of symbolic links when the process is not elevated.
+        /// Developer Mode must first be enabled on the machine before this option will function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Symbolic links can either be absolute or relative links.
+        /// Absolute links are links that specify each portion of the path name;
+        /// relative links are determined relative to where relative–link specifiers are in a specified path.
+        /// Relative links are specified using the following conventions:
+        /// Dot (. and ..) conventions—for example, "..\" resolves the path relative to the parent directory.
+        /// Names with no slashes (\\)—for example, "tmp" resolves the path relative to the current directory.
+        /// Root relative—for example, "\Windows\System32" resolves to "current drive:\Windows\System32".
+        /// Current working directory–relative—for example, if the current working directory is C:\Windows\System32, "C:File.txt" resolves to "C:\Windows\System32\File.txt".
+        /// Note  If you specify a current working directory–relative link, it is created as an absolute link,
+        /// due to the way the current working directory is processed based on the user and the thread.
+        /// To remove a symbolic link, delete the file (using <see cref="DeleteFile"/> or similar APIs)
+        /// or remove the directory (using <see cref="RemoveDirectory"/> or similar APIs) depending on what type of symbolic link is used.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSymbolicLinkW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOLEAN CreateSymbolicLink([In] LPCWSTR lpSymlinkFileName, [In] LPCWSTR lpTargetFileName, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -655,118 +1024,75 @@ namespace Lsj.Util.Win32
         /// For more information, see Pipes.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] ACCESS_MASK dwDesiredAccess,
-            [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
+        public static extern HANDLE CreateFile([In] LPCWSTR lpFileName, [In] ACCESS_MASK dwDesiredAccess, [In] FileShareModes dwShareMode,
+            [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
             [In] uint dwFlagsAndAttributes, [In] HANDLE hTemplateFile);
 
         /// <summary>
         /// <para>
-        /// Creates or opens a file, file stream, or directory as a transacted operation.
-        /// The function returns a handle that can be used to access the object.
-        /// To perform this operation as a nontransacted operation or to access objects
-        /// other than files(for example, named pipes, physical devices, mailslots), use the <see cref="CreateFile"/> function.
-        /// For more information about transactions, see the Remarks section of this topic.
+        /// Creates or opens a file or I/O device.
+        /// The most commonly used I/O devices are as follows: file, file stream, directory, physical disk, volume, console buffer,
+        /// tape drive, communications resource, mailslot, and pipe.
+        /// The function returns a handle that can be used to access the file or device for various types of I/O
+        /// depending on the file or device and the flags and attributes specified.
+        /// When called from a Windows Store app, <see cref="CreateFile2"/> is simplified.
+        /// You can open only files or directories inside the ApplicationData.LocalFolder or Package.InstalledLocation directories.
+        /// You can't open named pipes or mailslots or create encrypted files (<see cref="FILE_ATTRIBUTE_ENCRYPTED"/>).
+        /// Note
+        /// We refer here to the app's local folder and the package's installed location, not additional packages in the package graph, like resource packages.
+        /// <see cref="CreateFile2"/> doesn't support opening files in additional packages in the package graph.
+        /// For example, suppose an app has a dependency on WinJS.
+        /// The app can call <see cref="CreateFile2"/> to open a file in its package but not in the WinJS package.
+        /// To perform this operation as a transacted operation, which results in a handle
+        /// that can be used for transacted I/O, use the <see cref="CreateFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiletransactedw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfile2"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
-        /// The name of an object to be created or opened.
-        /// The object must reside on the local computer
-        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see Naming a File. For information on special device names, see Defining an MS-DOS Device Name.
+        /// The name of the file or device to be created or opened.
+        /// For information on special device names, see Defining an MS-DOS Device Name.
         /// To create a file stream, specify the name of the file, a colon, and then the name of the stream.
         /// For more information, see File Streams.
+        /// Tip
+        /// Starting with Windows 10, version 1607, you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </param>
         /// <param name="dwDesiredAccess">
-        /// The access to the object, which can be summarized as read, write, both or neither (zero).
-        /// The most commonly used values are <see cref="GENERIC_READ"/>, <see cref="GENERIC_WRITE"/>,
-        /// or both (<see cref="GENERIC_READ"/> | <see cref="GENERIC_WRITE"/>).
-        /// For more information, see Generic Access Rights and File Security and Access Rights.
-        /// If this parameter is zero, the application can query file, directory, or device attributes without accessing that file or device.
-        /// For more information, see the Remarks section of this topic.
-        /// You cannot request an access mode that conflicts with the sharing mode that is specified in an open request that has an open handle.
-        /// For more information, see Creating and Opening Files.
+        /// The requested access to the file or device, which can be summarized as read, write, both or neither zero).
+        /// The most commonly used values are <see cref="GENERIC_READ"/>, <see cref="GENERIC_WRITE"/>, or both <code>(GENERIC_READ | GENERIC_WRITE)</code>.
+        /// For more information, see Generic Access Rights, File Security and Access Rights, File Access Rights Constants, and ACCESS_MASK.
+        /// If this parameter is zero, the application can query certain metadata such as file, directory, or device attributes
+        /// without accessing that file or device, even if <see cref="GENERIC_READ"/> access would have been denied.
+        /// You cannot request an access mode that conflicts with the sharing mode that is specified by the <paramref name="dwShareMode"/> parameter
+        /// in an open request that already has an open handle.
+        /// For more information, see the Remarks section of this topic and Creating and Opening Files.
         /// </param>
         /// <param name="dwShareMode">
-        /// The sharing mode of an object, which can be read, write, both, delete, all of these, or none (refer to the following table).
-        /// If this parameter is zero and <see cref="CreateFileTransacted"/> succeeds,
-        /// the object cannot be shared and cannot be opened again until the handle is closed.
-        /// For more information, see the Remarks section of this topic.
-        /// You cannot request a sharing mode that conflicts with the access mode that is specified in an open request that has an open handle,
-        /// because that would result in the following sharing violation: <see cref="ERROR_SHARING_VIOLATION"/>.
-        /// For more information, see Creating and Opening Files.
-        /// To enable a process to share an object while another process has the object open,
-        /// use a combination of one or more of the following values to specify the access mode they can request to open the object.
+        /// The requested sharing mode of the file or device, which can be read, write, both, delete, all of these, or none (refer to the following table).
+        /// Access requests to attributes or extended attributes are not affected by this flag.
+        /// If this parameter is zero and <see cref="CreateFile2"/> succeeds,
+        /// the file or device cannot be shared and cannot be opened again until the handle to the file or device is closed.
+        /// For more information, see the Remarks section.
+        /// You cannot request a sharing mode that conflicts with the access mode that is specified in an existing request that has an open handle.
+        /// <see cref="CreateFile2"/> would fail and the <see cref="GetLastError"/> function would return <see cref="ERROR_SHARING_VIOLATION"/>.
+        /// To enable a process to share a file or device while another process has the file or device open,
+        /// use a compatible combination of one or more of the following values.
+        /// For more information about valid combinations of this parameter with the <paramref name="dwDesiredAccess"/> parameter, see Creating and Opening Files.
+        /// Note
         /// The sharing options for each open handle remain in effect until that handle is closed, regardless of process context.
-        /// </param>
-        /// <param name="lpSecurityAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that contains an optional security descriptor and
-        /// also determines whether or not the returned handle can be inherited by child processes.
-        /// The parameter can be <see cref="IntPtr.Zero"/>.
-        /// If the <paramref name="lpSecurityAttributes"/> parameter is <see langword="null"/>, the handle returned by <see cref="CreateFileTransacted"/> 
-        /// cannot be inherited by any child processes your application may create and
-        /// the object associated with the returned handle gets a default security descriptor.
-        /// The <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> member of the structure specifies whether the returned handle can be inherited.
-        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for an object,
-        /// but may also be NULL.
-        /// If <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member is <see cref="IntPtr.Zero"/>,
-        /// the object associated with the returned handle is assigned a default security descriptor.
-        /// <see cref="CreateFileTransacted"/> ignores the <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member when opening an existing file,
-        /// but continues to use the <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> member.
-        /// For more information, see the Remarks section of this topic.
+        /// 0, <see cref="FILE_SHARE_DELETE"/>, <see cref="FILE_SHARE_READ"/>, <see cref="FILE_SHARE_WRITE"/>
         /// </param>
         /// <param name="dwCreationDisposition">
-        /// An action to take on files that exist and do not exist.
-        /// For more information, see the Remarks section of this topic.
+        /// An action to take on a file or device that exists or does not exist.
+        /// For devices other than files, this parameter is usually set to <see cref="OPEN_EXISTING"/>.
+        /// For more information, see the Remarks section.
+        /// This parameter must be one of the following values, which cannot be combined:
+        /// <see cref="CREATE_ALWAYS"/>, <see cref="CREATE_NEW"/>, <see cref="OPEN_ALWAYS"/>, <see cref="OPEN_EXISTING"/>, <see cref="TRUNCATE_EXISTING"/>
         /// </param>
-        /// <param name="dwFlagsAndAttributes">
-        /// The file attributes and flags, <see cref="FILE_ATTRIBUTE_NORMAL"/> being the most common default value.
-        /// This parameter can include any combination of the available file attributes (FILE_ATTRIBUTE_*).
-        /// All other file attributes override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
-        /// This parameter can also contain combinations of flags (FILE_FLAG_) for control of buffering behavior,
-        /// access modes, and other special-purpose flags. These combine with any FILE_ATTRIBUTE_ values.
-        /// This parameter can also contain Security Quality of Service (SQOS) information
-        /// by specifying the <see cref="SECURITY_SQOS_PRESENT"/> flag.
-        /// Additional SQOS-related flags information is presented in the table following the attributes and flags tables.
-        /// When <see cref="CreateFileTransacted"/> opens an existing file, it generally combines the file flags
-        /// with the file attributes of the existing file, and ignores any file attributes supplied as part of <paramref name="dwFlagsAndAttributes"/>.
-        /// Special cases are detailed in Creating and Opening Files.
-        /// The following file attributes and flags are used only for file objects, not other types of objects
-        /// that <see cref="CreateFileTransacted"/> opens (additional information can be found in the Remarks section of this topic).
-        /// For more advanced access to file attributes, see <see cref="SetFileAttributes"/>.
-        /// For a complete list of all file attributes with their values and descriptions, see File Attribute 
-        /// The <paramref name="lpSecurityAttributes"/> parameter can also specify SQOS information.
-        /// For more information, see Impersonation Levels.
-        /// When the calling application specifies the <see cref="SECURITY_SQOS_PRESENT"/> flag
-        /// as part of <paramref name="dwFlagsAndAttributes"/>, it can also contain one or more of the following values.
-        /// <see cref="SECURITY_ANONYMOUS"/>, <see cref="SECURITY_CONTEXT_TRACKING"/>, <see cref="SECURITY_DELEGATION"/>,
-        /// <see cref="SECURITY_EFFECTIVE_ONLY"/>, <see cref="SECURITY_IDENTIFICATION"/>, <see cref="SECURITY_IMPERSONATION"/>
-        /// </param>
-        /// <param name="hTemplateFile">
-        /// A valid handle to a template file with the <see cref="GENERIC_READ"/> access right.
-        /// The template file supplies file attributes and extended attributes for the file that is being created.
-        /// This parameter can be <see cref="IntPtr.Zero"/>.
-        /// When opening an existing file, <see cref="CreateFileTransacted"/> ignores the template file.
-        /// When opening a new EFS-encrypted file, the file inherits the DACL from its parent directory.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <param name="pusMiniVersion">
-        /// The miniversion to be opened.
-        /// If the transaction specified in hTransaction is not the transaction that is modifying the file,
-        /// this parameter should be <see cref="IntPtr.Zero"/>.
-        /// Otherwise, this parameter can be a miniversion identifier returned by the <see cref="FSCTL_TXFS_CREATE_MINIVERSION"/> control code,
-        /// or one of the following values.
-        /// <see cref="TXFS_MINIVERSION_COMMITTED_VIEW"/>, <see cref="TXFS_MINIVERSION_DIRTY_VIEW"/>, <see cref="TXFS_MINIVERSION_DEFAULT_VIEW"/>.
-        /// </param>
-        /// <param name="lpExtendedParameter">
-        /// This parameter is reserved and must be <see cref="IntPtr.Zero"/>.
+        /// <param name="pCreateExParams">
+        /// Pointer to an optional <see cref="CREATEFILE2_EXTENDED_PARAMETERS"/> structure.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot.
@@ -774,104 +1100,36 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// When using the handle returned by <see cref="CreateFileTransacted"/>,
-        /// use the transacted version of file I/O functions instead of the standard file I/O functions where appropriate.
-        /// For more information, see Programming Considerations for Transactional NTFS.
-        /// When opening a transacted handle to a directory, that handle must have <see cref="FILE_WRITE_DATA"/>
-        /// (<see cref="FILE_ADD_FILE"/>) and <see cref="FILE_APPEND_DATA"/>
-        /// (<see cref="FILE_ADD_SUBDIRECTORY"/>) permissions.
-        /// These are included in <see cref="FILE_GENERIC_WRITE"/> permissions.
-        /// You should open directories with fewer permissions if you are just using the handle to create files or subdirectories;
-        /// otherwise, sharing violations can occur.
-        /// You cannot open a file with <see cref="FILE_EXECUTE"/> access level
-        /// when that file is a part of another transaction (that is, another application opened it by calling <see cref="CreateFileTransacted"/>).
-        /// This means that <see cref="CreateFileTransacted"/> fails if the access level
-        /// <see cref="FILE_EXECUTE"/> or <see cref="FILE_ALL_ACCESS"/> is specified.
-        /// When a non-transacted application calls <see cref="CreateFileTransacted"/> with <see cref="MAXIMUM_ALLOWED"/> specified 
-        /// for <paramref name="lpSecurityAttributes"/>, a handle is opened with the same access level every time.
-        /// When a transacted application calls <see cref="CreateFileTransacted"/> with <see cref="MAXIMUM_ALLOWED"/> specified
-        /// for <paramref name="lpSecurityAttributes"/>, a handle is opened with a differing amount of access based on
-        /// whether the file is locked by a transaction.
-        /// For example, if the calling application has <see cref="FILE_EXECUTE"/> access level for a file,
-        /// the application only obtains this access if the file that is being opened is either not locked by a transaction,
-        /// or is locked by a transaction and the application is already a transacted reader for that file.
-        /// See Transactional NTFS for a complete description of transacted operations.
-        /// Use the <see cref="CloseHandle"/> function to close an object handle returned by <see cref="CreateFileTransacted"/>
-        /// when the handle is no longer needed, and prior to committing or rolling back the transaction.
+        /// To compile an application that uses the <see cref="CreateFile2"/> function, define the _WIN32_WINNT macro as 0x0602 or later.
+        /// For more information, see Using the Windows Headers.
+        /// <see cref="CreateFile2"/> supports file interaction and most other types of I/O devices and mechanisms available to Windows developers.
+        /// This section attempts to cover the varied issues developers may experience
+        /// when using <see cref="CreateFile2"/> in different contexts and with different I/O types.
+        /// The text attempts to use the word file only when referring specifically to data stored in an actual file on a file system.
+        /// However, some uses of file may be referring more generally to an I/O object that supports file-like mechanisms.
+        /// This liberal use of the term file is particularly prevalent in constant names and parameter names because of the previously mentioned historical reasons.
+        /// When an application is finished using the object handle returned by <see cref="CreateFile2"/>,
+        /// use the <see cref="CloseHandle"/> function to close the handle.
+        /// This not only frees up system resources, but can have wider influence on things like sharing the file or device and committing data to disk.
+        /// Specifics are noted within this topic as appropriate.
         /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
-        /// On volumes that are formatted for that kind of file system, a new file inherits the compression and encryption attributes of its directory.
-        /// You cannot use <see cref="CreateFileTransacted"/> to control compression on a file or directory.
-        /// For more information, see File Compression and Decompression, and File Encryption.
-        /// Symbolic link behavior—If the call to this function creates a new file, there is no change in behavior.
-        /// If <see cref="FILE_FLAG_OPEN_REPARSE_POINT"/> is specified:
-        /// If an existing file is opened and it is a symbolic link, the handle returned is a handle to the symbolic link.
-        /// If <see cref="TRUNCATE_EXISTING"/> or <see cref="FILE_FLAG_DELETE_ON_CLOSE"/> are specified,
-        /// the file affected is a symbolic link.
-        /// If <see cref="FILE_FLAG_OPEN_REPARSE_POINT"/> is not specified:
-        /// If an existing file is opened and it is a symbolic link, the handle returned is a handle to the target.
-        /// If <see cref="CREATE_ALWAYS"/>, <see cref="TRUNCATE_EXISTING"/>,
-        /// or <see cref="FILE_FLAG_DELETE_ON_CLOSE"/> are specified, the file affected is the target.
-        /// A multi-sector write is not guaranteed to be atomic unless you are using a transaction (that is, the handle created is a transacted handle).
-        /// A single-sector write is atomic. Multi-sector writes that are cached may not always be written to the disk;
-        /// therefore, specify <see cref="FILE_FLAG_WRITE_THROUGH"/> to ensure that
-        /// an entire multi-sector write is written to the disk without caching.
-        /// As stated previously, if the <paramref name="lpSecurityAttributes"/> parameter is <see cref="IntPtr.Zero"/>,
-        /// the handle returned by <see cref="CreateFileTransacted"/> cannot be inherited by any child processes your application may create.
-        /// The following information regarding this parameter also applies:
-        /// If <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> is not <see langword="false"/>, which is any nonzero value,
-        /// then the handle can be inherited. Therefore it is critical this structure member be properly
-        /// initialized to <see langword="false"/> if you do not intend the handle to be inheritable.
-        /// The access control lists(ACL) in the default security descriptor for a file or directory are inherited from its parent directory.
-        /// The target file system must support security on files and directories for
-        /// the <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> to have an effect on them,
-        /// which can be determined by using <see cref="GetVolumeInformation"/>.
-        /// Files
-        /// If you try to create a file on a floppy drive that does not have a floppy disk or a CD-ROM drive that does not have a CD,
-        /// the system displays a message for the user to insert a disk or a CD.
-        /// To prevent the system from displaying this message, call the <see cref="SetErrorMode"/> function with <see cref="SEM_FAILCRITICALERRORS"/>.
-        /// For more information, see Creating and Opening Files.
-        /// If you rename or delete a file and then restore it shortly afterward, the system searches the cache for file information to restore.
-        /// Cached information includes its short/long name pair and creation time.
-        /// If you call <see cref="CreateFileTransacted"/> on a file that is pending deletion as a result of a previous call to <see cref="DeleteFile"/>,
-        /// the function fails. The operating system delays file deletion until all handles to the file are closed.
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_ACCESS_DENIED"/>.
-        /// The <paramref name="dwDesiredAccess"/> parameter can be zero, allowing the application to query file attributes
-        /// without accessing the file if the application is running with adequate security settings.
-        /// This is useful to test for the existence of a file without opening it for read and/or write access,
-        /// or to obtain other statistics about the file or directory.
-        /// See Obtaining and Setting File Information and <see cref="GetFileInformationByHandle"/>.
-        /// When an application creates a file across a network, it is better to use
-        /// <see cref="GENERIC_READ"/> | <see cref="GENERIC_WRITE"/> than
-        /// to use <see cref="GENERIC_WRITE"/> alone.
-        /// The resulting code is faster, because the redirector can use the cache manager and send fewer SMBs with more data.
-        /// This combination also avoids an issue where writing to a file
-        /// across a network can occasionally return <see cref="ERROR_ACCESS_DENIED"/>.
-        /// File Streams
-        /// On NTFS file systems, you can use <see cref="CreateFileTransacted"/> to create separate streams within a file.
-        /// For more information, see File Streams.
-        /// Directories
-        /// An application cannot create a directory by using <see cref="CreateFileTransacted"/>,
-        /// therefore only the <see cref="OPEN_EXISTING"/> value is valid
-        /// for <paramref name="dwCreationDisposition"/> for this use case.
-        /// To create a directory, the application must call <see cref="CreateDirectoryTransacted"/>,
-        /// <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/>.
-        /// To open a directory using <see cref="CreateFileTransacted"/>, specify the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> flag
-        /// as part of <paramref name="dwFlagsAndAttributes"/>.
-        /// Appropriate security checks still apply when this flag is used without SE_BACKUP_NAME and SE_RESTORE_NAME privileges.
-        /// When using <see cref="CreateFileTransacted"/> to open a directory during defragmentation of a FAT or FAT32 file system volume,
-        /// do not specify the <see cref="MAXIMUM_ALLOWED"/> access right. Access to the directory is denied if this is done.
-        /// Specify the <see cref="GENERIC_READ"/> access right instead.
-        /// For more information, see About Directory Management.
+        /// On volumes that have a mounted file system with this support, a new file inherits the compression and encryption attributes of its directory.
+        /// You cannot use <see cref="CreateFile2"/> to control compression, decompression, or decryption on a file or directory.
+        /// For more information, see Creating and Opening Files, File Compression and Decompression, and File Encryption.
+        /// If the <see cref="CREATEFILE2_EXTENDED_PARAMETERS.lpSecurityAttributes"/> member of the <see cref="CREATEFILE2_EXTENDED_PARAMETERS"/> structure
+        /// passed in the <paramref name="pCreateExParams"/> parameter is <see cref="NULL"/>,
+        /// the handle returned by <see cref="CreateFile2"/> cannot be inherited by any child processes your application may create.
+        /// The following information regarding this member also applies:
+        /// If the <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> member variable is not <see cref="FALSE"/>,
+        /// which is any nonzero value, then the handle can be inherited.
+        /// Therefore it is critical this structure member be properly initialized to <see cref="FALSE"/> if you do not intend the handle to be inheritable.
+        /// The access control lists (ACL) in the default security descriptor for a file or directory are inherited from its parent directory.
+        /// The target file system must support security on files and directories for the <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member
+        /// to have an effect on them, which can be determined by using <see cref="GetVolumeInformation"/>.
         /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] FileAccessRights dwDesiredAccess, [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes,
-            [In] FileCreationDispositions dwCreationDisposition, [In] uint dwFlagsAndAttributes, [In] HANDLE hTemplateFile,
-            [In] HANDLE hTransaction, [Out] out TXFS_MINIVERSION pusMiniVersion, [In] PVOID lpExtendedParameter);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFile2", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE CreateFile2([In] LPCWSTR lpFileName, [In] ACCESS_MASK dwDesiredAccess,
+             [In] FileShareModes dwShareMode, [In] FileCreationDispositions dwCreationDisposition, [In] in CREATEFILE2_EXTENDED_PARAMETERS pCreateExParams);
 
         /// <summary>
         /// <para>
@@ -905,7 +1163,51 @@ namespace Lsj.Util.Win32
         /// the functions succeeds but the directory is not decrypted.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecryptFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DecryptFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwReserved);
+        public static extern BOOL DecryptFile([In] LPCWSTR lpFileName, [In] DWORD dwReserved);
+
+        /// <summary>
+        /// <para>
+        /// Defines, redefines, or deletes MS-DOS device names.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-definedosdevicew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// The controllable aspects of the <see cref="DefineDosDevice"/> function.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="DDD_EXACT_MATCH_ON_REMOVE"/>, <see cref="DDD_NO_BROADCAST_SYSTEM"/>,
+        /// <see cref="DDD_RAW_TARGET_PATH"/>, <see cref="DDD_REMOVE_DEFINITION"/>
+        /// </param>
+        /// <param name="lpDeviceName">
+        /// A pointer to an MS-DOS device name string specifying the device the function is defining, redefining, or deleting.
+        /// The device name string must not have a colon as the last character, unless a drive letter is being defined, redefined, or deleted.
+        /// For example, drive C would be the string "C:". In no case is a trailing backslash ("") allowed.
+        /// </param>
+        /// <param name="lpTargetPath">
+        /// A pointer to a path string that will implement this device.
+        /// The string is an MS-DOS path string unless the <see cref="DDD_RAW_TARGET_PATH"/> flag is specified, in which case this string is a path string.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// MS-DOS device names are stored as junctions in the object namespace.
+        /// The code that converts an MS-DOS path into a corresponding path uses these junctions to map MS-DOS devices and drive letters.
+        /// The <see cref="DefineDosDevice"/> function enables an application to modify the junctions used to implement the MS-DOS device namespace.
+        /// To retrieve the current mapping for a particular MS-DOS device name or to obtain a list of all MS-DOS devices
+        /// known to the system, use the <see cref="QueryDosDevice"/> function.
+        /// To define a drive letter assignment that is persistent across boots and not a network share, use the <see cref="SetVolumeMountPoint"/> function.
+        /// If the volume to be mounted already has a drive letter assigned to it, use the <see cref="DeleteVolumeMountPoint"/> function to remove the assignment.
+        /// Drive letters and device names defined at system boot time are protected from redefinition and deletion unless the user is an administrator.
+        /// Starting with Windows XP, this function creates a device name for a caller that is not running in the "LocalSystem" context in its own Local MS-DOS device namespace.
+        /// If the caller is running in the "LocalSystem" context, the function creates the device name in the Global MS-DOS device namespace.
+        /// For more information, see Defining an MS DOS Device Name and File Names, Paths, and Namespaces.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefineDosDeviceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DefineDosDevice([In] DefineDosDeviceFlags dwFlags, [In] LPCWSTR lpDeviceName, [In] LPCWSTR lpTargetPath);
 
         /// <summary>
         /// <para>
@@ -957,66 +1259,32 @@ namespace Lsj.Util.Win32
         /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FILE_FLAG_DELETE_ON_CLOSE"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern BOOL DeleteFile([In] LPCWSTR lpFileName);
 
         /// <summary>
         /// <para>
-        /// Deletes an existing file as a transacted operation.
+        /// Deletes a drive letter or mounted folder.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiletransactedw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-deletevolumemountpointw"/>
         /// </para>
         /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file to be deleted.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see Naming a File.
-        /// The file must reside on the local computer;
-        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction. This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// <param name="lpszVolumeMountPoint">
+        /// The drive letter or mounted folder to be deleted.
+        /// A trailing backslash is required, for example, "X:" or "Y:\MountX".
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// If an application attempts to delete a file that does not exist,
-        /// the <see cref="DeleteFileTransacted"/> function fails with <see cref="ERROR_FILE_NOT_FOUND"/>.
-        /// If the file is a read-only file, the function fails with <see cref="ERROR_ACCESS_DENIED"/>.
-        /// The following list identifies some tips for deleting, removing, or closing files:
-        /// To delete a read-only file, first you must remove the read-only attribute.
-        /// To delete or rename a file, you must have either delete permission on the file, or delete child permission in the parent directory.
-        /// To recursively delete the files in a directory, use the <see cref="SHFileOperation"/> function.
-        /// To remove an empty directory, use the <see cref="RemoveDirectory"/> function.
-        /// To close an open file, use the <see cref="CloseHandle"/> function.
-        /// If you set up a directory with all access except delete and delete child, and the access control lists (ACL) of new files are inherited,
-        /// then you can create a file without being able to delete it.
-        /// However, then you can create a file, and then get all the access you request on the handle that is returned to you at the time
-        /// you create the file.
-        /// If you request delete permission at the time you create a file, you can delete or rename the file with that handle,
-        /// but not with any other handle.
-        /// For more information, see File Security and Access Rights.
-        /// The <see cref="DeleteFileTransacted"/> function fails if an application attempts to delete a file that has other handles open
-        /// for normal I/O or as a memory-mapped file (<see cref="FILE_SHARE_DELETE"/> must have been specified
-        /// when other handles were opened).
-        /// The <see cref="DeleteFileTransacted"/> function marks a file for deletion on close.
-        /// The file is deleted after the last transacted writer handle to the file is closed, provided that the transaction is still active.
-        /// If a file has been marked for deletion and a transacted writer handle is still open after the transaction completes,
-        /// the file will not be deleted.
-        /// Symbolic link behavior—
-        /// If the path points to a symbolic link, the symbolic link is deleted, not the target.
-        /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FILE_FLAG_DELETE_ON_CLOSE"/>.
+        /// Deleting a mounted folder does not cause the underlying directory to be deleted.
+        /// If the <paramref name="lpszVolumeMountPoint"/> parameter is a directory that is not a mounted folder, the function does nothing.
+        /// The directory is not deleted.
         /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] HANDLE hTransaction);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeleteVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint);
 
         /// <summary>
         /// <para>
@@ -1050,29 +1318,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EncryptFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
-
-        /// <summary>
-        /// <para>
-        /// Converts a file time to system time format. System time is based on Coordinated Universal Time (UTC).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-filetimetosystemtime"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileTime">
-        /// A pointer to a <see cref="FILETIME"/> structure containing the file time to be converted to system (UTC) date and time format.
-        /// This value must be less than 0x8000000000000000. Otherwise, the function fails.
-        /// </param>
-        /// <param name="lpSystemTime">
-        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the converted file time.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FileTimeToSystemTime([In] in FILETIME lpFileTime, [Out] out SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>
@@ -1169,8 +1414,7 @@ namespace Lsj.Util.Win32
         /// the application is only notified when the symbolic links have been changed, not the target files.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstChangeNotificationW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
-            [In] BOOL bWatchSubtree, [In] FileNotifyFilters dwNotifyFilter);
+        public static extern HANDLE FindFirstChangeNotification([In] LPCWSTR lpPathName, [In] BOOL bWatchSubtree, [In] FileNotifyFilters dwNotifyFilter);
 
         /// <summary>
         /// <para>
@@ -1353,7 +1597,7 @@ namespace Lsj.Util.Win32
         /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
+        public static extern HANDLE FindFirstFileEx([In] LPCWSTR lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
             [In] LPVOID lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter, [In] FindFirstFileExFlags dwAdditionalFlags);
 
         /// <summary>
@@ -1391,211 +1635,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstFileNameW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
-            [In][Out] ref DWORD StringLength, [In] IntPtr LinkName);
-
-        /// <summary>
-        /// <para>
-        /// Creates an enumeration of all the hard links to the specified file as a transacted operation.
-        /// The function returns a handle to the enumeration that can be used on subsequent calls to the <see cref="FindNextFileNameW"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstfilenametransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file.
-        /// The file must reside on the local computer; otherwise, the function fails and
-        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Reserved; specify zero (0).
-        /// </param>
-        /// <param name="StringLength">
-        /// The size of the buffer pointed to by the <paramref name="LinkName"/> parameter, in characters.
-        /// If this call fails and the error is <see cref="ERROR_MORE_DATA"/>, the value that is returned by this parameter is the size
-        /// that the buffer pointed to by <paramref name="LinkName"/> must be to contain all the data.
-        /// </param>
-        /// <param name="LinkName">
-        /// A pointer to a buffer to store the first link name found for <paramref name="lpFileName"/>.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a search handle that can be used with
-        /// the <see cref="FindNextFileNameW"/> function or closed with the <see cref="FindClose"/> function.
-        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
-        /// </returns>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
-            [In][Out] ref DWORD StringLength, [In] IntPtr LinkName, [In] HANDLE hTransaction);
-
-        /// <summary>
-        /// <para>
-        /// Searches a directory for a file or subdirectory with a name that matches a specific name as a transacted operation.
-        /// This function is the transacted form of the <see cref="FindFirstFileEx"/> function.
-        /// For the most basic version of this function, see <see cref="FindFirstFile"/>.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstfiletransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The directory or path, and the file name.
-        /// The file name can include wildcard characters, for example, an asterisk (*) or a question mark (?).
-        /// This parameter should not be <see langword="null"/>, an invalid string (for example, an empty string or a string
-        /// that is missing the terminating null character), or end in a trailing backslash().
-        /// If the string ends with a wildcard, period(.), or directory name, the user must have access to the root and all subdirectories on the path.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see Naming a File.
-        /// The file must reside on the local computer; otherwise, the function fails and the last error code
-        /// is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="fInfoLevelId">
-        /// The information level of the returned data.
-        /// This parameter is one of the <see cref="FINDEX_INFO_LEVELS"/> enumeration values.
-        /// </param>
-        /// <param name="lpFindFileData">
-        /// A pointer to the <see cref="WIN32_FIND_DATA"/> structure that receives information about a found file or subdirectory.
-        /// </param>
-        /// <param name="fSearchOp">
-        /// The type of filtering to perform that is different from wildcard matching.
-        /// This parameter is one of the <see cref="FINDEX_SEARCH_OPS"/> enumeration values.
-        /// </param>
-        /// <param name="lpSearchFilter">
-        /// A pointer to the search criteria if the specified <paramref name="fSearchOp"/> needs structured search information.
-        /// At this time, none of the supported <paramref name="fSearchOp"/> values require extended search information.
-        /// Therefore, this pointer must be <see cref="IntPtr.Zero"/>.
-        /// </param>
-        /// <param name="dwAdditionalFlags">
-        /// Specifies additional flags that control the search.
-        /// <see cref="FIND_FIRST_EX_CASE_SENSITIVE"/>: Searches are case-sensitive.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a search handle used in a subsequent call to <see cref="FindNextFile"/> or <see cref="FindClose"/>,
-        /// and the <paramref name="lpFindFileData"/> parameter contains information about the first file or directory found.
-        /// If the function fails or fails to locate files from the search string in the <paramref name="lpFileName"/> parameter,
-        /// the return value is <see cref="INVALID_HANDLE_VALUE"/> and the contents of <paramref name="lpFindFileData"/> are indeterminate.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="FindFirstFileTransacted"/> function opens a search handle and returns information about the first file
-        /// that the file system finds with a name that matches the specified pattern.
-        /// This may or may not be the first file or directory that appears in a directory-listing application (such as the dir command)
-        /// when given the same file name string pattern.
-        /// This is because <see cref="FindFirstFileTransacted"/> does no sorting of the search results.
-        /// For additional information, see <see cref="FindNextFile"/>.
-        /// The following list identifies some other search characteristics:
-        /// The search is performed strictly on the name of the file, not on any attributes such as a date or a file type.
-        /// The search includes the long and short file names.
-        /// An attempt to open a search with a trailing backslash always fails.
-        /// Passing an invalid string, <see langword="null"/>, or empty string for the <paramref name="lpFileName"/> parameter
-        /// is not a valid use of this function.
-        /// Results in this case are undefined.
-        /// In rare cases, file information on NTFS file systems may not be current at the time you call this function.
-        /// To be assured of getting the current file information, call the <see cref="GetFileInformationByHandle"/> function.
-        /// If the underlying file system does not support the specified type of filtering, other than directory filtering,
-        /// <see cref="FindFirstFileTransacted"/> fails with the error <see cref="ERROR_NOT_SUPPORTED"/>.
-        /// The application must use <see cref="FINDEX_SEARCH_OPS"/> type <see cref="FindExSearchNameMatch"/> and perform its own filtering.
-        /// After the search handle is established, use it in the <see cref="FindNextFile"/> function to search
-        /// for other files that match the same pattern with the same filtering that is being performed.
-        /// When the search handle is not needed, it should be closed by using the <see cref="FindClose"/> function.
-        /// As stated previously, you cannot use a trailing backslash () in the lpFileName input string for <see cref="FindFirstFileTransacted"/>,
-        /// therefore it may not be obvious how to search root directories.
-        /// If you want to see files or get the attributes of a root directory, the following options would apply:
-        /// To examine files in a root directory, you can use "C:\*" and step through the directory by using <see cref="FindNextFile"/>.
-        /// To get the attributes of a root directory, use the <see cref="GetFileAttributes"/> function.
-        /// Prepending the string "\\?\" does not allow access to the root directory.
-        /// On network shares, you can use an <paramref name="lpFileName"/> in the form of the following: "\\server\service\*".
-        /// However, you cannot use an <paramref name="lpFileName"/> that points to the share itself; for example, "\\server\service" is not valid.
-        /// To examine a directory that is not a root directory, use the path to that directory, without a trailing backslash.
-        /// For example, an argument of "C:\Windows" returns information about the directory "C:\Windows", not about a directory or file in "C:\Windows".
-        /// To examine the files and directories in "C:\Windows", use an lpFileName of "C:\Windows*".
-        /// Be aware that some other thread or process could create or delete a file with this name between the time you query
-        /// for the result and the time you act on the information. 
-        /// If this is a potential concern for your application, one possible solution is to use the <see cref="CreateFile"/> function
-        /// with <see cref="CREATE_NEW"/> (which fails if the file exists) or <see cref="OPEN_EXISTING"/> (which fails if the file does not exist).
-        /// If you are writing a 32-bit application to list all the files in a directory and the application may be run on a 64-bit computer,
-        /// you should call <see cref="Wow64DisableWow64FsRedirection"/> before calling <see cref="FindFirstFileTransacted"/> and
-        /// call <see cref="Wow64RevertWow64FsRedirection"/> after the last call to <see cref="FindNextFile"/>.
-        /// For more information, see File System Redirector.
-        /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-                    " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-                    " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-                    " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] FINDEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter,
-            [In] FindFirstFileExFlags dwAdditionalFlags, [In] HANDLE hTransaction);
-
-        /// <summary>
-        /// <para>
-        /// Enumerates the first stream in the specified file or directory as a transacted operation.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The fully qualified file name.
-        /// The file must reside on the local computer; otherwise, the function fails and the last error code
-        /// is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="InfoLevel">
-        /// The information level of the returned data.
-        /// This parameter is one of the values in the <see cref="STREAM_INFO_LEVELS"/> enumeration type.
-        /// <see cref="FindStreamInfoStandard"/>: The data is returned in a <see cref="WIN32_FIND_STREAM_DATA"/> structure.
-        /// </param>
-        /// <param name="lpFindStreamData">
-        /// A pointer to a buffer that receives the file data.
-        /// The format of this data depends on the value of the <paramref name="InfoLevel"/> parameter.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Reserved for future use. This parameter must be zero.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a search handle that can be used in subsequent calls to the <see cref="FindNextStreamW"/> function.
-        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// All files contain a default data stream.
-        /// On NTFS, files can also contain one or more named data streams.
-        /// On FAT file systems, files cannot have more that the default data stream, and therefore, this function will not return
-        /// valid results when used on FAT filesystem files.
-        /// This function works on all file systems that supports hard links; otherwise, the function returns <see cref="ERROR_STATUS_NOT_IMPLEMENTED"/>.
-        /// The <see cref="FindFirstStreamTransactedW"/> function opens a search handle and returns information about
-        /// the first stream in the specified file or directory.
-        /// For files, this is always the default data stream, ::$DATA.
-        /// After the search handle has been established, use it in the <see cref="FindNextStreamW"/> function to search for other streams
-        /// in the specified file or directory.
-        /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstStreamTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] STREAM_INFO_LEVELS InfoLevel, [In] LPVOID lpFindStreamData, [In] DWORD dwFlags, [In] LPVOID hTransaction);
+        public static extern HANDLE FindFirstFileNameW([In] LPCWSTR lpFileName, [In] DWORD dwFlags, [In][Out] ref DWORD StringLength, [In] IntPtr LinkName);
 
         /// <summary>
         /// <para>
@@ -1635,8 +1675,39 @@ namespace Lsj.Util.Win32
         /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE FindFirstStreamW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] STREAM_INFO_LEVELS InfoLevel,
-            [In] LPVOID lpFindStreamData, [In] DWORD dwFlags);
+        public static extern HANDLE FindFirstStreamW([In] LPCWSTR lpFileName, [In] STREAM_INFO_LEVELS InfoLevel, [In] LPVOID lpFindStreamData, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the name of a volume on a computer.
+        /// <see cref="FindFirstVolume"/> is used to begin scanning the volumes of a computer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszVolumeName">
+        /// A pointer to a buffer that receives a null-terminated string that specifies a volume GUID path for the first volume that is found.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the buffer to receive the volume GUID path, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle used in a subsequent call
+        /// to the <see cref="FindNextVolume"/> and <see cref="FindVolumeClose"/> functions.
+        /// If the function fails to find any volumes, the return value is the <see cref="INVALID_HANDLE_VALUE"/> error code.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="FindFirstVolume"/> function opens a volume search handle and returns information about the first volume found on a computer.
+        /// After the search handle is established, you can use the <see cref="FindNextVolume"/> function to search for other volumes.
+        /// When the search handle is no longer needed, close it by using the <see cref="FindVolumeClose"/> function.
+        /// You should not assume any correlation between the order of the volumes
+        /// that are returned by these functions and the order of the volumes that are on the computer.
+        /// In particular, do not assume any correlation between volume order and drive letters as assigned by the BIOS (if any) or the Disk Administrator.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolume", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE FindFirstVolume([In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -1806,6 +1877,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Continues a volume search started by a call to the <see cref="FindFirstVolume"/> function.
+        /// <see cref="FindNextVolume"/> finds one volume per call.
+        /// </para>
+        /// </summary>
+        /// <param name="hFindVolume">
+        /// The volume search handle returned by a previous call to the <see cref="FindFirstVolume"/> function.
+        /// </param>
+        /// <param name="lpszVolumeName">
+        /// A pointer to a string that receives the volume GUID path that is found.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the buffer that receives the volume GUID path, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If no matching files can be found, the <see cref="GetLastError"/> function returns the <see cref="ERROR_NO_MORE_FILES"/> error code.
+        /// In that case, close the search with the <see cref="FindVolumeClose"/> function.
+        /// </returns>
+        /// <remarks>
+        /// After the search handle is established by calling <see cref="FindFirstVolume"/>,
+        /// you can use the <see cref="FindNextVolume"/> function to search for other volumes.
+        /// You should not assume any correlation between the order of the volumes
+        /// that are returned by these functions and the order of the volumes that are on the computer.
+        /// In particular, do not assume any correlation between volume order and drive letters as assigned by the BIOS (if any) or the Disk Administrator.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FindNextVolume([In] HANDLE hFindVolume, [In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
+
+        /// <summary>
+        /// <para>
         /// Continues a mounted folder search started by a call to the <see cref="FindFirstVolumeMountPoint"/> function.
         /// <see cref="FindNextVolumeMountPoint"/> finds one mounted folder per call.
         /// </para>
@@ -1842,6 +1945,31 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindNextVolumeMountPoint([In] IntPtr hFindVolumeMountPoint, [In] IntPtr lpszVolumeMountPoint,
             [In] DWORD cchBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Closes the specified volume search handle.
+        /// The <see cref="FindFirstVolume"/> and <see cref="FindNextVolume"/> functions use this search handle to locate volumes.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findvolumeclose"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFindVolume">
+        /// The volume search handle to be closed.
+        /// This handle must have been previously opened by the <see cref="FindFirstVolume"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After the <see cref="FindVolumeClose"/> function is called, the handle <paramref name="hFindVolume"/> cannot be used
+        /// in subsequent calls to either <see cref="FindNextVolume"/> or <see cref="FindVolumeClose"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindVolumeClose", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FindVolumeClose([In] HANDLE hFindVolume);
 
         /// <summary>
         /// <para>
@@ -1964,63 +2092,7 @@ namespace Lsj.Util.Win32
         /// Symbolic link behavior—If the path points to a symbolic link, the function returns the file size of the target.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [Out] out DWORD lpFileSizeHigh);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the actual number of bytes of disk storage used to store a specified file as a transacted operation.
-        /// If the file is located on a volume that supports compression and the file is compressed,
-        /// the value obtained is the compressed size of the specified file.
-        /// If the file is located on a volume that supports sparse files and the file is a sparse file,
-        /// the value obtained is the sparse size of the specified file.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcompressedfilesizetransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file.
-        /// Do not specify the name of a file on a nonseeking device, such as a pipe or a communications device, as its file size has no meaning.
-        /// The file must reside on the local computer; otherwise, the function fails and
-        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="lpFileSizeHigh">
-        /// A pointer to a variable that receives the high-order DWORD of the compressed file size.
-        /// The function's return value is the low-order DWORD of the compressed file size.
-        /// This parameter can be <see langword="null"/> if the high-order DWORD of the compressed file size is not needed.
-        /// Files less than 4 gigabytes in size do not need the high-order DWORD.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the low-order DWORD of the actual number of bytes of disk storage
-        /// used to store the specified file, and if <paramref name="lpFileSizeHigh"/> is non-NULL,
-        /// the function puts the high-order DWORD of that actual value into the DWORD pointed to by that parameter.
-        /// This is the compressed file size for compressed files, the actual file size for noncompressed files.
-        /// If the function fails, and <paramref name="lpFileSizeHigh"/> is <see langword="null"/>,
-        /// the return value is <see cref="INVALID_FILE_SIZE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If the return value is <see cref="INVALID_FILE_SIZE"/> and <paramref name="lpFileSizeHigh"/> is non-NULL,
-        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded
-        /// (value is <see cref="NO_ERROR"/>) or failed (value is other than <see cref="NO_ERROR"/>).
-        /// </returns>
-        /// <remarks>
-        /// An application can determine whether a volume is compressed by calling <see cref="GetVolumeInformation"/>,
-        /// then checking the status of the <see cref="FS_VOL_IS_COMPRESSED"/> flag in the DWORD value pointed to
-        /// by that function's lpFileSystemFlags parameter.
-        /// If the file is not located on a volume that supports compression or sparse files, or if the file is not compressed or a sparse file,
-        /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
-        /// Symbolic links:  If the path points to a symbolic link, the function returns the file size of the target.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [Out] out DWORD lpFileSizeHigh, [In] HANDLE hTransaction);
+        public static extern DWORD GetCompressedFileSize([In] LPCWSTR lpFileName, [Out] out DWORD lpFileSizeHigh);
 
         /// <summary>
         /// <para>
@@ -2126,9 +2198,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetDiskFreeSpaceEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpDirectoryName,
-            [Out] out ULARGE_INTEGER lpFreeBytesAvailableToCaller, [Out] out ULARGE_INTEGER lpTotalNumberOfBytes,
-            [Out] out ULARGE_INTEGER lpTotalNumberOfFreeBytes);
+        public static extern BOOL GetDiskFreeSpaceEx([In] LPCWSTR lpDirectoryName, [Out] out ULARGE_INTEGER lpFreeBytesAvailableToCaller,
+            [Out] out ULARGE_INTEGER lpTotalNumberOfBytes, [Out] out ULARGE_INTEGER lpTotalNumberOfFreeBytes);
 
         /// <summary>
         /// <para>
@@ -2151,7 +2222,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DRIVE_REMOTE"/>, <see cref="DRIVE_CDROM"/>, <see cref="DRIVE_RAMDISK"/>
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDriveTypeW", ExactSpelling = true, SetLastError = true)]
-        public static extern DriveTypes GetDriveType([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName);
+        public static extern DriveTypes GetDriveType([In] LPCWSTR lpRootPathName);
 
         /// <summary>
         /// <para>
@@ -2197,7 +2268,7 @@ namespace Lsj.Util.Win32
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesW", ExactSpelling = true, SetLastError = true)]
-        public static extern FileAttributes GetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern FileAttributes GetFileAttributes([In] LPCWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -2251,63 +2322,7 @@ namespace Lsj.Util.Win32
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves file system attributes for a specified file or directory as a transacted operation.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileattributestransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName"></param>
-        /// The name of the file or directory.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributesEx"/>),
-        /// and prepend "\\?\" to the path. For more information, see Naming a File.
-        /// The file or directory must reside on the local computer; otherwise,
-        /// the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// <param name="fInfoLevelId">
-        /// A class of attribute information to retrieve.
-        /// This parameter can be the following value from the <see cref="GET_FILEEX_INFO_LEVELS"/> enumeration.
-        /// <see cref="GetFileExInfoStandard"/>: The <paramref name="lpFileInformation"/> parameter is a <see cref="WIN32_FILE_ATTRIBUTE_DATA"/> structure.
-        /// </param>
-        /// <param name="lpFileInformation">
-        /// A pointer to a buffer that receives the attribute information.
-        /// The type of attribute information that is stored into this buffer is determined by the value of <paramref name="fInfoLevelId"/>.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction. This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// When <see cref="GetFileAttributesTransacted"/> is called on a directory that is a mounted folder, it returns the attributes of the directory,
-        /// not those of the root directory in the volume that the mounted folder associates with the directory.
-        /// To obtain the file attributes of the associated volume,
-        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
-        /// Then use the resulting name in a call to <see cref="GetFileAttributesTransacted"/>.
-        /// The results are the attributes of the root directory on the associated volume.
-        /// Symbolic links:  If the path points to a symbolic link, the function returns attributes for the symbolic link.
-        /// Transacted Operations
-        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
-        /// Conversely, if a file is open for modification outside of a transaction,
-        /// no transacted thread can open the file for modification until the non-transacted handle is closed.
-        /// If a non-transacted thread has a handle opened to modify a file,
-        /// a call to <see cref="GetFileAttributesTransacted"/> for that file will fail with an <see cref="ERROR_TRANSACTIONAL_CONFLICT"/> error.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation, [In] HANDLE hTransaction);
+        public static extern BOOL GetFileAttributesEx([In] LPCWSTR lpFileName, [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation);
 
         /// <summary>
         /// <para>
@@ -2558,6 +2573,64 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the final path for the specified file.
+        /// For more information about file and path names, see Naming a File.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to a file or directory.
+        /// </param>
+        /// <param name="lpszFilePath">
+        /// A pointer to a buffer that receives the path of <paramref name="hFile"/>.
+        /// </param>
+        /// <param name="cchFilePath">
+        /// The size of <paramref name="lpszFilePath"/>, in TCHARs.
+        /// This value must include a NULL termination character.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The type of result to return. 
+        /// This parameter can be one of the following values.
+        /// <see cref="FILE_NAME_NORMALIZED"/>, <see cref="FILE_NAME_OPENED"/>
+        /// This parameter can also include one of the following values.
+        /// <see cref="VOLUME_NAME_DOS"/>, <see cref="VOLUME_NAME_GUID"/>, <see cref="VOLUME_NAME_NONE"/>, <see cref="VOLUME_NAME_NT"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string received by <paramref name="lpszFilePath"/>, in TCHARs.
+        /// This value does not include the size of the terminating null character.
+        /// If the function fails because <paramref name="lpszFilePath"/> is too small to hold the string plus the terminating null character,
+        /// the return value is the required buffer size, in TCHARs. This value includes the size of the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>:
+        /// Can be returned if you are searching for a drive letter and one does not exist.
+        /// For example, the handle was opened on a drive that is not currently mounted, or if you create a volume and do not assign it a drive letter.
+        /// If a volume has no drive letter, you can use the volume GUID path to identify it
+        /// This return value can also be returned if you are searching for a volume GUID path on a network share.
+        /// Volume GUID paths are not created for network shares.
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>:
+        /// Insufficient memory to complete the operation.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>:
+        /// Invalid flags were specified for dwFlags.
+        /// </returns>
+        /// <remarks>
+        /// The Server Message Block (SMB) Protocol does not support queries for normalized paths.
+        /// Consequently, when you call this function passing the handle of a file opened using SMB,
+        /// and with the <see cref="FILE_NAME_NORMALIZED"/> flag, the function splits the path into its components
+        /// and tries to query for the normalized name of each of those components in turn.
+        /// If the user lacks access permission to any one of those components, then the function call fails with <see cref="ERROR_ACCESS_DENIED"/>.
+        /// A final path is the path that is returned when a path is fully resolved.
+        /// For example, for a symbolic link named "C:\tmp\mydir" that points to "D:\yourdir", the final path would be "D:\yourdir".
+        /// The string that is returned by this function uses the "\\?\" syntax.
+        /// For more information, see <see cref="CreateFile"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFinalPathNameByHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetFinalPathNameByHandle([In] HANDLE hFile, [In] LPWSTR lpszFilePath, [In] DWORD cchFilePath, [In] GetFinalPathNameByHandleFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the full path and file name of the specified file.
         /// To perform this operation as a transacted operation, use the <see cref="GetFullPathNameTransacted"/> function.
         /// For more information about file and path names, see File Names, Paths, and Namespaces.
@@ -2630,75 +2703,8 @@ namespace Lsj.Util.Win32
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
+        public static extern DWORD GetFullPathName([In] LPCWSTR lpFileName, [In] DWORD nBufferLength,
             [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the full path and file name of the specified file as a transacted operation.
-        /// To perform this operation without transactions, use the <see cref="GetFullPathName"/> function.
-        /// For more information about file and path names, see File Names, Paths, and Namespaces.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfullpathnametransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file.
-        /// This string can use short (the 8.3 form) or long file names. This string can be a share or volume name.
-        /// The file must reside on the local computer;
-        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="nBufferLength">
-        /// The size of the buffer to receive the null-terminated string for the drive and path, in TCHARs.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// A pointer to a buffer that receives the null-terminated string for the drive and path.
-        /// </param>
-        /// <param name="lpFilePart">
-        /// A pointer to a buffer that receives the address (in <paramref name="lpBuffer"/>) of the final file name component in the path.
-        /// Specify <see cref="NullRef{IntPtr}"/> if you do not need to receive this information.
-        /// If <paramref name="lpBuffer"/> points to a directory and not a file, <paramref name="lpFilePart"/> receives 0 (zero).
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the length, in TCHARs,
-        /// of the string copied to <paramref name="lpBuffer"/>, not including the terminating null character.
-        /// If the <paramref name="lpBuffer"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
-        /// of the buffer that is required to hold the path and the terminating null character.
-        /// If the function fails for any other reason, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// <see cref="GetFullPathNameTransacted"/> merges the name of the current drive and directory
-        /// with a specified file name to determine the full path and file name of a specified file.
-        /// It also calculates the address of the file name portion of the full path and file name.
-        /// This function does not verify that the resulting path and file name are valid, or that they see an existing file on the associated volume.
-        /// Share and volume names are valid input for <paramref name="lpFileName"/>.
-        /// For example, the following list identities the returned path and file names if test-2 is a remote computer and U: is a network mapped drive:
-        /// If you specify "\\test-2\q$\lh" the path returned is "\\test-2\q$\lh"
-        /// If you specify "\\?\UNC\test-2\q$\lh" the path returned is "\\?\UNC\test-2\q$\lh"
-        /// If you specify "U:" the path returned is "U:\"
-        /// <see cref="GetFullPathNameTransacted"/> does not convert the specified file name, <paramref name="lpFileName"/>.
-        /// If the specified file name exists, you can use <see cref="GetLongPathNameTransacted"/>,
-        /// <see cref="GetLongPathName"/>, or <see cref="GetShortPathName"/> to convert to long or short path names, respectively.
-        /// If the return value is greater than the value specified in <paramref name="nBufferLength"/>,
-        /// you can call the function again with a buffer that is large enough to hold the path.
-        /// For an example of this case as well as using zero length buffer for dynamic allocation, see the Example Code section.
-        /// Note
-        /// Although the return value in this case is a length that includes the terminating null character,
-        /// the return value on success does not include the terminating null character in the count.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetFullPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
-            [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -2716,6 +2722,43 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDrives", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLogicalDrives();
+
+        /// <summary>
+        /// <para>
+        /// Fills a buffer with strings that specify valid drives in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlogicaldrivestringsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The maximum size of the buffer pointed to by <paramref name="lpBuffer"/>, in TCHARs.
+        /// This size does not include the terminating null character.
+        /// If this parameter is zero, <paramref name="lpBuffer"/> is not used.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives a series of null-terminated strings,
+        /// one for each valid drive in the system, plus with an additional null character.
+        /// Each string is a device name.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in characters, of the strings copied to the buffer,
+        /// not including the terminating null character.
+        /// Note that an ANSI-ASCII null character uses one byte, but a Unicode (UTF-16) null character uses two bytes.
+        /// If the buffer is not large enough, the return value is greater than <paramref name="nBufferLength"/>.
+        /// It is the size of the buffer required to hold the drive strings.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// Each string in the buffer may be used wherever a root directory is required,
+        /// such as for the <see cref="GetDriveType"/> and <see cref="GetDiskFreeSpace"/> functions.
+        /// This function returns a concatenation of the drives in the Global and Local MS-DOS Device namespaces.
+        /// If a drive exists in both namespaces, this function will return the entry in the Local MS-DOS Device namespace.
+        /// For more information, see Defining an MS DOS Device Name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDriveStringsW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLogicalDriveStrings([In] DWORD nBufferLength, [In] IntPtr lpBuffer);
 
         /// <summary>
         /// <para>
@@ -2776,74 +2819,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetLongPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
-            [In] IntPtr lpszLongPath, [In] DWORD cchBuffer);
-
-        /// <summary>
-        /// <para>
-        /// Converts the specified path to its long form as a transacted operation.
-        /// To perform this operation without a transaction, use the <see cref="GetLongPathName"/> function.
-        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getlongpathnametransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpszShortPath">
-        /// The path to be converted.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> (260) characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see Naming Files, Paths, and Namespaces.
-        /// The path must reside on the local computer;
-        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="lpszLongPath">
-        /// A pointer to the buffer to receive the long path.
-        /// You can use the same buffer you used for the <paramref name="lpszShortPath"/> parameter.
-        /// 
-        /// </param>
-        /// <param name="cchBuffer">
-        /// The size of the buffer <paramref name="lpszLongPath"/> points to, in TCHARs.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the length, in TCHARs,
-        /// of the string copied to <paramref name="lpszLongPath"/>, not including the terminating null character.
-        /// If the <paramref name="lpszLongPath"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
-        /// of the buffer that is required to hold the path and the terminating null character.
-        /// If the function fails for any other reason, such as if the file does not exist, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// On many file systems, a short file name contains a tilde (~) character.
-        /// However, not all file systems follow this convention.
-        /// Therefore, do not assume that you can skip calling <see cref="GetLongPathNameTransacted"/>
-        /// if the path does not contain a tilde (~) character.
-        /// If a long path is not found, this function returns the name specified
-        /// in the <paramref name="lpszShortPath"/> parameter in the <paramref name="lpszLongPath"/> parameter.
-        /// If the return value is greater than the value specified in <paramref name="cchBuffer"/>,
-        /// you can call the function again with a buffer that is large enough to hold the path.
-        /// For an example of this case, see the Example Code section for <see cref="GetFullPathName"/>.
-        /// Note
-        /// Although the return value in this case is a length that includes the terminating null character,
-        /// the return value on success does not include the terminating null character in the count.
-        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
-        /// As a result, <see cref="GetLongPathNameTransacted"/> may fail
-        /// when it is unable to query the parent directory of a path component to determine the long name for that component.
-        /// This check can be skipped for directory components that have file extensions longer than 3 characters,
-        /// or total lengths longer than 12 characters.
-        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
-            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
-            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
-            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransacted", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetLongPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
-            [In] IntPtr lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
+        public static extern DWORD GetLongPathName([In] LPCWSTR lpszShortPath, [In] IntPtr lpszLongPath, [In] DWORD cchBuffer);
 
         /// <summary>
         /// <para>
@@ -2901,8 +2877,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShortPathNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetShortPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszLongPath,
-           [In] IntPtr lpszShortPath, [In] DWORD cchBuffer);
+        public static extern DWORD GetShortPathName([In] LPCWSTR lpszLongPath, [In] IntPtr lpszShortPath, [In] DWORD cchBuffer);
 
         /// <summary>
         /// <para>
@@ -2967,8 +2942,7 @@ namespace Lsj.Util.Win32
         /// the <see cref="CreateFile"/> function to create a temporary file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetTempFileName([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpPrefixString, [In] UINT uUnique, [In] IntPtr lpTempFileName);
+        public static extern UINT GetTempFileName([In] LPCWSTR lpPathName, [In] LPCWSTR lpPrefixString, [In] UINT uUnique, [In] IntPtr lpTempFileName);
 
         /// <summary>
         /// <para>
@@ -3090,7 +3064,7 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName, [In] IntPtr lpVolumeNameBuffer,
+        public static extern BOOL GetVolumeInformation([In] LPCWSTR lpRootPathName, [In] IntPtr lpVolumeNameBuffer,
             [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength,
             [Out] out FileSystemFlags lpFileSystemFlags, [In] IntPtr lpFileSystemNameBuffer, [In] DWORD nFileSystemNameSize);
 
@@ -3186,8 +3160,96 @@ namespace Lsj.Util.Win32
         /// For more information about volume GUID paths, see Naming A Volume.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeMountPoint,
-            [In] IntPtr lpszVolumeName, [In] DWORD cchBufferLength);
+        public static extern BOOL GetVolumeNameForVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint, [In] IntPtr lpszVolumeName, [In] DWORD cchBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the volume mount point where the specified path is mounted.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszFileName">
+        /// A pointer to the input path string. Both absolute and relative file and directory names, for example, "..", are acceptable in this path.
+        /// If you specify a relative directory or file name without a volume qualifier, <see cref="GetVolumePathName"/> returns the drive letter of the boot volume.
+        /// If this parameter is an empty string, "", the function fails but the last error is set to <see cref="ERROR_SUCCESS"/>.
+        /// </param>
+        /// <param name="lpszVolumePathName">
+        /// A pointer to a string that receives the volume mount point for the input path.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the output buffer, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a specified path is passed, <see cref="GetVolumePathName"/> returns the path to the volume mount point,
+        /// which means that it returns the root of the volume where the end point of the specified path is located.
+        /// For example, assume that you have volume D mounted at C:\Mnt\Ddrive and volume E mounted at C:\Mnt\Ddrive\Mnt\Edrive.
+        /// Also assume that you have a file with the path E:\Dir\Subdir\MyFile.
+        /// If you pass C:\Mnt\Ddrive\Mnt\Edrive\Dir\Subdir\MyFile to <see cref="GetVolumePathName"/>, it returns the path C:\Mnt\Ddrive\Mnt\Edrive\.
+        /// If either a relative directory or a file is passed without a volume qualifier, the function returns the drive letter of the boot volume.
+        /// The drive letter of the boot volume is also returned if an invalid file or directory name is specified without a valid volume qualifier.
+        /// If a valid volume specifier is given, and the volume exists, but an invalid file or directory name is specified,
+        /// the function will succeed and that volume name will be returned. For examples, see the Examples section of this topic.
+        /// You must specify a valid Win32 namespace path.
+        /// If you specify an NT namespace path, for example, \DosDevices\H: or \Device\HardDiskVolume6,
+        /// the function returns the drive letter of the boot volume, not the drive letter of that NT namespace path.
+        /// For more information about path names and namespaces, see Naming Files, Paths, and Namespaces.
+        /// You can specify both local and remote paths.
+        /// If you specify a local path, GetVolumePathName returns a full path whose prefix is the longest prefix that represents a volume.
+        /// If a network share is specified, <see cref="GetVolumePathName"/> returns the shortest path
+        /// for which <see cref="GetDriveType"/> returns <see cref="DRIVE_REMOTE"/>,
+        /// which means that the path is validated as a remote drive that exists, which the current user can access.
+        /// There are certain special cases that do not return a trailing backslash.
+        /// These occur when the output buffer length is one character too short.
+        /// For example, if <paramref name="lpszFileName"/> is C: and lpszVolumePathName is 4 characters long, the value returned is C:\;
+        /// however, if <paramref name="lpszVolumePathName"/> is 3 characters long, the value returned is C:.
+        /// A safer but slower way to set the size of the return buffer is to call the <see cref="GetFullPathName"/> function,
+        /// and then make sure that the buffer size is at least the same size as the full path that <see cref="GetFullPathName"/> returns.
+        /// If the output buffer is more than one character too short, the function will fail and return an error.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumePathNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetVolumePathName([In] LPCWSTR lpszFileName, [In] LPWSTR lpszVolumePathName, [In] DWORD cchBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a list of drive letters and mounted folder paths for the specified volume.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszVolumeName">
+        /// A volume GUID path for the volume.
+        /// A volume GUID path is of the form "\\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\".
+        /// </param>
+        /// <param name="lpszVolumePathNames">
+        /// A pointer to a buffer that receives the list of drive letters and mounted folder paths.
+        /// The list is an array of null-terminated strings terminated by an additional NULL character.
+        /// If the buffer is not large enough to hold the complete list, the buffer holds as much of the list as possible.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the <paramref name="lpszVolumePathNames"/> buffer, in TCHARs, including all NULL characters.
+        /// </param>
+        /// <param name="lpcchReturnLength">
+        /// If the call is successful, this parameter is the number of TCHARs copied to the <paramref name="lpszVolumePathNames"/> buffer.
+        /// Otherwise, this parameter is the size of the buffer required to hold the complete list, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the buffer is not large enough to hold the complete list, the error code is <see cref="ERROR_MORE_DATA"/> 
+        /// and the <paramref name="lpcchReturnLength"/> parameter receives the required buffer size.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumePathNamesForVolumeNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetVolumePathNamesForVolumeName([In] LPCWSTR lpszVolumeName, [In] IntPtr lpszVolumePathNames,
+            [In] DWORD cchBufferLength, [Out] out DWORD lpcchReturnLength);
 
         /// <summary>
         /// <para>
@@ -3215,8 +3277,7 @@ namespace Lsj.Util.Win32
         /// even if the time you are converting is in standard time.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LocalFileTimeToFileTime([In] in FILETIME lpLocalFileTime,
-            [Out] out FILETIME lpFileTime);
+        public static extern BOOL LocalFileTimeToFileTime([In] in FILETIME lpLocalFileTime, [Out] out FILETIME lpFileTime);
 
         /// <summary>
         /// <para>
@@ -3349,6 +3410,211 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Moves an existing file or directory, including its children, with various move options.
+        /// The <see cref="MoveFileWithProgress"/> function is equivalent to the <see cref="MoveFileEx"/> function,
+        /// except that <see cref="MoveFileWithProgress"/> allows you to provide a callback function that receives progress notifications.
+        /// To perform this operation as a transacted operation, use the <see cref="MoveFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-movefileexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExistingFileName">
+        /// The current name of the file or directory on the local computer.
+        /// If <paramref name="dwFlags"/> specifies <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>, the file cannot exist on a remote share,
+        /// because delayed operations are performed before the network is available.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (MoveFileExW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpNewFileName">
+        /// The new name of the file or directory on the local computer.
+        /// When moving a file, the destination can be on a different file system or volume.
+        /// If the destination is on another drive, you must set the <see cref="MOVEFILE_COPY_ALLOWED"/> flag in <paramref name="dwFlags"/>.
+        /// When moving a directory, the destination must be on the same drive.
+        /// If <paramref name="dwFlags"/> specifies <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> and <paramref name="lpNewFileName"/> is <see cref="NULL"/>,
+        /// <see cref="MoveFileEx"/> registers the <paramref name="lpExistingFileName"/> file to be deleted when the system restarts.
+        /// If <paramref name="lpExistingFileName"/> refers to a directory, the system removes the directory at restart only if the directory is empty.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (MoveFileExW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one or more of the following values.
+        /// <see cref="MOVEFILE_COPY_ALLOWED"/>:
+        /// If the file is to be moved to a different volume, the function simulates the move by using the <see cref="CopyFile"/> and <see cref="DeleteFile"/> functions.
+        /// If the file is successfully copied to a different volume and the original file is unable to be deleted, the function succeeds leaving the source file intact.
+        /// This value cannot be used with <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>.
+        /// <see cref="MOVEFILE_CREATE_HARDLINK"/>:
+        /// Reserved for future use.
+        /// <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>:
+        /// The system does not move the file until the operating system is restarted.
+        /// The system moves the file immediately after AUTOCHK is executed, but before creating any paging files.
+        /// Consequently, this parameter enables the function to delete paging files from previous startups.
+        /// This value can be used only if the process is in the context of a user who belongs to the administrators group or the LocalSystem account.
+        /// This value cannot be used with <see cref="MOVEFILE_COPY_ALLOWED"/>.
+        /// <see cref="MOVEFILE_FAIL_IF_NOT_TRACKABLE"/>:
+        /// The function fails if the source file is a link source, but the file cannot be tracked after the move.
+        /// This situation can occur if the destination is a volume formatted with the FAT file system.
+        /// <see cref="MOVEFILE_REPLACE_EXISTING"/>:
+        /// If a file named <paramref name="lpNewFileName"/> exists, the function replaces its contents with the contents of the <paramref name="lpExistingFileName"/> file,
+        /// provided that security requirements regarding access control lists (ACLs) are met.
+        /// For more information, see the Remarks section of this topic.
+        /// If <paramref name="lpNewFileName"/> names an existing directory, an error is reported.
+        /// <see cref="MOVEFILE_WRITE_THROUGH"/>:
+        /// The function does not return until the file is actually moved on the disk.
+        /// Setting this value guarantees that a move performed as a copy and delete operation is flushed to disk before the function returns.
+        /// The flush occurs at the end of the copy operation.
+        /// This value has no effect if <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> is set.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="dwFlags"/> parameter specifies <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>, <see cref="MoveFileEx"/> fails if it cannot access the registry.
+        /// The function stores the locations of the files to be renamed at restart in the following registry value:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\PendingFileRenameOperations
+        /// This registry value is of type REG_MULTI_SZ.
+        /// Each rename operation stores one of the following NULL-terminated strings, depending on whether the rename is a delete or not:
+        /// szDstFile\0\0
+        /// szSrcFile\0szDstFile\0
+        /// The string szDstFile\0\0 indicates that the file szDstFile is to be deleted on reboot.
+        /// The string szSrcFile\0szDstFile\0 indicates that szSrcFile is to be renamed szDstFile on reboot.
+        /// Note
+        /// Although \0\0 is technically not allowed in a REG_MULTI_SZ node, it can because the file is considered to be renamed to a null name.
+        /// The system uses these registry entries to complete the operations at restart in the same order that they were issued.
+        /// For example, the following code fragment creates registry entries that delete szDstFile and rename szSrcFile to be szDstFile at restart:
+        /// <code>
+        /// MoveFileEx(szDstFile, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+        /// MoveFileEx(szSrcFile, szDstFile, MOVEFILE_DELAY_UNTIL_REBOOT);
+        /// </code>
+        /// Because the actual move and deletion operations specified with the <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> flag take place
+        /// after the calling application has ceased running, the return value cannot reflect success or failure in moving or deleting the file.
+        /// Rather, it reflects success or failure in placing the appropriate entries into the registry.
+        /// The system deletes a directory that is tagged for deletion with the <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> flag only if it is empty.
+        /// To ensure deletion of directories, move or delete all files from the directory before attempting to delete it.
+        /// Files may be in the directory at boot time, but they must be deleted or moved before the system can delete the directory.
+        /// The move and deletion operations are carried out at boot time in the same order that they are specified in the calling application.
+        /// To delete a directory that has files in it at boot time, first delete the files.
+        /// If a file is moved across volumes, <see cref="MoveFileEx"/> does not move the security descriptor with the file.
+        /// The file is assigned the default security descriptor in the destination directory.
+        /// The <see cref="MoveFileEx"/> function coordinates its operation with the link tracking service, so link sources can be tracked as they are moved.
+        /// To delete or rename a file, you must have either delete permission on the file or delete child permission in the parent directory.
+        /// If you set up a directory with all access except delete and delete child and the ACLs of new files are inherited,
+        /// then you should be able to create a file without being able to delete it.
+        /// However, you can then create a file, and get all the access you request on the handle that is returned to you at the time that you create the file.
+        /// If you request delete permission at the time you create the file, you can delete or rename the file with that handle but not with any other handle.
+        /// For more information, see File Security and Access Rights.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MoveFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] MoveFileFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Moves a file or directory, including its children. You can provide a callback function that receives progress notifications.
+        /// To perform this operation as a transacted operation, use the <see cref="MoveFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-movefilewithprogressw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExistingFileName">
+        /// The current name of the file or directory on the local computer.
+        /// If <paramref name="dwFlags"/> specifies <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>, the file cannot exist on a remote share,
+        /// because delayed operations are performed before the network is available.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File
+        /// Tip
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (MoveFileExW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpNewFileName">
+        /// The new name of the file or directory on the local computer.
+        /// When moving a file, the destination can be on a different file system or volume.
+        /// If the destination is on another drive, you must set the <see cref="MOVEFILE_COPY_ALLOWED"/> flag in <paramref name="dwFlags"/>.
+        /// When moving a directory, the destination must be on the same drive.
+        /// If <paramref name="dwFlags"/> specifies <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> and <paramref name="lpNewFileName"/> is <see cref="NULL"/>,
+        /// <see cref="MoveFileEx"/> registers the <paramref name="lpExistingFileName"/> file to be deleted when the system restarts.
+        /// The function fails if it cannot access the registry to store the information about the delete operation.
+        /// If <paramref name="lpExistingFileName"/> refers to a directory, the system removes the directory at restart only if the directory is empty.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (MoveFileExW),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpProgressRoutine">
+        /// A pointer to a CopyProgressRoutine callback function that is called each time another portion of the file has been moved.
+        /// The callback function can be useful if you provide a user interface that displays the progress of the operation.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpData">
+        /// An argument to be passed to the CopyProgressRoutine callback function.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one or more of the following values.
+        /// <see cref="MOVEFILE_COPY_ALLOWED"/>:
+        /// If the file is to be moved to a different volume, the function simulates the move by using the <see cref="CopyFile"/> and <see cref="DeleteFile"/> functions.
+        /// If the file is successfully copied to a different volume and the original file is unable to be deleted, the function succeeds leaving the source file intact.
+        /// This value cannot be used with <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>.
+        /// <see cref="MOVEFILE_CREATE_HARDLINK"/>:
+        /// Reserved for future use.
+        /// <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/>:
+        /// The system does not move the file until the operating system is restarted.
+        /// The system moves the file immediately after AUTOCHK is executed, but before creating any paging files.
+        /// Consequently, this parameter enables the function to delete paging files from previous startups.
+        /// This value can be used only if the process is in the context of a user who belongs to the administrators group or the LocalSystem account.
+        /// This value cannot be used with <see cref="MOVEFILE_COPY_ALLOWED"/>.
+        /// <see cref="MOVEFILE_FAIL_IF_NOT_TRACKABLE"/>:
+        /// The function fails if the source file is a link source, but the file cannot be tracked after the move.
+        /// This situation can occur if the destination is a volume formatted with the FAT file system.
+        /// <see cref="MOVEFILE_REPLACE_EXISTING"/>:
+        /// If a file named <paramref name="lpNewFileName"/> exists, the function replaces its contents with the contents of the <paramref name="lpExistingFileName"/> file,
+        /// provided that security requirements regarding access control lists (ACLs) are met.
+        /// For more information, see the Remarks section of this topic.
+        /// If <paramref name="lpNewFileName"/> names an existing directory, an error is reported.
+        /// <see cref="MOVEFILE_WRITE_THROUGH"/>:
+        /// The function does not return until the file is actually moved on the disk.
+        /// Setting this value guarantees that a move performed as a copy and delete operation is flushed to disk before the function returns.
+        /// The flush occurs at the end of the copy operation.
+        /// This value has no effect if <see cref="MOVEFILE_DELAY_UNTIL_REBOOT"/> is set.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// When moving a file across volumes, if lpProgressRoutine returns <see cref="PROGRESS_CANCEL"/> due to the user canceling the operation,
+        /// <see cref="MoveFileWithProgress"/> will return zero and <see cref="GetLastError"/> will return <see cref="ERROR_REQUEST_ABORTED"/>. The existing file is left intact.
+        /// When moving a file across volumes, if lpProgressRoutine returns <see cref="PROGRESS_STOP"/> due to the user stopping the operation,
+        /// <see cref="MoveFileWithProgress"/> will return zero and <see cref="GetLastError"/> will return <see cref="ERROR_REQUEST_ABORTED"/>. The existing file is left intact.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="MoveFileWithProgress"/> function coordinates its operation with the link tracking service, so link sources can be tracked as they are moved.
+        /// To delete or rename a file, you must have either delete permission on the file or delete child permission in the parent directory.
+        /// If you set up a directory with all access except delete and delete child and the ACLs of new files are inherited,
+        /// then you should be able to create a file without being able to delete it.
+        /// However, you can then create a file, and you will get all the access you request on the handle returned to you at the time you create the file.
+        /// If you requested delete permission at the time you created the file, you could delete or rename the file with that handle but not with any other.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileWithProgressW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MoveFileWithProgress([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName,
+            [In] LPPROGRESS_ROUTINE lpProgressRoutine, [In] LPVOID lpData, [In] MoveFileFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Creates, opens, reopens, or deletes a file.
         /// Note This function has limited capabilities and is not recommended. For new application development, use the <see cref="CreateFile"/> function.
         /// </para>
@@ -3441,6 +3707,64 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PostQueuedCompletionStatus([In] HANDLE CompletionPort, [In] DWORD dwNumberOfBytesTransferred,
             [In] ULONG_PTR dwCompletionKey, [In][Out] ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about MS-DOS device names.
+        /// The function can obtain the current mapping for a particular MS-DOS device name.
+        /// The function can also obtain a list of all existing MS-DOS device names.
+        /// MS-DOS device names are stored as junctions in the object namespace.
+        /// The code that converts an MS-DOS path into a corresponding path uses these junctions to map MS-DOS devices and drive letters.
+        /// The <see cref="QueryDosDevice"/> function enables an application to query the names of the junctions
+        /// used to implement the MS-DOS device namespace as well as the value of each specific junction.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-querydosdevicew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDeviceName">
+        /// An MS-DOS device name string specifying the target of the query.
+        /// The device name cannot have a trailing backslash; for example, use "C:", not "C:\".
+        /// This parameter can be <see cref="NULL"/>.
+        /// In that case, the QueryDosDevice function will store a list of all existing MS-DOS device names into the buffer
+        /// pointed to by <paramref name="lpTargetPath"/>.
+        /// </param>
+        /// <param name="lpTargetPath">
+        /// A pointer to a buffer that will receive the result of the query.
+        /// The function fills this buffer with one or more null-terminated strings.
+        /// The final null-terminated string is followed by an additional <see cref="NULL"/>.
+        /// If <paramref name="lpDeviceName"/> is non-NULL, the function retrieves information
+        /// about the particular MS-DOS device specified by <paramref name="lpDeviceName"/>.
+        /// The first null-terminated string stored into the buffer is the current mapping for the device.
+        /// The other null-terminated strings represent undeleted prior mappings for the device.
+        /// If <paramref name="lpDeviceName"/> is <see cref="NULL"/>, the function retrieves a list of all existing MS-DOS device names.
+        /// Each null-terminated string stored into the buffer is the name of an existing MS-DOS device,
+        /// for example, \Device\HarddiskVolume1 or \Device\Floppy0.
+        /// </param>
+        /// <param name="ucchMax">
+        /// The maximum number of TCHARs that can be stored into the buffer pointed to by <paramref name="lpTargetPath"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of TCHARs stored into the buffer pointed to by <paramref name="lpTargetPath"/>.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the buffer is too small, the function fails and the last error code is <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DefineDosDevice"/> function enables an application to create and modify the junctions used to implement the MS-DOS device namespace.
+        /// Windows Server 2003 and Windows XP:
+        /// <see cref="QueryDosDevice"/> first searches the Local MS-DOS Device namespace for the specified device name.
+        /// If the device name is not found, the function will then search the Global MS-DOS Device namespace.
+        /// When all existing MS-DOS device names are queried, the list of device names
+        /// that are returned is dependent on whether it is running in the "LocalSystem" context.
+        /// If so, only the device names included in the Global MS-DOS Device namespace will be returned.
+        /// If not, a concatenation of the device names in the Global and Local MS-DOS Device namespaces will be returned.
+        /// If a device name exists in both namespaces, <see cref="QueryDosDevice"/> will return the entry in the Local MS-DOS Device namespace.
+        /// For more information on the Global and Local MS-DOS Device namespaces and changes to the accessibility of MS-DOS device names,
+        /// see Defining an MS DOS Device Name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDosDeviceW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD QueryDosDevice([In] LPCWSTR lpDeviceName, [In] IntPtr lpTargetPath, [In] DWORD ucchMax);
 
         /// <summary>
         /// <para>
@@ -3796,6 +4120,79 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Reads data from a file and stores it in an array of buffers.
+        /// The function starts reading data from the file at a position that is specified by an <see cref="OVERLAPPED"/> structure.
+        /// The <see cref="ReadFileScatter"/> function operates asynchronously.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfilescatter"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file to be read.
+        /// The file handle must be created with the <see cref="GENERIC_READ"/> right,
+        /// and the <see cref="FILE_FLAG_OVERLAPPED"/> and <see cref="FILE_FLAG_NO_BUFFERING"/> flags.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="aSegmentArray">
+        /// A pointer to an array of <see cref="FILE_SEGMENT_ELEMENT"/> buffers that receives the data.
+        /// For a description of this union, see Remarks.
+        /// Each element can receive one page of data.
+        /// Note
+        /// To determine the size of a system page, use <see cref="GetSystemInfo"/>.
+        /// The array must contain enough elements to store <paramref name="nNumberOfBytesToRead"/> bytes of data, plus one element for the terminating NULL.
+        /// For example, if there are 40 KB to be read and the page size is 4 KB, the array must have 11 elements that includes 10 for the data and one for the NULL.
+        /// Each buffer must be at least the size of a system memory page and must be aligned on a system memory page size boundary.
+        /// The system reads one system memory page of data into each buffer.
+        /// The function stores the data in the buffers in sequential order.
+        /// For example, it stores data into the first buffer, then into the second buffer, and so on until each buffer is filled and all the data is stored,
+        /// or there are no more buffers.
+        /// </param>
+        /// <param name="nNumberOfBytesToRead">
+        /// The total number of bytes to be read from the file.
+        /// Each element of <paramref name="aSegmentArray"/> contains a one-page chunk of this total.
+        /// Because the file must be opened with <see cref="FILE_FLAG_NO_BUFFERING"/>,
+        /// the number of bytes must be a multiple of the sector size of the file system where the file is located.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved for future use and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure.
+        /// The <see cref="ReadFileScatter"/> function requires a valid <see cref="OVERLAPPED"/> structure.
+        /// The <paramref name="lpOverlapped"/> parameter cannot be <see cref="NullRef{OVERLAPPED}"/>.
+        /// The <see cref="ReadFileScatter"/> function starts reading data from the file at a position
+        /// that is specified by the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// The <see cref="ReadFileScatter"/> function may return before the read operation is complete.
+        /// In that scenario, the <see cref="ReadFileScatter"/> function returns the value 0 (zero),
+        /// and the <see cref="GetLastError"/> function returns the value <see cref="ERROR_IO_PENDING"/>.
+        /// This asynchronous operation of <see cref="ReadFileScatter"/> lets the calling process continue while the read operation completes.
+        /// You can call the <see cref="GetOverlappedResult"/>, <see cref="HasOverlappedIoCompleted"/>,
+        /// or <see cref="GetQueuedCompletionStatus"/> functions to obtain information about the completion of the read operation.
+        /// For more information, see Synchronous and Asynchronous I/O.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If <see cref="ReadFileScatter"/> attempts to read past the end-of-file (EOF),
+        /// the call to <see cref="GetOverlappedResult"/> for that operation returns <see cref="FALSE"/>
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// If the function returns before the read operation is complete, the function returns <see cref="FALSE"/>,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_IO_PENDING"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is not supported for 32-bit applications by WOW64 on Itanium-based systems.
+        /// Assigning a pointer to the <see cref="FILE_SEGMENT_ELEMENT.Buffer"/> member will sign-extend the value if the code is compiled as 32-bits;
+        /// this can break large-address aware applications running on systems configured with 4-Gigabyte Tuning or running on under WOW64 on 64-bit Windows.
+        /// Therefore, use the PtrToPtr64 macro when assigning pointers to <see cref="FILE_SEGMENT_ELEMENT.Buffer"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFileScatter", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadFileScatter([In] HANDLE hFile, [In] FILE_SEGMENT_ELEMENT[] aSegmentArray, [In] DWORD nNumberOfBytesToRead,
+            [In] IntPtr lpReserved, [In][Out] ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
         /// Deletes an existing empty directory.
         /// To perform this operation as a transacted operation, use the <see cref="RemoveDirectoryTransacted"/> function.
         /// </para>
@@ -3827,46 +4224,7 @@ namespace Lsj.Util.Win32
         /// For more information on junctions, see Hard Links and Junctions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName);
-
-        /// <summary>
-        /// <para>
-        /// Deletes an existing empty directory as a transacted operation.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-removedirectorytransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpPathName">
-        /// The path of the directory to be removed.
-        /// The path must specify an empty directory, and the calling process must have delete access to the directory.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see Naming a File.
-        /// The directory must reside on the local computer;
-        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="RemoveDirectoryTransacted"/> function marks a directory for deletion on close.
-        /// Therefore, the directory is not removed until the last handle to the directory is closed.
-        /// <see cref="RemoveDirectory"/> removes a directory junction, even if the contents of the target are not empty;
-        /// the function removes directory junctions regardless of the state of the target object.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs. " +
-            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
-            "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
-            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName, [In] HANDLE hTransaction);
+        public static extern BOOL RemoveDirectory([In] LPCWSTR lpPathName);
 
         /// <summary>
         /// <para>
@@ -3913,7 +4271,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is an open handle to the specified file.
         /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
-        /// To get extended error information, call >Se GetLastError.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// The <paramref name="dwFlagsAndAttributes"/> parameter cannot contain any of the file attribute flags (FILE_ATTRIBUTE_*).
@@ -4027,8 +4385,7 @@ namespace Lsj.Util.Win32
         /// If you requested delete permission at the time you created the file, you could delete or rename the file with that handle but not with any other.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReplaceFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpReplacedFileName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpReplacementFileName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBackupFileName,
+        public static extern BOOL ReplaceFile([In] LPCWSTR lpReplacedFileName, [In] LPCWSTR lpReplacementFileName, [In] LPCWSTR lpBackupFileName,
             [In] ReplaceFileFlags dwReplaceFlags, [In] LPVOID lpExclude, [In] LPVOID lpReserved);
 
         /// <summary>
@@ -4129,76 +4486,7 @@ namespace Lsj.Util.Win32
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAttributes dwFileAttributes);
-
-        /// <summary>
-        /// <para>
-        /// Sets the attributes for a file or directory as a transacted operation.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setfileattributestransactedw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file whose attributes are to be set.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
-        /// For more information, see File Names, Paths, and Namespaces.
-        /// The file must reside on the local computer; otherwise,
-        /// the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
-        /// </param>
-        /// <param name="dwFileAttributes">
-        /// The file attributes to set for the file.
-        /// For a list of file attribute value and their descriptions, see File Attribute Constants.
-        /// This parameter can be one or more values, combined using the bitwise-OR operator.
-        /// However, all other values override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
-        /// Not all attributes are supported by this function.
-        /// For more information, see the Remarks section.
-        /// The following is a list of supported attribute values.
-        /// <see cref="FILE_ATTRIBUTE_ARCHIVE"/>, <see cref="FILE_ATTRIBUTE_HIDDEN"/>, <see cref="FILE_ATTRIBUTE_NORMAL"/>,
-        /// <see cref="FILE_ATTRIBUTE_NOT_CONTENT_INDEXED"/>, <see cref="FILE_ATTRIBUTE_OFFLINE"/>, <see cref="FILE_ATTRIBUTE_READONLY"/>,
-        /// <see cref="FILE_ATTRIBUTE_SYSTEM"/>, <see cref="FILE_ATTRIBUTE_TEMPORARY"/>
-        /// </param>
-        /// <param name="hTransaction">
-        /// A handle to the transaction.
-        /// This handle is returned by the <see cref="CreateTransaction"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The following table describes how to set the attributes that cannot be set using <see cref="SetFileAttributesTransacted"/>.
-        /// Note that these are not transacted operations.
-        /// <see cref="FILE_ATTRIBUTE_COMPRESSED"/>:
-        /// To set a file's compression state, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_COMPRESSION"/> operation.
-        /// <see cref="FILE_ATTRIBUTE_DEVICE"/>:
-        /// Reserved; do not use.
-        /// <see cref="FILE_ATTRIBUTE_DIRECTORY"/>:
-        /// Files cannot be converted into directories. To create a directory, use the <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/> function.
-        /// <see cref="FILE_ATTRIBUTE_ENCRYPTED"/>:
-        /// To create an encrypted file, use the <see cref="CreateFile"/> function with the <see cref="FILE_ATTRIBUTE_ENCRYPTED"/> attribute.
-        /// To convert an existing file into an encrypted file, use the <see cref="EncryptFile"/> function.
-        /// <see cref="FILE_ATTRIBUTE_REPARSE_POINT"/>:
-        /// To associate a reparse point with a file or directory,
-        /// use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_REPARSE_POINT"/> operation.
-        /// <see cref="FILE_ATTRIBUTE_SPARSE_FILE"/>:
-        /// To set a file's sparse attribute, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_SPARSE"/> operation.
-        /// If a file is open for modification in a transaction, no other thread can successfully open the file for modification until the transaction is committed.
-        /// If a transacted thread opens the file first, any subsequent threads that attempt to open the file for modification
-        /// before the transaction is committed will receive a sharing violation.
-        /// If a non-transacted thread opens the file for modification before the transacted thread does,
-        /// and it is still open when the transacted thread attempts to open it,
-        /// the transaction will receive the <see cref="ERROR_TRANSACTIONAL_CONFLICT"/> error.
-        /// </remarks>
-        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs. " +
-            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
-            "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
-            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAttributes dwFileAttributes,
-            [In] HANDLE hTransaction);
+        public static extern BOOL SetFileAttributes([In] LPCWSTR lpFileName, [In] FileAttributes dwFileAttributes);
 
         /// <summary>
         /// <para>
@@ -4282,6 +4570,192 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileInformationByHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileInformationByHandle([In] IntPtr hFile, [In] FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In] LPVOID lpFileInformation, [In] DWORD dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Moves the file pointer of the specified file.
+        /// This function stores the file pointer in two <see cref="LONG"/> values.
+        /// To work with file pointers that are larger than a single <see cref="LONG"/> value,
+        /// it is easier to use the <see cref="SetFilePointerEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfilepointer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The file handle must be created with the <see cref="GENERIC_READ"/> or <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lDistanceToMove">
+        /// The low order 32-bits of a signed value that specifies the number of bytes to move the file pointer.
+        /// If <paramref name="lpDistanceToMoveHigh"/> is not <see cref="NullRef{LONG}"/>,
+        /// <paramref name="lpDistanceToMoveHigh"/> and <paramref name="lDistanceToMove"/> form a single 64-bit signed value that specifies the distance to move.
+        /// If <paramref name="lpDistanceToMoveHigh"/> is <see cref="NullRef{LONG}"/>,
+        /// <paramref name="lDistanceToMove"/> is a 32-bit signed value.
+        /// A positive value for <paramref name="lDistanceToMove"/> moves the file pointer forward in the file, and a negative value moves the file pointer back.
+        /// </param>
+        /// <param name="lpDistanceToMoveHigh">
+        /// A pointer to the high order 32-bits of the signed 64-bit distance to move.
+        /// If you do not need the high order 32-bits, this pointer must be set to <see cref="NullRef{LONG}"/>.
+        /// When not <see cref="NullRef{LONG}"/>, this parameter also receives the high order DWORD of the new value of the file pointer.
+        /// For more information, see the Remarks section in this topic.
+        /// </param>
+        /// <param name="dwMoveMethod">
+        /// The starting point for the file pointer move.
+        /// This parameter can be one of the following values.
+        /// <see cref="FILE_BEGIN"/>:
+        /// The starting point is zero or the beginning of the file.
+        /// <see cref="FILE_CURRENT"/>:
+        /// The starting point is the current value of the file pointer.
+        /// <see cref="FILE_END"/>:
+        /// The starting point is the current end-of-file position.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and <paramref name="lpDistanceToMoveHigh"/> is <see cref="NullRef{LONG}"/>,
+        /// the return value is the low-order DWORD of the new file pointer.
+        /// Note
+        /// If the function returns a value other than <see cref="INVALID_SET_FILE_POINTER"/>, the call to <see cref="SetFilePointer"/> has succeeded.
+        /// You do not need to call <see cref="GetLastError"/>.
+        /// If function succeeds and <paramref name="lpDistanceToMoveHigh"/> is not <see cref="NullRef{LONG}"/>,
+        /// the return value is the low-order DWORD of the new file pointer and <paramref name="lpDistanceToMoveHigh"/> contains the high order DWORD of the new file pointer.
+        /// If the function fails, the return value is <see cref="INVALID_SET_FILE_POINTER"/>.
+        /// To get extended error information, call GetLastError.
+        /// If a new file pointer is a negative value, the function fails, the file pointer is not moved,
+        /// and the code returned by <see cref="GetLastError"/> is <see cref="ERROR_NEGATIVE_SEEK"/>.
+        /// If <paramref name="lpDistanceToMoveHigh"/> is NULL and the new file position does not fit in a 32-bit value,
+        /// the function fails and returns <see cref="INVALID_SET_FILE_POINTER"/>.
+        /// Note
+        /// Because <see cref="INVALID_SET_FILE_POINTER"/> is a valid value for the low-order DWORD of the new file pointer,
+        /// you must check both the return value of the function and the error code returned by <see cref="GetLastError"/> to determine whether or not an error has occurred.
+        /// If an error has occurred, the return value of <see cref="SetFilePointer"/> is <see cref="INVALID_SET_FILE_POINTER"/>
+        /// and <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
+        /// For a code example that demonstrates how to check for failure, see the Remarks section in this topic.
+        /// </returns>
+        /// <remarks>
+        /// The file pointer that is identified by the value of the <paramref name="hFile"/> parameter is not used for overlapped read and write operations.
+        /// The <paramref name="hFile"/> parameter must refer to a file stored on a seeking device; for example, a disk volume.
+        /// Calling the <see cref="SetFilePointer"/> function with a handle to a non-seeking device such as a pipe or a communications device is not supported,
+        /// even though the <see cref="SetFilePointer"/> function may not return an error.
+        /// The behavior of the <see cref="SetFilePointer"/> function in this case is undefined.
+        /// To specify the offset for overlapped operations
+        /// Use the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// To determine the file type for <paramref name="hFile"/>
+        /// Use the <see cref="GetFileType"/> function.
+        /// For information about how to determine the position of a file pointer, see Positioning a File Pointer.
+        /// Be careful when you set a file pointer in a multithreaded application.
+        /// You must synchronize access to shared resources.
+        /// For example, an application with threads that share a file handle, update the file pointer,
+        /// and read from the file must protect this sequence by using a critical section object or mutex object.
+        /// For more information, see Critical Section Objects and Mutex Objects.
+        /// If the hFile handle is opened with the <see cref="FILE_FLAG_NO_BUFFERING"/> flag set, an application can move the file pointer only to sector-aligned positions.
+        /// A sector-aligned position is a position that is a whole number multiple of the volume sector size.
+        /// An application can obtain a volume sector size by calling the <see cref="GetDiskFreeSpace"/> function.
+        /// If an application calls <see cref="SetFilePointer"/> with distance to move value
+        /// that result in a position not sector-aligned and a handle that is opened with <see cref="FILE_FLAG_NO_BUFFERING"/>,
+        /// the function fails, and GetLastError returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// It is not an error to set a file pointer to a position beyond the end of the file.
+        /// The size of the file does not increase until you call the <see cref="SetEndOfFile"/>, <see cref="WriteFile"/>, or <see cref="WriteFileEx"/> function.
+        /// A write operation increases the size of the file to the file pointer position plus the size of the buffer written,
+        /// which results in the intervening bytes uninitialized.
+        /// If the return value is <see cref="INVALID_SET_FILE_POINTER"/> and if <paramref name="lpDistanceToMoveHigh"/> is non-NULL,
+        /// an application must call <see cref="GetLastError"/> to determine whether or not the function has succeeded or failed.
+        /// The following code example shows you that scenario.
+        /// <code>
+        /// // Case One: calling the function with lpDistanceToMoveHigh == NULL 
+        /// 
+        /// // Try to move hFile file pointer some distance  
+        /// DWORD dwPtr = SetFilePointer( hFile, 
+        ///                               lDistance, 
+        ///                               NULL, 
+        ///                               FILE_BEGIN ); 
+        ///                               
+        /// if (dwPtr == INVALID_SET_FILE_POINTER) // Test for failure
+        /// { 
+        ///     // Obtain the error code. 
+        ///     DWORD dwError = GetLastError() ; 
+        ///     
+        ///     // Deal with failure 
+        ///     // . . . 
+        /// 
+        /// } // End of error handler 
+        /// 
+        /// 
+        /// //
+        /// // Case Two: calling the function with lpDistanceToMoveHigh != NULL
+        /// 
+        /// // Try to move hFile file pointer a huge distance 
+        /// DWORD dwPtrLow = SetFilePointer( hFile,
+        ///                                  lDistLow,
+        ///                                  &amp;lDistHigh,
+        ///                                  FILE_BEGIN );
+        ///
+        /// // Test for failure
+        /// if ( dwPtrLow == INVALID_SET_FILE_POINTER &amp;&amp;
+        ///      GetLastError() != NO_ERROR )
+        /// {
+        ///  // Deal with failure
+        ///  // . . .
+        ///  
+        /// } // End of error handler
+        /// </code>
+        /// Although the parameter <paramref name="lpDistanceToMoveHigh"/> is used to manipulate huge files,
+        /// the value of the parameter should be set when moving files of any size.
+        /// If it is set to <see cref="NullRef{LONG}"/>, then <paramref name="lDistanceToMove"/> has a maximum value of 2^31–2, or 2 gigabytes less 2,
+        /// because all file pointer values are signed values.
+        /// Therefore, if there is even a small chance for the file to increase to that size,
+        /// it is best to treat the file as a huge file and work with 64-bit file pointers.
+        /// With file compression on the NTFS file system, and sparse files,
+        /// it is possible to have files that are large even if the underlying volume is not very large.
+        /// If <paramref name="lpDistanceToMoveHigh"/> is not <see cref="NullRef{LONG}"/>,
+        /// then <paramref name="lpDistanceToMoveHigh"/> and <paramref name="lDistanceToMove"/> form a single 64-bit signed value.
+        /// The <paramref name="lDistanceToMove"/> parameter is treated as the low-order 32 bits of the value,
+        /// and <paramref name="lpDistanceToMoveHigh"/> as the high-order 32 bits,
+        /// which means that <paramref name="lpDistanceToMoveHigh"/> is a sign extension of <paramref name="lDistanceToMove"/>.
+        /// To move the file pointer from zero to 2 gigabytes, <paramref name="lpDistanceToMoveHigh"/> must be set to
+        /// either <see cref="NullRef{LONG}"/> or a sign extension of <paramref name="lDistanceToMove"/>.
+        /// To move the pointer more than 2 gigabytes, use <paramref name="lpDistanceToMoveHigh"/> and <paramref name="lDistanceToMove"/> as a single 64-bit quantity.
+        /// For example, to move in the range from 2 gigabytes to 4 gigabytes set the contents of <paramref name="lpDistanceToMoveHigh"/> to zero,
+        /// or to –1 for a negative sign extension of <paramref name="lDistanceToMove"/>.
+        /// To work with 64-bit file pointers, you can declare a LONG, treat it as the upper half of the 64-bit file pointer,
+        /// and pass its address in <paramref name="lpDistanceToMoveHigh"/>.
+        /// This means that you have to treat two different variables as a logical unit, which can cause an error.
+        /// It is best to use the <see cref="LARGE_INTEGER"/> structure to create a 64-bit value
+        /// and pass the two 32-bit values by using the appropriate elements of the union.
+        /// Also, it is best to use a function to hide the interface to <see cref="SetFilePointer"/>.
+        /// The following code example shows you that scenario.
+        /// <code>
+        /// __int64 myFileSeek (HANDLE hf, __int64 distance, DWORD MoveMethod)
+        /// {
+        ///     LARGE_INTEGER li;
+        ///     
+        ///     li.QuadPart = distance;
+        ///     
+        ///     li.LowPart = SetFilePointer(hf,
+        ///                                 li.LowPart,
+        ///                                 &amp;li.HighPart,
+        ///                                 MoveMethod);
+        ///                                 
+        ///     if (li.LowPart == INVALID_SET_FILE_POINTER &amp;&amp; GetLastError()
+        ///         != NO_ERROR)
+        ///     {
+        ///         li.QuadPart = -1;
+        ///     }
+        /// 
+        /// return li.QuadPart;
+        /// }
+        /// </code>
+        /// You can use <see cref="SetFilePointer"/> to determine the length of a file.
+        /// To do this, use <see cref="FILE_END"/> for <paramref name="dwMoveMethod"/> and seek to location zero.
+        /// The file offset returned is the length of the file.
+        /// However, this practice can have unintended side effects, for example,
+        /// failure to save the current file pointer so that the program can return to that location.
+        /// It is best to use GetFileSize instead.
+        /// You can also use the <see cref="SetFilePointer"/> function to query the current file pointer position.
+        /// To do this, specify a move method of <see cref="FILE_CURRENT"/> and a distance of zero.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointer", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD SetFilePointer([In] HANDLE hFile, [In] LONG lDistanceToMove, [In][Out] ref LONG lpDistanceToMoveHigh, [In] MoveMethods dwMoveMethod);
 
         /// <summary>
         /// <para>
@@ -4870,6 +5344,85 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFileEx([In] HANDLE hFile, [In] LPCVOID lpBuffer, [In] DWORD nNumberOfBytesToWrite,
             [In] in OVERLAPPED lpOverlapped, [In] LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves data from an array of buffers and writes the data to a file.
+        /// The function starts writing data to the file at a position that is specified by an <see cref="OVERLAPPED"/> structure.
+        /// The <see cref="WriteFileGather"/> function operates asynchronously.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefilegather"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The file handle must be created with the <see cref="GENERIC_WRITE"/> access right,
+        /// and the <see cref="FILE_FLAG_OVERLAPPED"/> and <see cref="FILE_FLAG_NO_BUFFERING"/> flags.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="aSegmentArray">
+        /// A pointer to an array of <see cref="FILE_SEGMENT_ELEMENT"/> buffers that contain the data.
+        /// For a description of this union, see Remarks.
+        /// Each element contains the address of one page of data.
+        /// Note To determine the size of a system page, use the <see cref="GetSystemInfo"/> function.
+        /// The array must contain enough elements to store <paramref name="nNumberOfBytesToWrite"/> bytes of data,
+        /// and one element for the terminating NULL.
+        /// For example, if there are 40 KB to be read and the page size is 4 KB,
+        /// the array must have 11 elements that includes 10 elements for the data and one element for the NULL.
+        /// Each buffer must be at least the size of a system memory page and must be aligned on a system memory page size boundary.
+        /// The system writes one system memory page of data from each buffer.
+        /// The function gathers the data from the buffers in a sequential order.
+        /// For example, it writes data to the file from the first buffer, then the second buffer, and so on until there is no more data.
+        /// Due to the asynchronous operation of this function, precautions must be taken to ensure
+        /// that this parameter always references valid memory for the lifetime of the asynchronous writes.
+        /// For instance, a common programming error is to use local stack storage and then allow execution to run out of scope.
+        /// </param>
+        /// <param name="nNumberOfBytesToWrite">
+        /// The total number of bytes to be written.
+        /// Each element of <paramref name="aSegmentArray"/> contains a one-page chunk of this total.
+        /// Because the file must be opened with <paramref name="aSegmentArray"/>,
+        /// the number of bytes must be a multiple of the sector size of the file system where the file is located.
+        /// If <paramref name="nNumberOfBytesToWrite"/> is zero (0), the function performs a null write operation.
+        /// The behavior of a null write operation depends on the underlying file system.
+        /// If <paramref name="nNumberOfBytesToWrite"/> is not zero (0) and the offset and length of the write place data
+        /// beyond the current end of the file, the <see cref="WriteFileGather"/> function extends the file.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved for future use and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure.
+        /// The <see cref="WriteFileGather"/> function requires a valid <see cref="OVERLAPPED"/> structure.
+        /// The <paramref name="lpOverlapped"/> parameter cannot be <see cref="NullRef{OVERLAPPED}"/>.
+        /// The <see cref="WriteFileGather"/> function starts writing data to the file at a position
+        /// that is specified by the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// The <see cref="WriteFileGather"/> function may return before the write operation is complete.
+        /// In that scenario, the <see cref="WriteFileGather"/> function returns the value zero (0),
+        /// and the <see cref="GetLastError"/> function returns the value <see cref="ERROR_IO_PENDING"/>.
+        /// This asynchronous operation of the <see cref="WriteFileGather"/> function lets the calling process continue while the write operation completes.
+        /// You can call the <see cref="GetOverlappedResult"/>, <see cref="HasOverlappedIoCompleted"/>,
+        /// or <see cref="GetQueuedCompletionStatus"/> function to obtain information about the completion of the write operation.
+        /// For more information, see Synchronous and Asynchronous I/O.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If the function returns before the write operation is complete, the function returns <see cref="FALSE"/>,
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is not supported for 32-bit applications by WOW64 on the Itanium-based systems.
+        /// Assigning a pointer to the <see cref="FILE_SEGMENT_ELEMENT.Buffer"/> member will sign-extend the value if the code is compiled as 32-bits;
+        /// this can break large-address aware applications running on systems configured with 4-Gigabyte Tuning or running under WOW64 on 64-bit Windows.
+        /// Therefore, use the PtrToPtr64 macro when assigning pointers to Buffer.
+        /// If part of the file specified by hFile is locked by another process,
+        /// and the write operation overlaps the locked portion, the <see cref="WriteFileGather"/> function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFileGather", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteFileGather([In] HANDLE hFile, [In] FILE_SEGMENT_ELEMENT[] aSegmentArray, [In] DWORD nNumberOfBytesToWrite,
+            [In] IntPtr lpReserved, [In][Out] ref OVERLAPPED lpOverlapped);
 
 #pragma warning disable IDE1006
         /// <summary>

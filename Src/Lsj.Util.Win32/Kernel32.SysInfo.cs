@@ -4,26 +4,111 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.USHORT;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.COMPUTER_NAME_FORMAT;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessFeatures;
 using static Lsj.Util.Win32.Enums.ProductTypes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
+using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
-using static Lsj.Util.Win32.Shell32;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Retrieves a NetBIOS or DNS name associated with the local computer.
+        /// The names are established at system startup, when the system reads them from the registry.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getcomputernameexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="NameType">
+        /// The type of name to be retrieved.
+        /// This parameter is a value from the <see cref="COMPUTER_NAME_FORMAT"/> enumeration type.
+        /// The following table provides additional information.
+        /// <see cref="ComputerNameDnsDomain"/>:
+        /// The name of the DNS domain assigned to the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the DNS domain name of the cluster virtual server.
+        /// <see cref="ComputerNameDnsFullyQualified"/>:
+        /// The fully qualified DNS name that uniquely identifies the local computer.
+        /// This name is a combination of the DNS host name and the DNS domain name, using the form HostName.DomainName.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the fully qualified DNS name of the cluster virtual server.
+        /// <see cref="ComputerNameDnsHostname"/>:
+        /// The DNS host name of the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the DNS host name of the cluster virtual server.
+        /// <see cref="ComputerNameNetBIOS"/>:
+        /// The NetBIOS name of the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the NetBIOS name of the cluster virtual server.
+        /// <see cref="ComputerNamePhysicalDnsDomain"/>:
+        /// The name of the DNS domain assigned to the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the DNS domain name of the local computer,
+        /// not the name of the cluster virtual server.
+        /// <see cref="ComputerNamePhysicalDnsFullyQualified"/>:
+        /// The fully qualified DNS name that uniquely identifies the computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the fully qualified DNS name of the local computer,
+        /// not the name of the cluster virtual server.
+        /// The fully qualified DNS name is a combination of the DNS host name and the DNS domain name, using the form HostName.DomainName.
+        /// <see cref="ComputerNamePhysicalDnsHostname"/>:
+        /// The DNS host name of the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the DNS host name of the local computer,
+        /// not the name of the cluster virtual server.
+        /// <see cref="ComputerNamePhysicalNetBIOS"/>:
+        /// The NetBIOS name of the local computer.
+        /// If the local computer is a node in a cluster, <paramref name="lpBuffer"/> receives the NetBIOS name of the local computer,
+        /// not the name of the cluster virtual server.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the computer name or the cluster virtual server name.
+        /// The length of the name may be greater than <see cref="MAX_COMPUTERNAME_LENGTH"/> characters because DNS allows longer names.
+        /// To ensure that this buffer is large enough, set this parameter to <see cref="NULL"/>
+        /// and use the required buffer size returned in the <paramref name="nSize"/> parameter.
+        /// </param>
+        /// <param name="nSize">
+        /// On input, specifies the size of the buffer, in TCHARs.
+        /// On output, receives the number of TCHARs copied to the destination buffer, not including the terminating null character.
+        /// If the buffer is too small, the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// This parameter receives the size of the buffer required, including the terminating null character.
+        /// If <paramref name="lpBuffer"/> is <see cref="NULL"/>, this parameter must be zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible values include the following.
+        /// <see cref="ERROR_MORE_DATA"/>:
+        /// The <paramref name="lpBuffer"/> buffer is too small.
+        /// The <paramref name="nSize"/> parameter contains the number of bytes required to receive the name.
+        /// </returns>
+        /// <remarks>
+        /// If group policy is not set for the local machine, the <see cref="GetComputerNameEx"/> function
+        /// retrieves the NetBIOS or DNS names established at system startup.
+        /// If group policy is set, the function returns the primary domain name set by group policy.
+        /// Name changes made by the <see cref="SetComputerName"/> or <see cref="SetComputerNameEx"/> functions
+        /// do not take effect until the user restarts the computer.
+        /// If the local computer is not configured to use DNS names, <see cref="GetComputerNameEx"/> will not return DNS information.
+        /// To configure the computer to do this, follow the steps outlined in the operating system help
+        /// and change the primary DNS suffix of the computer, then restart the computer.
+        /// The behavior of this function can be affected if the local computer is a node in a cluster.
+        /// For more information, see <see cref="ResUtilGetEnvironmentWithNetName"/> and <see cref="UseNetworkName"/>.
+        /// If you are working with environments that use different DNS layouts,
+        /// where the computer's FQDN does not match the FQDN of its domain, use <see cref="LsaQueryInformationPolicy"/> instead.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetComputerNameExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetComputerNameEx([In] COMPUTER_NAME_FORMAT NameType, [In] LPWSTR lpBuffer, [In][Out] ref DWORD nSize);
+
         /// <summary>
         /// <para>
         /// Retrieves the current local date and time.
@@ -585,6 +670,20 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current system date and time. The information is in Coordinated Universal Time (UTC) format.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtimeasfiletime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTimeAsFileTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the current system date and time in UTC format.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAsFileTime", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetSystemTimeAsFileTime([Out] out FILETIME lpSystemTimeAsFileTime);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the path of the shared Windows directory on a multi-user system.
         /// This function is provided primarily for compatibility.
         /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
@@ -763,9 +862,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("GetVersionEx may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersionExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetVersionEx(
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<OSVERSIONINFO, OSVERSIONINFOEX>))]
-          [In]AlternativeStructObject<OSVERSIONINFO, OSVERSIONINFOEX> lpVersionInformation);
+        public static extern BOOL GetVersionEx([In] in OSVERSIONINFO lpVersionInformation);
 
         /// <summary>
         /// <para>
@@ -888,6 +985,38 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryUnbiasedInterruptTime([Out] out ULONGLONG UnbiasedTime);
+
+        /// <summary>
+        /// <para>
+        /// Sets the current local time and date.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-setlocaltime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure that contains the new local date and time.
+        /// The <see cref="SYSTEMTIME.wDayOfWeek"/> member of the <see cref="SYSTEMTIME"/> structure is ignored.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>.
+        /// The calling process must have the <see cref="SE_SYSTEMTIME_NAME"/> privilege. This privilege is disabled by default.
+        /// The <see cref="SetLocalTime"/> function enables the <see cref="SE_SYSTEMTIME_NAME"/> privilege
+        /// before changing the local time and disables the privilege before returning.
+        /// For more information, see Running with Special Privileges.
+        /// The system uses UTC internally.
+        /// Therefore, when you call <see cref="SetLocalTime"/>, the system uses the current time zone information
+        /// to perform the conversion, including the daylight saving time setting.
+        /// Note that the system uses the daylight saving time setting of the current time, not the new time you are setting.
+        /// Therefore, to ensure the correct result, call <see cref="SetLocalTime"/> a second time,
+        /// now that the first call has updated the daylight saving time setting.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocalTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetLocalTime([In] in SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>
