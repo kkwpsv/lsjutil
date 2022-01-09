@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValULONG_PTRArrayStructs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
@@ -120,7 +121,6 @@ namespace Lsj.Util.Win32.Structs
         /// The second array element specifies the virtual address of the inaccessible data.
         /// The third array element specifies the underlying <see cref="NTSTATUS"/> code that resulted in the exception.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = EXCEPTION_MAXIMUM_PARAMETERS)]
-        public ULONG_PTR[] ExceptionInformation;
+        public ByValULONG_PTRArrayStructForSize15 ExceptionInformation;
     }
 }

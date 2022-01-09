@@ -471,7 +471,7 @@ namespace Lsj.Util.Win32
         /// call <see cref="UpdateWindow"/> to repaint the window before calling <see cref="ScrollWindow"/>.
         /// </remarks>
         [Obsolete("The ScrollWindow function is provided for backward compatibility. New applications should use the ScrollWindowEx function.")]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScrollWindow([In] HWND hWnd, [In] int XAmount, [In] int YAmount, [In] in RECT lpRect, [In] in RECT lpClipRect);
 
         /// <summary>
@@ -607,7 +607,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle <see cref="SBM_SETSCROLLINFO"/> (or the optimized <see cref="SBM_SETPOS"/> message
         /// or <see cref="SBM_SETRANGE"/> message), then the <see cref="SetScrollInfo"/> function fails.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollInfo", ExactSpelling = true, SetLastError = true)]
         public static extern int SetScrollInfo([In] HWND hwnd, [In] ScrollBarConstants nBar, [In] in SCROLLINFO lpsi, [In] BOOL redraw);
 
         /// <summary>

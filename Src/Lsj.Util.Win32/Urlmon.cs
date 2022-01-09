@@ -50,7 +50,7 @@ namespace Lsj.Util.Win32
         /// however, such a base moniker cannot be combined with a relative URL.
         /// Any attempt to do so will fail with <see cref="E_INVALIDARG"/>.
         /// </remarks>
-        [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMonikerEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateURLMonikerEx([In]IMoniker pMkCtx, [MarshalAs(UnmanagedType.LPWStr)][In]string szURL,
             [Out]out IMoniker ppmk, [In]DWORD dwFlags);
     }

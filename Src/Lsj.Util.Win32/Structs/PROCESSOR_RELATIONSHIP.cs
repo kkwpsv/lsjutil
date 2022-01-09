@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -57,8 +57,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
-        public BYTE[] Reserved;
+        public ByValBYTEArrayStructForSize20 Reserved;
 
         /// <summary>
         /// This member specifies the number of entries in the <see cref="GroupMask"/> array.
@@ -71,7 +70,6 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="GroupCount"/> member specifies the number of structures in the array.
         /// Each structure in the array specifies a group number and processor affinity within the group.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ANYSIZE_ARRAY)]
-        public GROUP_AFFINITY[] GroupMask;
+        public GROUP_AFFINITY GroupMask;
     }
 }

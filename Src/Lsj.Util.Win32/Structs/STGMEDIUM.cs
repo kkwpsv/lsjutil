@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// by the <see cref="IAdviseSink"/>, <see cref="IDataObject"/>, and <see cref="IOleCache"/> interfaces.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-ustgmedium~r1"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-ustgmedium-r1"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -33,15 +33,15 @@ namespace Lsj.Util.Win32.Structs
         /// Handle, string, or interface pointer that the receiving process can use to access the data being transferred.
         /// If tymed is <see cref="TYMED_NULL"/>, the union member is undefined; otherwise, it is one of the following values.
         /// </summary>
-        private UnionStruct DUMMYUNIONNAME;
+        private STGMEDIUM_DUMMYUNIONNAME _STGMEDIUM_DUMMYUNIONNAME;
 
         /// <summary>
         /// Bitmap handle. The tymed member is <see cref="TYMED_GDI"/>.
         /// </summary>
         public HBITMAP hBitmap
         {
-            get => DUMMYUNIONNAME.Struct1;
-            set => DUMMYUNIONNAME.Struct1 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.hBitmap;
+            set => _STGMEDIUM_DUMMYUNIONNAME.hBitmap = value;
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace Lsj.Util.Win32.Structs
 
         public HMETAFILEPICT hMetaFilePict
         {
-            get => DUMMYUNIONNAME.Struct2;
-            set => DUMMYUNIONNAME.Struct2 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.hMetaFilePict;
+            set => _STGMEDIUM_DUMMYUNIONNAME.hMetaFilePict = value;
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HENHMETAFILE hEnhMetaFile
         {
-            get => DUMMYUNIONNAME.Struct3;
-            set => DUMMYUNIONNAME.Struct3 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.hEnhMetaFile;
+            set => _STGMEDIUM_DUMMYUNIONNAME.hEnhMetaFile = value;
         }
 
         /// <summary>
@@ -68,35 +68,35 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HGLOBAL hGlobal
         {
-            get => DUMMYUNIONNAME.Struct4;
-            set => DUMMYUNIONNAME.Struct4 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.hGlobal;
+            set => _STGMEDIUM_DUMMYUNIONNAME.hGlobal = value;
         }
 
         /// <summary>
         /// Pointer to the path of a disk file that contains the data. The tymed member is <see cref="TYMED_FILE"/>.
         /// </summary>
-        public string lpszFileName
+        public IntPtr lpszFileName
         {
-            get => DUMMYUNIONNAME.Struct5;
-            set => DUMMYUNIONNAME.Struct5 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.lpszFileName;
+            set => _STGMEDIUM_DUMMYUNIONNAME.lpszFileName = value;
         }
 
         /// <summary>
         /// Pointer to an <see cref="IStream"/> interface. The tymed member is <see cref="TYMED_ISTREAM"/>.
         /// </summary>
-        public IStream pstm
+        public IntPtr pstm
         {
-            get => DUMMYUNIONNAME.Struct6;
-            set => DUMMYUNIONNAME.Struct6 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.pstm;
+            set => _STGMEDIUM_DUMMYUNIONNAME.pstm = value;
         }
 
         /// <summary>
         /// Pointer to an IStorage interface. The tymed member is TYMED_ISTORAGE.
         /// </summary>
-        public IStorage pstg
+        public IntPtr pstg
         {
-            get => DUMMYUNIONNAME.Struct7;
-            set => DUMMYUNIONNAME.Struct7 = value;
+            get => _STGMEDIUM_DUMMYUNIONNAME.pstg;
+            set => _STGMEDIUM_DUMMYUNIONNAME.pstg = value;
         }
 
         /// <summary>
@@ -109,49 +109,49 @@ namespace Lsj.Util.Win32.Structs
 #pragma warning restore IDE1006
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        private struct UnionStruct
+        private struct STGMEDIUM_DUMMYUNIONNAME
         {
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public HBITMAP Struct1;
+            public HBITMAP hBitmap;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public HMETAFILEPICT Struct2;
+            public HMETAFILEPICT hMetaFilePict;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public HENHMETAFILE Struct3;
+            public HENHMETAFILE hEnhMetaFile;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public HGLOBAL Struct4;
+            public HGLOBAL hGlobal;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public string Struct5;
+            public IntPtr lpszFileName;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IStream Struct6;
+            public IntPtr pstm;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IStorage Struct7;
+            public IntPtr pstg;
         }
     }
 }

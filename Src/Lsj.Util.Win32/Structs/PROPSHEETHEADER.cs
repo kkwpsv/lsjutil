@@ -180,7 +180,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HINSTANCE hInstance;
 
-        private UnionStruct1 _unionStruct1;
+        private PROPSHEETHEADER_DUMMYUNIONNAME _PROPSHEETHEADER_DUMMYUNIONNAME;
 
         /// <summary>
         /// Handle to the icon to use as the small icon in the title bar of the property sheet dialog box.
@@ -189,8 +189,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr hIcon
         {
-            get => _unionStruct1.hIcon;
-            set => _unionStruct1.hIcon = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME.hIcon;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME.hIcon = value;
         }
 
         /// <summary>
@@ -200,10 +200,10 @@ namespace Lsj.Util.Win32.Structs
         /// In both cases, the icon is loaded from the instance provided by the <see cref="hInstance"/> member.
         /// This member is declared as a union with hIcon.
         /// </summary>
-        public LPCSTR pszIcon
+        public IntPtr pszIcon
         {
-            get => _unionStruct1.pszIcon;
-            set => _unionStruct1.pszIcon = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME.pszIcon;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME.pszIcon = value;
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public UINT nPages;
 
-        private UnionStruct2 _unionStruct2;
+        private PROPSHEETHEADER_DUMMYUNIONNAME2 _PROPSHEETHEADER_DUMMYUNIONNAME2;
 
         /// <summary>
         /// Zero-based index of the initial page that appears when the property sheet dialog box is created.
@@ -230,8 +230,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public UINT nStartPage
         {
-            get => _unionStruct2.nStartPage;
-            set => _unionStruct2.nStartPage = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME2.nStartPage;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME2.nStartPage = value;
         }
 
         /// <summary>
@@ -242,13 +242,13 @@ namespace Lsj.Util.Win32.Structs
         /// The start page name is matched against the captions of the pages.
         /// This member is declared as a union with <see cref="nStartPage"/>.
         /// </summary>
-        public LPCWSTR pStartPage
+        public IntPtr pStartPage
         {
-            get => _unionStruct2.pStartPage;
-            set => _unionStruct2.pStartPage = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME2.pStartPage;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME2.pStartPage = value;
         }
 
-        private UnionStruct3 _unionStruct3;
+        private PROPSHEETHEADER_DUMMYUNIONNAME3 _PROPSHEETHEADER_DUMMYUNIONNAME3;
 
         /// <summary>
         /// Pointer to an array of <see cref="PROPSHEETPAGE"/> structures that define the pages in the property sheet.
@@ -259,8 +259,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr ppsp
         {
-            get => _unionStruct3.ppsp;
-            set => _unionStruct3.ppsp = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME3.ppsp;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME3.ppsp = value;
         }
 
         /// <summary>
@@ -272,8 +272,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr phpage
         {
-            get => _unionStruct3.phpage;
-            set => _unionStruct3.phpage = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME3.phpage;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME3.phpage = value;
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public PFNPROPSHEETCALLBACK pfnCallback;
 
-        private UnionStruct4 _unionStruct4;
+        private PROPSHEETHEADER_DUMMYUNIONNAME4 _PROPSHEETHEADER_DUMMYUNIONNAME4;
 
         /// <summary>
         /// Version 5.80 or later.
@@ -292,8 +292,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HBITMAP hbmWatermark
         {
-            get => _unionStruct4.hbmWatermark;
-            set => _unionStruct4.hbmWatermark = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME4.hbmWatermark;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME4.hbmWatermark = value;
         }
 
         /// <summary>
@@ -303,10 +303,10 @@ namespace Lsj.Util.Win32.Structs
         /// that specifies the name of the bitmap resource.
         /// If the <see cref="dwFlags"/> member includes <see cref="PSH_USEHBMWATERMARK"/>, this member is ignored.
         /// </summary>
-        public LPCSTR pszbmWatermark
+        public IntPtr pszbmWatermark
         {
-            get => _unionStruct4.pszbmWatermark;
-            set => _unionStruct4.pszbmWatermark = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME4.pszbmWatermark;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME4.pszbmWatermark = value;
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HPALETTE hplWatermark;
 
-        private UnionStruct5 _unionStruct5;
+        private PROPSHEETHEADER_DUMMYUNIONNAME5 _PROPSHEETHEADER_DUMMYUNIONNAME5;
 
         /// <summary>
         /// Version 5.80 or later.
@@ -325,8 +325,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HBITMAP hbmHeader
         {
-            get => _unionStruct5.hbmHeader;
-            set => _unionStruct5.hbmHeader = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME5.hbmHeader;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME5.hbmHeader = value;
         }
 
         /// <summary>
@@ -336,40 +336,40 @@ namespace Lsj.Util.Win32.Structs
         /// that specifies the name of the bitmap resource.
         /// If the <see cref="dwFlags"/> member includes <see cref="PSH_USEHBMHEADER"/>, this member is ignored.
         /// </summary>
-        public LPCSTR pszbmHeader
+        public IntPtr pszbmHeader
         {
-            get => _unionStruct5.pszbmHeader;
-            set => _unionStruct5.pszbmHeader = value;
+            get => _PROPSHEETHEADER_DUMMYUNIONNAME5.pszbmHeader;
+            set => _PROPSHEETHEADER_DUMMYUNIONNAME5.pszbmHeader = value;
         }
 
-        struct UnionStruct1
+        struct PROPSHEETHEADER_DUMMYUNIONNAME
         {
             public HICON hIcon;
-            public LPCSTR pszIcon;
+            public IntPtr pszIcon;
         }
 
-        struct UnionStruct2
+        struct PROPSHEETHEADER_DUMMYUNIONNAME2
         {
             public UINT nStartPage;
-            public LPCWSTR pStartPage;
+            public IntPtr pStartPage;
         }
 
-        struct UnionStruct3
+        struct PROPSHEETHEADER_DUMMYUNIONNAME3
         {
             public IntPtr ppsp;
             public IntPtr phpage;
         }
 
-        struct UnionStruct4
+        struct PROPSHEETHEADER_DUMMYUNIONNAME4
         {
             public HBITMAP hbmWatermark;
-            public LPCSTR pszbmWatermark;
+            public IntPtr pszbmWatermark;
         }
 
-        struct UnionStruct5
+        struct PROPSHEETHEADER_DUMMYUNIONNAME5
         {
             public HBITMAP hbmHeader;
-            public LPCSTR pszbmHeader;
+            public IntPtr pszbmHeader;
         }
     }
 #pragma warning restore IDE1006

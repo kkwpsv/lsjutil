@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Remarks for <see cref="FindNLSStringEx"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSStringEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSString", ExactSpelling = true, SetLastError = true)]
         public static extern int FindNLSString([In] LCID Locale, [In] DWORD dwFindNLSStringFlags, [In] LPCWSTR lpStringSource,
             [In] int cchSource, [In] LPCWSTR lpStringValue, [In] int cchValue, [Out] out INT pcchFound);
 
@@ -383,7 +383,7 @@ namespace Lsj.Util.Win32
         /// If your app passes language tags to this function from the Windows.Globalization namespace,
         /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSString", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSStringEx", ExactSpelling = true, SetLastError = true)]
         public static extern int FindNLSStringEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFindNLSStringFlags, [In] LPCWSTR lpStringSource,
             [In] int cchSource, [In] LPCWSTR lpStringValue, [In] int cchValue, [Out] out INT pcchFound, [In] IntPtr lpVersionInformation,
             [In] LPVOID lpReserved, [In] LPARAM sortHandle);
@@ -2083,7 +2083,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Remarks for <see cref="IdnToAscii"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IdnToAscii", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IdnToUnicode", ExactSpelling = true, SetLastError = true)]
         public static extern int IdnToUnicode([In] IDNFlags dwFlags, [In] LPCWSTR lpASCIICharStr, [In] int cchASCIIChar,
             [In] LPWSTR lpUnicodeCharStr, [In] int cchUnicodeChar);
 
@@ -2387,7 +2387,7 @@ namespace Lsj.Util.Win32
         /// If your app passes language tags to this function from the Windows.Globalization namespace,
         /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidLocaleName", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidNLSVersion", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsValidNLSVersion([In] SYSNLS_FUNCTION function, [In] LPCWSTR lpLocaleName, [In] in NLSVERSIONINFOEX lpVersionInformation);
 
         /// <summary>

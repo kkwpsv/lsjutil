@@ -1576,7 +1576,7 @@ namespace Lsj.Util.Win32
         /// Child processes do not inherit the affinity update mode of the parent process.
         /// The affinity update mode must be explicitly set for each child process.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityUpdateMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessAffinityUpdateMode([In] HANDLE hProcess, [In] DWORD dwFlags);
 
         /// <summary>

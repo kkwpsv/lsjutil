@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValDWORDArrayStructs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ProcessHeapFlags;
@@ -71,30 +72,30 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Block
         /// </summary>
-        public BlockStruct Block => _unionStruct.Block;
+        public PROCESS_HEAP_ENTRY_Block Block => _PROCESS_HEAP_ENTRY_DUMMYUNIONNAME.Block;
 
         /// <summary>
         /// Region
         /// </summary>
-        public RegionStruct Region => _unionStruct.Region;
+        public PROCESS_HEAP_ENTRY_Region Region => _PROCESS_HEAP_ENTRY_DUMMYUNIONNAME.Region;
 
-        private UnionStruct _unionStruct;
+        private PROCESS_HEAP_ENTRY_DUMMYUNIONNAME _PROCESS_HEAP_ENTRY_DUMMYUNIONNAME;
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        private struct UnionStruct
+        private struct PROCESS_HEAP_ENTRY_DUMMYUNIONNAME
         {
             [FieldOffset(0)]
-            public BlockStruct Block;
+            public PROCESS_HEAP_ENTRY_Block Block;
 
             [FieldOffset(0)]
-            public RegionStruct Region;
+            public PROCESS_HEAP_ENTRY_Region Region;
         }
 
         /// <summary>
         /// Block
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct BlockStruct
+        public struct PROCESS_HEAP_ENTRY_Block
         {
             /// <summary>
             /// Handle to the allocated, moveable memory block.
@@ -104,15 +105,14 @@ namespace Lsj.Util.Win32.Structs
             /// <summary>
             /// Reserved; not used.
             /// </summary>
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-            public DWORD[] dwReserved;
+            public ByValDWORDArrayStructForSize3 dwReserved;
         }
 
         /// <summary>
         /// Region
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct RegionStruct
+        public struct PROCESS_HEAP_ENTRY_Region
         {
             /// <summary>
             /// Number of bytes in the heap region that are currently committed as free memory blocks, busy memory blocks, or heap control structures.

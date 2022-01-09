@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HINSTANCE hInstance;
 
-        private UnionStruct1 _unionStruct1;
+        private PROPSHEETPAGE_DUMMYUNIONNAME _PROPSHEETPAGE_DUMMYUNIONNAME;
 
         /// <summary>
         /// Dialog box template to use to create the page.
@@ -112,8 +112,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr pszTemplate
         {
-            get => _unionStruct1.pszTemplate;
-            set => _unionStruct1.pszTemplate = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME.pszTemplate;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME.pszTemplate = value;
         }
 
         /// <summary>
@@ -125,11 +125,11 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr pResource
         {
-            get => _unionStruct1.pResource;
-            set => _unionStruct1.pResource = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME.pResource;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME.pResource = value;
         }
 
-        private UnionStruct2 _unionStruct2;
+        private PROPSHEETPAGE_DUMMYUNIONNAME2 _PROPSHEETPAGE_DUMMYUNIONNAME2;
 
         /// <summary>
         /// Handle to the icon to use as the icon in the tab of the page.
@@ -138,8 +138,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HICON hIcon
         {
-            get => _unionStruct2.hIcon;
-            set => _unionStruct2.hIcon = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME2.hIcon;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME2.hIcon = value;
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr pszIcon
         {
-            get => _unionStruct2.pszIcon;
-            set => _unionStruct2.pszIcon = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME2.pszIcon;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME2.pszIcon = value;
         }
 
         /// <summary>
@@ -226,15 +226,15 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HANDLE hActCtx;
 
-        private UnionStruct3 _unionStruct3;
+        private PROPSHEETPAGE_DUMMYUNIONNAME3 _PROPSHEETPAGE_DUMMYUNIONNAME3;
 
         /// <summary>
         /// This member is declared as a union with <see cref="pszbmHeader"/>.
         /// </summary>
         public HBITMAP hbmHeader
         {
-            get => _unionStruct3.hbmHeader;
-            set => _unionStruct3.hbmHeader = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME3.hbmHeader;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME3.hbmHeader = value;
         }
 
         /// <summary>
@@ -242,23 +242,23 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr pszbmHeader
         {
-            get => _unionStruct3.pszbmHeader;
-            set => _unionStruct3.pszbmHeader = value;
+            get => _PROPSHEETPAGE_DUMMYUNIONNAME3.pszbmHeader;
+            set => _PROPSHEETPAGE_DUMMYUNIONNAME3.pszbmHeader = value;
         }
 
-        struct UnionStruct1
+        struct PROPSHEETPAGE_DUMMYUNIONNAME
         {
             public IntPtr pszTemplate;
             public IntPtr pResource;
         }
 
-        struct UnionStruct2
+        struct PROPSHEETPAGE_DUMMYUNIONNAME2
         {
             public HICON hIcon;
             public IntPtr pszIcon;
         }
 
-        struct UnionStruct3
+        struct PROPSHEETPAGE_DUMMYUNIONNAME3
         {
             public HBITMAP hbmHeader;
             public IntPtr pszbmHeader;

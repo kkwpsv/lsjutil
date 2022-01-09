@@ -53,25 +53,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A union of the following members.
         /// </summary>
-        public UnionStruct uChar;
-
-        /// <summary>
-        /// Translated Unicode character.
-        /// </summary>
-        public WCHAR UnicodeChar
-        {
-            get => uChar.UnicodeChar;
-            set => uChar.UnicodeChar = value;
-        }
-
-        /// <summary>
-        /// Translated ASCII character.
-        /// </summary>
-        public CHAR AsciiChar
-        {
-            get => uChar.AsciiChar;
-            set => uChar.AsciiChar = value;
-        }
+        public KEY_EVENT_RECORD_uChar uChar;
 
         /// <summary>
         /// The state of the control keys. This member can be one or more of the following values.
@@ -85,16 +67,16 @@ namespace Lsj.Util.Win32.Structs
         /// 
         /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        public struct UnionStruct
+        public struct KEY_EVENT_RECORD_uChar
         {
             /// <summary>
-            /// 
+            /// Translated Unicode character.
             /// </summary>
             [FieldOffset(0)]
             public WCHAR UnicodeChar;
 
             /// <summary>
-            /// 
+            /// Translated ASCII character.
             /// </summary>
             [FieldOffset(0)]
             public CHAR AsciiChar;

@@ -3,6 +3,7 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValULONGArrayStructs;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -65,45 +66,108 @@ namespace Lsj.Util.Win32.Structs
         /// Protocol-generic information structure.
         /// Should be set to zero. Do not use this member.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        public ULONG[] GenericReserved;
+        public FILE_REMOTE_PROTOCOL_INFO_GenericReserved GenericReserved;
 
         /// <summary>
         /// Protocol-specific information structure.
         /// Should be set to zero. Do not use this member.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-        public ULONG[] ProtocolSpecificReserved;
+        public FILE_REMOTE_PROTOCOL_INFO_ProtocolSpecificReserved ProtocolSpecificReserved;
 
         /// <summary>
         /// 
         /// </summary>
-        public ProtocolSpecificStruct ProtocolSpecific;
+        public FILE_REMOTE_PROTOCOL_INFO_ProtocolSpecific ProtocolSpecific;
 
         /// <summary>
         /// 
         /// </summary>
-        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode, Size = 64)]
-        public struct ProtocolSpecificStruct
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_GenericReserved
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ByValULONGArrayStructForSize8 Reserved;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_ProtocolSpecificReserved
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ByValULONGArrayStructForSize16 Reserved;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_ProtocolSpecific
         {
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public ULONG Capabilities;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            [FieldOffset(4)]
-            public ULONG CachingFlags;
+            public FILE_REMOTE_PROTOCOL_INFO_Smb2 Smb2;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-            public ULONG[] Reserved;
+            public ByValULONGArrayStructForSize16 Reserved;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_Smb2
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public FILE_REMOTE_PROTOCOL_INFO_Server Server;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public FILE_REMOTE_PROTOCOL_INFO_Share Share;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_Server
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ULONG Capabilities;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct FILE_REMOTE_PROTOCOL_INFO_Share
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ULONG Capabilities;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public ULONG CachingFlags;
         }
     }
 }

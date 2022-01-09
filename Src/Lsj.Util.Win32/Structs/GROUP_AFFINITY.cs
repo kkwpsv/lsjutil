@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValWORDArrayStructs;
 using System;
 using System.Runtime.InteropServices;
 
@@ -28,7 +29,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-        public WORD[] Reserved;
+        public ByValWORDArrayStructForSize3 Reserved;
     }
 }

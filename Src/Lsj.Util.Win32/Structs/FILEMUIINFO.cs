@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals.ByValByteArrayStructs;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -75,12 +75,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to a 128-bit checksum for the file, if it is either an LN file or a language-specific resource file.
         /// </summary>
-        public ByValByteArrayStructForSize16 pChecksum;
+        public ByValBYTEArrayStructForSize16 pChecksum;
 
         /// <summary>
         /// Pointer to a 128-bit checksum for the file, used for servicing.
         /// </summary>
-        public ByValByteArrayStructForSize16 pServiceChecksum;
+        public ByValBYTEArrayStructForSize16 pServiceChecksum;
 
         /// <summary>
         /// Offset, in bytes, from the beginning of the structure to the language name string for a language-specific resource file,
@@ -124,6 +124,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Remainder of the allocated memory for this structure. See the Remarks section for correct use of this array.
         /// </summary>
-        public ByValByteArrayStructForSize8 abBuffer;
+        public ByValBYTEArrayStructForSize8 abBuffer;
     }
 }

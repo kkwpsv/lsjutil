@@ -174,14 +174,14 @@ namespace Lsj.Util.Win32
         /// <see cref="E_INVALIDARG"/>: One of the arguments is not valid.
         /// </returns>
         /// <remarks>
-        /// Use this function to clear variables of type <see cref="VARIANTARG"/> (or <see cref="VARIANT"/>)
-        /// before the memory containing the <see cref="VARIANTARG"/> is freed (as when a local variable goes out of scope).
-        /// The function clears a <see cref="VARIANTARG"/> by setting the <see cref="VARIANTARG.vt"/> field to <see cref="VT_EMPTY"/>.
-        /// The current contents of the <see cref="VARIANTARG"/> are released first.
-        /// If the <see cref="VARIANTARG.vt"/> field is <see cref="VT_BSTR"/>, the string is freed.
-        /// If the <see cref="VARIANTARG.vt"/> field is <see cref="VT_DISPATCH"/>, the object is released.
-        /// If the <see cref="VARIANTARG.vt"/> field has the <see cref="VT_ARRAY"/> bit set, the array is freed.
-        /// If the variant to be cleared is a COM object that is passed by reference, the <see cref="VARIANTARG.vt"/> field
+        /// Use this function to clear variables of type <see cref="VARIANT"/>
+        /// before the memory containing the <see cref="VARIANT"/> is freed (as when a local variable goes out of scope).
+        /// The function clears a <see cref="VARIANT"/> by setting the <see cref="VARIANT.vt"/> field to <see cref="VT_EMPTY"/>.
+        /// The current contents of the <see cref="VARIANT"/> are released first.
+        /// If the <see cref="VARIANT.vt"/> field is <see cref="VT_BSTR"/>, the string is freed.
+        /// If the <see cref="VARIANT.vt"/> field is <see cref="VT_DISPATCH"/>, the object is released.
+        /// If the <see cref="VARIANT.vt"/> field has the <see cref="VT_ARRAY"/> bit set, the array is freed.
+        /// If the variant to be cleared is a COM object that is passed by reference, the <see cref="VARIANT.vt"/> field
         /// of the <paramref name="pvarg"/> parameter is <code>VT_DISPATCH | VT_BYREF or VT_UNKNOWN | VT_BYREF</code>.
         /// In this case, <see cref="VariantClear"/> does not release the object.
         /// Because the variant being cleared is a pointer to a reference to an object,
@@ -193,12 +193,12 @@ namespace Lsj.Util.Win32
         /// However, you must call <see cref="VariantClear"/> if a VT_type is received but cannot be handled.
         /// Safearrays of variant will also have <see cref="VariantClear"/> called on each member.
         /// Using <see cref="VariantClear"/> in these cases ensures that code will continue to work if Automation adds new variant types in the future.
-        /// Do not use <see cref="VariantClear"/> on uninitialized variants; use <see cref="VariantInit"/> to initialize a new <see cref="VARIANTARG"/> or <see cref="VARIANT"/>.
+        /// Do not use <see cref="VariantClear"/> on uninitialized variants; use <see cref="VariantInit"/> to initialize a new <see cref="VARIANT"/>.
         /// Variants containing arrays with outstanding references cannot be cleared.
         /// Attempts to do so will return an <see cref="HRESULT"/> containing <see cref="DISP_E_ARRAYISLOCKED"/>.
         /// </remarks>
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "VariantClear", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT VariantClear([In] in VARIANTARG pvarg);
+        public static extern HRESULT VariantClear([In] in VARIANT pvarg);
 
         /// <summary>
         /// <para>
@@ -212,13 +212,13 @@ namespace Lsj.Util.Win32
         /// The variant to initialize.
         /// </param>
         /// <remarks>
-        /// The <see cref="VariantInit"/> function initializes the <see cref="VARIANTARG"/> by
-        /// setting the <see cref="VARIANTARG.vt"/> field to <see cref="VT_EMPTY"/>.
-        /// Unlike <see cref="VariantClear"/>, this function does not interpret the current contents of the <see cref="VARIANTARG"/>.
-        /// Use <see cref="VariantInit"/> to initialize new local variables of type <see cref="VARIANTARG"/> (or <see cref="VARIANT"/>).
+        /// The <see cref="VariantInit"/> function initializes the <see cref="VARIANT"/> by
+        /// setting the <see cref="VARIANT.vt"/> field to <see cref="VT_EMPTY"/>.
+        /// Unlike <see cref="VariantClear"/>, this function does not interpret the current contents of the <see cref="VARIANT"/>.
+        /// Use <see cref="VariantInit"/> to initialize new local variables of type <see cref="VARIANT"/>.
         /// </remarks>
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "VariantInit", ExactSpelling = true, SetLastError = true)]
-        public static extern void VariantInit([In] in VARIANTARG pvarg);
+        public static extern void VariantInit([In] in VARIANT pvarg);
 
         /// <summary>
         /// <para>

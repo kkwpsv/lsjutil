@@ -178,7 +178,7 @@ namespace Lsj.Util.Win32
         /// If an application sets the nWidth or nHeight parameters to zero, <see cref="CreateBitmap"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmap([In]int nWidth, [In]int nHeight, [In]UINT nPlanes, [In]UINT nBitCount, [In]IntPtr lpBits);
 
         /// <summary>

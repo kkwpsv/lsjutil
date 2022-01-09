@@ -358,7 +358,7 @@ namespace Lsj.Util.Win32
         /// <see cref="WaitForThreadpoolWaitCallbacks"/>, or <see cref="WaitForThreadpoolWorkCallbacks"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpool", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolCleanupGroupMembers", ExactSpelling = true, SetLastError = true)]
         public static extern void CloseThreadpoolCleanupGroupMembers([In] PTP_CLEANUP_GROUP ptpcg, [In] BOOL fCancelPendingCallbacks,
             [In] PVOID pvCleanupContext);
 
@@ -1045,7 +1045,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutexWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSemaphoreWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseSemaphoreWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE sem, [In] DWORD crel);
 
         /// <summary>
@@ -1217,7 +1217,7 @@ namespace Lsj.Util.Win32
         /// To specify the maximum number of threads that the pool may allocate, call <see cref="SetThreadpoolThreadMaximum"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMaximum", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMinimum", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadpoolThreadMinimum([In] PTP_POOL ptpp, [In] DWORD cthrdMic);
 
         /// <summary>

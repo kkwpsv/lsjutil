@@ -14,6 +14,9 @@ namespace Lsj.Util.Win32.Structs
     /// the variant being referred to cannot also be of type <code>VT_VARIANT | VT_BYREF</code>.
     /// <see cref="VARIANT"/>s can be passed by value, even if <see cref="VARIANTARG"/>s cannot.
     /// </para>
+    /// <para>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oaidl/ns-oaidl-variant"/>
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct VARIANT
@@ -319,7 +322,7 @@ namespace Lsj.Util.Win32.Structs
 
         [FieldOffset(8)]
 #pragma warning disable IDE1006 // 命名样式
-        private UnionStruct __VARIANT_NAME_4;
+        private VARIANT__VARIANT_NAME_4 _VARIANT__VARIANT_NAME_4;
 #pragma warning restore IDE1006 // 命名样式
 
         /// <summary>
@@ -329,8 +332,8 @@ namespace Lsj.Util.Win32.Structs
         public PVOID pvRecord
 #pragma warning restore IDE1006 // 命名样式
         {
-            get => __VARIANT_NAME_4.pvRecord;
-            set => __VARIANT_NAME_4.pvRecord = value;
+            get => _VARIANT__VARIANT_NAME_4.pvRecord;
+            set => _VARIANT__VARIANT_NAME_4.pvRecord = value;
         }
 
         /// <summary>
@@ -340,8 +343,8 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr pRecInfo
 #pragma warning restore IDE1006 // 命名样式
         {
-            get => __VARIANT_NAME_4.pRecInfo;
-            set => __VARIANT_NAME_4.pRecInfo = value;
+            get => _VARIANT__VARIANT_NAME_4.pRecInfo;
+            set => _VARIANT__VARIANT_NAME_4.pRecInfo = value;
         }
 
         /// <summary>
@@ -351,7 +354,7 @@ namespace Lsj.Util.Win32.Structs
         public DECIMAL decVal;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct UnionStruct
+        private struct VARIANT__VARIANT_NAME_4
         {
             public PVOID pvRecord;
             public IntPtr pRecInfo;

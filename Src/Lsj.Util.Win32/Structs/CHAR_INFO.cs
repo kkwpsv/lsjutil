@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A union of the following members.
         /// </summary>
-        public UnionStruct Char;
+        public CHAR_INFO_Char Char;
 
         /// <summary>
         /// The character attributes. This member can be zero or any combination of the following values.
@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32.Structs
         /// 
         /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        public struct UnionStruct
+        public struct CHAR_INFO_Char
         {
             /// <summary>
             /// Unicode character of a screen buffer character cell.

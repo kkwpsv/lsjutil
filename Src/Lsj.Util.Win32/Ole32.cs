@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// <see cref="REGDB_E_CLASSNOTREG"/>: The CLSID corresponding to the class string was not found in the registry.
         /// <see cref="REGDB_E_READREGDB"/>: The registry could not be opened for reading.
         /// </returns>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromProgID", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromString", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CLSIDFromString([In] string lpsz, [Out] out CLSID lpclsid);
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace Lsj.Util.Win32
         /// if the class is registered with the ActivateAtStorage value or has no associated registry information,
         /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromIStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
               [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount,
               [Out] MULTI_QI[] pResults);
@@ -1856,7 +1856,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="IMoniker.Inverse"/> on that moniker.
         /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAntiMoniker", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateAntiMoniker([Out] out IMoniker ppmk);
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -31,14 +31,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
-        public BYTE[] Reserved;
+        public ByValBYTEArrayStructForSize20 Reserved;
 
         /// <summary>
         /// An array of <see cref="PROCESSOR_GROUP_INFO"/> structures.
         /// Each structure represents the number and affinity of processors in an active group on the system.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ANYSIZE_ARRAY)]
-        public PROCESSOR_GROUP_INFO[] GroupInfo;
+        public PROCESSOR_GROUP_INFO GroupInfo;
     }
 }

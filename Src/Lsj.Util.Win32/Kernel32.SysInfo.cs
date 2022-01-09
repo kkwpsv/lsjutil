@@ -178,7 +178,7 @@ namespace Lsj.Util.Win32
         /// logical processor information about processors in the processor group to which the calling thread is currently assigned.
         /// Use the <see cref="GetLogicalProcessorInformationEx"/> function to retrieve information about processors in all processor groups on the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetLogicalProcessorInformation([Out] out SYSTEM_LOGICAL_PROCESSOR_INFORMATION Buffer, [In][Out] ref uint ReturnedLength);
 
         /// <summary>

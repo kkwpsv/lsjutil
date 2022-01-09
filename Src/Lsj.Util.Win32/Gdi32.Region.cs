@@ -182,7 +182,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
         /// Region coordinates are represented as 27-bit signed integers.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolyPolygonRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreatePolyPolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl,
             [MarshalAs(UnmanagedType.LPArray)][In]INT[] pc, [In]int cPoly, [In]int iMode);
 
@@ -242,7 +242,7 @@ namespace Lsj.Util.Win32
         /// Region coordinates are represented as 27-bit signed integers.
         /// The region will be exclusive of the bottom and right edges.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgnIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRectRgnIndirect([In]in RECT lprect);
 
         /// <summary>

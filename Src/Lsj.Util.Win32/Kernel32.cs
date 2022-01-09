@@ -898,7 +898,7 @@ namespace Lsj.Util.Win32
         /// call it inside a critical region of code that allows only one thread to access the memory being checked.
         /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadWritePtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
 
         /// <summary>
@@ -986,30 +986,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
-
-        /// <summary>
-        /// <para>
-        /// Fills a block of memory with zeros. It is designed to be a more secure version of <see cref="ZeroMemory"/>.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920%28v%3dvs.85%29"/>
-        /// </para>
-        /// </summary>
-        /// <param name="dest">
-        /// A pointer to the starting address of the block of memory to fill with zeros.
-        /// </param>
-        /// <param name="size">
-        /// The size of the block of memory to fill with zeros, in bytes.
-        /// </param>
-        /// <remarks>
-        /// Many programming languages include syntax for initializing complex variables to zero.
-        /// There can be differences between the results of these operations and the <see cref="ZeroMemory"/> function.
-        /// Use <see cref="ZeroMemory"/> to clear a block of memory in any programming language.
-        /// This macro is defined as the RtlZeroMemory macro.
-        /// For more information, see WinBase.h and WinNT.h.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RtlSecureZeroMemory", ExactSpelling = true, SetLastError = true)]
-        public static extern void SecureZeroMemory([In] PVOID dest, [In] SIZE_T size);
 
         /// <summary>
         /// <para>

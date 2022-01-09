@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.STRRET_TYPE;
 using static Lsj.Util.Win32.Ole32;
@@ -32,8 +33,7 @@ namespace Lsj.Util.Win32.Structs
         /// It is the calling application's responsibility to free this memory with <see cref="CoTaskMemFree"/> when it is no longer needed.
         /// </summary>
         [FieldOffset(4)]
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string pOleStr;
+        public IntPtr pOleStr;
 
         /// <summary>
         /// The offset into the item identifier list.

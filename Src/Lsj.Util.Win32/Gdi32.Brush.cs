@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBrushIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateBrushIndirect([In] in LOGBRUSH plbrush);
 
         /// <summary>

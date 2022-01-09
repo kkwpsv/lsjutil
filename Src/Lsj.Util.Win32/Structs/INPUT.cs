@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
 using static Lsj.Util.Win32.User32;
@@ -14,57 +13,38 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-input"/>
     /// </para>
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    /// <remarks>
+    /// <see cref="INPUT_KEYBOARD"/> supports nonkeyboard input methods, such as handwriting recognition or voice recognition,
+    /// as if it were text input by using the <see cref="KEYEVENTF_UNICODE"/> flag.
+    /// For more information, see the remarks section of <see cref="KEYBDINPUT"/>.
+    /// </remarks>
+    [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct INPUT
     {
         /// <summary>
         /// The type of the input event. This member can be one of the following values.
         /// <see cref="INPUT_MOUSE"/>, <see cref="INPUT_KEYBOARD"/>, <see cref="INPUT_HARDWARE"/>
         /// </summary>
+        [FieldOffset(0)]
         public InputTypes type;
 
-#pragma warning disable IDE1006
-        private UnionStruct DUMMYUNIONNAME;
+        /// <summary>
+        /// The information about a simulated mouse event.
+        /// </summary>
+        [FieldOffset(0)]
+        public MOUSEINPUT mi;
 
         /// <summary>
-        /// 
+        /// The information about a simulated keyboard event.
         /// </summary>
-        public MOUSEINPUT mi
-        {
-            get => DUMMYUNIONNAME.mi;
-            set => DUMMYUNIONNAME.mi = value;
-        }
+        [FieldOffset(0)]
+        public KEYBDINPUT ki;
 
         /// <summary>
-        /// 
+        /// The information about a simulated hardware event.
         /// </summary>
-        public KEYBDINPUT ki
-        {
-            get => DUMMYUNIONNAME.ki;
-            set => DUMMYUNIONNAME.ki = value;
-        }
+        [FieldOffset(0)]
+        public HARDWAREINPUT hi;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public HARDWAREINPUT hi
-        {
-            get => DUMMYUNIONNAME.hi;
-            set => DUMMYUNIONNAME.hi = value;
-        }
-#pragma warning restore IDE1006
-
-        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        private struct UnionStruct
-        {
-            [FieldOffset(0)]
-            public MOUSEINPUT mi;
-
-            [FieldOffset(0)]
-            public KEYBDINPUT ki;
-
-            [FieldOffset(0)]
-            public HARDWAREINPUT hi;
-        }
     }
 }

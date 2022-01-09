@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -24,8 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
-        public BYTE[] Reserved;
+        public ByValBYTEArrayStructForSize20 Reserved;
 
         /// <summary>
         /// A <see cref="GROUP_AFFINITY"/> structure that specifies a group number and processor affinity within the group.

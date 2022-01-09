@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
@@ -50,12 +51,21 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 20)]
-        public byte[] Reserved;
+        public ByValBYTEArrayStructForSize18 Reserved;
 
         /// <summary>
-        /// A GROUP_AFFINITY structure that specifies a group number and processor affinity within the group.
+        /// 
+        /// </summary>
+        public WORD GroupCount;
+
+        /// <summary>
+        /// 
         /// </summary>
         public GROUP_AFFINITY GroupMask;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public GROUP_AFFINITY GroupMasks;
     }
 }

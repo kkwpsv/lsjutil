@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32
         /// by using the desktop scaling override slider control in Control Panel.
         /// For more information about DPI settings in Control Panel, see the Writing DPI-Aware Desktop Applications in Windows 8.1 Preview white paper.
         /// </remarks>
-        [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScaleFactorForDevice", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForMonitor", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetDpiForMonitor([In]HMONITOR hmonitor, [In]MONITOR_DPI_TYPE dpiType, [Out]out UINT dpiX, [Out]out UINT dpiY);
 
         /// <summary>

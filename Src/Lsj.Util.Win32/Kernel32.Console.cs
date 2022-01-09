@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// All coordinates returned in the <see cref="CONSOLE_SCREEN_BUFFER_INFO"/> structure are in character-cell coordinates,
         /// where the origin (0, 0) is at the upper-left corner of the console screen buffer.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleScreenBufferInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleScreenBufferInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
 
         /// <summary>

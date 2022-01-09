@@ -130,7 +130,7 @@ namespace Lsj.Util.Win32
         /// <param name="SRWLock">
         /// A pointer to the SRW lock.
         /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockExclusive", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockShared", ExactSpelling = true, SetLastError = true)]
         public static extern void AcquireSRWLockShared([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -1637,7 +1637,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterWaitForSingleObject([Out] out HANDLE phNewWaitObject, [In] HANDLE hObject, [In] WAITORTIMERCALLBACK Callback,
             [In] PVOID Context, [In] ULONG dwMilliseconds, [In] ThreadPoolFlags dwFlags);
 

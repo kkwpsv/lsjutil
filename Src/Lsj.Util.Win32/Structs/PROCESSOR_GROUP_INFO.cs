@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
 using System;
 using System.Runtime.InteropServices;
 
@@ -28,8 +29,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 38)]
-        public BYTE[] Reserved;
+        public ByValBYTEArrayStructForSize38 Reserved;
 
         /// <summary>
         /// A bitmap that specifies the affinity for zero or more active processors within the group.

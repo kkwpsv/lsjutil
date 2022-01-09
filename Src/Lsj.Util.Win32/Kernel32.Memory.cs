@@ -975,7 +975,7 @@ namespace Lsj.Util.Win32
         /// To obtain handles to the default heap and private heaps that are active for the calling process,
         /// use the <see cref="GetProcessHeaps"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapCreate", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE HeapCreate([In] HeapFlags flOptions, [In] SIZE_T dwInitialSize, [In] SIZE_T dwMaximumSize);
 
         /// <summary>
@@ -1618,7 +1618,7 @@ namespace Lsj.Util.Win32
         /// New applications should use the heap functions unless documentation states that a local function should be used.
         /// For more information, see Global and Local Functions.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFlags", ExactSpelling = true, SetLastError = true)]
         public static extern LocalMemoryFlags LocalFlags([In] HLOCAL hMem);
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputRecordEventTypes;
 using static Lsj.Util.Win32.Kernel32;
@@ -30,58 +29,13 @@ namespace Lsj.Util.Win32.Structs
         /// The event information.
         /// The format of this member depends on the event type specified by the <see cref="EventType"/> member.
         /// </summary>
-        public UnionStruct Event;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public KEY_EVENT_RECORD KeyEvent
-        {
-            get => Event.KeyEvent;
-            set => Event.KeyEvent = value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public MOUSE_EVENT_RECORD MouseEvent
-        {
-            get => Event.MouseEvent;
-            set => Event.MouseEvent = value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public WINDOW_BUFFER_SIZE_RECORD WindowBufferSizeEvent
-        {
-            get => Event.WindowBufferSizeEvent;
-            set => Event.WindowBufferSizeEvent = value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public MENU_EVENT_RECORD MenuEvent
-        {
-            get => Event.MenuEvent;
-            set => Event.MenuEvent = value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public FOCUS_EVENT_RECORD FocusEvent
-        {
-            get => Event.FocusEvent;
-            set => Event.FocusEvent = value;
-        }
+        public INPUT_RECORD_Event Event;
 
         /// <summary>
         /// 
         /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        public struct UnionStruct
+        public struct INPUT_RECORD_Event
         {
             /// <summary>
             /// 

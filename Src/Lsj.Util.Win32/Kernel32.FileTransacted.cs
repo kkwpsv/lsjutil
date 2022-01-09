@@ -652,7 +652,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileNameTransactedW([In] LPCWSTR lpFileName, [In] DWORD dwFlags, [In][Out] ref DWORD StringLength,
             [In] IntPtr LinkName, [In] HANDLE hTransaction);
 

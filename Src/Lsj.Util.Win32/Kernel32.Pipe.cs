@@ -574,7 +574,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeInfo([In] HANDLE hNamedPipe, [Out] DWORD lpFlags, [Out] DWORD lpOutBufferSize,
             [Out] DWORD lpInBufferSize, [Out] DWORD lpMaxInstances);
 

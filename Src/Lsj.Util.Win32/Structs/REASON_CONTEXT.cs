@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.Structs
             /// A non-localized string that describes the reason for the power request.
             /// </summary>
             [FieldOffset(0)]
-            public LPWSTR SimpleReasonString;
+            public IntPtr SimpleReasonString;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

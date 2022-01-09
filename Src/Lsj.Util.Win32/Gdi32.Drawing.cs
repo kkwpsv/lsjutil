@@ -473,7 +473,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPositionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrentPositionEx([In] HDC hdc, [Out] out POINT lppt);
 
         /// <summary>

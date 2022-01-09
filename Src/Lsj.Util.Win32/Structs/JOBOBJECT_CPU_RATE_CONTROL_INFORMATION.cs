@@ -13,6 +13,9 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used by the <see cref="SetInformationJobObject"/> and <see cref="QueryInformationJobObject"/> functions
     /// with the <see cref="JobObjectCpuRateControlInformation"/> information class.
     /// </para>
+    /// <para>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_cpu_rate_control_information"/>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// You can set CPU rate control for multiple jobs in a hierarchy of nested jobs.
@@ -25,7 +28,7 @@ namespace Lsj.Util.Win32.Structs
     /// CPU rate control cannot be used by job objects in applications running under Remote Desktop Services (formerly Terminal Services)
     /// if Dynamic Fair Share Scheduling (DFSS) is in effect.
     /// </remarks>
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct JOBOBJECT_CPU_RATE_CONTROL_INFORMATION
     {
         /// <summary>
@@ -34,6 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP"/>, <see cref="JOB_OBJECT_CPU_RATE_CONTROL_NOTIFY"/>,
         /// <see cref="JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE"/>
         /// </summary>
+        [FieldOffset(0)]
         public JOB_OBJECT_CPU_RATE_CONTROL ControlFlags;
 
         /// <summary>
@@ -41,14 +45,11 @@ namespace Lsj.Util.Win32.Structs
         /// as the number of cycles per 10,000 cycles.
         /// If the <see cref="ControlFlags"/> member specifies <see cref="JOB_OBJECT_CPU_RATE_CONTROL_WEIGHT_BASED"/>
         /// or <see cref="JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE"/>, this member is not used.
-        /// Set CpuRate to a percentage times 100. For example, to let the job use 20% of the CPU, set CpuRate to 20 times 100, or 2,000.
-        /// Do not set CpuRate to 0. If CpuRate is 0, SetInformationJobObject returns INVALID_ARGS.
+        /// Set <see cref="CpuRate"/> to a percentage times 100. For example, to let the job use 20% of the CPU, set CpuRate to 20 times 100, or 2,000.
+        /// Do not set <see cref="CpuRate"/> to 0. If CpuRate is 0, SetInformationJobObject returns INVALID_ARGS.
         /// </summary>
-        public DWORD CpuRate
-        {
-            get => DUMMYUNIONNAME.CpuRate;
-            set => DUMMYUNIONNAME.CpuRate = value;
-        }
+        [FieldOffset(4)]
+        public DWORD CpuRate;
 
         /// <summary>
         /// If the <see cref="ControlFlags"/> member specifies <see cref="JOB_OBJECT_CPU_RATE_CONTROL_WEIGHT_BASED"/>,
@@ -58,11 +59,8 @@ namespace Lsj.Util.Win32.Structs
         /// The default is 5, which should be used for most workloads.
         /// If the <see cref="ControlFlags"/> member specifies <see cref="JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE"/>, this member is not used.
         /// </summary>
-        public DWORD Weight
-        {
-            get => DUMMYUNIONNAME.Weight;
-            set => DUMMYUNIONNAME.Weight = value;
-        }
+        [FieldOffset(4)]
+        public DWORD Weight;
 
         /// <summary>
         /// Specifies the minimum portion of the processor cycles that the threads in a job object can reserve during each scheduling interval.
@@ -70,39 +68,15 @@ namespace Lsj.Util.Win32.Structs
         /// For the minimum rates to work correctly, the sum of the minimum rates for all of the job objects in the system cannot exceed 10,000,
         /// which is the equivalent of 100%.
         /// </summary>
-        public WORD MinRate
-        {
-            get => DUMMYUNIONNAME.MinRate;
-            set => DUMMYUNIONNAME.MinRate = value;
-        }
+        [FieldOffset(4)]
+        public WORD MinRate;
 
         /// <summary>
         /// Specifies the maximum portion of processor cycles that the threads in a job object can use during each scheduling interval.
         /// Specify this rate as a percentage times 100. For example, to set a maximum rate of 50%, specify 50 times 100, or 5,000.
         /// After the job reaches this limit for a scheduling interval, no threads associated with the job can run until the next scheduling interval.
         /// </summary>
-        public WORD MaxRate
-        {
-            get => DUMMYUNIONNAME.MaxRate;
-            set => DUMMYUNIONNAME.MaxRate = value;
-        }
-
-        private UnionStruct DUMMYUNIONNAME;
-
-        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        private struct UnionStruct
-        {
-            [FieldOffset(0)]
-            public DWORD CpuRate;
-
-            [FieldOffset(0)]
-            public DWORD Weight;
-
-            [FieldOffset(0)]
-            public WORD MaxRate;
-
-            [FieldOffset(2)]
-            public WORD MinRate;
-        }
+        [FieldOffset(6)]
+        public WORD MaxRate;
     }
 }

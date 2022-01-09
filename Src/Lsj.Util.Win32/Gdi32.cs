@@ -1784,7 +1784,7 @@ namespace Lsj.Util.Win32
         /// Note that for the <see cref="MM_ISOTROPIC"/> mode certain portions of a nonsquare screen may not be available for display
         /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [In] in SIZE lpsz);
 
         /// <summary>

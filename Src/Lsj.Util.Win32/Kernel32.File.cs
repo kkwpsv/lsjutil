@@ -1674,7 +1674,7 @@ namespace Lsj.Util.Win32
         /// to search for other streams in the specified file or directory.
         /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstStreamW([In] LPCWSTR lpFileName, [In] STREAM_INFO_LEVELS InfoLevel, [In] LPVOID lpFindStreamData, [In] DWORD dwFlags);
 
         /// <summary>
@@ -5446,7 +5446,7 @@ namespace Lsj.Util.Win32
         /// <param name="lBytes"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hwrite", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern long _hwrite([In] HFILE hFile, [In] LPCCH lpBuffer, [In] long lBytes);
 
         /// <summary>
@@ -5584,7 +5584,7 @@ namespace Lsj.Util.Win32
         /// the function has reached the end of file (EOF) before reading the specified number of bytes.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the ReadFile function.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lread", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern UINT _lread([In] HFILE hFile, [In] LPVOID lpBuffer, [In] UINT uBytes);
 
         /// <summary>
@@ -5608,7 +5608,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, use the <see cref="GetLastError"/> function.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the WriteFile function.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lwrite", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern UINT _lwrite([In] HFILE hFile, [In] LPCCH lpBuffer, [In] UINT uBytes);
 #pragma warning restore IDE1006
     }
