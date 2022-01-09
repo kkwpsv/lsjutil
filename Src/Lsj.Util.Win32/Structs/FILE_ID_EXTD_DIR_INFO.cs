@@ -98,7 +98,6 @@ namespace Lsj.Util.Win32.Structs
         /// The first character of the file name string.
         /// This is followed in memory by the remainder of the string.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public WCHAR[] FileName;
+        public WCHAR FileName;
     }
 }

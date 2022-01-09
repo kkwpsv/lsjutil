@@ -63,7 +63,6 @@ namespace Lsj.Util.Win32.Structs
         /// An array of bytes containing data for the target device.
         /// It is not necessary to include empty strings in <see cref="tdData"/> (for names where the offset value is zero).
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public BYTE[] tdData;
+        public BYTE tdData;
     }
 }

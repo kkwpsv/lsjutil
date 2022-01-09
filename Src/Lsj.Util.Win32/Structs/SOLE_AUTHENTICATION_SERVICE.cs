@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Ole32;
@@ -33,8 +34,7 @@ namespace Lsj.Util.Win32.Structs
         /// For Schannel, this member must point to a <see cref="CERT_CONTEXT"/> structure that contains the server's certificate;
         /// if it NULL and if a certificate for the current user does not exist, <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/> is returned.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string pPrincipalName;
+        public IntPtr pPrincipalName;
 
         /// <summary>
         /// When used in <see cref="CoInitializeSecurity"/>, set on return to indicate the status of the call to register the authentication services.

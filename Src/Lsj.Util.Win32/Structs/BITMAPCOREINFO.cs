@@ -58,7 +58,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies an array of <see cref="RGBTRIPLE"/> structures that define the colors in the bitmap.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public RGBTRIPLE[] bmciColors;
+        public RGBTRIPLE bmciColors;
     }
 }

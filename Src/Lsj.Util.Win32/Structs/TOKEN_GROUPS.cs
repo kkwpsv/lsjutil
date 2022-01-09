@@ -52,7 +52,6 @@ namespace Lsj.Util.Win32.Structs
         /// it ignores access-allowed ACEs for the SID.
         /// If this attribute is set, <see cref="SE_GROUP_ENABLED"/> is not set, and the SID cannot be reenabled.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ANYSIZE_ARRAY)]
-        public SID_AND_ATTRIBUTES[] Groups;
+        public SID_AND_ATTRIBUTES Groups;
     }
 }

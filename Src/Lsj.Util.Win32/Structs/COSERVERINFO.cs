@@ -49,8 +49,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the computer.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string pwszName;
+        public IntPtr pwszName;
 
         /// <summary>
         /// A pointer to a <see cref="COAUTHINFO"/> structure to override the default activation security for machine remote activations.

@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Gdi32;
@@ -36,8 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// has a value greater than 8.
         /// Each color mask indicates the bits that are used to encode one of the three color channels (red, green, and blue).
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-        public DWORD[] dsBitfields;
+        public ByValDWORDArrayStructForSize3 dsBitfields;
 
         /// <summary>
         /// Contains a handle to the file mapping object that the <see cref="CreateDIBSection"/> function used to create the DIB.

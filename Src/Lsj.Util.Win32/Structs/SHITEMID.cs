@@ -25,7 +25,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A variable-length item identifier.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst =1)]
-        public BYTE[] abID;
+        public BYTE abID;
     }
 }

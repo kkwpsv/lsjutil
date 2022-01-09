@@ -41,7 +41,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies an array of <see cref="POINTFX"/> structures that define the polyline or Bézier spline.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public POINTFX[] apfx;
+        public POINTFX apfx;
     }
 }

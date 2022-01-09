@@ -137,7 +137,6 @@ namespace Lsj.Util.Win32.Structs
         /// If elpWidth specifies geometric lines, the lengths are in logical units.
         /// Otherwise, the lines are cosmetic and lengths are in device units.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public DWORD[] elpStyleEntry;
+        public DWORD elpStyleEntry;
     }
 }

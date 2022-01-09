@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -28,7 +29,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An array of 6 bytes specifying a SID's top-level authority.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-        public BYTE[] Value;
+        public ByValBYTEArrayStructForSize6 Value;
     }
 }

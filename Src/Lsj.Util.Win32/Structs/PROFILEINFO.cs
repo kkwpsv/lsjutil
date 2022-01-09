@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.Enums.PROFILEINFOFlags;
@@ -44,7 +45,7 @@ namespace Lsj.Util.Win32.Structs
         /// A pointer to the name of the user.
         /// This member is used as the base name of the directory in which to store a new profile.
         /// </summary>
-        public string lpUserName;
+        public IntPtr lpUserName;
 
         /// <summary>
         /// A pointer to the roaming user profile path.
@@ -52,22 +53,22 @@ namespace Lsj.Util.Win32.Structs
         /// To retrieve the user's roaming profile path, call the <see cref="NetUserGetInfo"/> function, specifying information level 3 or 4.
         /// For more information, see Remarks.
         /// </summary>
-        public string lpProfilePath;
+        public IntPtr lpProfilePath;
 
         /// <summary>
         /// A pointer to the default user profile path. This member can be <see langword="null"/>.
         /// </summary>
-        public string lpDefaultPath;
+        public IntPtr lpDefaultPath;
 
         /// <summary>
         /// A pointer to the name of the validating domain controller, in NetBIOS format.
         /// </summary>
-        public string lpServerName;
+        public IntPtr lpServerName;
 
         /// <summary>
         /// Not used, set to <see langword="null"/>.
         /// </summary>
-        public string lpPolicyPath;
+        public IntPtr lpPolicyPath;
 
         /// <summary>
         /// A handle to the <see cref="HKEY_CURRENT_USER"/> registry subtree.

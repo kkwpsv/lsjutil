@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -26,8 +27,7 @@ namespace Lsj.Util.Win32.Structs
         /// Unicode subranges are numbered in accordance with the ISO 10646 standard.
         /// For more information, see Unicode Subset Bitfields.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 4)]
-        public DWORD[] fsUsb;
+        public ByValDWORDArrayStructForSize4 fsUsb;
 
         /// <summary>
         /// A 64-bit, code-page bitfield (CPB) that identifies a specific character set or code page.
@@ -35,7 +35,6 @@ namespace Lsj.Util.Win32.Structs
         /// The high 32 are used for non-Windows code pages.
         /// For more information, see Code Page Bitfields.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 2)]
-        public DWORD[] fsCsb;
+        public ByValDWORDArrayStructForSize2 fsCsb;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CMDSTR;
@@ -76,19 +76,19 @@ namespace Lsj.Util.Win32.Structs
         /// Implementations can use the <see cref="IS_INTRESOURCE"/> macro to detect that this alternative is being employed.
         /// The Shell uses this alternative when the user chooses a menu command.
         /// </summary>
-        public LPCWSTR lpVerb;
+        public IntPtr lpVerb;
 
         /// <summary>
         /// Optional parameters.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public LPCWSTR lpParameters;
+        public IntPtr lpParameters;
 
         /// <summary>
         /// An optional working directory name.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public LPCWSTR lpDirectory;
+        public IntPtr lpDirectory;
 
         /// <summary>
         /// A set of SW_ values to pass to the <see cref="ShowWindow"/> function if the command displays a window or starts an application.
@@ -110,27 +110,27 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An ASCII title.
         /// </summary>
-        public LPCWSTR lpTitle;
+        public IntPtr lpTitle;
 
         /// <summary>
         /// A Unicode verb, for those commands that can use it.
         /// </summary>
-        public LPCWSTR lpVerbW;
+        public IntPtr lpVerbW;
 
         /// <summary>
         /// A Unicode parameters, for those commands that can use it.
         /// </summary>
-        public LPCWSTR lpParametersW;
+        public IntPtr lpParametersW;
 
         /// <summary>
         /// A Unicode directory, for those commands that can use it.
         /// </summary>
-        public LPCWSTR lpDirectoryW;
+        public IntPtr lpDirectoryW;
 
         /// <summary>
         /// A Unicode title.
         /// </summary>
-        public LPCWSTR lpTitleW;
+        public IntPtr lpTitleW;
 
         /// <summary>
         /// The point where the command is invoked.

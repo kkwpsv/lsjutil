@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
@@ -43,8 +44,7 @@ namespace Lsj.Util.Win32.Structs
         /// This character is used by the <see cref="WideCharToMultiByte"/> function if an explicit default character is not specified.
         /// The default is usually the "?" character for the code page.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_DEFAULTCHAR)]
-        public BYTE[] DefaultChar;
+        public ByValBYTEArrayStructForSize2 DefaultChar;
 
         /// <summary>
         /// A fixed-length array of lead byte ranges, for which the number of lead byte ranges is variable.
@@ -57,7 +57,6 @@ namespace Lsj.Util.Win32.Structs
         /// This member is usually only populated for a subset of the code pages that use lead bytes in some form.
         /// For more information, see the Remarks section.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_LEADBYTES)]
-        public BYTE[] LeadByte;
+        public ByValBYTEArrayStructForSize12 LeadByte;
     }
 }

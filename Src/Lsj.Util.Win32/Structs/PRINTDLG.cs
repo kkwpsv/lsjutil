@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
@@ -189,16 +190,14 @@ namespace Lsj.Util.Win32.Structs
         /// This template replaces the default Print dialog box template.
         /// This member is ignored unless the <see cref="PD_ENABLEPRINTTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpPrintTemplateName;
+        public IntPtr lpPrintTemplateName;
 
         /// <summary>
         /// The name of the dialog box template resource in the module identified by the <see cref="hInstance"/> member.
         /// This template replaces the default Print Setup dialog box template.
         /// This member is ignored unless the <see cref="PD_ENABLESETUPTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpSetupTemplateName;
+        public IntPtr lpSetupTemplateName;
 
         /// <summary>
         /// If the <see cref="PD_ENABLEPRINTTEMPLATEHANDLE"/> flag is set in the <see cref="Flags"/> member,

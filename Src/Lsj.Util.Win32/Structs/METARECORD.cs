@@ -27,7 +27,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An array of words containing the function parameters, in reverse of the order they are passed to the function.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public WORD[] rdParm;
+        public WORD rdParm;
     }
 }

@@ -226,20 +226,18 @@ namespace Lsj.Util.Win32.Structs
         /// The default template contains controls similar to those of the Print dialog box.
         /// This member is ignored unless the <see cref="PD_ENABLEPRINTTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpPrintTemplateName;
+        public IntPtr lpPrintTemplateName;
 
         /// <summary>
         /// A pointer to an application-defined callback object.
-        /// The object should contain the IPrintDialogCallback class to receive messages for the child dialog box in the lower portion of the General page.
+        /// The object should contain the <see cref="IPrintDialogCallback"/> class to receive messages for the child dialog box in the lower portion of the General page.
         /// The callback object should also contain the <see cref="IObjectWithSite"/> class
         /// to receive a pointer to the <see cref="IPrintDialogServices"/> interface.
         /// The <see cref="PrintDlgEx"/> function calls IUnknown::QueryInterface on the callback object
         /// for both <see cref="IID_IPrintDialogCallback"/> and <see cref="IID_IObjectWithSite"/> to determine which interfaces are supported.
         /// If you do not want to retrieve any of the callback information, set <see cref="lpCallback"/> to <see langword="null"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.IUnknown)]
-        public object lpCallback;
+        public IntPtr lpCallback;
 
         /// <summary>
         /// The number of property page handles in the <see cref="lphPropertyPages"/> array.

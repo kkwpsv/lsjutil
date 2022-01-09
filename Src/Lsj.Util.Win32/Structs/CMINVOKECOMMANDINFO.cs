@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CMDSTR;
@@ -62,19 +63,19 @@ namespace Lsj.Util.Win32.Structs
         /// Implementations can use the <see cref="IS_INTRESOURCE"/> macro to detect that this alternative is being employed.
         /// The Shell uses this alternative when the user chooses a menu command.
         /// </summary>
-        public LPCWSTR lpVerb;
+        public IntPtr lpVerb;
 
         /// <summary>
         /// Optional parameters.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public LPCWSTR lpParameters;
+        public IntPtr lpParameters;
 
         /// <summary>
         /// An optional working directory name.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public LPCWSTR lpDirectory;
+        public IntPtr lpDirectory;
 
         /// <summary>
         /// A set of SW_ values to pass to the <see cref="ShowWindow"/> function if the command displays a window or starts an application.

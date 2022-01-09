@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Marshals;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Shell32;
 
@@ -18,12 +19,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The address of a character buffer that contains the old path name.
         /// </summary>
-        public StringHandle pszOldPath;
+        public IntPtr pszOldPath;
 
         /// <summary>
         /// The address of a character buffer that contains the new path name.
         /// </summary>
-        public StringHandle pszNewPath;
+        public IntPtr pszNewPath;
 
         /// <summary>
         /// The number of characters in <see cref="pszOldPath"/>.

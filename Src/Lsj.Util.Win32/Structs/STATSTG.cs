@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.CLSID;
 using static Lsj.Util.Win32.Enums.STATFLAG;
@@ -28,8 +29,7 @@ namespace Lsj.Util.Win32.Structs
         /// that returns a <see cref="STATSTG"/> structure, except for calls to <see cref="IEnumSTATSTG.Next"/>,
         /// which provides no way to specify this value.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string pwcsName;
+        public IntPtr pwcsName;
 
         /// <summary>
         /// Indicates the type of storage object.

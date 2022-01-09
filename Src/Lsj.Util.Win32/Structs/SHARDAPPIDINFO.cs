@@ -20,8 +20,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to an <see cref="IShellItem"/> object that represents the object in the Shell namespace.
         /// </summary>
-        [MarshalAs(UnmanagedType.Interface)]
-        public IShellItem psi;
+        public IntPtr psi;
 
         /// <summary>
         /// The application-defined AppUserModelID associated with the item.

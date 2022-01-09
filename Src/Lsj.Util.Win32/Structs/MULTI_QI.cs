@@ -26,15 +26,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to an interface identifier.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPStruct)]
-        public Guid pIID;
+        public IntPtr pIID;
 
         /// <summary>
         /// A pointer to the interface requested in <see cref="pIID"/>.
         /// This member must be <see langword="null"/> on input.
         /// </summary>
-        [MarshalAs(UnmanagedType.IUnknown)]
-        public object pItf;
+        public IntPtr pItf;
 
         /// <summary>
         /// The return value of the QueryInterface call to locate the requested interface.

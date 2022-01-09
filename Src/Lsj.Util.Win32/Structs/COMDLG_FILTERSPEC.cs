@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -16,11 +17,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to a buffer that contains the friendly name of the filter.
         /// </summary>
-        public string pszName;
+        public IntPtr pszName;
 
         /// <summary>
         /// A pointer to a buffer that contains the filter pattern.
         /// </summary>
-        public string pszSpec;
+        public IntPtr pszSpec;
     }
 }

@@ -59,8 +59,7 @@ namespace Lsj.Util.Win32.Structs
         /// The server principal name to use with the authentication service.
         /// If you are using <see cref="RPC_C_AUTHN_WINNT"/>, the principal name must be <see langword="null"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string pwszServerPrincName;
+        public IntPtr pwszServerPrincName;
 
         /// <summary>
         /// The authentication level to be used.

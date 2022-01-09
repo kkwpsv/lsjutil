@@ -214,7 +214,7 @@ namespace Lsj.Util.Win32.Structs
         /// This field is ignored for Wizard97 wizards.
         /// For Aero wizards, the string alone is used for the caption, regardless of whether the <see cref="PSH_PROPTITLE"/> flag is set.
         /// </summary>
-        public LPCSTR pszCaption;
+        public IntPtr pszCaption;
 
         /// <summary>
         /// Number of property sheet pages provided in either the <see cref="ppsp"/> or <see cref="phpage"/> array.

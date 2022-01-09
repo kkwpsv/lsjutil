@@ -49,7 +49,6 @@ namespace Lsj.Util.Win32.Structs
         /// The colors in the <see cref="bmiColors"/> table appear in order of importance.
         /// For more information, see the Remarks section.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public RGBQUAD[] bmiColors;
+        public RGBQUAD bmiColors;
     }
 }

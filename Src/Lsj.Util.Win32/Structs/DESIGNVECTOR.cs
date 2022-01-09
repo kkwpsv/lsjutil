@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
@@ -39,7 +40,6 @@ namespace Lsj.Util.Win32.Structs
         /// An array specifying the values of the axes of a multiple master OpenType font.
         /// This array corresponds to the <see cref="AXESLIST.axlAxisInfo"/> array in the <see cref="AXESLIST"/> structure.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MM_MAX_NUMAXES)]
-        public LONG[] dvValues;
+        public ByValLONGArrayStructForSize16 dvValues;
     }
 }

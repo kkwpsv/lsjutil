@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MenuFlags;
@@ -158,7 +159,7 @@ namespace Lsj.Util.Win32.Structs
         /// When using with the <see cref="SetMenuItemInfo"/> function, this member should contain a value whose type is specified by the <see cref="fType"/> member.
         /// <see cref="dwTypeData"/> is used only if the <see cref="MIIM_STRING"/> flag is set in the <see cref="fMask"/> member.
         /// </summary>
-        public string dwTypeData;
+        public IntPtr dwTypeData;
 
         /// <summary>
         /// The length of the menu item text, in characters, when information is received about a menu item of the <see cref="MFT_STRING"/> type.

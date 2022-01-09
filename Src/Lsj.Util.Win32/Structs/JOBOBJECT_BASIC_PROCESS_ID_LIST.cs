@@ -33,7 +33,6 @@ namespace Lsj.Util.Win32.Structs
         /// A variable-length array of process identifiers returned by this call.
         /// Array elements 0 through <see cref="NumberOfProcessIdsInList"/>– 1 contain valid process identifiers.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public ULONG_PTR[] ProcessIdList;
+        public ULONG_PTR ProcessIdList;
     }
 }

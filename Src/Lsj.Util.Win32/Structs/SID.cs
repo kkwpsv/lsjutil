@@ -35,7 +35,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ANYSIZE_ARRAY)]
-        public DWORD[] SubAuthority;
+        public DWORD SubAuthority;
     }
 }

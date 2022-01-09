@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -48,7 +48,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved; used internally by the system.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public BYTE[] rgbReserved;
+        public ByValBYTEArrayStructForSize32 rgbReserved;
     }
 }

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.EditLinksFlags;
@@ -47,7 +48,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a string to be used as the title of the dialog box.
         /// If <see cref="NULL"/>, then the library uses Links.
         /// </summary>
-        public LPCWSTR lpszCaption;
+        public IntPtr lpszCaption;
 
         /// <summary>
         /// Pointer to a hook function that processes messages intended for the dialog box.
@@ -72,7 +73,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a null-terminated string that specifies the name of the resource file for the dialog box template
         /// that is to be substituted for the library's Edit Links dialog box template.
         /// </summary>
-        public LPCWSTR lpszTemplate;
+        public IntPtr lpszTemplate;
 
         /// <summary>
         /// Customized template handle.

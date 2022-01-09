@@ -33,5 +33,37 @@ namespace Lsj.Util.Tests.Win32
                 Assert.Fail(Environment.NewLine + string.Concat(failed.Select(item => $"{item.Method.DeclaringType.Name} {item.Method.Name} entrypoint error." + Environment.NewLine)));
             }
         }
+
+        [TestMethod]
+        public void TestBlittableStructs()
+        {
+            var structs = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().Where(x => x.IsValueType && !x.IsEnum);
+            var wrongLayoutStructs = new List<Type>();
+            var wrongFieldsStructs = new List<(Type type, List<FieldInfo> fields)>();
+            foreach (var @struct in structs)
+            {
+                if (!@struct.IsLayoutSequential && !@struct.IsExplicitLayout)
+                {
+                    wrongLayoutStructs.Add(@struct);
+                }
+
+                var fields = @struct.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var wrongFields = fields.Where(x => (!x.FieldType.IsValueType && !x.FieldType.IsPointer) || x.FieldType.IsArray || x.GetCustomAttribute<MarshalAsAttribute>() != null);
+                if (wrongFields.Any())
+                {
+                    wrongFieldsStructs.Add((@struct, wrongFields.ToList()));
+                }
+            }
+
+            if (wrongLayoutStructs.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(wrongLayoutStructs.Select(item => $"{item.Name} layout wrong" + Environment.NewLine)));
+            }
+
+            if (wrongFieldsStructs.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(wrongFieldsStructs.Select(item => $"{item.type.Name} has wrong fields: {string.Join(" ", item.fields.Select(x => x.Name))}" + Environment.NewLine)));
+            }
+        }
     }
 }

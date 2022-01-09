@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
@@ -41,7 +42,6 @@ namespace Lsj.Util.Win32.Structs
         /// Each <see cref="AXISINFO"/> structure contains information on an axis of a specified multiple master font.
         /// This corresponds to the dvValues array in the <see cref="DESIGNVECTOR"/> structure.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MM_MAX_NUMAXES)]
-        public AXISINFO[] axlAxisInfo;
+        public ByValAXISINFOArrayStructForSize16 axlAxisInfo;
     }
 }

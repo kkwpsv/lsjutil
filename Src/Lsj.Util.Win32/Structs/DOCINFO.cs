@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DOCINFOFlags;
 using static Lsj.Util.Win32.Gdi32;
@@ -24,16 +25,14 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to a null-terminated string that specifies the name of the document.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpszDocName;
+        public IntPtr lpszDocName;
 
         /// <summary>
         /// Pointer to a null-terminated string that specifies the name of an output file.
         /// If this pointer is <see langword="null"/>, the output will be sent to the device identified by the device context handle
         /// that was passed to the <see cref="StartDoc"/> function.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpszOutput;
+        public IntPtr lpszOutput;
 
         /// <summary>
         /// Pointer to a null-terminated string that specifies the type of data used to record the print job.
@@ -41,8 +40,7 @@ namespace Lsj.Util.Win32.Structs
         /// can include such values as raw, emf, or XPS_PASS.
         /// This member can be <see langword="null"/>. Note that the requested data type might be ignored.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpszDatatype;
+        public IntPtr lpszDatatype;
 
         /// <summary>
         /// Specifies additional information about the print job.

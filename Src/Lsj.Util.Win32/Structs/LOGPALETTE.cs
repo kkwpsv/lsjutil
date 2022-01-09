@@ -31,7 +31,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies an array of <see cref="PALETTEENTRY"/> structures that define the color and usage of each entry in the logical palette.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public PALETTEENTRY[] palPalEntry;
+        public PALETTEENTRY palPalEntry;
     }
 }

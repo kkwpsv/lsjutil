@@ -95,8 +95,7 @@ namespace Lsj.Util.Win32.Structs
         /// User Account Control (UAC) will prompt the user for consent to run the application elevated
         /// or enter the credentials of an administrator account used to run the application.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpVerb;
+        public IntPtr lpVerb;
 
         /// <summary>
         /// The address of a null-terminated string that specifies the name of the file or object on which <see cref="ShellExecuteEx"/> will
@@ -111,8 +110,7 @@ namespace Lsj.Util.Win32.Structs
         /// One of the two values—<see cref="lpFile"/> or <see cref="lpIDList"/>—must be set.
         /// If the path is not included with the name, the current directory is assumed.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpFile;
+        public IntPtr lpFile;
 
         /// <summary>
         /// Optional.
@@ -120,16 +118,14 @@ namespace Lsj.Util.Win32.Structs
         /// The parameters must be separated by spaces.
         /// If the <see cref="lpFile"/> member specifies a document file, <see cref="lpParameters"/> should be <see cref="IntPtr.Zero"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpParameters;
+        public IntPtr lpParameters;
 
         /// <summary>
         /// Optional.
         /// The address of a null-terminated string that specifies the name of the working directory.
         /// If this member is <see cref="IntPtr.Zero"/>, the current directory is used as the working directory.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpDirectory;
+        public IntPtr lpDirectory;
 
         /// <summary>
         /// Required.
@@ -174,8 +170,7 @@ namespace Lsj.Util.Win32.Structs
         /// This key will have a subkey that conforms to the Shell verb registry schema, such as shell\verb name.
         /// This member is ignored if <see cref="fMask"/> does not include <see cref="SEE_MASK_CLASSNAME"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpClass;
+        public IntPtr lpClass;
 
         /// <summary>
         /// A handle to the registry key for the file type.

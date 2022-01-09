@@ -48,7 +48,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The stream name.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public WCHAR[] StreamName;
+        public WCHAR StreamName;
     }
 }

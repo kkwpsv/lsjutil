@@ -22,7 +22,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The file name that is returned.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
-        public WCHAR[] FileName;
+        public WCHAR FileName;
     }
 }

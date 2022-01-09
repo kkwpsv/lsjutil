@@ -38,7 +38,6 @@ namespace Lsj.Util.Win32.Structs
         /// The privilege was used to gain access to an object or service.
         /// This flag is used to identify the relevant privileges in a set passed by a client application that may contain unnecessary privileges.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ANYSIZE_ARRAY)]
-        public LUID_AND_ATTRIBUTES[] Privileges;
+        public LUID_AND_ATTRIBUTES Privileges;
     }
 }

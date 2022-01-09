@@ -36,8 +36,7 @@ namespace Lsj.Util.Win32.Structs
         /// The shortcut is not added by <see cref="SHAddToRecentDocs"/> to the user's Recent folder (<see cref="CSIDL_RECENT"/>,
         /// <see cref="FOLDERID_Recent"/>), but it is added to the Recent category in the specified application's Jump List.
         /// </summary>
-        [MarshalAs(UnmanagedType.Interface)]
-        public IShellLink psl;
+        public IntPtr psl;
 
         /// <summary>
         /// The application-defined AppUserModelID associated with the item.

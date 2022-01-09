@@ -1,4 +1,4 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -17,7 +17,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A byte array containing the 128 bit identifier.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 16)]
-        public BYTE[] Identifier;
+        public ByValBYTEArrayStructForSize16 Identifier;
     }
 }
