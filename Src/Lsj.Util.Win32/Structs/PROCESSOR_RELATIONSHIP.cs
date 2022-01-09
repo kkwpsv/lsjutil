@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals.ByValBYTEArrayStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Kernel32;

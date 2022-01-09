@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.PlatformIds;
 using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 
 namespace Lsj.Util.Win32.Structs
 {

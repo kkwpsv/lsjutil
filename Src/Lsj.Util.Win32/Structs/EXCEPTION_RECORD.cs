@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals.ByValULONG_PTRArrayStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;

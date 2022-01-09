@@ -3,7 +3,7 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals.ByValULONGArrayStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 
 namespace Lsj.Util.Win32.Structs
 {

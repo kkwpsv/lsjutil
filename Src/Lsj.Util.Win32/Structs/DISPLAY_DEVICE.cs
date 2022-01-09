@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
-using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 
 namespace Lsj.Util.Win32.Structs
 {

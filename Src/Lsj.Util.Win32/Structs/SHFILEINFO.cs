@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
-using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;

@@ -1,4 +1,4 @@
-﻿using Lsj.Util.Win32.Marshals.ByValStringStructs;
+﻿using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 

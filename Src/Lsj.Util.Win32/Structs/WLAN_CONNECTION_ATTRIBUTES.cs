@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.WLAN_INTERFACE_STATE;
 using static Lsj.Util.Win32.Enums.WLAN_CONNECTION_MODE;
