@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -93,18 +94,35 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         {
             unsafe
             {
-                var result = S_OK;
-                if (FileTypes == null || FileTypes.Count == 0 ||
-                    _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
-                    new COMDLG_FILTERSPEC
-                    {
-                        pszName = x.Name,
-                        pszSpec = x.Pattern
-                    }).ToArray()))
+                List<LPWSTR> strings = new List<LPWSTR>();
+                try
                 {
-                    return;
+                    var result = S_OK;
+                    if (FileTypes == null || FileTypes.Count == 0 ||
+                        _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                        {
+                            var nameStr = new LPWSTR(x.Name);
+                            var specStr = new LPWSTR(x.Pattern);
+                            strings.Add(nameStr);
+                            strings.Add(specStr);
+                            return new COMDLG_FILTERSPEC
+                            {
+                                pszName = nameStr.Handle,
+                                pszSpec = specStr.Handle,
+                            };
+                        }).ToArray()))
+                    {
+                        return;
+                    }
+                    throw Marshal.GetExceptionForHR(result)!;
                 }
-                throw Marshal.GetExceptionForHR(result)!;
+                finally
+                {
+                    foreach (var str in strings)
+                    {
+                        str.Dispose();
+                    }
+                }
             }
         }
 
