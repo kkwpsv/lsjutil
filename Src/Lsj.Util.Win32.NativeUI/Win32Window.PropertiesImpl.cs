@@ -164,7 +164,7 @@ namespace Lsj.Util.Win32.NativeUI
         private WindowStylesEx GetWindowStylesEx()
         {
             var result = GetWindowLong(_handle, GWL_EXSTYLE);
-            if (result == NULL)
+            if (result != NULL)
             {
                 return (WindowStylesEx)result.SafeToUInt32();
             }
@@ -187,7 +187,8 @@ namespace Lsj.Util.Win32.NativeUI
                 SetTopMost();
             }
             SetLastError(ERROR_SUCCESS);
-            if (SetWindowLong(_handle, GWL_EXSTYLE, (uint)value) != NULL)
+            var result = SetWindowLong(_handle, GWL_EXSTYLE, (uint)value);
+            if (result != NULL)
             {
                 ThrowExceptionIfError();
             }
