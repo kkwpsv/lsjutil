@@ -70,7 +70,7 @@ namespace Lsj.Util.Win32.NativeUI
         public Win32Window(string windowClassName, string windowText, bool needRegisterClass, int x, int y, int width, int height, WindowStyles style, WindowStylesEx stylesEx, HWND parentWindow)
         {
             _flags |= Win32WindowFlags.OwnWindow;
-            var hInstance = GetModuleHandle(null);
+            var hInstance = GetModuleHandle(NULL);
             _wndProc = (Wndproc)WindowProc;
 
             if (needRegisterClass)
