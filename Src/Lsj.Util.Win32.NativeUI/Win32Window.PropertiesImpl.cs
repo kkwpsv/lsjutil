@@ -197,7 +197,7 @@ namespace Lsj.Util.Win32.NativeUI
         private ClassStyles GetClassStyles()
         {
             var result = GetClassLong(_handle, GCL_STYLE);
-            if (result == NULL)
+            if (result != NULL)
             {
                 return (ClassStyles)result.SafeToUInt32();
             }
