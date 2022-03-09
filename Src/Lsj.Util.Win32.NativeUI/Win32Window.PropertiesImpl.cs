@@ -283,6 +283,10 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetShowStates(ShowWindowCommands value) => ShowWindow(_handle, value);
 
+        private bool GetIsEnabled() => IsWindowEnabled(_handle);
+
+        private bool GetIsVisible() => IsWindowVisible(_handle);
+
         private DPI_AWARENESS GetDpiAwareness()
         {
             if (Environment.OSVersion.Version >= new Version(10, 0, 14393, 0))

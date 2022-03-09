@@ -105,6 +105,16 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
+        /// Is Enabled
+        /// </summary>
+        public bool IsEnabled => GetIsEnabled();
+
+        /// <summary>
+        /// Is Visible
+        /// </summary>
+        public bool IsVisible => GetIsVisible();
+
+        /// <summary>
         /// Dpi Awareness
         /// </summary>
         /// <exception cref="PlatformNotSupportedException"/>
