@@ -6,6 +6,9 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Pointer to <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <remarks>
+    /// This is not supported in method parameters when use .Net Framework
+    /// </remarks>
     public struct LP<T> where T : struct
     {
         private IntPtr _value;

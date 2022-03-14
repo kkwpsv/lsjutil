@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Extensions;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
@@ -33,5 +34,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator DWORD_PTR(UIntPtr val) => new DWORD_PTR { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IntPtr(DWORD_PTR val) => val._value.SafeToIntPtr();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator DWORD_PTR(IntPtr val) => new DWORD_PTR { _value = val.SafeToUIntPtr() };
     }
 }

@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Copy an <see cref="HSTRING"/> by calling the <see cref="WindowsDuplicateString"/> function.
     /// Concatenate two strings by calling the <see cref="WindowsConcatString"/> function.
     /// Access the backing string memory by calling the <see cref="WindowsGetStringRawBuffer"/> function.
-    /// <see cref="HSTRING"/> can store and use embedded <see cref="NUL"/> characters.
+    /// <see cref="HSTRING"/> can store and use embedded NUL characters.
     /// Use the <see cref="WindowsStringHasEmbeddedNull"/> function to check for embedded NUL characters
     /// before using any functions which may produce unexpected results.
     /// For example, most of the Windows functions use <see cref="LPCWSTR"/> as an input parameter,

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -12,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct FARPROC
     {
         [FieldOffset(0)]
-        private INT_PTR _value;
+        private IntPtr _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -21,12 +19,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator INT_PTR(FARPROC val) => val._value;
+        public static implicit operator IntPtr(FARPROC val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator FARPROC(INT_PTR val) => new FARPROC { _value = val };
+        public static implicit operator FARPROC(IntPtr val) => new FARPROC { _value = val };
     }
 }

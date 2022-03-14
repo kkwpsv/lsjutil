@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -143,7 +144,7 @@ namespace Lsj.Util.Win32.NativeUI
             var result = GetWindowLong(_handle, GWL_STYLE);
             if (result != NULL)
             {
-                return (WindowStyles)result.SafeToUInt32();
+                return (WindowStyles)((IntPtr)result).SafeToUInt32();
             }
             else
             {
@@ -166,7 +167,7 @@ namespace Lsj.Util.Win32.NativeUI
             var result = GetWindowLong(_handle, GWL_EXSTYLE);
             if (result != NULL)
             {
-                return (WindowStylesEx)result.SafeToUInt32();
+                return (WindowStylesEx)((IntPtr)result).SafeToUInt32();
             }
             else
             {

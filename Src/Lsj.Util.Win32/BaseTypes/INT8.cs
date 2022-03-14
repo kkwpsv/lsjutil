@@ -31,5 +31,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator INT8(sbyte val) => new INT8 { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator byte(INT8 val) => unchecked((byte)val._value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator INT8(byte val) => new INT8 { _value = unchecked((sbyte)val) };
     }
 }

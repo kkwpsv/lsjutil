@@ -30,5 +30,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator DWORD32(uint val) => new DWORD32 { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator int(DWORD32 val) => unchecked((int)val._value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator DWORD32(int val) => new DWORD32 { _value = unchecked((uint)val) };
     }
 }

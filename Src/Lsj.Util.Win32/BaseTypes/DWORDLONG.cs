@@ -30,5 +30,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator DWORDLONG(ulong val) => new DWORDLONG { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator long(DWORDLONG val) => unchecked((long)val._value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator DWORDLONG(long val) => new DWORDLONG { _value = unchecked((ulong)val) };
     }
 }
