@@ -4,12 +4,15 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CharacterTypeFlags;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.CompareStringResults;
+using static Lsj.Util.Win32.Enums.CType1Flags;
+using static Lsj.Util.Win32.Enums.CType2Flags;
+using static Lsj.Util.Win32.Enums.CType3Flags;
 using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
 using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.StringFlags;
@@ -616,7 +619,7 @@ namespace Lsj.Util.Win32
         /// They are relevant only for Unicode.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetStringType([In] DWORD dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
+        public static extern BOOL GetStringType([In] CharacterTypeFlags dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
 
         /// <summary>
         /// <para>

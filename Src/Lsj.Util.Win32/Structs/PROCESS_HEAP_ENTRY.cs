@@ -79,7 +79,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public PROCESS_HEAP_ENTRY_Region Region => _PROCESS_HEAP_ENTRY_DUMMYUNIONNAME.Region;
 
+#pragma warning disable IDE1006
         private PROCESS_HEAP_ENTRY_DUMMYUNIONNAME _PROCESS_HEAP_ENTRY_DUMMYUNIONNAME;
+#pragma warning restore IDE1006
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         private struct PROCESS_HEAP_ENTRY_DUMMYUNIONNAME

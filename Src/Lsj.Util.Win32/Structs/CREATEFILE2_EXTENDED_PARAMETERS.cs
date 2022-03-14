@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -31,7 +32,7 @@ namespace Lsj.Util.Win32.Structs
         /// All other file attributes override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
         /// Note
         /// When <see cref="CreateFile2"/> opens an existing file, it generally combines the file flags with the file attributes of the existing file,
-        /// and ignores any file attributes supplied as part of <see cref="dwFlagsAndAttributes"/>.
+        /// and ignores any file attributes supplied as part of dwFlagsAndAttributes.
         /// Special cases are detailed in Creating and Opening Files.
         /// Some of the following file attributes and flags may only apply to files
         /// and not necessarily all other types of devices that <see cref="CreateFile2"/> can open.

@@ -6,8 +6,10 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.GEOCLASS;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CALTYPE;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.FindStringFlags;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
@@ -18,6 +20,7 @@ using static Lsj.Util.Win32.Enums.LGRPIDFlags;
 using static Lsj.Util.Win32.Enums.MUIFlags;
 using static Lsj.Util.Win32.Enums.MUIQueryFlags;
 using static Lsj.Util.Win32.Enums.StringFlags;
+using static Lsj.Util.Win32.Enums.SYSGEOTYPE;
 using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Gdi32;
@@ -216,7 +219,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="dwFindNLSStringFlags">
         /// Flags specifying details of the find operation.
-        /// For detailed definitions, see the dwFindNLSStringFlags parameter of <see cref="dwFindNLSStringFlags"/>.
+        /// For detailed definitions, see the dwFindNLSStringFlags parameter of <see cref="FindNLSStringEx"/>.
         /// </param>
         /// <param name="lpStringSource">
         /// Pointer to the source string, in which the function searches for the string specified by <paramref name="lpStringValue"/>.

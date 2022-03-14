@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The format of the reason for the power request. This parameter can be one of the following values:
         /// <see cref="POWER_REQUEST_CONTEXT_DETAILED_STRING"/>:
-        /// The <see cref="Detailed"/> structure identifies a localizable string resource that describes the reason for the power request.
+        /// The <see cref="REASON_CONTEXT_Reason.Detailed"/> structure identifies a localizable string resource that describes the reason for the power request.
         /// <see cref="POWER_REQUEST_CONTEXT_SIMPLE_STRING"/>:
         /// The <see cref="SimpleReasonString"/> parameter contains a simple, non-localizable string that describes the reason for the power request.
         /// </summary>
@@ -42,6 +42,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public REASON_CONTEXT_Reason Reason;
 
+        /// <summary>
+        /// Reason
+        /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         public struct REASON_CONTEXT_Reason
         {
@@ -58,6 +61,9 @@ namespace Lsj.Util.Win32.Structs
             public IntPtr SimpleReasonString;
         }
 
+        /// <summary>
+        /// Detailed
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct REASON_CONTEXT_Detailed
         {

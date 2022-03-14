@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32.Structs
             public COPYFILE2_MESSAGE_StreamFinished StreamFinished;
 
             /// <summary>
-            /// This structure is selected if the <see cref="Type"/> member is set to <see cref="COPYFILE2_CALLBACK_POLL_CONTNUE"/> (5).
+            /// This structure is selected if the <see cref="Type"/> member is set to <see cref="COPYFILE2_CALLBACK_POLL_CONTINUE"/> (5).
             /// </summary>
             [FieldOffset(0)]
             public COPYFILE2_MESSAGE_PollContinue PollContinue;

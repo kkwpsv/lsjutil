@@ -16,8 +16,8 @@ namespace Lsj.Util.Win32.Enums
     {
         /// <summary>
         /// The heap element is an allocated block.
-        /// If <see cref="PROCESS_HEAP_ENTRY_MOVEABLE"/> is also specified, the <see cref="PROCESS_HEAP_ENTRY.BlockStruct"/> structure becomes valid.
-        /// The <see cref="PROCESS_HEAP_ENTRY.BlockStruct.hMem"/> member of the <see cref="PROCESS_HEAP_ENTRY.BlockStruct"/> structure
+        /// If <see cref="PROCESS_HEAP_ENTRY_MOVEABLE"/> is also specified, the <see cref="PROCESS_HEAP_ENTRY.Block"/> structure becomes valid.
+        /// The <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Block.hMem"/> member of the <see cref="PROCESS_HEAP_ENTRY.Block"/> structure
         /// contains a handle to the allocated, moveable memory block.
         /// </summary>
         PROCESS_HEAP_ENTRY_BUSY = 0x0004,
@@ -30,8 +30,8 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// This value must be used with <see cref="PROCESS_HEAP_ENTRY_BUSY"/>, indicating that the heap element is an allocated block.
         /// The block was allocated with <see cref="LMEM_MOVEABLE"/> or <see cref="GMEM_MOVEABLE"/>, 
-        /// and the <see cref="PROCESS_HEAP_ENTRY.BlockStruct"/> structure becomes valid.
-        /// The <see cref="PROCESS_HEAP_ENTRY.BlockStruct.hMem"/> member of the <see cref="PROCESS_HEAP_ENTRY.BlockStruct"/> structure
+        /// and the <see cref="PROCESS_HEAP_ENTRY.Block"/> structure becomes valid.
+        /// The <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Block.hMem"/> member of the <see cref="PROCESS_HEAP_ENTRY.Block"/> structure
         /// contains a handle to the allocated, moveable memory block.
         /// </summary>
         PROCESS_HEAP_ENTRY_MOVEABLE = 0x0010,
@@ -41,9 +41,9 @@ namespace Lsj.Util.Win32.Enums
         /// The <see cref="PROCESS_HEAP_ENTRY.lpData"/> member of the structure points to the first virtual address used by the region;
         /// the <see cref="PROCESS_HEAP_ENTRY.cbData"/> member specifies the total size, in bytes, of the address space that is reserved for this region;
         /// and the <see cref="PROCESS_HEAP_ENTRY.cbOverhead"/> member specifies the size, in bytes, of the heap control structures that describe the region.
-        /// The <see cref="PROCESS_HEAP_ENTRY.RegionStruct"/> structure becomes valid.
-        /// The <see cref="PROCESS_HEAP_ENTRY.RegionStruct.dwCommittedSize"/>, <see cref="PROCESS_HEAP_ENTRY.RegionStruct.dwUnCommittedSize"/>,
-        /// <see cref="PROCESS_HEAP_ENTRY.RegionStruct.lpFirstBlock"/>, and <see cref="PROCESS_HEAP_ENTRY.RegionStruct.lpLastBlock"/> members
+        /// The <see cref="PROCESS_HEAP_ENTRY.Region"/> structure becomes valid.
+        /// The <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Region.dwCommittedSize"/>, <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Region.dwUnCommittedSize"/>,
+        /// <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Region.lpFirstBlock"/>, and <see cref="PROCESS_HEAP_ENTRY.PROCESS_HEAP_ENTRY_Region.lpLastBlock"/> members
         /// of the structure contain additional information about the region.
         /// </summary>
         PROCESS_HEAP_REGION = 0x0001,
