@@ -97,20 +97,23 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 List<LPWSTR> strings = new List<LPWSTR>();
                 try
                 {
-                    var result = S_OK;
-                    if (FileTypes == null || FileTypes.Count == 0 ||
-                        _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                    if (FileTypes == null || FileTypes.Count == 0)
+                    {
+                        return;
+                    }
+                    var result = _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                    {
+                        var nameStr = new LPWSTR(x.Name);
+                        var specStr = new LPWSTR(x.Pattern);
+                        strings.Add(nameStr);
+                        strings.Add(specStr);
+                        return new COMDLG_FILTERSPEC
                         {
-                            var nameStr = new LPWSTR(x.Name);
-                            var specStr = new LPWSTR(x.Pattern);
-                            strings.Add(nameStr);
-                            strings.Add(specStr);
-                            return new COMDLG_FILTERSPEC
-                            {
-                                pszName = nameStr.Handle,
-                                pszSpec = specStr.Handle,
-                            };
-                        }).ToArray()))
+                            pszName = nameStr.Handle,
+                            pszSpec = specStr.Handle,
+                        };
+                    }).ToArray());
+                    if (result)
                     {
                         return;
                     }
