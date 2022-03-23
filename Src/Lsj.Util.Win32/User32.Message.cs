@@ -6,6 +6,8 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BroadcastSystemMessageFlags;
+using static Lsj.Util.Win32.Enums.BroadcastSystemMessageRecipients;
 using static Lsj.Util.Win32.Enums.InSendMessageExResults;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
@@ -14,6 +16,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -65,6 +68,120 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate void Sendasyncproc([In] HWND Arg1, [In] WindowMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
 
+
+        /// <summary>
+        /// <para>
+        /// Sends a message to the specified recipients.
+        /// The recipients can be applications, installable drivers, network drivers, system-level device drivers, or any combination of these system components.
+        /// To receive additional information if the request is defined, use the <see cref="BroadcastSystemMessageEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessagew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="flags">
+        /// The broadcast option.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="BSF_ALLOWSFW"/>, <see cref="BSF_FLUSHDISK"/>, <see cref="BSF_FORCEIFHUNG"/>,
+        /// <see cref="BSF_IGNORECURRENTTASK"/>, <see cref="BSF_NOHANG"/>, <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>,
+        /// <see cref="BSF_POSTMESSAGE"/>, <see cref="BSF_QUERY"/>, <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// </param>
+        /// <param name="lpInfo">
+        /// A pointer to a variable that contains and receives information about the recipients of the message.
+        /// When the function returns, this variable receives a combination of these values
+        /// identifying which recipients actually received the message.
+        /// If this parameter is <see cref="NullRef{BroadcastSystemMessageRecipients}"/>, the function broadcasts to all components.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="BSM_ALLCOMPONENTS"/>, <see cref="BSM_ALLDESKTOPS"/>, <see cref="BSM_APPLICATIONS"/>
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// The message to be sent.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a positive value.
+        /// If the function is unable to broadcast the message, the return value is –1.
+        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/> and at least one recipient
+        /// returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients,
+        /// ignoring values returned by those recipients.
+        /// The system only does marshalling for system messages (those in the range 0 to (WM_USER-1)).
+        /// To send other messages (those >= WM_USER) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BroadcastSystemMessageW", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG BroadcastSystemMessage([In] BroadcastSystemMessageFlags flags, [In][Out] ref BroadcastSystemMessageRecipients lpInfo,
+            [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Sends a message to the specified recipients.
+        /// The recipients can be applications, installable drivers, network drivers,
+        /// system-level device drivers, or any combination of these system components.
+        /// This function is similar to <see cref="BroadcastSystemMessage"/> except
+        /// that this function can return more information from the recipients.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="flags">
+        /// The broadcast option.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="BSF_ALLOWSFW"/>, <see cref="BSF_FLUSHDISK"/>, <see cref="BSF_FORCEIFHUNG"/>,
+        /// <see cref="BSF_IGNORECURRENTTASK"/>, <see cref="BSF_LUID"/>, <see cref="BSF_NOHANG"/>,
+        /// <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>, <see cref="BSF_POSTMESSAGE"/>, <see cref="BSF_RETURNHDESK"/>,
+        /// <see cref="BSF_QUERY"/>, <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// </param>
+        /// <param name="lpInfo">
+        /// A pointer to a variable that contains and receives information about the recipients of the message.
+        /// When the function returns, this variable receives a combination of these values
+        /// identifying which recipients actually received the message.
+        /// If this parameter is <see cref="NullRef{BroadcastSystemMessageRecipients}"/>, the function broadcasts to all components.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="BSM_ALLCOMPONENTS"/>, <see cref="BSM_ALLDESKTOPS"/>, <see cref="BSM_APPLICATIONS"/>
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// The message to be sent.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="pbsmInfo">
+        /// A pointer to a <see cref="BSMINFO"/> structure that contains additional information
+        /// if the request is denied and <paramref name="flags"/> is set to <see cref="BSF_QUERY"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a positive value.
+        /// If the function is unable to broadcast the message, the return value is –1.
+        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/> and at least one recipient
+        /// returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients,
+        /// ignoring values returned by those recipients.
+        /// If the caller's thread is on a desktop other than that of the window that denied the request,
+        /// the caller must call <code>SetThreadDesktop(hdesk)</code> to query anything on that window.
+        /// Also, the caller must call <see cref="CloseDesktop"/> on the returned hdesk handle.
+        /// The system only does marshalling for system messages (those in the range 0 to (WM_USER-1)).
+        /// To send other messages (those >= WM_USER) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BroadcastSystemMessageExW", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG BroadcastSystemMessageEx([In] BroadcastSystemMessageFlags flags, [In][Out] ref BroadcastSystemMessageRecipients lpInfo,
+            [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam, [Out] out BSMINFO pbsmInfo);
 
         /// <summary>
         /// <para>

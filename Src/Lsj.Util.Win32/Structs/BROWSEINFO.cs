@@ -26,8 +26,7 @@ namespace Lsj.Util.Win32.Structs
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BROWSEINFO
-    {
-       
+    {  
         /// <summary>
         /// A handle to the owner window for the dialog box.
         /// </summary>
