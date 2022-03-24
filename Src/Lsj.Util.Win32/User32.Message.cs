@@ -8,7 +8,9 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BroadcastSystemMessageFlags;
 using static Lsj.Util.Win32.Enums.BroadcastSystemMessageRecipients;
+using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.InSendMessageExResults;
+using static Lsj.Util.Win32.Enums.MessageFilterFlags;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
@@ -214,6 +216,199 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CallMsgFilter([In][Out] ref MSG lpMsg, [In] int nCode);
+
+        /// <summary>
+        /// <para>
+        /// Passes the hook information to the next hook procedure in the current hook chain.
+        /// A hook procedure can call this function either before or after processing the hook information.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hhk">
+        /// This parameter is ignored.
+        /// </param>
+        /// <param name="nCode">
+        /// The hook code passed to the current hook procedure.
+        /// The next hook procedure uses this code to determine how to process the hook information.
+        /// </param>
+        /// <param name="wParam">
+        /// The <paramref name="wParam"/> value passed to the current hook procedure.
+        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// </param>
+        /// <param name="lParam">
+        /// The <paramref name="lParam"/> value passed to the current hook procedure.
+        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// </param>
+        /// <returns>
+        /// This value is returned by the next hook procedure in the chain.
+        /// The current hook procedure must also return this value.
+        /// The meaning of the return value depends on the hook type.
+        /// For more information, see the descriptions of the individual hook procedures.
+        /// </returns>
+        /// <remarks>
+        /// Hook procedures are installed in chains for particular hook types.
+        /// <see cref="CallNextHookEx"/> calls the next hook in the chain.
+        /// Calling <see cref="CallNextHookEx"/> is optional, but it is highly recommended;
+        /// otherwise, other applications that have installed hooks will not receive hook notifications and may behave incorrectly as a result.
+        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT CallNextHookEx([In] HHOOK hhk, [In] int nCode, [In] WPARAM wParam, [In] LPARAM lParam);
+
+
+        /// <summary>
+        /// <para>
+        /// Passes message information to the specified window procedure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpPrevWndFunc">
+        /// The previous window procedure.
+        /// If this value is obtained by calling the <see cref="GetWindowLong"/> function with the nIndex parameter
+        /// set to <see cref="GWL_WNDPROC"/> or <see cref="DWL_DLGPROC"/>,
+        /// it is actually either the address of a window or dialog box procedure,
+        /// or a special internal value meaningful only to <see cref="CallWindowProc"/>.
+        /// </param>
+        /// <param name="hWnd">
+        /// A handle to the window procedure to receive the message.
+        /// </param>
+        /// <param name="Msg">
+        /// The message.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the result of the message processing and depends on the message sent.
+        /// </returns>
+        /// <remarks>
+        /// Use the <see cref="CallWindowProc"/> function for window subclassing.
+        /// Usually, all windows with the same class share one window procedure.
+        /// A subclass is a window or set of windows with the same class whose messages are intercepted and processed
+        /// by another window procedure (or procedures) before being passed to the window procedure of the class.
+        /// The <see cref="SetWindowLong"/> function creates the subclass by changing the window procedure associated with a particular window,
+        /// causing the system to call the new window procedure instead of the previous one.
+        /// An application must pass any messages not processed by the new window procedure
+        /// to the previous window procedure by calling <see cref="CallWindowProc"/>.
+        /// This allows the application to create a chain of window procedures.
+        /// The <see cref="CallWindowProc"/> function handles Unicode-to-ANSI conversion.
+        /// You cannot take advantage of this conversion if you call the window procedure directly.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT CallWindowProc([In] WNDPROC lpPrevWndFunc, [In] HWND hWnd, [In] WindowMessages Msg,
+            [In] WPARAM wParam, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Adds or removes a message from the User Interface Privilege Isolation (UIPI) message filter.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changewindowmessagefilter"/>
+        /// </para>
+        /// </summary>
+        /// <param name="message">
+        /// The message to add to or remove from the filter.
+        /// </param>
+        /// <param name="dwFlag">
+        /// The action to be performed. One of the following values.
+        /// <see cref="MSGFLT_ADD"/>:
+        /// Adds the <paramref name="message"/> to the filter.
+        /// This has the effect of allowing the message to be received.
+        /// <see cref="MSGFLT_REMOVE"/>
+        /// Removes the <paramref name="message"/> from the filter.
+        /// This has the effect of blocking the message.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Note
+        /// A message can be successfully removed from the filter, but that is not a guarantee that the message will be blocked.
+        /// See the Remarks section for more details.
+        /// </returns>
+        /// <remarks>
+        /// UIPI is a security feature that prevents messages from being received from a lower integrity level sender.
+        /// All such messages with a value above <see cref="WM_USER"/> are blocked by default.
+        /// The filter, somewhat contrary to intuition, is a list of messages that are allowed through.
+        /// Therefore, adding a message to the filter allows that message to be received from a lower integrity sender,
+        /// while removing a message blocks that message from being received.
+        /// Certain messages with a value less than <see cref="WM_USER"/> are required
+        /// to pass through the filter regardless of the filter setting.
+        /// You can call this function to remove one of those messages from the filter and it will return <see cref="TRUE"/>.
+        /// However, the message will still be received by the calling process.
+        /// Processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the filter.
+        /// If those processes call this function, it will fail.
+        /// For more information on integrity levels, see Understanding and Working in Protected Mode Internet Explorer.
+        /// </remarks>
+        [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
+            "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
+            "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ChangeWindowMessageFilter([In] WindowMessages message, [In] MessageFilterFlags dwFlag);
+
+        /// <summary>
+        /// <para>
+        /// Modifies the User Interface Privilege Isolation (UIPI) message filter for a specified window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changewindowmessagefilterex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose UIPI message filter is to be modified.
+        /// </param>
+        /// <param name="message">
+        /// A handle to the window whose UIPI message filter is to be modified.
+        /// </param>
+        /// <param name="action">
+        /// The action to be performed, and can take one of the following values:
+        /// <see cref="MSGFLT_ALLOW"/>:
+        /// Allows the message through the filter.
+        /// This enables the message to be received by <paramref name="hwnd"/>,
+        /// regardless of the source of the message, even it comes from a lower privileged process.
+        /// <see cref="MSGFLT_DISALLOW"/>:
+        /// Blocks the message to be delivered to <paramref name="hwnd"/> if it comes from a lower privileged process,
+        /// unless the message is allowed process-wide by using the <see cref="ChangeWindowMessageFilter"/> function or globally.
+        /// <see cref="MSGFLT_RESET"/>:
+        /// Resets the window message filter for <paramref name="hwnd"/> to the default.
+        /// Any message allowed globally or process-wide will get through, but any message not included in those two categories,
+        /// and which comes from a lower privileged process, will be blocked.
+        /// </param>
+        /// <param name="pChangeFilterStruct">
+        /// Optional pointer to a <see cref="CHANGEFILTERSTRUCT"/> structure.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>; otherwise, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// UIPI is a security feature that prevents messages from being received from a lower-integrity-level sender.
+        /// You can use this function to allow specific messages to be delivered to a window
+        /// even if the message originates from a process at a lower integrity level.
+        /// Unlike the <see cref="ChangeWindowMessageFilter"/> function, which controls the process message filter,
+        /// the <see cref="ChangeWindowMessageFilterEx"/> function controls the window message filter.
+        /// An application may use the <see cref="ChangeWindowMessageFilter"/> function to allow or block a message in a process-wide manner.
+        /// If the message is allowed by either the process message filter or the window message filter, it will be delivered to the window.
+        /// Note that processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the message filter.
+        /// If those processes call this function, it will fail and generate the extended error code, <see cref="ERROR_ACCESS_DENIED"/>.
+        /// Certain messages whose value is smaller than <see cref="WM_USER"/> are required to be passed through the filter,
+        /// regardless of the filter setting.
+        /// There will be no effect when you attempt to use this function to allow or block such messages.
+        /// </remarks>
+        [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
+            "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
+            "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ChangeWindowMessageFilterEx([In] HWND hwnd, [In] WindowMessages message,
+            [In] MessageFilterFlags action, [In][Out] ref CHANGEFILTERSTRUCT pChangeFilterStruct);
 
         /// <summary>
         /// <para>

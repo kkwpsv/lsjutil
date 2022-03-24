@@ -15,10 +15,10 @@ using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
-using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.HitTestResults;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
+using static Lsj.Util.Win32.Enums.MDITILEFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -27,6 +27,7 @@ using static Lsj.Util.Win32.Enums.SystemCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.TrackPopupMenuFlags;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -525,92 +526,119 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Passes the hook information to the next hook procedure in the current hook chain.
-        /// A hook procedure can call this function either before or after processing the hook information.
+        /// Calculates an appropriate pop-up window position using the specified anchor point,
+        /// pop-up window size, flags, and the optional exclude rectangle.
+        /// When the specified pop-up window size is smaller than the desktop window size,
+        /// use the <see cref="CalculatePopupWindowPosition"/> function to ensure
+        /// that the pop-up window is fully visible on the desktop window, regardless of the specified anchor point.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-calculatepopupwindowposition"/>
         /// </para>
         /// </summary>
-        /// <param name="hhk">
-        /// This parameter is ignored.
+        /// <param name="anchorPoint">
+        /// The specified anchor point.
         /// </param>
-        /// <param name="nCode">
-        /// The hook code passed to the current hook procedure.
-        /// The next hook procedure uses this code to determine how to process the hook information.
+        /// <param name="windowSize">
+        /// The specified window size.
         /// </param>
-        /// <param name="wParam">
-        /// The <paramref name="wParam"/> value passed to the current hook procedure.
-        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// <param name="flags">
+        /// Use one of the following flags to specify how the function positions the pop-up window horizontally and vertically.
+        /// The flags are the same as the vertical and horizontal positioning flags of the <see cref="TrackPopupMenuEx"/> function.
+        /// Use one of the following flags to specify how the function positions the pop-up window horizontally.
+        /// <see cref="TPM_CENTERALIGN"/>:
+        /// Centers pop-up window horizontally relative to the coordinate specified by the anchorPoint->x parameter.
+        /// <see cref="TPM_LEFTALIGN"/>:
+        /// Positions the pop-up window so that its left edge is aligned with the coordinate specified by the anchorPoint->x parameter.
+        /// <see cref="TPM_RIGHTALIGN"/>:
+        /// Positions the pop-up window so that its right edge is aligned with the coordinate specified by the anchorPoint->x parameter.
+        /// Uses one of the following flags to specify how the function positions the pop-up window vertically.
+        /// <see cref="TPM_BOTTOMALIGN"/>:
+        /// Positions the pop-up window so that its bottom edge is aligned with the coordinate specified by the anchorPoint->y parameter.
+        /// <see cref="TPM_TOPALIGN"/>:
+        /// Positions the pop-up window so that its top edge is aligned with the coordinate specified by the anchorPoint->y parameter.
+        /// <see cref="TPM_VCENTERALIGN"/>:
+        /// Centers the pop-up window vertically relative to the coordinate specified by the anchorPoint->y parameter.
+        /// Use one of the following flags to specify whether to accommodate horizontal or vertical alignment.
+        /// <see cref="TPM_HORIZONTAL"/>:
+        /// If the pop-up window cannot be shown at the specified location without overlapping the excluded rectangle,
+        /// the system tries to accommodate the requested horizontal alignment before the requested vertical alignment.
+        /// <see cref="TPM_VERTICAL"/>:
+        /// If the pop-up window cannot be shown at the specified location without overlapping the excluded rectangle,
+        /// the system tries to accommodate the requested vertical alignment before the requested horizontal alignment.
+        /// The following flag is available starting with Windows 7.
+        /// <see cref="TPM_WORKAREA"/>:
+        /// Restricts the pop-up window to within the work area.
+        /// If this flag is not set, the pop-up window is restricted to the work area only if the input point is within the work area.
+        /// For more information, see the <see cref="MONITORINFO.rcWork"/> and <see cref="MONITORINFO.rcMonitor"/> members
+        /// of the <see cref="MONITORINFO"/> structure.
         /// </param>
-        /// <param name="lParam">
-        /// The <paramref name="lParam"/> value passed to the current hook procedure.
-        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// <param name="excludeRect">
+        /// A pointer to a structure that specifies the exclude rectangle.
+        /// It can be <see cref="NullRef{RECT}"/>.
+        /// </param>
+        /// <param name="popupWindowPosition">
+        /// A pointer to a structure that specifies the pop-up window position.
         /// </param>
         /// <returns>
-        /// This value is returned by the next hook procedure in the chain.
-        /// The current hook procedure must also return this value.
-        /// The meaning of the return value depends on the hook type.
-        /// For more information, see the descriptions of the individual hook procedures.
+        /// If the function succeeds, it returns <see cref="TRUE"/>; otherwise, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// Hook procedures are installed in chains for particular hook types.
-        /// <see cref="CallNextHookEx"/> calls the next hook in the chain.
-        /// Calling <see cref="CallNextHookEx"/> is optional, but it is highly recommended;
-        /// otherwise, other applications that have installed hooks will not receive hook notifications and may behave incorrectly as a result.
-        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// <see cref="TPM_WORKAREA"/> is supported for the <see cref="TrackPopupMenu"/> and <see cref="TrackPopupMenuEx"/> functions.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT CallNextHookEx([In] HHOOK hhk, [In] int nCode, [In] WPARAM wParam, [In] LPARAM lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CalculatePopupWindowPosition", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CalculatePopupWindowPosition([In] in POINT anchorPoint, [In] in SIZE windowSize, [In] TrackPopupMenuFlags flags,
+            [In] in RECT excludeRect, [Out] out RECT popupWindowPosition);
 
         /// <summary>
         /// <para>
-        /// Passes message information to the specified window procedure.
+        /// Cascades the specified child windows of the specified parent window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-cascadewindows"/>
         /// </para>
         /// </summary>
-        /// <param name="lpPrevWndFunc">
-        /// The previous window procedure.
-        /// If this value is obtained by calling the <see cref="GetWindowLong"/> function with the nIndex parameter
-        /// set to <see cref="GWL_WNDPROC"/> or <see cref="DWL_DLGPROC"/>,
-        /// it is actually either the address of a window or dialog box procedure,
-        /// or a special internal value meaningful only to <see cref="CallWindowProc"/>.
+        /// <param name="hwndParent">
+        /// A handle to the parent window.
+        /// If this parameter is <see cref="NULL"/>, the desktop window is assumed.
         /// </param>
-        /// <param name="hWnd">
-        /// A handle to the window procedure to receive the message.
+        /// <param name="wHow">
+        /// A cascade flag.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="MDITILE_SKIPDISABLED"/>:
+        /// Prevents disabled MDI child windows from being cascaded.
+        /// <see cref="MDITILE_ZORDER"/>:
+        /// Arranges the windows in Z order
+        /// If this value is not specified, the windows are arranged using the order specified in the <paramref name="lpKids"/> array.
         /// </param>
-        /// <param name="Msg">
-        /// The message.
+        /// <param name="lpRect">
+        /// A pointer to a structure that specifies the rectangular area, in client coordinates, within which the windows are arranged.
+        /// This parameter can be <see cref="NullRef{RECT}"/>, in which case the client area of the parent window is used.
         /// </param>
-        /// <param name="wParam">
-        /// Additional message-specific information.
-        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// <param name="cKids">
+        /// The number of elements in the array specified by the <paramref name="lpKids"/> parameter.
+        /// This parameter is ignored if <paramref name="lpKids"/> is <see langword="null"/>.
         /// </param>
-        /// <param name="lParam">
-        /// Additional message-specific information.
-        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// <param name="lpKids">
+        /// An array of handles to the child windows to arrange.
+        /// If a specified child window is a top-level window with the style <see cref="WS_EX_TOPMOST"/>
+        /// or <see cref="WS_EX_TOOLWINDOW"/>, the child window is not arranged.
+        /// If this parameter is <see langword="null"/>, all child windows of the specified parent window (or of the desktop window) are arranged.
         /// </param>
         /// <returns>
-        /// The return value specifies the result of the message processing and depends on the message sent.
+        /// If the function succeeds, the return value is the number of windows arranged.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// Use the <see cref="CallWindowProc"/> function for window subclassing.
-        /// Usually, all windows with the same class share one window procedure.
-        /// A subclass is a window or set of windows with the same class whose messages are intercepted and processed
-        /// by another window procedure (or procedures) before being passed to the window procedure of the class.
-        /// The <see cref="SetWindowLong"/> function creates the subclass by changing the window procedure associated with a particular window,
-        /// causing the system to call the new window procedure instead of the previous one.
-        /// An application must pass any messages not processed by the new window procedure
-        /// to the previous window procedure by calling <see cref="CallWindowProc"/>.
-        /// This allows the application to create a chain of window procedures.
-        /// The <see cref="CallWindowProc"/> function handles Unicode-to-ANSI conversion.
-        /// You cannot take advantage of this conversion if you call the window procedure directly.
+        /// By default, <see cref="CascadeWindows"/> arranges the windows in the order
+        /// provided by the <paramref name="lpKids"/> array, but preserves the Z-Order.
+        /// If you specify the <see cref="MDITILE_ZORDER"/> flag, <see cref="CascadeWindows"/> arranges the windows in Z order.
+        /// Calling <see cref="CascadeWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In] WNDPROC lpPrevWndFunc, [In] HWND hWnd,
-            [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CascadeWindows", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITILEFlags wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>
         /// <para>
