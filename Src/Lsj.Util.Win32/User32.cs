@@ -19,6 +19,7 @@ using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -428,7 +429,20 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="nIndex">
-        /// The display element whose color is to be retrieved
+        /// The display element whose color is to be retrieved.
+        /// This parameter can be one of the following values.
+        /// <see cref="COLOR_3DDKSHADOW"/>, <see cref="COLOR_3DFACE"/>, <see cref="COLOR_3DHIGHLIGHT"/>,
+        /// <see cref="COLOR_3DHILIGHT"/>, <see cref="COLOR_3DLIGHT"/>, <see cref="COLOR_3DSHADOW"/>,
+        /// <see cref="COLOR_3DSHADOW"/>, <see cref="COLOR_ACTIVECAPTION"/>, <see cref="COLOR_APPWORKSPACE"/>,
+        /// <see cref="COLOR_BACKGROUND"/>, <see cref="COLOR_BTNFACE"/>, <see cref="COLOR_BTNHIGHLIGHT"/>,
+        /// <see cref="COLOR_BTNHILIGHT"/>, <see cref="COLOR_BTNSHADOW"/>, <see cref="COLOR_BTNTEXT"/>,
+        /// <see cref="COLOR_CAPTIONTEXT"/>, <see cref="COLOR_DESKTOP"/>, <see cref="COLOR_GRADIENTACTIVECAPTION"/>,
+        /// <see cref="COLOR_GRADIENTINACTIVECAPTION"/>, <see cref="COLOR_GRAYTEXT"/>, <see cref="COLOR_HIGHLIGHT"/>,
+        /// <see cref="COLOR_HIGHLIGHTTEXT"/>, <see cref="COLOR_HOTLIGHT"/>, <see cref="COLOR_INACTIVEBORDER"/>,
+        /// <see cref="COLOR_INACTIVECAPTION"/>, <see cref="COLOR_INACTIVECAPTIONTEXT"/>, <see cref="COLOR_INFOBK"/>,
+        /// <see cref="COLOR_INFOTEXT"/>, <see cref="COLOR_MENU"/>, <see cref="COLOR_MENUHILIGHT"/>,
+        /// <see cref="COLOR_MENUBAR"/>, <see cref="COLOR_MENUTEXT"/>, <see cref="COLOR_SCROLLBAR"/>,
+        /// <see cref="COLOR_WINDOW"/>, <see cref="COLOR_WINDOWFRAME"/>, <see cref="COLOR_WINDOWTEXT"/>
         /// </param>
         /// <returns>
         /// The function returns the red, green, blue (RGB) color value of the given element.

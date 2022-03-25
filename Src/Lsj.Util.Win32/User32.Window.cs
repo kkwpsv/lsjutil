@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.HitTestResults;
+using static Lsj.Util.Win32.Enums.LayeredWindowAttributes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Enums.MDITILEFlags;
@@ -736,6 +737,70 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a multiple-document interface (MDI) child window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createmdiwindoww"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpClassName">
+        /// The window class of the MDI child window.
+        /// The class name must have been registered by a call to the <see cref="RegisterClassEx"/> function.
+        /// </param>
+        /// <param name="lpWindowName">
+        /// The window name.
+        /// The system displays the name in the title bar of the child window.
+        /// </param>
+        /// <param name="dwStyle">
+        /// The style of the MDI child window.
+        /// If the MDI client window is created with the <see cref="MDIS_ALLCHILDSTYLES"/> window style,
+        /// this parameter can be any combination of the window styles listed in the Window Styles page.
+        /// Otherwise, this parameter is limited to one or more of the following values.
+        /// <see cref="WS_MINIMIZE"/>:
+        /// Creates an MDI child window that is initially minimized.
+        /// <see cref="WS_MAXIMIZE"/>：
+        /// Creates an MDI child window that is initially maximized.
+        /// <see cref="WS_HSCROLL"/>:
+        /// Creates an MDI child window that has a horizontal scroll bar.
+        /// <see cref="WS_VSCROLL"/>:
+        /// Creates an MDI child window that has a vertical scroll bar.
+        /// </param>
+        /// <param name="X">
+        /// The initial horizontal position, in client coordinates, of the MDI child window.
+        /// If this parameter is <see cref="CW_USEDEFAULT"/> ((int)0x80000000), the MDI child window is assigned the default horizontal position.
+        /// </param>
+        /// <param name="Y">
+        /// The initial vertical position, in client coordinates, of the MDI child window.
+        /// If this parameter is <see cref="CW_USEDEFAULT"/>, the MDI child window is assigned the default vertical position.
+        /// </param>
+        /// <param name="nWidth">
+        /// The initial width, in device units, of the MDI child window.
+        /// If this parameter is <see cref="CW_USEDEFAULT"/>, the MDI child window is assigned the default width.
+        /// </param>
+        /// <param name="nHeight">
+        /// The initial height, in device units, of the MDI child window.
+        /// If this parameter is set to <see cref="CW_USEDEFAULT"/>, the MDI child window is assigned the default height.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the MDI client window that will be the parent of the new MDI child window.
+        /// </param>
+        /// <param name="hInstance">
+        /// A handle to the instance of the application creating the MDI child window.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the created window.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMDIWindowW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND CreateMDIWindow([In] LPCWSTR lpClassName, [In] LPCWSTR lpWindowName, [In] WindowStyles dwStyle,
+            [In] int X, [In] int Y, [In] int nWidth, [In] int nHeight, [In] HWND hWndParent, [In] HINSTANCE hInstance, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Creates an overlapped, pop-up, or child window.
         /// It specifies the window class, window title, window style, and (optionally) the initial position and size of the window.
         /// The function also specifies the window's parent or owner, if any, and the window's menu.
@@ -902,7 +967,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Static Controls.
         /// For a table of the static control styles you can specify in the <paramref name="dwStyle"/> parameter, see Static Control Styles.
         /// </remarks>
-        public static HWND CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
+        public static HWND CreateWindow(LPCWSTR lpClassName, string lpWindowName, WindowStyles dwStyle,
             int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam) =>
             CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 
@@ -1010,8 +1075,8 @@ namespace Lsj.Util.Win32
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND CreateWindowEx([In] WindowStylesEx dwExStyle, [In] StringHandle lpClassName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName, [In] WindowStyles dwStyle, [In] int x, [In] int y, [In] int nWidth, [In] int nHeight,
+        public static extern HWND CreateWindowEx([In] WindowStylesEx dwExStyle, [In] LPCWSTR lpClassName,
+            [In] LPCWSTR lpWindowName, [In] WindowStyles dwStyle, [In] int x, [In] int y, [In] int nWidth, [In] int nHeight,
             [In] HWND hWndParent, [In] HMENU hMenu, [In] HINSTANCE hInstance, [In] LPVOID lpParam);
 
         /// <summary>
@@ -1236,6 +1301,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Unregisters a specified Shell window that is registered to receive Shell hook messages.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-deregistershellhookwindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window to be unregistered.
+        /// The window was registered with a call to the <see cref="RegisterShellHookWindow"/> function.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; <see cref="FALSE"/> if the function fails.
+        /// </returns>
+        [Obsolete("This function is not intended for general use. " +
+            "It may be altered or unavailable in subsequent versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeregisterShellHookWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeregisterShellHookWindow([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
         /// Destroys the specified window.
         /// The function sends <see cref="WM_DESTROY"/> and <see cref="WM_NCDESTROY"/> messages 
         /// to the window to deactivate it and remove the keyboard focus from it.
@@ -1345,6 +1430,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDeferWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndDeferWindowPos([In] HDWP hWinPosInfo);
+
+        /// <summary>
+        /// <para>
+        /// Forcibly closes the specified window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-endtask"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be closed.
+        /// </param>
+        /// <param name="fShutDown">
+        /// Ignored.
+        /// Must be <see cref="FALSE"/>.
+        /// </param>
+        /// <param name="fForce">
+        /// A <see cref="TRUE"/> for this parameter will force the destruction of the window
+        /// if an initial attempt fails to gently close the window using <see cref="WM_CLOSE"/>.
+        /// With a <see cref="FALSE"/> for this parameter, only the close with <see cref="WM_CLOSE"/> is attempted.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndTask", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EndTask([In] HWND hWnd, [In] BOOL fShutDown, [In] BOOL fForce);
 
         /// <summary>
         /// <para>
@@ -1535,7 +1648,7 @@ namespace Lsj.Util.Win32
         /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND FindWindow([In] StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName);
+        public static extern HWND FindWindow([In] LPCWSTR lpClassName, [In] LPCWSTR lpWindowName);
 
         /// <summary>
         /// <para>
@@ -1588,8 +1701,7 @@ namespace Lsj.Util.Win32
         /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND FindWindowEx([In] HWND hWndParent, [In] HWND hWndChildAfter, [In] StringHandle lpszClass,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszWindow);
+        public static extern HWND FindWindowEx([In] HWND hWndParent, [In] HWND hWndChildAfter, [In] LPCWSTR lpszClass, [In] LPCWSTR lpszWindow);
 
         /// <summary>
         /// <para>
@@ -1652,6 +1764,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves status information for the specified window if it is the application-switching (ALT+TAB) window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getalttabinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window for which status information will be retrieved.
+        /// This window must be the application-switching window.
+        /// </param>
+        /// <param name="iItem">
+        /// The index of the icon in the application-switching window.
+        /// If the <paramref name="pszItemText"/> parameter is not NULL, the name of the item is copied to the <paramref name="pszItemText"/> string.
+        /// If this parameter is –1, the name of the item is not copied.
+        /// </param>
+        /// <param name="pati">
+        /// A pointer to an <see cref="ALTTABINFO"/> structure to receive the status information.
+        /// Note that you must set the <see cref="ALTTABINFO.csSize"/> member to <code>sizeof(ALTTABINFO)</code> before calling this function.
+        /// </param>
+        /// <param name="pszItemText">
+        /// The name of the item.
+        /// If this parameter is <see cref="NULL"/>, the name of the item is not copied.
+        /// </param>
+        /// <param name="cchItemText">
+        /// The size, in characters, of the <paramref name="pszItemText"/> buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The application-switching window enables you to switch to the most recently used application window.
+        /// To display the application-switching window, press ALT+TAB.
+        /// To select an application from the list, continue to hold ALT down and press TAB to move through the list.
+        /// Add SHIFT to reverse direction through the list.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAltTabInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetAltTabInfo([In] HWND hwnd, [In] int iItem, [In][Out] ref ALTTABINFO pati,
+            [Out] LPWSTR pszItemText, [In] UINT cchItemText);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the handle to the ancestor of the specified window.
         /// </para>
         /// <para>
@@ -1705,7 +1860,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The GetClassInfo function has been superseded by the GetClassInfoEx function." +
             "You can still use GetClassInfo, however, if you do not need information about the class small icon.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetClassInfo([In] HINSTANCE hInstance, [In] StringHandle lpClassName, [Out] out WNDCLASS lpWndClass);
+        public static extern BOOL GetClassInfo([In] HINSTANCE hInstance, [In] LPCWSTR lpClassName, [Out] out WNDCLASS lpWndClass);
 
         /// <summary>
         /// <para>
@@ -1740,7 +1895,7 @@ namespace Lsj.Util.Win32
         /// not the <see cref="GlobalAddAtom"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetClassInfoEx([In] HINSTANCE hInstance, [In] StringHandle lpszClass, out WNDCLASSEX lpWndClass);
+        public static extern BOOL GetClassInfoEx([In] HINSTANCE hInstance, [In] LPCWSTR lpszClass, out WNDCLASSEX lpWndClass);
 
         /// <summary>
         /// <para>
@@ -1962,6 +2117,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the opacity and transparency color key of a layered window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getlayeredwindowattributes"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the layered window.
+        /// A layered window is created by specifying <see cref="WS_EX_LAYERED"/>
+        /// when creating the window with the <see cref="CreateWindowEx"/> function
+        /// or by setting <see cref="WS_EX_LAYERED"/> using <see cref="SetWindowLong"/> after the window has been created.
+        /// </param>
+        /// <param name="pcrKey">
+        /// A pointer to a <see cref="COLORREF"/> value that receives the transparency color key to be used when composing the layered window.
+        /// All pixels painted by the window in this color will be transparent.
+        /// This can be <see cref="NullRef{COLORREF}"/> if the argument is not needed.
+        /// </param>
+        /// <param name="pbAlpha">
+        /// The Alpha value used to describe the opacity of the layered window.
+        /// Similar to the <see cref="BLENDFUNCTION.SourceConstantAlpha"/> member of the <see cref="BLENDFUNCTION"/> structure.
+        /// When the variable referred to by <paramref name="pbAlpha"/> is 0, the window is completely transparent.
+        /// When the variable referred to by <paramref name="pbAlpha"/> is 255, the window is opaque.
+        /// This can be <see cref="NullRef{BYTE}"/> if the argument is not needed.
+        /// </param>
+        /// <param name="pdwFlags">
+        /// A layering flag.
+        /// This parameter can be <see cref="NullRef{LayeredWindowAttributes}"/> if the value is not needed. 
+        /// The layering flag can be one or more of the following values.
+        /// <see cref="LWA_ALPHA"/>:
+        /// Use <paramref name="pbAlpha"/> to determine the opacity of the layered window.
+        /// <see cref="LWA_COLORKEY"/>:
+        /// Use <paramref name="pcrKey"/> as the transparency color.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetLayeredWindowAttributes"/> can be called
+        /// only if the application has previously called <see cref="SetLayeredWindowAttributes"/> on the window.
+        /// The function will fail if the layered window was setup with <see cref="UpdateLayeredWindow"/>.
+        /// For more information, see Using Layered Windows.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLayeredWindowAttributes", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetLayeredWindowAttributes([In] HWND hwnd, [Out] out COLORREF pcrKey, [Out] out BYTE pbAlpha,
+            [Out] out LayeredWindowAttributes pdwFlags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the next or previous window in the Z-Order.
         /// The next window is below the specified window; the previous window is above.
         /// If the specified window is a topmost window, the function searches for a topmost window.
@@ -2020,6 +2225,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetParent([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the default layout that is used when windows are created with no parent or owner.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getprocessdefaultlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pdwDefaultLayout">
+        /// The current default process layout.
+        /// For a list of values, see <see cref="SetProcessDefaultLayout"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The layout specifies how text and graphics are laid out in a window; the default is left to right.
+        /// The <see cref="GetProcessDefaultLayout"/> function lets you know
+        /// if the default layout has changed, from using <see cref="SetProcessDefaultLayout"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessDefaultLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessDefaultLayout([Out] out DWORD pdwDefaultLayout);
 
         /// <summary>
         /// <para>
