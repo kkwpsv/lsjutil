@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32
         /// If the low-order word is not in this range, the function fails.
         /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtom", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtomW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
 
         /// <summary>

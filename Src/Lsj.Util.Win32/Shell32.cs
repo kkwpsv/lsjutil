@@ -1302,7 +1302,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFileOperationW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFileOperationW", ExactSpelling = true, SetLastError = true)]
         public static extern int SHFileOperation([In] in SHFILEOPSTRUCT lpFileOp);
 
         /// <summary>

@@ -154,37 +154,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="DrawFocusRect"/> function draws a rectangle in the style used to indicate that the rectangle has the focus.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDC">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="lprc">
-        /// A pointer to a <see cref="RECT"/> structure that specifies the logical coordinates of the rectangle.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// DrawFocusRect works only in <see cref="MM_TEXT"/> mode.
-        /// Because <see cref="DrawFocusRect"/> is an XOR function, calling it a second time with the same rectangle removes the rectangle from the screen.
-        /// This function draws a rectangle that cannot be scrolled.
-        /// To scroll an area containing a rectangle drawn by this function, call <see cref="DrawFocusRect"/> to remove the rectangle from the screen,
-        /// scroll the area, and then call <see cref="DrawFocusRect"/> again to draw the rectangle in the new position.
-        /// Windows XP: The focus rectangle can now be thicker than 1 pixel, so it is more visible for high-resolution,
-        /// high-density displays and accessibility needs.
-        /// This is handled by the <see cref="SPI_SETFOCUSBORDERWIDTH"/> and <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawFocusRect([In] HDC hDC, [In] in RECT lprc);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="Ellipse"/> function draws an ellipse.
         /// The center of the ellipse is the center of the specified bounding rectangle.
         /// The ellipse is outlined by using the current pen and is filled by using the current brush.
@@ -275,44 +244,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="FillRect"/> function fills a rectangle by using the specified brush.
-        /// This function includes the left and top borders, but excludes the right and bottom borders of the rectangle.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-fillrect"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDC">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="lprc">
-        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be filled.
-        /// </param>
-        /// <param name="hbr">
-        /// A handle to the brush used to fill the rectangle.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// The brush identified by the hbr parameter may be either a handle to a logical brush or a color value.
-        /// If specifying a handle to a logical brush, call one of the following functions to obtain the handle:
-        /// <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>, or <see cref="CreateSolidBrush"/>.
-        /// Additionally, you may retrieve a handle to one of the stock brushes by using the <see cref="GetStockObject"/> function.
-        /// If specifying a color value for the <paramref name="hbr"/> parameter, it must be one of the standard system colors
-        /// (the value 1 must be added to the chosen color).
-        /// For example:
-        /// <code>FillRect(hdc, &amp;rect, (HBRUSH) (COLOR_WINDOW+1));</code>
-        /// For a list of all the standard system colors, see GetSysColor.
-        /// When filling the specified rectangle, <see cref="FillRect"/> does not include the rectangle's right and bottom sides.
-        /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", ExactSpelling = true, SetLastError = true)]
-        public static extern int FillRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="FillRgn"/> function fills a region by using the specified brush.
         /// </para>
         /// <para>
@@ -372,37 +303,6 @@ namespace Lsj.Util.Win32
             "Applications should use the ExtFloodFill function with FLOODFILLBORDER specified.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="FrameRect"/> function draws a border around the specified rectangle by using the specified brush.
-        /// The width and height of the border are always one logical unit.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-framerect"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDC">
-        /// A handle to the device context in which the border is drawn.
-        /// </param>
-        /// <param name="lprc">
-        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the upper-left and lower-right corners of the rectangle.
-        /// </param>
-        /// <param name="hbr">
-        /// A handle to the brush used to draw the border.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// The brush identified by the hbr parameter must have been created by using the <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>,
-        /// or <see cref="CreateSolidBrush"/> function, or retrieved by using the <see cref="GetStockObject"/> function.
-        /// If the <see cref="RECT.bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
-        /// or if the right member is less than the left member, the function does not draw the rectangle.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", ExactSpelling = true, SetLastError = true)]
-        public static extern int FrameRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
 
         /// <summary>
         /// <para>
@@ -495,33 +395,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPolyFillMode([In] HDC hdc);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="InvertRect"/> function inverts a rectangle in a window by performing a logical NOT operation on the color values
-        /// for each pixel in the rectangle's interior.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invertrect"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDC">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="lprc">
-        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be inverted.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// On monochrome screens, <see cref="InvertRect"/> makes white pixels black and black pixels white.
-        /// On color screens, the inversion depends on how colors are generated for the screen.
-        /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InvertRect([In] HDC hDC, [In] in RECT lprc);
 
         /// <summary>
         /// <para>

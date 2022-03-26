@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -9,10 +8,8 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.FileMapAccessRights;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
-using static Lsj.Util.Win32.Enums.MEM_EXTENDED_PARAMETER_TYPE;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
-using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SectionAttributes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
@@ -634,134 +631,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Maps a view of a file or a pagefile-backed section into the address space of the specified process.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile2"/>
-        /// </para>
-        /// </summary>
-        /// <param name="FileMappingHandle">
-        /// A <see cref="HANDLE"/> to a section that is to be mapped into the address space of the specified process.
-        /// </param>
-        /// <param name="ProcessHandle">
-        /// A <see cref="HANDLE"/> to a process into which the section will be mapped.
-        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access mask.
-        /// </param>
-        /// <param name="Offset">
-        /// The offset from the beginning of the section. This must be 64k aligned.
-        /// </param>
-        /// <param name="BaseAddress">
-        /// The desired base address of the view. The address is rounded down to the nearest 64k boundary.
-        /// If this parameter is <see cref="NULL"/>, the system picks the base address.
-        /// </param>
-        /// <param name="ViewSize">
-        /// The number of bytes to map. A value of zero (0) specifies that the entire section is to be mapped.
-        /// </param>
-        /// <param name="AllocationType">
-        /// The type of allocation. This parameter can be zero (0) or one of the following constant values:
-        /// <see cref="MEM_RESERVE"/> - Maps a reserved view.
-        /// <see cref="MEM_LARGE_PAGES"/> - Maps a large page view. This flag specifies that the view should be mapped using large page support.
-        /// The size of the view must be a multiple of the size of a large page reported by the <see cref="GetLargePageMinimum"/> function,
-        /// and the file-mapping object must have been created using the <see cref="SEC_LARGE_PAGES"/> option.
-        /// If you provide a non-null value for the <paramref name="BaseAddress"/> parameter,
-        /// then the value must be a multiple of <see cref="GetLargePageMinimum"/>.
-        /// </param>
-        /// <param name="PageProtection">
-        /// The desired page protection.
-        /// For file-mapping objects created with the <see cref="SEC_IMAGE"/> attribute,
-        /// the <paramref name="PageProtection"/> parameter has no effect, and should be set to any valid value such as <see cref="PAGE_READONLY"/>.
-        /// </param>
-        /// <returns>
-        /// Returns the base address of the mapped view, if successful.
-        /// Otherwise, returns <see cref="NULL"/> and extended error status is available using <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile2", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID MapViewOfFile2([In] HANDLE FileMappingHandle, [In] HANDLE ProcessHandle, [In] ULONG64 Offset,
-            [In] PVOID BaseAddress, [In] SIZE_T ViewSize, [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection);
-
-        /// <summary>
-        /// <para>
-        /// Maps a view of a file or a pagefile-backed section into the address space of the specified process.
-        /// Using this function, you can: for new allocations, specify a range of virtual address space and a power-of-2 alignment restriction;
-        /// specify an arbitrary number of extended parameters; specify a preferred NUMA node for the physical memory as an extended parameter;
-        /// and specify a placeholder operation (specifically, replacement).
-        /// To specify the NUMA node, see the ExtendedParameters parameter.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile3"/>
-        /// </para>
-        /// </summary>
-        /// <param name="FileMapping">
-        /// A <see cref="HANDLE"/> to a section that is to be mapped into the address space of the specified process.
-        /// </param>
-        /// <param name="Process">
-        /// A <see cref="HANDLE"/> to a process into which the section will be mapped.
-        /// </param>
-        /// <param name="BaseAddress">
-        /// The desired base address of the view.
-        /// The address is rounded down to the nearest 64k boundary.
-        /// If this parameter is <see cref="NULL"/>, the system picks the base address.
-        /// </param>
-        /// <param name="Offset">
-        /// The offset from the beginning of the section.
-        /// This must be 64k aligned.
-        /// </param>
-        /// <param name="ViewSize">
-        /// The number of bytes to map.
-        /// A value of zero (0) specifies that the entire section is to be mapped.
-        /// The size must always be a multiple of the page size.
-        /// </param>
-        /// <param name="AllocationType">
-        /// The type of memory allocation. This parameter can be zero (0) or one of the following values.
-        /// <see cref="MEM_RESERVE"/>: Maps a reserved view.
-        /// <see cref="MEM_REPLACE_PLACEHOLDER"/>:
-        /// Replaces a placeholder with a mapped view. Only data/pf-backed section views are supported (no images, physical memory, etc.).
-        /// When you replace a placeholder, <paramref name="BaseAddress"/> and <paramref name="ViewSize"/> must exactly match those of the placeholder.
-        /// After you replace a placeholder with a mapped view, to free that mapped view back to a placeholder,
-        /// see the UnmapFlags parameter of <see cref="UnmapViewOfFileEx"/> and <see cref="UnmapViewOfFile2"/>.
-        /// A placeholder is a type of reserved memory region.
-        /// <see cref="MEM_LARGE_PAGES"/>:
-        /// Maps a large page view.
-        /// This flag specifies that the view should be mapped using large page support.
-        /// The size of the view must be a multiple of the size of a large page reported by the <see cref="GetLargePageMinimum"/> function,
-        /// and the file-mapping object must have been created using the <see cref="SEC_LARGE_PAGES"/> option.
-        /// If you provide a non-null value for the <paramref name="BaseAddress"/> parameter,
-        /// then the value must be a multiple of <see cref="GetLargePageMinimum"/>. 
-        /// </param>
-        /// <param name="PageProtection">
-        /// The desired page protection.
-        /// For file-mapping objects created with the <see cref="SEC_IMAGE"/> attribute,
-        /// the <paramref name="PageProtection"/> parameter has no effect, and should be set to any valid value such as <see cref="PAGE_READONLY"/>.
-        /// </param>
-        /// <param name="ExtendedParameters">
-        /// An optional pointer to one or more extended parameters of type <see cref="MEM_EXTENDED_PARAMETER"/>.
-        /// Each of those extended parameter values can itself have a <see cref="MEM_EXTENDED_PARAMETER.Type"/> field
-        /// of either <see cref="MemExtendedParameterAddressRequirements"/> or <see cref="MemExtendedParameterNumaNode"/>.
-        /// If no <see cref="MemExtendedParameterNumaNode"/> extended parameter is provided,
-        /// then the behavior is the same as for the <see cref="VirtualAlloc"/>/<see cref="MapViewOfFile"/> functions
-        /// (that is, the preferred NUMA node for the physical pages is determined
-        /// based on the ideal processor of the thread that first accesses the memory).
-        /// </param>
-        /// <param name="ParameterCount">
-        /// The number of extended parameters pointed to by <paramref name="ExtendedParameters"/>.
-        /// </param>
-        /// <returns>
-        /// Returns the base address of the mapped view, if successful.
-        /// Otherwise, returns <see cref="NULL"/> and extended error status is available using <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// This API helps support high-performance games, and server applications,
-        /// which have particular requirements around managing their virtual address space.
-        /// For example, mapping memory on top of a previously reserved region; this is useful for implementing an automatically wrapping ring buffer.
-        /// And allocating memory with specific alignment; for example, to enable your application to commit large/huge page-mapped regions on demand.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile3", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID MapViewOfFile3([In] HANDLE FileMapping, [In] HANDLE Process, [In] PVOID BaseAddress, [In] ULONG64 Offset,
-            [In] SIZE_T ViewSize, [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection,
-            [In] MEM_EXTENDED_PARAMETER[] ExtendedParameters, [In] ULONG ParameterCount);
-
-        /// <summary>
-        /// <para>
         /// Maps a view of a file mapping into the address space of a calling process.
         /// A caller can optionally specify a suggested base memory address for the view.
         /// To specify the NUMA node for the physical memory, see <see cref="MapViewOfFileExNuma"/>.
@@ -1107,38 +976,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnmapViewOfFile([In] LPCVOID lpBaseAddress);
-
-        /// <summary>
-        /// <para>
-        /// Unmaps a previously mapped view of a file or a pagefile-backed section.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile2"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Process">
-        /// A <see cref="HANDLE"/> to the process from which the section will be unmapped.
-        /// </param>
-        /// <param name="BaseAddress">
-        /// The base address of a previously mapped view that is to be unmapped.
-        /// This value must be identical to the value returned by a previous call to <see cref="MapViewOfFile2"/>.
-        /// </param>
-        /// <param name="UnmapFlags">
-        /// This parameter can be zero (0) or one of the following values.
-        /// <see cref="MEM_UNMAP_WITH_TRANSIENT_BOOST"/>:
-        /// Specifies that the priority of the pages being unmapped should be temporarily boosted (with automatic short term decay)
-        /// because the caller expects that these pages will be accessed again shortly from another thread.
-        /// For more information about memory priorities, see the <code>SetThreadInformation(ThreadMemoryPriority)</code> function.
-        /// <see cref="MEM_PRESERVE_PLACEHOLDER"/>:
-        /// Unmaps a mapped view back to a placeholder (after you've replaced a placeholder with a mapped view
-        /// using <see cref="MapViewOfFile2"/> or MapViewOfFile2FromApp).
-        /// </param>
-        /// <returns>
-        /// Returns <see cref="TRUE"/> if sucessful.
-        /// Otherwise, returns <see cref="FALSE"/> and extended error status is available using <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile2", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnmapViewOfFile2([In] HANDLE Process, [In] PVOID BaseAddress, [In] ULONG UnmapFlags);
 
         /// <summary>
         /// <para>

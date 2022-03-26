@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
@@ -786,21 +787,20 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Enables a Dynamic Data Exchange (DDE) server application to impersonate a DDE client application's security context.
-        /// This protects secure server data from unauthorized DDE clients.
+        /// Decrypts an encrypted file or directory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-decryptfilew"/>
         /// </para>
         /// </summary>
-        /// <param name="hWndClient">
-        /// A handle to the DDE client window to be impersonated.
-        /// The client window must have established a DDE conversation
-        /// with the server window identified by the <paramref name="hWndServer"/> parameter.
+        /// <param name="lpFileName">
+        /// The name of the file or directory to be decrypted.
+        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
+        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
+        /// For more information, see File Security and Access Rights.
         /// </param>
-        /// <param name="hWndServer">
-        /// A handle to the DDE server window.
-        /// An application must create the server window before calling this function.
+        /// <param name="dwReserved">
+        /// Reserved; must be zero.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
@@ -808,20 +808,49 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// An application should call the <see cref="RevertToSelf"/> function
-        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
-        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
-        /// Security Considerations
-        /// Using this function incorrectly might compromise the security of your program.
-        /// It is very important to check the return value of the call.
-        /// If the function fails for any reason, the client is not impersonated
-        /// and any subsequent client request is made in the security context of the calling process.
-        /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
-        /// the user may be able to perform actions that would otherwise be disallowed.
-        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
+        /// The <see cref="DecryptFile"/> function requires exclusive access to the file being decrypted,
+        /// and will fail if another process is using the file.
+        /// If the file is not encrypted, <see cref="DecryptFile"/> simply returns a <see cref="TRUE"/> value, which indicates success.
+        /// If <paramref name="lpFileName"/> specifies a read-only file,
+        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
+        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
+        /// the functions succeeds but the directory is not decrypted.
         /// </remarks>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateDdeClientWindow([In] HWND hWndClient, [In] HWND hWndServer);
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecryptFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DecryptFile([In] LPCWSTR lpFileName, [In] DWORD dwReserved);
+
+        /// <summary>
+        /// <para>
+        /// Encrypts a file or directory. All data streams in a file are encrypted. All new files created in an encrypted directory are encrypted.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-encryptfilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory to be encrypted.
+        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
+        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EncryptFile"/> function requires exclusive access to the file being encrypted,
+        /// and will fail if another process is using the file.
+        /// If the file is already encrypted, <see cref="EncryptFile"/> simply returns a nonzero value, which indicates success.
+        /// If the file is compressed, <see cref="EncryptFile"/> will decompress the file before encrypting it.
+        /// If <paramref name="lpFileName"/> specifies a read-only file,
+        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
+        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
+        /// the functions succeeds but the directory is not encrypted.
+        /// To decrypt an encrypted file, use the <see cref="DecryptFile"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EncryptFile([In] LPCWSTR lpFileName);
 
         /// <summary>
         /// <para>

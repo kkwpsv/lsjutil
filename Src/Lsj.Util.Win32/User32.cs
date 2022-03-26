@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.CtrlEvents;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.EventConstants;
@@ -120,6 +121,69 @@ namespace Lsj.Util.Win32
         public delegate void Wineventproc([In] HWINEVENTHOOK hWinEventHook, [In] EventConstants @event, [In] HWND hwnd, [In] LONG idObject,
             [In] LONG idChild, [In] DWORD idEventThread, [In] DWORD dwmsEventTime);
 
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pointer to the preceding character in a string.
+        /// This function can handle strings consisting of either single- or multi-byte characters.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszStart">
+        /// The beginning of the string.
+        /// </param>
+        /// <param name="lpszCurrent">
+        /// A character in a null-terminated string.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the preceding character in the string,
+        /// or to the first character in the string if the <paramref name="lpszCurrent"/> parameter equals the <paramref name="lpszStart"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// This function works with default "user" expectations of characters when dealing with diacritics.
+        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
+        /// will advance two code points, not one.
+        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the pointer to the preceding character in a string.
+        /// This function can handle strings consisting of either single- or multi-byte characters.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevexa"/>
+        /// </para>
+        /// </summary>
+        /// <param name="CodePage">
+        /// The identifier of the code page to use to check lead-byte ranges.
+        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
+        /// <see cref="CP_ACP"/>: Use system default ANSI code page.
+        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
+        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
+        /// </param>
+        /// <param name="lpStart">
+        /// The beginning of the string.
+        /// </param>
+        /// <param name="lpCurrentChar">
+        /// A character in a null-terminated string.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter is reserved and must be zero.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the preceding character in the string,
+        /// or to the first character in the string if the <paramref name="lpCurrentChar"/> parameter equals the <paramref name="lpStart"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CharPrevExA"/> specifies a code-page to use, whereas <see cref="CharPrev"/> (if called as an ANSI function) uses the system default code-page.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CharPrevExA([In] WORD CodePage, [In] IntPtr lpStart, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -609,6 +673,45 @@ namespace Lsj.Util.Win32
         /// <param name="l"></param>
         /// <returns></returns>
         public static WORD HIWORD(DWORD l) => unchecked((ushort)(((uint)l) >> 16));
+
+        /// <summary>
+        /// <para>
+        /// Enables a Dynamic Data Exchange (DDE) server application to impersonate a DDE client application's security context.
+        /// This protects secure server data from unauthorized DDE clients.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWndClient">
+        /// A handle to the DDE client window to be impersonated.
+        /// The client window must have established a DDE conversation
+        /// with the server window identified by the <paramref name="hWndServer"/> parameter.
+        /// </param>
+        /// <param name="hWndServer">
+        /// A handle to the DDE server window.
+        /// An application must create the server window before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application should call the <see cref="RevertToSelf"/> function
+        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
+        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
+        /// Security Considerations
+        /// Using this function incorrectly might compromise the security of your program.
+        /// It is very important to check the return value of the call.
+        /// If the function fails for any reason, the client is not impersonated
+        /// and any subsequent client request is made in the security context of the calling process.
+        /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
+        /// the user may be able to perform actions that would otherwise be disallowed.
+        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateDdeClientWindow([In] HWND hWndClient, [In] HWND hWndServer);
 
         /// <summary>
         /// <para>

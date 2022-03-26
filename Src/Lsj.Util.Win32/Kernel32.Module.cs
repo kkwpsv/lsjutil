@@ -131,7 +131,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcesses", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] DWORD[] lpidProcess,
             [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcessModules", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcessModules", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcessModules([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcessModulesEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcessModulesEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcessModulesEx([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb,
             [Out] out DWORD lpcbNeeded, [In] EnumProcessModulesExFlags dwFilterFlag);
 
@@ -444,7 +444,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
         /// <summary>

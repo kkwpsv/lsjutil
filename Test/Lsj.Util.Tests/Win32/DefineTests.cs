@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Lsj.Util.Win32;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,13 +16,17 @@ namespace Lsj.Util.Tests.Win32
         public void TestEntryPoints()
         {
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
-            var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>())).ToList();
+            var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>())).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var failed = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             foreach (var item in methodsToEntryPoints)
             {
-                if (item.Method.Name == item.Attribute.EntryPoint || item.Method.Name + "W" == item.Attribute.EntryPoint)
+                if (item.Method.Name == item.Attribute.EntryPoint || item.Method.Name + "W" == item.Attribute.EntryPoint ||
+                    "K32" + item.Method.Name == item.Attribute.EntryPoint || "K32" + item.Method.Name + "W" == item.Attribute.EntryPoint)
                 {
-
+                    if (Kernel32.GetProcAddress(Kernel32.LoadLibrary(item.Attribute.Value), item.Attribute.EntryPoint) == IntPtr.Zero)
+                    {
+                        failed.Add(item);
+                    }
                 }
                 else
                 {

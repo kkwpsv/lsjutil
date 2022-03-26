@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,13 +13,16 @@ using static Lsj.Util.Win32.Enums.BorderStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.DrawFrameControlStates;
 using static Lsj.Util.Win32.Enums.DrawFrameControlTypes;
+using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.PrintWindowFlags;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.TextAlignments;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
@@ -28,6 +33,37 @@ namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// The OutputProc function is an application-defined callback function used with the <see cref="GrayString"/> function.
+        /// It is used to draw a string.
+        /// The <see cref="GRAYSTRINGPROC"/> type defines a pointer to this callback function.
+        /// OutputProc is a placeholder for the application-defined or library-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-graystringproc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to a device context with a bitmap of at least the width and height
+        /// specified by the nWidth and nHeight parameters passed to <see cref="GrayString"/>.
+        /// </param>
+        /// <param name="Arg2">
+        /// A pointer to the string to be drawn.
+        /// </param>
+        /// <param name="Arg3">
+        /// The length, in characters, of the string.
+        /// </param>
+        /// <returns>
+        /// If it succeeds, the callback function should return <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The callback function must draw an image relative to the coordinates (0,0).
+        /// </remarks>
+        public delegate BOOL Graystringproc([In] HDC Arg1, [In] LPARAM Arg2, [In] int Arg3);
+
+
         /// <summary>
         /// <para>
         /// The <see cref="BeginPaint"/> function prepares the specified window for painting
@@ -243,6 +279,118 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DrawText"/> function draws formatted text in the specified rectangle.
+        /// It formats the text according to the specified method (expanding tabs, justifying characters, breaking lines, and so forth).
+        /// To specify additional formatting options, use the <see cref="DrawTextEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpchText">
+        /// A pointer to the string that specifies the text to be drawn.
+        /// If the <paramref name="cchText"/> parameter is -1, the string must be null-terminated.
+        /// If <paramref name="format"/> includes <see cref="DT_MODIFYSTRING"/>, the function could add up to four additional characters to this string.
+        /// The buffer containing the string should be large enough to accommodate these extra characters.
+        /// </param>
+        /// <param name="cchText">
+        /// The length, in characters, of the string.
+        /// If <paramref name="cchText"/> is -1, then the <paramref name="lpchText"/> parameter is assumed to be a pointer to a null-terminated string
+        /// and <see cref="DrawText"/> computes the character count automatically.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the rectangle (in logical coordinates) in which the text is to be formatted.
+        /// </param>
+        /// <param name="format">
+        /// The method of formatting the text. This parameter can be one or more of the following values.
+        /// <see cref="DT_BOTTOM"/>, <see cref="DT_CALCRECT"/>, <see cref="DT_CENTER"/>, <see cref="DT_EDITCONTROL"/>, <see cref="DT_END_ELLIPSIS"/>,
+        /// <see cref="DT_EXPANDTABS"/>, <see cref="DT_EXTERNALLEADING"/>, <see cref="DT_HIDEPREFIX"/>, <see cref="DT_INTERNAL"/>, <see cref="DT_LEFT"/>,
+        /// <see cref="DT_MODIFYSTRING"/>, <see cref="DT_NOCLIP"/>, <see cref="DT_NOFULLWIDTHCHARBREAK"/>, <see cref="DT_NOPREFIX"/>,
+        /// <see cref="DT_PATH_ELLIPSIS"/>, <see cref="DT_PREFIXONLY"/>, <see cref="DT_RIGHT"/>, <see cref="DT_RTLREADING"/>, <see cref="DT_SINGLELINE"/>,
+        /// <see cref="DT_TABSTOP"/>, <see cref="DT_TOP"/>, <see cref="DT_VCENTER"/>, <see cref="DT_WORDBREAK"/>, <see cref="DT_WORD_ELLIPSIS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the height of the text in logical units.
+        /// If <see cref="DT_VCENTER"/> or <see cref="DT_BOTTOM"/> is specified, the return value is the offset
+        /// from lpRect->top to the bottom of the drawn text
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DrawText"/> function uses the device context's selected font, text color, and background color to draw the text.
+        /// Unless the <see cref="DT_NOCLIP"/> format is used, <see cref="DrawText"/> clips the text so that it does not appear outside the specified rectangle.
+        /// Note that text with significant overhang may be clipped, for example, an initial "W" in the text string or text that is in italics.
+        /// All formatting is assumed to have multiple lines unless the <see cref="DT_SINGLELINE"/> format is specified.
+        /// If the selected font is too large for the specified rectangle, the <see cref="DrawText"/> function does not attempt to substitute a smaller font.
+        /// The text alignment mode for the device context must include the <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/> flags.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", ExactSpelling = true, SetLastError = true)]
+        public static extern int DrawText([In] HDC hdc, [In] LPCWSTR lpchText, [In] int cchText,
+            [In] in RECT lprc, [In] DrawTextFormatFlags format);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DrawTextEx"/> function draws formatted text in the specified rectangle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtextexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context in which to draw.
+        /// </param>
+        /// <param name="lpchText">
+        /// A pointer to the string that contains the text to draw.
+        /// If the <paramref name="cchText"/> parameter is -1, the string must be null-terminated.
+        /// If <paramref name="format"/> includes <see cref="DT_MODIFYSTRING"/>, the function could add up to four additional characters to this string.
+        /// The buffer containing the string should be large enough to accommodate these extra characters.
+        /// </param>
+        /// <param name="cchText">
+        /// The length of the string pointed to by <paramref name="lpchText"/>.
+        /// If <paramref name="cchText"/> is -1, then the <paramref name="lpchText"/> parameter is assumed to be a pointer to a null-terminated string
+        /// and <see cref="DrawTextEx"/> computes the character count automatically.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the rectangle, in logical coordinates, in which the text is to be formatted.
+        /// </param>
+        /// <param name="format">
+        /// The formatting options. This parameter can be one or more of the following values.
+        /// <see cref="DT_BOTTOM"/>, <see cref="DT_CALCRECT"/>, <see cref="DT_CENTER"/>, <see cref="DT_EDITCONTROL"/>, <see cref="DT_END_ELLIPSIS"/>,
+        /// <see cref="DT_EXPANDTABS"/>, <see cref="DT_EXTERNALLEADING"/>, <see cref="DT_HIDEPREFIX"/>, <see cref="DT_INTERNAL"/>,
+        /// <see cref="DT_LEFT"/>, <see cref="DT_MODIFYSTRING"/>, <see cref="DT_NOCLIP"/>, <see cref="DT_NOFULLWIDTHCHARBREAK"/>,
+        /// <see cref="DT_NOPREFIX"/>, <see cref="DT_PATH_ELLIPSIS"/>, <see cref="DT_PREFIXONLY"/>, <see cref="DT_RIGHT"/>,
+        /// <see cref="DT_RTLREADING"/>, <see cref="DT_SINGLELINE"/>, <see cref="DT_TABSTOP"/>, <see cref="DT_TOP"/>, <see cref="DT_VCENTER"/>,
+        /// <see cref="DT_WORDBREAK"/>, <see cref="DT_WORD_ELLIPSIS"/>
+        /// </param>
+        /// <param name="lpdtp">
+        /// A pointer to a <see cref="DRAWTEXTPARAMS"/> structure that specifies additional formatting options.
+        /// This parameter can be <see cref="NullRef{DRAWTEXTPARAMS}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the text height in logical units.
+        /// If <see cref="DT_VCENTER"/> or <see cref="DT_BOTTOM"/> is specified,
+        /// the return value is the offset from lprc->top to the bottom of the drawn text
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The DrawTextEx function supports only fonts whose escapement and orientation are both zero.
+        /// The text alignment mode for the device context must
+        /// include the <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/> flags.
+        /// Note
+        /// The winuser.h header defines DrawTextEx as an alias which automatically selects the ANSI or Unicode version
+        /// of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral
+        /// can lead to mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextExW", ExactSpelling = true, SetLastError = true)]
+        public static extern int DrawTextEx([In] HDC hdc, [In] LPCWSTR lpchText, [In] int cchText,
+            [In] in RECT lprc, [In] DrawTextFormatFlags format, [In] in DRAWTEXTPARAMS lpdtp);
+
+        /// <summary>
+        /// <para>
         /// The EndPaint function marks the end of painting in the specified window.
         /// This function is required for each call to the <see cref="BeginPaint"/> function, but only after painting is complete.
         /// </para>
@@ -290,6 +438,75 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeUpdateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int ExcludeUpdateRgn([In] HDC hDC, [In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="FillRect"/> function fills a rectangle by using the specified brush.
+        /// This function includes the left and top borders, but excludes the right and bottom borders of the rectangle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-fillrect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be filled.
+        /// </param>
+        /// <param name="hbr">
+        /// A handle to the brush used to fill the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The brush identified by the hbr parameter may be either a handle to a logical brush or a color value.
+        /// If specifying a handle to a logical brush, call one of the following functions to obtain the handle:
+        /// <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>, or <see cref="CreateSolidBrush"/>.
+        /// Additionally, you may retrieve a handle to one of the stock brushes by using the <see cref="GetStockObject"/> function.
+        /// If specifying a color value for the <paramref name="hbr"/> parameter, it must be one of the standard system colors
+        /// (the value 1 must be added to the chosen color).
+        /// For example:
+        /// <code>FillRect(hdc, &amp;rect, (HBRUSH) (COLOR_WINDOW+1));</code>
+        /// For a list of all the standard system colors, see GetSysColor.
+        /// When filling the specified rectangle, <see cref="FillRect"/> does not include the rectangle's right and bottom sides.
+        /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", ExactSpelling = true, SetLastError = true)]
+        public static extern int FillRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="FrameRect"/> function draws a border around the specified rectangle by using the specified brush.
+        /// The width and height of the border are always one logical unit.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-framerect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context in which the border is drawn.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the upper-left and lower-right corners of the rectangle.
+        /// </param>
+        /// <param name="hbr">
+        /// A handle to the brush used to draw the border.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The brush identified by the hbr parameter must have been created by using the <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>,
+        /// or <see cref="CreateSolidBrush"/> function, or retrieved by using the <see cref="GetStockObject"/> function.
+        /// If the <see cref="RECT.bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
+        /// or if the right member is less than the left member, the function does not draw the rectangle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", ExactSpelling = true, SetLastError = true)]
+        public static extern int FrameRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
 
         /// <summary>
         /// <para>
@@ -357,6 +574,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCEx", ExactSpelling = true, SetLastError = true)]
         public static extern HDC GetDCEx([In] HWND hWnd, [In] HRGN hrgnClip, [In] GetDCExFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTabbedTextExtent"/> function computes the width and height of a character string.
+        /// If the string contains one or more tab characters, the width of the string is based upon the specified tab stops.
+        /// The <see cref="GetTabbedTextExtent"/> function uses the currently selected font to compute the dimensions of the string.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettabbedtextextentw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to a character string.
+        /// </param>
+        /// <param name="chCount">
+        /// The length of the text string.
+        /// For the ANSI function it is a <see cref="BYTE"/> count and for the Unicode function it is a <see cref="WORD"/> count.
+        /// Note that for the ANSI function, characters in SBCS code pages take one byte each, while most characters in DBCS code pages take two bytes;
+        /// for the Unicode function, most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are one <see cref="WORD"/>
+        /// while Unicode surrogates are two <see cref="WORD"/>s.
+        /// </param>
+        /// <param name="nTabPositions">
+        /// The number of tab-stop positions in the array pointed to by the <paramref name="lpnTabStopPositions"/> parameter.
+        /// </param>
+        /// <param name="lpnTabStopPositions">
+        /// A pointer to an array containing the tab-stop positions, in device units.
+        /// The tab stops must be sorted in increasing order; the smallest x-value should be the first item in the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the dimensions of the string in logical units.
+        /// The height is in the high-order word and the width is in the low-order word.
+        /// If the function fails, the return value is 0.
+        /// <see cref="GetTabbedTextExtent"/> will fail if <paramref name="hdc"/> is invalid and if <paramref name="nTabPositions"/> is less than 0.
+        /// </returns>
+        /// <remarks>
+        /// The current clipping region does not affect the width and height returned by the <see cref="GetTabbedTextExtent"/> function.
+        /// Because some devices do not place characters in regular cell arrays (that is, they kern the characters),
+        /// the sum of the extents of the characters in a string may not be equal to the extent of the string.
+        /// If the <paramref name="nTabPositions"/> parameter is zero and the <paramref name="lpnTabStopPositions"/> parameter is <see langword="null"/>,
+        /// tabs are expanded to eight times the average character width.
+        /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
+        /// by the first value in the array to which <paramref name="lpnTabStopPositions"/> points.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetTabbedTextExtent([In] HDC hdc, [In] LPCWSTR lpString, [In] int chCount,
+            [In] int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In] INT[] lpnTabStopPositions);
 
         /// <summary>
         /// <para>
@@ -464,6 +730,75 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GrayString"/> function draws gray text at the specified location.
+        /// The function draws the text by copying it into a memory bitmap, graying the bitmap, and then copying the bitmap to the screen.
+        /// The function grays the text regardless of the selected brush and background.
+        /// <see cref="GrayString"/> uses the font currently selected for the specified device context.
+        /// If the <paramref name="lpOutputFunc"/> parameter is <see langword="null"/>, GDI uses the <see cref="TextOut"/> function,
+        /// and the <paramref name="lpData"/> parameter is assumed to be a pointer to the character string to be output.
+        /// If the characters to be output cannot be handled by <see cref="TextOut"/> (for example, the string is stored as a bitmap),
+        /// the application must supply its own output function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-graystringw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hBrush">
+        /// A handle to the brush to be used for graying.
+        /// If this parameter is <see cref="NULL"/>, the text is grayed with the same brush that was used to draw window text.
+        /// </param>
+        /// <param name="lpOutputFunc">
+        /// A pointer to the application-defined function that will draw the string, or,
+        /// if <see cref="TextOut"/> is to be used to draw the string, it is a <see langword="null"/> pointer.
+        /// For details, see the GRAYSTRINGPROC callback function.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to data to be passed to the output function.
+        /// If the <paramref name="lpOutputFunc"/> parameter is <see langword="null"/>, <paramref name="lpData"/> must be a pointer to the string to be output.
+        /// </param>
+        /// <param name="nCount">
+        /// The number of characters to be output.
+        /// If the <paramref name="nCount"/> parameter is zero, <see cref="GrayString"/> calculates the length of the string
+        /// (assuming lpData is a pointer to the string).
+        /// If <paramref name="nCount"/> is 1 and the function pointed to by <paramref name="lpOutputFunc"/> returns <see cref="FALSE"/>,
+        /// the image is shown but not grayed.
+        /// </param>
+        /// <param name="X">
+        /// The device x-coordinate of the starting position of the rectangle that encloses the string.
+        /// </param>
+        /// <param name="Y">
+        /// The device y-coordinate of the starting position of the rectangle that encloses the string.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width, in device units, of the rectangle that encloses the string.
+        /// If this parameter is zero, <see cref="GrayString"/> calculates the width of the area, assuming <paramref name="lpData"/> is a pointer to the string.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height, in device units, of the rectangle that encloses the string.
+        /// If this parameter is zero, <see cref="GrayString"/> calculates the height of the area, assuming <paramref name="lpData"/> is a pointer to the string.
+        /// </param>
+        /// <returns>
+        /// If the string is drawn, the return value is <see cref="TRUE"/>.
+        /// If either the <see cref="TextOut"/> function or the application-defined output function returned <see cref="FALSE"/>,
+        /// or there was insufficient memory to create a memory bitmap for graying, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Without calling <see cref="GrayString"/>, an application can draw grayed strings on devices that support a solid gray color.
+        /// The system color <see cref="COLOR_GRAYTEXT"/> is the solid-gray system color used to draw disabled text.
+        /// The application can call the <see cref="GetSysColor"/> function to retrieve the color value of <see cref="COLOR_GRAYTEXT"/>.
+        /// If the color is other than zero (black), the application can call the <see cref="SetTextColor"/> function
+        /// to set the text color to the color value and then draw the string directly.
+        /// If the retrieved color is black, the application must call <see cref="GrayString"/> to gray the text.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GrayStringW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GrayString([In] HDC hDC, [In] HBRUSH hBrush, [In] GRAYSTRINGPROC lpOutputFunc, [In] LPARAM lpData, [In] int nCount,
+            [In] int X, [In] int Y, [In] int nWidth, [In] int nHeight);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="InvalidateRect"/> function adds a rectangle to the specified window's update region.
         /// The update region represents the portion of the window's client area that must be redrawn.
         /// </para>
@@ -539,6 +874,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvalidateRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bErase);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="InvertRect"/> function inverts a rectangle in a window by performing a logical NOT operation on the color values
+        /// for each pixel in the rectangle's interior.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invertrect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be inverted.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// On monochrome screens, <see cref="InvertRect"/> makes white pixels black and black pixels white.
+        /// On color screens, the inversion depends on how colors are generated for the screen.
+        /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InvertRect([In] HDC hDC, [In] in RECT lprc);
 
         /// <summary>
         /// <para>
@@ -807,6 +1169,68 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScreenToClient", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScreenToClient([In] HWND hWnd, [In][Out] ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="TabbedTextOut"/> function writes a character string at a specified location,
+        /// expanding tabs to the values specified in an array of tab-stop positions.
+        /// Text is written in the currently selected font, background color, and text color.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-tabbedtextoutw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate of the starting point of the string, in logical units.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate of the starting point of the string, in logical units.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to the character string to draw.
+        /// The string does not need to be zero-terminated, since <paramref name="chCount"/> specifies the length of the string.
+        /// </param>
+        /// <param name="chCount">
+        /// The length of the string pointed to by <paramref name="lpString"/>.
+        /// </param>
+        /// <param name="nTabPositions">
+        /// The number of values in the array of tab-stop positions.
+        /// </param>
+        /// <param name="lpnTabStopPositions">
+        /// A pointer to an array containing the tab-stop positions, in logical units.
+        /// The tab stops must be sorted in increasing order; the smallest x-value should be the first item in the array.
+        /// </param>
+        /// <param name="nTabOrigin">
+        /// The x-coordinate of the starting position from which tabs are expanded, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the dimensions, in logical units, of the string.
+        /// The height is in the high-order word and the width is in the low-order word.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="nTabPositions"/> parameter is zero and the <paramref name="lpnTabStopPositions"/> parameter is <see cref="NULL"/>,
+        /// tabs are expanded to eight times the average character width.
+        /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
+        /// by the first value in the <paramref name="lpnTabStopPositions"/> array.
+        /// If the <paramref name="lpnTabStopPositions"/> array contains more than one value, a tab stop is set for each value in the array,
+        /// up to the number specified by <paramref name="nTabPositions"/>.
+        /// The <paramref name="nTabOrigin"/> parameter allows an application to call the <see cref="TabbedTextOut"/> function several times for a single line.
+        /// If the application calls <see cref="TabbedTextOut"/> more than once with the <paramref name="nTabOrigin"/> set to the same value each time,
+        /// the function expands all tabs relative to the position specified by <paramref name="nTabOrigin"/>.
+        /// By default, the current position is not used or updated by the <see cref="TabbedTextOut"/> function.
+        /// If an application needs to update the current position when it calls <see cref="TabbedTextOut"/>,
+        /// the application can call the <see cref="SetTextAlign"/> function with the wFlags parameter set to <see cref="TA_UPDATECP"/>.
+        /// When this flag is set, the system ignores the <paramref name="x"/> and <paramref name="y"/> parameters
+        /// on subsequent calls to the <see cref="TabbedTextOut"/> function, using the current position instead.
+        /// Note For Windows Vista and later, <see cref="TabbedTextOut"/> ignores text alignment when it draws text.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG TabbedTextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString,
+            [In] int chCount, [In] int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In] INT[] lpnTabStopPositions, [In] int nTabOrigin);
 
         /// <summary>
         /// <para>

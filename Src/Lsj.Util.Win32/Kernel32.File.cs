@@ -1133,40 +1133,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Decrypts an encrypted file or directory.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-decryptfilew"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file or directory to be decrypted.
-        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
-        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
-        /// For more information, see File Security and Access Rights.
-        /// </param>
-        /// <param name="dwReserved">
-        /// Reserved; must be zero.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="DecryptFile"/> function requires exclusive access to the file being decrypted,
-        /// and will fail if another process is using the file.
-        /// If the file is not encrypted, <see cref="DecryptFile"/> simply returns a <see cref="TRUE"/> value, which indicates success.
-        /// If <paramref name="lpFileName"/> specifies a read-only file,
-        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
-        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
-        /// the functions succeeds but the directory is not decrypted.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecryptFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DecryptFile([In] LPCWSTR lpFileName, [In] DWORD dwReserved);
-
-        /// <summary>
-        /// <para>
         /// Defines, redefines, or deletes MS-DOS device names.
         /// </para>
         /// <para>
@@ -1285,39 +1251,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint);
-
-        /// <summary>
-        /// <para>
-        /// Encrypts a file or directory. All data streams in a file are encrypted. All new files created in an encrypted directory are encrypted.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-encryptfilew"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the file or directory to be encrypted.
-        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
-        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
-        /// For more information, see File Security and Access Rights.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="EncryptFile"/> function requires exclusive access to the file being encrypted,
-        /// and will fail if another process is using the file.
-        /// If the file is already encrypted, <see cref="EncryptFile"/> simply returns a nonzero value, which indicates success.
-        /// If the file is compressed, <see cref="EncryptFile"/> will decompress the file before encrypting it.
-        /// If <paramref name="lpFileName"/> specifies a read-only file,
-        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
-        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
-        /// the functions succeeds but the directory is not encrypted.
-        /// To decrypt an encrypted file, use the <see cref="DecryptFile"/> function.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EncryptFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
 
         /// <summary>
         /// <para>
@@ -1706,7 +1639,7 @@ namespace Lsj.Util.Win32
         /// that are returned by these functions and the order of the volumes that are on the computer.
         /// In particular, do not assume any correlation between volume order and drive letters as assigned by the BIOS (if any) or the Disk Administrator.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolume", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstVolume([In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
 
         /// <summary>
@@ -2626,7 +2559,7 @@ namespace Lsj.Util.Win32
         /// The string that is returned by this function uses the "\\?\" syntax.
         /// For more information, see <see cref="CreateFile"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFinalPathNameByHandle", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFinalPathNameByHandleW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFinalPathNameByHandle([In] HANDLE hFile, [In] LPWSTR lpszFilePath, [In] DWORD cchFilePath, [In] GetFinalPathNameByHandleFlags dwFlags);
 
         /// <summary>

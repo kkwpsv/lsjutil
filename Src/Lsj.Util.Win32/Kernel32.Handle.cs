@@ -78,37 +78,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Compares two object handles to determine if they refer to the same underlying kernel object.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hFirstObjectHandle">
-        /// The first object handle to compare.
-        /// </param>
-        /// <param name="hSecondObjectHandle">
-        /// The second object handle to compare.
-        /// </param>
-        /// <returns>
-        /// A Boolean value that indicates if the two handles refer to the same underlying kernel object.
-        /// <see cref="TRUE"/> if the same, otherwise <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="CompareObjectHandles"/> function is useful to determine if two kernel handles refer to the same kernel object
-        /// without imposing a requirement that specific access rights be granted to either handle in order to perform the comparison.
-        /// For example, if a process desires to determine whether a process handle is a handle to the current process,
-        /// a call to <code>CompareObjectHandles (GetCurrentProcess (), hProcess)</code>  can be used to determine if hProcess refers to the current process.
-        /// Notably, this does not require the use of object-specific access rights, whereas in this example,
-        /// calling <see cref="GetProcessId"/> to check the process IDs of two process handles imposes a requirement
-        /// that the handles grant <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access.
-        /// However it is legal for a process handle to not have that access right granted depending on how the handle is intended to be used.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareObjectHandles", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CompareObjectHandles([In] HANDLE hFirstObjectHandle, [In] HANDLE hSecondObjectHandle);
-
-        /// <summary>
-        /// <para>
         /// Duplicates an object handle.
         /// </para>
         /// <para>

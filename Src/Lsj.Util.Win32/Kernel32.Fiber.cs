@@ -371,8 +371,8 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateFiber"/> and <see cref="ConvertThreadToFiber"/> functions return the fiber address when the fiber is created.
         /// The <see cref="GetCurrentFiber"/> macro allows you to retrieve the address at any other time.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentFiber", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID GetCurrentFiber();
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentFiber", ExactSpelling = true, SetLastError = true)]
+        //public static extern PVOID GetCurrentFiber();
 
         /// <summary>
         /// <para>
@@ -391,8 +391,8 @@ namespace Lsj.Util.Win32
         /// This value is also received as the parameter to the fiber function.
         /// It is stored as part of the fiber state information.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFiberData", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID GetFiberData();
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFiberData", ExactSpelling = true, SetLastError = true)]
+        //public static extern PVOID GetFiberData();
 
         /// <summary>
         /// <para>

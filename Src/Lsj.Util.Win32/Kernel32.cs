@@ -100,69 +100,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves a pointer to the preceding character in a string.
-        /// This function can handle strings consisting of either single- or multi-byte characters.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpszStart">
-        /// The beginning of the string.
-        /// </param>
-        /// <param name="lpszCurrent">
-        /// A character in a null-terminated string.
-        /// </param>
-        /// <returns>
-        /// The return value is a pointer to the preceding character in the string,
-        /// or to the first character in the string if the <paramref name="lpszCurrent"/> parameter equals the <paramref name="lpszStart"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// This function works with default "user" expectations of characters when dealing with diacritics.
-        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
-        /// will advance two code points, not one.
-        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the pointer to the preceding character in a string.
-        /// This function can handle strings consisting of either single- or multi-byte characters.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevexa"/>
-        /// </para>
-        /// </summary>
-        /// <param name="CodePage">
-        /// The identifier of the code page to use to check lead-byte ranges.
-        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
-        /// <see cref="CP_ACP"/>: Use system default ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
-        /// </param>
-        /// <param name="lpStart">
-        /// The beginning of the string.
-        /// </param>
-        /// <param name="lpCurrentChar">
-        /// A character in a null-terminated string.
-        /// </param>
-        /// <param name="dwFlags">
-        /// This parameter is reserved and must be zero.
-        /// </param>
-        /// <returns>
-        /// The return value is a pointer to the preceding character in the string,
-        /// or to the first character in the string if the <paramref name="lpCurrentChar"/> parameter equals the <paramref name="lpStart"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// <see cref="CharPrevExA"/> specifies a code-page to use, whereas <see cref="CharPrev"/> (if called as an ANSI function) uses the system default code-page.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CharPrevExA([In] WORD CodePage, [In] IntPtr lpStart, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
-
-        /// <summary>
-        /// <para>
         /// Decodes a pointer that was previously encoded with <see cref="EncodePointer"/>.
         /// </para>
         /// <para>

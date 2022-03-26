@@ -1055,7 +1055,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransacted", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLongPathNameTransacted([In] LPCWSTR lpszShortPath, [In] IntPtr lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
 
         /// <summary>

@@ -876,8 +876,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function is implemented as an inline function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
-        public static extern void DestroyThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
+        //public static extern void DestroyThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>
@@ -958,8 +958,8 @@ namespace Lsj.Util.Win32
         /// The <see cref="InitializeThreadpoolEnvironment"/> function is implemented as an inline function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
-        public static extern void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
+        //public static extern void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>
@@ -1092,9 +1092,9 @@ namespace Lsj.Util.Win32
         /// This function is implemented as an inline function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackCleanupGroup", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetThreadpoolCallbackCleanupGroup([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_CLEANUP_GROUP ptpcg,
-            [In] PTP_CLEANUP_GROUP_CANCEL_CALLBACK pfng);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackCleanupGroup", ExactSpelling = true, SetLastError = true)]
+        //public static extern void SetThreadpoolCallbackCleanupGroup([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_CLEANUP_GROUP ptpcg,
+        //    [In] PTP_CLEANUP_GROUP_CANCEL_CALLBACK pfng);
 
         /// <summary>
         /// <para>
@@ -1117,8 +1117,8 @@ namespace Lsj.Util.Win32
         /// This function is implemented as an inline function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackPool", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetThreadpoolCallbackPool([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_POOL ptpp);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackPool", ExactSpelling = true, SetLastError = true)]
+        //public static extern void SetThreadpoolCallbackPool([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_POOL ptpp);
 
         /// <summary>
         /// <para>
@@ -1148,8 +1148,8 @@ namespace Lsj.Util.Win32
         /// This function is implemented as an inline function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackLibrary", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetThreadpoolCallbackLibrary([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PVOID mod);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackLibrary", ExactSpelling = true, SetLastError = true)]
+        //public static extern void SetThreadpoolCallbackLibrary([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PVOID mod);
 
         /// <summary>
         /// <para>
@@ -1168,8 +1168,8 @@ namespace Lsj.Util.Win32
         /// This function is implemented as an inline function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackRunsLong", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+        //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackRunsLong", ExactSpelling = true, SetLastError = true)]
+        //public static extern void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>

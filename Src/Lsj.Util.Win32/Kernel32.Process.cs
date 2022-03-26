@@ -444,7 +444,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EmptyWorkingSet", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EmptyWorkingSet", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EmptyWorkingSet([In] HANDLE hProcess);
 
         /// <summary>
@@ -652,7 +652,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPerformanceInfo", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetPerformanceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPerformanceInfo([In][Out] ref PERFORMANCE_INFORMATION pPerformanceInformation, [In] DWORD cb);
 
         /// <summary>
@@ -821,7 +821,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [In] IntPtr lpImageFileName, [In] DWORD nSize);
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessMemoryInfo", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessMemoryInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessMemoryInfo([In] HANDLE Process, [Out] out PROCESS_MEMORY_COUNTERS ppsmemCounters, [In] DWORD cb);
 
         /// <summary>
@@ -1407,7 +1407,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSet", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32QueryWorkingSet", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryWorkingSet([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
 
         /// <summary>
@@ -1450,7 +1450,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with "–DPSAPI_VERSION=1".
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSetEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32QueryWorkingSetEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryWorkingSetEx([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
 
         /// <summary>

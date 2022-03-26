@@ -653,49 +653,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadbitmapw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hInstance">
-        /// A handle to the instance of the module whose executable file contains the bitmap to be loaded.
-        /// </param>
-        /// <param name="lpBitmapName">
-        /// A pointer to a null-terminated string that contains the name of the bitmap resource to be loaded.
-        /// Alternatively, this parameter can consist of the resource identifier in the low-order word and zero in the high-order word.
-        /// The <see cref="MAKEINTRESOURCE"/> macro can be used to create this value.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the handle to the specified bitmap.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the bitmap pointed to by the <paramref name="lpBitmapName"/> parameter does not exist or
-        /// there is insufficient memory to load the bitmap, the function fails.
-        /// <see cref="LoadBitmap"/> creates a compatible bitmap of the display, which cannot be selected to a printer.
-        /// To load a bitmap that you can select to a printer, call <see cref="LoadImage"/> and specify <see cref="LR_CREATEDIBSECTION"/> to create a DIB section.
-        /// A DIB section can be selected to any device.
-        /// An application can use the <see cref="LoadBitmap"/> function to access predefined bitmaps.
-        /// To do so, the application must set the <paramref name="hInstance"/> parameter to <see cref="NULL"/>
-        /// and the <paramref name="lpBitmapName"/> parameter to one of the following values.
-        /// OBM_BTNCORNERS, OBM_BTSIZE, OBM_CHECK, OBM_CHECKBOXES, OBM_CLOSE, OBM_COMBO, OBM_DNARROW, OBM_DNARROWD, OBM_DNARROWI, OBM_LFARROW,
-        /// OBM_LFARROWD, OBM_LFARROWI, OBM_MNARROW, OBM_OLD_CLOSE, OBM_OLD_DNARROW, OBM_OLD_LFARROW, OBM_OLD_REDUCE, OBM_OLD_RESTORE,
-        /// OBM_OLD_RGARROW, OBM_OLD_UPARROW, OBM_OLD_ZOOM, OBM_REDUCE, OBM_REDUCED, OBM_RESTORE, OBM_RESTORED, OBM_RGARROW, OBM_RGARROWD,
-        /// OBM_RGARROWI, OBM_SIZE, OBM_UPARROW, OBM_UPARROWD, OBM_UPARROWI, OBM_ZOOM, OBM_ZOOMD
-        /// Bitmap names that begin with OBM_OLD represent bitmaps used by 16-bit versions of Windows earlier than 3.0.
-        /// For an application to use any of the OBM_ constants,
-        /// the constant <see cref="OEMRESOURCE"/> must be defined before the Windows.h header file is included.
-        /// The application must call the <see cref="DeleteObject"/> function to delete each bitmap handle returned by the <see cref="LoadBitmap"/> function.
-        /// </remarks>
-        [Obsolete("LoadBitmap is available for use in the operating systems specified in the Requirements section." +
-            "It may be altered or unavailable in subsequent versions. Instead, use LoadImage and DrawFrameControl.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP LoadBitmap([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="MaskBlt"/> function combines the color data for the source and destination bitmaps
         /// using the specified mask and raster operation.
         /// </para>

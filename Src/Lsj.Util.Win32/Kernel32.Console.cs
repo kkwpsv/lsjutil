@@ -1214,7 +1214,7 @@ namespace Lsj.Util.Win32
         /// the attributes are written up to the end of the console screen buffer.
         /// The character values at the positions written to are not changed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes[] lpAttribute,
             [In] COORD nLength, [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
     }

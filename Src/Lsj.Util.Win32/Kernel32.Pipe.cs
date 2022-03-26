@@ -580,45 +580,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="ImpersonateNamedPipeClient"/> function impersonates a named-pipe client application.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hNamedPipe">
-        /// A handle to a named pipe.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="ImpersonateNamedPipeClient"/> function allows the server end of a named pipe to impersonate the client end.
-        /// When this function is called, the named-pipe file system changes the thread of the calling process to
-        /// start impersonating the security context of the last message read from the pipe.
-        /// Only the server end of the pipe can call this function.
-        /// The server can call the <see cref="RevertToSelf"/> function when the impersonation is complete.
-        /// Important
-        /// If the <see cref="ImpersonateNamedPipeClient"/> function fails, the client is not impersonated,
-        /// and all subsequent client requests are made in the security context of the process that called the function.
-        /// If the calling process is running as a privileged account, it can perform actions that the client would not be allowed to perform.
-        /// To avoid security risks, the calling process should always check the return value.
-        /// If the return value indicates that the function call failed, no client requests should be executed.
-        /// All impersonate functions, including <see cref="ImpersonateNamedPipeClient"/> allow the requested impersonation if one of the following is true:
-        /// The requested impersonation level of the token is less than SecurityImpersonation, such as SecurityIdentification or SecurityAnonymous.
-        /// The caller has the SeImpersonatePrivilege privilege.
-        /// A process (or another process in the caller's logon session) created the token 
-        /// using explicit credentials through <see cref="LogonUser"/> or <see cref="LsaLogonUser"/> function.
-        /// The authenticated identity is same as the caller.
-        /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateNamedPipeClient([In] HANDLE hNamedPipe);
-
-        /// <summary>
-        /// <para>
         /// Copies data from a named or anonymous pipe into a buffer without removing it from the pipe.
         /// It also returns information about data in the pipe.
         /// </para>
