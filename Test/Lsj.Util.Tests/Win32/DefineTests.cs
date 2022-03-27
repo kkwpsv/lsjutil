@@ -25,6 +25,10 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (Kernel32.GetProcAddress(Kernel32.LoadLibrary(item.Attribute.Value), item.Attribute.EntryPoint) == IntPtr.Zero)
                     {
+                        if (item.Attribute.Value == "Wlanapi.dll")
+                        {
+                            continue;
+                        }
                         failed.Add(item);
                     }
                 }
