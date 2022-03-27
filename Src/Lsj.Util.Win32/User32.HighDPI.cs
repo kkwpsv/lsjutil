@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.DPI_AWARENESS_CONTEXT;
@@ -224,6 +225,46 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the current process is dots per inch (dpi) aware
+        /// such that it adjusts the sizes of UI elements to compensate for the dpi setting.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isprocessdpiaware"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <see cref="TRUE"/> if the process is dpi aware; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        [Obsolete("IsProcessDPIAware is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions. Instead, use GetProcessDPIAwareness.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessDPIAware", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsProcessDPIAware();
+
+        /// <summary>
+        /// <para>
+        /// Sets the process-default DPI awareness to system-DPI awareness.
+        /// This is equivalent to calling <see cref="SetProcessDpiAwarenessContext"/>
+        /// with a <see cref="DPI_AWARENESS_CONTEXT"/> value of <see cref="DPI_AWARENESS_CONTEXT_SYSTEM_AWARE"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdpiaware"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information, see Setting the default DPI awareness for a process.
+        /// </remarks>
+        [Obsolete("It is recommended that you set the process-default DPI awareness via application manifest, not an API call. " +
+            "See Setting the default DPI awareness for a process for more information. " +
+            "Setting the process-default DPI awareness via API call can lead to unexpected application behavior.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDPIAware", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessDPIAware();
 
         /// <summary>
         /// <para>

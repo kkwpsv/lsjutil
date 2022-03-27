@@ -61,7 +61,7 @@ namespace Lsj.Util.Win32
         /// For more information about DPI settings in Control Panel, see the Writing DPI-Aware Desktop Applications in Windows 8.1 Preview white paper.
         /// </remarks>
         [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForMonitor", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetDpiForMonitor([In]HMONITOR hmonitor, [In]MONITOR_DPI_TYPE dpiType, [Out]out UINT dpiX, [Out]out UINT dpiY);
+        public static extern HRESULT GetDpiForMonitor([In] HMONITOR hmonitor, [In] MONITOR_DPI_TYPE dpiType, [Out] out UINT dpiX, [Out] out UINT dpiY);
 
         /// <summary>
         /// <para>
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32
         /// <code>GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext());</code>
         /// </remarks>
         [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessDpiAwareness", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetProcessDpiAwareness([In]HANDLE hprocess, [Out]out PROCESS_DPI_AWARENESS value);
+        public static extern HRESULT GetProcessDpiAwareness([In] HANDLE hprocess, [Out] out PROCESS_DPI_AWARENESS value);
 
         /// <summary>
         /// <para>
@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32
         /// Use the scale factor that is returned to scale point values for fonts and pixel values.
         /// </remarks>
         [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScaleFactorForDevice", ExactSpelling = true, SetLastError = true)]
-        public static extern DEVICE_SCALE_FACTOR GetScaleFactorForDevice([In]DISPLAY_DEVICE_TYPE deviceType);
+        public static extern DEVICE_SCALE_FACTOR GetScaleFactorForDevice([In] DISPLAY_DEVICE_TYPE deviceType);
 
         /// <summary>
         /// <para>
@@ -156,6 +156,6 @@ namespace Lsj.Util.Win32
         /// If the DPI awareness level is not set, the default value is <see cref="PROCESS_DPI_UNAWARE"/>.
         /// </remarks>
         [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwareness", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SetProcessDpiAwareness([In]PROCESS_DPI_AWARENESS value);
+        public static extern HRESULT SetProcessDpiAwareness([In] PROCESS_DPI_AWARENESS value);
     }
 }

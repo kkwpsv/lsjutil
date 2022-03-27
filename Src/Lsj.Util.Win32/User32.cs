@@ -19,6 +19,7 @@ using static Lsj.Util.Win32.Enums.EventConstants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
+using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -795,6 +796,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the calling thread is already a GUI thread.
+        /// It can also optionally convert the thread to a GUI thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isguithread"/>
+        /// </para>
+        /// </summary>
+        /// <param name="bConvert">
+        /// If <see cref="TRUE"/> and the thread is not a GUI thread, convert the thread to a GUI thread.
+        /// </param>
+        /// <returns>
+        /// The function returns a <see cref="TRUE"/> value in the following situations:
+        /// If the calling thread is already a GUI thread.
+        /// If <paramref name="bConvert"/> is <see cref="TRUE"/> and the function successfully converts the thread to a GUI thread.
+        /// Otherwise, the function returns <see cref="FALSE"/>.
+        /// If <paramref name="bConvert"/> is <see cref="TRUE"/> and the function cannot successfully convert the thread to a GUI thread,
+        /// <see cref="IsGUIThread"/> returns <see cref="ERROR_NOT_ENOUGH_MEMORY"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsGUIThread", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsGUIThread([In] BOOL bConvert);
+
+        /// <summary>
+        /// <para>
         /// Destroys the specified timer.
         /// </para>
         /// <para>
@@ -867,6 +891,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [In] IntPtr lpBuffer, [In] int cchBufferMax);
+
+        /// <summary>
+        /// <para>
+        /// Converts the logical coordinates of a point in a window to physical coordinates.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-logicaltophysicalpoint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose transform is used for the conversion.
+        /// Top level windows are fully supported.
+        /// In the case of child windows, only the area of overlap between the parent and the child window is converted.
+        /// </param>
+        /// <param name="lpPoint">
+        /// A pointer to a <see cref="POINT"/> structure that specifies the logical coordinates to be converted.
+        /// The new physical coordinates are copied into this structure if the function succeeds.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Windows Vista introduces the concept of physical coordinates.
+        /// Desktop Window Manager (DWM) scales non-dots per inch (dpi) aware windows when the display is high dpi.
+        /// The window seen on the screen corresponds to the physical coordinates.
+        /// The application continues to work in logical space.
+        /// Therefore, the application's view of the window is different from that which appears on the screen.
+        /// For scaled windows, logical and physical coordinates are different.
+        /// <see cref="LogicalToPhysicalPoint"/> is a transformation API that can be called by a process that declares itself as dpi aware.
+        /// The function uses the window identified by the <paramref name="hWnd"/> parameter
+        /// and the logical coordinates given in the <see cref="POINT"/> structure to compute the physical coordinates.
+        /// The <see cref="LogicalToPhysicalPoint"/> function replaces the logical coordinates
+        /// in the <see cref="POINT"/> structure with the physical coordinates.
+        /// The physical coordinates are relative to the upper-left corner of the screen.
+        /// The coordinates have to be inside the client area of <paramref name="hWnd"/>.
+        /// On all platforms, <see cref="LogicalToPhysicalPoint"/> will fail on a window that has either 0 width or height;
+        /// an application must first establish a non-0 width and height by calling, for example, <see cref="MoveWindow"/>.
+        /// On some versions of Windows (including Windows 7), <see cref="LogicalToPhysicalPoint"/> will still fail
+        /// if <see cref="MoveWindow"/> has been called after a call to <see cref="ShowWindow"/> with <see cref="SW_HIDE"/> has hidden the window.
+        /// In Windows 8, system–DPI aware applications translate between physical and logical space
+        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
+        /// In Windows 8.1, the additional virtualization of the system and inter-process communications means
+        /// that for the majority of applications, you do not need these APIs.
+        /// As a result, in Windows 8.1, <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/> no longer transform points.
+        /// The system returns all points to an application in its own coordinate space.
+        /// This behavior preserves functionality for the majority of applications,
+        /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
+        /// In those cases, use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> and <see cref="LogicalToPhysicalPointForPerMonitorDPI"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogicalToPhysicalPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LogicalToPhysicalPoint([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
         /// <summary>
         /// 
@@ -1057,6 +1130,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts the physical coordinates of a point in a window to logical coordinates.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-physicaltologicalpoint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose transform is used for the conversion.
+        /// Top level windows are fully supported.
+        /// In the case of child windows, only the area of overlap between the parent and the child window is converted.
+        /// </param>
+        /// <param name="lpPoint">
+        /// A pointer to a <see cref="POINT"/> structure that specifies the physical/screen coordinates to be converted.
+        /// The new logical coordinates are copied into this structure if the function succeeds.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Windows Vista introduces the concept of physical coordinates.
+        /// Desktop Window Manager (DWM) scales non-dots per inch (dpi) aware windows when the display is high dpi.
+        /// The window seen on the screen corresponds to the physical coordinates.
+        /// The application continues to work in logical space.
+        /// Therefore, the application's view of the window is different from that which appears on the screen.
+        /// For scaled windows, logical and physical coordinates are different.
+        /// The function uses the window identified by the hWnd parameter and the physical coordinates
+        /// given in the <see cref="POINT"/> structure to compute the logical coordinates.
+        /// The logical coordinates are the unscaled coordinates that appear to the application in a programmatic way.
+        /// In other words, the logical coordinates are the coordinates the application recognizes,
+        /// which can be different from the physical coordinates.
+        /// The API then replaces the physical coordinates with the logical coordinates.
+        /// The new coordinates are in the world coordinates whose origin is (0, 0) on the desktop.
+        /// The coordinates passed to the API have to be on the <paramref name="hWnd"/>.
+        /// The source coordinates are in device units.
+        /// On all platforms, <see cref="PhysicalToLogicalPoint"/> will fail on a window that has either 0 width or height;
+        /// an application must first establish a non-0 width and height by calling, for example, <see cref="MoveWindow"/>.
+        /// On some versions of Windows (including Windows 7), <see cref="PhysicalToLogicalPoint"/> will still fail
+        /// if <see cref="MoveWindow"/> has been called after a call to <see cref="ShowWindow"/> with <see cref="SW_HIDE"/> has hidden the window.
+        /// In Windows 8, system–DPI aware applications translate between physical and logical space
+        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
+        /// In Windows 8.1, the additional virtualization of the system and inter-process communications means
+        /// that for the majority of applications, you do not need these APIs.
+        /// As a result, in Windows 8.1, <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/> no longer transform points.
+        /// The system returns all points to an application in its own coordinate space.
+        /// This behavior preserves functionality for the majority of applications,
+        /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
+        /// In those cases, use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> and <see cref="LogicalToPhysicalPointForPerMonitorDPI"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PhysicalToLogicalPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PhysicalToLogicalPoint([In] HWND hWnd, [In][Out] ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
         /// Registers the application to receive power setting notifications for the specific power setting event.
         /// </para>
         /// <para>
@@ -1117,6 +1241,96 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCaretBlinkTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCaretBlinkTime([In] UINT uMSeconds);
+
+        /// <summary>
+        /// <para>
+        /// Creates a timer with the specified time-out value and coalescing tolerance delay.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcoalescabletimer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be associated with the timer.
+        /// This window must be owned by the calling thread.
+        /// If a <see cref="NULL"/> value for <paramref name="hWnd"/> is passed in along with an <paramref name="nIDEvent"/> of an existing timer,
+        /// that timer will be replaced in the same way that an existing non-NULL <paramref name="hWnd"/> timer will be.
+        /// </param>
+        /// <param name="nIDEvent">
+        /// A timer identifier.
+        /// If the <paramref name="hWnd"/> parameter is <see cref="NULL"/>, and the <paramref name="nIDEvent"/> does not match an existing timer,
+        /// then the <paramref name="nIDEvent"/> is ignored and a new timer ID is generated.
+        /// If the <paramref name="hWnd"/> parameter is not <see cref="NULL"/> and the window
+        /// specified by <paramref name="hWnd"/> already has a timer with the value <paramref name="nIDEvent"/>,
+        /// then the existing timer is replaced by the new timer.
+        /// When <see cref="SetCoalescableTimer"/> replaces a timer, the timer is reset.
+        /// Therefore, a message will be sent after the current time-out value elapses, but the previously set time-out value is ignored.
+        /// If the call is not intended to replace an existing timer, <paramref name="nIDEvent"/> should be 0 if the <paramref name="hWnd"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="uElapse">
+        /// The time-out value, in milliseconds.
+        /// If <paramref name="uElapse"/> is less than <see cref="USER_TIMER_MINIMUM"/>(0x0000000A),
+        /// the timeout is set to <see cref="USER_TIMER_MINIMUM"/>.
+        /// If <paramref name="uElapse"/> is greater than <see cref="USER_TIMER_MAXIMUM"/>(0x7FFFFFFF),
+        /// the timeout is set to <see cref="USER_TIMER_MAXIMUM"/>.
+        /// If the sum of <paramref name="uElapse"/> and <paramref name="uToleranceDelay"/> exceeds <see cref="USER_TIMER_MAXIMUM"/>,
+        /// an <see cref="ERROR_INVALID_PARAMETER"/> exception occurs.
+        /// </param>
+        /// <param name="lpTimerFunc">
+        /// A pointer to the function to be notified when the time-out value elapses.
+        /// For more information about the function, see TimerProc.
+        /// If <paramref name="lpTimerFunc"/> is <see cref="NULL"/>, the system posts a <see cref="WM_TIMER"/> message to the application queue.
+        /// The <paramref name="hWnd"/> member of the message's <see cref="MSG"/> structure contains the value of the <paramref name="hWnd"/> parameter.
+        /// </param>
+        /// <param name="uToleranceDelay">
+        /// It can be one of the following values:
+        /// <see cref="TIMERV_DEFAULT_COALESCING"/>:
+        /// Uses the system default timer coalescing.
+        /// <see cref="TIMERV_NO_COALESCING"/>:
+        /// Uses no timer coalescing. When this value is used, the created timer is not coalesced,
+        /// no matter what the system default timer coalescing is or the application compatibility flags are.
+        /// Note  Do not use this value unless you are certain that the timer requires no coalescing.
+        /// 0x1 - 0x7FFFFFF5:
+        /// Specifies the coalescing tolerance delay, in milliseconds.
+        /// Applications should set this value to the system default (<see cref="TIMERV_DEFAULT_COALESCING"/>) or the largest value possible.
+        /// If the sum of <paramref name="uElapse"/> and <paramref name="uToleranceDelay"/> exceeds <see cref="USER_TIMER_MAXIMUM"/> (0x7FFFFFFF),
+        /// an <see cref="ERROR_INVALID_PARAMETER"/> exception occurs.
+        /// See Windows Timer Coalescing for more details and best practices.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is <see cref="NULL"/>,
+        /// the return value is an integer identifying the new timer.
+        /// An application can pass this value to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is not <see cref="NULL"/>,
+        /// then the return value is a nonzero integer.
+        /// An application can pass the value of the <paramref name="nIDEvent"/> parameter
+        /// to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function fails to create a timer, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can process <see cref="WM_TIMER"/> messages
+        /// by including a <see cref="WM_TIMER"/> case statement in the window procedure
+        /// or by specifying a TimerProc callback function when creating the timer.
+        /// When you specify a TimerProc callback function,
+        /// the default window procedure calls the callback function when it processes <see cref="WM_TIMER"/>.
+        /// Therefore, you need to dispatch messages in the calling thread, even when you use TimerProc instead of processing <see cref="WM_TIMER"/>.
+        /// The wParam parameter of the <see cref="WM_TIMER"/> message contains the value of the <paramref name="nIDEvent"/> parameter.
+        /// The timer identifier, <paramref name="nIDEvent"/>, is specific to the associated window.
+        /// Another window can have its own timer which has the same identifier as a timer owned by another window.
+        /// The timers are distinct.
+        /// <see cref="SetTimer"/> can reuse timer IDs in the case where <paramref name="hWnd"/> is <see cref="NULL"/>.
+        /// When <paramref name="uToleranceDelay"/> is set to 0, the system default timer coalescing is used
+        /// and <see cref="SetCoalescableTimer"/> behaves the same as <see cref="SetTimer"/>.
+        /// Before using <see cref="SetCoalescableTimer"/> or other timer-related functions,
+        /// it is recommended to set the <see cref="UOI_TIMERPROC_EXCEPTION_SUPPRESSION"/> flag
+        /// to false through the <see cref="SetUserObjectInformation"/> function,
+        /// otherwise the application could behave unpredictably and could be vulnerable to security exploits.
+        /// For more info, see <see cref="SetUserObjectInformation"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCoalescableTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT_PTR SetCoalescableTimer([In] HWND hWnd, [In] UINT_PTR nIDEvent, [In] UINT uElapse,
+            [In] TIMERPROC lpTimerFunc, [In] ULONG uToleranceDelay);
 
         /// <summary>
         /// <para>
@@ -1361,6 +1575,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowCaret([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Triggers a visual signal to indicate that a sound is playing.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-soundsentry"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// This function returns one of the following values.
+        /// <see cref="TRUE"/>:
+        /// The visual signal was or will be displayed correctly.
+        /// <see cref="FALSE"/>:
+        /// An error prevented the signal from being displayed.
+        /// </returns>
+        /// <remarks>
+        /// Set the notification behavior by calling <see cref="SystemParametersInfo"/> with the <see cref="SPI_SETSOUNDSENTRY"/> value.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SoundSentry", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SoundSentry();
 
         /// <summary>
         /// <para>

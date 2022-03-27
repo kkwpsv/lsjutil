@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -1153,7 +1154,7 @@ namespace Lsj.Util.Win32
         /// For example, predefined control classes such as BUTTON, EDIT, LISTBOX, and COMBOBOX may use values in this range.)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern UINT RegisterWindowMessage([In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>
@@ -1292,25 +1293,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Sets the extra message information for the current thread.
-        /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
-        /// An application can use the <see cref="GetMessageExtraInfo"/> function to retrieve a thread's extra message information.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmessageextrainfo"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lParam">
-        /// The value to be associated with the current thread.
-        /// </param>
-        /// <returns>
-        /// The return value is the previous value associated with the current thread.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern LPARAM SetMessageExtraInfo([In] LPARAM lParam);
-
-        /// <summary>
-        /// <para>
         /// Sends the specified message to one or more windows.
         /// </para>
         /// <para>
@@ -1423,6 +1405,50 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SendNotifyMessage([In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Sets the extra message information for the current thread.
+        /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
+        /// An application can use the <see cref="GetMessageExtraInfo"/> function to retrieve a thread's extra message information.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmessageextrainfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lParam">
+        /// The value to be associated with the current thread.
+        /// </param>
+        /// <returns>
+        /// The return value is the previous value associated with the current thread.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern LPARAM SetMessageExtraInfo([In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Processes accelerator keystrokes for window menu commands of the multiple-document interface (MDI) child windows
+        /// associated with the specified MDI client window.
+        /// The function translates <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages to <see cref="WM_SYSCOMMAND"/> messages
+        /// and sends them to the appropriate MDI child windows.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWndClient">
+        /// A handle to the MDI client window.
+        /// </param>
+        /// <param name="lpMsg">
+        /// A pointer to a message retrieved by using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// The message must be an <see cref="MSG"/> structure and contain message information from the application's message queue.
+        /// </param>
+        /// <returns>
+        /// If the message is translated into a system command, the return value is <see cref="TRUE"/>.
+        /// If the message is not translated into a system command, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMDISysAccel", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TranslateMDISysAccel([In] HWND hWndClient, [In][Out] ref MSG lpMsg);
 
         /// <summary>
         /// <para>

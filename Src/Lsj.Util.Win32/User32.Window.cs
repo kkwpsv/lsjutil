@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Dwmapi;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ChildWindowFromPointExFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
@@ -29,6 +30,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TrackPopupMenuFlags;
+using static Lsj.Util.Win32.Enums.WindowDisplayAffinities;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -2274,7 +2276,31 @@ namespace Lsj.Util.Win32
         /// Otherwise, the return value is <see cref="NULL"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPropW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE GetProp([In] HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern HANDLE GetProp([In] HWND hWnd, [In] LPWSTR lpString);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified title bar.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettitlebarinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the title bar whose information is to be retrieved.
+        /// </param>
+        /// <param name="pti">
+        /// A pointer to a <see cref="TITLEBARINFO"/> structure to receive the information.
+        /// Note that you must set the <see cref="TITLEBARINFO.cbSize"/> member to <code>sizeof(TITLEBARINFO)</code>
+        /// before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTitleBarInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetTitleBarInfo([In] HWND hwnd, [In][Out] ref TITLEBARINFO pti);
 
         /// <summary>
         /// <para>
@@ -2329,6 +2355,59 @@ namespace Lsj.Util.Win32
         public static extern HWND GetWindow([In] HWND hWnd, [In] GetWindowCommands uCmd);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the current display affinity setting, from any process, for a given window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdisplayaffinity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window.
+        /// </param>
+        /// <param name="pdwAffinity">
+        /// A pointer to a variable that receives the display affinity setting.
+        /// See <see cref="SetWindowDisplayAffinity"/> for a list of affinity settings and their meanings.
+        /// </param>
+        /// <returns>
+        /// This function succeeds only when the window is layered and Desktop Windows Manager is composing the desktop.
+        /// If this function succeeds, it returns <see cref="TRUE"/>; otherwise, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function and <see cref="SetWindowDisplayAffinity"/> are designed
+        /// to support the window content protection feature unique to Windows 7.
+        /// This feature enables applications to protect their own onscreen window content
+        /// from being captured or copied via a specific set of public operating system features and APIs.
+        /// However, it works only when the Desktop Window Manager (DWM) is composing the desktop.
+        /// It is important to note that unlike a security feature or an implementation of Digital Rights Management (DRM),
+        /// there is no guarantee that using <see cref="SetWindowDisplayAffinity"/> and <see cref="GetWindowDisplayAffinity"/>,
+        /// and other necessary functions such as <see cref="DwmIsCompositionEnabled"/>, will strictly protect windowed content,
+        /// as in the case where someone takes a photograph of the screen.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDisplayAffinity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowDisplayAffinity([In] HWND hWnd, [Out] out WindowDisplayAffinities pdwAffinity);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose information is to be retrieved.
+        /// </param>
+        /// <param name="pwi">
+        /// A pointer to a <see cref="WINDOWINFO"/> structure to receive the information.
+        /// Note that you must set the <see cref="WINDOWINFO.cbSize"/> member to <code>sizeof(WINDOWINFO)</code> before calling this function.
+        /// </param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowInfo([In] HWND hwnd, [In][Out] ref WINDOWINFO pwi);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
@@ -2355,6 +2434,29 @@ namespace Lsj.Util.Win32
         private static extern LONG_PTR GetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the full path and file name of the module associated with the specified window handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowmodulefilenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose module file name is to be retrieved.
+        /// </param>
+        /// <param name="pszFileName">
+        /// The path and file name.
+        /// </param>
+        /// <param name="cchFileNameMax">
+        /// The maximum number of characters that can be copied into the <paramref name="pszFileName"/> buffer.
+        /// </param>
+        /// <returns>
+        /// The return value is the total number of characters copied into the buffer.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowModuleFileNameW", ExactSpelling = true, SetLastError = true)]
+        private static extern UINT GetWindowModuleFileName([In] HWND hwnd, [In] LPWSTR pszFileName, [In] UINT cchFileNameMax);
+
+        /// <summary>
         /// Retrieves the show state and the restored, minimized, and maximized positions of the specified window.
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
@@ -2371,27 +2473,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowPlacement([In] HWND hWnd, [In][Out] ref WINDOWPLACEMENT lpwndpl);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the identifier of the thread that created the specified window and, optionally, 
-        /// the identifier of the process that created the window.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">A handle to the window.</param>
-        /// <param name="lpdwProcessId">
-        /// A pointer to a variable that receives the process identifier. 
-        /// If this parameter is not <see cref="NullRef{DWORD}"/>, <see cref="DWORD"/> copies the identifier of the process to the variable; 
-        /// otherwise, it does not.
-        /// </param>
-        /// <returns>
-        /// The return value is the identifier of the thread that created the window.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetWindowThreadProcessId([In] HWND hWnd, [Out] out DWORD lpdwProcessId);
 
         /// <summary>
         /// <para>
@@ -2513,6 +2594,27 @@ namespace Lsj.Util.Win32
         public static extern int GetWindowTextLength([In] HWND hWnd);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the identifier of the thread that created the specified window and, optionally, 
+        /// the identifier of the process that created the window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpdwProcessId">
+        /// A pointer to a variable that receives the process identifier. 
+        /// If this parameter is not <see cref="NullRef{DWORD}"/>, <see cref="DWORD"/> copies the identifier of the process to the variable; 
+        /// otherwise, it does not.
+        /// </param>
+        /// <returns>
+        /// The return value is the identifier of the thread that created the window.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetWindowThreadProcessId([In] HWND hWnd, [Out] out DWORD lpdwProcessId);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="hWnd"></param>
@@ -2521,6 +2623,42 @@ namespace Lsj.Util.Win32
         [Obsolete]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowWord", ExactSpelling = true, SetLastError = true)]
         public static extern WORD GetWindowWord([In] HWND hWnd, [In] GetWindowLongIndexes nIndex);
+
+        /// <summary>
+        /// <para>
+        /// Copies the text of the specified window's title bar (if it has one) into a buffer.
+        /// This function is similar to the <see cref="GetWindowText"/> function.
+        /// However, it obtains the window text directly from the window structure
+        /// associated with the specified window's handle and then always provides the text as a Unicode string.
+        /// This is unlike <see cref="GetWindowText"/> which obtains the text by sending the window a <see cref="WM_GETTEXT"/> message.
+        /// If the specified window is a control, the text of the control is obtained.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-internalgetwindowtext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window or control containing the text.
+        /// </param>
+        /// <param name="pString">
+        /// The buffer that is to receive the text.
+        /// If the string is as long or longer than the buffer, the string is truncated and terminated with a null character.
+        /// </param>
+        /// <param name="cchMaxCount">
+        /// The maximum number of characters to be copied to the buffer, including the null character.
+        /// If the text exceeds this limit, it is truncated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in characters,
+        /// of the copied string, not including the terminating null character.
+        /// If the window has no title bar or text, if the title bar is empty, 
+        /// or if the window or control handle is invalid, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [Obsolete("This function is not intended for general use. " +
+            "It may be altered or unavailable in subsequent versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InternalGetWindowText", ExactSpelling = true, SetLastError = true)]
+        public static extern int InternalGetWindowText([In] HWND hWnd, [In] LPWSTR pString, [In] int cchMaxCount);
 
         /// <summary>
         /// <para>
@@ -2547,6 +2685,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the system considers that a specified application is not responding.
+        /// An application is considered to be not responding if it is not waiting for input,
+        /// is not in startup processing, and has not called <see cref="PeekMessage"/> within the internal timeout period of 5 seconds.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ishungappwindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// The return value is <see cref="TRUE"/> if the window stops responding; otherwise, it is <see cref="FALSE"/>.
+        /// Ghost windows always return <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The Windows timeout criteria of 5 seconds is subject to change.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsHungAppWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsHungAppWindow([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the specified window is minimized (iconic).
         /// </para>
         /// <para>
@@ -2562,24 +2723,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsIconic", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsIconic([In] HWND hWnd);
-
-        /// <summary>
-        /// <para>
-        /// Determines whether a window is maximized.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iszoomed"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">
-        /// A handle to the window to be tested.
-        /// </param>
-        /// <returns>
-        /// If the window is zoomed, the return value is <see cref="TRUE"/>.
-        /// If the window is not zoomed, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsZoomed", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsZoomed([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -2680,6 +2823,24 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindowVisible([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a window is maximized.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iszoomed"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is zoomed, the return value is <see cref="TRUE"/>.
+        /// If the window is not zoomed, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsZoomed", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsZoomed([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -2811,6 +2972,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a string that specifies the window type.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-realgetwindowclassw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose type will be retrieved.
+        /// </param>
+        /// <param name="ptszClassName">
+        /// A pointer to a string that receives the window type.
+        /// </param>
+        /// <param name="cchClassNameMax">
+        /// The length, in characters, of the buffer pointed to by the <paramref name="ptszClassName"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of characters copied to the specified buffer.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealGetWindowClassW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT RealGetWindowClass([In] HWND hwnd, [In] LPWSTR ptszClassName, [In] UINT cchClassNameMax);
+
+        /// <summary>
+        /// <para>
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
@@ -2865,6 +3051,72 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", ExactSpelling = true, SetLastError = true)]
         public static extern ushort RegisterClassEx([In] in WNDCLASSEX Arg1);
+
+        /// <summary>
+        /// <para>
+        /// Registers a specified Shell window to receive certain messages for events or notifications that are useful to Shell applications.
+        /// The event messages received are only those sent to the Shell window associated with the specified window's desktop.
+        /// Many of the messages are the same as those that can be received after calling the <see cref="SetWindowsHookEx"/> function
+        /// and specifying <see cref="WH_SHELL"/> for the hook type.
+        /// The difference with <see cref="RegisterShellHookWindow"/> is that the messages are received
+        /// through the specified window's WindowProc and not through a call back procedure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registershellhookwindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window to register for Shell hook messages.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// As with normal window messages, the second parameter of the window procedure
+        /// identifies the message as a <see cref="WM_SHELLHOOKMESSAGE"/>.
+        /// However, for these Shell hook messages, the message value is not a pre-defined constant
+        /// like other message IDs such as <see cref="WM_COMMAND"/>.
+        /// The value must be obtained dynamically using a call to <see cref="RegisterWindowMessage"/> as shown here:
+        /// <code>RegisterWindowMessage(TEXT("SHELLHOOK"));</code>
+        /// This precludes handling these messages using a traditional switch statement which requires ID values that are known at compile time.
+        /// For handling Shell hook messages, the normal practice is to code an If statement in the default section
+        /// of your switch statement and then handle the message if the value of the message ID is the same as
+        /// the value obtained from the <see cref="RegisterWindowMessage"/> call.
+        /// The following table describes the wParam and lParam parameter values passed to the window procedure for the Shell hook messages.
+        /// <see cref="HSHELL_GETMINRECT"/>:
+        /// A pointer to a <see cref="SHELLHOOKINFO"/> structure.
+        /// <see cref="HSHELL_WINDOWACTIVATED"/>:
+        /// A handle to the activated window.
+        /// <see cref="HSHELL_RUDEAPPACTIVATED"/>:
+        /// A handle to the activated window.
+        /// <see cref="HSHELL_WINDOWREPLACING"/>:
+        /// A handle to the window replacing the top-level window.
+        /// <see cref="HSHELL_WINDOWREPLACED"/>:
+        /// A handle to the window being replaced.
+        /// <see cref="HSHELL_WINDOWCREATED"/>:
+        /// A handle to the window being created.
+        /// <see cref="HSHELL_WINDOWDESTROYED"/>:
+        /// A handle to the top-level window being destroyed.
+        /// <see cref="HSHELL_ACTIVATESHELLWINDOW"/>:
+        /// Not used.
+        /// <see cref="HSHELL_TASKMAN"/>:
+        /// Can be ignored.
+        /// <see cref="HSHELL_REDRAW"/>:
+        /// A handle to the window that needs to be redrawn.
+        /// <see cref="HSHELL_FLASH"/>:
+        /// A handle to the window that needs to be flashed.
+        /// <see cref="HSHELL_ENDTASK"/>:
+        /// A handle to the window that should be forced to exit.
+        /// <see cref="HSHELL_APPCOMMAND"/>:
+        /// The APPCOMMAND which has been unhandled by the application or other hooks.
+        /// See <see cref="WM_APPCOMMAND"/> and use the GET_APPCOMMAND_LPARAM macro to retrieve this parameter.
+        /// <see cref="HSHELL_MONITORCHANGED"/>:
+        /// A handle to the window that moved to a different monitor.
+        /// </remarks>
+        [Obsolete("This function is not intended for general use. " +
+            "It may be altered or unavailable in subsequent versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterShellHookWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterShellHookWindow([In] HWND hwnd);
 
         /// <summary>
         /// <para>
@@ -3055,6 +3307,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the opacity and transparency color key of a layered window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setlayeredwindowattributes"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the layered window. 
+        /// A layered window is created by specifying <see cref="WS_EX_LAYERED"/>
+        /// when creating the window with the <see cref="CreateWindowEx"/> function
+        /// or by setting <see cref="WS_EX_LAYERED"/> via <see cref="SetWindowLong"/> after the window has been created.
+        /// Windows 8:
+        /// The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
+        /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
+        /// </param>
+        /// <param name="crKey">
+        /// A <see cref="COLORREF"/> structure that specifies the transparency color key to be used when composing the layered window.
+        /// All pixels painted by the window in this color will be transparent.
+        /// To generate a <see cref="COLORREF"/>, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <param name="bAlpha">
+        /// Alpha value used to describe the opacity of the layered window.
+        /// Similar to the <see cref="BLENDFUNCTION.SourceConstantAlpha"/> member of the <see cref="BLENDFUNCTION"/> structure.
+        /// When <paramref name="bAlpha"/> is 0, the window is completely transparent.
+        /// When <paramref name="bAlpha"/> is 255, the window is opaque.
+        /// </param>
+        /// <param name="dwFlags">
+        /// An action to be taken. This parameter can be one or more of the following values.
+        /// <see cref="LWA_ALPHA"/>:
+        /// Use <paramref name="bAlpha"/> to determine the opacity of the layered window.
+        /// <see cref="LWA_COLORKEY"/>:
+        /// Use <paramref name="crKey"/> as the transparency color.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note that once <see cref="SetLayeredWindowAttributes"/> has been called for a layered window,
+        /// subsequent <see cref="UpdateLayeredWindow"/> calls will fail until the layering style bit is cleared and set again.
+        /// For more information, see Using Layered Windows.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLayeredWindowAttributes", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetLayeredWindowAttributes([In] HWND hwnd, [In] COLORREF crKey, [In] BYTE bAlpha, [In] LayeredWindowAttributes dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Changes the parent window of the specified child window.
         /// </para>
         /// <para>
@@ -3101,6 +3401,210 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetParent([In] HWND hWndChild, [In] HWND hWndNewParent);
+
+        /// <summary>
+        /// <para>
+        /// Changes the default layout when windows are created with no parent or owner only for the currently running process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdefaultlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwDefaultLayout">
+        /// The default process layout.
+        /// This parameter can be 0 or the following value.
+        /// <see cref="LAYOUT_RTL"/>:
+        /// Sets the default horizontal layout to be right to left.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The layout specifies how text and graphics are laid out; the default is left to right.
+        /// The <see cref="SetProcessDefaultLayout"/> function changes layout to be right to left,
+        /// which is the standard in Arabic and Hebrew cultures.
+        /// After the <see cref="LAYOUT_RTL"/> flag is selected, flags normally specifying right or left are reversed.
+        /// To avoid confusion, consider defining alternate words for standard flags, such as those in the following table.
+        /// Standard flag                       Suggested alternate name
+        /// <see cref="WS_EX_RIGHT"/>           <see cref="WS_EX_TRAILING"/>
+        /// <see cref="WS_EX_RTLREADING"/>      <see cref="WS_EX_REVERSEREADING"/>
+        /// <see cref="WS_EX_LEFTSCROLLBAR"/>   <see cref="WS_EX_LEADSCROLLBAR"/>
+        /// <see cref="ES_LEFT"/>               <see cref="ES_LEAD"/>
+        /// <see cref="ES_RIGHT"/>              <see cref="ES_TRAIL"/>
+        /// <see cref="EC_LEFTMARGIN"/>         <see cref="EC_LEADMARGIN"/>
+        /// <see cref="EC_RIGHTMARGIN"/>        <see cref="EC_TRAILMARGIN"/>
+        /// If using this function with a mirrored window,
+        /// note that the <see cref="SetProcessDefaultLayout"/> function does not mirror the whole process
+        /// and all the device contexts (DCs) created in it.
+        /// It mirrors only the mirrored window's DCs.
+        /// To mirror any DC, use the <see cref="SetLayout"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDefaultLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessDefaultLayout([In] DWORD dwDefaultLayout);
+
+        /// <summary>
+        /// <para>
+        /// Specifies where the content of the window can be displayed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the top-level window.
+        /// The window must belong to the current process.
+        /// </param>
+        /// <param name="dwAffinity">
+        /// The display affinity setting that specifies where the content of the window can be displayed.
+        /// This parameter can be one of the following values.
+        /// <see cref="WDA_NONE"/>:
+        /// Imposes no restrictions on where the window can be displayed.
+        /// <see cref="WDA_MONITOR"/>:
+        /// The window content is displayed only on a monitor.
+        /// Everywhere else, the window appears with no content.
+        /// <see cref="WDA_EXCLUDEFROMCAPTURE"/>:
+        /// The window is displayed only on a monitor. Everywhere else, the window does not appear at all.
+        /// One use for this affinity is for windows that show video recording controls,
+        /// so that the controls are not included in the capture.
+        /// Introduced in Windows 10 Version 2004. See remarks about compatibility regarding previous versions of Windows.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>; otherwise, it returns <see cref="FALSE"/> when,
+        /// for example, the function call is made on a non top-level window.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function and <see cref="GetWindowDisplayAffinity"/> are designed
+        /// to support the window content protection feature that is new to Windows 7.
+        /// This feature enables applications to protect their own onscreen window content
+        /// from being captured or copied through a specific set of public operating system features and APIs.
+        /// However, it works only when the Desktop Window Manager(DWM) is composing the desktop.
+        /// It is important to note that unlike a security feature or an implementation of Digital Rights Management (DRM),
+        /// there is no guarantee that using <see cref="SetWindowDisplayAffinity"/> and <see cref="GetWindowDisplayAffinity"/>,
+        /// and other necessary functions such as <see cref="DwmIsCompositionEnabled"/>, will strictly protect windowed content,
+        /// for example where someone takes a photograph of the screen.
+        /// Starting in Windows 10 Version 2004, <see cref="WDA_EXCLUDEFROMCAPTURE"/> is a supported value.
+        /// Setting the display affinity to <see cref="WDA_EXCLUDEFROMCAPTURE"/> on previous version of Windows
+        /// will behave as if <see cref="WDA_MONITOR"/> is applied.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowDisplayAffinity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowDisplayAffinity([In] HWND hWnd, [In] WindowDisplayAffinities dwAffinity);
+
+        /// <summary>
+        /// Changes an attribute of the specified window.
+        /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+        /// <param name="nIndex">
+        /// The zero-based offset to the value to be retrieved. 
+        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
+        /// To retrieve any other value, specify one of the following values.
+        /// </param>
+        /// <param name="dwNewLong">The replacement value.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the specified 32-bit integer.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
+        /// If the previous value of the specified 32-bit integer is zero, and the function succeeds, the return value is zero, 
+        /// but the function does not clear the last error information. This makes it difficult to determine success or failure.
+        /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
+        /// Then, function failure will be indicated by a return value of zero and a <see cref="GetLastError"/> result that is nonzero.
+        /// </returns>
+        public static LONG_PTR SetWindowLong([In] HWND hWnd, [In] GetWindowLongIndexes nIndex, [In] LONG_PTR dwNewLong)
+            => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : (LONG_PTR)(IntPtr)(int)SetWindowLongImp(hWnd, nIndex, ((IntPtr)dwNewLong).SafeToInt32());
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", ExactSpelling = true, SetLastError = true)]
+        private static extern LONG SetWindowLongImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", ExactSpelling = true, SetLastError = true)]
+        private static extern LONG_PTR SetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG_PTR dwNewLong);
+
+        /// <summary>
+        /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpwndpl">
+        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
+        /// Before calling <see cref="SetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of
+        /// the <see cref="WINDOWPLACEMENT"/> structure  to <code>sizeof(WINDOWPLACEMENT)</code>.
+        /// <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowPlacement([In] HWND hWnd, [In] in WINDOWPLACEMENT lpwndpl);
+
+        /// <summary>
+        /// <para>
+        /// Changes the size, position, and Z order of a child, pop-up, or top-level window.
+        /// These windows are ordered according to their appearance on the screen.
+        /// The topmost window receives the highest rank and is the first window in the Z order.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="hWndInsertAfter">A handle to the window to precede the positioned window in the Z order.</param>
+        /// <param name="X">The new position of the left side of the window, in client coordinates.</param>
+        /// <param name="Y">The new position of the top of the window, in client coordinates.</param>
+        /// <param name="cx">The new width of the window, in pixels.</param>
+        /// <param name="cy">The new height of the window, in pixels.</param>
+        /// <param name="uFlags">The window sizing and positioning flags. This parameter can be a combination of the following values.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowPos([In] HWND hWnd, [In] HWND hWndInsertAfter, [In] int X, [In] int Y,
+            [In] int cx, [In] int cy, [In] SetWindowPosFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetWindowRgn"/> function sets the window region of a window.
+        /// The window region determines the area within the window where the system permits drawing.
+        /// The system does not display any portion of a window that lies outside of the window region.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowrgn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window region is to be set.
+        /// </param>
+        /// <param name="hRgn">
+        /// A handle to a region.
+        /// The function sets the window region of the window to this region.
+        /// If <paramref name="hRgn"/> is <see cref="NULL"/>, the function sets the window region to <see cref="NULL"/>.
+        /// </param>
+        /// <param name="bRedraw">
+        /// Specifies whether the system redraws the window after setting the window region.
+        /// If <paramref name="bRedraw"/> is <see cref="TRUE"/>, the system does so; otherwise, it does not.
+        /// Typically, you set <paramref name="bRedraw"/> to <see cref="TRUE"/> if the window is visible.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// When this function is called, the system sends the <see cref="WM_WINDOWPOSCHANGING"/>
+        /// and <see cref="WM_WINDOWPOSCHANGING"/> messages to the window.
+        /// The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
+        /// Note If the window layout is right-to-left (RTL), the coordinates are relative to the upper-right corner of the window. 
+        /// See Window Layout and Mirroring.
+        /// After a successful call to <see cref="SetWindowRgn"/>, the system owns the region specified by the region handle <paramref name="hRgn"/>.
+        /// The system does not make a copy of the region. Thus, you should not make any further function calls with this region handle.
+        /// In particular, do not delete this region handle. The system deletes the region handle when it no longer needed.
+        /// To obtain the window region of a window, call the <see cref="GetWindowRgn"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetWindowRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bRedraw);
 
         /// <summary>
         /// <para>
@@ -3301,120 +3805,6 @@ namespace Lsj.Util.Win32
         public static extern HHOOK SetWindowsHookEx([In] int idHook, [In] HOOKPROC lpfn, [In] HINSTANCE hmod, [In] DWORD dwThreadId);
 
         /// <summary>
-        /// Changes an attribute of the specified window.
-        /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
-        /// </summary>
-        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
-        /// <param name="nIndex">
-        /// The zero-based offset to the value to be retrieved. 
-        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
-        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
-        /// To retrieve any other value, specify one of the following values.
-        /// </param>
-        /// <param name="dwNewLong">The replacement value.</param>
-        /// <returns>
-        /// If the function succeeds, the return value is the previous value of the specified 32-bit integer.
-        /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
-        /// If the previous value of the specified 32-bit integer is zero, and the function succeeds, the return value is zero, 
-        /// but the function does not clear the last error information. This makes it difficult to determine success or failure.
-        /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
-        /// Then, function failure will be indicated by a return value of zero and a <see cref="GetLastError"/> result that is nonzero.
-        /// </returns>
-        public static LONG_PTR SetWindowLong([In] HWND hWnd, [In] GetWindowLongIndexes nIndex, [In] LONG_PTR dwNewLong)
-            => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : (LONG_PTR)(IntPtr)(int)SetWindowLongImp(hWnd, nIndex, ((IntPtr)dwNewLong).SafeToInt32());
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern LONG SetWindowLongImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG dwNewLong);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", ExactSpelling = true, SetLastError = true)]
-        private static extern LONG_PTR SetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG_PTR dwNewLong);
-
-        /// <summary>
-        /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
-        /// </summary>
-        /// <param name="hWnd">A handle to the window.</param>
-        /// <param name="lpwndpl">
-        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
-        /// Before calling <see cref="SetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of
-        /// the <see cref="WINDOWPLACEMENT"/> structure  to <code>sizeof(WINDOWPLACEMENT)</code>.
-        /// <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowPlacement([In] HWND hWnd, [In] in WINDOWPLACEMENT lpwndpl);
-
-        /// <summary>
-        /// <para>
-        /// Changes the size, position, and Z order of a child, pop-up, or top-level window.
-        /// These windows are ordered according to their appearance on the screen.
-        /// The topmost window receives the highest rank and is the first window in the Z order.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">A handle to the window.</param>
-        /// <param name="hWndInsertAfter">A handle to the window to precede the positioned window in the Z order.</param>
-        /// <param name="X">The new position of the left side of the window, in client coordinates.</param>
-        /// <param name="Y">The new position of the top of the window, in client coordinates.</param>
-        /// <param name="cx">The new width of the window, in pixels.</param>
-        /// <param name="cy">The new height of the window, in pixels.</param>
-        /// <param name="uFlags">The window sizing and positioning flags. This parameter can be a combination of the following values.</param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowPos([In] HWND hWnd, [In] HWND hWndInsertAfter, [In] int X, [In] int Y,
-            [In] int cx, [In] int cy, [In] SetWindowPosFlags uFlags);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="SetWindowRgn"/> function sets the window region of a window.
-        /// The window region determines the area within the window where the system permits drawing.
-        /// The system does not display any portion of a window that lies outside of the window region.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowrgn"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">
-        /// A handle to the window whose window region is to be set.
-        /// </param>
-        /// <param name="hRgn">
-        /// A handle to a region.
-        /// The function sets the window region of the window to this region.
-        /// If <paramref name="hRgn"/> is <see cref="NULL"/>, the function sets the window region to <see cref="NULL"/>.
-        /// </param>
-        /// <param name="bRedraw">
-        /// Specifies whether the system redraws the window after setting the window region.
-        /// If <paramref name="bRedraw"/> is <see cref="TRUE"/>, the system does so; otherwise, it does not.
-        /// Typically, you set <paramref name="bRedraw"/> to <see cref="TRUE"/> if the window is visible.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// When this function is called, the system sends the <see cref="WM_WINDOWPOSCHANGING"/>
-        /// and <see cref="WM_WINDOWPOSCHANGING"/> messages to the window.
-        /// The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
-        /// Note If the window layout is right-to-left (RTL), the coordinates are relative to the upper-right corner of the window. 
-        /// See Window Layout and Mirroring.
-        /// After a successful call to <see cref="SetWindowRgn"/>, the system owns the region specified by the region handle <paramref name="hRgn"/>.
-        /// The system does not make a copy of the region. Thus, you should not make any further function calls with this region handle.
-        /// In particular, do not delete this region handle. The system deletes the region handle when it no longer needed.
-        /// To obtain the window region of a window, call the <see cref="GetWindowRgn"/> function.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetWindowRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bRedraw);
-
-        /// <summary>
         /// <para>
         /// Changes the text of the specified window's title bar (if it has one). 
         /// If the specified window is a control, the text of the control is changed. 
@@ -3447,29 +3837,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Sets the specified window's show state.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">A handle to the window.</param>
-        /// <param name="nCmdShow">
-        /// Controls how the window is to be shown. This parameter is ignored the first time an application calls <see cref="ShowWindow"/>,
-        /// if the program that launched the application provides a <see cref="STARTUPINFO"/> structure.
-        /// Otherwise, the first time <see cref="ShowWindow"/> is called, the value should be the value obtained by
-        /// the WinMain function in its nCmdShow parameter.
-        /// In subsequent calls, this parameter can be one of the following values.
-        /// </param>
-        /// <returns>
-        /// If the window was previously visible, the return value is <see cref="TRUE"/>.
-        /// If the window was previously hidden, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ShowWindow([In] HWND hWnd, [In] ShowWindowCommands nCmdShow);
-
-        /// <summary>
-        /// <para>
         /// Shows or hides all pop-up windows owned by the specified window.
         /// </para>
         /// <para>
@@ -3499,28 +3866,124 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Processes accelerator keystrokes for window menu commands of the multiple-document interface (MDI) child windows
-        /// associated with the specified MDI client window.
-        /// The function translates <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages to <see cref="WM_SYSCOMMAND"/> messages
-        /// and sends them to the appropriate MDI child windows.
+        /// Sets the specified window's show state.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow"/>
         /// </para>
         /// </summary>
-        /// <param name="hWndClient">
-        /// A handle to the MDI client window.
+        /// <param name="hWnd">
+        /// A handle to the window.
         /// </param>
-        /// <param name="lpMsg">
-        /// A pointer to a message retrieved by using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
-        /// The message must be an <see cref="MSG"/> structure and contain message information from the application's message queue.
+        /// <param name="nCmdShow">
+        /// Controls how the window is to be shown. This parameter is ignored the first time an application calls <see cref="ShowWindow"/>,
+        /// if the program that launched the application provides a <see cref="STARTUPINFO"/> structure.
+        /// Otherwise, the first time <see cref="ShowWindow"/> is called, the value should be the value obtained by
+        /// the WinMain function in its nCmdShow parameter.
+        /// In subsequent calls, this parameter can be one of the following values.
         /// </param>
         /// <returns>
-        /// If the message is translated into a system command, the return value is <see cref="TRUE"/>.
-        /// If the message is not translated into a system command, the return value is <see cref="FALSE"/>.
+        /// If the window was previously visible, the return value is <see cref="TRUE"/>.
+        /// If the window was previously hidden, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMDISysAccel", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TranslateMDISysAccel([In] HWND hWndClient, [In][Out] ref MSG lpMsg);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShowWindow([In] HWND hWnd, [In] ShowWindowCommands nCmdShow);
+
+        /// <summary>
+        /// <para>
+        /// Sets the show state of a window without waiting for the operation to complete.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/showwindowasync"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window.
+        /// </param>
+        /// <param name="nCmdShow">
+        /// Controls how the window is to be shown.
+        /// For a list of possible values, see the description of the <see cref="ShowWindow"/> function.
+        /// </param>
+        /// <returns>
+        /// If the operation was successfully started, the return value is <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function posts a show-window event to the message queue of the given window.
+        /// An application can use this function to avoid becoming nonresponsive
+        /// while waiting for a nonresponsive application to finish processing a show-window event.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindowAsync", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShowWindowAsync([In] HWND hWnd, [In] ShowWindowCommands nCmdShow);
+
+        /// <summary>
+        /// <para>
+        /// Switches focus to the specified window and brings it to the foreground.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-switchtothiswindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window.
+        /// </param>
+        /// <param name="fUnknown">
+        /// A <see cref="TRUE"/> for this parameter indicates that the window is being switched to using the Alt/Ctl+Tab key sequence.
+        /// This parameter should be <see cref="FALSE"/> otherwise.
+        /// </param>
+        /// <remarks>
+        /// This function is typically called to maintain window z-ordering.
+        /// </remarks>
+        [Obsolete("This function is not intended for general use. " +
+            "It may be altered or unavailable in subsequent versions of Windows.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThisWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern void SwitchToThisWindow([In] HWND hwnd, [In] BOOL fUnknown);
+
+        /// <summary>
+        /// <para>
+        /// Tiles the specified child windows of the specified parent window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-tilewindows"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwndParent">
+        /// A handle to the parent window.
+        /// If this parameter is <see cref="NULL"/>, the desktop window is assumed.
+        /// </param>
+        /// <param name="wHow">
+        /// The tiling flags.
+        /// This parameter can be one of the following values—optionally combined
+        /// with <see cref="MDITILE_SKIPDISABLED"/> to prevent disabled MDI child windows from being tiled.
+        /// <see cref="MDITILE_HORIZONTAL"/>:
+        /// Tiles windows horizontally.
+        /// <see cref="MDITILE_VERTICAL"/>:
+        /// Tiles windows vertically.
+        /// </param>
+        /// <param name="lpRect">
+        /// A pointer to a structure that specifies the rectangular area, in client coordinates, within which the windows are arranged.
+        /// If this parameter is <see cref="NullRef{RECT}"/>, the client area of the parent window is used.
+        /// </param>
+        /// <param name="cKids">
+        /// The number of elements in the array specified by the <paramref name="lpKids"/> parameter.
+        /// This parameter is ignored if <paramref name="lpKids"/> is <see langword="null"/>.
+        /// </param>
+        /// <param name="lpKids">
+        /// An array of handles to the child windows to arrange.
+        /// If a specified child window is a top-level window with the style <see cref="WS_EX_TOPMOST"/>
+        /// or <see cref="WS_EX_TOOLWINDOW"/>, the child window is not arranged.
+        /// If this parameter is <see langword="null"/>, all child windows of the specified parent window (or of the desktop window) are arranged.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of windows arranged.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling <see cref="TileWindows"/> causes all maximized windows to be restored to their previous size.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TileWindows", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITILEFlags wHow,
+    [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>
         /// 
@@ -3588,7 +4051,7 @@ namespace Lsj.Util.Win32
         /// No window classes registered by a DLL are unregistered when the .dll is unloaded.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterClassW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnregisterClass([MarshalAs(UnmanagedType.LPWStr)][In] string lpClassName, [In] HINSTANCE hInstance);
+        public static extern BOOL UnregisterClass([In] LPWSTR lpClassName, [In] HINSTANCE hInstance);
 
         /// <summary>
         /// <para>
@@ -3750,5 +4213,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND WindowFromPoint([In] POINT Point);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the window that contains the specified physical point.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-windowfromphysicalpoint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Point">
+        /// The physical coordinates of the point.
+        /// </param>
+        /// <returns>
+        /// A handle to the window that contains the given physical point.
+        /// If no window exists at the point, this value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WindowFromPhysicalPoint"/> function does not retrieve a handle to a hidden or disabled window,
+        /// even if the point is within the window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromPhysicalPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND WindowFromPhysicalPoint([In] POINT Point);
     }
 }
