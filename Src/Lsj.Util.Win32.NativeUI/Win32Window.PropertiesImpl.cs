@@ -347,5 +347,26 @@ namespace Lsj.Util.Win32.NativeUI
                 }
             }
         }
+
+        private WindowDisplayAffinities GetDisplayAffinity()
+        {
+            if (GetWindowDisplayAffinity(_handle, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                ThrowExceptionIfError();
+                return 0;
+            }
+        }
+
+        private void SetDisplayAffinity(WindowDisplayAffinities value)
+        {
+            if (!SetWindowDisplayAffinity(_handle, value))
+            {
+                ThrowExceptionIfError();
+            }
+        }
     }
 }
