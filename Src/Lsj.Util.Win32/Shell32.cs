@@ -1792,6 +1792,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves an object that represents a specific window's collection of properties, which allows those properties to be queried or set.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetpropertystoreforwindow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose properties are being retrieved.
+        /// </param>
+        /// <param name="riid">
+        /// A reference to the <see cref="IID"/> of the property store object to retrieve through <paramref name="ppv"/>.
+        /// This is typically <see cref="IID_IPropertyStore"/>.
+        /// </param>
+        /// <param name="ppv">
+        /// When this function returns, contains the interface pointer requested in <paramref name="riid"/>.
+        /// This is typically <see cref="IPropertyStore"/>.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// An application can use this function to obtain access to a window's property store
+        /// so that it can set an explicit Application User Model ID (AppUserModelID) in the System.AppUserModel.ID property.
+        /// A window's properties must be removed before the window is closed.
+        /// If this is not done, the resources used by those properties are not returned to the system.
+        /// A property is removed by setting it to the <see cref="PROPVARIANT"/> type <see cref="VT_EMPTY"/>.
+        /// When a call is made to <see cref="IPropertyStore.SetValue"/> on the object retrieved through <paramref name="ppv"/>,
+        /// the properties and values are immediately stored on the window.
+        /// Therefore, no call to <see cref="IPropertyStore.Commit"/> is needed.
+        /// No error occurs if it is called, but it has no effect.
+        /// An application sets AppUserModelIDs on individual windows to control the application's taskbar grouping and Jump List contents.
+        /// For instance, a suite application might want to provide a different taskbar button for each of its subfeatures,
+        /// with the windows relating to that subfeature grouped under that button.
+        /// Without window-level AppUserModelIDs, those windows would all be grouped together under the main process.
+        /// Applications should also use this property store to set these relaunch properties
+        /// so that the system can return the application to that state.
+        /// System.AppUserModel.RelaunchCommand
+        /// System.AppUserModel.RelaunchDisplayNameResource
+        /// System.AppUserModel.RelaunchIconResource
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPropertyStoreForWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHGetPropertyStoreForWindow([In] HWND hwnd, [In] in IID riid, [Out] out IntPtr ppv);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pointer to the <see cref="ITEMIDLIST"/> structure of a special folder.
         /// </para>
         /// <para>
