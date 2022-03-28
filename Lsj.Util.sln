@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28606.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32317.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util", "Src\Lsj.Util\Lsj.Util.csproj", "{25D869E0-467A-48EF-BEA7-5EA9D4C87BB9}"
 EndProject
@@ -50,12 +50,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Dynamic", "Src\Lsj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{566D40B1-3E7B-42E2-8616-911816226B0A}"
 	ProjectSection(SolutionItems) = preProject
-		build.bat = build.bat
-		pack-debug.bat = pack-debug.bat
-		pack.bat = pack.bat
-		push-debug.bat = push-debug.bat
-		push.bat = push.bat
-		test.bat = test.bat
+		.gitlab-ci.yml = .gitlab-ci.yml
+		build-debug.ps1 = build-debug.ps1
+		build.ps1 = build.ps1
+		pack-debug.ps1 = pack-debug.ps1
+		pack.ps1 = pack.ps1
+		push-debug.ps1 = push-debug.ps1
+		push.ps1 = push.ps1
+		test-debug.ps1 = test-debug.ps1
+		test.ps1 = test.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Win32", "Src\Lsj.Util.Win32\Lsj.Util.Win32.csproj", "{91AD2F12-4188-4B91-B87E-814354745DAF}"
