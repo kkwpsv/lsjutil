@@ -13,6 +13,16 @@ namespace Lsj.Util.Win32.NativeUI
         public HWND Handle => _handle;
 
         /// <summary>
+        /// Is Other Process Window
+        /// </summary>
+        public bool IsOtherProcess => CheckFlag(Win32WindowFlags.OtherProcess);
+
+        /// <summary>
+        /// Is Own Window (Created by this)
+        /// </summary>
+        public bool IsOwnWindow => CheckFlag(Win32WindowFlags.OwnWindow);
+
+        /// <summary>
         /// Process ID
         /// </summary>
         public int ProcessID => GetWindowProcessIDAndThreadID().ProcessID;
