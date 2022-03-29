@@ -47,8 +47,32 @@ namespace Lsj.Util.Win32
         /// If the given palette is associated with the active window, the colors in the palette are replaced immediately.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimatePalette", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AnimatePalette([In]HPALETTE hPal, [In]UINT iStartIndex, [In]UINT cEntries,
-            [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] ppe);
+        public static extern BOOL AnimatePalette([In] HPALETTE hPal, [In] UINT iStartIndex, [In] UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][In] PALETTEENTRY[] ppe);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateHalftonePalette"/> function creates a halftone palette for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createhalftonepalette"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a logical halftone palette.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application should create a halftone palette when the stretching mode of a device context is set to <see cref="HALFTONE"/>.
+        /// The logical halftone palette returned by <see cref="CreateHalftonePalette"/> should then be selected
+        /// and realized into the device context before the <see cref="StretchBlt"/> or <see cref="StretchDIBits"/> function is called.
+        /// When you no longer need the palette, call the <see cref="DeleteObject"/> function to delete it.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHalftonePalette", ExactSpelling = true, SetLastError = true)]
+        public static extern HPALETTE CreateHalftonePalette([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -73,7 +97,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the palette, call the DeleteObject function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePalette", ExactSpelling = true, SetLastError = true)]
-        public static extern HPALETTE CreatePalette([In]in LOGPALETTE plpal);
+        public static extern HPALETTE CreatePalette([In] in LOGPALETTE plpal);
 
         /// <summary>
         /// <para>
@@ -101,7 +125,7 @@ namespace Lsj.Util.Win32
         /// If the given logical palette contains entries with the <see cref="PC_EXPLICIT"/> flag set, the return value is undefined.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestPaletteIndex", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetNearestPaletteIndex([In]HPALETTE h, [In]COLORREF color);
+        public static extern UINT GetNearestPaletteIndex([In] HPALETTE h, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -137,8 +161,8 @@ namespace Lsj.Util.Win32
         /// the remaining members of the <see cref="PALETTEENTRY"/> structure are not altered.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPaletteEntries", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
-            [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
+        public static extern UINT GetPaletteEntries([In] HPALETTE hpal, [In] UINT iStart, [In] UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][Out] PALETTEENTRY[] pPalEntries);
 
         /// <summary>
         /// <para>
@@ -172,8 +196,8 @@ namespace Lsj.Util.Win32
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetSystemPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
-            [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
+        public static extern UINT GetSystemPaletteEntries([In] HPALETTE hpal, [In] UINT iStart, [In] UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][Out] PALETTEENTRY[] pPalEntries);
 
         /// <summary>
         /// <para>
@@ -201,7 +225,7 @@ namespace Lsj.Util.Win32
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteUse", ExactSpelling = true, SetLastError = true)]
-        public static extern SystemPaletteStates GetSystemPaletteUse([In]HDC hdc);
+        public static extern SystemPaletteStates GetSystemPaletteUse([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -231,7 +255,7 @@ namespace Lsj.Util.Win32
         /// The same is also true for applications with inactive windows.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT RealizePalette([In]HDC hdc);
+        public static extern UINT RealizePalette([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -260,7 +284,7 @@ namespace Lsj.Util.Win32
         /// (the red, green, and blue values are all 0) and their flags are set to zero.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResizePalette", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ResizePalette([In]HPALETTE hpal, [In]UINT n);
+        public static extern BOOL ResizePalette([In] HPALETTE hpal, [In] UINT n);
 
         /// <summary>
         /// <para>
@@ -303,7 +327,7 @@ namespace Lsj.Util.Win32
         /// other child windows must set this value to <see cref="FALSE"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectPalette", ExactSpelling = true, SetLastError = true)]
-        public static extern HPALETTE SelectPalette([In]HDC hdc, [In]HPALETTE hPal, [In]BOOL bForceBkgd);
+        public static extern HPALETTE SelectPalette([In] HDC hdc, [In] HPALETTE hPal, [In] BOOL bForceBkgd);
 
         /// <summary>
         /// <para>
@@ -336,8 +360,8 @@ namespace Lsj.Util.Win32
         /// <see cref="RealizePalette"/> must be called again to set the new logical palette into the surface.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPaletteEntries", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
-            [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] pPalEntries);
+        public static extern UINT SetPaletteEntries([In] HPALETTE hpal, [In] UINT iStart, [In] UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][In] PALETTEENTRY[] pPalEntries);
 
         /// <summary>
         /// <para>
@@ -389,7 +413,7 @@ namespace Lsj.Util.Win32
         /// Send the <see cref="WM_SYSCOLORCHANGE"/> message.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemPaletteUse", ExactSpelling = true, SetLastError = true)]
-        public static extern SystemPaletteStates SetSystemPaletteUse([In]HDC hdc, [In]SystemPaletteStates use);
+        public static extern SystemPaletteStates SetSystemPaletteUse([In] HDC hdc, [In] SystemPaletteStates use);
 
         /// <summary>
         /// <para>
@@ -418,6 +442,6 @@ namespace Lsj.Util.Win32
         /// This function must be called soon after a <see cref="WM_PALETTECHANGED"/> message is received.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateColors", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UpdateColors([In]HDC hdc);
+        public static extern BOOL UpdateColors([In] HDC hdc);
     }
 }

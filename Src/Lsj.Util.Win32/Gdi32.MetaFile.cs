@@ -1,11 +1,13 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -90,6 +92,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CloseEnhMetaFile"/> function closes an enhanced-metafile device context
+        /// and returns a handle that identifies an enhanced-format metafile.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-closeenhmetafile"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to an enhanced-metafile device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to an enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can use the enhanced-metafile handle returned
+        /// by the <see cref="CloseEnhMetaFile"/> function to perform the following tasks:
+        /// Display a picture stored in an enhanced metafile
+        /// Create copies of the enhanced metafile
+        /// Enumerate, edit, or copy individual records in the enhanced metafile
+        /// Retrieve an optional description of the metafile contents from the enhanced-metafile header
+        /// Retrieve a copy of the enhanced-metafile header
+        /// Retrieve a binary copy of the enhanced metafile
+        /// Enumerate the colors in the optional palette
+        /// Convert an enhanced-format metafile into a Windows-format metafile
+        /// When the application no longer needs the enhanced metafile handle,
+        /// it should release the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseEnhMetaFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE CloseEnhMetaFile([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CloseMetaFile"/> function closes a metafile device context and returns a handle that identifies a Windows-format metafile.
         /// </para>
         /// <para>
@@ -113,6 +148,35 @@ namespace Lsj.Util.Win32
             "The corresponding function for an enhanced-format metafile is CloseEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseMetaFile", ExactSpelling = true, SetLastError = true)]
         public static extern HMETAFILE CloseMetaFile([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CopyEnhMetaFile"/> function copies the contents of an enhanced-format metafile to a specified file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-copyenhmetafilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hEnh">
+        /// A handle to the enhanced metafile to be copied.
+        /// </param>
+        /// <param name="lpFileName">
+        /// A pointer to the name of the destination file.
+        /// If this parameter is <see cref="NULL"/>, the source metafile is copied to memory.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the copy of the enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Where text arguments must use Unicode characters, use the <see cref="CopyEnhMetaFile"/> function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// Applications can use metafiles stored in memory for temporary operations.
+        /// When the application no longer needs the enhanced-metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE CopyEnhMetaFile([In] HENHMETAFILE hEnh, [In] LPCWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -143,7 +207,68 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is CopyEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMETAFILE CopyMetaFile([In] HMETAFILE arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string arg2);
+        public static extern HMETAFILE CopyMetaFile([In] HMETAFILE arg1, [In] LPWSTR arg2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateEnhMetaFile"/> function creates a device context for an enhanced-format metafile.
+        /// This device context can be used to store a device-independent picture.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createenhmetafilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a reference device for the enhanced metafile.
+        /// This parameter can be <see cref="NULL"/>; for more information, see Remarks.
+        /// </param>
+        /// <param name="lpFilename">
+        /// A pointer to the file name for the enhanced metafile to be created.
+        /// If this parameter is <see cref="NULL"/>, the enhanced metafile is memory based and its contents are lost
+        /// when it is deleted by using the <see cref="DeleteEnhMetaFile"/> function.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that specifies the dimensions (in .01-millimeter units)
+        /// of the picture to be stored in the enhanced metafile.
+        /// </param>
+        /// <param name="lpDesc">
+        /// A pointer to a string that specifies the name of the application
+        /// that created the picture, as well as the picture's title.
+        /// This parameter can be <see cref="NULL"/>; for more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the device context for the enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Where text arguments must use Unicode characters, use the <see cref="CreateEnhMetaFile"/> function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// The system uses the reference device identified by the <paramref name="hdc"/> parameter to record the resolution
+        /// and units of the device on which a picture originally appeared.
+        /// If the <paramref name="hdc"/> parameter is <see cref="NULL"/>, it uses the current display device for reference.
+        /// The <see cref="RECT.left"/> and <see cref="RECT.top"/> members of the <see cref="RECT"/> structure
+        /// pointed to by the <paramref name="lprc"/> parameter must be less than the <see cref="RECT.right"/>
+        /// and <see cref="RECT.bottom"/> members, respectively.
+        /// Points along the edges of the rectangle are included in the picture.
+        /// If <paramref name="lprc"/> is <see cref="NullRef{RECT}"/>, the graphics device interface (GDI)
+        /// computes the dimensions of the smallest rectangle that surrounds the picture drawn by the application.
+        /// The <paramref name="lprc"/> parameter should be provided where possible.
+        /// The string pointed to by the <paramref name="lpDesc"/> parameter must contain a null character
+        /// between the application name and the picture name and must terminate with two null characters,
+        /// for example, "XYZ Graphics Editor\0Bald Eagle\0\0", where \0 represents the null character.
+        /// If <paramref name="lpDesc"/> is <see cref="NULL"/>, there is no corresponding entry in the enhanced-metafile header.
+        /// Applications use the device context created by this function to store a graphics picture in an enhanced metafile.
+        /// The handle identifying this device context can be passed to any GDI function.
+        /// After an application stores a picture in an enhanced metafile,
+        /// it can display the picture on any output device by calling the <see cref="PlayEnhMetaFile"/> function.
+        /// When displaying the picture, the system uses the rectangle pointed to by the <paramref name="lprc"/> parameter
+        /// and the resolution data from the reference device to position and scale the picture.
+        /// The device context returned by this function contains the same default attributes associated with any new device context.
+        /// Applications must use the <see cref="GetWinMetaFileBits"/> function to convert an enhanced metafile to the older Windows metafile format.
+        /// The file name for the enhanced metafile should use the .emf extension.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HDC CreateEnhMetaFile([In] HDC hdc, [In] LPCWSTR lpFilename, [In] in RECT lprc, [In] LPCWSTR lpDesc);
 
         /// <summary>
         /// <para>

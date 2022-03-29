@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -196,8 +197,7 @@ namespace Lsj.Util.Win32
         /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In] string pwszDriver, [MarshalAs(UnmanagedType.LPWStr)][In] string pwszDevice,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string pszPort, [In] in DEVMODE pdm);
+        public static extern HDC CreateDC([In] LPCWSTR pwszDriver, [In] LPCWSTR pwszDevice, [In] LPCWSTR pszPort, [In] in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -236,8 +236,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In] string pszDriver, [MarshalAs(UnmanagedType.LPWStr)][In] string pszDevice,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string pszPort, [In] in DEVMODE pdm);
+        public static extern HDC CreateIC([In] LPWSTR pszDriver, [In] LPWSTR pszDevice, [In] LPWSTR pszPort, [In] in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -303,6 +302,40 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DPtoLP([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lppt, [In] int c);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DrawEscape"/> function provides drawing capabilities of the specified video display
+        /// that are not directly available through the graphics device interface (GDI).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-drawescape"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC for the specified video display.
+        /// </param>
+        /// <param name="iEscape">
+        /// The escape function to be performed.
+        /// </param>
+        /// <param name="cjIn">
+        /// The number of bytes of data pointed to by the <paramref name="lpIn"/> parameter.
+        /// </param>
+        /// <param name="lpIn">
+        /// A pointer to the input structure required for the specified escape.
+        /// </param>
+        /// <returns>
+        /// If the function is successful, the return value is greater than zero
+        /// except for the <see cref="QUERYESCSUPPORT"/> draw escape, which checks for implementation only.
+        /// If the escape is not implemented, the return value is zero.
+        /// If an error occurred, the return value is less than zero.
+        /// </returns>
+        /// <remarks>
+        /// When an application calls the <see cref="DrawEscape"/> function,
+        /// the data identified by <paramref name="cjIn"/> and <paramref name="lpIn"/> is passed directly to the specified display driver.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEscape", ExactSpelling = true, SetLastError = true)]
+        public static extern int DrawEscape([In] HDC hdc, [In] int iEscape, [In] int cjIn, [In] LPCSTR lpIn);
 
         /// <summary>
         /// <para>

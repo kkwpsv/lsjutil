@@ -49,6 +49,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AngleArc"/> function draws a line segment and an arc.
+        /// The line segment is drawn from the current position to the beginning of the arc.
+        /// The arc is drawn along the perimeter of a circle with the given radius and center.
+        /// The length of the arc is defined by the given start and sweep angles.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-anglearc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-anglearc
+        /// </param>
+        /// <param name="x">
+        /// Specifies the x-coordinate, in logical units, of the center of the circle.
+        /// </param>
+        /// <param name="y">
+        /// Specifies the y-coordinate, in logical units, of the center of the circle.
+        /// </param>
+        /// <param name="r">
+        /// Specifies the radius, in logical units, of the circle. This value must be positive.
+        /// </param>
+        /// <param name="StartAngle">
+        /// Specifies the start angle, in degrees, relative to the x-axis.
+        /// </param>
+        /// <param name="SweepAngle">
+        /// Specifies the sweep angle, in degrees, relative to the starting angle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AngleArc"/> function moves the current position to the ending point of the arc.
+        /// The arc drawn by this function may appear to be elliptical, depending on the current transformation and mapping mode.
+        /// Before drawing the arc, <see cref="AngleArc"/> draws the line segment from the current position to the beginning of the arc.
+        /// The arc is drawn by constructing an imaginary circle around the specified center point with the specified radius.
+        /// The starting point of the arc is determined by measuring counterclockwise
+        /// from the x-axis of the circle by the number of degrees in the start angle.
+        /// The ending point is similarly located by measuring counterclockwise
+        /// from the starting point by the number of degrees in the sweep angle.
+        /// If the sweep angle is greater than 360 degrees, the arc is swept multiple times.
+        /// This function draws lines by using the current pen.
+        /// The figure is not filled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AngleArc", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AngleArc([In] HDC hdc, [In] int x, [In] int y, [In] DWORD r, [In] FLOAT StartAngle, [In] FLOAT SweepAngle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Arc"/> function draws an elliptical arc.
         /// </para>
         /// <para>
@@ -99,7 +148,92 @@ namespace Lsj.Util.Win32
         /// The default drawing direction is counterclockwise.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Arc([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int x3, [In] int y3, [In] int x4, [In] int y4);
+        public static extern BOOL Arc([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int x3,
+            [In] int y3, [In] int x4, [In] int y4);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ArcTo"/> function draws an elliptical arc.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-arcto"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context where drawing takes place.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="xr1">
+        /// The x-coordinate, in logical units, of the endpoint of the radial defining the starting point of the arc.
+        /// </param>
+        /// <param name="yr1">
+        /// The y-coordinate, in logical units, of the endpoint of the radial defining the starting point of the arc.
+        /// </param>
+        /// <param name="xr2">
+        /// The x-coordinate, in logical units, of the endpoint of the radial defining the ending point of the arc.
+        /// </param>
+        /// <param name="yr2">
+        /// The y-coordinate, in logical units, of the endpoint of the radial defining the ending point of the arc.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSEW"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ArcTo"/> is similar to the <see cref="Arc"/> function, except that the current position is updated.
+        /// The points (nLeftRect, nTopRect) and (nRightRect, nBottomRect) specify the bounding rectangle.
+        /// An ellipse formed by the specified bounding rectangle defines the curve of the arc.
+        /// The arc extends counterclockwise from the point where it intersects the radial line
+        /// from the center of the bounding rectangle to the (nXRadial1, nYRadial1) point.
+        /// The arc ends where it intersects the radial line from the center of the bounding rectangle to the (nXRadial2, nYRadial2) point.
+        /// If the starting point and ending point are the same, a complete ellipse is drawn.
+        /// A line is drawn from the current position to the starting point of the arc.
+        /// If no error occurs, the current position is set to the ending point of the arc.
+        /// The arc is drawn using the current pen; it is not filled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ArcTo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ArcTo([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
+            [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="BeginPath"/> function opens a path bracket in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-beginpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// After a path bracket is open, an application can begin calling GDI drawing functions to define the points that lie in the path.
+        /// An application can close an open path bracket by calling the <see cref="EndPath"/> function.
+        /// When an application calls <see cref="BeginPath"/> for a device context, any previous paths are discarded from that device context.
+        /// The following list shows which drawing functions can be used.
+        /// <see cref="AngleArc"/>, <see cref="Arc"/>, <see cref="ArcTo"/>, <see cref="Chord"/>, <see cref="CloseFigure"/>,
+        /// <see cref="Ellipse"/>, <see cref="ExtTextOut"/>, <see cref="LineTo"/>, <see cref="MoveToEx"/>, <see cref="Pie"/>,
+        /// <see cref="PolyBezier"/>, <see cref="PolyBezierTo"/>, <see cref="PolyDraw"/>, <see cref="Polygon"/>,
+        /// <see cref="Polyline"/>, <see cref="PolylineTo"/>, <see cref="PolyPolygon"/>, <see cref="PolyPolyline"/>,
+        /// <see cref="Rectangle"/>, <see cref="RoundRect"/>, <see cref="TextOut"/>
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL BeginPath([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -150,7 +284,38 @@ namespace Lsj.Util.Win32
         /// The current position is neither used nor updated by <see cref="Chord"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Chord([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int x3, [In] int y3, [In] int x4, [In] int y4);
+        public static extern BOOL Chord([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2,
+            [In] int x3, [In] int y3, [In] int x4, [In] int y4);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CloseFigure"/> function closes an open figure in a path.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-closefigure"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context in which the figure will be closed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CloseFigure"/> function closes the figure by drawing a line
+        /// from the current position to the first point of the figure
+        /// (usually, the point specified by the most recent call to the <see cref="MoveToEx"/> function)
+        /// and then connects the lines by using the line join style.
+        /// If a figure is closed by using the <see cref="LineTo"/> function instead of <see cref="CloseFigure"/>,
+        /// end caps are used to create the corner instead of a join.
+        /// The <see cref="CloseFigure"/> function should only be called if there is an open path bracket in the specified device context.
+        /// A figure in a path is open unless it is explicitly closed by using this function.
+        /// (A figure can be open even if the current point and the starting point of the figure are the same.)
+        /// After a call to <see cref="CloseFigure"/>, adding a line or curve to the path starts a new figure.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseFigure", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CloseFigure([In] HDC hdc);
 
         /// <summary>
         /// <para>

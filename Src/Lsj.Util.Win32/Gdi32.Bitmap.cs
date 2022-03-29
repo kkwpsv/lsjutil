@@ -28,6 +28,87 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="AlphaBlend"/> function displays bitmaps that have transparent or semitransparent pixels.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-alphablend"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdcDest">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="xoriginDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yoriginDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="wDest">
+        /// The width, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hDest">
+        /// The height, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the source device context.
+        /// </param>
+        /// <param name="xoriginSrc">
+        /// The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="yoriginSrc">
+        /// The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="wSrc">
+        /// The width, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="hSrc">
+        /// The height, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="ftn">
+        /// The alpha-blending function for source and destination bitmaps, a global alpha value
+        /// to be applied to the entire source bitmap, and format information for the source bitmap.
+        /// The source and destination blend functions are currently limited to <see cref="AC_SRC_OVER"/>.
+        /// See the <see cref="BLENDFUNCTION"/> and <see cref="EMRALPHABLEND"/> structures.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the source rectangle and destination rectangle are not the same size,
+        /// the source bitmap is stretched to match the destination rectangle.
+        /// If the <see cref="SetStretchBltMode"/> function is used, the iStretchMode value is automatically
+        /// converted to <see cref="COLORONCOLOR"/> for this function (that is, <see cref="BLACKONWHITE"/>,
+        /// <see cref="WHITEONBLACK"/>, and <see cref="HALFTONE"/> are changed to <see cref="COLORONCOLOR"/>).
+        /// The destination coordinates are transformed by using the transformation currently specified for the destination device context.
+        /// The source coordinates are transformed by using the transformation currently specified for the source device context.
+        /// An error occurs (and the function returns <see cref="FALSE"/>) 
+        /// if the source device context identifies an enhanced metafile device context.
+        /// If destination and source bitmaps do not have the same color format,
+        /// <see cref="AlphaBlend"/> converts the source bitmap to match the destination bitmap.
+        /// <see cref="AlphaBlend"/> does not support mirroring.
+        /// If either the width or height of the source or destination is negative, this call will fail.
+        /// When rendering to a printer, first call <see cref="GetDeviceCaps"/> with <see cref="SHADEBLENDCAPS"/> to determine
+        /// if the printer supports blending with <see cref="AlphaBlend"/>.
+        /// Note that, for a display DC, all blending operations are supported and these flags represent whether the operations are accelerated.
+        /// If the source and destination are the same surface, that is, they are both the screen or the same memory bitmap
+        /// and the source and destination rectangles overlap, an error occurs and the function returns <see cref="FALSE"/>.
+        /// The source rectangle must lie completely within the source surface,
+        /// otherwise an error occurs and the function returns <see cref="FALSE"/>.
+        /// <see cref="AlphaBlend"/> fails if the width or height of the source or destination is negative.
+        /// The <see cref="BLENDFUNCTION.SourceConstantAlpha"/> member of <see cref="BLENDFUNCTION"/>
+        /// specifies an alpha transparency value to be used on the entire source bitmap.
+        /// The <see cref="BLENDFUNCTION.SourceConstantAlpha"/> value is combined with any per-pixel alpha values.
+        /// If <see cref="BLENDFUNCTION.SourceConstantAlpha"/> is 0, it is assumed that the image is transparent.
+        /// Set the <see cref="BLENDFUNCTION.SourceConstantAlpha"/> value to 255 (which indicates that the image is opaque)
+        /// when you only want to use per-pixel alpha values.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AlphaBlend", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AlphaBlend([In] HDC hdcDest, [In] int xoriginDest, [In] int yoriginDest, [In] int wDest, [In] int hDest,
+            [In] HDC hdcSrc, [In] int xoriginSrc, [In] int yoriginSrc, [In] int wSrc, [In] int hSrc, [In] BLENDFUNCTION ftn);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="BitBlt"/> function performs a bit-block transfer of the color data corresponding to a rectangle of pixels
         /// from the specified source device context into a destination device context.
         /// </para>
@@ -128,8 +209,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed when blits occur.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1,
-            [In]RasterCodes rop);
+        public static extern BOOL BitBlt([In] HDC hdc, [In] int x, [In] int y, [In] int cx, [In] int cy, [In] HDC hdcSrc, [In] int x1, [In] int y1,
+            [In] RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -179,7 +260,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateBitmap([In]int nWidth, [In]int nHeight, [In]UINT nPlanes, [In]UINT nBitCount, [In]IntPtr lpBits);
+        public static extern HBITMAP CreateBitmap([In] int nWidth, [In] int nHeight, [In] UINT nPlanes, [In] UINT nBitCount, [In] IntPtr lpBits);
 
         /// <summary>
         /// <para>
@@ -217,7 +298,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateBitmapIndirect([In]in BITMAP pbm);
+        public static extern HBITMAP CreateBitmapIndirect([In] in BITMAP pbm);
 
         /// <summary>
         /// <para>
@@ -235,7 +316,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateCompatibleBitmap([In]HDC hdc, [In]int nWidth, [In]int nHeight);
+        public static extern HBITMAP CreateCompatibleBitmap([In] HDC hdc, [In] int nWidth, [In] int nHeight);
 
         /// <summary>
         /// <para>
@@ -266,7 +347,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateCompatibleBitmap function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDiscardableBitmap([In]HDC hdc, [In]int cx, [In]int cy);
+        public static extern HBITMAP CreateDiscardableBitmap([In] HDC hdc, [In] int cx, [In] int cy);
 
         /// <summary>
         /// <para>
@@ -330,8 +411,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]CreateDIBitmapFlags flInit,
-            [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
+        public static extern HBITMAP CreateDIBitmap([In] HDC hdc, [In] in BITMAPINFOHEADER pbmih, [In] CreateDIBitmapFlags flInit,
+            [In] IntPtr pjBits, [In] in BITMAPINFO pbmi, [In] UINT iUsage);
 
         /// <summary>
         /// <para>
@@ -411,8 +492,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDIBSection([In]HDC hdc, [In]in BITMAPINFO pbmi, [In]DIBColorTableIdentifiers usage,
-            [Out]out IntPtr ppvBits, [In]HANDLE hSection, [In]DWORD offset);
+        public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableIdentifiers usage,
+            [Out] out IntPtr ppvBits, [In] HANDLE hSection, [In] DWORD offset);
 
         /// <summary>
         /// <para>
@@ -439,7 +520,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetDIBits function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", ExactSpelling = true, SetLastError = true)]
-        public static extern LONG GetBitmapBits([In]HBITMAP hbit, [In]LONG cb, [In]LPVOID lpvBits);
+        public static extern LONG GetBitmapBits([In] HBITMAP hbit, [In] LONG cb, [In] LPVOID lpvBits);
 
         /// <summary>
         /// <para>
@@ -466,7 +547,7 @@ namespace Lsj.Util.Win32
         /// If those dimensions have not yet been set, the structure that is returned will have zeros in those fields.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetBitmapDimensionEx([In]HBITMAP hbit, [Out]out SIZE lpsize);
+        public static extern BOOL GetBitmapDimensionEx([In] HBITMAP hbit, [Out] out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -541,8 +622,8 @@ namespace Lsj.Util.Win32
         /// The origin for a bottom-up DIB is the lower-left corner of the bitmap; the origin for a top-down DIB is the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]LPVOID lpvBits,
-            [In]in BITMAPINFO lpbmi, [In]UINT usage);
+        public static extern int GetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] LPVOID lpvBits,
+            [In] in BITMAPINFO lpbmi, [In] UINT usage);
 
         /// <summary>
         /// <para>
@@ -572,7 +653,7 @@ namespace Lsj.Util.Win32
         /// A bitmap must be selected within the device context, otherwise, <see cref="CLR_INVALID"/> is returned on all pixels.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF GetPixel([In]HDC hdc, [In]int x, [In]int y);
+        public static extern COLORREF GetPixel([In] HDC hdc, [In] int x, [In] int y);
 
         /// <summary>
         /// <para>
@@ -610,7 +691,7 @@ namespace Lsj.Util.Win32
         /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", ExactSpelling = true, SetLastError = true)]
-        public static extern RasterOps GetROP2([In]HDC hdc);
+        public static extern RasterOps GetROP2([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -649,7 +730,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", ExactSpelling = true, SetLastError = true)]
-        public static extern StretchBltModes GetStretchBltMode([In]HDC hdc);
+        public static extern StretchBltModes GetStretchBltMode([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -737,8 +818,8 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MaskBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL MaskBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int width, [In]int height, [In]HDC hdcSrc,
-            [In]int xSrc, [In]int ySrc, [In]HBITMAP hbmMask, [In]int xMask, [In]int yMask, [In]RasterCodes rop);
+        public static extern BOOL MaskBlt([In] HDC hdcDest, [In] int xDest, [In] int yDest, [In] int width, [In] int height, [In] HDC hdcSrc,
+            [In] int xSrc, [In] int ySrc, [In] HBITMAP hbmMask, [In] int xMask, [In] int yMask, [In] RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -790,7 +871,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
+        public static extern BOOL PatBlt([In] HDC hdc, [In] int x, [In] int y, [In] int w, [In] int h, [In] RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -865,8 +946,8 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlgBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PlgBlt([In]HDC hdcDest, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] lpPoint, [In]HDC hdcSrc,
-            [In]int xSrc, [In]int ySrc, [In]int width, [In]int height, [In]HBITMAP hbmMask, [In]int xMask, [In]int yMask);
+        public static extern BOOL PlgBlt([In] HDC hdcDest, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] lpPoint, [In] HDC hdcSrc,
+            [In] int xSrc, [In] int ySrc, [In] int width, [In] int height, [In] HBITMAP hbmMask, [In] int xMask, [In] int yMask);
 
         /// <summary>
         /// <para>
@@ -896,7 +977,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the SetDIBits function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", ExactSpelling = true, SetLastError = true)]
-        public static extern LONG SetBitmapBits([In]HBITMAP hbm, [In]DWORD cb, [In]IntPtr pvBits);
+        public static extern LONG SetBitmapBits([In] HBITMAP hbm, [In] DWORD cb, [In] IntPtr pvBits);
 
         /// <summary>
         /// <para>
@@ -931,7 +1012,7 @@ namespace Lsj.Util.Win32
         /// If the bitmap is a DIB section, the <see cref="SetBitmapDimensionEx"/> function fails.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetBitmapDimensionEx([In]HBITMAP hbm, [In]int w, [In]int h, [Out]out SIZE lpsz);
+        public static extern BOOL SetBitmapDimensionEx([In] HBITMAP hbm, [In] int w, [In] int h, [Out] out SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -998,8 +1079,8 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]IntPtr lpBits,
-            [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
+        public static extern int SetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] IntPtr lpBits,
+            [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
 
         /// <summary>
         /// <para>
@@ -1093,8 +1174,8 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetDIBitsToDevice([In]HDC hdc, [In]int xDest, [In]int yDest, [In]DWORD w, [In]DWORD h, [In]int xSrc, [In]int ySrc,
-            [In]UINT StartScan, [In]UINT cLines, [In]IntPtr lpvBits, [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
+        public static extern int SetDIBitsToDevice([In] HDC hdc, [In] int xDest, [In] int yDest, [In] DWORD w, [In] DWORD h, [In] int xSrc, [In] int ySrc,
+            [In] UINT StartScan, [In] UINT cLines, [In] IntPtr lpvBits, [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
 
         /// <summary>
         /// <para>
@@ -1130,7 +1211,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="GetDeviceCaps"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF SetPixel([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
+        public static extern COLORREF SetPixel([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -1175,7 +1256,7 @@ namespace Lsj.Util.Win32
         /// The mix mode is for raster devices only; it is not available for vector devices.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetROP2([In]HDC hdc, [In]RasterOps rop2);
+        public static extern int SetROP2([In] HDC hdc, [In] RasterOps rop2);
 
         /// <summary>
         /// <para>
@@ -1231,7 +1312,7 @@ namespace Lsj.Util.Win32
         /// Additional stretching modes might also be available depending on the capabilities of the device driver.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetStretchBltMode([In]HDC hdc, [In]StretchBltModes mode);
+        public static extern int SetStretchBltMode([In] HDC hdc, [In] StretchBltModes mode);
 
         /// <summary>
         /// <para>
@@ -1312,8 +1393,8 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL StretchBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int wDest, [In]int hDest, [In]HDC hdcSrc,
-            [In]int xSrc, [In]int ySrc, [In]int wSrc, [In]int hSrc, [In]RasterCodes rop);
+        public static extern BOOL StretchBlt([In] HDC hdcDest, [In] int xDest, [In] int yDest, [In] int wDest, [In] int hDest, [In] HDC hdcSrc,
+            [In] int xSrc, [In] int ySrc, [In] int wSrc, [In] int hSrc, [In] RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -1417,8 +1498,8 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", ExactSpelling = true, SetLastError = true)]
-        public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
-            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [In]in BITMAPINFO lpbmi,
-            [In]UINT iUsage, [In]RasterCodes rop);
+        public static extern int StretchDIBits([In] HDC hdc, [In] int xDest, [In] int yDest, [In] int DestWidth, [In] int DestHeight, [In] int xSrc,
+            [In] int ySrc, [In] int SrcWidth, [In] int SrcHeight, [In] IntPtr lpBits, [In] in BITMAPINFO lpbmi,
+            [In] UINT iUsage, [In] RasterCodes rop);
     }
 }

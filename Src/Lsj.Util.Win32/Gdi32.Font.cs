@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -77,6 +78,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate int Fontenumproc([In] IntPtr lpelfe, [In] IntPtr lpntme, [In] FontTypes FontType, [In] IntPtr lParam);
 
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AddFontMemResourceEx"/> function adds the font resource from a memory image to the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontmemresourceex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pFileView">
+        /// A pointer to a font resource.
+        /// </param>
+        /// <param name="cjSize">
+        /// The number of bytes in the font resource that is pointed to by pbFont.
+        /// </param>
+        /// <param name="pvResrved">
+        /// Reserved. Must be 0.
+        /// </param>
+        /// <param name="pNumFonts">
+        /// A pointer to a variable that specifies the number of fonts installed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the handle to the font added.
+        /// This handle uniquely identifies the fonts that were installed on the system.
+        /// If the function fails, the return value is zero.
+        /// No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// This function allows an application to get a font that is embedded in a document or a webpage.
+        /// A font that is added by <see cref="AddFontMemResourceEx"/> is always private to the process that made the call and is not enumerable.
+        /// A memory image can contain more than one font.
+        /// When this function succeeds, pcFonts is a pointer to a DWORD whose value is the number of fonts added to the system as a result of this call.
+        /// For example, this number could be 2 for the vertical and horizontal faces of an Asian font.
+        /// When the function succeeds, the caller of this function can free the memory pointed to by pbFont
+        /// because the system has made its own copy of the memory.
+        /// To remove the fonts that were installed, call <see cref="RemoveFontMemResourceEx"/>.
+        /// However, when the process goes away, the system will unload the fonts
+        /// even if the process did not call <see cref="RemoveFontMemResource"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontMemResourceEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE AddFontMemResourceEx([In] PVOID pFileView, [In] DWORD cjSize, [In] PVOID pvResrved, [In] in DWORD pNumFonts);
 
         /// <summary>
         /// <para>
@@ -472,8 +514,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The CreateScalableFontResource function is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateScalableFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateScalableFontResource([In] DWORD fdwHidden, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszFont,
-             [MarshalAs(UnmanagedType.LPWStr)][In] string lpszFile, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPath);
+        public static extern BOOL CreateScalableFontResource([In] DWORD fdwHidden, [In] LPWSTR lpszFont, [In] LPWSTR lpszFile, [In] LPWSTR lpszPath);
 
         /// <summary>
         /// <para>
