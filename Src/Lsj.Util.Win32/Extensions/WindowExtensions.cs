@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Marshals;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Gdi32;
@@ -23,34 +22,45 @@ namespace Lsj.Util.Win32.Extensions
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>)
         /// </summary>
         /// <returns></returns>
-        public static HWND[] GetAllTopLevelWindowHandle()
-        {
-            var result = new List<HWND>();
-
-            EnumWindows((Wndenumproc)((handle, _) =>
-            {
-                result.Add(handle);
-                return true;
-            }), IntPtr.Zero);
-            return result.ToArray();
-        }
+        public static HWND[] GetAllTopLevelWindowHandle() => GetAllWindow(x => x, _ => (true, false, true), _ => (false, false));
 
         /// <summary>
         /// Get All Window Handle (Use <see cref="EnumWindows"/> with <see cref="EnumChildWindows"/>)
         /// </summary>
         /// <returns></returns>
-        public static HWND[] GetAllWindowHandle()
+        public static HWND[] GetAllWindowHandle() => GetAllWindow(x => x, _ => (true, true, true), _ => (true, true));
+
+        /// <summary>
+        /// Get All Window with result selector and filter
+        /// </summary>
+        /// <typeparam name="T">result type</typeparam>
+        /// <param name="resultSelector">result selector</param>
+        /// <param name="filter">filter</param>
+        /// <param name="descendantsFilter">child filter</param>
+        /// <returns></returns>
+        public static T[] GetAllWindow<T>(Func<HWND, T> resultSelector, Func<HWND, (bool includeSelf, bool includeDescendants, bool continueEnum)> filter, Func<HWND, (bool includeSelf, bool continueEnum)> descendantsFilter)
         {
-            var result = new List<HWND>();
-            EnumWindows((Wndenumproc)((handle, _) =>
+            var result = new List<T>();
+            EnumWindows((WNDENUMPROC)((handle, _) =>
             {
-                result.Add(handle);
-                EnumChildWindows(handle, (Wndenumproc)((childHandle, _) =>
+                var (includeSelf, includeDescendants, continueEnum) = filter(handle);
+                if (includeSelf)
                 {
-                    result.Add(childHandle);
-                    return true;
-                }), NULL);
-                return true;
+                    result.Add(resultSelector(handle));
+                }
+                if (includeDescendants)
+                {
+                    EnumChildWindows(handle, (WNDENUMPROC)((childHandle, _) =>
+                    {
+                        var (includeSelf, continueEnum) = descendantsFilter(childHandle);
+                        if (includeSelf)
+                        {
+                            result.Add(resultSelector(childHandle));
+                        }
+                        return continueEnum;
+                    }), NULL);
+                }
+                return continueEnum;
             }), IntPtr.Zero);
             return result.ToArray();
         }
