@@ -319,6 +319,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="FillPath"/> function closes any open figures in the current 
+        /// and fills the path's interior by using the current brush and polygon-filling mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context that contains a valid path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// After its interior is filled, the path is discarded from the DC identified by the <paramref name="hdc"/> parameter.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FillPath([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Ellipse"/> function draws an ellipse.
         /// The center of the ellipse is the center of the specified bounding rectangle.
         /// The ellipse is outlined by using the current pen and is filled by using the current brush.
@@ -431,6 +453,25 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillRgn([In] HDC hdc, [In] HRGN hrgn, [In] HBRUSH hbr);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="FlattenPath"/> function transforms any curves in the path
+        /// that is selected into the current device context (DC), turning each curve into a sequence of lines.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-flattenpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a DC that contains a valid path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlattenPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FlattenPath([In] HDC hdc);
 
         /// <summary>
         /// <para>

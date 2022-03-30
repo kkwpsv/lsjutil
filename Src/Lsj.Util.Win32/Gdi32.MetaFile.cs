@@ -15,6 +15,43 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The EnhMetaFileProc function is an application-defined callback function used with the <see cref="EnumEnhMetaFile"/> function.
+        /// The <see cref="ENHMFENUMPROC"/> type defines a pointer to this callback function.
+        /// EnhMetaFileProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/previous-versions/dd162606(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// Handle to the device context passed to <see cref="EnumEnhMetaFile"/>.
+        /// </param>
+        /// <param name="lpHTable">
+        /// Pointer to a <see cref="HANDLETABLE"/> structure representing the table of handles
+        /// associated with the graphics objects (pens, brushes, and so on) in the metafile.
+        /// The first entry contains the enhanced-metafile handle.
+        /// </param>
+        /// <param name="lpEMFR">
+        /// Pointer to one of the records in the metafile.
+        /// This record should not be modified.
+        /// (If modification is necessary, it should be performed on a copy of the record.)
+        /// </param>
+        /// <param name="nObj">
+        /// Specifies the number of objects with associated handles in the handle table.
+        /// </param>
+        /// <param name="lpData">
+        /// Pointer to optional data.
+        /// </param>
+        /// <returns>
+        /// This function must return a nonzero value to continue enumeration; to stop enumeration, it must return zero.
+        /// </returns>
+        /// <remarks>
+        /// An application must register the callback function by passing its address to the <see cref="EnumEnhMetaFile"/> function.
+        /// </remarks>
+        public delegate int Enhmfenumproc([In] HDC hDC, [In] in HANDLETABLE lpHTable, [In] in ENHMETARECORD lpEMFR, [In] int nObj, [In] LPARAM lpData);
+
+        /// <summary>
+        /// <para>
         /// The EnumMetaFileProc function is an application-defined callback function that processes Windows-format metafile records.
         /// This function is called by the <see cref="EnumMetaFile"/> function.
         /// The <see cref="MFENUMPROC"/> type defines a pointer to this callback function.
@@ -317,6 +354,52 @@ namespace Lsj.Util.Win32
             " The corresponding function for an enhanced-format metafile is DeleteEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMetaFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteMetaFile([In] HMETAFILE hmf);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="EnumEnhMetaFile"/> function enumerates the records within an enhanced-format metafile
+        /// by retrieving each record and passing it to the specified callback function.
+        /// The application-supplied callback function processes each record as required.
+        /// The enumeration continues until the last record is processed or when the callback function returns zero.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumenhmetafile"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// This handle is passed to the callback function.
+        /// </param>
+        /// <param name="hmf">
+        /// A handle to an enhanced metafile.
+        /// </param>
+        /// <param name="proc">
+        /// A pointer to the application-supplied callback function.
+        /// For more information, see the EnhMetaFileProc function.
+        /// </param>
+        /// <param name="param">
+        /// A pointer to optional callback-function data.
+        /// </param>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that specifies the coordinates,
+        /// in logical units, of the picture's upper-left and lower-right corners.
+        /// </param>
+        /// <returns>
+        /// If the callback function successfully enumerates all the records in the enhanced metafile, the return value is <see cref="TRUE"/>.
+        /// If the callback function does not successfully enumerate all the records in the enhanced metafile,
+        /// the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Points along the edge of the rectangle pointed to by the <paramref name="lpRect"/> parameter are included in the picture.
+        /// If the <paramref name="hdc"/> parameter is <see cref="NULL"/>, the system ignores <paramref name="lpRect"/>.
+        /// If the callback function calls the <see cref="PlayEnhMetaFileRecord"/> function, hdc must identify a valid device context.
+        /// The system uses the device context's transformation and mapping mode
+        /// to transform the picture displayed by the <see cref="PlayEnhMetaFileRecord"/> function.
+        /// You can use the <see cref="EnumEnhMetaFile"/> function to embed one enhanced-metafile within another.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumEnhMetaFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumEnhMetaFile([In] HDC hdc, [In] HENHMETAFILE hmf, [In] ENHMFENUMPROC proc,
+            [In] LPVOID param, [In] in RECT lpRect);
 
         /// <summary>
         /// <para>

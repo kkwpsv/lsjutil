@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -94,7 +95,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtTextOut([In] IntPtr hdc, [In] int x, [In] int y, [In] ExtTextOutFlags options,
-            [In] in RECT lprect, [MarshalAs(UnmanagedType.LPWStr)] string lpString, [In] uint c, [In] IntPtr lpDx);
+            [In] in RECT lprect, [In] LPCWSTR lpString, [In] uint c, [In] IntPtr lpDx);
 
         /// <summary>
         /// <para>

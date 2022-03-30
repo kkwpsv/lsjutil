@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -304,6 +305,35 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EqualRgn([In] HRGN hrgn1, [In] HRGN hrgn2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ExtCreateRegion"/> function creates a region from the specified region and transformation data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extcreateregion"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpx">
+        /// A pointer to an <see cref="XFORM"/> structure that defines the transformation to be performed on the region.
+        /// If this pointer is <see cref="NullRef{XFORM}"/>, the identity transformation is used.
+        /// </param>
+        /// <param name="nCount">
+        /// The number of bytes pointed to by <paramref name="lpData"/>.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a <see cref="RGNDATA"/> structure that contains the region data in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value of the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Region coordinates are represented as 27-bit signed integers.
+        /// An application can retrieve data for a region by calling the <see cref="GetRegionData"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtCreateRegion", ExactSpelling = true, SetLastError = true)]
+        public static extern HRGN ExtCreateRegion([In] in XFORM lpx, [In] DWORD nCount, [In] in RGNDATA lpData);
 
         /// <summary>
         /// <para>
