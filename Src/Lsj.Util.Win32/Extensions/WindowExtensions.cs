@@ -65,7 +65,6 @@ namespace Lsj.Util.Win32.Extensions
             return result.ToArray();
         }
 
-#if !NET40 && !NET45
         /// <summary>
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>
         /// </summary>
@@ -94,7 +93,6 @@ namespace Lsj.Util.Win32.Extensions
             }), IntPtr.Zero);
             return result.ToArray();
         }
-#endif
 
         /// <summary>
         /// Get Window Screenshot (Use GDI)
