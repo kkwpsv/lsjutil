@@ -136,6 +136,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetCharABCWidthsFloat"/> function retrieves the widths, in logical units,
+        /// of consecutive characters in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharabcwidthsfloatw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="iFirst">
+        /// Specifies the code point of the first character in the group of consecutive characters where the ABC widths are seeked.
+        /// </param>
+        /// <param name="iLast">
+        /// Specifies the code point of the last character in the group of consecutive characters where the ABC widths are seeked.
+        /// This range is inclusive.
+        /// An error is returned if the specified last character precedes the specified first character.
+        /// </param>
+        /// <param name="lpABC">
+        /// Pointer to an array of <see cref="ABCFLOAT"/> structures that receives the character widths, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unlike the <see cref="GetCharABCWidths"/> function that returns widths only for TrueType fonts,
+        /// the <see cref="GetCharABCWidthsFloat"/> function retrieves widths for any font.
+        /// The widths returned by this function are in the IEEE floating-point format.
+        /// If the current world-to-device transformation is not identified,
+        /// the returned widths may be noninteger values, even if the corresponding values in the device space are integers.
+        /// A spacing is the distance added to the current position before placing the glyph.
+        /// B spacing is the width of the black part of the glyph.
+        /// C spacing is the distance added to the current position to provide white space to the right of the glyph.
+        /// The total advanced width is specified by A+B+C.
+        /// The ABC spaces are measured along the character base line of the selected font.
+        /// The ABC widths of the default character are used for characters outside the range of the currently selected font.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsFloatW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCharABCWidthsFloat([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [In][Out] ABCFLOAT[] lpABC);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
         /// of consecutive characters in a specified range from the current font.
         /// </para>

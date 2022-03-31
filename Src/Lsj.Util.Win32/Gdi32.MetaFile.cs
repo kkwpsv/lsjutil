@@ -442,6 +442,85 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GdiComment"/> function copies a comment from a buffer into a specified enhanced-format metafile.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdicomment"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to an enhanced-metafile device context.
+        /// </param>
+        /// <param name="nSize">
+        /// The length of the comment buffer, in bytes.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to the buffer that contains the comment.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A comment can include any kind of private information,
+        /// for example, the source of a picture and the date it was created.
+        /// A comment should begin with an application signature, followed by the data.
+        /// Comments should not contain application-specific or position-specific data.
+        /// Position-specific data specifies the location of a record,
+        /// and it should not be included because one metafile may be embedded within another metafile.
+        /// A public comment is a comment that begins with the comment signature identifier <see cref="GDICOMMENT_IDENTIFIER"/>.
+        /// The following public comments are defined.
+        /// <see cref="GDICOMMENT_WINDOWS_METAFILE"/>:
+        /// The <see cref="GDICOMMENT_WINDOWS_METAFILE"/> public comment contains
+        /// a Windows-format metafile that is equivalent to an enhanced-format metafile.
+        /// This comment is written only by the <see cref="SetWinMetaFileBits"/> function.
+        /// The comment record, if given, follows the <see cref="ENHMETAHEADER"/> metafile record.
+        /// The comment has the following form:
+        /// <code>
+        /// DWORD ident;         // This contains GDICOMMENT_IDENTIFIER.
+        /// DWORD iComment;      // This contains GDICOMMENT_WINDOWS_METAFILE.
+        /// DWORD nVersion;      // This contains the version number of the
+        ///                      // Windows-format metafile.
+        /// DWORD nChecksum;     // This is the additive DWORD checksum for
+        ///                      // the enhanced metafile.  The checksum
+        ///                      // for the enhanced metafile data including
+        ///                      // this comment record must be zero.
+        ///                      // Otherwise, the enhanced metafile has been
+        ///                      //  modified and the Windows-format
+        ///                      // metafile is no longer valid.
+        /// DWORD fFlags;        // This must be zero.
+        /// DWORD cbWinMetaFile; // This is the size, in bytes. of the
+        ///                      // Windows-format metafile data that follows.  
+        /// </code>
+        /// <see cref="GDICOMMENT_BEGINGROUP"/>:
+        /// The <see cref="GDICOMMENT_BEGINGROUP"/> public comment identifies the beginning of a group of drawing records.
+        /// It identifies an object within an enhanced metafile.
+        /// The comment has the following form:
+        /// <code>
+        /// DWORD   ident;         // This contains GDICOMMENT_IDENTIFIER.
+        /// DWORD   iComment;      // This contains GDICOMMENT_BEGINGROUP.
+        /// RECTL   rclOutput;     // This is the bounding rectangle for the
+        ///                        // object in logical coordinates.
+        /// DWORD   nDescription;  // This is the number of characters in the
+        ///                        // optional Unicode description string that
+        ///                        // follows. This is zero if there is no
+        ///                        // description string.  
+        /// </code>
+        /// <see cref="GDICOMMENT_ENDGROUP"/>:
+        /// The <see cref="GDICOMMENT_ENDGROUP"/> public comment identifies the end of a group of drawing records.
+        /// The <see cref="GDICOMMENT_BEGINGROUP"/> comment and the <see cref="GDICOMMENT_ENDGROUP"/> comment
+        /// must be included in a pair and may be nested.
+        /// The comment has the following form:
+        /// <code>
+        /// DWORD   ident;       // This contains GDICOMMENT_IDENTIFIER.
+        /// DWORD iComment;    // This contains GDICOMMENT_ENDGROUP.  
+        /// </code>
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiComment", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GdiComment([In] HDC hdc, [In] UINT nSize, [In] BYTE[] lpData);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetMetaFile"/> function creates a handle that identifies the metafile stored in the specified file.
         /// </para>
         /// <para>
@@ -488,7 +567,7 @@ namespace Lsj.Util.Win32
         /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HENHMETAFILE GetEnhMetaFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HENHMETAFILE GetEnhMetaFile([In] LPWSTR lpName);
 
         /// <summary>
         /// <para>

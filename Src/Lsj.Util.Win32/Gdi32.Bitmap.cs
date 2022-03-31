@@ -498,6 +498,75 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GdiTransparentBlt"/> function performs a bit-block transfer of the color data
+        /// corresponding to a rectangle of pixels from the specified source device context into a destination device context.
+        /// Note
+        /// This function is the same as <see cref="TransparentBlt"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gditransparentblt"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdcDest">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="xoriginDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yoriginDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="wDest">
+        /// The width, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hDest">
+        /// The height, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the source device context.
+        /// </param>
+        /// <param name="xoriginSrc">
+        /// The x-coordinate, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="yoriginSrc">
+        /// The y-coordinate, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="wSrc">
+        /// The width, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="hSrc">
+        /// The height, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="crTransparent">
+        /// The RGB color in the source bitmap to treat as transparent.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GdiTransparentBlt"/> function works with compatible bitmaps (DDBs).
+        /// The <see cref="GdiTransparentBlt"/> function supports all formats of source bitmaps.
+        /// However, for 32 bpp bitmaps, it just copies the alpha value over.
+        /// Use <see cref="AlphaBlend"/> to specify 32 bits-per-pixel bitmaps with transparency.
+        /// If the source and destination rectangles are not the same size, the source bitmap is stretched to match the destination rectangle.
+        /// When the <see cref="SetStretchBltMode"/> function is used,
+        /// the iStretchMode modes of <see cref="BLACKONWHITE"/> and <see cref="WHITEONBLACK"/> are converted
+        /// to <see cref="COLORONCOLOR"/> for the <see cref="GdiTransparentBlt"/> function.
+        /// The destination device context specifies the transformation type for the destination coordinates.
+        /// The source device context specifies the transformation type for the source coordinates.
+        /// <see cref="GdiTransparentBlt"/> does not mirror a bitmap if either the width or height, of either the source or destination, is negative.
+        /// When used in a multiple monitor system, both <paramref name="hdcSrc"/> and <paramref name="hdcDest"/>
+        /// must refer to the same device or the function will fail.
+        /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
+        /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiTransparentBlt", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GdiTransparentBlt([In] HDC hdcDest, [In] int xoriginDest, [In] int yoriginDest, [In] int wDest,
+            [In] int hDest, [In] HDC hdcSrc, [In] int xoriginSrc, [In] int yoriginSrc, [In] int wSrc, [In] int hSrc, [In] UINT crTransparent);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBitmapBits"/> function copies the bitmap bits of a specified device-dependent bitmap into a buffer.
         /// </para>
         /// <para>
