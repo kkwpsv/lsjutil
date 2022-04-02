@@ -131,6 +131,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetClipRgn"/> function retrieves a handle identifying
+        /// the current application-defined clipping region for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcliprgn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// A handle to an existing region before the function is called.
+        /// After the function returns, this parameter is a handle to a copy of the current clipping region.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and there is no clipping region for the given device context, the return value is zero.
+        /// If the function succeeds and there is a clipping region for the given device context, the return value is 1.
+        /// If an error occurs, the return value is -1.
+        /// </returns>
+        /// <remarks>
+        /// An application-defined clipping region is a clipping region identified by the <see cref="SelectClipRgn"/> function.
+        /// It is not a clipping region created when the application calls the <see cref="BeginPaint"/> function.
+        /// If the function succeeds, the hrgn parameter is a handle to a copy of the current clipping region.
+        /// Subsequent changes to this copy will not affect the current clipping region.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetClipRgn([In] HDC hdc, [In] HRGN hrgn);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="IntersectClipRect"/> function creates a new clipping region from the intersection of the current clipping region
         /// and the specified rectangle.
         /// </para>

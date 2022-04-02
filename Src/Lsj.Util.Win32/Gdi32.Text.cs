@@ -138,43 +138,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
-        /// of consecutive characters in a specified range from the current font.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="iFirst">
-        /// The first character in the group of consecutive characters.
-        /// </param>
-        /// <param name="iLast">
-        /// The last character in the group of consecutive characters, which must not precede the specified first character.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// A pointer to a buffer that receives the character widths, in logical coordinates.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// GetCharWidth cannot be used on TrueType fonts.
-        /// To retrieve character widths for TrueType fonts, use <see cref="GetCharABCWidths"/>.
-        /// The range is inclusive; that is, the returned widths include the widths of the characters
-        /// specified by the <paramref name="iFirst"/> and <paramref name="iLast"/> parameters.
-        /// If a character does not exist in the current font, it is assigned the width of the default character.
-        /// </remarks>
-        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
-            "Applications should call the GetCharWidth32 function, which provides more accurate results.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCharWidth([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] out int lpBuffer);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="GetCharABCWidthsFloat"/> function retrieves the widths, in logical units,
         /// of consecutive characters in a specified range from the current font.
         /// </para>
@@ -479,6 +442,152 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharacterPlacementW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCharacterPlacement([In] HDC hdc, [In] LPCWSTR lpString, [In] int nCount, [In] int nMexExtent,
             [In][Out] ref GCP_RESULTS lpResults, [In] GetCharacterPlacementFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
+        /// of consecutive characters in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iFirst">
+        /// The first character in the group of consecutive characters.
+        /// </param>
+        /// <param name="iLast">
+        /// The last character in the group of consecutive characters, which must not precede the specified first character.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the character widths, in logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// GetCharWidth cannot be used on TrueType fonts.
+        /// To retrieve character widths for TrueType fonts, use <see cref="GetCharABCWidths"/>.
+        /// The range is inclusive; that is, the returned widths include the widths of the characters
+        /// specified by the <paramref name="iFirst"/> and <paramref name="iLast"/> parameters.
+        /// If a character does not exist in the current font, it is assigned the width of the default character.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should call the GetCharWidth32 function, which provides more accurate results.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCharWidth([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] out int lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetCharWidth32"/> function retrieves the widths,
+        /// in logical coordinates, of consecutive characters in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidth32w"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iFirst">
+        /// The first character in the group of consecutive characters.
+        /// </param>
+        /// <param name="iLast">
+        /// The last character in the group of consecutive characters, which must not precede the specified first character.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the character widths, in logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetCharWidth32"/> cannot be used on TrueType fonts.
+        /// To retrieve character widths for TrueType fonts, use <see cref="GetCharABCWidths"/>.
+        /// The range is inclusive; that is, the returned widths include the widths
+        /// of the characters specified by the <paramref name="iFirst"/> and <paramref name="iLast"/> parameters.
+        /// If a character does not exist in the current font, it is assigned the width of the default character.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidth32W", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCharWidth32([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] INT[] lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// The <paraGetCharWidthFloat function retrieves the fractional widths
+        /// of consecutive characters in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthfloatw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iFirst">
+        /// The code point of the first character in the group of consecutive characters.
+        /// </param>
+        /// <param name="iLast">
+        /// The code point of the last character in the group of consecutive characters.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the character widths, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The returned widths are in the 32-bit IEEE floating-point format. (The widths are measured along the base line of the characters.)
+        /// If the <paramref name="iFirst"/> parameter specifies the letter a and the <paramref name="iLast"/> parameter specifies the letter z,
+        /// <see cref="GetCharWidthFloat"/> retrieves the widths of all lowercase characters.
+        /// If a character does not exist in the current font, it is assigned the width of the default character.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthFloatW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCharWidthFloat([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] FLOAT[] lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetCharWidthI"/> function retrieves the widths, in logical coordinates,
+        /// of consecutive glyph indices in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthi"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="giFirst">
+        /// The first glyph index in the group of consecutive glyph indices.
+        /// </param>
+        /// <param name="cgi">
+        /// The number of glyph indices.
+        /// </param>
+        /// <param name="pgi">
+        /// A pointer to an array of glyph indices.
+        /// If this parameter is not <see langword="null"/>, it is used instead of the <paramref name="giFirst"/> parameter.
+        /// </param>
+        /// <param name="piWidths">
+        /// A pointer to a buffer that receives the widths, in logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetCharWidthI"/> function processes a consecutive glyph indices
+        /// if the <paramref name="pgi"/> parameter is <see langword="null"/> with the <paramref name="giFirst"/> parameter
+        /// indicating the first glyph index to process and the <paramref name="cgi"/> parameter indicating how many glyph indices to process.
+        /// Otherwise the <see cref="GetCharWidthI"/> function processes the array of glyph indices
+        /// pointed to by the <paramref name="pgi"/> parameter with the <paramref name="cgi"/> parameter indicating how many glyph indices to process.
+        /// If a character does not exist in the current font, it is assigned the width of the default character.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthI", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCharWidthI([In] HDC hdc, [In] UINT giFirst, [In] UINT cgi, [In] WORD[] pgi, [Out] INT[] piWidths);
 
         /// <summary>
         /// <para>
