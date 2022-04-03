@@ -148,6 +148,9 @@ namespace Lsj.Util.Win32.NativeUI
             set => SetDesktopID(value);
         }
 
+        /// <summary>
+        /// DisplayAffinity
+        /// </summary>
         public WindowDisplayAffinities DisplayAffinity
         {
             get => GetDisplayAffinity();

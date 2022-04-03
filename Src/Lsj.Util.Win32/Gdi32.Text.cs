@@ -517,7 +517,7 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <paraGetCharWidthFloat function retrieves the fractional widths
+        /// The <see cref="GetCharWidthFloat"/> function retrieves the fractional widths
         /// of consecutive characters in a specified range from the current font.
         /// </para>
         /// <para>
