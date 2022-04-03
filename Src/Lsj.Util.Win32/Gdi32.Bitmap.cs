@@ -621,6 +621,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetDIBColorTable"/> function retrieves RGB (red, green, blue) color values from a range of entries
+        /// in the color table of the DIB section bitmap that is currently selected into a specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdibcolortable"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// A DIB section bitmap must be selected into this device context.
+        /// </param>
+        /// <param name="iStart">
+        /// A zero-based color table index that specifies the first color table entry to retrieve.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of color table entries to retrieve.
+        /// </param>
+        /// <param name="prgbq">
+        /// A pointer to a buffer that receives an array of <see cref="RGBQUAD"/> data structures
+        /// containing color information from the DIB color table.
+        /// The buffer must be large enough to contain as many <see cref="RGBQUAD"/> data structures as the value of <paramref name="cEntries"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of color table entries that the function retrieves.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The GetDIBColorTable function should be called to retrieve the color table for DIB section bitmaps that use 1, 4, or 8 bpp.
+        /// The <see cref="BITMAPINFOHEADER.biBitCount"/> member of a bitmap
+        /// associated <see cref="BITMAPINFOHEADER"/> structure specifies the number of bits-per-pixel.
+        /// DIB section bitmaps with a <see cref="BITMAPINFOHEADER.biBitCount"/> value greater than eight do not have a color table,
+        /// but they do have associated color masks.
+        /// Call the <see cref="GetObject"/> function to retrieve those color masks.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBColorTable", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetDIBColorTable([In] HDC hdc, [In] UINT iStart, [In] UINT cEntries, [Out] RGBQUAD[] prgbq);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetDIBits"/> function retrieves the bits of the specified compatible bitmap and copies them into a buffer as a DIB
         /// using the specified format.
         /// </para>
@@ -1086,6 +1125,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetDIBColorTable"/> function sets RGB (red, green, blue) color values
+        /// in a range of entries in the color table of the DIB that is currently selected into a specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibcolortable"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A device context. A DIB must be selected into this device context.
+        /// </param>
+        /// <param name="iStart">
+        /// A zero-based color table index that specifies the first color table entry to set.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of color table entries to set.
+        /// </param>
+        /// <param name="prgbq">
+        /// A pointer to an array of <see cref="RGBQUAD"/> structures containing new color information for the DIB's color table.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of color table entries that the function sets.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// This function should be called to set the color table for DIBs that use 1, 4, or 8 bpp.
+        /// The BitCount member of a bitmap's associated bitmap information header structure.
+        /// <see cref="BITMAPINFOHEADER"/> structure specifies the number of bits-per-pixel.
+        /// Device-independent bitmaps with a <see cref="BITMAPINFOHEADER.biBitCount"/> value greater than 8 do not have a color table.
+        /// The <see cref="BITMAPV5HEADER.bV5BitCount"/> member of a bitmap's
+        /// associated <see cref="BITMAPV5HEADER"/> structure specifies the number of bits-per-pixel.
+        /// Device-independent bitmaps with a <see cref="BITMAPV5HEADER.bV5BitCount"/> value greater than 8 do not have a color table.
+        /// ICM: No color management is performed.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBColorTable", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT SetDIBColorTable([In] HDC hdc, [In] UINT iStart, [In] UINT cEntries, [In] RGBQUAD[] prgbq);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetDIBits"/> function sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
         /// </para>
         /// <para>
@@ -1282,6 +1359,41 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetPixel([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetPixelV"/> function sets the pixel at the specified coordinates to the closest approximation of the specified color.
+        /// The point must be in the clipping region and the visible part of the device surface.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpixelv"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="color">
+        /// The color to be used to paint the point.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Not all devices support the <see cref="SetPixelV"/> function.
+        /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
+        /// <see cref="SetPixelV"/> is faster than <see cref="SetPixel"/>
+        /// because it does not need to return the color value of the point actually painted.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetPixelV([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
         /// <summary>
         /// <para>

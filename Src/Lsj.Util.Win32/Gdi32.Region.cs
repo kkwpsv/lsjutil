@@ -337,6 +337,78 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetRandomRgn"/> function copies the system clipping region of a specified device context to a specific region.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrandomrgn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// A handle to a region.
+        /// Before the function is called, this identifies an existing region.
+        /// After the function returns, this identifies a copy of the current system region.
+        /// The old region identified by hrgn is overwritten.
+        /// </param>
+        /// <param name="i">
+        /// This parameter must be <see cref="SYSRGN"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is 1.
+        /// If the function fails, the return value is -1.
+        /// If the region to be retrieved is <see cref="NULL"/>, the return value is 0.
+        /// If the function fails or the region to be retrieved is <see cref="NULL"/>, <paramref name="hrgn"/> is not initialized.
+        /// </returns>
+        /// <remarks>
+        /// When using the <see cref="SYSRGN"/> flag, note that the system clipping region might not be current because of window movements.
+        /// Nonetheless, it is safe to retrieve and use the system clipping region
+        /// within the BeginPaint-EndPaint block during <see cref="WM_PAINT"/> processing.
+        /// In this case, the system region is the intersection of the update region and the current visible area of the window.
+        /// Any window movement following the return of <see cref="GetRandomRgn"/> and
+        /// before <see cref="EndPaint"/> will result in a new <see cref="WM_PAINT"/> message.
+        /// Any other use of the <see cref="SYSRGN"/> flag may result in painting errors in your application.
+        /// The region returned is in screen coordinates.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRandomRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetRandomRgn([In] HDC hdc, [In] HRGN hrgn, [In] INT i);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetRegionData"/> function fills the specified buffer with data describing a region.
+        /// This data includes the dimensions of the rectangles that make up the region.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getregiondata"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// A handle to the region.
+        /// </param>
+        /// <param name="nCount">
+        /// The size, in bytes, of the <paramref name="lpRgnData"/> buffer.
+        /// </param>
+        /// <param name="lpRgnData">
+        /// A pointer to a <see cref="RGNDATA"/> structure that receives the information.
+        /// The dimensions of the region are in logical units.
+        /// If this parameter is <see cref="NullRef{RGNDATA}"/>, the return value contains the number of bytes needed for the region data.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and <paramref name="nCount"/> specifies an adequate number of bytes,
+        /// the return value is always <paramref name="nCount"/>.
+        /// If <paramref name="nCount"/> is too small or the function fails, the return value is 0.
+        /// If <paramref name="lpRgnData"/> is <see cref="NullRef{RGNDATA}"/>, the return value is the required number of bytes.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetRegionData"/> function is used in conjunction with the <see cref="ExtCreateRegion"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRegionData", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetRegionData([In] HRGN hrgn, [In] DWORD nCount, [Out] out RGNDATA lpRgnData);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetRgnBox"/> function retrieves the bounding rectangle of the specified region.
         /// </para>
         /// <para>
@@ -385,6 +457,30 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags OffsetRgn([In] HRGN hrgn, [In] int x, [In] int y);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PathToRegion"/> function creates a region from the path that is selected into the specified device context.
+        /// The resulting region uses device coordinates.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-pathtoregion"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context that contains a closed path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a valid region.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
+        /// The device context identified by the hdc parameter must contain a closed path.
+        /// After <see cref="PathToRegion"/> converts a path into a region, the system discards the closed path from the specified device context.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PathToRegion", ExactSpelling = true, SetLastError = true)]
+        public static extern HRGN PathToRegion([In] HDC hdc);
 
         /// <summary>
         /// <para>

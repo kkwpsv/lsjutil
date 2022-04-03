@@ -319,28 +319,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="FillPath"/> function closes any open figures in the current 
-        /// and fills the path's interior by using the current brush and polygon-filling mode.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillpath"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to a device context that contains a valid path.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// After its interior is filled, the path is discarded from the DC identified by the <paramref name="hdc"/> parameter.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillPath", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FillPath([In] HDC hdc);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="Ellipse"/> function draws an ellipse.
         /// The center of the ellipse is the center of the specified bounding rectangle.
         /// The ellipse is outlined by using the current pen and is filled by using the current brush.
@@ -428,6 +406,28 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtFloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color, [In] ExtFloodFillFlags type);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="FillPath"/> function closes any open figures in the current 
+        /// and fills the path's interior by using the current brush and polygon-filling mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context that contains a valid path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// After its interior is filled, the path is discarded from the DC identified by the <paramref name="hdc"/> parameter.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FillPath([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -660,6 +660,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetPath"/> function retrieves the coordinates defining the endpoints of lines
+        /// and the control points of curves found in the path that is selected into the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context that contains a closed path.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures
+        /// that receives the line endpoints and curve control points, in logical coordinates.
+        /// </param>
+        /// <param name="aj">
+        /// A pointer to an array of bytes that receives the vertex types.
+        /// This parameter can be one of the following values.
+        /// <see cref="PT_MOVETO"/>:
+        /// Specifies that the corresponding point in the lpPoints parameter starts a disjoint figure.
+        /// <see cref="PT_LINETO"/>:
+        /// Specifies that the previous point and the corresponding point in lpPoints are the endpoints of a line.
+        /// <see cref="PT_BEZIERTO"/>:
+        /// Specifies that the corresponding point in lpPoints is a control point or ending point for a Bézier curve
+        /// <see cref="PT_BEZIERTO"/> values always occur in sets of three. 
+        /// The point in the path immediately preceding them defines the starting point for the Bézier curve.
+        /// The first two <see cref="PT_BEZIERTO"/> points are the control points,
+        /// and the third <see cref="PT_BEZIERTO"/> point is the ending (if hard-coded) point.
+        /// A <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> value may be combined with the following value
+        /// (by using the bitwise operator OR) to indicate that the corresponding point
+        /// is the last point in a figure and the figure should be closed.
+        /// <see cref="PT_CLOSEFIGURE"/>:
+        /// Specifies that the figure is automatically closed after the corresponding line or curve is drawn.
+        /// The figure is closed by drawing a line from the line or curve endpoint to the point corresponding to the last <see cref="PT_MOVETO"/>.
+        /// </param>
+        /// <param name="cpt">
+        /// The total number of <see cref="POINT"/> structures that can be stored in the array pointed to by lpPoints.
+        /// This value must be the same as the number of bytes that can be placed in the array pointed to by lpTypes.
+        /// </param>
+        /// <returns>
+        /// If the nSize parameter is nonzero, the return value is the number of points enumerated.
+        /// If nSize is 0, the return value is the total number of points in the path (and GetPath writes nothing to the buffers).
+        /// If nSize is nonzero and is less than the number of points in the path, the return value is 1.
+        /// </returns>
+        /// <remarks>
+        /// The device context identified by the hdc parameter must contain a closed path.
+        /// The points of the path are returned in logical coordinates.
+        /// Points are stored in the path in device coordinates, so <see cref="GetPath"/> changes the points
+        /// from device coordinates to logical coordinates by using the inverse of the current transformation.
+        /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPath", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] BYTE[] aj, [In] int cpt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetPolyFillMode"/> function retrieves the current polygon fill mode.
         /// </para>
         /// <para>
@@ -872,7 +927,8 @@ namespace Lsj.Util.Win32
         /// The current position is neither used nor updated by the <see cref="Pie"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Pie([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom, [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
+        public static extern BOOL Pie([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
+            [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
 
         /// <summary>
         /// <para>
@@ -898,7 +954,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// The PolyBezier function draws cubic Bézier curves by using the endpoints and control points
+        /// The <see cref="PolyBezier"/> function draws cubic Bézier curves by using the endpoints and control points
         /// specified by the <paramref name="apt"/> parameter.
         /// The first curve is drawn from the first point to the fourth point by using the second and third points as control points.
         /// Each subsequent curve in the sequence needs exactly three more points:
@@ -909,7 +965,102 @@ namespace Lsj.Util.Win32
         /// This function draws lines by using the current pen.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezier", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PolyBezier([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] DWORD cpt);
+        public static extern BOOL PolyBezier([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PolyBezierTo"/> function draws one or more Bézier curves.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polybezierto"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that contains the endpoints and control points, in logical units.
+        /// </param>
+        /// <param name="cpt">
+        /// The number of points in the lppt array.
+        /// This value must be three times the number of curves to be drawn
+        /// because each Bézier curve requires two control points and an ending point.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function draws cubic Bézier curves by using the control points specified by the lppt parameter.
+        /// The first curve is drawn from the current position to the third point by using the first two points as control points.
+        /// For each subsequent curve, the function needs exactly three more points,
+        /// and uses the ending point of the previous curve as the starting point for the next.
+        /// <see cref="PolyBezierTo"/> moves the current position to the ending point of the last Bézier curve.
+        /// The figure is not filled.
+        /// This function draws lines by using the current pen.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezierTo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolyBezierTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PolyDraw"/> function draws a set of line segments and Bézier curves.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polydraw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that contains the endpoints for each line segment
+        /// and the endpoints and control points for each Bézier curve, in logical units.
+        /// </param>
+        /// <param name="aj">
+        /// A pointer to an array that specifies how each point in the lppt array is used.
+        /// This parameter can be one of the following values.
+        /// <see cref="PT_MOVETO"/>:
+        /// Specifies that this point starts a disjoint figure. This point becomes the new current position.
+        /// <see cref="PT_LINETO"/>:
+        /// Specifies that a line is to be drawn from the current position to this point, which then becomes the new current position.
+        /// <see cref="PT_BEZIERTO"/>:
+        /// Specifies that this point is a control point or ending point for a Bézier curve.
+        /// <see cref="PT_BEZIERTO"/> types always occur in sets of three.
+        /// The current position defines the starting point for the Bézier curve.
+        /// The first two <see cref="PT_BEZIERTO"/> points are the control points,
+        /// and the third <see cref="PT_BEZIERTO"/> point is the ending point.
+        /// The ending point becomes the new current position.
+        /// If there are not three consecutive <see cref="PT_BEZIERTO"/> points, an error results.
+        /// A <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> type can be combined with the following value
+        /// by using the bitwise operator OR to indicate that the corresponding point is the last point in a figure and the figure is closed.
+        /// <see cref="PT_CLOSEFIGURE"/>:
+        /// Specifies that the figure is automatically closed
+        /// after the <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> type for this point is done.
+        /// A line is drawn from this point to the most recent <see cref="PT_MOVETO"/> or <see cref="MoveToEx"/> point.
+        /// This value is combined with the <see cref="PT_LINETO"/> type for a line,
+        /// or with the <see cref="PT_BEZIERTO"/> type of the ending point for a Bézier curve, by using the bitwise operator OR.
+        /// The current position is set to the ending point of the closing line.
+        /// </param>
+        /// <param name="cpt">
+        /// The total number of points in the lppt array, the same as the number of bytes in the lpbTypes array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="PolyDraw"/> function can be used in place of consecutive calls
+        /// to <see cref="MoveToEx"/>, <see cref="LineTo"/>, and <see cref="PolyBezierTo"/> functions to draw disjoint figures.
+        /// The lines and curves are drawn using the current pen and figures are not filled.
+        /// If there is an active path started by calling <see cref="BeginPath"/>, <see cref="PolyDraw"/> adds to the path.
+        /// The points contained in the lppt array and in the lpbTypes array indicate
+        /// whether each point is part of a <see cref="MoveTo"/>, <see cref="LineTo"/>, or <see cref="PolyBezierTo"/> operation.
+        /// It is also possible to close figures.
+        /// This function updates the current position.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyDraw", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolyDraw([In] HDC hdc, [In] POINT[] apt, [In] BYTE[] aj, [In] int cpt);
 
         /// <summary>
         /// <para>
@@ -942,7 +1093,7 @@ namespace Lsj.Util.Win32
         /// Remember to connect the line segments.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Polygon([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] int cpt);
+        public static extern BOOL Polygon([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
         /// <summary>
         /// <para>
@@ -972,7 +1123,7 @@ namespace Lsj.Util.Win32
         /// the <see cref="Polyline"/> function neither uses nor updates the current position.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Polyline([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] int cpt);
+        public static extern BOOL Polyline([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
         /// <summary>
         /// <para>
@@ -1004,7 +1155,7 @@ namespace Lsj.Util.Win32
         /// If the line segments drawn by this function form a closed figure, the figure is not filled.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolylineTo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PolylineTo([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] DWORD cpt);
+        public static extern BOOL PolylineTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
         /// <summary>
         /// <para>
@@ -1044,8 +1195,41 @@ namespace Lsj.Util.Win32
         /// Note, it is best to have a polygon in only one of the groups.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PolyPolygon([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt,
-            [MarshalAs(UnmanagedType.LPArray)][In] INT[] asz, [In] int csz);
+        public static extern BOOL PolyPolygon([In] HDC hdc, [In] POINT[] apt, [In] INT[] asz, [In] int csz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PolyPolyline"/> function draws multiple series of connected line segments.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polypolyline"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that contains the vertices of the polylines, in logical units.
+        /// The polylines are specified consecutively.
+        /// </param>
+        /// <param name="asz">
+        /// A pointer to an array of variables specifying the number of points in the lppt array for the corresponding polyline.
+        /// Each entry must be greater than or equal to two.
+        /// </param>
+        /// <param name="csz">
+        /// The total number of entries in the lpdwPolyPoints array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The line segments are drawn by using the current pen.
+        /// The figures formed by the segments are not filled.
+        /// The current position is neither used nor updated by this function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolyline", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolyPolyline([In] HDC hdc, [In] POINT[] apt, [In] DWORD[] asz, [In] DWORD csz);
 
         /// <summary>
         /// <para>
@@ -1125,6 +1309,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetArcDirection"/> sets the drawing direction to be used for arc and rectangle functions.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setarcdirection"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="dir">
+        /// The new arc direction. This parameter can be one of the following values.
+        /// <see cref="AD_COUNTERCLOCKWISE"/>:
+        /// Figures drawn counterclockwise.
+        /// <see cref="AD_CLOCKWISE"/>:
+        /// Figures drawn clockwise.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the old arc direction.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The default direction is counterclockwise.
+        /// The <see cref="SetArcDirection"/> function specifies the direction in which the following functions draw:
+        /// <see cref="Arc"/>, <see cref="ArcTo"/>, <see cref="Chord"/>, <see cref="Ellipse"/>,
+        /// <see cref="Pie"/>, <see cref="Rectangle"/>, <see cref="RoundRect"/>
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetArcDirection", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetArcDirection([In] HDC hdc, [In] int dir);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetPolyFillMode"/> function sets the polygon fill mode for functions that fill polygons.
         /// </para>
         /// <para>
@@ -1157,5 +1372,81 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetPolyFillMode([In] HDC hdc, [In] PolyFillModes mode);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StrokeAndFillPath"/> function closes any open figures in a path,
+        /// strokes the outline of the path by using the current pen, and fills its interior by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-strokeandfillpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The device context identified by the hdc parameter must contain a closed path.
+        /// The <see cref="StrokeAndFillPath"/> function has the same effect as closing all the open figures in the path,
+        /// and stroking and filling the path separately, except that the filled region will not overlap the stroked region even if the pen is wide.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokeAndFillPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL StrokeAndFillPath([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StrokePath"/> function renders the specified path by using the current pen.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-strokepath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context that contains the completed path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The path, if it is to be drawn by <see cref="StrokePath"/>, must have been completed through a call to <see cref="EndPath"/>.
+        /// Calling this function on a path for which <see cref="EndPath"/> has not been called will cause this function to fail and return zero.
+        /// Unlike other path drawing functions such as <see cref="StrokeAndFillPath"/>,
+        /// <see cref="StrokePath"/> will not attempt to close the path by drawing a straight line
+        /// from the first point on the path to the last point on the path.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokePath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL StrokePath([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WidenPath"/> function redefines the current path as the area that would be painted
+        /// if the path were stroked using the pen currently selected into the given device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-widenpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context that contains a closed path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WidenPath"/> function is successful only if the current pen is a geometric pen
+        /// created by the <see cref="ExtCreatePen"/> function, or if the pen is created with the <see cref="CreatePen"/> function
+        /// and has a width, in device units, of more than one.
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// Any Bézier curves in the path are converted to sequences of straight lines approximating the widened curves.
+        /// As such, no Bézier curves remain in the path after <see cref="WidenPath"/> is called.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WidenPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WidenPath([In] HDC hdc);
     }
 }

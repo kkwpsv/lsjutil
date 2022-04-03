@@ -733,6 +733,196 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static BYTE GetBValue(COLORREF rgb) => (byte)((rgb >> 16) & 0xff);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetColorAdjustment"/> function retrieves the color adjustment values for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcoloradjustment"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpca">
+        /// A pointer to a <see cref="COLORADJUSTMENT"/> structure that receives the color adjustment values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetColorAdjustment", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetColorAdjustment([In] HDC hdc, [Out] out COLORADJUSTMENT lpca);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetCurrentObject"/> function retrieves a handle to an object of the specified type
+        /// that has been selected into the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcurrentobject"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="type">
+        /// The object type to be queried. This parameter can be one of the following values.
+        /// <see cref="OBJ_BITMAP"/>:
+        /// Returns the current selected bitmap.
+        /// <see cref="OBJ_BRUSH"/>:
+        /// Returns the current selected brush.
+        /// <see cref="OBJ_COLORSPACE"/>:
+        /// Returns the current color space.
+        /// <see cref="OBJ_FONT"/>:
+        /// Returns the current selected font.
+        /// <see cref="OBJ_PAL"/>:
+        /// Returns the current selected palette.
+        /// <see cref="OBJ_PEN"/>:
+        /// Returns the current selected pen.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified object.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can use the <see cref="GetCurrentObject"/> and <see cref="GetObject"/> functions
+        /// to retrieve descriptions of the graphic objects currently selected into the specified DC.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HGDIOBJ GetCurrentObject([In] HDC hdc, [In] ObjTypes type);
+
+        /// <summary>
+        /// <para>
+        /// The GetDCOrgEx function retrieves the final translation origin for a specified device context (DC).
+        /// The final translation origin specifies an offset that the system uses
+        /// to translate device coordinates into client coordinates (for coordinates in an application's window).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcorgex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose final translation origin is to be retrieved.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the final translation origin, in device coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The final translation origin is relative to the physical origin of the screen.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCOrgEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDCOrgEx([In] HDC hdc, [Out] out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetDeviceCaps"/> function retrieves device-specific information for the specified device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">A handle to the DC.</param>
+        /// <param name="nIndex">The item to be returned.</param>
+        /// <returns>
+        /// The return value specifies the value of the desired item.
+        /// When <paramref name="nIndex"/> is <see cref="DeviceCapIndexes.BITSPIXEL"/> and the device has 15bpp or 16bpp, the return value is 16.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDeviceCaps([In] HDC hdc, [In] DeviceCapIndexes nIndex);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetGraphicsMode"/> function retrieves the current graphics mode for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getgraphicsmode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current graphics mode.
+        /// It can be one of the following values.
+        /// <see cref="GM_COMPATIBLE"/>:
+        /// The current graphics mode is the compatible graphics mode, a mode that is compatible with 16-bit Windows.
+        /// In this graphics mode, an application cannot set or modify the world transformation for the specified device context.
+        /// The compatible graphics mode is the default graphics mode.
+        /// <see cref="GM_ADVANCED"/>:
+        /// The current graphics mode is the advanced graphics mode, a mode that allows world transformations.
+        /// In this graphics mode, an application can set or modify the world transformation for the specified device context.
+        /// Otherwise, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// An application can set the graphics mode for a device context by calling the <see cref="SetGraphicsMode"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGraphicsMode", ExactSpelling = true, SetLastError = true)]
+        public static extern GraphicsModes GetGraphicsMode([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetGValue"/> macro retrieves an intensity value for the green component of a red, green, blue (RGB) value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static BYTE GetGValue(COLORREF rgb) => (byte)((rgb >> 8) & 0xff);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetLayout"/> function returns the layout of a device context (DC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns the layout flags for the current device context.
+        /// If the function fails, it returns <see cref="GDI_ERROR"/>.
+        /// For extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The layout specifies the order in which text and graphics are revealed in a window or device context.
+        /// The default is left to right.
+        /// The <see cref="GetLayout"/> function tells you if the default has been changed through a call to <see cref="SetLayout"/>.
+        /// For more information, see "Window Layout and Mirroring" in Window Features.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLayout([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetMapMode"/> function retrieves the current mapping mode.
         /// </para>
         /// <para>
@@ -770,92 +960,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// This function retrieves the x-extent and y-extent of the window for the specified device context.
+        /// The <see cref="GetMiterLimit"/> function retrieves the miter limit for the specified device context.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindowextex"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmiterlimit"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="plimit">
+        /// Pointer to a floating-point value that receives the current miter limit.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The miter limit is used when drawing geometric lines that have miter joins.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMiterLimit", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMiterLimit([In] HDC hdc, [Out] out FLOAT plimit);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetNearestColor"/> function retrieves a color value identifying a color from the system palette
+        /// that will be displayed when the specified color value is used.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
         /// A handle to the device context.
         /// </param>
-        /// <param name="lpsize">
-        /// A pointer to a <see cref="SIZE"/> structure that receives the x- and y-extents in page-space units, that is, logical units.
+        /// <param name="color">
+        /// A color value that identifies a requested color.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// If the function succeeds, the return value identifies a color from the system palette that corresponds to the given color value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetWindowExtEx([In] HDC hdc, [Out] out SIZE lpsize);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
-        /// </para>
-        /// </summary>
-        /// <param name="rgb">
-        /// Specifies an RGB color value.
-        /// </param>
-        /// <returns></returns>
-        /// <remarks>
-        /// The intensity value is in the range 0 through 255.
-        /// </remarks>
-        public static BYTE GetBValue(COLORREF rgb) => (byte)((rgb >> 16) & 0xff);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetDeviceCaps"/> function retrieves device-specific information for the specified device.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">A handle to the DC.</param>
-        /// <param name="nIndex">The item to be returned.</param>
-        /// <returns>
-        /// The return value specifies the value of the desired item.
-        /// When <paramref name="nIndex"/> is <see cref="DeviceCapIndexes.BITSPIXEL"/> and the device has 15bpp or 16bpp, the return value is 16.
-        /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetDeviceCaps([In] IntPtr hdc, [In] DeviceCapIndexes nIndex);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetGValue"/> macro retrieves an intensity value for the green component of a red, green, blue (RGB) value.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
-        /// </para>
-        /// </summary>
-        /// <param name="rgb">
-        /// Specifies an RGB color value.
-        /// </param>
-        /// <returns></returns>
-        /// <remarks>
-        /// The intensity value is in the range 0 through 255.
-        /// </remarks>
-        public static BYTE GetGValue(COLORREF rgb) => (byte)((rgb >> 8) & 0xff);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetRValue"/> macro retrieves an intensity value for the red component of a red, green, blue (RGB) value.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
-        /// </para>
-        /// </summary>
-        /// <param name="rgb">
-        /// Specifies an RGB color value.
-        /// </param>
-        /// <returns></returns>
-        /// <remarks>
-        /// The intensity value is in the range 0 through 255.
-        /// </remarks>
-        public static BYTE GetRValue(COLORREF rgb) => (byte)(rgb & 0xff);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetNearestColor([In] HDC hdc, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -922,26 +1070,20 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetNearestColor"/> function retrieves a color value identifying a color from the system palette
-        /// that will be displayed when the specified color value is used.
+        /// The <see cref="GetRValue"/> macro retrieves an intensity value for the red component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestcolor"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
         /// </para>
         /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
         /// </param>
-        /// <param name="color">
-        /// A color value that identifies a requested color.
-        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value identifies a color from the system palette that corresponds to the given color value.
-        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
-        /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF GetNearestColor([In] HDC hdc, [In] COLORREF color);
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static BYTE GetRValue(COLORREF rgb) => (byte)(rgb & 0xff);
 
         /// <summary>
         /// <para>
@@ -982,86 +1124,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ GetStockObject([In] StockObjectIndexes i);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpoint32w"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="lpString">
-        /// A pointer to a buffer that specifies the text string.
-        /// The string does not need to be null-terminated, because the c parameter specifies the length of the string.
-        /// </param>
-        /// <param name="c">
-        /// The length of the string pointed to by lpString.
-        /// </param>
-        /// <param name="psizl">
-        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="GetTextExtentPoint32"/> function uses the currently selected font to compute the dimensions of the string.
-        /// The width and height, in logical units, are computed without considering any clipping.
-        /// Because some devices kern characters, the sum of the extents of the characters in a string may not be equal to the extent of the string.
-        /// The calculated string width takes into account the intercharacter spacing set by the <see cref="SetTextCharacterExtra"/> function
-        /// and the justification set by <see cref="SetTextJustification"/>.
-        /// This is true for both displaying on a screen and for printing.
-        /// However, if lpDx is set in <see cref="ExtTextOut"/>, <see cref="GetTextExtentPoint32"/> does not take into account
-        /// either intercharacter spacing or justification.
-        /// In addition, for EMF, the print result always takes both intercharacter spacing and justification into account.
-        /// When dealing with text displayed on a screen, the calculated string width takes into account the intercharacter spacing set
-        /// by the <see cref="SetTextCharacterExtra"/> function and the justification set by <see cref="SetTextJustification"/>.
-        /// However, if lpDx is set in <see cref="ExtTextOut"/>, <see cref="GetTextExtentPoint32"/> does not take into account
-        /// either intercharacter spacing or justification. However, when printing with EMF:
-        /// The print result ignores intercharacter spacing, although <see cref="GetTextExtentPoint32"/> takes it into account.
-        /// The print result takes justification into account, although <see cref="GetTextExtentPoint32"/> ignores it.
-        /// When this function returns the text extent, it assumes that the text is horizontal, that is, that the escapement is always 0.
-        /// This is true for both the horizontal and vertical measurements of the text.
-        /// Even if you use a font that specifies a nonzero escapement, this function doesn't use the angle while it computes the text extent.
-        /// The app must convert it explicitly.
-        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/> and the character orientation is 90 degrees from the print orientation,
-        /// the values that this function return do not follow this rule.
-        /// When the character orientation and the print orientation match for a given string,
-        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
-        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
-        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
-        /// <see cref="GetTextExtentPoint32"/> doesn't consider "\n" (new line) or "\r\n" (carriage return and new line) characters
-        /// when it computes the height of a text string.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTextExtentPoint32([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString,
-            [In] int c, [Out] out SIZE psizl);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetWindowOrgEx"/> function retrieves the x-coordinates and y-coordinates of the window origin for the specified device context.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindoworgex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="lppoint">
-        /// A pointer to a <see cref="POINT"/> structure that receives the coordinates, in logical units, of the window origin.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
-        /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetWindowOrgEx([In] HDC hdc, [Out] out POINT lppoint);
 
         /// <summary>
         /// <para>
@@ -1107,6 +1169,74 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// This function retrieves the x-extent and y-extent of the window for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindowextex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpsize">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the x- and y-extents in page-space units, that is, logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowExtEx([In] HDC hdc, [Out] out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetWindowOrgEx"/> function retrieves the x-coordinates and y-coordinates of the window origin for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindoworgex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppoint">
+        /// A pointer to a <see cref="POINT"/> structure that receives the coordinates, in logical units, of the window origin.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowOrgEx([In] HDC hdc, [Out] out POINT lppoint);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetWorldTransform"/> function retrieves the current world-space to page-space transformation.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getworldtransform"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpxf">
+        /// A pointer to an <see cref="XFORM"/> structure that receives the current world-space to page-space transformation.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The precision of the transformation may be altered
+        /// if an application calls the <see cref="ModifyWorldTransform"/> function prior to calling <see cref="GetWorldTransform"/>.
+        /// (This is because the internal format for storing transformation values uses a higher precision than a <see cref="FLOAT"/> value.)
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWorldTransform", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWorldTransform([In] HDC hdc, [Out] out XFORM lpxf);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LPtoDP"/> function converts logical coordinates into device coordinates.
         /// The conversion depends on the mapping mode of the device context, the settings of the origins and extents for the window and viewport,
         /// and the world transformation.
@@ -1139,7 +1269,82 @@ namespace Lsj.Util.Win32
         /// from multiple calls to <see cref="LPtoDP"/> even if the parameters that are passed to each call are identical.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LPtoDP([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lppt, [In] int c);
+        public static extern BOOL LPtoDP([In] HDC hdc, [In][Out] POINT[] lppt, [In] int c);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ModifyWorldTransform"/> function changes the world transformation for a device context using the specified mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-modifyworldtransform"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpxf">
+        /// A pointer to an <see cref="XFORM"/> structure used to modify the world transformation for the given device context.
+        /// </param>
+        /// <param name="mode">
+        /// Specifies how the transformation data modifies the current world transformation.
+        /// This parameter must be one of the following values.
+        /// <see cref="MWT_IDENTITY"/>:
+        /// Resets the current world transformation by using the identity matrix. 
+        /// If this mode is specified, the <see cref="XFORM"/> structure pointed to by <paramref name="lpxf"/> is ignored.
+        /// <see cref="MWT_LEFTMULTIPLY"/>:
+        /// Multiplies the current transformation by the data in the <see cref="XFORM"/> structure.
+        /// (The data in the <see cref="XFORM"/> structure becomes the left multiplicand,
+        /// and the data for the current transformation becomes the right multiplicand.)
+        /// <see cref="MWT_RIGHTMULTIPLY"/>:
+        /// Multiplies the current transformation by the data in the <see cref="XFORM"/> structure.
+        /// (The data in the XFORM structure becomes the right multiplicand,
+        /// and the data for the current transformation becomes the left multiplicand.)
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ModifyWorldTransform"/> function will fail unless graphics mode for the specified device context
+        /// has been set to <see cref="GM_ADVANCED"/> by previously calling the <see cref="SetGraphicsMode"/> function.
+        /// Likewise, it will not be possible to reset the graphics mode for the device context
+        /// to the default <see cref="GM_COMPATIBLE"/> mode, unless world transform has first been
+        /// reset to the default identity transform by calling <see cref="SetWorldTransform"/> or <see cref="ModifyWorldTransform"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ModifyWorldTransform", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ModifyWorldTransform([In] HDC hdc, [In] in XFORM lpxf, [In] DWORD mode);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="OffsetViewportOrgEx"/> function modifies the viewport origin for a device context using the specified horizontal and vertical offsets.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetviewportorgex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal offset, in device units.
+        /// </param>
+        /// <param name="y">
+        /// The vertical offset, in device units.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure.
+        /// The previous viewport origin, in device units, is placed in this structure.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous viewport origin is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL OffsetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1209,38 +1414,6 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         public static COLORREF PALETTERGB(byte r, byte g, byte b) => 0x02000000 | RGB(r, g, b);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="OffsetViewportOrgEx"/> function modifies the viewport origin for a device context using the specified horizontal and vertical offsets.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetviewportorgex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="x">
-        /// The horizontal offset, in device units.
-        /// </param>
-        /// <param name="y">
-        /// The vertical offset, in device units.
-        /// </param>
-        /// <param name="lppt">
-        /// A pointer to a <see cref="POINT"/> structure.
-        /// The previous viewport origin, in device units, is placed in this structure.
-        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous viewport origin is not returned.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OffsetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1363,6 +1536,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ScaleViewportExtEx"/> function modifies the viewport for a device context
+        /// using the ratios formed by the specified multiplicands and divisors.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scaleviewportextex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="xn">
+        /// The amount by which to multiply the current horizontal extent.
+        /// </param>
+        /// <param name="dx">
+        /// The amount by which to divide the current horizontal extent.
+        /// </param>
+        /// <param name="yn">
+        /// The amount by which to multiply the current vertical extent.
+        /// </param>
+        /// <param name="yd">
+        /// The amount by which to divide the current vertical extent.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The viewport extents are modified as follows:
+        ///  xNewVE = (xOldVE * Xnum) / Xdenom 
+        ///  yNewVE = (yOldVE* Ynum) / Ydenom
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ScaleViewportExtEx([In] HDC hdc, [In] int xn, [In] int dx, [In] int yn, [In] int yd, [In] in SIZE lpsz);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ScaleWindowExtEx"/> function modifies the window for a device context
         /// using the ratios formed by the specified multiplicands and divisors.
         /// </para>
@@ -1402,46 +1615,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScaleWindowExtEx([In] HDC hdc, [In] int xn, [In] int xd, [In] int yn, [In] int yd, [In] in SIZE lpsz);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="ScaleViewportExtEx"/> function modifies the viewport for a device context
-        /// using the ratios formed by the specified multiplicands and divisors.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scaleviewportextex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="xn">
-        /// The amount by which to multiply the current horizontal extent.
-        /// </param>
-        /// <param name="dx">
-        /// The amount by which to divide the current horizontal extent.
-        /// </param>
-        /// <param name="yn">
-        /// The amount by which to multiply the current vertical extent.
-        /// </param>
-        /// <param name="yd">
-        /// The amount by which to divide the current vertical extent.
-        /// </param>
-        /// <param name="lpsz">
-        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
-        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// The viewport extents are modified as follows:
-        ///  xNewVE = (xOldVE * Xnum) / Xdenom 
-        ///  yNewVE = (yOldVE* Ynum) / Ydenom
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleViewportExtEx([In] HDC hdc, [In] int xn, [In] int dx, [In] int yn, [In] int yd, [In] in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1537,6 +1710,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern BoundsAccumulationFlags SetBoundsRect([In] HDC hdc, [In] in RECT lprect, [In] BoundsAccumulationFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetColorAdjustment"/> function sets the color adjustment values for a device context (DC) using the specified values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setcoloradjustment"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpca">
+        /// A pointer to a <see cref="COLORADJUSTMENT"/> structure containing the color adjustment values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The color adjustment values are used to adjust the input color of the source bitmap
+        /// for calls to the <see cref="StretchBlt"/> and <see cref="StretchDIBits"/> functions when <see cref="HALFTONE"/> mode is set.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetColorAdjustment", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetColorAdjustment([In] HDC hdc, [In] in COLORADJUSTMENT lpca);
 
         /// <summary>
         /// <para>
@@ -1644,6 +1842,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetLayout"/> function changes the layout of a device context (DC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="l">
+        /// The DC layout. This parameter can be one or more of the following values.
+        /// <see cref="LAYOUT_BITMAPORIENTATIONPRESERVED"/>:
+        /// Disables any reflection during <see cref="BitBlt"/> and <see cref="StretchBlt"/> operations.
+        /// <see cref="LAYOUT_RTL"/>:
+        /// Sets the default horizontal layout to be right to left.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns the previous layout of the DC.
+        /// If the function fails, it returns <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The layout specifies the order in which text and graphics are revealed in a window or a device context.
+        /// The default is left to right.
+        /// The <see cref="SetLayout"/> function changes this to be right to left, which is the standard in Arabic and Hebrew cultures.
+        /// Once the <see cref="LAYOUT_RTL"/> flag is selected, flags normally specifying right or left are reversed.
+        /// To avoid confusion, consider defining alternate words for standard flags, such as those in the following table.
+        /// Standard flag                       Suggested alternate name
+        /// <see cref="WS_EX_RIGHT"/>           <see cref="WS_EX_TRAILING"/>
+        /// <see cref="WS_EX_RTLREADING"/>      <see cref="WS_EX_REVERSEREADING"/>
+        /// <see cref="WS_EX_LEFTSCROLLBAR"/>   <see cref="WS_EX_LEADSCROLLBAR"/>
+        /// <see cref="ES_LEFT"/>               <see cref="ES_LEAD"/>
+        /// <see cref="ES_RIGHT"/>              <see cref="ES_TRAIL"/>
+        /// <see cref="EC_LEFTMARGIN"/>         <see cref="EC_LEADMARGIN"/>
+        /// <see cref="EC_RIGHTMARGIN"/>        <see cref="EC_TRAILMARGIN"/>
+        /// <see cref="SetLayout"/> cannot modify drawing directly into the bits of a DIB.
+        /// For more information, see "Window Layout and Mirroring" in Window Features.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD SetLayout([In] HDC hdc, [In] DWORD l);
+
+        /// <summary>
+        /// <para>
         /// The SetMapMode function sets the mapping mode of the specified device context.
         /// The mapping mode defines the unit of measure used to transform page-space units into device-space units,
         /// and also defines the orientation of the device's x and y axes.
@@ -1691,6 +1931,124 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetMapMode([In] HDC hdc, [In] MappingModes iMode);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetMiterLimit"/> function sets the limit for the length of miter joins for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmiterlimit"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="limit">
+        /// Specifies the new miter limit for the device context.
+        /// </param>
+        /// <param name="old">
+        /// Pointer to a floating-point value that receives the previous miter limit.
+        /// If this parameter is <see cref="NullRef{FLOAT}"/>, the previous miter limit is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The miter length is defined as the distance from the intersection of the line walls
+        /// on the inside of the join to the intersection of the line walls on the outside of the join.
+        /// The miter limit is the maximum allowed ratio of the miter length to the line width.
+        /// The default miter limit is 10.0.
+        /// Note
+        /// Setting eNewLimit to a float value less than 1.0f will cause the function to fail.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMiterLimit", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMiterLimit([In] HDC hdc, [In] FLOAT limit, [Out] out FLOAT old);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetViewportExtEx"/> function sets the horizontal and vertical extents of the viewport for a device context
+        /// by using the specified values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportextex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal extent, in device units, of the viewport.
+        /// </param>
+        /// <param name="y">
+        /// The vertical extent, in device units, of the viewport.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The viewport refers to the device coordinate system of the device space.
+        /// The extent is the maximum value of an axis.
+        /// This function sets the maximum values for the horizontal and vertical axes of the viewport in device coordinates (or pixels).
+        /// When mapping between page space and device space, <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/>
+        /// determine the scaling factor between the window and the viewport.
+        /// For more information, see Transformation of Coordinate Spaces.
+        /// When the following mapping modes are set, calls to the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions are ignored.
+        /// <see cref="MM_HIENGLISH"/>, <see cref="MM_HIMETRIC"/>, <see cref="MM_LOENGLISH"/>, <see cref="MM_LOMETRIC"/>,
+        /// <see cref="MM_TEXT"/>, <see cref="MM_TWIPS"/>
+        /// When <see cref="MM_ISOTROPIC"/> mode is set, an application must call the <see cref="SetWindowExtEx"/> function
+        /// before it calls <see cref="SetViewportExtEx"/>.
+        /// Note that for the <see cref="MM_ISOTROPIC"/> mode certain portions of a nonsquare screen may not be available for display
+        /// because the logical units on both axes represent equal physical distances.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportExtEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [In] in SIZE lpsz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetViewportOrgEx"/> function specifies which device point maps to the window origin (0,0).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportorgex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in device units, of the new viewport origin.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in device units, of the new viewport origin.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the previous viewport origin, in device coordinates.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function (along with <see cref="SetViewportExtEx"/> and <see cref="SetWindowExtEx"/>) helps define the mapping
+        /// from the logical coordinate space (also known as a window) to the device coordinate space (the viewport).
+        /// <see cref="SetViewportOrgEx"/> specifies which device point maps to the logical point (0,0).
+        /// It has the effect of shifting the axes so that the logical point (0,0) no longer refers to the upper-left corner.
+        /// <code>
+        /// //map the logical point (0,0) to the device point (xViewOrg, yViewOrg)
+        /// SetViewportOrgEx(hdc, xViewOrg, yViewOrg, NULL)
+        /// </code>
+        /// This is related to the <see cref="SetWindowOrgEx"/> function.
+        /// Generally, you will use one function or the other, but not both.
+        /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1778,88 +2136,51 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="SetViewportExtEx"/> function sets the horizontal and vertical extents of the viewport for a device context
-        /// by using the specified values.
+        /// The <see cref="SetWorldTransform"/> function sets a two-dimensional linear transformation
+        /// between world space and page space for the specified device context.
+        /// This transformation can be used to scale, rotate, shear, or translate graphics output.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportextex"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setworldtransform"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
         /// A handle to the device context.
         /// </param>
-        /// <param name="x">
-        /// The horizontal extent, in device units, of the viewport.
-        /// </param>
-        /// <param name="y">
-        /// The vertical extent, in device units, of the viewport.
-        /// </param>
-        /// <param name="lpsz">
-        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
-        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// <param name="lpxf">
+        /// A pointer to an <see cref="XFORM"/> structure that contains the transformation data.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// The viewport refers to the device coordinate system of the device space.
-        /// The extent is the maximum value of an axis.
-        /// This function sets the maximum values for the horizontal and vertical axes of the viewport in device coordinates (or pixels).
-        /// When mapping between page space and device space, <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/>
-        /// determine the scaling factor between the window and the viewport.
-        /// For more information, see Transformation of Coordinate Spaces.
-        /// When the following mapping modes are set, calls to the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions are ignored.
-        /// <see cref="MM_HIENGLISH"/>, <see cref="MM_HIMETRIC"/>, <see cref="MM_LOENGLISH"/>, <see cref="MM_LOMETRIC"/>,
-        /// <see cref="MM_TEXT"/>, <see cref="MM_TWIPS"/>
-        /// When <see cref="MM_ISOTROPIC"/> mode is set, an application must call the <see cref="SetWindowExtEx"/> function
-        /// before it calls <see cref="SetViewportExtEx"/>.
-        /// Note that for the <see cref="MM_ISOTROPIC"/> mode certain portions of a nonsquare screen may not be available for display
-        /// because the logical units on both axes represent equal physical distances.
+        /// Below is the transformation matrix (note that the digits in the element notation are 1-based column number
+        /// followed by 1-based row number, rather than the reverse).
+        /// | eM11 eM21 eDx |
+        /// | eM12 eM22 eDy |
+        /// | 0    0    1   |
+        /// So for any coordinates (x, y) in world space, the transformed coordinates
+        /// in page space (x', y') can be determined in the way shown below.
+        /// | x' |   | eM11 eM21 eDx |   | x |   
+        /// | y' | = | eM12 eM22 eDy | . | y |
+        /// | 1  |   | 0    0    1   |   | 1 |
+        /// 
+        /// x' = x * eM11 + y * eM21 + eDx
+        /// y' = x * eM12 + y * eM22 + eDy
+        /// This function uses logical units.
+        /// The world transformation is usually used to scale or rotate logical images in a device-independent way.
+        /// The default world transformation is the identity matrix with zero offset.
+        /// The <see cref="SetWorldTransform"/> function will fail unless the graphics mode
+        /// for the given device context has been set to <see cref="GM_ADVANCED"/>
+        /// by previously calling the <see cref="SetGraphicsMode"/> function.
+        /// Likewise, it will not be possible to reset the graphics mode
+        /// for the device context to the default <see cref="GM_COMPATIBLE"/> mode,
+        /// unless the world transformation has first been reset to
+        /// the default identity transformation by calling <see cref="SetWorldTransform"/> or <see cref="ModifyWorldTransform"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [In] in SIZE lpsz);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="SetViewportOrgEx"/> function specifies which device point maps to the window origin (0,0).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportorgex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="x">
-        /// The x-coordinate, in device units, of the new viewport origin.
-        /// </param>
-        /// <param name="y">
-        /// The y-coordinate, in device units, of the new viewport origin.
-        /// </param>
-        /// <param name="lppt">
-        /// A pointer to a <see cref="POINT"/> structure that receives the previous viewport origin, in device coordinates.
-        /// If <paramref name="lppt"/> is <see langword="null"/>, this parameter is not used.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function (along with <see cref="SetViewportExtEx"/> and <see cref="SetWindowExtEx"/>) helps define the mapping
-        /// from the logical coordinate space (also known as a window) to the device coordinate space (the viewport).
-        /// <see cref="SetViewportOrgEx"/> specifies which device point maps to the logical point (0,0).
-        /// It has the effect of shifting the axes so that the logical point (0,0) no longer refers to the upper-left corner.
-        /// <code>
-        /// //map the logical point (0,0) to the device point (xViewOrg, yViewOrg)
-        /// SetViewportOrgEx(hdc, xViewOrg, yViewOrg, NULL)
-        /// </code>
-        /// This is related to the <see cref="SetWindowOrgEx"/> function.
-        /// Generally, you will use one function or the other, but not both.
-        /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWorldTransform", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWorldTransform([In] HDC hdc, [In] in XFORM lpxf);
 
         /// <summary>
         /// <para>

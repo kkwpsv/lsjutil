@@ -360,8 +360,7 @@ namespace Lsj.Util.Win32
         /// <see cref="RealizePalette"/> must be called again to set the new logical palette into the surface.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPaletteEntries", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SetPaletteEntries([In] HPALETTE hpal, [In] UINT iStart, [In] UINT cEntries,
-            [MarshalAs(UnmanagedType.LPArray)][In] PALETTEENTRY[] pPalEntries);
+        public static extern UINT SetPaletteEntries([In] HPALETTE hpal, [In] UINT iStart, [In] UINT cEntries, [In] PALETTEENTRY[] pPalEntries);
 
         /// <summary>
         /// <para>

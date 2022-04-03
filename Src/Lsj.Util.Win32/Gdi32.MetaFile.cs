@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -521,6 +522,184 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetEnhMetaFile"/> function creates a handle that identifies the enhanced-format metafile stored in the specified file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// A pointer to a null-terminated string that specifies the name of an enhanced metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the application no longer needs an enhanced-metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// A Windows-format metafile must be converted to the enhanced format before it can be processed by the <see cref="GetEnhMetaFile"/> function.
+        /// To convert the file, use the <see cref="SetWinMetaFileBits"/> function.
+        /// Where text arguments must use Unicode characters, use this function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE GetEnhMetaFile([In] LPWSTR lpName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetEnhMetaFileBits"/> function retrieves the contents
+        /// of the specified enhanced-format metafile and copies them into a buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilebits"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hEMF">
+        /// A handle to the enhanced metafile.
+        /// </param>
+        /// <param name="nSize">
+        /// The size, in bytes, of the buffer to receive the data.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a buffer that receives the metafile data.
+        /// The buffer must be sufficiently large to contain the data.
+        /// If <paramref name="lpData"/> is <see langword="null"/>, the function returns the size necessary to hold the data.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the buffer pointer is <see langword="null"/>,
+        /// the return value is the size of the enhanced metafile, in bytes.
+        /// If the function succeeds and the buffer pointer is a valid pointer,
+        /// the return value is the number of bytes copied to the buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// After the enhanced-metafile bits are retrieved, they can be used to
+        /// create a memory-based metafile by calling the <see cref="SetEnhMetaFileBits"/> function.
+        /// The <see cref="GetEnhMetaFileBits"/> function does not invalidate the enhanced-metafile handle.
+        /// The application must call the <see cref="DeleteEnhMetaFile"/> function to delete the handle when it is no longer needed.
+        /// The metafile contents retrieved by this function are in the enhanced format.
+        /// To retrieve the metafile contents in the Windows format, use the <see cref="GetWinMetaFileBits"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetEnhMetaFileBits([In] HENHMETAFILE hEMF, [In] UINT nSize, [Out] BYTE[] lpData);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetEnhMetaFileDescription"/> function retrieves an optional text description
+        /// from an enhanced-format metafile and copies the string to the specified buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafiledescriptionw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hemf">
+        /// A handle to the enhanced metafile.
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size, in characters, of the buffer to receive the data. Only this many characters will be copied.
+        /// </param>
+        /// <param name="lpDescription">
+        /// A pointer to a buffer that receives the optional text description.
+        /// </param>
+        /// <returns>
+        /// If the optional text description exists and the buffer pointer is <see cref="NULL"/>,
+        /// the return value is the length of the text string, in characters.
+        /// If the optional text description exists and the buffer pointer is a valid pointer,
+        /// the return value is the number of characters copied into the buffer.
+        /// If the optional text description does not exist, the return value is zero.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The optional text description contains two strings, the first identifying the application
+        /// that created the enhanced metafile and the second identifying the picture contained in the metafile.
+        /// The strings are separated by a null character and terminated with two null characters,
+        /// for example, "XYZ Graphics Editor\0Bald Eagle\0\0" where \0 represents the null character.
+        /// Where text arguments must use Unicode characters, use this function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileDescriptionW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetEnhMetaFileDescription([In] HENHMETAFILE hemf, [In] UINT cchBuffer, [In] LPWSTR lpDescription);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetEnhMetaFileHeader"/> function retrieves the record
+        /// containing the header for the specified enhanced-format metafile.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafileheader"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hemf">
+        /// A handle to the enhanced metafile for which the header is to be retrieved.
+        /// </param>
+        /// <param name="nSize">
+        /// The size, in bytes, of the buffer to receive the data. Only this many bytes will be copied.
+        /// </param>
+        /// <param name="lpEnhMetaHeader">
+        /// A pointer to an <see cref="ENHMETAHEADER"/> structure that receives the header record.
+        /// If this parameter is <see cref="NullRef{ENHMETAHEADER}"/>, the function returns the size of the header record.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the structure pointer is <see cref="NullRef{ENHMETAHEADER}"/>,
+        /// the return value is the size of the record that contains the header;
+        /// if the structure pointer is a valid pointer, the return value is the number of bytes copied.
+        /// Otherwise, it is zero.
+        /// </returns>
+        /// <remarks>
+        /// An enhanced-metafile header contains such information as the metafile's size, in bytes;
+        /// the dimensions of the picture stored in the metafile; the number of records stored in the metafile;
+        /// the offset to the optional text description; the size of the optional palette,
+        /// and the resolution of the device on which the picture was created.
+        /// The record that contains the enhanced-metafile header is always the first record in the metafile.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileHeader", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetEnhMetaFileHeader([In] HENHMETAFILE hemf, [In] UINT nSize, [Out] out ENHMETAHEADER lpEnhMetaHeader);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetEnhMetaFilePaletteEntries"/> function retrieves optional palette entries from the specified enhanced metafile.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilepaletteentries"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hemf">
+        /// A handle to the enhanced metafile.
+        /// </param>
+        /// <param name="nNumEntries">
+        /// The number of entries to be retrieved from the optional palette.
+        /// </param>
+        /// <param name="lpPaletteEntries">
+        /// A pointer to an array of <see cref="PALETTEENTRY"/> structures that receives the palette colors.
+        /// The array must contain at least as many structures as there are entries specified by the <paramref name="nNumEntries"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the array pointer is <see langword="null"/> and the enhanced metafile contains an optional palette,
+        /// the return value is the number of entries in the enhanced metafile's palette;
+        /// if the array pointer is a valid pointer and the enhanced metafile contains an optional palette,
+        /// the return value is the number of entries copied;
+        /// if the metafile does not contain an optional palette, the return value is zero.
+        /// Otherwise, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can store an optional palette in an enhanced metafile
+        /// by calling the <see cref="CreatePalette"/> and <see cref="SetPaletteEntries"/> functions
+        /// before creating the picture and storing it in the metafile.
+        /// By doing this, the application can achieve consistent colors when the picture is displayed on a variety of devices.
+        /// An application that displays a picture stored in an enhanced metafile
+        /// can call the <see cref="GetEnhMetaFilePaletteEntries"/> function to determine whether the optional palette exists.
+        /// If it does, the application can call the <see cref="GetEnhMetaFilePaletteEntries"/> function a second time
+        /// to retrieve the palette entries and then create a logical palette (by using the <see cref="CreatePalette"/> function),
+        /// select it into its device context (by using the <see cref="SelectPalette"/> function),
+        /// and then realize it (by using the <see cref="RealizePalette"/> function).
+        /// After the logical palette has been realized, calling the <see cref="PlayEnhMetaFile"/> function displays the picture using its original colors.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFilePaletteEntries", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetEnhMetaFilePaletteEntries([In] HENHMETAFILE hemf, [In] UINT nNumEntries, [Out] PALETTEENTRY[] lpPaletteEntries);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetMetaFile"/> function creates a handle that identifies the metafile stored in the specified file.
         /// </para>
         /// <para>
@@ -545,29 +724,193 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetEnhMetaFile"/> function creates a handle that identifies the enhanced-format metafile stored in the specified file.
+        /// The <see cref="GetMetaFileBitsEx"/> function retrieves the contents
+        /// of a Windows-format metafile and copies them into the specified buffer.
+        /// Note
+        /// This function is provided only for compatibility with Windows-format metafiles.
+        /// Enhanced-format metafiles provide superior functionality and are recommended for new applications.
+        /// The corresponding function for an enhanced-format metafile is <see cref="GetEnhMetaFileBits"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilew"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmetafilebitsex"/>
         /// </para>
         /// </summary>
-        /// <param name="lpName">
-        /// A pointer to a null-terminated string that specifies the name of an enhanced metafile.
+        /// <param name="hMF">
+        /// A handle to a Windows-format metafile.
+        /// </param>
+        /// <param name="cbBuffer">
+        /// The size, in bytes, of the buffer to receive the data.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a buffer that receives the metafile data.
+        /// The buffer must be sufficiently large to contain the data.
+        /// If <paramref name="lpData"/> is <see cref="NULL"/>, the function returns the number of bytes required to hold the data.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is a handle to the enhanced metafile.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// If the function succeeds and the buffer pointer is <see cref="NULL"/>, the return value is the number of bytes required for the buffer;
+        /// if the function succeeds and the buffer pointer is a valid pointer, the return value is the number of bytes copied.
+        /// If the function fails, the return value is zero.
         /// </returns>
         /// <remarks>
-        /// When the application no longer needs an enhanced-metafile handle,
-        /// it should delete the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
-        /// A Windows-format metafile must be converted to the enhanced format before it can be processed by the <see cref="GetEnhMetaFile"/> function.
-        /// To convert the file, use the <see cref="SetWinMetaFileBits"/> function.
-        /// Where text arguments must use Unicode characters, use this function as a wide-character function.
-        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// After the Windows-metafile bits are retrieved, they can be used to
+        /// create a memory-based metafile by calling the <see cref="SetMetaFileBitsEx"/> function.
+        /// The <see cref="GetMetaFileBitsEx"/> function does not invalidate the metafile handle.
+        /// An application must delete this handle by calling the <see cref="DeleteMetaFile"/> function.
+        /// To convert a Windows-format metafile into an enhanced-format metafile, use the <see cref="SetWinMetaFileBits"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HENHMETAFILE GetEnhMetaFile([In] LPWSTR lpName);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaFileBitsEx", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetMetaFileBitsEx([In] HMETAFILE hMF, [In] UINT cbBuffer, [In] LPVOID lpData);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetMetaRgn"/> function retrieves the current metaregion for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmetargn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// A handle to an existing region before the function is called.
+        /// After the function returns, this parameter is a handle to a copy of the current metaregion.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// If the function succeeds, <paramref name="hrgn"/> is a handle to a copy of the current metaregion.
+        /// Subsequent changes to this copy will not affect the current metaregion.
+        /// The current clipping region of a device context is defined by the intersection of its clipping region and its metaregion.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetMetaRgn([In] HDC hdc, [In] HRGN hrgn);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetWinMetaFileBits"/> function converts the enhanced-format records
+        /// from a metafile into Windows-format records and stores the converted records in the specified buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwinmetafilebits"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hemf">
+        /// A handle to the enhanced metafile.
+        /// </param>
+        /// <param name="cbData16">
+        /// The size, in bytes, of the buffer into which the converted records are to be copied.
+        /// </param>
+        /// <param name="pData16">
+        /// A pointer to the buffer that receives the converted records.
+        /// If lpbBuffer is NULL, <see cref="GetWinMetaFileBits"/> returns the number of bytes required to store the converted metafile records.
+        /// </param>
+        /// <param name="iMapMode">
+        /// The mapping mode to use in the converted metafile.
+        /// </param>
+        /// <param name="hdcRef">
+        /// A handle to the reference device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the buffer pointer is NULL,
+        /// the return value is the number of bytes required to store the converted records;
+        /// if the function succeeds and the buffer pointer is a valid pointer,
+        /// the return value is the size of the metafile data in bytes.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// This function converts an enhanced metafile into a Windows-format metafile
+        /// so that its picture can be displayed in an application that recognizes the older format.
+        /// The system uses the reference device context to determine the resolution of the converted metafile.
+        /// The <see cref="GetWinMetaFileBits"/> function does not invalidate the enhanced metafile handle.
+        /// An application should call the <see cref="DeleteEnhMetaFile"/> function to release the handle when it is no longer needed.
+        /// To create a scalable Windows-format metafile, specify <see cref="MM_ANISOTROPIC"/> as the fnMapMode parameter.
+        /// The upper-left corner of the metafile picture is always mapped to the origin of the reference device.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWinMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetWinMetaFileBits([In] HENHMETAFILE hemf, [In] UINT cbData16,
+            [Out] BYTE[] pData16, [In] INT iMapMode, [In] HDC hdcRef);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PlayEnhMetaFile"/> function displays the picture stored in the specified enhanced-format metafile.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playenhmetafile"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context for the output device on which the picture will appear.
+        /// </param>
+        /// <param name="hmf">
+        /// A handle to the enhanced metafile.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the coordinates of the bounding rectangle used to display the picture.
+        /// The coordinates are specified in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// When an application calls the <see cref="PlayEnhMetaFile"/> function,
+        /// the system uses the picture frame in the enhanced-metafile header to map the picture
+        /// onto the rectangle pointed to by the <paramref name="lprect"/> parameter.
+        /// (This picture may be sheared or rotated by setting the world transform in the output device before calling <see cref="PlayEnhMetaFile"/>.)
+        /// Points along the edges of the rectangle are included in the picture.
+        /// An enhanced-metafile picture can be clipped by defining the clipping region in the output device before playing the enhanced metafile.
+        /// If an enhanced metafile contains an optional palette, an application can achieve consistent colors
+        /// by setting up a color palette on the output device before calling <see cref="PlayEnhMetaFile"/>.
+        /// To retrieve the optional palette, use the <see cref="GetEnhMetaFilePaletteEntries"/> function.
+        /// An enhanced metafile can be embedded in a newly created enhanced metafile
+        /// by calling <see cref="PlayEnhMetaFile"/> and playing the source enhanced metafile into the device context for the new enhanced metafile.
+        /// The states of the output device context are preserved by this function.
+        /// Any object created but not deleted in the enhanced metafile is deleted by this function.
+        /// To stop this function, an application can call the <see cref="CancelDC"/> function from another thread to terminate the operation.
+        /// In this case, the function returns <see cref="FALSE"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayEnhMetaFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PlayEnhMetaFile([In] HDC hdc, [In] HENHMETAFILE hmf, [In] in RECT lprect);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PlayEnhMetaFileRecord"/> function plays an enhanced-metafile record
+        /// by executing the graphics device interface (GDI) functions identified by the record.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playenhmetafilerecord"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context passed to the <see cref="EnumEnhMetaFile"/> function.
+        /// </param>
+        /// <param name="pht">
+        /// A pointer to a table of handles to GDI objects used when playing the metafile.
+        /// The first entry in this table contains the enhanced-metafile handle.
+        /// </param>
+        /// <param name="pmr">
+        /// A pointer to the enhanced-metafile record to be played.
+        /// </param>
+        /// <param name="cht">
+        /// The number of handles in the handle table.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This is an enhanced-metafile function.
+        /// An application typically uses <see cref="PlayEnhMetaFileRecord"/> in conjunction
+        /// with the <see cref="EnumEnhMetaFile"/> function to process and play an enhanced-format metafile one record at a time.
+        /// The hdc, lpHandletable, and nHandles parameters must be exactly those
+        /// passed to the EnhMetaFileProc callback procedure by the <see cref="EnumEnhMetaFile"/> function.
+        /// If <see cref="PlayEnhMetaFileRecord"/> does not recognize a record, it ignores the record and returns <see cref="TRUE"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayEnhMetaFileRecord", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PlayEnhMetaFileRecord([In] HDC hdc, [In] in HANDLETABLE pht, [In] in ENHMETARECORD pmr, [In] UINT cht);
 
         /// <summary>
         /// <para>
@@ -642,6 +985,92 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFileRecord", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PlayMetaFileRecord([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] HGDIOBJ[] lpHandleTable,
             [In] in METARECORD lpMR, [In] UINT noObjs);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetEnhMetaFileBits"/> function creates a memory-based enhanced-format metafile from the specified data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setenhmetafilebits"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nSize">
+        /// Specifies the size, in bytes, of the data provided.
+        /// </param>
+        /// <param name="pb">
+        /// Pointer to a buffer that contains enhanced-metafile data.
+        /// (It is assumed that the data in the buffer was obtained by calling the <see cref="GetEnhMetaFileBits"/> function.)
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a memory-based enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the application no longer needs the enhanced-metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// The <see cref="SetEnhMetaFileBits"/> function does not accept metafile data in the Windows format.
+        /// To import Windows-format metafiles, use the <see cref="SetWinMetaFileBits"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnhMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE SetEnhMetaFileBits([In] UINT nSize, [In] BYTE[] pb);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetMetaFileBitsEx"/> function creates a memory-based Windows-format metafile from the supplied data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmetafilebitsex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="cbBuffer">
+        /// Specifies the size, in bytes, of the Windows-format metafile.
+        /// </param>
+        /// <param name="lpData">
+        /// Pointer to a buffer that contains the Windows-format metafile.
+        /// (It is assumed that the data was obtained by using the <see cref="GetMetaFileBitsEx"/> function.)
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a memory-based Windows-format metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// To convert a Windows-format metafile into an enhanced-format metafile, use the <see cref="SetWinMetaFileBits"/> function.
+        /// When the application no longer needs the metafile handle returned by <see cref="SetMetaFileBitsEx"/>,
+        /// it should delete it by calling the <see cref="DeleteMetaFile"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles. " +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications. " +
+            "The corresponding function for an enhanced-format metafile is SetEnhMetaFileBits.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnhMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        public static extern HMETAFILE SetMetaFileBitsEx([In] UINT cbBuffer, [In] BYTE[] lpData);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetMetaRgn"/> function intersects the current clipping region for the specified device context
+        /// with the current metaregion and saves the combined region as the new metaregion for the specified device context.
+        /// The clipping region is reset to a null region.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmetargn"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the new clipping region's complexity and can be one of the following values.
+        /// <see cref="NULLREGION"/>: Region is empty.
+        /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: Region is more than one rectangle.
+        /// <see cref="ERROR"/>: An error occurred. (The previous clipping region is unaffected.)
+        /// </returns>
+        /// <remarks>
+        /// The current clipping region of a device context is defined by the intersection of its clipping region and its metaregion.
+        /// The <see cref="SetMetaRgn"/> function should only be called
+        /// after an application's original device context was saved by calling the <see cref="SaveDC"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMetaRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern RegionFlags SetMetaRgn([In] HDC hdc);
 
         /// <summary>
         /// <para>

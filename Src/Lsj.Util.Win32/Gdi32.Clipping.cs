@@ -279,6 +279,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SelectClipPath"/> function selects the current path as a clipping region for a device context,
+        /// combining the new region with any existing clipping region using the specified mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectclippath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context of the path.
+        /// </param>
+        /// <param name="mode">
+        /// The way to use the path. This parameter can be one of the following values.
+        /// <see cref="RGN_AND"/>:
+        /// The new clipping region includes the intersection (overlapping areas) of the current clipping region and the current path.
+        /// <see cref="RGN_COPY"/>:
+        /// The new clipping region is the current path.
+        /// <see cref="RGN_DIFF"/>:
+        /// The new clipping region includes the areas of the current clipping region with those of the current path excluded.
+        /// <see cref="RGN_OR"/>:
+        /// The new clipping region includes the union (combined areas) of the current clipping region and the current path.
+        /// <see cref="RGN_XOR"/>:
+        /// The new clipping region includes the union of the current clipping region and the current path but without the overlapping areas.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SelectClipPath([In] HDC hdc, [In] CombineRgnModes mode);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectClipRgn"/> function selects a region as the current clipping region for the specified device context.
         /// </para>
         /// <para>

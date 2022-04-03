@@ -761,8 +761,74 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentExPointW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetTextExtentExPoint([In] HDC hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpszString, [In] int cchString,
-            [In] int nMaxExtent, [Out] out INT lpnFit, [MarshalAs(UnmanagedType.LPArray)][Out] INT[] lpnDx, [Out] out SIZE lpSize);
+        public static extern BOOL GetTextExtentExPoint([In] HDC hdc, [In] LPCWSTR lpszString, [In] int cchString,
+            [In] int nMaxExtent, [Out] out INT lpnFit, [Out] INT[] lpnDx, [Out] out SIZE lpSize);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTextExtentExPointI"/> function retrieves the number of characters in a specified string
+        /// that will fit within a specified space and fills an array with the text extent for each of those characters.
+        /// (A text extent is the distance between the beginning of the space and a character that will fit in the space.)
+        /// This information is useful for word-wrapping calculations.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentexpointi"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpwszString">
+        /// A pointer to an array of glyph indices for which extents are to be retrieved.
+        /// </param>
+        /// <param name="cwchString">
+        /// The number of glyphs in the array pointed to by the pgiIn parameter.
+        /// </param>
+        /// <param name="nMaxExtent">
+        /// The maximum allowable width, in logical units, of the formatted string.
+        /// </param>
+        /// <param name="lpnFit">
+        /// A pointer to an integer that receives a count of the maximum number of characters
+        /// that will fit in the space specified by the <paramref name="nMaxExtent"/> parameter.
+        /// When the <paramref name="lpnFit"/> parameter is <see cref="NullRef{INT}"/>,
+        /// the <paramref name="nMaxExtent"/> parameter is ignored.
+        /// </param>
+        /// <param name="lpnDx">
+        /// A pointer to an array of integers that receives partial glyph extents.
+        /// Each element in the array gives the distance, in logical units,
+        /// between the beginning of the glyph indices array and one of the glyphs
+        /// that fits in the space specified by the <paramref name="nMaxExtent"/> parameter.
+        /// Although this array should have at least as many elements as glyph indices specified by the cgi parameter, 
+        /// the function fills the array with extents only for as many glyph indices as
+        /// are specified by the <paramref name="lpnFit"/> parameter.
+        /// If <paramref name="lpnFit"/> is <see cref="NullRef{INT}"/>, the function does not compute partial string widths.
+        /// </param>
+        /// <param name="lpSize">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the glyph indices array, in logical units.
+        /// This value cannot be <see cref="NullRef{SIZE}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If both the <paramref name="lpnFit"/> and <paramref name="lpnDx"/> parameters are <see cref="NULL"/>,
+        /// calling the <see cref="GetTextExtentExPointI"/> function is equivalent to calling the <see cref="GetTextExtentPointI"/> function.
+        /// When this function returns the text extent, it assumes that the text is horizontal, that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text.
+        /// Even if you use a font that specifies a nonzero escapement,
+        /// this function doesn't use the angle while it computes the text extent. The app must convert it explicitly.
+        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/>
+        /// and the character orientation is 90 degrees from the print orientation, 
+        /// the values that this function return do not follow this rule.
+        /// When the character orientation and the print orientation match for a given string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
+        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentExPointI", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetTextExtentExPointI([In] HDC hdc, [In] WORD[] lpwszString, [In] int cwchString,
+            [In] int nMaxExtent, [Out] out INT lpnFit, [Out] INT[] lpnDx, [Out] out SIZE lpSize);
 
         /// <summary>
         /// <para>
@@ -802,7 +868,157 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should call the GetTextExtentPoint32 function, which provides more accurate results.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetTextExtentPoint([In] HDC hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, [In] int c, [Out] out SIZE lpsz);
+        public static extern BOOL GetTextExtentPoint([In] HDC hdc, [In] LPCWSTR lpString, [In] int c, [Out] out SIZE lpsz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpoint32w"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to a buffer that specifies the text string.
+        /// The string does not need to be null-terminated, because the c parameter specifies the length of the string.
+        /// </param>
+        /// <param name="c">
+        /// The length of the string pointed to by <paramref name="lpString"/>.
+        /// </param>
+        /// <param name="psizl">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTextExtentPoint32"/> function uses the currently selected font to compute the dimensions of the string.
+        /// The width and height, in logical units, are computed without considering any clipping.
+        /// Because some devices kern characters, the sum of the extents of the characters in a string may not be equal to the extent of the string.
+        /// The calculated string width takes into account the intercharacter spacing
+        /// set by the <see cref="SetTextCharacterExtra"/> function and the justification set by <see cref="SetTextJustification"/>.
+        /// This is true for both displaying on a screen and for printing.
+        /// However, if lpDx is set in <see cref="ExtTextOut"/>,
+        /// <see cref="GetTextExtentPoint32"/> does not take into account either intercharacter spacing or justification.
+        /// In addition, for EMF, the print result always takes both intercharacter spacing and justification into account.
+        /// When dealing with text displayed on a screen, the calculated string width takes into
+        /// account the intercharacter spacing set by the <see cref="SetTextCharacterExtra"/> function
+        /// and the justification set by <see cref="SetTextJustification"/>.
+        /// However, if lpDx is set in <see cref="ExtTextOut"/>, <see cref="GetTextExtentPoint32"/> does not take into
+        /// account either intercharacter spacing or justification.
+        /// However, when printing with EMF:
+        /// The print result ignores intercharacter spacing, although <see cref="GetTextExtentPoint32"/> takes it into account.
+        /// The print result takes justification into account, although <see cref="GetTextExtentPoint32"/> ignores it.
+        /// When this function returns the text extent, it assumes that the text is horizontal,
+        /// that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text.
+        /// Even if you use a font that specifies a nonzero escapement,
+        /// this function doesn't use the angle while it computes the text extent.
+        /// The app must convert it explicitly.
+        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/> and the character orientation
+        /// is 90 degrees from the print orientation, the values that this function return do not follow this rule.
+        /// When the character orientation and the print orientation match for a given string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
+        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
+        /// <see cref="GetTextExtentPoint32"/> doesn't consider "\n" (new line) or "\r\n" (carriage return and new line) characters
+        /// when it computes the height of a text string.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetTextExtentPoint32([In] HDC hdc, [In] LPCWSTR lpString, [In] int c, [Out] out SIZE psizl);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTextExtentPointI"/> function computes the width and height of the specified array of glyph indices.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpointi"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="pgiIn">
+        /// Pointer to array of glyph indices.
+        /// </param>
+        /// <param name="cgi">
+        /// Specifies the number of glyph indices.
+        /// </param>
+        /// <param name="psize">
+        /// Pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTextExtentPointI"/> function uses the currently
+        /// selected font to compute the dimensions of the array of glyph indices.
+        /// The width and height, in logical units, are computed without considering any clipping.
+        /// When this function returns the text extent, it assumes that the text is horizontal, that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text.
+        /// Even if you use a font that specifies a nonzero escapement,
+        /// this function doesn't use the angle while it computes the text extent.
+        /// The app must convert it explicitly.
+        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/>
+        /// and the character orientation is 90 degrees from the print orientation,
+        /// the values that this function return do not follow this rule.
+        /// When the character orientation and the print orientation match for a given string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
+        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
+        /// Because some devices kern characters, the sum of the extents of the individual glyph indices
+        /// may not be equal to the extent of the entire array of glyph indices.
+        /// The calculated string width takes into account the intercharacter spacing
+        /// set by the <see cref="SetTextCharacterExtra"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointI", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetTextExtentPointI([In] HDC hdc, [In] in WORD[] pgiIn, [In] int cgi, [Out] out SIZE psize);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PolyTextOut"/> function draws several strings
+        /// using the font and text colors currently selected in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polytextoutw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="ppt">
+        /// A pointer to an array of <see cref="POLYTEXT"/> structures describing the strings to be drawn.
+        /// The array contains one structure for each string to be drawn.
+        /// </param>
+        /// <param name="nstrings">
+        /// The number of <see cref="POLYTEXT"/> structures in the pptxt array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each <see cref="POLYTEXT"/> structure contains the coordinates of a reference point
+        /// that Windows uses to align the corresponding string of text.
+        /// An application can specify how the reference point is used by calling the <see cref="SetTextAlign"/> function.
+        /// An application can determine the current text-alignment setting
+        /// for the specified device context by calling the <see cref="GetTextAlign"/> function.
+        /// To draw a single string of text, the application should call the <see cref="ExtTextOut"/> function.
+        /// <see cref="PolyTextOut"/> will not handle international scripting support automatically.
+        /// To get international scripting support, use <see cref="ExtTextOut"/> instead.
+        /// <see cref="ExtTextOut"/> will use Uniscribe when necessary resulting in font fallback.
+        /// Additionally, ExtTextOut will perform internal batching of calls before transitioning to kernel mode,
+        /// mitigating some of the performance concerns when weighing usage of <see cref="PolyTextOut"/> versus <see cref="ExtTextOut"/>.
+        /// <see cref="ExtTextOut"/> is strongly recommended over <see cref="PolyTextOut"/> for modern development
+        /// due to its ability to handle display of different languages.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyTextOutW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolyTextOut([In] HDC hdc, [In] in POLYTEXT[] ppt, [In] int nstrings);
 
         /// <summary>
         /// <para>
@@ -913,6 +1129,31 @@ namespace Lsj.Util.Win32
         public static extern TextAlignments SetTextAlign([In] HDC hdc, [In] TextAlignments align);
 
         /// <summary>
+        /// The <see cref="SetTextCharacterExtra"/> function sets the intercharacter spacing.
+        /// Intercharacter spacing is added to each character, including break characters, when the system writes a line of text.
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="extra">
+        /// The amount of extra space, in logical units, to be added to each character.
+        /// If the current mapping mode is not <see cref="MM_TEXT"/>, the nCharExtra parameter is transformed and rounded to the nearest pixel.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous intercharacter spacing.
+        /// If the function fails, the return value is 0x80000000.
+        /// </returns>
+        /// <remarks>
+        /// This function is supported mainly for compatibility with existing applications.
+        /// New applications should generally avoid calling this function, because it is incompatible with complex scripts
+        /// (scripts that require text shaping; Arabic script is an example of this).
+        /// The recommended approach is that instead of calling this function and then <see cref="TextOut"/>,
+        /// applications should call <see cref="ExtTextOut"/> and use its lpDx parameter to supply widths.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetTextCharacterExtra([In] HDC hdc, [In] int extra);
+
+        /// <summary>
         /// <para>
         /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
         /// </para>
@@ -936,31 +1177,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetTextColor([In] HDC hdc, [In] COLORREF color);
-
-        /// <summary>
-        /// The SetTextCharacterExtra function sets the intercharacter spacing.
-        /// Intercharacter spacing is added to each character, including break characters, when the system writes a line of text.
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="extra">
-        /// The amount of extra space, in logical units, to be added to each character.
-        /// If the current mapping mode is not <see cref="MM_TEXT"/>, the nCharExtra parameter is transformed and rounded to the nearest pixel.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the previous intercharacter spacing.
-        /// If the function fails, the return value is 0x80000000.
-        /// </returns>
-        /// <remarks>
-        /// This function is supported mainly for compatibility with existing applications.
-        /// New applications should generally avoid calling this function, because it is incompatible with complex scripts
-        /// (scripts that require text shaping; Arabic script is an example of this).
-        /// The recommended approach is that instead of calling this function and then <see cref="TextOut"/>,
-        /// applications should call <see cref="ExtTextOut"/> and use its lpDx parameter to supply widths.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetTextCharacterExtra([In] HDC hdc, [In] int extra);
 
         /// <summary>
         /// <para>

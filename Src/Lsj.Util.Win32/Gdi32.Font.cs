@@ -835,6 +835,116 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetFontLanguageInfo"/> function returns information
+        /// about the currently selected font for the specified display context.
+        /// Applications typically use this information and the <see cref="GetCharacterPlacement"/> function to prepare a character string for display.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getfontlanguageinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">Handle to a display device context.</param>
+        /// <returns>
+        /// The return value identifies characteristics of the currently selected font.
+        /// The function returns 0 if the font is "normalized" and can be treated as a simple Latin font;
+        /// it returns <see cref="GCP_ERROR"/> if an error occurs.
+        /// Otherwise, the function returns a combination of the following values.
+        /// <see cref="GCP_DBCS"/>:
+        /// The character set is DBCS.
+        /// <see cref="GCP_DIACRITIC"/>:
+        /// The font/language contains diacritic glyphs.
+        /// <see cref="FLI_GLYPHS"/>:
+        /// The font contains extra glyphs not normally accessible using the code page.
+        /// Use <see cref="GetCharacterPlacement"/> to access the glyphs.
+        /// This value is for information only and is not intended to be passed to <see cref="GetCharacterPlacement"/>.
+        /// <see cref="GCP_GLYPHSHAPE"/>:
+        /// The font/language contains multiple glyphs per code point or per code point combination (supports shaping and/or ligation),
+        /// and the font contains advanced glyph tables to provide extra glyphs for the extra shapes.
+        /// If this value is specified, the lpGlyphs array must be used with the <see cref="GetCharacterPlacement"/> function
+        /// and the <see cref="ETO_GLYPHINDEX"/> value must be passed to the <see cref="ExtTextOut"/> function when the string is drawn.
+        /// <see cref="GCP_KASHIDA"/>:
+        /// The font/ language permits Kashidas.
+        /// <see cref="GCP_LIGATE"/>:
+        /// The font/language contains ligation glyphs which can be substituted for specific character combinations.
+        /// <see cref="GCP_USEKERNING"/>:
+        /// The font contains a kerning table which can be used to provide better spacing between the characters and glyphs.
+        /// <see cref="GCP_REORDER"/>:
+        /// The language requires reordering for display for example, Hebrew or Arabic.
+        /// The return value, when masked with <see cref="FLI_MASK"/>, can be passed directly to the <see cref="GetCharacterPlacement"/> function.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontLanguageInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern GetCharacterPlacementFlags GetFontLanguageInfo([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetFontUnicodeRanges"/> function returns information about which Unicode characters are supported by a font.
+        /// The information is returned as a <see cref="GLYPHSET"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getfontunicoderanges"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpgs">
+        /// A pointer to a <see cref="GLYPHSET"/> structure that receives the glyph set information.
+        /// If this parameter is <see cref="NullRef{GLYPHSET}"/>,
+        /// the function returns the size of the <see cref="GLYPHSET"/> structure required to store the information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns number of bytes written to the <see cref="GLYPHSET"/> structure or,
+        /// if the <paramref name="lpgs"/> parameter is <see cref="NullRef{GLYPHSET}"/>,
+        /// it returns the size of the <see cref="GLYPHSET"/> structure required to store the information.
+        /// If the function fails, it returns zero.
+        /// No extended error information is available.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontUnicodeRanges", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetFontUnicodeRanges([In] HDC hdc, [Out] out GLYPHSET lpgs);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetGlyphIndices"/> function translates a string into an array of glyph indices.
+        /// The function can be used to determine whether a glyph exists in a font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getglyphindicesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpstr">
+        /// A pointer to the string to be converted.
+        /// </param>
+        /// <param name="c">
+        /// The length of both the length of the string pointed to by <paramref name="lpstr"/>
+        /// and the size (in WORDs) of the buffer pointed to by <paramref name="pgi"/>.
+        /// </param>
+        /// <param name="pgi">
+        /// This buffer must be of dimension <paramref name="c"/>.
+        /// On successful return, contains an array of glyph indices corresponding to the characters in the string.
+        /// </param>
+        /// <param name="fl">
+        /// Specifies how glyphs should be handled if they are not supported.
+        /// This parameter can be the following value.
+        /// <see cref="GGI_MARK_NONEXISTING_GLYPHS"/>: Marks unsupported glyphs with the hexadecimal value 0xffff.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns the number of bytes (for the ANSI function) or WORDs (for the Unicode function) converted.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function attempts to identify a single-glyph representation
+        /// for each character in the string pointed to by <paramref name="lpstr"/>.
+        /// While this is useful for certain low-level purposes (such as manipulating font files),
+        /// higher-level applications that wish to map a string to glyphs will typically wish to use the Uniscribe functions.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphIndicesW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetGlyphIndices([In] HDC hdc, [In] LPCWSTR lpstr, [In] int c, [Out] WORD[] pgi, [In] DWORD fl);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetGlyphOutline"/> function retrieves the outline or bitmap for a character in the TrueType font
         /// that is selected into the specified device context.
         /// </para>
@@ -1029,7 +1139,7 @@ namespace Lsj.Util.Win32
         /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextFaceW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetTextFace([In] HDC hdc, [In] int c, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern int GetTextFace([In] HDC hdc, [In] int c, [In] LPWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -1057,6 +1167,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextMetricsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextMetrics([In] HDC hdc, [Out] out TEXTMETRIC lptm);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RemoveFontMemResourceEx"/> function removes the fonts added from a memory image file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontmemresourceex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the font-resource.
+        /// This handle is returned by the <see cref="AddFontMemResourceEx"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// This function removes a font that was added by the <see cref="AddFontMemResourceEx"/> function.
+        /// To remove the font, specify the same path and flags as were used in <see cref="AddFontMemResourceEx"/>.
+        /// This function will only remove the font that is specified by fh.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontMemResourceEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveFontMemResourceEx([In] HANDLE h);
 
         /// <summary>
         /// <para>
@@ -1089,7 +1224,7 @@ namespace Lsj.Util.Win32
         /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveFontResource([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern BOOL RemoveFontResource([In] LPCWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -1132,7 +1267,7 @@ namespace Lsj.Util.Win32
         /// as the call to <see cref="RemoveFontResourceEx"/> succeeded as shown in this example code.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] DWORD fl, [In] PVOID pdv);
+        public static extern BOOL RemoveFontResourceEx([In] LPCWSTR name, [In] DWORD fl, [In] PVOID pdv);
 
         /// <summary>
         /// <para>
