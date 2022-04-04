@@ -900,7 +900,7 @@ namespace Lsj.Util.Win32
         /// that specifies the handle check policy flags.
         /// <see cref="ProcessSystemCallDisablePolicy"/>:
         /// Disables the ability to use NTUser/GDI functions at the lowest layer.
-        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="qPROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
         /// that specifies the system call disable policy flags.
         /// <see cref="ProcessMitigationOptionsMask"/>:
         /// Returns the mask of valid bits for all the mitigation options on the system.
@@ -1607,7 +1607,7 @@ namespace Lsj.Util.Win32
         /// that specifies the handle check policy flags.
         /// <see cref="ProcessSystemCallDisablePolicy"/>:
         /// Disables the ability to use NTUser/GDI functions at the lowest layer.
-        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="qPROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
+        /// The <paramref name="lpBuffer"/> parameter points to a <see cref="PROCESS_MITIGATION_SYSTEM_CALL_DISABLE_POLICY"/> structure 
         /// that specifies the system call disable policy flags.
         /// <see cref="ProcessMitigationOptionsMask"/>:
         /// Returns the mask of valid bits for all the mitigation options on the system.

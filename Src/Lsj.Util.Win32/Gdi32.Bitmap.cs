@@ -20,6 +20,7 @@ using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Msimg32;
+using static Lsj.Util.Win32.Structs.BLENDFUNCTION;
 
 namespace Lsj.Util.Win32
 {
@@ -1392,7 +1393,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SetPixelV"/> is faster than <see cref="SetPixel"/>
         /// because it does not need to return the color value of the point actually painted.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixelV", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetPixelV([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
         /// <summary>

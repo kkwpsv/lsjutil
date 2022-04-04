@@ -19,6 +19,7 @@ using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 

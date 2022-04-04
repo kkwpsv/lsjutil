@@ -1360,7 +1360,7 @@ namespace Lsj.Util.Win32
         /// The heap summary options.
         /// </param>
         /// <param name="lpSummary">
-        /// Receives a pointer to a <see cref="Heap_Summary"/> structure representing the heap summary.
+        /// Receives a pointer to a <see cref="HEAP_SUMMARY"/> structure representing the heap summary.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> on success.

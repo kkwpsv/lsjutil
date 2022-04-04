@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {

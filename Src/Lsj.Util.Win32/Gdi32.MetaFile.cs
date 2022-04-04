@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
@@ -1041,7 +1042,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with Windows-format metafiles. " +
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications. " +
             "The corresponding function for an enhanced-format metafile is SetEnhMetaFileBits.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnhMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMetaFileBitsEx", ExactSpelling = true, SetLastError = true)]
         public static extern HMETAFILE SetMetaFileBitsEx([In] UINT cbBuffer, [In] BYTE[] lpData);
 
         /// <summary>

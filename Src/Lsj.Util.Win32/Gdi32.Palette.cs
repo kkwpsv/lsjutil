@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DeviceCapIndexes;
 using static Lsj.Util.Win32.Enums.PaletteEntryFlags;
+using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemPaletteStates;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;

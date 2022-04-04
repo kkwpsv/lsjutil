@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.FontQualities;
 using static Lsj.Util.Win32.Enums.FontResourceFlags;
 using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.FontWeights;
+using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GetGlyphOutlineFormats;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
@@ -25,6 +26,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32

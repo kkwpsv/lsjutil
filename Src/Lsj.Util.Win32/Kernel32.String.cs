@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.CompareStringResults;
 using static Lsj.Util.Win32.Enums.CType1Flags;
 using static Lsj.Util.Win32.Enums.CType2Flags;
 using static Lsj.Util.Win32.Enums.CType3Flags;
+using static Lsj.Util.Win32.Enums.FindStringFlags;
 using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
 using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.StringFlags;

@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
@@ -308,7 +309,7 @@ namespace Lsj.Util.Win32
         /// this value must be used with <see cref="GetCharacterPlacement"/>.
         /// <see cref="GCP_JUSTIFY"/>:
         /// Adjusts the extents in the <see cref="GCP_RESULTS.lpDx"/> array
-        /// so that the string length is the same as <see cref="nMaxExtent"/>.
+        /// so that the string length is the same as <see cref="GCP_RESULTS.nMaxExtent"/>.
         /// <see cref="GCP_JUSTIFY"/> may only be used in conjunction with <see cref="GCP_MAXEXTENT"/>.
         /// <see cref="GCP_KASHIDA"/>:
         /// Use Kashidas as well as, or instead of, adjusted extents to modify the length of the string

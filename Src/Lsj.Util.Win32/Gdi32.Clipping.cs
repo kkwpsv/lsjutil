@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
