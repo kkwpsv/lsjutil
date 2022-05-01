@@ -860,22 +860,22 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteTimerQueueTimer([In] HANDLE TimerQueue, [In] HANDLE Timer, [In] HANDLE CompletionEvent);
 
-        /// <summary>
-        /// <para>
-        /// Deletes the specified callback environment.
-        /// Call this function when the callback environment is no longer needed for creating new thread pool objects.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-destroythreadpoolenvironment"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// </param>
-        /// <remarks>
-        /// This function is implemented as an inline function.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Deletes the specified callback environment.
+        ///// Call this function when the callback environment is no longer needed for creating new thread pool objects.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-destroythreadpoolenvironment"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        ///// </param>
+        ///// <remarks>
+        ///// This function is implemented as an inline function.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
         //public static extern void DestroyThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
@@ -926,38 +926,38 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void FreeLibraryWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HMODULE mod);
 
-        /// <summary>
-        /// <para>
-        /// Initializes a callback environment.
-        /// </para>
-        /// <para>
-        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-initializethreadpoolenvironment
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A TP_CALLBACK_ENVIRON structure that defines a callback environment.
-        /// </param>
-        /// <remarks>
-        /// By default, a callback executes in the default thread pool for the process.
-        /// No cleanup group is associated with the callback environment, the caller is responsible for
-        /// keeping the callback's DLL loaded while there are outstanding callbacks,
-        /// and the callback is expected to run in a reasonable amount of time for the application.
-        /// Create a callback environment if you plan to call one of the following functions to modify the environment:
-        /// <see cref="SetThreadpoolCallbackCleanupGroup"/>
-        /// <see cref="SetThreadpoolCallbackLibrary"/>
-        /// <see cref="SetThreadpoolCallbackPool"/>
-        /// <see cref="SetThreadpoolCallbackPriority"/>
-        /// <see cref="SetThreadpoolCallbackRunsLong"/>
-        /// To use the default callback environment, set the optional callback environment parameter to <see cref="NULL"/>
-        /// when calling one of the following functions:
-        /// <see cref="CreateThreadpoolIo"/>
-        /// <see cref="CreateThreadpoolTimer"/>
-        /// <see cref="CreateThreadpoolWait"/>
-        /// <see cref="CreateThreadpoolWork"/>
-        /// <see cref="TrySubmitThreadpoolCallback"/>
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Initializes a callback environment.
+        ///// </para>
+        ///// <para>
+        ///// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-initializethreadpoolenvironment
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A TP_CALLBACK_ENVIRON structure that defines a callback environment.
+        ///// </param>
+        ///// <remarks>
+        ///// By default, a callback executes in the default thread pool for the process.
+        ///// No cleanup group is associated with the callback environment, the caller is responsible for
+        ///// keeping the callback's DLL loaded while there are outstanding callbacks,
+        ///// and the callback is expected to run in a reasonable amount of time for the application.
+        ///// Create a callback environment if you plan to call one of the following functions to modify the environment:
+        ///// <see cref="SetThreadpoolCallbackCleanupGroup"/>
+        ///// <see cref="SetThreadpoolCallbackLibrary"/>
+        ///// <see cref="SetThreadpoolCallbackPool"/>
+        ///// <see cref="SetThreadpoolCallbackPriority"/>
+        ///// <see cref="SetThreadpoolCallbackRunsLong"/>
+        ///// To use the default callback environment, set the optional callback environment parameter to <see cref="NULL"/>
+        ///// when calling one of the following functions:
+        ///// <see cref="CreateThreadpoolIo"/>
+        ///// <see cref="CreateThreadpoolTimer"/>
+        ///// <see cref="CreateThreadpoolWait"/>
+        ///// <see cref="CreateThreadpoolWork"/>
+        ///// <see cref="TrySubmitThreadpoolCallback"/>
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function is implemented as an inline function.
+        ///// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
         //public static extern void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
@@ -1068,106 +1068,106 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEventWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void SetEventWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE evt);
 
-        /// <summary>
-        /// <para>
-        /// Associates the specified cleanup group with the specified callback environment.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackcleanupgroup"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// </param>
-        /// <param name="ptpcg">
-        /// A TP_CLEANUP_GROUP structure that defines the cleanup group.
-        /// The <see cref="CreateThreadpoolCleanupGroup"/> function returns this structure.
-        /// </param>
-        /// <param name="pfng">
-        /// The cleanup callback to be called if the cleanup group is canceled before the associated object is released.
-        /// The function is called when you call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
-        /// </param>
-        /// <remarks>
-        /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Associates the specified cleanup group with the specified callback environment.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackcleanupgroup"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        ///// </param>
+        ///// <param name="ptpcg">
+        ///// A TP_CLEANUP_GROUP structure that defines the cleanup group.
+        ///// The <see cref="CreateThreadpoolCleanupGroup"/> function returns this structure.
+        ///// </param>
+        ///// <param name="pfng">
+        ///// The cleanup callback to be called if the cleanup group is canceled before the associated object is released.
+        ///// The function is called when you call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
+        ///// </param>
+        ///// <remarks>
+        ///// This function is implemented as an inline function.
+        ///// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackCleanupGroup", ExactSpelling = true, SetLastError = true)]
         //public static extern void SetThreadpoolCallbackCleanupGroup([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_CLEANUP_GROUP ptpcg,
         //    [In] PTP_CLEANUP_GROUP_CANCEL_CALLBACK pfng);
 
-        /// <summary>
-        /// <para>
-        /// Sets the thread pool to be used when generating callbacks.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackpool"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// </param>
-        /// <param name="ptpp">
-        /// A TP_POOL structure that defines the thread pool.
-        /// The <see cref="CreateThreadpool"/> function returns this structure.
-        /// </param>
-        /// <remarks>
-        /// If you do not specify a thread pool, the global thread pool is used.
-        /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Sets the thread pool to be used when generating callbacks.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackpool"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        ///// </param>
+        ///// <param name="ptpp">
+        ///// A TP_POOL structure that defines the thread pool.
+        ///// The <see cref="CreateThreadpool"/> function returns this structure.
+        ///// </param>
+        ///// <remarks>
+        ///// If you do not specify a thread pool, the global thread pool is used.
+        ///// This function is implemented as an inline function.
+        ///// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackPool", ExactSpelling = true, SetLastError = true)]
         //public static extern void SetThreadpoolCallbackPool([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_POOL ptpp);
 
-        /// <summary>
-        /// <para>
-        /// Ensures that the specified DLL remains loaded as long as there are outstanding callbacks.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbacklibrary"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// </param>
-        /// <param name="mod">
-        /// A handle to the DLL.
-        /// </param>
-        /// <remarks>
-        /// You should call this function if a callback might acquire the loader lock.
-        /// This prevents a deadlock from occurring when one thread in DllMain is waiting for the callback to end,
-        /// and another thread that is executing the callback attempts to acquire the loader lock.
-        /// If the DLL containing the callback might be unloaded, the cleanup code in DllMain must cancel outstanding callbacks before releasing the object.
-        /// Managing callbacks created with a <see cref="TP_CALLBACK_ENVIRON"/> that specifies a callback library is somewhat processing-intensive.
-        /// You should consider other options for ensuring that the library is not unloaded while callbacks are executing,
-        /// or to guarantee that callbacks which may be executing do not acquire the loader lock.
-        /// The thread pool assumes ownership of the library reference supplied to this function.
-        /// The caller should not call <see cref="FreeLibrary"/> on a module handle after passing it to this function.
-        /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Ensures that the specified DLL remains loaded as long as there are outstanding callbacks.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbacklibrary"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        ///// </param>
+        ///// <param name="mod">
+        ///// A handle to the DLL.
+        ///// </param>
+        ///// <remarks>
+        ///// You should call this function if a callback might acquire the loader lock.
+        ///// This prevents a deadlock from occurring when one thread in DllMain is waiting for the callback to end,
+        ///// and another thread that is executing the callback attempts to acquire the loader lock.
+        ///// If the DLL containing the callback might be unloaded, the cleanup code in DllMain must cancel outstanding callbacks before releasing the object.
+        ///// Managing callbacks created with a <see cref="TP_CALLBACK_ENVIRON"/> that specifies a callback library is somewhat processing-intensive.
+        ///// You should consider other options for ensuring that the library is not unloaded while callbacks are executing,
+        ///// or to guarantee that callbacks which may be executing do not acquire the loader lock.
+        ///// The thread pool assumes ownership of the library reference supplied to this function.
+        ///// The caller should not call <see cref="FreeLibrary"/> on a module handle after passing it to this function.
+        ///// This function is implemented as an inline function.
+        ///// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackLibrary", ExactSpelling = true, SetLastError = true)]
         //public static extern void SetThreadpoolCallbackLibrary([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PVOID mod);
 
-        /// <summary>
-        /// <para>
-        /// Indicates that callbacks associated with this callback environment may not return quickly.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackrunslong"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
-        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// </param>
-        /// <remarks>
-        /// The thread pool may use this information to better determine when a new thread should be created.
-        /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Indicates that callbacks associated with this callback environment may not return quickly.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackrunslong"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="pcbe">
+        ///// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        ///// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        ///// </param>
+        ///// <remarks>
+        ///// The thread pool may use this information to better determine when a new thread should be created.
+        ///// This function is implemented as an inline function.
+        ///// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackRunsLong", ExactSpelling = true, SetLastError = true)]
         //public static extern void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 

@@ -693,383 +693,383 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSRWLock", ExactSpelling = true, SetLastError = true)]
         public static extern void InitializeSRWLock([In][Out] ref SRWLOCK SRWLock);
 
-        /// <summary>
-        /// <para>
-        /// Performs an atomic compare-and-exchange operation on the specified values.
-        /// The function compares two specified 32-bit values and exchanges with another 32-bit value based on the outcome of the comparison.
-        /// If you are exchanging pointer values, this function has been superseded by the <see cref="InterlockedCompareExchangePointer"/> function.
-        /// To operate on 64-bit values, use the <see cref="InterlockedCompareExchange64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Destination">
-        /// A pointer to the destination value.
-        /// </param>
-        /// <param name="ExChange">
-        /// The exchange value.
-        /// </param>
-        /// <param name="Comperand">
-        /// The value to compare to <paramref name="Destination"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Destination"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
-        /// If the Destination value is equal to the <paramref name="Comperand"/> value,
-        /// the <paramref name="ExChange"/> value is stored in the address specified by <paramref name="Destination"/>.
-        /// Otherwise, no operation is performed.
-        /// The parameters for this function must be aligned on a 32-bit boundary;
-        /// otherwise, the function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedCompareExchange.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Performs an atomic compare-and-exchange operation on the specified values.
+        ///// The function compares two specified 32-bit values and exchanges with another 32-bit value based on the outcome of the comparison.
+        ///// If you are exchanging pointer values, this function has been superseded by the <see cref="InterlockedCompareExchangePointer"/> function.
+        ///// To operate on 64-bit values, use the <see cref="InterlockedCompareExchange64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Destination">
+        ///// A pointer to the destination value.
+        ///// </param>
+        ///// <param name="ExChange">
+        ///// The exchange value.
+        ///// </param>
+        ///// <param name="Comperand">
+        ///// The value to compare to <paramref name="Destination"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Destination"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
+        ///// If the Destination value is equal to the <paramref name="Comperand"/> value,
+        ///// the <paramref name="ExChange"/> value is stored in the address specified by <paramref name="Destination"/>.
+        ///// Otherwise, no operation is performed.
+        ///// The parameters for this function must be aligned on a 32-bit boundary;
+        ///// otherwise, the function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedCompareExchange.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedCompareExchange", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedCompareExchange([In][Out] ref LONG Destination, [In] LONG ExChange, [In] LONG Comperand);
 
-        /// <summary>
-        /// <para>
-        /// Performs an atomic compare-and-exchange operation on the specified values.
-        /// The function compares two specified 64-bit values and exchanges with another 64-bit value based on the outcome of the comparison.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange64"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Destination">
-        /// A pointer to the destination value.
-        /// </param>
-        /// <param name="ExChange">
-        /// The exchange value.
-        /// </param>
-        /// <param name="Comperand">
-        /// The value to compare to <paramref name="Destination"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Destination"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
-        /// If the <paramref name="Destination"/> value is equal to the <paramref name="Comperand"/> value,
-        /// the <paramref name="ExChange"/> value is stored in the address specified by <paramref name="Destination"/>.
-        /// Otherwise, no operation is performed.
-        /// The variables for this function must be aligned on a 64-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedCompareExchange64.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Performs an atomic compare-and-exchange operation on the specified values.
+        ///// The function compares two specified 64-bit values and exchanges with another 64-bit value based on the outcome of the comparison.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange64"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Destination">
+        ///// A pointer to the destination value.
+        ///// </param>
+        ///// <param name="ExChange">
+        ///// The exchange value.
+        ///// </param>
+        ///// <param name="Comperand">
+        ///// The value to compare to <paramref name="Destination"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Destination"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
+        ///// If the <paramref name="Destination"/> value is equal to the <paramref name="Comperand"/> value,
+        ///// the <paramref name="ExChange"/> value is stored in the address specified by <paramref name="Destination"/>.
+        ///// Otherwise, no operation is performed.
+        ///// The variables for this function must be aligned on a 64-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedCompareExchange64.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedCompareExchange64", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG64 InterlockedCompareExchange64([In][Out] ref LONG64 Destination, [In] LONG64 ExChange, [In] LONG64 Comperand);
 
-        /// <summary>
-        /// <para>
-        /// Performs an atomic compare-and-exchange operation on the specified values.
-        /// The function compares two specified pointer values and exchanges with another pointer value based on the outcome of the comparison.
-        /// To operate on non-pointer values, use the <see cref="InterlockedCompareExchange"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchangepointer"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Destination">
-        /// A pointer to a pointer to the destination value.
-        /// </param>
-        /// <param name="Exchange">
-        /// The exchange value.
-        /// </param>
-        /// <param name="Comperand">
-        /// The value to compare to <paramref name="Destination"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Destination"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
-        /// If the <paramref name="Destination"/> value is equal to the <paramref name="Comperand"/> value,
-        /// the <paramref name="Exchange"/> value is stored in the address specified by <paramref name="Destination"/>.
-        /// Otherwise, no operation is performed.
-        /// On a 64-bit system, the parameters are 64 bits and must be aligned on 64-bit boundaries;
-        /// otherwise, the function will behave unpredictably.On a 32-bit system, the parameters are 32 bits and must be aligned on 32-bit boundaries.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedCompareExchangePointer.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Performs an atomic compare-and-exchange operation on the specified values.
+        ///// The function compares two specified pointer values and exchanges with another pointer value based on the outcome of the comparison.
+        ///// To operate on non-pointer values, use the <see cref="InterlockedCompareExchange"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchangepointer"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Destination">
+        ///// A pointer to a pointer to the destination value.
+        ///// </param>
+        ///// <param name="Exchange">
+        ///// The exchange value.
+        ///// </param>
+        ///// <param name="Comperand">
+        ///// The value to compare to <paramref name="Destination"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Destination"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The function compares the <paramref name="Destination"/> value with the <paramref name="Comperand"/> value.
+        ///// If the <paramref name="Destination"/> value is equal to the <paramref name="Comperand"/> value,
+        ///// the <paramref name="Exchange"/> value is stored in the address specified by <paramref name="Destination"/>.
+        ///// Otherwise, no operation is performed.
+        ///// On a 64-bit system, the parameters are 64 bits and must be aligned on 64-bit boundaries;
+        ///// otherwise, the function will behave unpredictably.On a 32-bit system, the parameters are 32 bits and must be aligned on 32-bit boundaries.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedCompareExchangePointer.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedCompareExchangePointer", ExactSpelling = true, SetLastError = true)]
         //public static extern PVOID InterlockedCompareExchangePointer([In][Out] ref PVOID Destination, [In] PVOID Exchange, [In] PVOID Comperand);
 
-        /// <summary>
-        /// <para>
-        /// Decrements (decreases by one) the value of the specified 32-bit variable as an atomic operation.
-        /// To operate on 64-bit values, use the <see cref="InterlockedDecrement64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to the variable to be decremented.
-        /// </param>
-        /// <returns>
-        /// The function returns the resulting decremented value.
-        /// </returns>
-        /// <remarks>
-        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 32-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedDecrement.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Decrements (decreases by one) the value of the specified 32-bit variable as an atomic operation.
+        ///// To operate on 64-bit values, use the <see cref="InterlockedDecrement64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to the variable to be decremented.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the resulting decremented value.
+        ///// </returns>
+        ///// <remarks>
+        ///// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 32-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedDecrement.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedDecrement", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedDecrement([In][Out] ref LONG Addend);
 
-        /// <summary>
-        /// <para>
-        /// Decrements (decreases by one) the value of the specified 64-bit variable as an atomic operation.
-        /// To operate on 32-bit values, use the <see cref="InterlockedDecrement"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement64"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to the variable to be decremented.
-        /// </param>
-        /// <returns>
-        /// The function returns the resulting decremented value.
-        /// </returns>
-        /// <remarks>
-        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedDecrement64.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Itanium-based systems:  For performance-critical applications, use InterlockedDecrementAcquire64 or InterlockedDecrementRelease64 instead.
-        /// Note  This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Decrements (decreases by one) the value of the specified 64-bit variable as an atomic operation.
+        ///// To operate on 32-bit values, use the <see cref="InterlockedDecrement"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement64"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to the variable to be decremented.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the resulting decremented value.
+        ///// </returns>
+        ///// <remarks>
+        ///// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedDecrement64.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Itanium-based systems:  For performance-critical applications, use InterlockedDecrementAcquire64 or InterlockedDecrementRelease64 instead.
+        ///// Note  This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedDecrement64", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG64 InterlockedDecrement64([In][Out] ref LONG64 Addend);
 
-        /// <summary>
-        /// <para>
-        /// Sets a 32-bit variable to the specified value as an atomic operation.
-        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
-        /// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
-        /// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Target">
-        /// A pointer to the value to be exchanged.
-        /// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
-        /// </param>
-        /// <param name="Value">
-        /// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Target"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchange.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
-        /// Note  This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Sets a 32-bit variable to the specified value as an atomic operation.
+        ///// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        ///// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
+        ///// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Target">
+        ///// A pointer to the value to be exchanged.
+        ///// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
+        ///// </param>
+        ///// <param name="Value">
+        ///// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Target"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchange.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
+        ///// Note  This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedExchange([In][Out] ref LONG Target, [In] LONG Value);
 
-        /// <summary>
-        /// <para>
-        /// Sets a 32-bit variable to the specified value as an atomic operation.
-        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
-        /// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
-        /// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange16"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Destination">
-        /// A pointer to the value to be exchanged.
-        /// The function sets this variable to <paramref name="ExChange"/>, and returns its prior value.
-        /// </param>
-        /// <param name="ExChange">
-        /// The value to be exchanged with the value pointed to by <paramref name="Destination"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Destination"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchange16.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
-        /// Note  This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Sets a 32-bit variable to the specified value as an atomic operation.
+        ///// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        ///// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
+        ///// To operate on a 64-bit variable, use the <see cref="InterlockedExchange64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange16"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Destination">
+        ///// A pointer to the value to be exchanged.
+        ///// The function sets this variable to <paramref name="ExChange"/>, and returns its prior value.
+        ///// </param>
+        ///// <param name="ExChange">
+        ///// The value to be exchanged with the value pointed to by <paramref name="Destination"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Destination"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchange16.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire instead.
+        ///// Note  This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange16", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedExchange16([In][Out] ref SHORT Destination, [In] SHORT ExChange);
 
-        /// <summary>
-        /// <para>
-        /// Sets a 32-bit variable to the specified value as an atomic operation.
-        /// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
-        /// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
-        /// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange32"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Target">
-        /// A pointer to the value to be exchanged.
-        /// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
-        /// </param>
-        /// <param name="Value">
-        /// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Target"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchange64.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire64 instead.
-        /// Note  This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Sets a 32-bit variable to the specified value as an atomic operation.
+        ///// To operate on a pointer variable, use the <see cref="InterlockedExchangePointer"/> function.
+        ///// To operate on a 16-bit variable, use the <see cref="InterlockedExchange16"/> function.
+        ///// To operate on a 32-bit variable, use the <see cref="InterlockedExchange"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchange32"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Target">
+        ///// A pointer to the value to be exchanged.
+        ///// The function sets this variable to <paramref name="Value"/>, and returns its prior value.
+        ///// </param>
+        ///// <param name="Value">
+        ///// The value to be exchanged with the value pointed to by <paramref name="Target"/>.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Target"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchange64.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Itanium-based systems:  For performance-critical applications, use InterlockedExchangeAcquire64 instead.
+        ///// Note  This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchange64", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedExchange64([In][Out] ref LONG64 Target, [In] LONG64 Value);
 
-        /// <summary>
-        /// <para>
-        /// Performs an atomic addition of two 32-bit values.
-        /// To operate on 64-bit values, use the <see cref="InterlockedExchangeAdd64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to a variable. The value of this variable will be replaced with the result of the operation.
-        /// </param>
-        /// <param name="Value">
-        /// The value to be added to the variable pointed to by the <paramref name="Addend"/> parameter.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Addend"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The function performs an atomic addition of Value to the value pointed to by <paramref name="Addend"/>.
-        /// The result is stored in the address specified by <paramref name="Addend"/>.
-        /// The function returns the initial value of the variable pointed to by <paramref name="Addend"/>.
-        /// The variables for this function must be aligned on a 32-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchangeAdd
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Performs an atomic addition of two 32-bit values.
+        ///// To operate on 64-bit values, use the <see cref="InterlockedExchangeAdd64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to a variable. The value of this variable will be replaced with the result of the operation.
+        ///// </param>
+        ///// <param name="Value">
+        ///// The value to be added to the variable pointed to by the <paramref name="Addend"/> parameter.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Addend"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The function performs an atomic addition of Value to the value pointed to by <paramref name="Addend"/>.
+        ///// The result is stored in the address specified by <paramref name="Addend"/>.
+        ///// The function returns the initial value of the variable pointed to by <paramref name="Addend"/>.
+        ///// The variables for this function must be aligned on a 32-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchangeAdd
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchangeAdd", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedExchangeAdd([In][Out] ref LONG Addend, [In] LONG Value);
 
-        /// <summary>
-        /// <para>
-        /// Performs an atomic addition of two 64-bit values.
-        /// To operate on 32-bit values, use the <see cref="InterlockedExchangeAdd"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd64"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to a variable. The value of this variable will be replaced with the result of the operation.
-        /// </param>
-        /// <param name="Value">
-        /// The value to be added to the variable pointed to by the <paramref name="Addend"/> parameter.
-        /// </param>
-        /// <returns>
-        /// The function returns the initial value of the <paramref name="Addend"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// The function performs an atomic addition of Value to the value pointed to by <paramref name="Addend"/>.
-        /// The result is stored in the address specified by <paramref name="Addend"/>.
-        /// The function returns the initial value of the variable pointed to by <paramref name="Addend"/>.
-        /// The variables for this function must be aligned on a 64-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchangeAdd64.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Performs an atomic addition of two 64-bit values.
+        ///// To operate on 32-bit values, use the <see cref="InterlockedExchangeAdd"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd64"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to a variable. The value of this variable will be replaced with the result of the operation.
+        ///// </param>
+        ///// <param name="Value">
+        ///// The value to be added to the variable pointed to by the <paramref name="Addend"/> parameter.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial value of the <paramref name="Addend"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// The function performs an atomic addition of Value to the value pointed to by <paramref name="Addend"/>.
+        ///// The result is stored in the address specified by <paramref name="Addend"/>.
+        ///// The function returns the initial value of the variable pointed to by <paramref name="Addend"/>.
+        ///// The variables for this function must be aligned on a 64-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchangeAdd64.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchangeAdd64", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG64 InterlockedExchangeAdd64([In][Out] ref LONG64 Addend, [In] LONG64 Value);
 
-        /// <summary>
-        /// <para>
-        /// Atomically exchanges a pair of addresses.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangepointer"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Target">
-        /// A pointer to the address to exchange.
-        /// The function sets the address pointed to by the <paramref name="Target"/> parameter (*Target) to the address 
-        /// that is the value of the <paramref name="Value"/> parameter, and returns the prior value of the <paramref name="Target"/> parameter.
-        /// </param>
-        /// <param name="Value">
-        /// The address to be exchanged with the address pointed to by the <paramref name="Target"/> parameter (*Target).
-        /// </param>
-        /// <returns>
-        /// The function returns the initial address pointed to by the <paramref name="Target"/> parameter.
-        /// </returns>
-        /// <remarks>
-        /// This function copies the address passed as the second parameter to the first and returns the original address of the first.
-        /// On a 64-bit system, the parameters are 64 bits and the Target parameter must be aligned on 64-bit boundaries;
-        /// otherwise, the function will behave unpredictably.
-        /// On a 32-bit system, the parameters are 32 bits and the Target parameter must be aligned on 32-bit boundaries.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedExchangePointer.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Note This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Atomically exchanges a pair of addresses.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangepointer"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Target">
+        ///// A pointer to the address to exchange.
+        ///// The function sets the address pointed to by the <paramref name="Target"/> parameter (*Target) to the address 
+        ///// that is the value of the <paramref name="Value"/> parameter, and returns the prior value of the <paramref name="Target"/> parameter.
+        ///// </param>
+        ///// <param name="Value">
+        ///// The address to be exchanged with the address pointed to by the <paramref name="Target"/> parameter (*Target).
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the initial address pointed to by the <paramref name="Target"/> parameter.
+        ///// </returns>
+        ///// <remarks>
+        ///// This function copies the address passed as the second parameter to the first and returns the original address of the first.
+        ///// On a 64-bit system, the parameters are 64 bits and the Target parameter must be aligned on 64-bit boundaries;
+        ///// otherwise, the function will behave unpredictably.
+        ///// On a 32-bit system, the parameters are 32 bits and the Target parameter must be aligned on 32-bit boundaries.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedExchangePointer.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Note This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedExchangePointer", ExactSpelling = true, SetLastError = true)]
         //public static extern PVOID InterlockedExchangePointer([In][Out] ref PVOID Target, [In] PVOID Value);
 
@@ -1097,61 +1097,61 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedFlushSList", ExactSpelling = true, SetLastError = true)]
         public static extern PSLIST_ENTRY InterlockedFlushSList([In][Out] ref SLIST_HEADER ListHead);
 
-        /// <summary>
-        /// <para>
-        /// Increments (increases by one) the value of the specified 32-bit variable as an atomic operation.
-        /// To operate on 64-bit values, use the <see cref="InterlockedIncrement64"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to the variable to be incremented.
-        /// </param>
-        /// <returns>
-        /// The function returns the resulting incremented value.
-        /// </returns>
-        /// <remarks>
-        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 32-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
-        /// See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedIncrement.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Increments (increases by one) the value of the specified 32-bit variable as an atomic operation.
+        ///// To operate on 64-bit values, use the <see cref="InterlockedIncrement64"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to the variable to be incremented.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the resulting incremented value.
+        ///// </returns>
+        ///// <remarks>
+        ///// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 32-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems.
+        ///// See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedIncrement.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG InterlockedIncrement([In][Out] ref LONG Addend);
 
-        /// <summary>
-        /// <para>
-        /// Increments (increases by one) the value of the specified 64-bit variable as an atomic operation.
-        /// To operate on 32-bit values, use the <see cref="InterlockedIncrement"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement64"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Addend">
-        /// A pointer to the variable to be incremented.
-        /// </param>
-        /// <returns>
-        /// The function returns the resulting incremented value.
-        /// </returns>
-        /// <remarks>
-        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
-        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
-        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
-        /// This function is atomic with respect to calls to other interlocked functions.
-        /// This function is implemented using a compiler intrinsic where possible.
-        /// For more information, see the WinBase.h header file and _InterlockedIncrement64.
-        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
-        /// Itanium-based systems:  For performance-critical applications, use InterlockedIncrementAcquire64 or InterlockedIncrementRelease64 instead.
-        /// Note  This function is supported on Windows RT-based systems.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Increments (increases by one) the value of the specified 64-bit variable as an atomic operation.
+        ///// To operate on 32-bit values, use the <see cref="InterlockedIncrement"/> function.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement64"/>
+        ///// </para>
+        ///// </summary>
+        ///// <param name="Addend">
+        ///// A pointer to the variable to be incremented.
+        ///// </param>
+        ///// <returns>
+        ///// The function returns the resulting incremented value.
+        ///// </returns>
+        ///// <remarks>
+        ///// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
+        ///// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
+        ///// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        ///// This function is atomic with respect to calls to other interlocked functions.
+        ///// This function is implemented using a compiler intrinsic where possible.
+        ///// For more information, see the WinBase.h header file and _InterlockedIncrement64.
+        ///// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        ///// Itanium-based systems:  For performance-critical applications, use InterlockedIncrementAcquire64 or InterlockedIncrementRelease64 instead.
+        ///// Note  This function is supported on Windows RT-based systems.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement64", ExactSpelling = true, SetLastError = true)]
         //public static extern LONG64 InterlockedIncrement64([In][Out] ref LONG64 Addend);
 

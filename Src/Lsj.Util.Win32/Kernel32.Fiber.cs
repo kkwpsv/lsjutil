@@ -356,41 +356,41 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsSetValue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlsSetValue([In] DWORD dwFlsIndex, [In] PVOID lpFlsData);
 
-        /// <summary>
-        /// <para>
-        /// Retrieves the address of the current fiber.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getcurrentfiber"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// The macro returns the address of the currently running fiber.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="CreateFiber"/> and <see cref="ConvertThreadToFiber"/> functions return the fiber address when the fiber is created.
-        /// The <see cref="GetCurrentFiber"/> macro allows you to retrieve the address at any other time.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Retrieves the address of the current fiber.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getcurrentfiber"/>
+        ///// </para>
+        ///// </summary>
+        ///// <returns>
+        ///// The macro returns the address of the currently running fiber.
+        ///// </returns>
+        ///// <remarks>
+        ///// The <see cref="CreateFiber"/> and <see cref="ConvertThreadToFiber"/> functions return the fiber address when the fiber is created.
+        ///// The <see cref="GetCurrentFiber"/> macro allows you to retrieve the address at any other time.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentFiber", ExactSpelling = true, SetLastError = true)]
         //public static extern PVOID GetCurrentFiber();
 
-        /// <summary>
-        /// <para>
-        /// Retrieves the fiber data associated with the current fiber.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getfiberdata"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// The macro returns the fiber data for the currently running fiber.
-        /// </returns>
-        /// <remarks>
-        /// The fiber data is the value passed to the <see cref="CreateFiber"/>
-        /// or <see cref="ConvertThreadToFiber"/> function in the lpParameter parameter.
-        /// This value is also received as the parameter to the fiber function.
-        /// It is stored as part of the fiber state information.
-        /// </remarks>
+        ///// <summary>
+        ///// <para>
+        ///// Retrieves the fiber data associated with the current fiber.
+        ///// </para>
+        ///// <para>
+        ///// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getfiberdata"/>
+        ///// </para>
+        ///// </summary>
+        ///// <returns>
+        ///// The macro returns the fiber data for the currently running fiber.
+        ///// </returns>
+        ///// <remarks>
+        ///// The fiber data is the value passed to the <see cref="CreateFiber"/>
+        ///// or <see cref="ConvertThreadToFiber"/> function in the lpParameter parameter.
+        ///// This value is also received as the parameter to the fiber function.
+        ///// It is stored as part of the fiber state information.
+        ///// </remarks>
         //[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFiberData", ExactSpelling = true, SetLastError = true)]
         //public static extern PVOID GetFiberData();
 

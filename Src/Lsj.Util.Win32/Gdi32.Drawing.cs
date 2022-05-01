@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSEW"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
         /// <see cref="ArcTo"/> is similar to the <see cref="Arc"/> function, except that the current position is updated.

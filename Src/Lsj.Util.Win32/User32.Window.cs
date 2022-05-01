@@ -1783,7 +1783,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="pati">
         /// A pointer to an <see cref="ALTTABINFO"/> structure to receive the status information.
-        /// Note that you must set the <see cref="ALTTABINFO.csSize"/> member to <code>sizeof(ALTTABINFO)</code> before calling this function.
+        /// Note that you must set the <see cref="ALTTABINFO.cbSize"/> member to <code>sizeof(ALTTABINFO)</code> before calling this function.
         /// </param>
         /// <param name="pszItemText">
         /// The name of the item.

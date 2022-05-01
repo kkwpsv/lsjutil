@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.ComInterfaces;
 using System;
 using static Lsj.Util.Win32.Enums.VARENUM;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// This is especially useful when rendering the same text repeatedly or when using intercharacter spacing to position the caret.
         /// If the <see cref="GCP_RESULTS.lpGlyphs"/> output array is used in the call to <see cref="ExtTextOut"/>,
         /// the <see cref="ETO_GLYPH_INDEX"/> flag must be set.
-        /// <see cref="GetCharacterPlacement"/> checks the <see cref="GCP_RESULTS.lpOrder"/>, <see cref="GCP_RESULTS.lpDX"/>,
+        /// <see cref="GetCharacterPlacement"/> checks the <see cref="GCP_RESULTS.lpOrder"/>, <see cref="GCP_RESULTS.lpDx"/>,
         /// <see cref="GCP_RESULTS.lpCaretPos"/>, <see cref="GCP_RESULTS.lpOutString"/>, and <see cref="GCP_RESULTS.lpGlyphs"/> members
         /// of the <see cref="GCP_RESULTS"/> structure and fills the corresponding arrays if these members are not set to <see cref="NULL"/>.
         /// If <see cref="GetCharacterPlacement"/> cannot fill an array, it sets the corresponding member to <see cref="NULL"/>.
@@ -428,15 +428,15 @@ namespace Lsj.Util.Win32
         /// When computing justification, if the trailing characters in the string are spaces,
         /// the function reduces the length of the string and removes the spaces prior to computing the justification.
         /// If the array consists of only spaces, the function returns an error.
-        /// <see cref="ExtTextOut"/> expects an <see cref="GCP_RESULTS.lpDX"/> entry for each byte of a DBCS string,
-        /// whereas <see cref="GetCharacterPlacement"/> assigns an <see cref="GCP_RESULTS.lpDX"/> entry for each glyph.
+        /// <see cref="ExtTextOut"/> expects an <see cref="GCP_RESULTS.lpDx"/> entry for each byte of a DBCS string,
+        /// whereas <see cref="GetCharacterPlacement"/> assigns an <see cref="GCP_RESULTS.lpDx"/> entry for each glyph.
         /// To correct this mismatch when using this combination of functions,
-        /// either use <see cref="GetGlyphIndices"/> or expand the <see cref="GCP_RESULTS.lpDX"/> array
+        /// either use <see cref="GetGlyphIndices"/> or expand the <see cref="GCP_RESULTS.lpDx"/> array
         /// with zero-width entries for the corresponding second byte of a DBCS byte pair.
         /// If the logical width is less than the width of the leading character in the input string,
         /// <see cref="GCP_RESULTS.nMaxFit"/> returns a bad value.
-        /// For this case, call <see cref="GetCharacterPlacement"/> for glyph indexes and the <see cref="GCP_RESULTS.lpDX"/> array.
-        /// Then use the <see cref="GCP_RESULTS.lpDX"/> array to do the extent calculation using the advance width of each character,
+        /// For this case, call <see cref="GetCharacterPlacement"/> for glyph indexes and the <see cref="GCP_RESULTS.lpDx"/> array.
+        /// Then use the <see cref="GCP_RESULTS.lpDx"/> array to do the extent calculation using the advance width of each character,
         /// where <see cref="GCP_RESULTS.nMaxFit"/> is the number of characters
         /// whose glyph indexes advance width is less than the width of the leading character.
         /// </remarks>
