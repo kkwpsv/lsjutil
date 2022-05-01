@@ -18,33 +18,57 @@ namespace Lsj.Util.Win32.Structs
     /// as if it were text input by using the <see cref="KEYEVENTF_UNICODE"/> flag.
     /// For more information, see the remarks section of <see cref="KEYBDINPUT"/>.
     /// </remarks>
-    [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct INPUT
     {
         /// <summary>
         /// The type of the input event. This member can be one of the following values.
         /// <see cref="INPUT_MOUSE"/>, <see cref="INPUT_KEYBOARD"/>, <see cref="INPUT_HARDWARE"/>
         /// </summary>
-        [FieldOffset(0)]
         public InputTypes type;
+
+#pragma warning disable IDE1006
+        private INPUT_DUMMYUNIONNAME DUMMYUNIONNAME;
 
         /// <summary>
         /// The information about a simulated mouse event.
         /// </summary>
-        [FieldOffset(0)]
-        public MOUSEINPUT mi;
+        public MOUSEINPUT mi
+        {
+            get => DUMMYUNIONNAME.mi;
+            set => DUMMYUNIONNAME.mi = value;
+        }
 
         /// <summary>
         /// The information about a simulated keyboard event.
         /// </summary>
-        [FieldOffset(0)]
-        public KEYBDINPUT ki;
+        public KEYBDINPUT ki
+        {
+            get => DUMMYUNIONNAME.ki;
+            set => DUMMYUNIONNAME.ki = value;
+        }
 
         /// <summary>
         /// The information about a simulated hardware event.
         /// </summary>
-        [FieldOffset(0)]
-        public HARDWAREINPUT hi;
+        public HARDWAREINPUT hi
+        {
+            get => DUMMYUNIONNAME.hi;
+            set => DUMMYUNIONNAME.hi = value;
+        }
+#pragma warning restore IDE1006
 
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct INPUT_DUMMYUNIONNAME
+        {
+            [FieldOffset(0)]
+            public MOUSEINPUT mi;
+
+            [FieldOffset(0)]
+            public KEYBDINPUT ki;
+
+            [FieldOffset(0)]
+            public HARDWAREINPUT hi;
+        }
     }
 }
