@@ -125,6 +125,11 @@ namespace Lsj.Util.Win32.NativeUI
         public bool IsVisible => GetIsVisible();
 
         /// <summary>
+        /// Dpi
+        /// </summary>
+        public int Dpi => GetDpi();
+
+        /// <summary>
         /// Dpi Awareness
         /// </summary>
         /// <exception cref="PlatformNotSupportedException"/>

@@ -288,6 +288,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private bool GetIsVisible() => IsWindowVisible(_handle);
 
+        private int GetDpi() => GetDpiForWindow(_handle);
+
         private DPI_AWARENESS GetDpiAwareness()
         {
             if (Environment.OSVersion.Version >= new Version(10, 0, 14393, 0))
