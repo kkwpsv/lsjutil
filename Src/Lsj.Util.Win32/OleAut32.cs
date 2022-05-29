@@ -62,6 +62,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a pointer to a running object that has been registered with OLE.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-getactiveobject"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The class identifier (CLSID) of the active object from the OLE registration database.
+        /// </param>
+        /// <param name="pvReserved">
+        /// Reserved for future use. Must be null.
+        /// </param>
+        /// <param name="ppunk">
+        /// The requested active object.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT GetActiveObject([In] in CLSID rclsid, [In] IntPtr pvReserved, [Out] out LPVOID ppunk);
+
+        /// <summary>
+        /// <para>
         /// Allocates a new string and copies the passed string into it.
         /// </para>
         /// <para>

@@ -215,6 +215,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a GUID, a unique 128-bit integer used for CLSIDs and interface identifiers.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cocreateguid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pguid">
+        /// A pointer to the requested GUID.
+        /// </param>
+        /// <returns>
+        /// <see cref="S_OK"/>: The GUID was successfully created.
+        /// Errors returned by <see cref="UuidCreate"/> are wrapped as an <see cref="HRESULT"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoCreateGuid"/> function calls the RPC function <see cref="UuidCreate"/>,
+        /// which creates a GUID, a globally unique 128-bit integer.
+        /// Use <see cref="CoCreateGuid"/> when you need an absolutely unique number
+        /// that you will use as a persistent identifier in a distributed environment.
+        /// To a very high degree of certainty, this function returns a unique value – no other invocation,
+        /// on the same or any other system (networked or not), should return the same value.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateGuid", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoCreateGuid([Out] out GUID pguid);
+
+        /// <summary>
+        /// <para>
         /// Creates a single uninitialized object of the class associated with a specified CLSID.
         /// Call <see cref="CoCreateInstance"/> when you want to create only one object on the local system.
         /// To create a single object on a remote system, call the <see cref="CoCreateInstanceEx"/> function.
@@ -500,9 +526,8 @@ namespace Lsj.Util.Win32
         /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
-            [In] CLSCTX dwClsContext, [In] LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+        public static extern HRESULT CoGetClassObject([In] in CLSID rclsid, [In] CLSCTX dwClsContext, [In] LPVOID pvReserved,
+            [In] in IID riid, [Out] out LPVOID ppv);
 
         /// <summary>
         /// <para>
