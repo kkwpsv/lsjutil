@@ -348,8 +348,8 @@ namespace Lsj.Util.Win32
         /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In] Guid Clsid,
-            [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
+        public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid, [In] in IUnknown punkOuter,
+            [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
             [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
 
         /// <summary>
