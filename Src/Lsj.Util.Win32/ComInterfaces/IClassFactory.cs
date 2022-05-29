@@ -118,7 +118,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </remarks>
         public HRESULT LockServer([In] BOOL fLock)
         {
-
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, BOOL, HRESULT>)_vTable[4])(thisPtr, fLock);
