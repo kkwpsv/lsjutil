@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -15,6 +16,32 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Dwmapi
     {
+        /// <summary>
+        /// <para>
+        /// Extends the window frame into the client area.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmextendframeintoclientarea"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// The handle to the window in which the frame will be extended into the client area.
+        /// </param>
+        /// <param name="pMarInset">
+        /// A pointer to a <see cref="MARGINS"/> structure that describes the margins to use when extending the frame into the client area.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// This function must be called whenever Desktop Window Manager (DWM) composition is toggled.
+        /// Handle the <see cref="WM_DWMCOMPOSITIONCHANGED"/> message for composition change notification.
+        /// Use negative margin values to create the "sheet of glass" effect where the client area is rendered as a solid surface with no window border.
+        /// </remarks>
+        [DllImport("Dwmapi.dll", CharSet = CharSet.Unicode, EntryPoint = "DwmExtendFrameIntoClientArea", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT DwmExtendFrameIntoClientArea([In] HWND hWnd, [In] in MARGINS pMarInset);
+
         /// <summary>
         /// <para>
         /// Retrieves the current value of a specified Desktop Window Manager (DWM) attribute applied to a window.
