@@ -265,6 +265,43 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
+        private RECT GetRectToParent()
+        {
+            if (GetWindowRect(_handle, out var result))
+            {
+                var parent = GetParentWindowHandle();
+                if (parent != NULL)
+                {
+                    unsafe
+                    {
+                        if (!ScreenToClient(parent, ref AsPointer(ref result).AsStructRef<POINT>())
+                            || !ScreenToClient(parent, ref (AsPointer(ref result) + 2 * SizeOf<LONG>()).AsStructRef<POINT>()))
+                        {
+                            ThrowExceptionIfError();
+                        }
+                        return result;
+                    }
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            else
+            {
+                ThrowExceptionIfError();
+                return new RECT();
+            }
+        }
+
+        private void SetRectToParent(RECT value)
+        {
+            if (!SetWindowPos(_handle, IntPtr.Zero, value.left, value.top, value.right - value.left, value.bottom - value.top, SWP_NOZORDER))
+            {
+                ThrowExceptionIfError();
+            }
+        }
+
         private ShowWindowCommands GetShowStates()
         {
             var placement = new WINDOWPLACEMENT

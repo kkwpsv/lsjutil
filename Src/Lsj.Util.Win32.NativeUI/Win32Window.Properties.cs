@@ -106,6 +106,15 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
+        /// Window Rect (Parent coordinates)
+        /// </summary>
+        public RECT RectToParent
+        {
+            get => GetRectToParent();
+            set => SetRectToParent(value);
+        }
+
+        /// <summary>
         /// Window Show States
         /// </summary>
         public ShowWindowCommands ShowStates
