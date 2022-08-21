@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ILLUMINANT;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
 {

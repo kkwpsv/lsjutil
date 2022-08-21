@@ -7,6 +7,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.GDICOMMENT;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;

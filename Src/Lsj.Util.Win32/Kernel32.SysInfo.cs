@@ -27,6 +27,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
+        /// MAX_COMPUTERNAME_LENGTH
+        /// </summary>
+        public const int MAX_COMPUTERNAME_LENGTH = 15;
+
+        /// <summary>
         /// <para>
         /// Retrieves a NetBIOS or DNS name associated with the local computer.
         /// The names are established at system startup, when the system reads them from the registry.

@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.GCPCLASS;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
@@ -371,7 +372,7 @@ namespace Lsj.Util.Win32
         /// If this value is not specified, the string is assumed to be in display order already.
         /// If this flag is set for Semitic languages and the <see cref="GCP_RESULTS.lpClass"/> array is used,
         /// the first two elements of the array are used to specify the reading order beyond the bounds of the string.
-        /// <see cref="GCP_CLASS_PREBOUNDRTL"/> and <see cref="GCP_CLASS_PREBOUNDLTR"/> can be used to set the order.
+        /// <see cref="GCPCLASS_PREBOUNDRTL"/> and <see cref="GCPCLASS_PREBOUNDLTR"/> can be used to set the order.
         /// If no preset order is required, set the values to zero.
         /// These values can be combined with other values if the <see cref="GCPCLASSIN"/> flag is set.
         /// If the <see cref="GCP_REORDER"/> value is not specified,

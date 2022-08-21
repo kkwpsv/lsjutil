@@ -406,7 +406,7 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="PAINTSTRUCT"/> structure that contains the painting information retrieved by <see cref="BeginPaint"/>.
         /// </param>
         /// <returns>
-        /// The return value is always <see cref="BOOL"/>.
+        /// The return value is always <see cref="TRUE"/>.
         /// </returns>
         /// <remarks>
         /// If the caret was hidden by <see cref="BeginPaint"/>, <see cref="EndPaint"/> restores the caret to the screen.

@@ -7,8 +7,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.InitOnceFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.SynchronizationBarrierFlags;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
@@ -24,6 +26,11 @@ namespace Lsj.Util.Win32
         /// CONDITION_VARIABLE_LOCKMODE_SHARED
         /// </summary>
         public const uint CONDITION_VARIABLE_LOCKMODE_SHARED = unchecked((uint)-1);
+
+        /// <summary>
+        /// INIT_ONCE_CTX_RESERVED_BITS
+        /// </summary>
+        public const int INIT_ONCE_CTX_RESERVED_BITS = 2;
 
         /// <summary>
         /// SRWLOCK_INIT
@@ -287,7 +294,7 @@ namespace Lsj.Util.Win32
         /// only if performance testing indicates the application would benefit from them.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnterSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier, [In] DWORD dwFlags);
+        public static extern BOOL EnterSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier, [In] SynchronizationBarrierFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -552,7 +559,7 @@ namespace Lsj.Util.Win32
         /// Only use the one-time initialization functions to manage one-time initialization objects.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceBeginInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceBeginInitialize([In][Out] ref INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
+        public static extern BOOL InitOnceBeginInitialize([In][Out] ref INIT_ONCE lpInitOnce, [In] InitOnceFlags dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
 
         /// <summary>
         /// <para>

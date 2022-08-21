@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.BaseTypes.KNOWNFOLDERID;
 using static Lsj.Util.Win32.BaseTypes.UINT;
+using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;

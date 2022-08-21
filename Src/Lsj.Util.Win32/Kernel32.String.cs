@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.CType1Flags;
 using static Lsj.Util.Win32.Enums.CType2Flags;
 using static Lsj.Util.Win32.Enums.CType3Flags;
 using static Lsj.Util.Win32.Enums.FindStringFlags;
+using static Lsj.Util.Win32.Enums.LocaleIndependentMappingFlags;
 using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
 using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.StringFlags;
@@ -489,7 +490,8 @@ namespace Lsj.Util.Win32
         /// use Unicode normalization forms KC, C, and D (through the <see cref="NormalizeString"/> function) to do the mappings.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FoldStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int FoldString([In] DWORD dwMapFlags, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
+        public static extern int FoldString([In] LocaleIndependentMappingFlags dwMapFlags, [In] LPCWSTR lpSrcStr,
+            [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
 
         /// <summary>
         /// <para>

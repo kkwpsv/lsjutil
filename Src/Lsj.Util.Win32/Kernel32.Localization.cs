@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.GEOCLASS;
 using static Lsj.Util.Win32.BaseTypes.LCID;
+using static Lsj.Util.Win32.BaseTypes.LGRPID;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CALTYPE;
 using static Lsj.Util.Win32.Enums.CodePages;
@@ -23,6 +24,7 @@ using static Lsj.Util.Win32.Enums.StringFlags;
 using static Lsj.Util.Win32.Enums.SYSGEOTYPE;
 using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -3021,7 +3023,7 @@ namespace Lsj.Util.Win32
         /// as calling <see cref="SetThreadUILanguage"/> with the language identifier set to 0.
         /// The language is set appropriately for use in a console window.
         /// After this function returns, the application can call <see cref="GetThreadPreferredUILanguages"/> to verify and examine the resulting language list. 
-        /// When <see cref="MUI_CONSOLE_FILTER"/> or <see cref="MUI_COMPLEX_FILTER"/> has been set by <see cref="SetThreadPreferredUILanguages"/>,
+        /// When <see cref="MUI_CONSOLE_FILTER"/> or <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> has been set by <see cref="SetThreadPreferredUILanguages"/>,
         /// the <see cref="GetThreadPreferredUILanguages"/> function replaces with the fallback the languages the console cannot display
         /// using the current operating system language setting.
         /// The fallback for a language is determined based on the value of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> for the language.

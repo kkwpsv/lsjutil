@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CharacterTypeFlags;
 using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.GCPCLASS;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
@@ -123,7 +124,7 @@ namespace Lsj.Util.Win32.Structs
         /// all of the following values are used only in the first location in the array.
         /// All combine with other classifications.
         /// Note that <see cref="GCPCLASS_PREBOUNDLTR"/> and <see cref="GCPCLASS_PREBOUNDRTL"/> are mutually exclusive,
-        /// as are <see cref="GCPCLASSPOSTBOUNDLTR"/> and <see cref="GCPCLASSPOSTBOUNDRTL"/>.
+        /// as are <see cref="GCPCLASS_POSTBOUNDLTR"/> and <see cref="GCPCLASS_POSTBOUNDRTL"/>.
         /// <see cref="GCPCLASS_PREBOUNDLTR"/>:
         /// Set <code>lpClass[0]</code> to <see cref="GCPCLASS_PREBOUNDLTR"/> to bind the string to left-to-right reading order before the string.
         /// <see cref="GCPCLASS_PREBOUNDRTL"/>:

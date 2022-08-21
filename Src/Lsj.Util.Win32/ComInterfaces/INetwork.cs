@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.VARENUM;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
+using static Lsj.Util.Win32.OleAut32;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {

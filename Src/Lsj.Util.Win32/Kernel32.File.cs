@@ -63,6 +63,11 @@ namespace Lsj.Util.Win32
         public const uint INVALID_FILE_SIZE = 0xFFFFFFFF;
 
         /// <summary>
+        /// INVALID_SET_FILE_POINTER
+        /// </summary>
+        public const uint INVALID_SET_FILE_POINTER = unchecked((uint)-1);
+
+        /// <summary>
         /// OFS_MAXPATHNAME
         /// </summary>
         public const int OFS_MAXPATHNAME = 128;

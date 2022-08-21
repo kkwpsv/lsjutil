@@ -7,13 +7,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.GetTimeFormatFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
-using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -113,7 +112,7 @@ namespace Lsj.Util.Win32
         /// The function returns the decoded pointer.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodePointer", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID DecodePointer([In]PVOID Ptr);
+        public static extern PVOID DecodePointer([In] PVOID Ptr);
 
         /// <summary>
         /// <para>

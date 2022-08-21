@@ -26,6 +26,7 @@ namespace Lsj.Util.Win32.BaseTypes
         [FieldOffset(0)]
         private Guid _value;
 
+        /// <inheritdoc/>
         public override string ToString() => _value.ToString();
 
         /// <summary>

@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExtFloodFillFlags;
-using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.GradientFillModes;
 using static Lsj.Util.Win32.Enums.PenStyles;
+using static Lsj.Util.Win32.Enums.PointTypes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
-using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
-using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Msimg32;
 
 namespace Lsj.Util.Win32
 {
@@ -351,6 +351,25 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Ellipse([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="EndPath"/> function closes a path bracket and selects the path
+        /// defined by the bracket into the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-endpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context into which the new path is selected.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPath", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EndPath([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -711,7 +730,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPath", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] BYTE[] aj, [In] int cpt);
+        public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] PointTypes[] aj, [In] int cpt);
 
         /// <summary>
         /// <para>

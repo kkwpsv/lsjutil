@@ -17,6 +17,7 @@ using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.HitTestResults;
+using static Lsj.Util.Win32.Enums.HSHELL;
 using static Lsj.Util.Win32.Enums.LayeredWindowAttributes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
@@ -3109,7 +3110,7 @@ namespace Lsj.Util.Win32
         /// A handle to the window that should be forced to exit.
         /// <see cref="HSHELL_APPCOMMAND"/>:
         /// The APPCOMMAND which has been unhandled by the application or other hooks.
-        /// See <see cref="WM_APPCOMMAND"/> and use the GET_APPCOMMAND_LPARAM macro to retrieve this parameter.
+        /// See <see cref="WM_APPCOMMAND"/> and use the <see cref="GET_APPCOMMAND_LPARAM"/> macro to retrieve this parameter.
         /// <see cref="HSHELL_MONITORCHANGED"/>:
         /// A handle to the window that moved to a different monitor.
         /// </remarks>

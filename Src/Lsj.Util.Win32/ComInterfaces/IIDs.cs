@@ -173,6 +173,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IPropertySetStorage = "0000013A-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPropertyStore
+        /// </summary>
+        public static readonly IID IID_IPropertyStore = "886d8eeb-8cf2-4446-8d02-cdba1dbdcf99";
+
+        /// <summary>
         /// IID_ISequentialStream
         /// </summary>
         public static readonly IID IID_ISequentialStream = "0c733a30-2a1c-11ce-ade5-00aa0044773d";

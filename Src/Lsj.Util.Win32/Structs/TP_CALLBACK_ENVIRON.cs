@@ -49,9 +49,9 @@ namespace Lsj.Util.Win32.Structs
         public PTP_SIMPLE_CALLBACK FinalizationCallback;
 
         /// <summary>
-        /// Flags
+        /// 
         /// </summary>
-        public DWORD Flags;
+        public TP_CALLBACK_ENVIRON_u u;
 
         /// <summary>
         /// CallbackPriority
@@ -62,5 +62,17 @@ namespace Lsj.Util.Win32.Structs
         /// Size
         /// </summary>
         public DWORD Size;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct TP_CALLBACK_ENVIRON_u
+        {
+            /// <summary>
+            /// Flags
+            /// </summary>
+            public DWORD Flags;
+        }
     }
 }

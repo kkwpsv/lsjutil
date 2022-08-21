@@ -1,4 +1,6 @@
 ﻿using static Lsj.Util.Win32.BaseTypes.LCID;
+using static Lsj.Util.Win32.Enums.DateTimePickerMessages;
+using static Lsj.Util.Win32.Enums.DateTimePickerNotifications;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -25,7 +27,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Displays the date in long format.
-        /// The default format string for this style is defined by <see cref="LOCALE_SLONGDATEFORMAT"/>, which produces output like "Friday, April 19, 1996".
+        /// The default format string for this style is defined by <see cref="LOCALE_SLONGDATE"/>, which produces output like "Friday, April 19, 1996".
         /// When this style is used, the dropdown button does not display an icon.
         /// </summary>
         DTS_LONGDATEFORMAT = 0x0004,

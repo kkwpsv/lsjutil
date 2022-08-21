@@ -1,7 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.GradientFillModes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Structs.BLENDFUNCTION;
@@ -167,7 +169,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Msimg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GradientFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GradientFill([In] HDC hdc, [In] TRIVERTEX[] pVertex, [In] ULONG nVertex,
-            [In] PVOID pMesh, [In] ULONG nCount, [In] ULONG ulMode);
+            [In] PVOID pMesh, [In] ULONG nCount, [In] GradientFillModes ulMode);
 
         /// <summary>
         /// <para>
