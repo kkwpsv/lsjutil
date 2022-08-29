@@ -164,29 +164,19 @@ namespace Lsj.Util.Win32.Extensions
                     throw new Win32Exception();
                 }
 
-                var oldObject = SelectObject(destDC, destBitmap);
-                if (oldObject == NULL)
-                {
-                    throw new Win32Exception();
-                }
+                SelectObject(destDC, destBitmap);
 
                 if (!BitBlt(destDC, 0, 0, width, height, windowDC, 0, 0, rasterCodes))
                 {
                     throw new Win32Exception();
                 }
 
-                SelectObject(destDC, oldObject);
             }
             finally
             {
-                if (windowDC != NULL)
-                {
-                    ReleaseDC(hwnd, windowDC);
-                }
-                if (destDC != NULL)
-                {
-                    DeleteDC(destDC);
-                }
+                ReleaseDC(hwnd, windowDC);
+                DeleteDC(destDC);
+                DeleteObject(destBitmap);
             }
             return destBitmap;
         }

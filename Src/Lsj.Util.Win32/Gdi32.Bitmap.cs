@@ -234,6 +234,30 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
+        /// <remarks>
+        /// The color format of the bitmap created by the <see cref="CreateCompatibleBitmap"/> function
+        /// matches the color format of the device identified by the <paramref name="hdc"/> parameter.
+        /// This bitmap can be selected into any memory device context that is compatible with the original device.
+        /// Because memory device contexts allow both color and monochrome bitmaps,
+        /// the format of the bitmap returned by the <see cref="CreateCompatibleBitmap"/> function
+        /// differs when the specified device context is a memory device context.
+        /// However, a compatible bitmap that was created for a nonmemory device context always possesses the same color format
+        /// and uses the same color palette as the specified device context.
+        /// Note: When a memory device context is created, it initially has a 1-by-1 monochrome bitmap selected into it.
+        /// If this memory device context is used in <see cref="CreateCompatibleBitmap"/>, the bitmap that is created is a monochrome bitmap.
+        /// To create a color bitmap, use the HDC that was used to create the memory device context, as shown in the following code:
+        /// <code>
+        /// HDC memDC = CreateCompatibleDC ( hDC );
+        /// HBITMAP memBM = CreateCompatibleBitmap(hDC, nWidth, nHeight);
+        /// SelectObject(memDC, memBM );
+        /// </code>
+        /// If an application sets the <paramref name="nWidth"/> or <paramref name="nHeight"/> parameters to zero,
+        /// <see cref="CreateCompatibleBitmap"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
+        /// If a DIB section, which is a bitmap created by the <see cref="CreateDIBSection"/> function,
+        /// is selected into the device context identified by the <paramref name="hdc"/> parameter,
+        /// <see cref="CreateCompatibleBitmap"/> creates a DIB section.
+        /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
+        /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateCompatibleBitmap([In] HDC hdc, [In] int nWidth, [In] int nHeight);
 
