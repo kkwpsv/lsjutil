@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32.Extensions
         public static T[] GetAllWindow<T>(Func<HWND, T> resultSelector, Func<HWND, (bool includeSelf, bool includeDescendants, bool continueEnum)> filter, Func<HWND, (bool includeSelf, bool continueEnum)> descendantsFilter)
         {
             var result = new List<T>();
-            EnumWindows((WNDENUMPROC)((handle, _) =>
+            Wndenumproc enumFunc = (handle, _) =>
             {
                 var (includeSelf, includeDescendants, continueEnum) = filter(handle);
                 if (includeSelf)
@@ -61,7 +61,12 @@ namespace Lsj.Util.Win32.Extensions
                     }), NULL);
                 }
                 return continueEnum;
-            }), IntPtr.Zero);
+            };
+
+            EnumWindows(enumFunc, IntPtr.Zero);
+
+            GC.KeepAlive(enumFunc);
+
             return result.ToArray();
         }
 
@@ -72,7 +77,7 @@ namespace Lsj.Util.Win32.Extensions
         public static (HWND WindowHandle, string Text)[] GetAllTopLevelWindowHandleWithText()
         {
             var result = new List<(HWND, string)>();
-            EnumWindows((Wndenumproc)((handle, _) =>
+            Wndenumproc enumFunc = (handle, _) =>
             {
                 SetLastError(0);
                 var length = GetWindowTextLength(handle);
@@ -90,7 +95,11 @@ namespace Lsj.Util.Win32.Extensions
                 }
                 result.Add((handle, null));
                 return true;
-            }), IntPtr.Zero);
+            };
+
+            EnumWindows(enumFunc, IntPtr.Zero);
+
+            GC.KeepAlive(enumFunc);
             return result.ToArray();
         }
 
