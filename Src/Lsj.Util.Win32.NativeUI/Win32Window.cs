@@ -1,10 +1,18 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.ImageTypes;
+using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.SystemColors;
+using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
@@ -36,20 +44,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         /// <param name="windowClassName"></param>
         /// <param name="windowText"></param>
-        public Win32Window(string windowClassName, string windowText) : this(windowClassName, windowText, true, NULL)
-        {
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="windowClassName"></param>
-        /// <param name="windowText"></param>
-        /// <param name="needRegisterClass"></param>
-        /// <param name="parentWindow"></param>
-        public Win32Window(string windowClassName, string windowText, bool needRegisterClass, HWND parentWindow)
-            : this(windowClassName, windowText, needRegisterClass, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, WS_TILEDWINDOW, WS_EX_OVERLAPPEDWINDOW, parentWindow)
+        public Win32Window(string windowClassName, string windowText) : this(windowClassName, windowText, true)
         {
 
         }
@@ -67,7 +62,16 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="style"></param>
         /// <param name="stylesEx"></param>
         /// <param name="parentWindow"></param>
-        public Win32Window(string windowClassName, string windowText, bool needRegisterClass, int x, int y, int width, int height, WindowStyles style, WindowStylesEx stylesEx, HWND parentWindow)
+        /// <param name="classInfo"></param>
+        public Win32Window(string windowClassName, string windowText, bool needRegisterClass,
+            int x = CW_USEDEFAULT,
+            int y = CW_USEDEFAULT,
+            int width = CW_USEDEFAULT,
+            int height = CW_USEDEFAULT,
+            WindowStyles style = WS_OVERLAPPEDWINDOW,
+            WindowStylesEx stylesEx = WS_EX_OVERLAPPEDWINDOW,
+            HWND parentWindow = default,
+            WNDCLASSEX? classInfo = null)
         {
             _flags |= Win32WindowFlags.OwnWindow;
             var hInstance = GetModuleHandle(NULL);
@@ -75,7 +79,22 @@ namespace Lsj.Util.Win32.NativeUI
 
             if (needRegisterClass)
             {
-                RegisterWindowClass(hInstance, windowClassName);
+                using var marshal = new StringToIntPtrMarshaler(windowClassName);
+                classInfo ??= new WNDCLASSEX
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
+                    style = CS_DBLCLKS,
+                    lpfnWndProc = _wndProc,
+                    cbClsExtra = 0,
+                    cbWndExtra = 0,
+                    hInstance = hInstance,
+                    hIcon = LoadImage(NULL, (IntPtr)IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED),
+                    hCursor = LoadImage(NULL, (IntPtr)IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_SHARED),
+                    hbrBackground = COLOR_WINDOW,
+                    lpszMenuName = NULL,
+                    lpszClassName = marshal.GetPtr(),
+                };
+                RegisterWindowClass(hInstance, classInfo.Value);
             }
 
             _handle = CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)style, (uint)stylesEx, parentWindow, hInstance);

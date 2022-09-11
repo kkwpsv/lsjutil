@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.ComponentModel;
@@ -10,13 +9,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.CLSCTX;
-using static Lsj.Util.Win32.Enums.ImageTypes;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
-using static Lsj.Util.Win32.Enums.SystemColors;
-using static Lsj.Util.Win32.Enums.SystemCursors;
-using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -62,23 +55,8 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private void RegisterWindowClass(HINSTANCE hInstance, string className)
+        private void RegisterWindowClass(HINSTANCE hInstance, in WNDCLASSEX wndclass)
         {
-            using var marshal = new StringToIntPtrMarshaler(className);
-            var wndclass = new WNDCLASSEX
-            {
-                cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
-                style = CS_DBLCLKS,
-                lpfnWndProc = _wndProc,
-                cbClsExtra = 0,
-                cbWndExtra = 0,
-                hInstance = hInstance,
-                hIcon = LoadImage(NULL, (IntPtr)IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED),
-                hCursor = LoadImage(NULL, (IntPtr)IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_SHARED),
-                hbrBackground = COLOR_WINDOW,
-                lpszMenuName = NULL,
-                lpszClassName = marshal.GetPtr(),
-            };
             if (RegisterClassEx(wndclass) == 0)
             {
                 throw new Win32Exception();
