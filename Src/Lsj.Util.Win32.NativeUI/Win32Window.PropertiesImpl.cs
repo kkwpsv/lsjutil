@@ -212,7 +212,7 @@ namespace Lsj.Util.Win32.NativeUI
         private void SetClassStyles(ClassStyles value)
         {
             SetLastError(ERROR_SUCCESS);
-            if (SetClassLong(_handle, GCL_STYLE, (uint)value) != NULL)
+            if (SetClassLong(_handle, GCL_STYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
