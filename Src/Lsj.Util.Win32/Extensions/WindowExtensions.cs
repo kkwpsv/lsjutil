@@ -179,5 +179,62 @@ namespace Lsj.Util.Win32.Extensions
             }
             return destBitmap;
         }
+
+        /// <summary>
+        /// Get Foreground Window Screenshot (Use GDI.)
+        /// BitBlt from screen dc. Only work for foreground window.
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
+        /// </param>
+        /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        public static HBITMAP GetForegroundWindowScreenshot(HWND hwnd)
+        {
+            HDC desktopDC = NULL;
+            HDC destDC = NULL;
+            HBITMAP destBitmap = NULL;
+
+            try
+            {
+                desktopDC = GetDC(NULL);
+                if (desktopDC == NULL)
+                {
+                    throw new Win32Exception();
+                }
+
+                if (!GetWindowRect(hwnd, out var rect))
+                {
+                    throw new Win32Exception();
+                }
+                var width = rect.right - rect.left;
+                var height = rect.bottom - rect.top;
+
+                destDC = CreateCompatibleDC(desktopDC);
+                if (destDC == NULL)
+                {
+                    throw new Win32Exception();
+                }
+
+                destBitmap = CreateCompatibleBitmap(desktopDC, width, height);
+                if (destBitmap == NULL)
+                {
+                    throw new Win32Exception();
+                }
+
+                SelectObject(destDC, destBitmap);
+
+                if (!BitBlt(destDC, rect.left, rect.top, width, height, desktopDC, 0, 0, SRCCOPY))
+                {
+                    throw new Win32Exception();
+                }
+
+            }
+            finally
+            {
+                ReleaseDC(hwnd, desktopDC);
+                DeleteDC(destDC);
+            }
+            return destBitmap;
+        }
     }
 }
