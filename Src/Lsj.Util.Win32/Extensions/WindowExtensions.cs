@@ -223,7 +223,7 @@ namespace Lsj.Util.Win32.Extensions
 
                 SelectObject(destDC, destBitmap);
 
-                if (!BitBlt(destDC, rect.left, rect.top, width, height, desktopDC, 0, 0, SRCCOPY))
+                if (!BitBlt(destDC, 0, 0, width, height, desktopDC, rect.left, rect.top, SRCCOPY))
                 {
                     throw new Win32Exception();
                 }
