@@ -15,7 +15,7 @@
     <LsjUtilOfficeVersionPrefix>6.0.0</LsjUtilOfficeVersionPrefix>
     <LsjUtilProtobufVersionPrefix>6.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>6.0.0</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>6.2.3</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32VersionPrefix>6.2.4</LsjUtilWin32VersionPrefix>
     <LsjUtilWin32NativeUIVersionPrefix>6.1.0</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>6.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>6.0.0</LsjUtilWPFVersionPrefix>
