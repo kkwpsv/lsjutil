@@ -176,7 +176,6 @@ namespace Lsj.Util.Win32.Extensions
             {
                 ReleaseDC(hwnd, windowDC);
                 DeleteDC(destDC);
-                DeleteObject(destBitmap);
             }
             return destBitmap;
         }
