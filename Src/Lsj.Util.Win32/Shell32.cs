@@ -961,6 +961,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Provides a default handler to extract an icon from a file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shdefextracticonw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszIconFile">
+        /// A pointer to a null-terminated buffer that contains the path and name of the file from which the icon is extracted.
+        /// </param>
+        /// <param name="iIndex">
+        /// The location of the icon within the file named in <paramref name="pszIconFile"/>.
+        /// If this is a positive number, it refers to the zero-based position of the icon in the file.
+        /// For instance, 0 refers to the 1st icon in the resource file and 2 refers to the 3rd.
+        /// If this is a negative number, it refers to the icon's resource ID.
+        /// </param>
+        /// <param name="uFlags">
+        /// A flag that controls the icon extraction.
+        /// <see cref="GIL_SIMULATEDOC"/>:
+        /// Overlays the extracted icon on the default document icon to create the final icon.
+        /// This icon can be used when no more appropriate icon can be found or retrieved.
+        /// </param>
+        /// <param name="phiconLarge">
+        /// A pointer to an <see cref="HICON"/> that, when this function returns successfully,
+        /// receives the handle of the large version of the icon specified in the LOWORD of <paramref name="nIconSize"/>.
+        /// This value can be <see cref="NullRef{HICON}"/>.
+        /// </param>
+        /// <param name="phiconSmall">
+        /// A pointer to an <see cref="HICON"/> that, when this function returns successfully,
+        /// receives the handle of the small version of the icon specified in the HIWORD of <paramref name="nIconSize"/>.
+        /// </param>
+        /// <param name="nIconSize">
+        /// A value that contains the large icon size in its LOWORD and the small icon size in its HIWORD.
+        /// Size is measured in pixels. Pass 0 to specify default large and small sizes.
+        /// </param>
+        /// <returns>
+        /// This function can return one of these values.
+        /// <see cref="S_OK"/>: Success.
+        /// <see cref="S_FALSE"/>: The requested icon is not present.
+        /// <see cref="E_FAIL"/>: The file cannot be accessed, or is being accessed through a slow link.
+        /// </returns>
+        /// <remarks>
+        /// It is the responsibility of the caller to free the icon resources created through this function when they are no longer needed.
+        /// This can be done through the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDefExtractIconW", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHDefExtractIcon([In] LPCWSTR pszIconFile, [In] int iIndex, [In] UINT uFlags,
+            [Out] out HICON phiconLarge, [Out] out HICON phiconSmall, [In] UINT nIconSize);
+
+        /// <summary>
+        /// <para>
         /// Performs an operation on a specified file.
         /// </para>
         /// <para>
