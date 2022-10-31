@@ -387,6 +387,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the window handle used by the console associated with the calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolewindow"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the window used by the console associated with the calling process
+        /// or <see cref="NULL"/> if there is no such associated console.
+        /// </returns>
+        /// <remarks>
+        /// For an application that is hosted inside a pseudoconsole session,
+        /// this function returns a window handle for message queue purposes only.
+        /// The associated window is not displayed locally as the pseudoconsole is serializing all actions
+        /// to a stream for presentation on another terminal window elsewhere.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetConsoleWindow();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current input mode of a console's input buffer or the current output mode of a console screen buffer.
         /// </para>
         /// <para>
