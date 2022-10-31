@@ -507,6 +507,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         public bool Succeed => _value >= 0;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Exception? ToException() => Marshal.GetExceptionForHR(this);
+
         /// <inheritdoc/>
         public override bool Equals(object obj) => obj is HRESULT hr && this == hr;
 
