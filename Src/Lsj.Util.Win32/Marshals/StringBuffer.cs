@@ -19,6 +19,7 @@ namespace Lsj.Util.Win32.Marshals
         {
             _length = bufferLength;
             _handle = Marshal.AllocHGlobal(ByteLength);
+            UnsafePInvokeExtensions.ZeroMemory(_handle, ByteLength);
         }
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace Lsj.Util.Win32.Marshals
                     UnsafeHelper.Copy(ptr, (char*)(void*)_handle, ByteLength);
                 }
             }
+            UnsafePInvokeExtensions.ZeroMemory(_handle + initContent.Length * 2, ByteLength - initContent.Length * 2);
         }
 
         /// <summary>

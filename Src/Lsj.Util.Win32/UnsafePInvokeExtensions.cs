@@ -54,5 +54,12 @@ namespace Lsj.Util.Win32
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static int SizeOf<T>() where T : struct => Unsafe.SizeOf<T>();
+
+        /// <summary>
+        /// ZeroMemory
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="count"></param>
+        public static void ZeroMemory(IntPtr p, int count) => Unsafe.InitBlock((void*)p, 0, (uint)count);
     }
 }
