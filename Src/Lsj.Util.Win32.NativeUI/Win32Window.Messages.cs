@@ -54,6 +54,8 @@ namespace Lsj.Util.Win32.NativeUI
                     case WindowMessages.WM_DESTROY:
                         PostQuitMessage(0);
                         return 0;
+                    case WindowMessages.WM_PAINT:
+                        return OnPaint(hWnd, wParam, lParam);
                     default:
                         return DefWindowProc(hWnd, msg, wParam, lParam);
                 }
@@ -66,6 +68,18 @@ namespace Lsj.Util.Win32.NativeUI
                 DestroyWindow(_handle);
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// On WM_PAINT
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam)
+        {
+            return DefWindowProc(hWnd, WindowMessages.WM_PAINT, wParam, lParam);
         }
     }
 }

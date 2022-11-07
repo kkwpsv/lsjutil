@@ -18,11 +18,21 @@ namespace Lsj.Util.Win32.NativeUI.GDI
         /// </summary>
         public DeviceContext DeviceContext { get; private set; }
 
+        /// <summary>
+        /// Should Erase Background
+        /// </summary>
+        public bool EraseBackground => _paintStruct.fErase;
+
+        /// <summary>
+        /// Paint Rect
+        /// </summary>
+        public RECT PaintRect => _paintStruct.rcPaint;
+
         private PaintScope(HWND hwnd, PAINTSTRUCT paintStruct, HDC hdc)
         {
             _hwnd = hwnd;
             _paintStruct = paintStruct;
-            DeviceContext = new DeviceContext(hdc);
+            DeviceContext = new DeviceContext(hdc, DeviceContextReleaseMode.None);
         }
 
         /// <summary>

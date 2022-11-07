@@ -476,7 +476,7 @@ namespace Lsj.Util.Win32
         /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", ExactSpelling = true, SetLastError = true)]
-        public static extern int FillRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
+        public static extern int FillRect([In] HDC hDC, [In] in RECT lprc, [In] HBRUSH hbr);
 
         /// <summary>
         /// <para>
