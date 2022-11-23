@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
             else
             {
-                throw new GDIOperationFailedException();
+                throw new GDIOperationFailedException(nameof(CreatePen));
             }
         }
     }
