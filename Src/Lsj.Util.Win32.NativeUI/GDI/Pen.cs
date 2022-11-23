@@ -56,5 +56,18 @@ namespace Lsj.Util.Win32.NativeUI.GDI
                 throw new GDIOperationFailedException(nameof(CreatePen));
             }
         }
+
+        public static Pen CreateSolid(int width, COLORREF color)
+        {
+            var result = CreatePen(PenStyles.PS_SOLID, width, color);
+            if (result != NULL)
+            {
+                return new Pen(result, GdiObjectReleaseMode.DeleteObject);
+            }
+            else
+            {
+                throw new GDIOperationFailedException(nameof(CreatePen));
+            }
+        }
     }
 }
