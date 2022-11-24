@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using static Lsj.Util.Win32.User32;
@@ -51,9 +52,10 @@ namespace Lsj.Util.Win32.NativeUI
                 }
                 switch (msg)
                 {
+                    case WindowMessages.WM_CREATE:
+                        return OnCreate(hWnd, ref UnsafePInvokeExtensions.AsStructRef<CREATESTRUCT>(lParam));
                     case WindowMessages.WM_DESTROY:
-                        PostQuitMessage(0);
-                        return 0;
+                        return OnDestroy(hWnd);
                     case WindowMessages.WM_PAINT:
                         return OnPaint(hWnd, wParam, lParam);
                     default:
@@ -68,6 +70,27 @@ namespace Lsj.Util.Win32.NativeUI
                 DestroyWindow(_handle);
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// On WM_CREATE
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="createStruct"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnCreate(HWND hWnd, ref CREATESTRUCT createStruct)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// On WM_DESTROY
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnDestroy(HWND hWnd)
+        {
+            return 0;
         }
 
         /// <summary>
