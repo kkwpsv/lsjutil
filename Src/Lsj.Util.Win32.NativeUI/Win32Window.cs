@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// Window Handle
         /// </summary>
         protected HWND _handle;
-        private readonly WNDPROC _wndProc;
+        private readonly Wndproc _wndProc;
 
         /// <summary>
         /// Create 
