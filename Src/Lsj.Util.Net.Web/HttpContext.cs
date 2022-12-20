@@ -262,16 +262,9 @@ namespace Lsj.Util.Net.Web
                         await Stream.WriteAsync(Response.GetHttp1HeaderString().ConvertToBytes(Encoding.ASCII));
                     }
 
-                    var length = Response.ContentLength;
                     var content = Response.Content;
-                    if (length != 0)
-                    {
-                        await content.CopyToAsyncWithCount(Stream, length);
-                    }
-                    else
-                    {
-                        await content.CopyToAsync(Stream);
-                    }
+
+                    await content.CopyToAsync(Stream);
 
                     await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
 
