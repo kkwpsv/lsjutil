@@ -8,7 +8,7 @@ using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
-    class FileResponse : HttpResponse
+    public class FileResponse : HttpResponse
     {
         public override long ContentLength => Headers[HttpHeaders.ContentLength].ConvertToLong();
 
