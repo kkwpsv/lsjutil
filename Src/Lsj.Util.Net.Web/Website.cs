@@ -58,21 +58,13 @@ namespace Lsj.Util.Net.Web
             {
                 Modules.Insert(0, new FileModule());
             }
-            Modules.ForEach((x) =>
-            {
-                Process += x.Process;
-            });
         }
 
-        /// <summary>
-        /// Process
-        /// </summary>
-        public event EventHandler<ProcessEventArgs> Process;
         internal IHttpResponse OnProcess(HttpContext x)
         {
             try
             {
-                if (Process != null)
+                foreach (var module in Modules)
                 {
                     var args = new ProcessEventArgs
                     {
@@ -80,7 +72,7 @@ namespace Lsj.Util.Net.Web
                         ServerName = _server.Name,
                         Log = x.Log
                     };
-                    Process(this, args);
+                    module.Process(this, args);
                     if (args.IsProcessed)
                     {
                         return args.Response;
