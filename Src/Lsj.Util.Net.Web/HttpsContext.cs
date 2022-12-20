@@ -14,6 +14,7 @@ using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Sockets;
+using System.Runtime.ConstrainedExecution;
 
 namespace Lsj.Util.Net.Web
 {
@@ -24,6 +25,7 @@ namespace Lsj.Util.Net.Web
 
     internal class HttpsContext : HttpContext, IContext, IDisposable
     {
+        private X509Certificate2 _cert;
 
         /// <summary>
         /// Create a Context
@@ -31,35 +33,28 @@ namespace Lsj.Util.Net.Web
         /// <param name="socket"></param>
         /// <param name="log"></param>
         /// <param name="server"></param>
-        /// <param name="file"></param>
-        /// <param name="password"></param>
+        /// <param name="cert"></param>
         /// <returns></returns>
-        public static HttpsContext Create(Socket socket, LogProvider log, WebServer server, string file, string password)
+        public static HttpsContext Create(Socket socket, LogProvider log, WebServer server, X509Certificate2 cert)
         {
-            return new HttpsContext(socket, log, server, file, password);
+            return new HttpsContext(socket, log, server, cert);
         }
 
-
-        string file;
-        string password;
-
-
-
-        public HttpsContext(Socket socket, LogProvider log, WebServer server, string file, string password) : base(socket, log, server)
+        public HttpsContext(Socket socket, LogProvider log, WebServer server, X509Certificate2 cert) : base(socket, log, server)
         {
-            this.file = file;
-            this.password = password;
+            _cert = cert;
         }
 
         protected override Stream CreateStream(Socket socket)
         {
             var x = new SslStream(new NetworkStream(socket, true), true);
 #if NETSTANDARD
-            x.AuthenticateAsServerAsync(new X509Certificate(file, password), false, SslProtocols.Tls, true).Wait();
+            x.AuthenticateAsServerAsync(_cert, false, SslProtocols.Tls12, true).Wait();
+#elif NET40
+            x.AuthenticateAsServer(_cert, false, (SslProtocols)3072, true);
 #else
-            x.AuthenticateAsServer(new X509Certificate(file, password), false, SslProtocols.Tls, true);
+            x.AuthenticateAsServer(_cert, false, SslProtocols.Tls12, true);
 #endif
-
             return x;
         }
 

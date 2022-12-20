@@ -3,6 +3,7 @@ using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 namespace Lsj.Util.Net.Web.Listeners
@@ -17,6 +18,7 @@ namespace Lsj.Util.Net.Web.Listeners
         private Timer _disposingtimer;
         private string _certFile;
         private string _certPassword;
+        private X509Certificate2 _cert;
         private LogProvider _log;
 
         /// <summary>
@@ -71,6 +73,7 @@ namespace Lsj.Util.Net.Web.Listeners
             {
                 _certFile = certFile ?? throw new ArgumentNullException(nameof(certFile));
                 _certPassword = certPassword ?? throw new ArgumentNullException(nameof(certPassword));
+                _cert = new X509Certificate2(_certFile, _certPassword);
             }
         }
 
@@ -109,7 +112,7 @@ namespace Lsj.Util.Net.Web.Listeners
         /// <inheritdoc/>
         protected override void AfterOnAccepted(StateObject obj)
         {
-            var context = _isSSL ? HttpsContext.Create(obj.handle, Log, Server, _certFile, _certPassword) : HttpContext.Create(obj.handle, Log, Server);
+            var context = _isSSL ? HttpsContext.Create(obj.handle, Log, Server, _cert) : HttpContext.Create(obj.handle, Log, Server);
             Contexts.Add(context);
             context.Start();
         }
