@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator bool(VARIANT_BOOL val) => val == TRUE ? true : val == FALSE ? false : throw new InvalidOperationException("Invalid VARIANT_BOOL value");
+        public static implicit operator bool(VARIANT_BOOL val) => val._value == TRUE._value ? true : val._value == FALSE._value ? false : throw new InvalidOperationException("Invalid VARIANT_BOOL value");
 
         /// <summary>
         /// 
