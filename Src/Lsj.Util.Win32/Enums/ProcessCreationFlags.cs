@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// They can be specified in any combination, except as noted.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/procthread/process-creation-flags"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags"/>
     /// </para>
     /// </summary>
     /// <remarks>

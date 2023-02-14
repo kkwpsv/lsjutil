@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Console Modes
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolemode"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolemode"/>
     /// </para>
     /// </summary>
     public enum ConsoleModes : uint

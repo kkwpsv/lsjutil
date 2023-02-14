@@ -5,7 +5,7 @@
     /// The <see cref="NLM_NETWORK_CATEGORY"/> enumeration is a set of flags that specify the category type of a network.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_network_category"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_network_category"/>
     /// </para>
     /// </summary>
     /// <remarks>

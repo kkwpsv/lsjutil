@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// in the corresponding <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-logical_processor_relationship"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-logical_processor_relationship"/>
     /// </para>
     /// </summary>
     public enum LOGICAL_PROCESSOR_RELATIONSHIP

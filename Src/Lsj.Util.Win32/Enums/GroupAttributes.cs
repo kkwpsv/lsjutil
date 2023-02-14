@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Group Attributes
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-token_groups"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_groups"/>
     /// </para>
     /// </summary>
     public enum GroupAttributes : uint

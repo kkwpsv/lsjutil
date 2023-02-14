@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="SetTokenInformation"/> function uses these values to set the token information.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-token_information_class"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_information_class"/>
     /// </para>
     /// </summary>
     public enum TOKEN_INFORMATION_CLASS

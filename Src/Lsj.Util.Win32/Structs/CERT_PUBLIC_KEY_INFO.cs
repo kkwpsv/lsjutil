@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CERT_PUBLIC_KEY_INFO"/> structure contains a public key and its algorithm.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-cert_public_key_info"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-cert_public_key_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

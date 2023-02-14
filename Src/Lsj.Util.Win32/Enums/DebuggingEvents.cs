@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.Enums
     /// The following debugging events may occur while a process is being debugged.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/debug/debugging-events"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/debug/debugging-events"/>
     /// </para>
     /// </summary>
     public enum DebuggingEvents

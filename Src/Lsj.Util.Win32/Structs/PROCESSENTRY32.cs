@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes an entry from a list of the processes residing in the system address space when a snapshot was taken.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/ns-tlhelp32-processentry32"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/ns-tlhelp32-processentry32"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

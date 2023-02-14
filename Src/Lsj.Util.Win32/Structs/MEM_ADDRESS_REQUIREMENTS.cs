@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies a lowest and highest base address and alignment as part of an extended parameter to a function that manages virtual memory.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-mem_address_requirements"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-mem_address_requirements"/>
     /// </para>
     /// </summary>
     /// <remarks>

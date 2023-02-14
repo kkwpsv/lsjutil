@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// or <see cref="CreateProcessWithTokenW"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/ns-processthreadsapi-process_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-process_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

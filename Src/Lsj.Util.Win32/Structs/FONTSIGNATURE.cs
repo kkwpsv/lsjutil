@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information identifying the code pages and Unicode subranges for which a given font provides glyphs.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-fontsignature"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-fontsignature"/>
     /// </para>
     /// </summary>
     /// <remarks>

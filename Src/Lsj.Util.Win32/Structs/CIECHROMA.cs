@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CIECHROMA"/> structure is used to describe the chromaticity coordinates, x and y, and the luminance, Y in CIE color space.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-ciechroma"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winddi/ns-winddi-ciechroma"/>
     /// </para>
     /// </summary>
     /// <remarks>

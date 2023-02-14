@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Use for a count that must span the full range of a pointer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

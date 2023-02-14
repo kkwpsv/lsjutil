@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Certificate Revocation List (CRL) or Certificate Trust List (CTL).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-cert_extension"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-cert_extension"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

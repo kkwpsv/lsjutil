@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes an entry from a list of the modules belonging to the specified process.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/ns-tlhelp32-moduleentry32w"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/ns-tlhelp32-moduleentry32w"/>
     /// </para>
     /// </summary>
     /// <remarks>

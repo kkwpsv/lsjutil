@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32
         /// Adds a character string to the local atom table and returns a unique value (an atom) identifying the string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-addatomw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-addatomw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// If the atom's reference count is reduced to zero, <see cref="DeleteAtom"/> removes the string associated with the atom from the local atom table.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deleteatom"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deleteatom"/>
         /// </para>
         /// </summary>
         /// <param name="nAtom">
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// Searches the local atom table for the specified character string and retrieves the atom associated with that string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findatomw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findatomw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a copy of the character string associated with the specified local atom.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getatomnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getatomnamew"/>
         /// </para>
         /// </summary>
         /// <param name="nAtom">
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32
         /// Adds a character string to the global atom table and returns a unique value (an atom) identifying the string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaladdatomw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globaladdatomw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -179,7 +179,7 @@ namespace Lsj.Util.Win32
         /// from the global atom table.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldeleteatom"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globaldeleteatom"/>
         /// </para>
         /// </summary>
         /// <param name="nAtom">
@@ -211,7 +211,7 @@ namespace Lsj.Util.Win32
         /// Searches the global atom table for the specified character string and retrieves the global atom associated with that string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalfindatomw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalfindatomw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -238,7 +238,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a copy of the character string associated with the specified global atom.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalgetatomnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalgetatomnamew"/>
         /// </para>
         /// </summary>
         /// <param name="nAtom">
@@ -272,7 +272,7 @@ namespace Lsj.Util.Win32
         /// Initializes the local atom table and sets the number of hash buckets to the specified size.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-initatomtable"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-initatomtable"/>
         /// </para>
         /// </summary>
         /// <param name="nSize">
@@ -303,7 +303,7 @@ namespace Lsj.Util.Win32
         /// Converts the specified atom into a string, so it can be passed to functions which accept either atoms or strings.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-makeintatom"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-makeintatom"/>
         /// </para>
         /// </summary>
         /// <param name="i">

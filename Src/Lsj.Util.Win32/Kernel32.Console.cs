@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// HandlerRoutine is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/handlerroutine"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/handlerroutine"/>
         /// </para>
         /// </summary>
         /// <param name="dwCtrlType">
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// Allocates a new console for the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/allocconsole"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/allocconsole"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -155,7 +155,7 @@ namespace Lsj.Util.Win32
         /// Attaches the calling process to the console of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/attachconsole"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/attachconsole"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// Creates a console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/createconsolescreenbuffer"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/createconsolescreenbuffer"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -250,7 +250,7 @@ namespace Lsj.Util.Win32
         /// Flushes the console input buffer. All input records currently in the input buffer are discarded.
         /// </para>
         /// <para>
-        /// From:https://docs.microsoft.com/zh-cn/windows/console/flushconsoleinputbuffer
+        /// From:https://learn.microsoft.com/en-us/windows/console/flushconsoleinputbuffer
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -271,7 +271,7 @@ namespace Lsj.Util.Win32
         /// Detaches the calling process from its console.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/freeconsole"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/freeconsole"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -296,7 +296,7 @@ namespace Lsj.Util.Win32
         /// Sends a specified signal to a console process group that shares the console associated with the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/generateconsolectrlevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/generateconsolectrlevent"/>
         /// </para>
         /// </summary>
         /// <param name="dwCtrlEvent">
@@ -343,7 +343,7 @@ namespace Lsj.Util.Win32
         /// A console uses its input code page to translate keyboard input into the corresponding character value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getconsolecp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolecp"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -366,7 +366,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the size and visibility of the cursor for the specified console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getconsolecursorinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolecursorinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -411,7 +411,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the current input mode of a console's input buffer or the current output mode of a console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getconsolemode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolemode"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleHandle">
@@ -463,7 +463,7 @@ namespace Lsj.Util.Win32
         /// by the various output functions into the images displayed in the console window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getconsoleoutputcp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoleoutputcp"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -487,7 +487,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getconsolescreenbufferinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolescreenbufferinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -518,7 +518,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the size of the largest possible console window, based on the current font and the size of the display.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getlargestconsolewindowsize"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getlargestconsolewindowsize"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -544,7 +544,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of unread input records in the console's input buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getnumberofconsoleinputevents"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getnumberofconsoleinputevents"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -579,7 +579,7 @@ namespace Lsj.Util.Win32
         /// Reads data from the specified console input buffer without removing it from the buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/peekconsoleinput"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/peekconsoleinput"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -618,7 +618,7 @@ namespace Lsj.Util.Win32
         /// Reads character input from the console input buffer and removes it from the buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/readconsole"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsole"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// Reads data from a console input buffer and removes it from the buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleinput"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsoleinput"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -725,7 +725,7 @@ namespace Lsj.Util.Win32
         /// A console uses its input code page to translate keyboard input into the corresponding character value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolecp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolecp"/>
         /// </para>
         /// </summary>
         /// <param name="wCodePageID">
@@ -760,7 +760,7 @@ namespace Lsj.Util.Win32
         /// that determines whether the calling process ignores CTRL+C signals.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolectrlhandler"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolectrlhandler"/>
         /// </para>
         /// </summary>
         /// <param name="HandlerRoutine">
@@ -833,7 +833,7 @@ namespace Lsj.Util.Win32
         /// Sets the cursor position in the specified console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolecursorposition"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolecursorposition"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -866,7 +866,7 @@ namespace Lsj.Util.Win32
         /// Sets the input mode of a console's input buffer or the output mode of a console screen buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolemode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolemode"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleHandle">
@@ -918,7 +918,7 @@ namespace Lsj.Util.Win32
         /// by the various output functions into the images displayed in the console window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsoleoutputcp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsoleoutputcp"/>
         /// </para>
         /// </summary>
         /// <param name="wCodePageID">
@@ -957,7 +957,7 @@ namespace Lsj.Util.Win32
         /// This function affects text written after the function call.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsoletextattribute"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsoletextattribute"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -984,7 +984,7 @@ namespace Lsj.Util.Win32
         /// Sets the current size and position of a console screen buffer's window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setconsolewindowinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolewindowinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -1032,7 +1032,7 @@ namespace Lsj.Util.Win32
         /// Writes a character string to a console screen buffer beginning at the current cursor location.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/writeconsole"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/writeconsole"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -1092,7 +1092,7 @@ namespace Lsj.Util.Win32
         /// Writes data directly to the console input buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleinput"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/writeconsoleinput"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleInput">
@@ -1132,7 +1132,7 @@ namespace Lsj.Util.Win32
         /// The data to be written is taken from a correspondingly sized rectangular block at a specified location in the source buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutput"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/writeconsoleoutput"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">
@@ -1201,7 +1201,7 @@ namespace Lsj.Util.Win32
         /// Copies a number of character attributes to consecutive cells of a console screen buffer, beginning at a specified location.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutputattribute"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/writeconsoleoutputattribute"/>
         /// </para>
         /// </summary>
         /// <param name="hConsoleOutput">

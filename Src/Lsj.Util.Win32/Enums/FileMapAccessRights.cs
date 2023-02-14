@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// File Map Access Rights
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile"/>
     /// </para>
     /// </summary>
     public enum FileMapAccessRights : uint

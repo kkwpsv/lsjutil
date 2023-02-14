@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes an image format.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/ns-magnification-magimageheader"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/magnification/ns-magnification-magimageheader"/>
     /// </para>
     /// </summary>
     [Obsolete("The MAGIMAGEHEADER structure is deprecated in Windows 7 and later, and should not be used in new applications. " +

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// The <see cref="INetworkListManager"/> interface provides a set of methods to perform network list management functions.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/nn-netlistmgr-inetworklistmanager"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/nn-netlistmgr-inetworklistmanager"/>
     /// </para>
     /// </summary>
     public unsafe struct INetworkListManager

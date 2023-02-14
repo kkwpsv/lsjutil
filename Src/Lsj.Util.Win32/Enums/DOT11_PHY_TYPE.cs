@@ -5,7 +5,7 @@
     /// The <see cref="DOT11_PHY_TYPE"/> enumeration defines an 802.11 PHY and media type.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/nativewifi/dot11-phy-type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/nativewifi/dot11-phy-type"/>
     /// </para>
     /// </summary>
     /// <remarks>

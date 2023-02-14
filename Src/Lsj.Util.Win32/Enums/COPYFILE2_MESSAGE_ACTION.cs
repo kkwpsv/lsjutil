@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Returned by the CopyFile2ProgressRoutine callback function to indicate what action should be taken for the pending copy operation.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ne-winbase-copyfile2_message_action"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ne-winbase-copyfile2_message_action"/>
     /// </para>
     /// </summary>
     public enum COPYFILE2_MESSAGE_ACTION

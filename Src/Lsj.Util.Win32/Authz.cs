@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32
         /// Optionally, access masks that will always be granted can be cached, and a handle to cached values is returned.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/authz/nf-authz-authzaccesscheck"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/authz/nf-authz-authzaccesscheck"/>
         /// </para>
         /// </summary>
         /// <param name="Flags">

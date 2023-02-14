@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// A value of type <see cref="MONITORENUMPROC"/> is a pointer to a MonitorEnumProc function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-monitorenumproc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-monitorenumproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32
         /// Windows 8 emulates these modes but still runs in 32-bit color mode.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changedisplaysettingsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changedisplaysettingsw"/>
         /// </para>
         /// </summary>
         /// <param name="lpDevMode">
@@ -151,7 +151,7 @@ namespace Lsj.Util.Win32
         /// Windows 8 emulates these modes but still runs in 32-bit color mode.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changedisplaysettingsexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changedisplaysettingsexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszDeviceName">
@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnumDisplayDevices"/> function lets you obtain information about the display devices in the current session.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpDevice">
@@ -309,7 +309,7 @@ namespace Lsj.Util.Win32
         /// Note that <code>GetSystemMetrics(SM_CMONITORS)</code> counts only the display monitors.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

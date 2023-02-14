@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// For some languages, the first element in the arrays may contain more, language-dependent information.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-gcp_resultsw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-gcp_resultsw"/>
     /// </para>
     /// </summary>
     /// <remarks>

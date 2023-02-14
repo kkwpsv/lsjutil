@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Represents a heap summary retrieved with a call to <see cref="HeapSummary"/>
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/ns-heapapi-heap_summary"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/heapapi/ns-heapapi-heap_summary"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// System Commands
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/menurc/wm-syscommand"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/menurc/wm-syscommand"/>
     /// </para>
     /// </summary>
     public enum SystemCommands

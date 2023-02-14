@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The first bit (Most Significant Bit (MSB)) is the signing bit.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/29d44d70-382f-4998-9d76-8a1fe93e445c"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/29d44d70-382f-4998-9d76-8a1fe93e445c"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Creates a <see cref="LONG"/> value by concatenating the specified values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms632660(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms632660(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="a">

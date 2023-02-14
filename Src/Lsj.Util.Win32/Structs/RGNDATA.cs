@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The rectangles are sorted top to bottom, left to right. They do not overlap.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rgndata"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rgndata"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

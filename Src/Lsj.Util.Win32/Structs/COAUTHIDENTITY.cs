@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains a user name and password.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ns-wtypesbase-coauthidentity"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypesbase/ns-wtypesbase-coauthidentity"/>
     /// </para>
     /// </summary>
     /// <remarks>

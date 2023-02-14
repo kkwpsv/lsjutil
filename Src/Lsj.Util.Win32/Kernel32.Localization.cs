@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32
         /// EnumGeoInfoProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317817(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317817(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="GeoId">
@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32
         /// EnumLocalesProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317822(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317822(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleString">
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="GetLocaleInfoEx"/> with <see cref="LOCALE_SNAME"/> to retrieve the locale name for any input locale, including the default constants.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32
         /// Instead, use <see cref="EnumSystemGeoNames"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-enumsystemgeoid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemgeoid"/>
         /// </para>
         /// </summary>
         /// <param name="GeoClass">
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// Any application that will be run only on Windows Vista and later should use <see cref="EnumSystemLocalesEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemlocalesw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemlocalesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleEnumProc">
@@ -209,7 +209,7 @@ namespace Lsj.Util.Win32
         /// Although <see cref="FindNLSString"/> supports custom locales, most applications should use <see cref="FindNLSStringEx"/> for this type of support.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-findnlsstring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-findnlsstring"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -268,7 +268,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the discussion of comparison functions in Security Considerations: International Features.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-findnlsstringex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-findnlsstringex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -403,7 +403,7 @@ namespace Lsj.Util.Win32
         /// The function copies the formatted message text to an output buffer, processing any embedded insert sequences if requested.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-formatmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-formatmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -484,7 +484,7 @@ namespace Lsj.Util.Win32
         /// Instead, the application should use the Unicode API functions directly, for example, the Unicode version of <see cref="TextOut"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getacp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getacp"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -507,7 +507,7 @@ namespace Lsj.Util.Win32
         /// Any application that runs only on Windows Vista and later should use <see cref="GetCalendarInfoEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcalendarinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcalendarinfow"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -583,7 +583,7 @@ namespace Lsj.Util.Win32
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcalendarinfoex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcalendarinfoex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -656,7 +656,7 @@ namespace Lsj.Util.Win32
         /// To obtain additional information about valid installed or available code pages, the application should use <see cref="GetCPInfoEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcpinfo"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -683,7 +683,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about any valid installed or available code page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfoexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcpinfoexw"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -729,7 +729,7 @@ namespace Lsj.Util.Win32
         /// Retrieves resource-related information about a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getfilemuiinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getfilemuiinfo"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -852,7 +852,7 @@ namespace Lsj.Util.Win32
         /// The application must call this function repeatedly to get the path for each resource file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getfilemuipath"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getfilemuipath"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -999,7 +999,7 @@ namespace Lsj.Util.Win32
         /// It may be altered or unavailable in subsequent versions. Instead, use <see cref="GetGeoInfoEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getgeoinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getgeoinfow"/>
         /// </para>
         /// </summary>
         /// <param name="Location">
@@ -1071,7 +1071,7 @@ namespace Lsj.Util.Win32
         /// Any application that runs only on Windows Vista and later should use <see cref="GetLocaleInfoEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getlocaleinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getlocaleinfow"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -1156,7 +1156,7 @@ namespace Lsj.Util.Win32
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getlocaleinfoex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getlocaleinfoex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -1263,7 +1263,7 @@ namespace Lsj.Util.Win32
         /// or at least pass the <see cref="NLSVERSIONINFOEX"/> structure when calling <see cref="GetNLSVersion"/> to obtain additional sorting versioning data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getnlsversion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnlsversion"/>
         /// </para>
         /// </summary>
         /// <param name="function">
@@ -1307,7 +1307,7 @@ namespace Lsj.Util.Win32
         /// The application should call this function in preference to <see cref="GetNLSVersion"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getnlsversionex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnlsversionex"/>
         /// </para>
         /// </summary>
         /// <param name="function">
@@ -1367,7 +1367,7 @@ namespace Lsj.Util.Win32
         /// For the most consistent results, applications should use Unicode, such as UTF-8 or UTF-16, instead of a specific code page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getoemcp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getoemcp"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1385,7 +1385,7 @@ namespace Lsj.Util.Win32
         /// For more information, see User Interface Language Management.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getprocesspreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getprocesspreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1437,7 +1437,7 @@ namespace Lsj.Util.Win32
         /// Returns the language identifier for the system locale.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getsystemdefaultlangid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getsystemdefaultlangid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1456,7 +1456,7 @@ namespace Lsj.Util.Win32
         /// Any application that runs only on Windows Vista and later should use <see cref="GetSystemDefaultLocaleName"/> in preference to this function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getsystemdefaultlcid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getsystemdefaultlcid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1475,7 +1475,7 @@ namespace Lsj.Util.Win32
         /// For more information, see User Interface Language Management.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getsystempreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getsystempreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1547,7 +1547,7 @@ namespace Lsj.Util.Win32
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getthreadlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getthreadlocale"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1574,7 +1574,7 @@ namespace Lsj.Util.Win32
         /// For more information, see User Interface Language Management.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getthreadpreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getthreadpreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1659,7 +1659,7 @@ namespace Lsj.Util.Win32
         /// Returns the language identifier of the first user interface language for the current thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getthreaduilanguage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getthreaduilanguage"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1693,7 +1693,7 @@ namespace Lsj.Util.Win32
         /// What is the default fallback language?
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getuilanguageinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuilanguageinfo"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1791,7 +1791,7 @@ namespace Lsj.Util.Win32
         /// Returns the language identifier of the Region Format setting for the current user.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getuserdefaultlangid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuserdefaultlangid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1815,7 +1815,7 @@ namespace Lsj.Util.Win32
         /// Applications that are intended to run only on Windows Vista and later should use <see cref="GetUserDefaultLocaleName"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getuserdefaultlcid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuserdefaultlcid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1839,7 +1839,7 @@ namespace Lsj.Util.Win32
         /// The application should call this function in preference to <see cref="GetUserDefaultLCID"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getuserdefaultlocalename"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuserdefaultlocalename"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -1876,7 +1876,7 @@ namespace Lsj.Util.Win32
         /// Instead, use <see cref="GetUserDefaultGeoName"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getusergeoid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getusergeoid"/>
         /// </para>
         /// </summary>
         /// <param name="GeoClass">
@@ -1896,7 +1896,7 @@ namespace Lsj.Util.Win32
         /// For more information, see User Interface Language Management.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getuserpreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuserpreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1960,7 +1960,7 @@ namespace Lsj.Util.Win32
         /// For more information about IDN-related security concerns, see Handling Internationalized Domain Names (IDNs).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-idntoascii"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-idntoascii"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -2049,7 +2049,7 @@ namespace Lsj.Util.Win32
         /// For more information about IDN-related security concerns, see Handling Internationalized Domain Names (IDNs).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-idntounicode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-idntounicode"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -2099,7 +2099,7 @@ namespace Lsj.Util.Win32
         /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte"/>
         /// </para>
         /// </summary>
         /// <param name="TestChar">
@@ -2133,7 +2133,7 @@ namespace Lsj.Util.Win32
         /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -2178,7 +2178,7 @@ namespace Lsj.Util.Win32
         /// Determines if each character in a string has a defined result for a specified NLS capability.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isnlsdefinedstring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isnlsdefinedstring"/>
         /// </para>
         /// </summary>
         /// <param name="Function">
@@ -2231,7 +2231,7 @@ namespace Lsj.Util.Win32
         /// Determines if a specified code page is valid.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidcodepage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidcodepage"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -2253,7 +2253,7 @@ namespace Lsj.Util.Win32
         /// For more information, see NLS Terminology.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidlanguagegroup"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidlanguagegroup"/>
         /// </para>
         /// </summary>
         /// <param name="LanguageGroup">
@@ -2292,7 +2292,7 @@ namespace Lsj.Util.Win32
         /// Instead, use <see cref="IsValidLocaleName"/> to determine the validity of a supplemental locale.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidlocale"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -2339,7 +2339,7 @@ namespace Lsj.Util.Win32
         /// to <see cref="IsValidLocale"/> to determine the validity of a supplemental locale.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidlocalename"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidlocalename"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -2365,7 +2365,7 @@ namespace Lsj.Util.Win32
         /// Determines if the NLS version is valid for a given NLS function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidnlsversion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidnlsversion"/>
         /// </para>
         /// </summary>
         /// <param name="function">
@@ -2406,7 +2406,7 @@ namespace Lsj.Util.Win32
         /// Any application that will be run only on Windows Vista and later should use <see cref="LCMapStringEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-lcmapstringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-lcmapstringw"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -2497,7 +2497,7 @@ namespace Lsj.Util.Win32
         /// The application should call this function in preference to <see cref="LCMapString"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-lcmapstringex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-lcmapstringex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -2689,7 +2689,7 @@ namespace Lsj.Util.Win32
         /// For custom locales, including those created by Microsoft, your applications should prefer locale names over locale identifiers.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-localenametolcid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-localenametolcid"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -2722,7 +2722,7 @@ namespace Lsj.Util.Win32
         /// Finds a possible locale name match for the supplied name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-resolvelocalename"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-resolvelocalename"/>
         /// </para>
         /// </summary>
         /// <param name="lpNameToResolve">
@@ -2765,7 +2765,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Date and Calendar.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setcalendarinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setcalendarinfow"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -2824,7 +2824,7 @@ namespace Lsj.Util.Win32
         /// the calling application must broadcast the <see cref="WM_SETTINGCHANGE"/> message to avoid causing instabilities in other applications.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setlocaleinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setlocaleinfow"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -2880,7 +2880,7 @@ namespace Lsj.Util.Win32
         /// For more information, see User Interface Language Management.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setprocesspreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setprocesspreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -2923,7 +2923,7 @@ namespace Lsj.Util.Win32
         /// Sets the current locale of the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setthreadlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setthreadlocale"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -2966,7 +2966,7 @@ namespace Lsj.Util.Win32
         /// This function is also used by the operating system to identify languages that are safe to use on the Windows console.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setthreadpreferreduilanguages"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setthreadpreferreduilanguages"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -3055,7 +3055,7 @@ namespace Lsj.Util.Win32
         /// This function is limited to allowing the operating system to identify and set a value that is safe to use on the Windows console.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setthreaduilanguage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setthreaduilanguage"/>
         /// </para>
         /// </summary>
         /// <param name="LangId">
@@ -3107,7 +3107,7 @@ namespace Lsj.Util.Win32
         /// Instead, use <see cref="SetUserGeoName"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-setthreadlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-setthreadlocale"/>
         /// </para>
         /// </summary>
         /// <param name="GeoId">
@@ -3141,7 +3141,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a description string for the language associated with a specified binary Microsoft language identifier.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winver-verlanguagenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winver-verlanguagenamew"/>
         /// </para>
         /// </summary>
         /// <param name="wLang">

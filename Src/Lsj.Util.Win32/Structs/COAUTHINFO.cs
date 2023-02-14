@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains the authentication settings used while making a remote activation request from the client computer to the server computer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ns-wtypesbase-coauthinfo"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypesbase/ns-wtypesbase-coauthinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

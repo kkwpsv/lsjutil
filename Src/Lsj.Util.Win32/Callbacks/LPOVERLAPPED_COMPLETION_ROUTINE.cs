@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// LPOVERLAPPED_COMPLETION_ROUTINE
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

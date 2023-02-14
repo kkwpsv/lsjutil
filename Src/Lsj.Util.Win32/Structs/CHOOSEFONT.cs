@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// After the user closes the dialog box, the system returns information about the user's selection in this structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-choosefontw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosefontw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

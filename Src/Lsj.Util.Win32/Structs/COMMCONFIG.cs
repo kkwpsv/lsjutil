@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about the configuration state of a communications device.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-commconfig"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-commconfig"/>
     /// </para>
     /// </summary>
     /// <remarks>

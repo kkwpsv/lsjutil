@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Represents the number and affinity of processors in a processor group.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-processor_group_info"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-processor_group_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

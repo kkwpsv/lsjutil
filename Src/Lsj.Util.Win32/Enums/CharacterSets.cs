@@ -5,7 +5,7 @@
     /// The <see cref="CharacterSets"/> Enumeration defines the possible sets of character glyphs that are defined in fonts for graphics output.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/0d0b32ac-a836-4bd2-a112-b6000a1b4fc9"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/0d0b32ac-a836-4bd2-a112-b6000a1b4fc9"/>
     /// </para>
     /// </summary>
     public enum CharacterSets : byte

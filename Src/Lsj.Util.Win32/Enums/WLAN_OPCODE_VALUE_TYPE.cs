@@ -5,7 +5,7 @@
     /// The <see cref="WLAN_OPCODE_VALUE_TYPE"/> enumeration specifies the origin of automatic configuration (auto config) settings.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ne-wlanapi-wlan_opcode_value_type-r1"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ne-wlanapi-wlan_opcode_value_type-r1"/>
     /// </para>
     /// </summary>
     public enum WLAN_OPCODE_VALUE_TYPE

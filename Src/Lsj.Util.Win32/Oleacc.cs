@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32
         /// that generated the event that is currently being processed by the client's event hook function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfromevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfromevent"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of the <see cref="IAccessible"/> interface pointer for the object displayed at a specified point on the screen.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfrompoint"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfrompoint"/>
         /// </para>
         /// </summary>
         /// <param name="ptScreen">
@@ -129,7 +129,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of the specified interface for the object associated with the specified window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfromwindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleacc/nf-oleacc-accessibleobjectfromwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">

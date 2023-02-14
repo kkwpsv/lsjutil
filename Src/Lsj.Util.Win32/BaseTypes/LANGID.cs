@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For more information, see Language Identifiers.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2)]
@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Creates a language identifier from a primary language identifier and a sublanguage identifier.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-makelangid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-makelangid"/>
         /// </para>
         /// </summary>
         /// <param name="p">

@@ -13,8 +13,8 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For more information, see Locale Identifiers.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/intl/locale-information-constants"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-information-constants"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Creates a locale identifier from a language identifier and a sort order identifier.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-makelcid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-makelcid"/>
         /// </para>
         /// </summary>
         /// <param name="lgid">

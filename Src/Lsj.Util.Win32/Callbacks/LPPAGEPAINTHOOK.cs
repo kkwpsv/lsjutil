@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// LPPAGEPAINTHOOK
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagepainthook"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commdlg/nc-commdlg-lppagepainthook"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

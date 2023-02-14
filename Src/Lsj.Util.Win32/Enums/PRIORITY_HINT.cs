@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines values that are used with the <see cref="FILE_IO_PRIORITY_HINT_INFO"/> structure to specify the priority hint for a file I/O operation.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ne-winbase-priority_hint"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ne-winbase-priority_hint"/>
     /// </para>
     /// </summary>
     public enum PRIORITY_HINT

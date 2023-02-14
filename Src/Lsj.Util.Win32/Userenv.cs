@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// This block can then be passed to the <see cref="CreateProcessAsUser"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-createenvironmentblock"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-createenvironmentblock"/>
         /// </para>
         /// </summary>
         /// <param name="lpEnvironment">
@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32
         /// Frees environment variables created by the CreateEnvironmentBlock function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-destroyenvironmentblock"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-destroyenvironmentblock"/>
         /// </para>
         /// </summary>
         /// <param name="lpEnvironment">
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified user's profile. The profile can be a local user profile or a roaming user profile.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-loaduserprofilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-loaduserprofilew"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -143,7 +143,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section of the <see cref="LoadUserProfile"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-unloaduserprofile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-unloaduserprofile"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">

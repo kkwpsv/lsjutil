@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32
         /// AbortProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-abortproc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nc-wingdi-abortproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32
         /// since the last call to the <see cref="StartDoc"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-abortdoc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-abortdoc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="StartDoc"/> function starts a print job.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-startdocw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-startdocw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="StartPage"/> function prepares the printer driver to accept data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-startpage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-startpage"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -151,7 +151,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetAbortProc"/> function sets the application-defined abort function that allows a print job to be canceled during spooling.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setabortproc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setabortproc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -180,7 +180,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EndDoc"/> function ends a print job.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enddoc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-enddoc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -207,7 +207,7 @@ namespace Lsj.Util.Win32
         /// This function is typically used to direct the device driver to advance to a new page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-endpage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-endpage"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

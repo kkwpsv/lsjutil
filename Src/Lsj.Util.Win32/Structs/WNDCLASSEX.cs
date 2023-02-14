@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// and the <see cref="hIconSm"/> member, which contains a handle to a small icon associated with the window class.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-tagwndclassexw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-tagwndclassexw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

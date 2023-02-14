@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="AccessCheckByTypeAndAuditAlarm"/> and <see cref="AccessCheckByTypeResultListAndAuditAlarm"/> functions use these values.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-audit_event_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-audit_event_type"/>
     /// </para>
     /// </summary>
     public enum AUDIT_EVENT_TYPE

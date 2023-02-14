@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// PlatformIds
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/dotnet/framework/unmanaged-api/metadata/osinfo-structure"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/metadata/osinfo-structure"/>
     /// </para>
     /// </summary>
     public enum PlatformIds : uint

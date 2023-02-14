@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// in this case as an <see cref="IShellItem"/>—and the process that it is associated with.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-shardappidinfo"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/ns-shlobj_core-shardappidinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

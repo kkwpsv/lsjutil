@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// Compares two object handles to determine if they refer to the same underlying kernel object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-compareobjecthandles"/>
         /// </para>
         /// </summary>
         /// <param name="hFirstObjectHandle">
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// Maps a view of a file or a pagefile-backed section into the address space of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile2"/>
         /// </para>
         /// </summary>
         /// <param name="FileMappingHandle">
@@ -104,7 +104,7 @@ namespace Lsj.Util.Win32
         /// Maps a view of a file or a pagefile-backed section into the address space of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffilenuma2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffilenuma2"/>
         /// </para>
         /// </summary>
         /// <param name="FileMappingHandle">
@@ -159,7 +159,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the ExtendedParameters parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile3"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile3"/>
         /// </para>
         /// </summary>
         /// <param name="FileMapping">
@@ -236,7 +236,7 @@ namespace Lsj.Util.Win32
         /// Unmaps a previously mapped view of a file or a pagefile-backed section.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile2"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -273,7 +273,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -442,7 +442,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2fromapp"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2fromapp"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -605,7 +605,7 @@ namespace Lsj.Util.Win32
         /// Waits for the value at the specified address to change.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitonaddress"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitonaddress"/>
         /// </para>
         /// </summary>
         /// <param name="Address">
@@ -660,7 +660,7 @@ namespace Lsj.Util.Win32
         /// Wakes all threads that are waiting for the value of an address to change.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakebyaddressall"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-wakebyaddressall"/>
         /// </para>
         /// </summary>
         /// <param name="Address">
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// Wakes one thread that is waiting for the value of an address to change.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakebyaddresssingle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-wakebyaddresssingle"/>
         /// </para>
         /// </summary>
         /// <param name="Address">

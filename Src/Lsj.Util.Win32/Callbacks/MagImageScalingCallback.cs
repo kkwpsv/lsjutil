@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// MagImageScalingCallback
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nc-magnification-magimagescalingcallback"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/magnification/nc-magnification-magimagescalingcallback"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

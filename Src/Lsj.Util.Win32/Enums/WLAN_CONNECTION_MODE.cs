@@ -6,7 +6,7 @@
     /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:  Only the <see cref="wlan_connection_mode_profile"/> value is supported.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ne-wlanapi-wlan_connection_mode"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ne-wlanapi-wlan_connection_mode"/>
     /// </para>
     /// </summary>
     public enum WLAN_CONNECTION_MODE

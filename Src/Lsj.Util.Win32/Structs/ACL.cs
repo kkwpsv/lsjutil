@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// A complete ACL consists of an ACL structure followed by an ordered list of zero or more access control entries (ACEs).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-acl"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-acl"/>
     /// </para>
     /// </summary>
     /// <remarks>

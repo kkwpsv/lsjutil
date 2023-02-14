@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// in which a pointer to the <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure found is passed in the pAce parameter.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-access_allowed_callback_ace"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-access_allowed_callback_ace"/>
     /// </para>
     /// </summary>
     /// <remarks>

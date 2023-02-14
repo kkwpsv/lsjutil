@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// a Browse dialog box displayed in response to a call to <see cref="SHBrowseForFolder"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/bb762598(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/bb762598(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// along with a count of such arguments, in a way that is similar to the standard C run-time argv and argc values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-commandlinetoargvw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-commandlinetoargvw"/>
         /// </para>
         /// </summary>
         /// <param name="lpCmdLine">
@@ -173,7 +173,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the names of dropped files that result from a successful drag-and-drop operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-dragqueryfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragqueryfilew"/>
         /// </para>
         /// </summary>
         /// <param name="hDrop">
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32
         /// To retrieve an array of handles to large or small icons, use the <see cref="ExtractIconEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-extracticonw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-extracticonw"/>
         /// </para>
         /// </summary>
         /// <param name="hInst">
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// extracted from the specified executable file, DLL, or icon file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-extracticonexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-extracticonexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszFile">
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the application-defined, explicit Application User Model ID (AppUserModelID) for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nf-shobjidl_core-getcurrentprocessexplicitappusermodelid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-getcurrentprocessexplicitappusermodelid"/>
         /// </para>
         /// </summary>
         /// <param name="AppID">
@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32
         /// This identifier allows an application to group its associated processes and windows under a single taskbar button.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nf-shobjidl_core-setcurrentprocessexplicitappusermodelid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-setcurrentprocessexplicitappusermodelid"/>
         /// </para>
         /// </summary>
         /// <param name="AppID">
@@ -355,7 +355,7 @@ namespace Lsj.Util.Win32
         /// This function can also be used to clear all usage data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shaddtorecentdocs"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shaddtorecentdocs"/>
         /// </para>
         /// </summary>
         /// <param name="uFlags">
@@ -453,7 +453,7 @@ namespace Lsj.Util.Win32
         /// Takes a pointer to a fully qualified item identifier list (PIDL), and returns a specified interface pointer on the parent object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shbindtoparent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shbindtoparent"/>
         /// </para>
         /// </summary>
         /// <param name="pidl">
@@ -487,7 +487,7 @@ namespace Lsj.Util.Win32
         /// Displays a dialog box that enables the user to select a Shell folder.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shbrowseforfolderw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shbrowseforfolderw"/>
         /// </para>
         /// </summary>
         /// <param name="lpbi">
@@ -737,7 +737,7 @@ namespace Lsj.Util.Win32
         /// An application should use this function if it performs an action that may affect the Shell.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shchangenotify"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shchangenotify"/>
         /// </para>
         /// </summary>
         /// <param name="wEventId">
@@ -909,7 +909,7 @@ namespace Lsj.Util.Win32
         /// It might be altered or unavailable in subsequent versions of Windows.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shcreatedirectoryexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shcreatedirectoryexw"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1014,7 +1014,7 @@ namespace Lsj.Util.Win32
         /// Performs an operation on a specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shellexecutew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutew"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1165,7 +1165,7 @@ namespace Lsj.Util.Win32
         /// Performs an operation on a specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shellexecuteexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecuteexw"/>
         /// </para>
         /// </summary>
         /// <param name="pExecInfo">
@@ -1227,7 +1227,7 @@ namespace Lsj.Util.Win32
         /// This function has been replaced in Windows Vista by <see cref="IFileOperation"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shfileoperationw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shfileoperationw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileOp">
@@ -1361,7 +1361,7 @@ namespace Lsj.Util.Win32
         /// Frees a file name mapping object that was retrieved by the <see cref="SHFileOperation"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shfreenamemappings"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shfreenamemappings"/>
         /// </para>
         /// </summary>
         /// <param name="hNameMappings">
@@ -1375,7 +1375,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the <see cref="IShellFolder"/> interface for the desktop folder, which is the root of the Shell's namespace.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetdesktopfolder"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetdesktopfolder"/>
         /// </para>
         /// </summary>
         /// <param name="ppshf">
@@ -1394,7 +1394,7 @@ namespace Lsj.Util.Win32
         /// Contains information about a file object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetfileinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetfileinfow"/>
         /// </para>
         /// </summary>
         /// <param name="pszPath">
@@ -1538,7 +1538,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of a known folder as an <see cref="ITEMIDLIST"/> structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderidlist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderidlist"/>
         /// </para>
         /// </summary>
         /// <param name="rfid">
@@ -1598,7 +1598,7 @@ namespace Lsj.Util.Win32
         /// Deprecated. Retrieves the path of a folder as an ITEMIDLIST structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderlocation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderlocation"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1652,7 +1652,7 @@ namespace Lsj.Util.Win32
         /// Deprecated. Gets the path of a folder identified by a CSIDL value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderpathw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderpathw"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1730,7 +1730,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the full path of a known folder identified by the folder's <see cref="KNOWNFOLDERID"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderpath"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderpath"/>
         /// </para>
         /// </summary>
         /// <param name="rfid">
@@ -1786,7 +1786,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the display name of an item identified by its IDList.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nf-shobjidl_core-shgetnamefromidlist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-shgetnamefromidlist"/>
         /// </para>
         /// </summary>
         /// <param name="pidl">
@@ -1815,7 +1815,7 @@ namespace Lsj.Util.Win32
         /// Converts an item identifier list to a file system path.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetpathfromidlistw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetpathfromidlistw"/>
         /// </para>
         /// </summary>
         /// <param name="pidl">
@@ -1846,7 +1846,7 @@ namespace Lsj.Util.Win32
         /// Retrieves an object that represents a specific window's collection of properties, which allows those properties to be queried or set.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetpropertystoreforwindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetpropertystoreforwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1892,7 +1892,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a pointer to the <see cref="ITEMIDLIST"/> structure of a special folder.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetspecialfolderlocation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetspecialfolderlocation"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1918,7 +1918,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of a special folder, identified by its <see cref="CSIDL"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetspecialfolderpathw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetspecialfolderpathw"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1957,7 +1957,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about system-defined Shell icons.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetstockiconinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetstockiconinfo"/>
         /// </para>
         /// </summary>
         /// <param name="siid">
@@ -1988,7 +1988,7 @@ namespace Lsj.Util.Win32
         /// Redirects a known folder to a new location.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shsetknownfolderpath"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shsetknownfolderpath"/>
         /// </para>
         /// </summary>
         /// <param name="rfid">

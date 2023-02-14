@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CombineTransform"/> function concatenates two world-space to page-space transformations.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-combinetransform"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-combinetransform"/>
         /// </para>
         /// </summary>
         /// <param name="lpxfOut">

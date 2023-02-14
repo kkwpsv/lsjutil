@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used by the <see cref="GetCPInfo"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ns-winnls-cpinfo"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/ns-winnls-cpinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

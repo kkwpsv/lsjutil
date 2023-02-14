@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32
         /// Stops a system shutdown that has been initiated.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-abortsystemshutdownw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-abortsystemshutdownw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -358,7 +358,7 @@ namespace Lsj.Util.Win32
         /// except that the caller does not need to call the <see cref="LogonUser"/> function to authenticate the user and get a token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw"/>
         /// </para>
         /// </summary>
         /// <param name="lpUsername">
@@ -585,7 +585,7 @@ namespace Lsj.Util.Win32
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -790,7 +790,7 @@ namespace Lsj.Util.Win32
         /// Decrypts an encrypted file or directory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-decryptfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-decryptfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -824,7 +824,7 @@ namespace Lsj.Util.Win32
         /// Encrypts a file or directory. All data streams in a file are encrypted. All new files created in an encrypted directory are encrypted.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-encryptfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-encryptfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -858,7 +858,7 @@ namespace Lsj.Util.Win32
         /// The user is represented by a token handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -902,7 +902,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ImpersonateNamedPipeClient"/> function impersonates a named-pipe client application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -942,7 +942,7 @@ namespace Lsj.Util.Win32
         /// The token is assigned to the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself"/>
         /// </para>
         /// </summary>
         /// <param name="ImpersonationLevel">
@@ -968,7 +968,7 @@ namespace Lsj.Util.Win32
         /// To record a reason for the shutdown in the event log, call the <see cref="InitiateSystemShutdownEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -1054,7 +1054,7 @@ namespace Lsj.Util.Win32
         /// Initiates a shutdown and optional restart of the specified computer, and optionally records the reason for the shutdown.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -1152,7 +1152,7 @@ namespace Lsj.Util.Win32
         /// to create a process that runs in the context of the specified user.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-logonuserw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-logonuserw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszUsername">
@@ -1256,7 +1256,7 @@ namespace Lsj.Util.Win32
         /// represented on a specific system by a specified locally unique identifier (LUID).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemName">
@@ -1300,7 +1300,7 @@ namespace Lsj.Util.Win32
         /// The function applies a mapping supplied in a <see cref="GENERIC_MAPPING"/> structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-mapgenericmask"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-mapgenericmask"/>
         /// </para>
         /// </summary>
         /// <param name="AccessMask">
@@ -1323,7 +1323,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RevertToSelf"/> function terminates the impersonation of a client application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1352,7 +1352,7 @@ namespace Lsj.Util.Win32
         /// such as <see cref="SetSecurityDescriptorDacl"/>, for modifying the components of a security descriptor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1383,7 +1383,7 @@ namespace Lsj.Util.Win32
         /// If a DACL is already present in the security descriptor, the DACL is replaced.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1444,7 +1444,7 @@ namespace Lsj.Util.Win32
         /// replacing any primary group information already present in the security descriptor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1477,7 +1477,7 @@ namespace Lsj.Util.Win32
         /// It replaces any owner information already present in the security descriptor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1510,7 +1510,7 @@ namespace Lsj.Util.Win32
         /// If there is already a SACL present in the security descriptor, it is replaced.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1553,7 +1553,7 @@ namespace Lsj.Util.Win32
         /// The function can also cause a thread to stop using an impersonation token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
         /// </para>
         /// </summary>
         /// <param name="Thread">

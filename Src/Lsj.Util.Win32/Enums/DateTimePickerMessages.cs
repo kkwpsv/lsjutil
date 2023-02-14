@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// DateTimePicker Messages
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-date-and-time-picker-control-reference-messages"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/bumper-date-and-time-picker-control-reference-messages"/>
     /// </para>
     /// </summary>
     public enum DateTimePickerMessages

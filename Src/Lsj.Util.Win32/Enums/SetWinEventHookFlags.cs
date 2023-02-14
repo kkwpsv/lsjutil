@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="SetWinEventHook"/> Flags.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwineventhook"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook"/>
     /// </para>
     /// </summary>
     public enum SetWinEventHookFlags : uint

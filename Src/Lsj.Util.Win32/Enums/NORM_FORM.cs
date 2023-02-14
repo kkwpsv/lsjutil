@@ -5,7 +5,7 @@
     /// Specifies the supported normalization forms.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ne-winnls-norm_form"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/ne-winnls-norm_form"/>
     /// </para>
     /// </summary>
     /// <remarks>

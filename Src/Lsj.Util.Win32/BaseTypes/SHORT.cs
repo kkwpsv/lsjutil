@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A 16-bit integer. The range is -32768 through 32767 decimal.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2)]

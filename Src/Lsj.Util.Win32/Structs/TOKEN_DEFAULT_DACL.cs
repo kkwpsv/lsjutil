@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="TOKEN_DEFAULT_DACL"/> structure specifies a discretionary access control list (DACL).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-token_default_dacl"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_default_dacl"/>
     /// </para>
     /// </summary>
     /// <remarks>

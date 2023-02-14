@@ -50,7 +50,7 @@ namespace Lsj.Util.Win32
         /// that called <see cref="FatalAppExit"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-fatalappexitw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-fatalappexitw"/>
         /// </para>
         /// </summary>
         /// <param name="uAction">
@@ -70,7 +70,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the error mode for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-geterrormode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-geterrormode"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32
         /// The function can be called only from within the filter expression or exception-handler block of an exception handler.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/debug/getexceptioncode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/debug/getexceptioncode"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// This function can be called only from within the filter expression of an exception handler.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/debug/getexceptioninformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/debug/getexceptioninformation"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -237,7 +237,7 @@ namespace Lsj.Util.Win32
         /// Multiple threads do not overwrite each other's last-error code.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -274,7 +274,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the error mode for the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-getthreaderrormode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getthreaderrormode"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -293,7 +293,7 @@ namespace Lsj.Util.Win32
         /// Maps a system error code to an <see cref="HRESULT"/> value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-hresult_from_win32"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winerror/nf-winerror-hresult_from_win32"/>
         /// </para>
         /// </summary>
         /// <param name="x">
@@ -308,7 +308,7 @@ namespace Lsj.Util.Win32
         /// Raises an exception in the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception"/>
         /// </para>
         /// </summary>
         /// <param name="dwExceptionCode">
@@ -359,7 +359,7 @@ namespace Lsj.Util.Win32
         /// Controls whether the system will handle the specified types of serious errors or whether the process will handle them.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-seterrormode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-seterrormode"/>
         /// </para>
         /// </summary>
         /// <param name="uMode">
@@ -406,7 +406,7 @@ namespace Lsj.Util.Win32
         /// Sets the last-error code for the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror"/>
         /// </para>
         /// </summary>
         /// <param name="dwErrCode">The last-error code for the thread.</param>
@@ -418,7 +418,7 @@ namespace Lsj.Util.Win32
         /// Controls whether the system will handle the specified types of serious errors or whether the calling thread will handle them.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-setthreaderrormode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setthreaderrormode"/>
         /// </para>
         /// </summary>
         /// <param name="dwNewMode">
@@ -463,7 +463,7 @@ namespace Lsj.Util.Win32
         /// that filter will call the exception filter function specified by the <paramref name="lpTopLevelExceptionFilter"/> parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-setunhandledexceptionfilter"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setunhandledexceptionfilter"/>
         /// </para>
         /// </summary>
         /// <param name="lpTopLevelExceptionFilter">
@@ -502,7 +502,7 @@ namespace Lsj.Util.Win32
         /// This function can be called only from within the filter expression of an exception handler.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-unhandledexceptionfilter"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-unhandledexceptionfilter"/>
         /// </para>
         /// </summary>
         /// <param name="ExceptionInfo">

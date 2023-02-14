@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// The server can require one or more reply tokens from the remote client to complete establishing the security context.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sspi/nf-sspi-acceptsecuritycontext"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-acceptsecuritycontext"/>
         /// </para>
         /// </summary>
         /// <param name="phCredential">

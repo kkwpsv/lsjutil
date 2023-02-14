@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The POINT structure defines the x- and y-coordinates of a point.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/windef/ns-windef-point"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-point"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

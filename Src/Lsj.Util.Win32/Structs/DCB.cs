@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// Defines the control setting for a serial communications device.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-dcb"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-dcb"/>
     /// </para>
     /// </summary>
     /// <remarks>

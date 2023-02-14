@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// when the <see cref="SPI_GETICONMETRICS"/> or <see cref="SPI_SETICONMETRICS"/> action is specified.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-iconmetricsw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-iconmetricsw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

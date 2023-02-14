@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// For more information see Storage and Stream Objects for a Property Set.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/propidl/nn-propidl-ipropertystorage"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/propidl/nn-propidl-ipropertystorage"/>
     /// </para>
     /// </summary>
     public unsafe struct IPropertyStorage

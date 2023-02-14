@@ -5,7 +5,7 @@
     /// Identifies the dots per inch (dpi) setting for a monitor.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/ne-shellscalingapi-monitor_dpi_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellscalingapi/ne-shellscalingapi-monitor_dpi_type"/>
     /// </para>
     /// </summary>
     /// <remarks>

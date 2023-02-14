@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Except where noted, these styles apply to rebar controls, toolbar controls, and status windows.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/common-control-styles"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/common-control-styles"/>
     /// </para>
     /// </summary>
     public enum CommonControlStyles

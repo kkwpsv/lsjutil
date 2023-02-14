@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// to indicate the allocated ranges within the search range.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ns-winioctl-file_allocated_range_buffer"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-file_allocated_range_buffer"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

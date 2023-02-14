@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32
         /// ThreadProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686736(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms686736(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpParameter">
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32
         /// and optionally specify extended attributes.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -178,7 +178,7 @@ namespace Lsj.Util.Win32
         /// and optionally specifies extended attributes such as processor group affinity.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethreadex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethreadex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -276,7 +276,7 @@ namespace Lsj.Util.Win32
         /// To create a thread that runs in the virtual address space of another process, use the <see cref="CreateRemoteThread"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread"/>
         /// </para>
         /// </summary>
         /// <param name="lpThreadAttributes">
@@ -372,7 +372,7 @@ namespace Lsj.Util.Win32
         /// Ends the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitthread"/>
         /// </para>
         /// </summary>
         /// <param name="dwExitCode">
@@ -415,7 +415,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of the processor the current thread was running on during the call to this function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumber"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumber"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -435,7 +435,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the processor group and number of the logical processor in which the calling thread is running.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumberex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessornumberex"/>
         /// </para>
         /// </summary>
         /// <param name="ProcNumber">
@@ -454,7 +454,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a pseudo handle for the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthread"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the thread identifier of the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -506,7 +506,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the boundaries of the stack that was allocated by the system for the current thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadstacklimits"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadstacklimits"/>
         /// </para>
         /// </summary>
         /// <param name="LowLimit">
@@ -527,7 +527,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the termination status of the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodethread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodethread"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -569,7 +569,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the process identifier of the process associated with the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessidofthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessidofthread"/>
         /// </para>
         /// </summary>
         /// <param name="Thread">
@@ -633,7 +633,7 @@ namespace Lsj.Util.Win32
         /// Windows Server 2003:  The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadid"/>
         /// </para>
         /// </summary>
         /// <param name="Thread">
@@ -659,7 +659,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the processor number of the ideal processor for the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadidealprocessorex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadidealprocessorex"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -684,7 +684,7 @@ namespace Lsj.Util.Win32
         /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriority"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriority"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -717,7 +717,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the priority boost control state of the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriorityboost"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriorityboost"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -745,7 +745,7 @@ namespace Lsj.Util.Win32
         /// Retrieves timing information for the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadtimes"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadtimes"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -793,7 +793,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing thread object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthread"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -829,7 +829,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the cycle time for the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-querythreadcycletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-querythreadcycletime"/>
         /// </para>
         /// </summary>
         /// <param name="ThreadHandle">
@@ -864,7 +864,7 @@ namespace Lsj.Util.Win32
         /// When the suspend count is decremented to zero, the execution of the thread is resumed.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-resumethread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-resumethread"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -900,7 +900,7 @@ namespace Lsj.Util.Win32
         /// Sets a processor affinity mask for the specified thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -942,7 +942,7 @@ namespace Lsj.Util.Win32
         /// A 64-bit application can set the context of a WOW64 thread using the <see cref="Wow64SetThreadContext"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadcontext"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -980,7 +980,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SetThreadIdealProcessorEx"/> function to specify a processor group and preferred processor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1014,7 +1014,7 @@ namespace Lsj.Util.Win32
         /// Sets the ideal processor for the specified thread and optionally retrieves the previous ideal processor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessorex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessorex"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1053,7 +1053,7 @@ namespace Lsj.Util.Win32
         /// This value, together with the priority class of the thread's process, determines the thread's base priority level.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1123,7 +1123,7 @@ namespace Lsj.Util.Win32
         /// Disables or enables the ability of the system to temporarily boost the priority of a thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriorityboost"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriorityboost"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1159,7 +1159,7 @@ namespace Lsj.Util.Win32
         /// the application can safely use the specified number of bytes during exception handling.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadstackguarantee"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadstackguarantee"/>
         /// </para>
         /// </summary>
         /// <param name="StackSizeInBytes">
@@ -1193,7 +1193,7 @@ namespace Lsj.Util.Win32
         /// The function can also cause a thread to stop using an impersonation token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
         /// </para>
         /// </summary>
         /// <param name="Thread">
@@ -1224,7 +1224,7 @@ namespace Lsj.Util.Win32
         /// To enter an alertable wait state, use the <see cref="SleepEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleep"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleep"/>
         /// </para>
         /// </summary>
         /// <param name="dwMilliseconds">
@@ -1281,7 +1281,7 @@ namespace Lsj.Util.Win32
         /// The time-out interval elapses.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleepex"/>
         /// </para>
         /// </summary>
         /// <param name="dwMilliseconds">
@@ -1360,7 +1360,7 @@ namespace Lsj.Util.Win32
         /// A 64-bit application can suspend a WOW64 thread using the <see cref="Wow64SuspendThread"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-suspendthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-suspendthread"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1397,7 +1397,7 @@ namespace Lsj.Util.Win32
         /// The operating system selects the next thread to be executed.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-switchtothread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-switchtothread"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1427,7 +1427,7 @@ namespace Lsj.Util.Win32
         /// Terminates a thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -1475,7 +1475,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the first thread of any process encountered in a system snapshot.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-thread32first"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-thread32first"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1504,7 +1504,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the next thread of any process encountered in the system memory snapshot.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-thread32next"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-thread32next"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1531,7 +1531,7 @@ namespace Lsj.Util.Win32
         /// because each thread receives its own slot for the index.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsalloc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsalloc"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1607,7 +1607,7 @@ namespace Lsj.Util.Win32
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsgetvalue"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsgetvalue"/>
         /// </para>
         /// </summary>
         /// <param name="dwTlsIndex">
@@ -1657,7 +1657,7 @@ namespace Lsj.Util.Win32
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlssetvalue"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlssetvalue"/>
         /// </para>
         /// </summary>
         /// <param name="dwTlsIndex">

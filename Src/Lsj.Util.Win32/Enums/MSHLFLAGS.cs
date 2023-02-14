@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies why the marshaling is to be done.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ne-wtypesbase-mshlflags"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypesbase/ne-wtypesbase-mshlflags"/>
     /// </para>
     /// </summary>
     public enum MSHLFLAGS : uint

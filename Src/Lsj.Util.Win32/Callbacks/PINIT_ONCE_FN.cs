@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PINIT_ONCE_FN
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nc-synchapi-pinit_once_fn"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nc-synchapi-pinit_once_fn"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

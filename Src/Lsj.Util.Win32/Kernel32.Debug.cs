@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified process is being debugged.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-checkremotedebuggerpresent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-checkremotedebuggerpresent"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// Enables a debugger to continue a thread that previously reported a debugging event.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-continuedebugevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-continuedebugevent"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32
         /// Enables a debugger to attach to an active process and debug it.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugactiveprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-debugactiveprocess"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -129,7 +129,7 @@ namespace Lsj.Util.Win32
         /// Stops the debugger from debugging the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugactiveprocessstop"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-debugactiveprocessstop"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -150,7 +150,7 @@ namespace Lsj.Util.Win32
         /// To cause a breakpoint exception in another process, use the <see cref="DebugBreakProcess"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugbreak"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-debugbreak"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// This allows the calling thread to signal the debugger to handle the exception.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-debugbreakprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-debugbreakprocess"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// Sets the action to be performed when the calling thread exits.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-debugsetprocesskillonexit"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-debugsetprocesskillonexit"/>
         /// </para>
         /// </summary>
         /// <param name="KillOnExit">
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32
         /// The behavior of the debugger thereafter is specific to the type of debugger used.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-fatalexit"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-fatalexit"/>
         /// </para>
         /// </summary>
         /// <param name="ExitCode">
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the calling process is being debugged by a user-mode debugger.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -262,7 +262,7 @@ namespace Lsj.Util.Win32
         /// and is specifically opting into receiving Unicode strings.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-outputdebugstringw"/>
         /// </para>
         /// </summary>
         /// <param name="lpOutputString">
@@ -296,7 +296,7 @@ namespace Lsj.Util.Win32
         /// and is specifically opting into receiving Unicode strings.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-waitfordebugevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugevent"/>
         /// </para>
         /// </summary>
         /// <param name="lpDebugEvent">
@@ -344,7 +344,7 @@ namespace Lsj.Util.Win32
         /// and is specifically opting into receiving Unicode strings.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-waitfordebugeventex"/>
         /// </para>
         /// </summary>
         /// <param name="lpDebugEvent">

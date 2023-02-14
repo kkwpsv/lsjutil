@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used by the <see cref="PowerCreateRequest"/> and <see cref="SetWaitableTimerEx"/> functions.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-reason_context"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-reason_context"/>
     /// </para>
     /// </summary>
     /// <remarks>

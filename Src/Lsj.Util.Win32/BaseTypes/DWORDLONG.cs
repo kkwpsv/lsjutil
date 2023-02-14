@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A <see cref="DWORDLONG"/> is a 64-bit unsigned integer (range: 0 through 18446744073709551615 decimal).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/c575fb47-166c-48cd-a37c-e44cac05c3d6"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/c575fb47-166c-48cd-a37c-e44cac05c3d6"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]

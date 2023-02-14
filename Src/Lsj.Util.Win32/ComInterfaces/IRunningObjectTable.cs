@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// this allows the moniker to bind to the current instance instead of loading a new one.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-irunningobjecttable"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-irunningobjecttable"/>
     /// </para>
     /// </summary>
     public unsafe struct IRunningObjectTable

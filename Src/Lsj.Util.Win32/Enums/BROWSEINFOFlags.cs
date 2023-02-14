@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="BROWSEINFO"/> Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfow"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfow"/>
     /// </para>
     /// </summary>
     public enum BROWSEINFOFlags : uint

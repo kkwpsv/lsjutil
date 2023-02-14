@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// the implementation of <see cref="Load"/> on the object must also open its disk file.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersistfile"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersistfile"/>
     /// </para>
     /// </summary>
     public unsafe struct IPersistFile

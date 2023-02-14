@@ -5,7 +5,7 @@
     /// The <see cref="DOT11_BSS_TYPE"/> enumerated type defines a basic service set (BSS) network type.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/nativewifi/dot11-bss-type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/nativewifi/dot11-bss-type"/>
     /// </para>
     /// </summary>
     public enum DOT11_BSS_TYPE

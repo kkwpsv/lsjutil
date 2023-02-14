@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A <see cref="DWORD32"/> is a 32-bit unsigned integer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/e359fcc1-35c6-4bcd-964d-d59927aeea98"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/e359fcc1-35c6-4bcd-964d-d59927aeea98"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

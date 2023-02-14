@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// SIDs are used to uniquely identify users or groups.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-sid_and_attributes"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-sid_and_attributes"/>
     /// </para>
     /// </summary>
     /// <remarks>

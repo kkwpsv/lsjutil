@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// The following styles can be specified wherever a window style is required.
     /// After the control has been created, these styles cannot be modified, except as noted.</para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winmsg/window-styles"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winmsg/window-styles"/>
     /// </para>
     /// </summary>
     [Flags]

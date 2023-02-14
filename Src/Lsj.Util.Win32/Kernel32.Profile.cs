@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32
         /// Retrieves an integer associated with a key in the specified section of an initialization file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprivateprofileintw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprivateprofileintw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">
@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a string from the specified section in an initialization file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprivateprofilestringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprivateprofilestringw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32
         /// Retrieves an integer from a key in the specified section of the Win.ini file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprofileintw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprofileintw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the string associated with a key in the specified section of the Win.ini file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprofilestringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprofilestringw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">
@@ -348,7 +348,7 @@ namespace Lsj.Util.Win32
         /// Copies a string into the specified section of an initialization file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-writeprivateprofilestringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-writeprivateprofilestringw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">
@@ -435,7 +435,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, the function writes ANSI characters.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-writeprofilestringw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-writeprofilestringw"/>
         /// </para>
         /// </summary>
         /// <param name="lpAppName">

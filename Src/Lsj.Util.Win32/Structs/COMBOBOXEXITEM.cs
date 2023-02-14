@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about an item in a ComboBoxEx control.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-comboboxexitemw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-comboboxexitemw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

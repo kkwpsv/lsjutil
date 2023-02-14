@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// A <see cref="DOT11_SSID"/> structure contains the SSID of an interface.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/nativewifi/dot11-ssid"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/nativewifi/dot11-ssid"/>
     /// </para>
     /// </summary>
     /// <remarks>

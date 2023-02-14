@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="RGBQUAD"/> structure describes a color consisting of relative intensities of red, green, and blue.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-rgbquad"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rgbquad"/>
     /// </para>
     /// </summary>
     /// <remarks>

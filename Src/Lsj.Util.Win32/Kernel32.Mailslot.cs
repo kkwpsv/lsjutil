@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32
         /// The mailslot is local to the computer that creates it. An error occurs if a mailslot with the specified name already exists.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createmailslotw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createmailslotw"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32
         /// Sets the time-out value used by the specified mailslot for a read operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setmailslotinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setmailslotinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hMailslot">

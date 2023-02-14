@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// These rights are used in access control entries (ACEs) and are the primary means of specifying the requested or granted access to an object.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/access-mask"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/secauthz/access-mask"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Value that represent a category by which a folder registered with the Known Folder system can be classified.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-kf_category"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-kf_category"/>
     /// </para>
     /// </summary>
     /// <remarks>

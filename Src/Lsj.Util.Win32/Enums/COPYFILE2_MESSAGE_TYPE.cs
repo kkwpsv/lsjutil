@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Indicates the type of message passed in the <see cref="COPYFILE2_MESSAGE"/> structure to the CopyFile2ProgressRoutine callback function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ne-winbase-copyfile2_message_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ne-winbase-copyfile2_message_type"/>
     /// </para>
     /// </summary>
     public enum COPYFILE2_MESSAGE_TYPE

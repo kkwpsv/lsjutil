@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="RECTL"/> structure defines a rectangle by the coordinates of its upper-left and lower-right corners.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/windef/ns-windef-rectl"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-rectl"/>
     /// </para>
     /// </summary>
     /// <remarks>

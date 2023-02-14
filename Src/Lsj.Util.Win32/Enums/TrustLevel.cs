@@ -5,7 +5,7 @@
     /// Represents the trust level of an activatable class.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/inspectable/ne-inspectable-trustlevel"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/inspectable/ne-inspectable-trustlevel"/>
     /// </para>
     /// </summary>
     /// <remarks>

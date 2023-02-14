@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="WLAN_INTERFACE_INFO_LIST"/> structure contains an array of NIC interface information.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ns-wlanapi-wlan_interface_info_list
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_interface_info_list
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

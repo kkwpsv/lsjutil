@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// Display Device State Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-display_devicew"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-display_devicew"/>
     /// </para>
     /// </summary>
     [Flags]

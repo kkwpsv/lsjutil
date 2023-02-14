@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// It can also represent a collection of network connections with a similar network signature.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/nn-netlistmgr-inetwork"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/nn-netlistmgr-inetwork"/>
     /// </para>
     /// </summary>
     /// <remarks>

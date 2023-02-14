@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Indicates whether the device is a primary or immersive type of display.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/ne-shellscalingapi-display_device_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellscalingapi/ne-shellscalingapi-display_device_type"/>
     /// </para>
     /// </summary>
     public enum DISPLAY_DEVICE_TYPE

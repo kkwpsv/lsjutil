@@ -8,7 +8,7 @@
     /// and <see cref="wlan_interface_state_authenticating"/> values are supported.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ne-wlanapi-wlan_interface_state-r1
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ne-wlanapi-wlan_interface_state-r1
     /// </para>
     /// </summary>
     public enum WLAN_INTERFACE_STATE

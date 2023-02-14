@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// Activates the specified Windows Runtime class.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/roapi/nf-roapi-roactivateinstance"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/roapi/nf-roapi-roactivateinstance"/>
         /// </para>
         /// </summary>
         /// <param name="activatableClassId">
@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32
         /// Gets the activation factory for the specified runtime class.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/roapi/nf-roapi-rogetactivationfactory"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/roapi/nf-roapi-rogetactivationfactory"/>
         /// </para>
         /// </summary>
         /// <param name="activatableClassId">
@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32
         /// Initializes the Windows Runtime on the current thread with the specified concurrency model.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/roapi/nf-roapi-roinitialize"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/roapi/nf-roapi-roinitialize"/>
         /// </para>
         /// </summary>
         /// <param name="initType">
@@ -108,7 +108,7 @@ namespace Lsj.Util.Win32
         /// Closes the Windows Runtime on the current thread.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/roapi/nf-roapi-rouninitialize"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/roapi/nf-roapi-rouninitialize"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// Creates a new <see cref="HSTRING"/> based on the specified source string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winstring/nf-winstring-windowscreatestring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winstring/nf-winstring-windowscreatestring"/>
         /// </para>
         /// </summary>
         /// <param name="sourceString">
@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// Creates a new string reference based on the specified string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winstring/nf-winstring-windowscreatestringreference"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winstring/nf-winstring-windowscreatestringreference"/>
         /// </para>
         /// </summary>
         /// <param name="sourceString">
@@ -218,7 +218,7 @@ namespace Lsj.Util.Win32
         /// Decrements the reference count of a string buffer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winstring/nf-winstring-windowsdeletestring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winstring/nf-winstring-windowsdeletestring"/>
         /// </para>
         /// </summary>
         /// <param name="string">

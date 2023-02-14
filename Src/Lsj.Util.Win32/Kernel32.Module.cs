@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32
         /// Adds a directory to the process DLL search path.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-adddlldirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-adddlldirectory"/>
         /// </para>
         /// </summary>
         /// <param name="NewDirectory">
@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32
         /// This can reduce the size of the working set for some applications.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-disablethreadlibrarycalls"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-disablethreadlibrarycalls"/>
         /// </para>
         /// </summary>
         /// <param name="hLibModule">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the process identifier for each process object in the system.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocesses"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumprocesses"/>
         /// </para>
         /// </summary>
         /// <param name="lpidProcess">
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32
         /// or both types of modules, use the <see cref="EnumProcessModulesEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocessmodules"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumprocessmodules"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -199,7 +199,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle for each module in the specified process that meets the specified filter criteria.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocessmodulesex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumprocessmodulesex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -263,7 +263,7 @@ namespace Lsj.Util.Win32
         /// When the reference count reaches zero, the module is unloaded from the address space of the calling process and the handle is no longer valid.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary"/>
         /// </para>
         /// </summary>
         /// <param name="hLibModule">
@@ -309,7 +309,7 @@ namespace Lsj.Util.Win32
         /// The function does not return.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibraryandexitthread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-freelibraryandexitthread"/>
         /// </para>
         /// </summary>
         /// <param name="hLibModule">
@@ -345,7 +345,7 @@ namespace Lsj.Util.Win32
         /// To locate the file for a module that was loaded by another process, use the <see cref="GetModuleFileNameEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -394,7 +394,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the fully qualified path for the file containing the specified module.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getmodulefilenameexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getmodulefilenameexw"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -453,7 +453,7 @@ namespace Lsj.Util.Win32
         /// To avoid the race conditions described in the Remarks section, use the <see cref="GetModuleHandleEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew"/>
         /// </para>
         /// </summary>
         /// <param name="lpModuleName">
@@ -499,7 +499,7 @@ namespace Lsj.Util.Win32
         /// The module must have been loaded by the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandleexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandleexw"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -558,7 +558,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -625,7 +625,7 @@ namespace Lsj.Util.Win32
         /// For additional load options, use the <see cref="LoadLibraryEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpLibFileName">
@@ -719,7 +719,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpLibFileName">
@@ -900,7 +900,7 @@ namespace Lsj.Util.Win32
         /// Loads and executes an application or creates a new instance of an existing application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-loadmodule"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-loadmodule"/>
         /// </para>
         /// </summary>
         /// <param name="lpModuleName">
@@ -938,7 +938,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified packaged module and its dependencies into the address space of the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-loadpackagedlibrary"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-loadpackagedlibrary"/>
         /// </para>
         /// </summary>
         /// <param name="lpwLibFileName">
@@ -998,7 +998,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the first module associated with a process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-module32firstw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-module32firstw"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1025,7 +1025,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the next module associated with a process or thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-module32nextw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-module32nextw"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1049,7 +1049,7 @@ namespace Lsj.Util.Win32
         /// Removes a directory that was added to the process DLL search path by using <see cref="AddDllDirectory"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-removedlldirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-removedlldirectory"/>
         /// </para>
         /// </summary>
         /// <param name="Cookie">
@@ -1075,7 +1075,7 @@ namespace Lsj.Util.Win32
         /// This search path is used when <see cref="LoadLibraryEx"/> is called with no LOAD_LIBRARY_SEARCH flags.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-setdefaultdlldirectories"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-setdefaultdlldirectories"/>
         /// </para>
         /// </summary>
         /// <param name="DirectoryFlags">
@@ -1133,7 +1133,7 @@ namespace Lsj.Util.Win32
         /// Adds a directory to the search path used to locate DLLs for the application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setdlldirectoryw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setdlldirectoryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">

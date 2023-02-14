@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Represents an extended parameter for a function that manages virtual memory.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-mem_extended_parameter"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-mem_extended_parameter"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode, Pack = 8)]

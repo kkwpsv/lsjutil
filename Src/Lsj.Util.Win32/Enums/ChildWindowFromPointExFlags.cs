@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="ChildWindowFromPointEx"/> Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompointex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-childwindowfrompointex"/>
     /// </para>
     /// </summary>
     public enum ChildWindowFromPointExFlags : uint

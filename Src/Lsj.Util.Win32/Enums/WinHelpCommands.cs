@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="WinHelp"/> Commands
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-winhelpw"/>
     /// </para>
     /// </summary>
     public enum WinHelpCommands : uint

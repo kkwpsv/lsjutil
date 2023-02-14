@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// The following style constants are used when creating SysLink controls.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/syslink-control-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/syslink-control-styles"/>
     /// </para>
     /// </summary>
     [Flags]

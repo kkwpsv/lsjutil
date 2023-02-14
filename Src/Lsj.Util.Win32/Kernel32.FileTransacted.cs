@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32
         /// Copies an existing file to a new file as a transacted operation, notifying the application of its progress through a callback function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-copyfiletransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfiletransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -145,7 +145,7 @@ namespace Lsj.Util.Win32
         /// The new directory retains the other attributes of the specified template directory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectorytransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createdirectorytransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpTemplateDirectory">
@@ -211,7 +211,7 @@ namespace Lsj.Util.Win32
         /// This function is only supported on the NTFS file system, and only for files, not directories.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createhardlinktransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createhardlinktransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -274,7 +274,7 @@ namespace Lsj.Util.Win32
         /// Creates a symbolic link.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
         /// </para>
         /// </summary>
         /// <param name="lpSymlinkFileName">
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32
         /// For more information about transactions, see the Remarks section of this topic.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiletransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createfiletransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -537,7 +537,7 @@ namespace Lsj.Util.Win32
         /// Deletes an existing file as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiletransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deletefiletransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -597,7 +597,7 @@ namespace Lsj.Util.Win32
         /// The function returns a handle to the enumeration that can be used on subsequent calls to the <see cref="FindNextFileNameW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstfilenametransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirstfilenametransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -641,7 +641,7 @@ namespace Lsj.Util.Win32
         /// For the most basic version of this function, see <see cref="FindFirstFile"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstfiletransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirstfiletransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -743,7 +743,7 @@ namespace Lsj.Util.Win32
         /// Enumerates the first stream in the specified file or directory as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -802,7 +802,7 @@ namespace Lsj.Util.Win32
         /// the value obtained is the sparse size of the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcompressedfilesizetransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcompressedfilesizetransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -853,7 +853,7 @@ namespace Lsj.Util.Win32
         /// Retrieves file system attributes for a specified file or directory as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileattributestransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileattributestransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName"></param>
@@ -912,7 +912,7 @@ namespace Lsj.Util.Win32
         /// For more information about file and path names, see File Names, Paths, and Namespaces.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfullpathnametransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfullpathnametransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -979,7 +979,7 @@ namespace Lsj.Util.Win32
         /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getlongpathnametransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getlongpathnametransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszShortPath">
@@ -1041,7 +1041,7 @@ namespace Lsj.Util.Win32
         /// Moves an existing file or a directory, including its children, as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-movefiletransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefiletransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -1138,7 +1138,7 @@ namespace Lsj.Util.Win32
         /// Deletes an existing empty directory as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-removedirectorytransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-removedirectorytransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -1177,7 +1177,7 @@ namespace Lsj.Util.Win32
         /// Sets the attributes for a file or directory as a transacted operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setfileattributestransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setfileattributestransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">

@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is filled when an application calls the <see cref="GetRasterizerCaps"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-rasterizer_status"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rasterizer_status"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

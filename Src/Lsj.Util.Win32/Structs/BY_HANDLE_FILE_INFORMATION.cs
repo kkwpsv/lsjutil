@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information that the <see cref="GetFileInformationByHandle"/> function retrieves.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/ns-fileapi-by_handle_file_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-by_handle_file_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

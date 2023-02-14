@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// can be described in a <see cref="WAVEFORMATEXTENSIBLE"/> structure, which includes the <see cref="WAVEFORMATEX"/> structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/mmeapi/ns-mmeapi-waveformatex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/ns-mmeapi-waveformatex"/>
     /// </para>
     /// </summary>
     /// <remarks>

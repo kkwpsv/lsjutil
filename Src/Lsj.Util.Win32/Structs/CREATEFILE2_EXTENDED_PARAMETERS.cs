@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains optional extended parameters for <see cref="CreateFile2"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-createfile2_extended_parameters"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-createfile2_extended_parameters"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

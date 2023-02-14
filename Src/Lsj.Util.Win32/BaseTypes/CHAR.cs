@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For information on the char keyword, see [C706] section 4.2.9.3.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/77e1033f-b31d-4bd2-b3d5-9f3c9faa22eb"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/77e1033f-b31d-4bd2-b3d5-9f3c9faa22eb"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 1)]

@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32
         /// the system automatically adjusts the position to keep the cursor inside the rectangular area.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-clipcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-clipcursor"/>
         /// </para>
         /// </summary>
         /// <param name="lpRect">
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// Copies the specified cursor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copycursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-copycursor"/>
         /// </para>
         /// </summary>
         /// <param name="pcur">
@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32
         /// Copies the specified icon from another module to the current module.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyicon"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-copyicon"/>
         /// </para>
         /// </summary>
         /// <param name="hIcon">
@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32
         /// If necessary, the function stretches the bits to fit the desired size of the new image.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyimage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-copyimage"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -173,7 +173,7 @@ namespace Lsj.Util.Win32
         /// Creates a cursor having the specified size, bit patterns, and hot spot.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createcursor"/>
         /// </para>
         /// </summary>
         /// <param name="hInst">
@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32
         /// Creates an icon that has the specified size, colors, and bit patterns.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createicon"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createicon"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -276,7 +276,7 @@ namespace Lsj.Util.Win32
         /// To specify a desired height or width, use the <see cref="CreateIconFromResourceEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconfromresource"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createiconfromresource"/>
         /// </para>
         /// </summary>
         /// <param name="presbits">
@@ -318,7 +318,7 @@ namespace Lsj.Util.Win32
         /// Creates an icon or cursor from resource bits describing the icon.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconfromresourceex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createiconfromresourceex"/>
         /// </para>
         /// </summary>
         /// <param name="presbits">
@@ -385,7 +385,7 @@ namespace Lsj.Util.Win32
         /// Creates an icon or cursor from an <see cref="ICONINFO"/> structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconindirect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createiconindirect"/>
         /// </para>
         /// </summary>
         /// <param name="piconinfo">
@@ -413,7 +413,7 @@ namespace Lsj.Util.Win32
         /// Do not use this function to destroy a shared cursor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroycursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroycursor"/>
         /// </para>
         /// </summary>
         /// <param name="hCursor">
@@ -443,7 +443,7 @@ namespace Lsj.Util.Win32
         /// Destroys an icon and frees any memory the icon occupied.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroyicon"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroyicon"/>
         /// </para>
         /// </summary>
         /// <param name="hIcon">
@@ -476,7 +476,7 @@ namespace Lsj.Util.Win32
         /// To specify additional drawing options, use the <see cref="DrawIconEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawicon"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawicon"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -512,7 +512,7 @@ namespace Lsj.Util.Win32
         /// and stretching or compressing the icon or cursor as specified.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawiconex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawiconex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -585,7 +585,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the screen coordinates of the rectangular area to which the cursor is confined.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipcursor"/>
         /// </para>
         /// </summary>
         /// <param name="lpRect">
@@ -612,7 +612,7 @@ namespace Lsj.Util.Win32
         /// To get information on the global cursor, even if it is not owned by the current thread, use <see cref="GetCursorInfo"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcursor"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -627,7 +627,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the global cursor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcursorinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcursorinfo"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -647,7 +647,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the position of the mouse cursor, in screen coordinates.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcursorpos"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcursorpos"/>
         /// </para>
         /// </summary>
         /// <param name="lpPoint">
@@ -673,7 +673,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified icon or cursor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-geticoninfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-geticoninfo"/>
         /// </para>
         /// </summary>
         /// <param name="hIcon">
@@ -728,7 +728,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified cursor resource from the executable (.EXE) file associated with an application instance.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadcursorw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">A handle to an instance of the module whose executable file contains the cursor to be loaded.</param>
@@ -747,7 +747,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified cursor resource from the executable (.EXE) file associated with an application instance.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadcursorw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">Must be <see cref="IntPtr.Zero"/>.</param>
@@ -766,7 +766,7 @@ namespace Lsj.Util.Win32
         /// Creates a cursor based on data contained in a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorfromfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadcursorfromfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -800,7 +800,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified icon resource from the executable (.exe) file associated with an application instance.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadiconw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -824,7 +824,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified icon resource from the executable (.exe) file associated with an application instance.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadiconw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -847,7 +847,7 @@ namespace Lsj.Util.Win32
         /// Loads an icon, cursor, animated cursor, or bitmap.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadimagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadimagew"/>
         /// </para>
         /// </summary>
         /// <param name="hInst">
@@ -973,7 +973,7 @@ namespace Lsj.Util.Win32
         /// To specify a desired height or width, use the <see cref="LookupIconIdFromDirectoryEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectory"/>
         /// </para>
         /// </summary>
         /// <param name="presbits">
@@ -1014,7 +1014,7 @@ namespace Lsj.Util.Win32
         /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex"/>
         /// </para>
         /// </summary>
         /// <param name="presbits">
@@ -1069,7 +1069,7 @@ namespace Lsj.Util.Win32
         /// Sets the cursor shape.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursor"/>
         /// </para>
         /// </summary>
         /// <param name="hCursor">
@@ -1104,7 +1104,7 @@ namespace Lsj.Util.Win32
         /// the system automatically adjusts the coordinates so that the cursor stays within the rectangle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcursorpos"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos"/>
         /// </para>
         /// </summary>
         /// <param name="X">
@@ -1133,7 +1133,7 @@ namespace Lsj.Util.Win32
         /// Displays or hides the cursor.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showcursor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showcursor"/>
         /// </para>
         /// </summary>
         /// <param name="bShow">

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="DuplicateHandle"/> Options
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-duplicatehandle"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle"/>
     /// </para>
     /// </summary>
     public enum DuplicateHandleOptions : uint

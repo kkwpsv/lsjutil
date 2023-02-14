@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// WINEVENTPROC
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-wineventproc"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-wineventproc"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

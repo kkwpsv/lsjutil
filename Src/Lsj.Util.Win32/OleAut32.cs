@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// Converts the MS-DOS representation of time to the date and time representation stored in a variant.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-dosdatetimetovarianttime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-dosdatetimetovarianttime"/>
         /// </para>
         /// </summary>
         /// <param name="wDosDate">
@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a pointer to a running object that has been registered with OLE.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-getactiveobject"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-getactiveobject"/>
         /// </para>
         /// </summary>
         /// <param name="rclsid">
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// Allocates a new string and copies the passed string into it.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-sysallocstring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-sysallocstring"/>
         /// </para>
         /// </summary>
         /// <param name="psz">
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32
         /// Allocates a new string, copies the specified number of characters from the passed string, and appends a null-terminating character.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-sysallocstringlen"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-sysallocstringlen"/>
         /// </para>
         /// </summary>
         /// <param name="strIn">
@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SysReAllocString"/>, <see cref="SysAllocStringLen"/>, or <see cref="SysReAllocStringLen"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-sysfreestring"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-sysfreestring"/>
         /// </para>
         /// </summary>
         /// <param name="bstrString">
@@ -184,7 +184,7 @@ namespace Lsj.Util.Win32
         /// Clears a variant.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-variantclear"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-variantclear"/>
         /// </para>
         /// </summary>
         /// <param name="pvarg">
@@ -229,7 +229,7 @@ namespace Lsj.Util.Win32
         /// Initializes a variant.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-variantinit"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-variantinit"/>
         /// </para>
         /// </summary>
         /// <param name="pvarg">
@@ -249,7 +249,7 @@ namespace Lsj.Util.Win32
         /// Converts the variant representation of a date and time to MS-DOS date and time values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleauto/nf-oleauto-varianttimetodosdatetime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-varianttimetodosdatetime"/>
         /// </para>
         /// </summary>
         /// <param name="vtime">

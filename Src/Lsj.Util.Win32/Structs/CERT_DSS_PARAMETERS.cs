@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CERT_DSS_PARAMETERS"/> structure contains parameters associated with a Digital Signature Standard (DSS) public key algorithm.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-cert_dss_parameters"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-cert_dss_parameters"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

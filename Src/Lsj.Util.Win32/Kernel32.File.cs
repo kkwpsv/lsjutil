@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// CopyProgressRoutine is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
         /// </para>
         /// </summary>
         /// <param name="TotalFileSize">
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// CopyFile2ProgressRoutine is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-pcopyfile2_progress_routine"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-pcopyfile2_progress_routine"/>
         /// </para>
         /// </summary>
         /// <param name="pMessage">
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// Compares two file times.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-comparefiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-comparefiletime"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileTime1">
@@ -197,7 +197,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="CopyFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// Copies an existing file to a new file, notifying the application of its progress through a callback function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-copyfile2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfile2"/>
         /// </para>
         /// </summary>
         /// <param name="pwszExistingFileName">
@@ -313,7 +313,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="CopyFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-copyfileexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-copyfileexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -426,7 +426,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="CreateDirectoryTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createdirectory"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -475,7 +475,7 @@ namespace Lsj.Util.Win32
         /// The new directory retains the other attributes of the specified template directory.
         /// To perform this operation as a transacted operation, use the <see cref="CreateDirectoryTransacted"/> function.
         /// </para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectoryexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createdirectoryexw"/>
         /// </summary>
         /// <param name="lpTemplateDirectory">
         /// The path of the directory to use as a template when creating the new directory.
@@ -537,7 +537,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="CreateHardLinkTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createhardlinkw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createhardlinkw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -609,7 +609,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="CreateSymbolicLinkTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
         /// </para>
         /// </summary>
         /// <param name="lpSymlinkFileName">
@@ -676,7 +676,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="CreateFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1054,7 +1054,7 @@ namespace Lsj.Util.Win32
         /// that can be used for transacted I/O, use the <see cref="CreateFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfile2"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfile2"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1143,7 +1143,7 @@ namespace Lsj.Util.Win32
         /// Defines, redefines, or deletes MS-DOS device names.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-definedosdevicew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-definedosdevicew"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -1188,7 +1188,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="DeleteFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-deletefilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-deletefilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1239,7 +1239,7 @@ namespace Lsj.Util.Win32
         /// Deletes a drive letter or mounted folder.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-deletevolumemountpointw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-deletevolumemountpointw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszVolumeMountPoint">
@@ -1266,7 +1266,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindFirstStreamTransactedW"/>, or <see cref="FindFirstStreamW"/> functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findclose"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findclose"/>
         /// </para>
         /// </summary>
         /// <param name="hFindFile">
@@ -1290,7 +1290,7 @@ namespace Lsj.Util.Win32
         /// Stops change notification handle monitoring.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findclosechangenotification"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findclosechangenotification"/>
         /// </para>
         /// </summary>
         /// <param name="hChangeHandle">
@@ -1319,7 +1319,7 @@ namespace Lsj.Util.Win32
         /// To retrieve information about the specific change as part of the notification, use the <see cref="ReadDirectoryChangesW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstchangenotificationw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstchangenotificationw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -1363,7 +1363,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="FindFirstFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstfilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1446,7 +1446,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="FindFirstFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1548,7 +1548,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="FindFirstFileNameTransactedW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfilenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstfilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1583,7 +1583,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="FindFirstStreamTransactedW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirststreamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirststreamw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1623,7 +1623,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindFirstVolume"/> is used to begin scanning the volumes of a computer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstvolumew"/>
         /// </para>
         /// </summary>
         /// <param name="lpszVolumeName">
@@ -1655,7 +1655,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindFirstVolumeMountPoint"/> is used to begin scanning the mounted folders on a volume.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstvolumemountpointw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirstvolumemountpointw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszRootPathName">
@@ -1694,7 +1694,7 @@ namespace Lsj.Util.Win32
         /// Requests that the operating system signal a change notification handle the next time it detects an appropriate change.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextchangenotification"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextchangenotification"/>
         /// </para>
         /// </summary>
         /// <param name="hChangeHandle">
@@ -1724,7 +1724,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindFirstFileEx"/>, or <see cref="FindFirstFileTransacted"/> functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextfilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextfilew"/>
         /// </para>
         /// </summary>
         /// <param name="hFindFile">
@@ -1766,7 +1766,7 @@ namespace Lsj.Util.Win32
         /// Continues enumerating the hard links to a file using the handle returned by a successful call to the <see cref="FindFirstFileNameW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextfilenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextfilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="hFindStream">
@@ -1797,7 +1797,7 @@ namespace Lsj.Util.Win32
         /// Continues a stream search started by a previous call to the <see cref="FindFirstStreamW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextstreamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextstreamw"/>
         /// </para>
         /// </summary>
         /// <param name="hFindStream">
@@ -1853,7 +1853,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindNextVolumeMountPoint"/> finds one mounted folder per call.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findnextvolumemountpointw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findnextvolumemountpointw"/>
         /// </para>
         /// </summary>
         /// <param name="hFindVolumeMountPoint">
@@ -1892,7 +1892,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FindFirstVolume"/> and <see cref="FindNextVolume"/> functions use this search handle to locate volumes.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findvolumeclose"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findvolumeclose"/>
         /// </para>
         /// </summary>
         /// <param name="hFindVolume">
@@ -1944,7 +1944,7 @@ namespace Lsj.Util.Win32
         /// Flushes the buffers of a specified file and causes all buffered data to be written to a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -1993,7 +1993,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="GetCompressedFileSizeTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getcompressedfilesizew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getcompressedfilesizew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -2039,7 +2039,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified disk, including the amount of free space on the disk.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespacew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getdiskfreespacew"/>
         /// </para>
         /// </summary>
         /// <param name="lpRootPathName">
@@ -2092,7 +2092,7 @@ namespace Lsj.Util.Win32
         /// and the total amount of free space available to the user that is associated with the calling thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpDirectoryName">
@@ -2148,7 +2148,7 @@ namespace Lsj.Util.Win32
         /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the <see cref="SPDRP_REMOVAL_POLICY"/> property.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdrivetypew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getdrivetypew"/>
         /// </para>
         /// </summary>
         /// <param name="lpRootPathName">
@@ -2216,7 +2216,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -2271,7 +2271,7 @@ namespace Lsj.Util.Win32
         /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfileinformationbyhandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileinformationbyhandle"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2309,7 +2309,7 @@ namespace Lsj.Util.Win32
         /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2371,7 +2371,7 @@ namespace Lsj.Util.Win32
         /// It is recommended that you use <see cref="GetFileSizeEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesize"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfilesize"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2414,7 +2414,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the size of the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesizeex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfilesizeex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2443,7 +2443,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the date and time that a file or directory was created, last accessed, and last modified.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfiletime"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2494,7 +2494,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the file type of the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletype"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfiletype"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2517,7 +2517,7 @@ namespace Lsj.Util.Win32
         /// For more information about file and path names, see Naming a File.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2578,7 +2578,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfullpathnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfullpathnamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -2651,7 +2651,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a bitmask representing the currently available disk drives.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlogicaldrives"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getlogicaldrives"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -2668,7 +2668,7 @@ namespace Lsj.Util.Win32
         /// Fills a buffer with strings that specify valid drives in the system.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlogicaldrivestringsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getlogicaldrivestringsw"/>
         /// </para>
         /// </summary>
         /// <param name="nBufferLength">
@@ -2710,7 +2710,7 @@ namespace Lsj.Util.Win32
         /// List Folder, Read Data, Read Attributes
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlongpathnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getlongpathnamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpszShortPath">
@@ -2767,7 +2767,7 @@ namespace Lsj.Util.Win32
         /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpszLongPath">
@@ -2825,7 +2825,7 @@ namespace Lsj.Util.Win32
         /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettempfilenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-gettempfilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -2889,7 +2889,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of the directory designated for temporary files.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettemppathw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-gettemppathw"/>
         /// </para>
         /// </summary>
         /// <param name="nBufferLength">
@@ -2931,7 +2931,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw"/>
         /// </para>
         /// </summary>
         /// <param name="lpRootPathName">
@@ -3014,7 +3014,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -3073,7 +3073,7 @@ namespace Lsj.Util.Win32
         /// ( drive letter, volume GUID path, or mounted folder).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumenameforvolumemountpointw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumenameforvolumemountpointw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszVolumeMountPoint">
@@ -3107,7 +3107,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the volume mount point where the specified path is mounted.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpszFileName">
@@ -3161,7 +3161,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a list of drive letters and mounted folder paths for the specified volume.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumepathnamesforvolumenamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpszVolumeName">
@@ -3196,7 +3196,7 @@ namespace Lsj.Util.Win32
         /// Converts a local file time to a file time based on the Coordinated Universal Time (UTC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-localfiletimetofiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-localfiletimetofiletime"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocalFileTime">
@@ -3225,7 +3225,7 @@ namespace Lsj.Util.Win32
         /// To specify additional options, for example creating a shared lock or for block-on-fail operation, use the <see cref="LockFileEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfile"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -3282,7 +3282,7 @@ namespace Lsj.Util.Win32
         /// This function can operate either synchronously or asynchronously and can request either an exclusive or a shared lock.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -3356,7 +3356,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="MoveFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-movefileexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -3464,7 +3464,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="MoveFileTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-movefilewithprogressw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefilewithprogressw"/>
         /// </para>
         /// </summary>
         /// <param name="lpExistingFileName">
@@ -3617,7 +3617,7 @@ namespace Lsj.Util.Win32
         /// Posts an I/O completion packet to an I/O completion port.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/fileio/postqueuedcompletionstatus"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/fileio/postqueuedcompletionstatus"/>
         /// </para>
         /// </summary>
         /// <param name="CompletionPort">
@@ -3659,7 +3659,7 @@ namespace Lsj.Util.Win32
         /// used to implement the MS-DOS device namespace as well as the value of each specific junction.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-querydosdevicew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-querydosdevicew"/>
         /// </para>
         /// </summary>
         /// <param name="lpDeviceName">
@@ -3713,7 +3713,7 @@ namespace Lsj.Util.Win32
         /// To track changes on a volume, see change journals.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-readdirectorychangesw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-readdirectorychangesw"/>
         /// </para>
         /// </summary>
         /// <param name="hDirectory">
@@ -3816,7 +3816,7 @@ namespace Lsj.Util.Win32
         /// For a similar function designed solely for asynchronous operation, see <see cref="ReadFileEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfile"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -3972,7 +3972,7 @@ namespace Lsj.Util.Win32
         /// To read data from a file or device synchronously, use the <see cref="ReadFile"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfileex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4065,7 +4065,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ReadFileScatter"/> function operates asynchronously.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfilescatter"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfilescatter"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4137,7 +4137,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="RemoveDirectoryTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-removedirectoryw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-removedirectoryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -4171,7 +4171,7 @@ namespace Lsj.Util.Win32
         /// Reopens the specified file system object with different access rights, sharing mode, and flags.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-reopenfile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-reopenfile"/>
         /// </para>
         /// </summary>
         /// <param name="hOriginalFile">
@@ -4227,7 +4227,7 @@ namespace Lsj.Util.Win32
         /// The replacement file assumes the name of the replaced file and its identity.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-replacefilew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-replacefilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpReplacedFileName">
@@ -4336,7 +4336,7 @@ namespace Lsj.Util.Win32
         /// To set the logical end of a file, use the <see cref="SetFileValidData"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setendoffile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setendoffile"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4372,7 +4372,7 @@ namespace Lsj.Util.Win32
         /// To perform this operation as a transacted operation, use the <see cref="SetFileAttributesTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfileattributesw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileattributesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -4433,7 +4433,7 @@ namespace Lsj.Util.Win32
         /// Sets the notification modes for a file handle, allowing you to specify how completion notifications work for the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setfilecompletionnotificationmodes"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setfilecompletionnotificationmodes"/>
         /// </para>
         /// </summary>
         /// <param name="FileHandle">
@@ -4461,7 +4461,7 @@ namespace Lsj.Util.Win32
         /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4519,7 +4519,7 @@ namespace Lsj.Util.Win32
         /// it is easier to use the <see cref="SetFilePointerEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfilepointer"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfilepointer"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4702,7 +4702,7 @@ namespace Lsj.Util.Win32
         /// Moves the file pointer of the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfilepointerex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfilepointerex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4774,7 +4774,7 @@ namespace Lsj.Util.Win32
         /// Sets the date and time that the specified file or directory was created, last accessed, or last modified.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfiletime"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4832,7 +4832,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfilevaliddata"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfilevaliddata"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -4915,7 +4915,7 @@ namespace Lsj.Util.Win32
         /// Associates a volume with a drive letter or a directory on another volume.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setvolumemountpointw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setvolumemountpointw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszVolumeMountPoint">
@@ -4956,7 +4956,7 @@ namespace Lsj.Util.Win32
         /// For an alternate way to specify the region, use the <see cref="UnlockFileEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-unlockfile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-unlockfile"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5001,7 +5001,7 @@ namespace Lsj.Util.Win32
         /// This function can operate either synchronously or asynchronously.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-unlockfileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-unlockfileex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5046,7 +5046,7 @@ namespace Lsj.Util.Win32
         /// For a similar function designed solely for asynchronous operation, see <see cref="WriteFileEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefile"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5221,7 +5221,7 @@ namespace Lsj.Util.Win32
         /// To write data to a file or device synchronously, use the <see cref="WriteFile"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefileex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5292,7 +5292,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WriteFileGather"/> function operates asynchronously.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefilegather"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefilegather"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5394,7 +5394,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="_lclose"/> function closes the specified file so that it is no longer available for reading or writing.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lclose"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-_lclose"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5413,7 +5413,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens the specified file. This documentation is included only for troubleshooting existing code.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lcreat"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-_lcreat"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -5446,7 +5446,7 @@ namespace Lsj.Util.Win32
         /// Repositions the file pointer for the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_llseek"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-_llseek"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -5480,7 +5480,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="_lopen"/> function opens an existing file and sets the file pointer to the beginning of the file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lopen"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-_lopen"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -5506,7 +5506,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="_lread"/> function reads data from the specified file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lread"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-_lread"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">

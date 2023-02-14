@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Controls aspects of moniker binding operations.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-bind_flags"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ne-objidl-bind_flags"/>
     /// </para>
     /// </summary>
     public enum BIND_FLAGS : uint

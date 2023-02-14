@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A 32-bit status value that is used to describe an error or warning.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/office/client-developer/outlook/mapi/scode"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/office/client-developer/outlook/mapi/scode"/>
     /// </para>
     /// </summary>
     /// <remarks>

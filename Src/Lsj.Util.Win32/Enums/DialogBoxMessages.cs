@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Dialog Box Messages
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/dialog-box-messages"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dlgbox/dialog-box-messages"/>
     /// </para>
     /// </summary>
     public enum DialogBoxMessages : uint

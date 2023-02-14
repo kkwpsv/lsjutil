@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies a type of computer name.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/ne-sysinfoapi-computer_name_format"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ne-sysinfoapi-computer_name_format"/>
     /// </para>
     /// </summary>
     public enum COMPUTER_NAME_FORMAT

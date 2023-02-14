@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// To specify the environment block for a particular user or the system, use the ExpandEnvironmentStringsForUser function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-expandenvironmentstringsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-expandenvironmentstringsw"/>
         /// </para>
         /// </summary>
         /// <param name="lpSrc">
@@ -61,7 +61,7 @@ namespace Lsj.Util.Win32
         /// Frees a block of environment strings.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-freeenvironmentstringsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-freeenvironmentstringsw"/>
         /// </para>
         /// </summary>
         /// <param name="penv"></param>
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the command-line string for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getcommandlinew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-getcommandlinew"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -108,7 +108,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the current directory for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcurrentdirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcurrentdirectory"/>
         /// </para>
         /// </summary>
         /// <param name="nBufferLength">
@@ -151,7 +151,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the environment variables for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentstringsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-getenvironmentstringsw"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -176,7 +176,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the contents of the specified variable from the environment block of the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -209,7 +209,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/getstdhandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getstdhandle"/>
         /// </para>
         /// </summary>
         /// <param name="nStdHandle">
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// Searches for a specified file in a specified path.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-searchpathw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-searchpathw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPath">
@@ -319,7 +319,7 @@ namespace Lsj.Util.Win32
         /// Changes the current directory for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcurrentdirectory"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setcurrentdirectory"/>
         /// </para>
         /// </summary>
         /// <param name="lpPathName">
@@ -362,7 +362,7 @@ namespace Lsj.Util.Win32
         /// Sets the environment strings of the calling process (both the system and the user environment variables) for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setenvironmentstringsw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-setenvironmentstringsw"/>
         /// </para>
         /// </summary>
         /// <param name="NewEnvironment">
@@ -381,7 +381,7 @@ namespace Lsj.Util.Win32
         /// Sets the contents of the specified environment variable for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setenvironmentvariablew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-setenvironmentvariablew"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -410,7 +410,7 @@ namespace Lsj.Util.Win32
         /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/setstdhandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setstdhandle"/>
         /// </para>
         /// </summary>
         /// <param name="nStdHandle">
@@ -442,7 +442,7 @@ namespace Lsj.Util.Win32
         /// Sets the handle for the input, output, or error streams.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setstdhandleex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-setstdhandleex"/>
         /// </para>
         /// </summary>
         /// <param name="nStdHandle">

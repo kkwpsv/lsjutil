@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines values that are used with the <see cref="FindFirstFileEx"/> function to specify the information level of the returned data.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ne-minwinbase-findex_info_levels"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-minwinbase-findex_info_levels"/>
     /// </para>
     /// </summary>
     public enum FINDEX_INFO_LEVELS

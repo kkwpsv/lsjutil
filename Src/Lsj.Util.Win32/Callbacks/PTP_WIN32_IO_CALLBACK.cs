@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PTP_WIN32_IO_CALLBACK
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms684124(v=vs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms684124(v=vs.85)"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

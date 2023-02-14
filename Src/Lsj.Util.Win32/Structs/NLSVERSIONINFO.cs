@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Starting with Windows 8, your app should use <see cref="NLSVERSIONINFOEX"/> instead of <see cref="NLSVERSIONINFO"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ns-winnls-nlsversioninfo-r1"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/ns-winnls-nlsversioninfo-r1"/>
     /// </para>
     /// </summary>
     /// <remarks>

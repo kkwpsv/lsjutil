@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies flags for a <see cref="HeapOptimizeResources"/> operation initiated with <see cref="HeapSetInformation"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-heap_optimize_resources_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-heap_optimize_resources_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

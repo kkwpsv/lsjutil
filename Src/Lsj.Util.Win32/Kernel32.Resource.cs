@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32
         /// To specify a language, use the <see cref="FindResourceEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findresourcea"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findresourcea"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// Determines the location of the resource with the specified type, name, and language in the specified module.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findresourceexa"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findresourceexa"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -116,7 +116,7 @@ namespace Lsj.Util.Win32
         /// When the reference count reaches zero, the memory occupied by the resource is freed.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freeresource"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-freeresource"/>
         /// </para>
         /// </summary>
         /// <param name="hResData">
@@ -149,7 +149,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle that can be used to obtain a pointer to the first byte of the specified resource in memory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadresource"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadresource"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a pointer to the specified resource in memory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-lockresource"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-lockresource"/>
         /// </para>
         /// </summary>
         /// <param name="hResData">
@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32
         /// This macro is used in place of a string containing the name of the resource.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-makeintresourcew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-makeintresourcew"/>
         /// </para>
         /// </summary>
         /// <param name="i">
@@ -240,7 +240,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the size, in bytes, of the specified resource.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-sizeofresource"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-sizeofresource"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">

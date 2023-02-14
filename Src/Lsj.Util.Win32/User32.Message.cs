@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32
         /// overlapped windows, and pop-up windows. The message is not posted to child windows.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postmessagew"/>
         /// </para>
         /// </summary>
         public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// SendAsyncProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-sendasyncproc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-sendasyncproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32
         /// To receive additional information if the request is defined, use the <see cref="BroadcastSystemMessageEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-broadcastsystemmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="flags">
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32
         /// that this function can return more information from the recipients.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
         /// </para>
         /// </summary>
         /// <param name="flags">
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// optionally, modifies messages for a dialog box, message box, menu, or scroll bar.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callmsgfilterw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-callmsgfilterw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMsg">
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// A hook procedure can call this function either before or after processing the hook information.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-callnexthookex"/>
         /// </para>
         /// </summary>
         /// <param name="hhk">
@@ -268,7 +268,7 @@ namespace Lsj.Util.Win32
         /// Passes message information to the specified window procedure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-callwindowprocw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPrevWndFunc">
@@ -317,7 +317,7 @@ namespace Lsj.Util.Win32
         /// Adds or removes a message from the User Interface Privilege Isolation (UIPI) message filter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changewindowmessagefilter"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changewindowmessagefilter"/>
         /// </para>
         /// </summary>
         /// <param name="message">
@@ -364,7 +364,7 @@ namespace Lsj.Util.Win32
         /// Modifies the User Interface Privilege Isolation (UIPI) message filter for a specified window.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changewindowmessagefilterex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changewindowmessagefilterex"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -421,7 +421,7 @@ namespace Lsj.Util.Win32
         /// It is typically used to dispatch a message retrieved by the <see cref="GetMessage"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dispatchmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dispatchmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="lpmsg">The message.</param>
@@ -449,7 +449,7 @@ namespace Lsj.Util.Win32
         /// To obtain additional information about how the message was sent, use the <see cref="InSendMessageEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessage"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -467,7 +467,7 @@ namespace Lsj.Util.Win32
         /// that was sent from another thread (in the same process or a different process).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessageex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessageex"/>
         /// </para>
         /// </summary>
         /// <param name="lpReserved">
@@ -490,7 +490,7 @@ namespace Lsj.Util.Win32
         /// Determines whether there are mouse-button or keyboard messages in the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getinputstate"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getinputstate"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -506,7 +506,7 @@ namespace Lsj.Util.Win32
         /// The function dispatches incoming sent messages until a posted message is available for retrieval.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessage"/>
         /// </para>
         /// </summary>
         /// <param name="lpMsg">A <see cref="MSG"/> structure that receives message information from the thread's message queue.</param>
@@ -553,7 +553,7 @@ namespace Lsj.Util.Win32
         /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessageextrainfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessageextrainfo"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -572,7 +572,7 @@ namespace Lsj.Util.Win32
         /// To determine the current position of the cursor, use the <see cref="GetCursorPos"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessagepos"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagepos"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -600,7 +600,7 @@ namespace Lsj.Util.Win32
         /// from the time the system was started to the time the message was created (that is, placed in the thread's message queue).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessagetime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagetime"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -620,7 +620,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the type of messages found in the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getqueuestatus"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getqueuestatus"/>
         /// </para>
         /// </summary>
         /// <param name="flags">
@@ -657,7 +657,7 @@ namespace Lsj.Util.Win32
         /// To enter an alertable wait state, use the <see cref="MsgWaitForMultipleObjectsEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -779,7 +779,7 @@ namespace Lsj.Util.Win32
         /// The array of objects can include input event objects, which you specify using the dwWakeMask parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -888,7 +888,7 @@ namespace Lsj.Util.Win32
         /// Dispatches incoming sent messages, checks the thread message queue for a posted message, and retrieves the message (if any exist).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-peekmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-peekmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="lpMsg">A pointer to an <see cref="MSG"/> structure that receives message information.</param>
@@ -988,7 +988,7 @@ namespace Lsj.Util.Win32
         /// To post a message in the message queue associated with a thread, use the <see cref="PostThreadMessage"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1043,7 +1043,7 @@ namespace Lsj.Util.Win32
         /// It is typically used in response to a <see cref="WM_DESTROY"/> message.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postquitmessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postquitmessage"/>
         /// </para>
         /// </summary>
         /// <param name="nExitCode">
@@ -1065,7 +1065,7 @@ namespace Lsj.Util.Win32
         /// Posts a message to the message queue of the specified thread. It returns without waiting for the thread to process the message.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postthreadmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postthreadmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="idThread">
@@ -1133,7 +1133,7 @@ namespace Lsj.Util.Win32
         /// The message value can be used when sending or posting messages.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerwindowmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerwindowmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -1161,7 +1161,7 @@ namespace Lsj.Util.Win32
         /// Replies to a message sent from another thread by the <see cref="SendMessage"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-replymessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-replymessage"/>
         /// </para>
         /// </summary>
         /// <param name="lResult">
@@ -1191,7 +1191,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="PostMessage"/> or <see cref="PostThreadMessage"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessage"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1240,7 +1240,7 @@ namespace Lsj.Util.Win32
         /// passing the result of the message processing and an application-defined value to the callback function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagecallbackw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagecallbackw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// Sends the specified message to one or more windows.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1369,7 +1369,7 @@ namespace Lsj.Util.Win32
         /// it does not wait for the window procedure to finish processing the message.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendnotifymessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendnotifymessagew"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1413,7 +1413,7 @@ namespace Lsj.Util.Win32
         /// An application can use the <see cref="GetMessageExtraInfo"/> function to retrieve a thread's extra message information.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmessageextrainfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmessageextrainfo"/>
         /// </para>
         /// </summary>
         /// <param name="lParam">
@@ -1433,7 +1433,7 @@ namespace Lsj.Util.Win32
         /// and sends them to the appropriate MDI child windows.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-translatemdisysaccel"/>
         /// </para>
         /// </summary>
         /// <param name="hWndClient">
@@ -1457,7 +1457,7 @@ namespace Lsj.Util.Win32
         /// to be read the next time the thread calls the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-translatemessage"/>
         /// </para>
         /// </summary>
         /// <param name="lpMsg">
@@ -1482,7 +1482,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WaitMessage"/> function suspends the thread and does not return until a new message is placed in the thread's message queue.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-waitmessage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-waitmessage"/>
         /// </para>
         /// </summary>
         /// <returns>

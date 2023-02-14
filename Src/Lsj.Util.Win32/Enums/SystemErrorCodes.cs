@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// System Error Codes
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/debug/system-error-codes"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes"/>
     /// </para>
     /// </summary>
     public enum SystemErrorCodes : uint
@@ -7936,7 +7936,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// For <see cref="FindFirstStreamTransactedW"/>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
         /// </para>
         /// </summary>
         ERROR_STATUS_NOT_IMPLEMENTED = 0x1A95,

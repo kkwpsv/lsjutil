@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="WLAN_CONNECTION_ATTRIBUTES"/> structure defines the attributes of a wireless connection.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ns-wlanapi-wlan_connection_attributes
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_connection_attributes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// in the <see cref="StgCreateStorageEx"/> and <see cref="StgOpenStorageEx"/> functions.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/coml2api/ns-coml2api-stgoptions"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/coml2api/ns-coml2api-stgoptions"/>
     /// </para>
     /// </summary>
     /// <remarks>

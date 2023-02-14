@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// For more information about the events sent by the system, see Appendix A: Supported User Interface Elements Reference.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winauto/event-constants"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winauto/event-constants"/>
     /// </para>
     /// </summary>
     public enum EventConstants : uint

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Console Character Attributes.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/char-info-str"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/char-info-str"/>
     /// </para>
     /// </summary>
     [Flags]

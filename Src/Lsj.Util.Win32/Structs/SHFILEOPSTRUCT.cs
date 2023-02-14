@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// Note As of Windows Vista, the use of the <see cref="IFileOperation"/> interface is recommended over this function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shfileopstructw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-shfileopstructw"/>
     /// </para>
     /// </summary>
     /// <remarks>

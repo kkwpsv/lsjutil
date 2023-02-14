@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AlphaBlend"/> function displays bitmaps that have transparent or semitransparent pixels.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-alphablend"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-alphablend"/>
         /// </para>
         /// </summary>
         /// <param name="hdcDest">
@@ -101,7 +101,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GradientFill"/> function fills rectangle and triangle structures.
         /// </para>
         /// <para>
-        /// From： <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gradientfill"/>
+        /// From： <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-gradientfill"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// corresponding to a rectangle of pixels from the specified source device context into a destination device context.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-transparentblt"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-transparentblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdcDest">

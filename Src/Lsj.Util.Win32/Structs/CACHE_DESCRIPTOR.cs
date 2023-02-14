@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes the cache attributes.
     /// </para>
     /// <para>
-    /// https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-cache_descriptor
+    /// https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-cache_descriptor
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

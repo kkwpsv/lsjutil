@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// It is used with the <see cref="CreateProcess"/> and <see cref="CreateProcessAsUser"/> functions.
     /// </para>
     /// <para>
-    /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-startupinfoexw
+    /// From : https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexw
     /// </para>
     /// </summary>
     /// <remarks>

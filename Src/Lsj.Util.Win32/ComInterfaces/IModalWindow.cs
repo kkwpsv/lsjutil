@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// This interface is used in the Windows XP Passport Wizard.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-imodalwindow"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-imodalwindow"/>
     /// </para>
     /// </summary>
     /// <remarks>

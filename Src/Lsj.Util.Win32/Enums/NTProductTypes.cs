@@ -5,7 +5,7 @@
     /// Product Types
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-osversioninfoexw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-osversioninfoexw"/>
     /// </para>
     /// </summary>
     public enum NTProductTypes : byte

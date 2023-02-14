@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PROPENUMPROC
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-propenumprocw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

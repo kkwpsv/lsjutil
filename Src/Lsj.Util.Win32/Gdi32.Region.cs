@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// The two regions are combined according to the specified mode.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-combinergn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-combinergn"/>
         /// </para>
         /// </summary>
         /// <param name="hrgnDst">
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateEllipticRgn"/> function creates an elliptical region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createellipticrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createellipticrgn"/>
         /// </para>
         /// </summary>
         /// <param name="x1">
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateEllipticRgnIndirect"/> function creates an elliptical region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createellipticrgnindirect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createellipticrgnindirect"/>
         /// </para>
         /// </summary>
         /// <param name="lprect">
@@ -154,7 +154,7 @@ namespace Lsj.Util.Win32
         /// The polygons can overlap.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpolypolygonrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpolypolygonrgn"/>
         /// </para>
         /// </summary>
         /// <param name="pptl">
@@ -194,7 +194,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateRectRgn"/> function creates a rectangular region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createrectrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createrectrgn"/>
         /// </para>
         /// </summary>
         /// <param name="x1">
@@ -229,7 +229,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateRectRgnIndirect"/> function creates a rectangular region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createrectrgnindirect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createrectrgnindirect"/>
         /// </para>
         /// </summary>
         /// <param name="lprect">
@@ -253,7 +253,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateRoundRectRgn"/> function creates a rectangular region with rounded corners.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createroundrectrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createroundrectrgn"/>
         /// </para>
         /// </summary>
         /// <param name="x1">
@@ -291,7 +291,7 @@ namespace Lsj.Util.Win32
         /// The function considers two regions identical if they are equal in size and shape.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-equalrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-equalrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn1">
@@ -313,7 +313,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ExtCreateRegion"/> function creates a region from the specified region and transformation data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extcreateregion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-extcreateregion"/>
         /// </para>
         /// </summary>
         /// <param name="lpx">
@@ -342,7 +342,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetRandomRgn"/> function copies the system clipping region of a specified device context to a specific region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrandomrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getrandomrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -382,7 +382,7 @@ namespace Lsj.Util.Win32
         /// This data includes the dimensions of the rectangles that make up the region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getregiondata"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getregiondata"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">
@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetRgnBox"/> function retrieves the bounding rectangle of the specified region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrgnbox"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getrgnbox"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">
@@ -438,7 +438,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OffsetRgn"/> function moves a region by the specified offsets.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-offsetrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">
@@ -466,7 +466,7 @@ namespace Lsj.Util.Win32
         /// The resulting region uses device coordinates.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-pathtoregion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-pathtoregion"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PtInRegion"/> function determines whether the specified point is inside the specified region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ptinregion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-ptinregion"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">
@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RectInRegion"/> function determines whether any part of the specified rectangle is within the boundaries of a region.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectinregion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-rectinregion"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">
@@ -535,7 +535,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetRectRgn"/> function converts a region into a rectangular region with the specified coordinates.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrectrgn"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setrectrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hrgn">

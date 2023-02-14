@@ -5,7 +5,7 @@
     /// The <see cref="NLM_DOMAIN_TYPE"/> enumeration is a set of flags that specify the domain type of a network.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_domain_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_domain_type"/>
     /// </para>
     /// </summary>
     public enum NLM_DOMAIN_TYPE

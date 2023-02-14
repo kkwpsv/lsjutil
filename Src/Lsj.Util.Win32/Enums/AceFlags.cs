@@ -5,7 +5,7 @@
     /// AceFlags
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-ace_header"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-ace_header"/>
     /// </para>
     /// </summary>
     public enum AceFlags : byte

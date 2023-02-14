@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Enables a COM object to define and manage the marshaling of its interface pointers.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imarshal"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-imarshal"/>
     /// </para>
     /// </summary>
     public unsafe struct IMarshal

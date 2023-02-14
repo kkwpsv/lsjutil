@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// These values are used with the <see cref="IShellFolder.EnumObjects"/> method.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-_shcontf"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-_shcontf"/>
     /// </para>
     /// </summary>
     /// <remarks>

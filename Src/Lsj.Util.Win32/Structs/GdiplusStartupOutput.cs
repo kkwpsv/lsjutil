@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
     /// of the input parameter (passed to <see cref="GdiplusStartup"/>) to <see langword="false"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplusinit/ns-gdiplusinit-gdiplusstartupoutput"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/gdiplusinit/ns-gdiplusinit-gdiplusstartupoutput"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

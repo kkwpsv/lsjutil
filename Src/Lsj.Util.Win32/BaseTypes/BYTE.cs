@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A <see cref="BYTE"/> is an 8-bit unsigned value that corresponds to a single octet in a network protocol.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/d7edc080-e499-4219-a837-1bc40b64bb04"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/d7edc080-e499-4219-a837-1bc40b64bb04"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 1)]

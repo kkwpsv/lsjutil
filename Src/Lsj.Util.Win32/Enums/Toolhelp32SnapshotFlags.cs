@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="CreateToolhelp32Snapshot"/> Flags.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot"/>
     /// </para>
     /// </summary>
     public enum Toolhelp32SnapshotFlags : uint

@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="AUTHZ_ACCESS_REQUEST"/> structure defines an access check request.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/authz/ns-authz-authz_access_request"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/authz/ns-authz-authz_access_request"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

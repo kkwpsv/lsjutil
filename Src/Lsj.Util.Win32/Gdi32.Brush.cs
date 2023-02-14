@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateBrushIndirect"/> function creates a logical brush that has the specified style, color, and pattern.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbrushindirect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createbrushindirect"/>
         /// </para>
         /// </summary>
         /// <param name="plbrush">
@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32
         /// The brush can subsequently be selected into any device context that is associated with a device that supports raster operations.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrush"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrush"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -92,7 +92,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDIBPatternBrushPt"/> function creates a logical brush that has the pattern specified by the device-independent bitmap (DIB).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrushpt"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrushpt"/>
         /// </para>
         /// </summary>
         /// <param name="lpPackedDIB">
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateSolidBrush"/> function creates a logical brush that has the specified solid color.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createsolidbrush"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createsolidbrush"/>
         /// </para>
         /// </summary>
         /// <param name="color">
@@ -158,7 +158,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateHatchBrush"/> function creates a logical brush that has the specified hatch pattern and color.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createhatchbrush"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createhatchbrush"/>
         /// </para>
         /// </summary>
         /// <param name="iHatch">
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32
         /// The bitmap can be a DIB section bitmap, which is created by the <see cref="CreateDIBSection"/> function, or it can be a device-dependent bitmap.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpatternbrush"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpatternbrush"/>
         /// </para>
         /// </summary>
         /// <param name="hbm">
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// This function replaces the GetBrushOrg function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbrushorgex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getbrushorgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -259,7 +259,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDCBrushColor"/> function retrieves the current brush color for the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcbrushcolor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getdcbrushcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32
         /// an application selects into the specified device context.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbrushorgex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setbrushorgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32
         /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdcbrushcolor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setdcbrushcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

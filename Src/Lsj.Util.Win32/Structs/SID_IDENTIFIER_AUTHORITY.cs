@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="SID_IDENTIFIER_AUTHORITY"/> structure represents the top-level authority of a security identifier (SID).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-sid_identifier_authority"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-sid_identifier_authority"/>
     /// </para>
     /// </summary>
     /// <remarks>

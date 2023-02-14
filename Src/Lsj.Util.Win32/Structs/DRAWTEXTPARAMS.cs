@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="DRAWTEXTPARAMS"/> structure contains extended formatting options for the <see cref="DrawTextEx"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-drawtextparams"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-drawtextparams"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

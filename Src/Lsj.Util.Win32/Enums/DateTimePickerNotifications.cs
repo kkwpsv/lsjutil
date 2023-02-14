@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// DateTimePicker Notifications
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-date-and-time-picker-control-reference-notifications"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/bumper-date-and-time-picker-control-reference-notifications"/>
     /// </para>
     /// </summary>
     public enum DateTimePickerNotifications

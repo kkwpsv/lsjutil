@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="DOT11_MAC_ADDRESS"/> types are used to define an IEEE media access control (MAC) address.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/nativewifi/dot11-mac-address-type"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/nativewifi/dot11-mac-address-type"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 6 * sizeof(char))]

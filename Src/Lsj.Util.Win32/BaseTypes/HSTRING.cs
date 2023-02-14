@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A handle to a Windows Runtime string.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winrt/hstring"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winrt/hstring"/>
     /// </para>
     /// </summary>
     /// <remarks>

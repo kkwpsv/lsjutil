@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// to this structure as the lParam parameter of the <see cref="WM_DRAWITEM"/> message.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-drawitemstruct"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-drawitemstruct"/>
     /// </para>
     /// </summary>
     /// <remarks>

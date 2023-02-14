@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// They are used in the <see cref="STGMEDIUM"/> or <see cref="FORMATETC"/> structures.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-tymed"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ne-objidl-tymed"/>
     /// </para>
     /// </summary>
     /// <remarks>

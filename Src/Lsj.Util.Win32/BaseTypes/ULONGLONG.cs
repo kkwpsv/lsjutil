@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Because a <see cref="ULONGLONG"/> is unsigned, its first bit (Most Significant Bit (MSB)) is not reserved for signing.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/c57d9fba-12ef-4853-b0d5-a6f472b50388"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/c57d9fba-12ef-4853-b0d5-a6f472b50388"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]

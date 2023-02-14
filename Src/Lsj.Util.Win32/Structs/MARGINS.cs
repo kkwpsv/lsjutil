@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// Returned by the <see cref="GetThemeMargins"/> function to define the margins of windows that have visual styles applied.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/uxtheme/ns-uxtheme-margins"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/ns-uxtheme-margins"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

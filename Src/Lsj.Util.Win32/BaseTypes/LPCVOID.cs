@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// An <see cref="LPCVOID"/> is a 32-bit pointer to a constant of any type.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/66996877-9dd4-477d-a811-30e6c1a5525d"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/66996877-9dd4-477d-a811-30e6c1a5525d"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

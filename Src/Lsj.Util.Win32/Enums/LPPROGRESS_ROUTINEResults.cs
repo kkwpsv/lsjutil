@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="LPPROGRESS_ROUTINE"/> Results
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
     /// </para>
     /// </summary>
     public enum LPPROGRESS_ROUTINEResults : uint

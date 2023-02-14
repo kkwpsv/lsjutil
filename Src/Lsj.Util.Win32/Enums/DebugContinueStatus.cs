@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// DebugContinueStatus
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-continuedebugevent"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-continuedebugevent"/>
     /// </para>
     /// </summary>
     public enum DebugContinueStatus : uint

@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// All sizes are specified in logical units; that is, they depend on the current mapping mode of the display context.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-textmetricw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-textmetricw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Enums
     /// and in the statement of a dialog box definition in a resource file.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
     /// </para>
     /// </summary>
     public enum DialogBoxStyles

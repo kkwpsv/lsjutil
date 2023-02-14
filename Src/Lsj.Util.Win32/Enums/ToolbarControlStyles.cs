@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The following window styles are specific to toolbars. They are combined with other window styles when the toolbar is created.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/toolbar-control-and-button-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/toolbar-control-and-button-styles"/>
     /// </para>
     /// </summary>
     [Flags]

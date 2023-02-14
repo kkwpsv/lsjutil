@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601 (UTC).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-filetime"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-filetime"/>
     /// </para>
     /// </summary>
     /// <remarks>

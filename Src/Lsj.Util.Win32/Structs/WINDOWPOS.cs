@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about the size and position of a window.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-windowpos"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-windowpos"/>
     /// </para>
     /// </summary>
     public struct WINDOWPOS

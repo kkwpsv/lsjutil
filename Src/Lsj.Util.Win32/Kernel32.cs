@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
         /// EnumCodePagesProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpCodePageString">
@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32
         /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/utilapiset/nf-utilapiset-beep"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/utilapiset/nf-utilapiset-beep"/>
         /// </para>
         /// </summary>
         /// <param name="dwFreq">
@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32
         /// Decodes a pointer that was previously encoded with <see cref="EncodePointer"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432242(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/bb432242(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Ptr">
@@ -119,7 +119,7 @@ namespace Lsj.Util.Win32
         /// Decodes a pointer that was previously encoded with <see cref="EncodeSystemPointer"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432243(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/bb432243(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Ptr">
@@ -141,7 +141,7 @@ namespace Lsj.Util.Win32
         /// Encoded pointers can be used to provide another layer of protection for pointer values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432254(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/bb432254(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Ptr">
@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// Encoded pointers can be used to provide another layer of protection for pointer values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/bb432255(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/bb432255(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Ptr">
@@ -190,7 +190,7 @@ namespace Lsj.Util.Win32
         /// Enumerates the code pages that are either installed on or supported by an operating system.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpCodePageEnumProc">
@@ -247,7 +247,7 @@ namespace Lsj.Util.Win32
         /// Any application that will be run only on Windows Vista and later should use <see cref="GetDateFormatEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-getdateformatw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-getdateformatw"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -426,7 +426,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -493,7 +493,7 @@ namespace Lsj.Util.Win32
         /// Any application that will be run only on Windows Vista and later should use <see cref="GetTimeFormatEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatw"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -561,7 +561,7 @@ namespace Lsj.Util.Win32
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -668,7 +668,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadcodeptr"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadcodeptr"/>
         /// </para>
         /// </summary>
         /// <param name="lpfn">
@@ -701,7 +701,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadreadptr"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadreadptr"/>
         /// </para>
         /// </summary>
         /// <param name="lp">
@@ -748,7 +748,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadstringptrw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadstringptrw"/>
         /// </para>
         /// </summary>
         /// <param name="lpsz">
@@ -797,7 +797,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadwriteptr"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isbadwriteptr"/>
         /// </para>
         /// </summary>
         /// <param name="lp">
@@ -851,7 +851,7 @@ namespace Lsj.Util.Win32
         /// Multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value. The final result is rounded to the nearest integer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-muldiv"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-muldiv"/>
         /// </para>
         /// </summary>
         /// <param name="nNumber">
@@ -878,7 +878,7 @@ namespace Lsj.Util.Win32
         /// that can be used for time-interval measurements.
         /// </para>
         /// <para>
-        /// https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancecounter
+        /// https://learn.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancecounter
         /// </para>
         /// </summary>
         /// <param name="lpPerformanceCount">
@@ -903,7 +903,7 @@ namespace Lsj.Util.Win32
         /// Therefore, the frequency need only be queried upon application initialization, and the result can be cached.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency"/>
         /// </para>
         /// </summary>
         /// <param name="lpFrequency">
@@ -928,7 +928,7 @@ namespace Lsj.Util.Win32
         /// Runs the specified application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-winexec"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-winexec"/>
         /// </para>
         /// </summary>
         /// <param name="lpCmdLine">
@@ -985,7 +985,7 @@ namespace Lsj.Util.Win32
         /// To avoid any undesired effects of optimizing compilers, use the <see cref="SecureZeroMemory"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920(v=vs.85)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa366920(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Destination">

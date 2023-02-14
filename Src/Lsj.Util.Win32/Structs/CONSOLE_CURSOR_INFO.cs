@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about the console cursor.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/console-cursor-info-str"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/console-cursor-info-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

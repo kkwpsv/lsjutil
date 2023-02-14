@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Indicates the moniker's class.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-mksys"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ne-objidl-mksys"/>
     /// </para>
     /// </summary>
     public enum MKSYS : uint

@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is an extended version of <see cref="CMINVOKECOMMANDINFO"/> that allows the use of Unicode values.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ns-shobjidl_core-cminvokecommandinfoex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ns-shobjidl_core-cminvokecommandinfoex"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="GlobalMemoryStatusEx"/> function stores information in this structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex"/>
     /// </para>
     /// </summary>
     /// <remarks>

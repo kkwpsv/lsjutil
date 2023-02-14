@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Identifies the awareness context for a window.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/hidpi/dpi-awareness-context"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/hidpi/dpi-awareness-context"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

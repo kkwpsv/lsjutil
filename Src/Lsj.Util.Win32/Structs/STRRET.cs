@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains strings returned from the <see cref="IShellFolder"/> interface methods.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-strret"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shtypes/ns-shtypes-strret"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]

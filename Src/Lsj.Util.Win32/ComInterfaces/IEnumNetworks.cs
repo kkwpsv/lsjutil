@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// This interface can be obtained from the <see cref="INetworkListManager"/> interface.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/nn-netlistmgr-ienumnetworks"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/nn-netlistmgr-ienumnetworks"/>
     /// </para>
     /// </summary>
     public unsafe struct IEnumNetworks

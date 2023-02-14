@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// To specify an access mask for the object, use the <see cref="CreateSemaphoreEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createsemaphorew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createsemaphorew"/>
         /// </para>
         /// </summary>
         /// <param name="lpSemaphoreAttributes">
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// To specify an access mask for the object, use the <see cref="CreateSemaphoreEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createsemaphoreexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createsemaphoreexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpSemaphoreAttributes">
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing named semaphore object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-opensemaphorew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-opensemaphorew"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
         /// Increases the count of the specified semaphore object by a specified amount.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasesemaphore"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesemaphore"/>
         /// </para>
         /// </summary>
         /// <param name="hSemaphore">

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// the Paste Special dialog box or target feedback information during drag-and-drop operations.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ns-oleidl-objectdescriptor"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleidl/ns-oleidl-objectdescriptor"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

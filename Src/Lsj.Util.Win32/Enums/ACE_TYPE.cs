@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// ACE type
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-ace_header"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-ace_header"/>
     /// </para>
     /// </summary>
     public enum ACE_TYPE : byte

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For example, the <see cref="FMTID"/> for the COM Summary Information property set is F29F85E0-4FF9-1068-AB91-08002B27B3D9.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/stg/format-identifiers"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/stg/format-identifiers"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 16)]

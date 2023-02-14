@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains extended parameters for the <see cref="TrackPopupMenuEx"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-tpmparams"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-tpmparams"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

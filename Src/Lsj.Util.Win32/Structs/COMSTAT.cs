@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is filled by the <see cref="ClearCommError"/> function.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-comstat"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-comstat"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

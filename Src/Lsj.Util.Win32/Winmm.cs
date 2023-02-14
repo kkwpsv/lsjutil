@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeBeginPeriod"/> function requests a minimum resolution for periodic timers.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timebeginperiod"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timeapi/nf-timeapi-timebeginperiod"/>
         /// </para>
         /// </summary>
         /// <param name="uPeriod">
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeGetDevCaps"/> function queries the timer device to determine its resolution.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timegetdevcaps"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timeapi/nf-timeapi-timegetdevcaps"/>
         /// </para>
         /// </summary>
         /// <param name="ptc">
@@ -110,7 +110,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeEndPeriod"/> function clears a previously set minimum timer resolution.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timeendperiod"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timeapi/nf-timeapi-timeendperiod"/>
         /// </para>
         /// </summary>
         /// <param name="uPeriod">
@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="waveOutGetVolume"/> function retrieves the current volume level of the specified waveform-audio output device.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutgetvolume"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutgetvolume"/>
         /// </para>
         /// </summary>
         /// <param name="hwo">

@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Because a UINT32 is unsigned, its first bit (Most Significant Bit (MSB)) is not reserved for signing.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/362b8d72-2245-4c33-84a8-08c69f4c302f"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/362b8d72-2245-4c33-84a8-08c69f4c302f"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

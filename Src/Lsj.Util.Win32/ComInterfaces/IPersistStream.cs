@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Enables the saving and loading of objects that use a simple serial stream for their storage needs.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersiststream"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersiststream"/>
     /// </para>
     /// </summary>
     /// <remarks>

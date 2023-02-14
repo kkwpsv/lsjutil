@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="VARIANT"/>s can be passed by value, even if <see cref="VARIANTARG"/>s cannot.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oaidl/ns-oaidl-variant"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oaidl/ns-oaidl-variant"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32
         /// To specify an access mask for the object, use the <see cref="CreateEventEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createeventw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createeventw"/>
         /// </para>
         /// </summary>
         /// <param name="lpEventAttributes">
@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens a named or unnamed event object and returns a handle to the object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createeventexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createeventexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpEventAttributes">
@@ -176,7 +176,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing named event object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openeventw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-openeventw"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// after releasing the appropriate number of waiting threads.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-pulseevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-pulseevent"/>
         /// </para>
         /// </summary>
         /// <param name="hEvent">
@@ -271,7 +271,7 @@ namespace Lsj.Util.Win32
         /// Sets the specified event object to the nonsignaled state.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-resetevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-resetevent"/>
         /// </para>
         /// </summary>
         /// <param name="hEvent">
@@ -302,7 +302,7 @@ namespace Lsj.Util.Win32
         /// Sets the specified event object to the signaled state.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-setevent"/>
         /// </para>
         /// </summary>
         /// <param name="hEvent">

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// LPOFNHOOKPROC
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpofnhookproc"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commdlg/nc-commdlg-lpofnhookproc"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

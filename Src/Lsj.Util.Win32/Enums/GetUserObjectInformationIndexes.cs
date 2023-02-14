@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="GetUserObjectInformation"/> Indexes.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw"/>
     /// </para>
     /// </summary>
     public enum GetUserObjectInformationIndexes

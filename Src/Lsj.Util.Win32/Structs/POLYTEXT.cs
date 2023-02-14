@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="POLYTEXT"/> structure describes how the <see cref="PolyTextOut"/> function should draw a string of text.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-glyphset"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-glyphset"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

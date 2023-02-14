@@ -5,7 +5,7 @@
     /// The <see cref="WLAN_INTF_OPCODE"/> enumerated type defines various opcodes used to set and query parameters on a wireless interface.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ne-wlanapi-wlan_intf_opcode-r1"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ne-wlanapi-wlan_intf_opcode-r1"/>
     /// </para>
     /// </summary>
     public enum WLAN_INTF_OPCODE

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// These members are identical to the parameters of the <see cref="CreateWindowEx"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-createstructw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-createstructw"/>
     /// </para>
     /// </summary>
     /// <remarks>

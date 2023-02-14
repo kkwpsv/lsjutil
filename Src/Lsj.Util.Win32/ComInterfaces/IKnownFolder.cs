@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// It also provides methods to get or set the path of the known folder.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-iknownfolder"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-iknownfolder"/>
     /// </para>
     /// </summary>
     public unsafe struct IKnownFolder

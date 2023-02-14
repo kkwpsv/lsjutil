@@ -5,7 +5,7 @@
     /// OBJECT_TYPE_LIST Levels
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-object_type_list"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-object_type_list"/>
     /// </para>
     /// </summary>
     public enum OBJECT_TYPE_LISTLevels : ushort

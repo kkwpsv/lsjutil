@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// CODEPAGE_ENUMPROC
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

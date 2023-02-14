@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Synchronization Object Access Rights
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-object-security-and-access-rights"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/sync/synchronization-object-security-and-access-rights"/>
     /// </para>
     /// </summary>
     public enum SynchronizationObjectAccessRights : uint

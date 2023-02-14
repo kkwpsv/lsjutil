@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The <see cref="VARIANT_BOOL"/> type specifies Boolean values.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-oaut/7b39eb24-9d39-498a-bcd8-75c38e5823d0"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-oaut/7b39eb24-9d39-498a-bcd8-75c38e5823d0"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2)]

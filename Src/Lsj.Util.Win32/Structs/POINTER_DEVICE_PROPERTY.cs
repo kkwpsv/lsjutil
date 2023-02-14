@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains pointer-based device properties (Human Interface Device (HID) global items that correspond to HID usages).
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_device_property"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-pointer_device_property"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used by console functions to read from and write to a console screen buffer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/char-info-str"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/char-info-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

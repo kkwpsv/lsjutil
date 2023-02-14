@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Animation Control Styles
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/animation-control-styles"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/animation-control-styles"/>
     /// </para>
     /// </summary>
     public enum AnimationControlStyles : uint

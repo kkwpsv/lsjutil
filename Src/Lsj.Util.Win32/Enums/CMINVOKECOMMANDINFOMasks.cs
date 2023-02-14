@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="CMINVOKECOMMANDINFO"/> Masks and <see cref="CMINVOKECOMMANDINFOEX"/> Masks
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ns-shobjidl_core-cminvokecommandinfoex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ns-shobjidl_core-cminvokecommandinfoex"/>
     /// </para>
     /// </summary>
     public enum CMINVOKECOMMANDINFOMasks : uint

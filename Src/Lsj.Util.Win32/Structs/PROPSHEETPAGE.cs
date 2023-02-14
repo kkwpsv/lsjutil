@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// Defines a page in a property sheet.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/pss-propsheetpage"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/pss-propsheetpage"/>
     /// </para>
     /// </summary>
     /// <remarks>

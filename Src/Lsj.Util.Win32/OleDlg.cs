@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// Invokes the standard Links dialog box, allowing the user to make modifications to a container's linked objects.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oledlg/nf-oledlg-oleuieditlinksw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oledlg/nf-oledlg-oleuieditlinksw"/>
         /// </para>
         /// </summary>
         /// <param name="unnamedParam1">

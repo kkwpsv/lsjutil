@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Allocates, frees, and manages memory.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imalloc"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-imalloc"/>
     /// </para>
     /// </summary>
     public unsafe struct IMalloc

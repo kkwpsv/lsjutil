@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="SystemParametersInfo"/> Parameters.
     /// </para> 
     /// <para>
-    /// Form: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfow
+    /// Form: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfow
     /// </para>
     /// </summary>
     public enum SystemParametersInfoParameters

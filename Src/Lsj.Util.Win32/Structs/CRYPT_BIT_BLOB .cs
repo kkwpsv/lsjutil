@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CRYPT_BIT_BLOB"/> structure contains a set of bits represented by an array of bytes.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-crypt_bit_blob"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-crypt_bit_blob"/>
     /// </para>
     /// </summary>
     /// <remarks>

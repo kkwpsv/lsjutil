@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The parameters contained in its <see cref="CRYPT_OBJID_BLOB"/> are encoded.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-crypt_algorithm_identifier"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-crypt_algorithm_identifier"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

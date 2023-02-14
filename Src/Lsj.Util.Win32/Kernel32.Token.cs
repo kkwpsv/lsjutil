@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CheckTokenMembershipEx"/> function determines whether the specified SID is enabled in the specified token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembershipex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembershipex"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">

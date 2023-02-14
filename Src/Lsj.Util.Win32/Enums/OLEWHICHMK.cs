@@ -5,7 +5,7 @@
     /// Indicates which part of an object's moniker is being set or retrieved.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-olewhichmk"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleidl/ne-oleidl-olewhichmk"/>
     /// </para>
     /// </summary>
     public enum OLEWHICHMK

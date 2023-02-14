@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// To obtain additional version information, use the <see cref="OSVERSIONINFOEX"/> structure with <see cref="GetVersionEx"/> instead.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-osversioninfow"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-osversioninfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

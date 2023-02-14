@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// When you retrieve a registry value, functions such as <see cref="RegQueryValueEx"/> use these values to indicate the type of data retrieved.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/sysinfo/registry-value-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-value-types"/>
     /// </para>
     /// </summary>
     public enum RegistryValueTypes : uint

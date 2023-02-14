@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The power of 10 scaling factor specifies the number of digits to the right of the decimal point, and ranges from 0 to 28.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ns-wtypes-decimal-r1"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ns-wtypes-decimal-r1"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]

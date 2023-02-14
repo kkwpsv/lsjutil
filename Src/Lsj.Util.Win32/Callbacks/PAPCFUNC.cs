@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PAPCFUNC
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-papcfunc"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nc-winnt-papcfunc"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

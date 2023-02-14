@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PHANDLER_ROUTINE
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/handlerroutine"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/handlerroutine"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

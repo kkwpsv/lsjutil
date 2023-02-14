@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="WLAN_ASSOCIATION_ATTRIBUTES"/> structure contains association attributes for a connection.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ns-wlanapi-wlan_association_attributes
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_association_attributes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

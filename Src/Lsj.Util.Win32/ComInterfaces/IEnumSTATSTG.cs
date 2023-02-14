@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// : <see cref="Next"/>, <see cref="Skip"/>, <see cref="Reset"/>, and <see cref="Clone"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ienumstatstg"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ienumstatstg"/>
     /// </para>
     /// </summary>
     public unsafe struct IEnumSTATSTG

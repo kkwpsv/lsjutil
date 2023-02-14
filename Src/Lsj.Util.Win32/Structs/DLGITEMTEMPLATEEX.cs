@@ -9,7 +9,7 @@
     /// For a description of the format of an extended dialog box template, see <see cref="DLGTEMPLATEEX"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/dlgitemtemplateex"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dlgbox/dlgitemtemplateex"/>
     /// </para>
     /// </summary>
     public struct DLGITEMTEMPLATEEX

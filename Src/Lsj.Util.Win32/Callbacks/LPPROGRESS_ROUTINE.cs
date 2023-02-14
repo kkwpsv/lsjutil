@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// LPPROGRESS_ROUTINE
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nc-winbase-lpprogress_routine"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

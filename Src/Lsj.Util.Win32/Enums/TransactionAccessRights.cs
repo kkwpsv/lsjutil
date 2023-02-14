@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// KTM defines the following transaction access masks to be used when opening a transaction.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/ktm/transaction-access-masks"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/ktm/transaction-access-masks"/>
     /// </para>
     /// </summary>
     /// <remarks>

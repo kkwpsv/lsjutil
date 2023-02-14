@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies the variant types.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ne-wtypes-varenum"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ne-wtypes-varenum"/>
     /// </para>
     /// </summary>
     public enum VARENUM

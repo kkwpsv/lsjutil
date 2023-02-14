@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// DateTimePicker Styles
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/date-and-time-picker-control-styles"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/date-and-time-picker-control-styles"/>
     /// </para>
     /// </summary>
     /// <remarks>

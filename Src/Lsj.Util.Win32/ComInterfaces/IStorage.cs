@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Other methods provide access to information about a storage object and its elements through the <see cref="STATSTG"/> structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-istorage"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-istorage"/>
     /// </para>
     /// </summary>
     public unsafe struct IStorage

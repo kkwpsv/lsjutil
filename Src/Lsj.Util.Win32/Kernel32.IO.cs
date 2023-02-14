@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32
         /// FileIOCompletionRoutine is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
         /// </para>
         /// </summary>
         /// <param name="dwErrorCode">
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32
         /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-cancelio"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-cancelio"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -107,7 +107,7 @@ namespace Lsj.Util.Win32
         /// The function only cancels I/O operations in the current process, regardless of which thread created the I/O operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-cancelioex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-cancelioex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32
         /// Marks pending synchronous I/O operations that are issued by the specified thread as canceled.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/fileio/cancelsynchronousio-func"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/fileio/cancelsynchronousio-func"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// The function is called when a communications error occurs, and it clears the device's error flag to enable additional input and output (I/O) operations.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-clearcommerror"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-clearcommerror"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -242,7 +242,7 @@ namespace Lsj.Util.Win32
         /// For additional information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-createiocompletionport"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-createiocompletionport"/>
         /// </para>
         /// </summary>
         /// <param name="FileHandle">
@@ -334,7 +334,7 @@ namespace Lsj.Util.Win32
         /// Sends a control code directly to a specified device driver, causing the corresponding device to perform the corresponding operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol"/>
         /// </para>
         /// </summary>
         /// <param name="hDevice">
@@ -434,7 +434,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the time-out parameters for all read and write operations on a specified communications device.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcommtimeouts"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcommtimeouts"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -461,7 +461,7 @@ namespace Lsj.Util.Win32
         /// To specify a timeout interval or wait on an alertable thread, use <see cref="GetOverlappedResultEx"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -518,7 +518,7 @@ namespace Lsj.Util.Win32
         /// The calling thread can perform an alertable wait.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresultex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresultex"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -606,7 +606,7 @@ namespace Lsj.Util.Win32
         /// To dequeue multiple I/O completion packets at once, use the <see cref="GetQueuedCompletionStatusEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatus"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatus"/>
         /// </para>
         /// </summary>
         /// <param name="CompletionPort">
@@ -676,7 +676,7 @@ namespace Lsj.Util.Win32
         /// To dequeue I/O completion packets one at a time, use the <see cref="GetQueuedCompletionStatus"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatusex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatusex"/>
         /// </para>
         /// </summary>
         /// <param name="CompletionPort">
@@ -743,7 +743,7 @@ namespace Lsj.Util.Win32
         /// Provides a high performance test operation that can be used to poll for the completion of an outstanding I/O operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-hasoverlappediocompleted"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-hasoverlappediocompleted"/>
         /// </para>
         /// </summary>
         /// <param name="lpOverlapped">
@@ -766,7 +766,7 @@ namespace Lsj.Util.Win32
         /// Sets the current configuration of a communications device.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcommconfig"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setcommconfig"/>
         /// </para>
         /// </summary>
         /// <param name="hCommDev">
@@ -792,7 +792,7 @@ namespace Lsj.Util.Win32
         /// Sets the time-out parameters for all read and write operations on a specified communications device.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcommtimeouts"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setcommtimeouts"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -816,7 +816,7 @@ namespace Lsj.Util.Win32
         /// The set of events that are monitored by this function is contained in the event mask associated with the device handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitcommevent"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-waitcommevent"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">

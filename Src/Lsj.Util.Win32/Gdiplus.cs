@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32
     /// Gdiplus.dll
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdiplus/-gdiplus-flatapi-flat"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/gdiplus/-gdiplus-flatapi-flat"/>
     /// </para>
     /// </summary>
     public static class Gdiplus
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// Each call to <see cref="GdiplusStartup"/> should be paired with a call to <see cref="GdiplusShutdown"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplusinit/nf-gdiplusinit-gdiplusshutdown"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/gdiplusinit/nf-gdiplusinit-gdiplusshutdown"/>
         /// </para>
         /// </summary>
         /// <param name="token">
@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="GdiplusStartup"/> before making any other GDI+ calls, and call <see cref="GdiplusShutdown"/> when you have finished using GDI+.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplusinit/nf-gdiplusinit-gdiplusstartup"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/gdiplusinit/nf-gdiplusinit-gdiplusstartup"/>
         /// </para>
         /// </summary>
         /// <param name="token">

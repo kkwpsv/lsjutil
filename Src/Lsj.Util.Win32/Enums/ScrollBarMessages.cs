@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Scroll Bar Messages
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-scroll-bars-reference-messages"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/bumper-scroll-bars-reference-messages"/>
     /// </para>
     /// </summary>
     public enum ScrollBarMessages : uint

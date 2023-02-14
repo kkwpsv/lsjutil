@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="VerifyVersionInfo"/> Type Masks
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-verifyversioninfow"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-verifyversioninfow"/>
     /// </para>
     /// </summary>
     public enum VerifyVersionInfoTypeMasks : uint

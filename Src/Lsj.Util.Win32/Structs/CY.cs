@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The CURRENCY data type is useful for calculations involving money, or for any fixed-point calculation where accuracy is particularly important.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ns-wtypes-cy-r1"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ns-wtypes-cy-r1"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]

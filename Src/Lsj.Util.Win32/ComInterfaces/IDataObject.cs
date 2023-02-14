@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// The OLE data advise holder simplifies the task of managing these connections and sending the appropriate notifications.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-idataobject"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-idataobject"/>
     /// </para>
     /// </summary>
     public unsafe struct IDataObject

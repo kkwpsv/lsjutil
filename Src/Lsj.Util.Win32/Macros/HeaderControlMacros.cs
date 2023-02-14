@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_CLEARFILTER"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_clearfilter"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_clearfilter"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_CREATEDRAGIMAGE"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_createdragimage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_createdragimage"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_DELETEITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_deleteitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_deleteitem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETBITMAPMARGIN"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getbitmapmargin"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getbitmapmargin"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32.Macros
         /// Use this macro or send the <see cref="HDM_GETFOCUSEDITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getfocuseditem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getfocuseditem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETIMAGELIST"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getimagelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getimagelist"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -127,7 +127,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getitem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETITEMCOUNT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getitemcount"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getitemcount"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32.Macros
         /// Use this macro or send the <see cref="HDM_GETITEMDROPDOWNRECT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getitemdropdownrect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getitemdropdownrect"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETITEMRECT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getitemrect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getitemrect"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETORDERARRAY"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getorderarray"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getorderarray"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32.Macros
         /// Use this macro or send the <see cref="HDM_GETOVERFLOWRECT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getoverflowrect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getoverflowrect"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -275,7 +275,7 @@ namespace Lsj.Util.Win32.Macros
         /// Gets the handle to the image list that has been set for an existing header control state.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getstateimagelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getstateimagelist"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -290,7 +290,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_GETUNICODEFORMAT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_getunicodeformat"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_getunicodeformat"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -305,7 +305,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_INSERTITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_insertitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_insertitem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_LAYOUT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_layout"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_layout"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -348,7 +348,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_ORDERTOINDEX"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_ordertoindex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_ordertoindex"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETBITMAPMARGIN"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setbitmapmargin"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setbitmapmargin"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -386,7 +386,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETFILTERCHANGETIMEOUT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setfilterchangetimeout"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setfilterchangetimeout"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -403,7 +403,7 @@ namespace Lsj.Util.Win32.Macros
         /// Sets the focus to a specified item in a header control. Use this macro or send the <see cref="HDM_SETFOCUSEDITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setfocuseditem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setfocuseditem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -421,7 +421,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETHOTDIVIDER"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_sethotdivider"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_sethotdivider"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -453,7 +453,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETIMAGELIST"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setimagelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setimagelist"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -471,7 +471,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETITEM"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setitem"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -497,7 +497,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETORDERARRAY"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setorderarray"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setorderarray"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -524,7 +524,7 @@ namespace Lsj.Util.Win32.Macros
         /// Assigns an image list to an existing header control state.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setstateimagelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setstateimagelist"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -543,7 +543,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="HDM_SETUNICODEFORMAT"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-header_setunicodeformat"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-header_setunicodeformat"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">

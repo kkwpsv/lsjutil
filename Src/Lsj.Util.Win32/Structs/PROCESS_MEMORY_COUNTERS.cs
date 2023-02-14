@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains the memory statistics for a process.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/ns-psapi-process_memory_counters"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-process_memory_counters"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

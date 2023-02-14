@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Accepts information on an asynchronous bind operation.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775060(v=vs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775060(v=vs.85)"/>
     /// </para>
     /// </summary>
     public unsafe struct IBindStatusCallback

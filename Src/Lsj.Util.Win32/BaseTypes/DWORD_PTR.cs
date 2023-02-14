@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For more information, see <see cref="ULONG_PTR"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/262627d8-3418-4627-9218-4ffe110850b2"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/262627d8-3418-4627-9218-4ffe110850b2"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

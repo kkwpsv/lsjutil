@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// UpDown Styles
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/up-down-control-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/up-down-control-styles"/>
     /// </para>
     /// </summary>
     [Flags]

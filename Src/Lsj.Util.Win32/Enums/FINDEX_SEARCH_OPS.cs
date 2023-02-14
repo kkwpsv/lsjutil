@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines values that are used with the <see cref="FindFirstFileEx"/> function to specify the type of filtering to perform.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ne-minwinbase-findex_search_ops"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-minwinbase-findex_search_ops"/>
     /// </para>
     /// </summary>
     public enum FINDEX_SEARCH_OPS

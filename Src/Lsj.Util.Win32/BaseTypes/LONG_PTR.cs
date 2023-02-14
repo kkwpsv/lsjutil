@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// It is used when casting a pointer to a long type to perform pointer arithmetic.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/bbcfb0af-8349-4e98-ad26-957e1363f714"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/bbcfb0af-8349-4e98-ad26-957e1363f714"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

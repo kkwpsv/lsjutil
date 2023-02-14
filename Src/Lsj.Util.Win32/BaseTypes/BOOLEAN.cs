@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A <see cref="BOOLEAN"/> is an 8-bit field that is set to 1 to indicate <see cref="TRUE"/>, or 0 to indicate <see cref="FALSE"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/51bbfbb1-08e2-4c13-a95e-1eaa7d310670"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/51bbfbb1-08e2-4c13-a95e-1eaa7d310670"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 1)]

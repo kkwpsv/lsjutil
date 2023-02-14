@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A Handle to an object
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/929187f0-f25c-4b05-9497-16b066d8a912"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/929187f0-f25c-4b05-9497-16b066d8a912"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

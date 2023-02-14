@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Wlan Profile Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile"/>
     /// </para>
     /// </summary>
     public enum WlanProfileFlags : uint

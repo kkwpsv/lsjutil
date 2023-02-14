@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Provides functionality required for all Windows Runtime classes.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/inspectable/nn-inspectable-iinspectable"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/inspectable/nn-inspectable-iinspectable"/>
     /// </para>
     /// <remark>
     /// <see cref="IInspectable"/> methods have no effect on COM apartments and are safe to call from user interface threads.

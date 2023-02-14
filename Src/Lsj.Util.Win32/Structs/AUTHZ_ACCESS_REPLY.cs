@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="AUTHZ_ACCESS_REPLY"/> structure defines an access check reply.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/authz/ns-authz-authz_access_reply"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/authz/ns-authz-authz_access_reply"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

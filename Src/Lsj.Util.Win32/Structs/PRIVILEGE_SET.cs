@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// It is also used to indicate which, if any, privileges are held by a user or group requesting access to an object.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-privilege_set"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-privilege_set"/>
     /// </para>
     /// </summary>
     /// <remarks>

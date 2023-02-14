@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// This is used in the <see cref="COPYFILE2_MESSAGE_Error"/> structure embedded in the <see cref="COPYFILE2_MESSAGE"/> structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ne-winbase-copyfile2_copy_phase"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ne-winbase-copyfile2_copy_phase"/>
     /// </para>
     /// </summary>
     public enum COPYFILE2_COPY_PHASE

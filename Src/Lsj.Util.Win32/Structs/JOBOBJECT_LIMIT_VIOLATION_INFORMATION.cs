@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// with the <see cref="JobObjectLimitViolationInformation"/> information class.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_limit_violation_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_limit_violation_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

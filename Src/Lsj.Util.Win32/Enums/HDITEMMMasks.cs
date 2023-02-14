@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="HDITEM"/> Masks
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-hditemw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-hditemw"/>
     /// </para>
     /// </summary>
     public enum HDITEMMMasks : uint

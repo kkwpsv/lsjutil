@@ -5,7 +5,7 @@
     /// The <see cref="NLM_CONNECTIVITY"/> enumeration is a set of flags that provide notification whenever connectivity related parameters have changed.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_connectivity"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/ne-netlistmgr-nlm_connectivity"/>
     /// </para>
     /// </summary>
     public enum NLM_CONNECTIVITY

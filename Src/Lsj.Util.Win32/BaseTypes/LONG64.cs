@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A LONG64 is a 64-bit signed integer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/7dc8dc9c-9d54-417a-933e-173933f0c329"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7dc8dc9c-9d54-417a-933e-173933f0c329"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]

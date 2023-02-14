@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="CreateProcessAsUser"/> or <see cref="CreateProcessWithLogonW"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw"/>
         /// </para>
         /// </summary>
         /// <param name="lpApplicationName">
@@ -344,7 +344,7 @@ namespace Lsj.Util.Win32
         /// Takes a snapshot of the specified processes, as well as the heaps, modules, and threads used by these processes.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -402,7 +402,7 @@ namespace Lsj.Util.Win32
         /// Deletes the specified list of attributes for process and thread creation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-deleteprocthreadattributelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-deleteprocthreadattributelist"/>
         /// </para>
         /// </summary>
         /// <param name="lpAttributeList">
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32
         /// Removes as many pages as possible from the working set of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-emptyworkingset"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-emptyworkingset"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -452,7 +452,7 @@ namespace Lsj.Util.Win32
         /// Ends the calling process and all its threads.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess"/>
         /// </para>
         /// </summary>
         /// <param name="uExitCode">
@@ -494,7 +494,7 @@ namespace Lsj.Util.Win32
         /// Flushes the instruction cache for the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushinstructioncache"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushinstructioncache"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -524,7 +524,7 @@ namespace Lsj.Util.Win32
         /// Flushes the write queue of each processor that is running a thread of the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushprocesswritebuffers"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushprocesswritebuffers"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -539,7 +539,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a pseudo handle for the current process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -570,7 +570,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the process identifier of the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -587,7 +587,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the termination status of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -626,7 +626,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the performance values contained in the <see cref="PERFORMANCE_INFORMATION"/> structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getperformanceinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getperformanceinfo"/>
         /// </para>
         /// </summary>
         /// <param name="pPerformanceInformation">
@@ -661,7 +661,7 @@ namespace Lsj.Util.Win32
         /// This value, together with the priority value of each thread of the process, determines each thread's base priority level.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getpriorityclass"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getpriorityclass"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -691,7 +691,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the process affinity mask for the specified process and the system affinity mask for the system.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprocessaffinitymask"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessaffinitymask"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -726,7 +726,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of open handles that belong to the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-processthreadsapi-getprocesshandlecount"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-processthreadsapi-getprocesshandlecount"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -755,7 +755,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the process identifier of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessid"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -777,7 +777,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the name of the executable file for the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -829,7 +829,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the memory usage of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getprocessmemoryinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getprocessmemoryinfo"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -872,7 +872,7 @@ namespace Lsj.Util.Win32
         /// Retrieves mitigation policy settings for the calling process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-processthreadsapi-getprocessmitigationpolicy"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-processthreadsapi-getprocessmitigationpolicy"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -982,7 +982,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the priority boost control state of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesspriorityboost"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesspriorityboost"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1010,7 +1010,7 @@ namespace Lsj.Util.Win32
         /// Retrieves timing information for the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1064,7 +1064,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the major and minor version numbers of the system on which the specified process expects to run.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessversion"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessversion"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessId">
@@ -1094,7 +1094,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getstartupinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getstartupinfow"/>
         /// </para>
         /// </summary>
         /// <param name="lpStartupInfo">
@@ -1112,7 +1112,7 @@ namespace Lsj.Util.Win32
         /// Initializes the specified list of attributes for process and thread creation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-initializeprocthreadattributelist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-initializeprocthreadattributelist"/>
         /// </para>
         /// </summary>
         /// <param name="lpAttributeList">
@@ -1157,7 +1157,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing local process object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -1199,7 +1199,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the first process encountered in a system snapshot.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-process32first"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-process32first"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1226,7 +1226,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the next process recorded in a system snapshot.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-process32next"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-process32next"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -1251,7 +1251,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the Remote Desktop Services session associated with a specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-processidtosessionid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-processidtosessionid"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -1279,7 +1279,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the full name of the executable image for the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1313,7 +1313,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the affinity update mode of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-queryprocessaffinityupdatemode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-queryprocessaffinityupdatemode"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1339,7 +1339,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the sum of the cycle time of all threads of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessHandle">
@@ -1371,7 +1371,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="QueryWorkingSetEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingset"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-queryworkingset"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1415,7 +1415,7 @@ namespace Lsj.Util.Win32
         /// Retrieves extended information about the pages at specific virtual addresses in the address space of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingsetex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-queryworkingsetex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1459,7 +1459,7 @@ namespace Lsj.Util.Win32
         /// This value together with the priority value of each thread of the process determines each thread's base priority level.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1509,7 +1509,7 @@ namespace Lsj.Util.Win32
         /// Sets a processor affinity mask for the threads of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1550,7 +1550,7 @@ namespace Lsj.Util.Win32
         /// Sets the affinity update mode of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessaffinityupdatemode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessaffinityupdatemode"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1584,7 +1584,7 @@ namespace Lsj.Util.Win32
         /// Sets a mitigation policy for the calling process. Mitigation policies enable a process to harden itself against various types of attacks.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask"/>
         /// </para>
         /// </summary>
         /// <param name="MitigationPolicy">
@@ -1693,7 +1693,7 @@ namespace Lsj.Util.Win32
         /// Disables or enables the ability of the system to temporarily boost the priority of the threads of the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocesspriorityboost"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocesspriorityboost"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1727,7 +1727,7 @@ namespace Lsj.Util.Win32
         /// This function sets a shutdown order for a process relative to the other processes in the system.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessshutdownparameters"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocessshutdownparameters"/>
         /// </para>
         /// </summary>
         /// <param name="dwLevel">
@@ -1765,7 +1765,7 @@ namespace Lsj.Util.Win32
         /// Sets the minimum and maximum working set sizes for the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessworkingsetsize"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessworkingsetsize"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1836,7 +1836,7 @@ namespace Lsj.Util.Win32
         /// Sets the per-process mode that the <see cref="SearchPath"/> function uses when locating files.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setsearchpathmode"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setsearchpathmode"/>
         /// </para>
         /// </summary>
         /// <param name="Flags">
@@ -1884,7 +1884,7 @@ namespace Lsj.Util.Win32
         /// Terminates the specified process and all of its threads.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -1921,7 +1921,7 @@ namespace Lsj.Util.Win32
         /// Updates the specified attribute in a list of attributes for process and thread creation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute"/>
         /// </para>
         /// </summary>
         /// <param name="lpAttributeList">

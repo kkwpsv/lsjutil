@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// This value, in combination with the value in the riid parameter, is used to determine the file format and the interface implementation to use.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa380330(v=vs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa380330(v=vs.85)"/>
     /// </para>
     /// </summary>
     /// <remarks>

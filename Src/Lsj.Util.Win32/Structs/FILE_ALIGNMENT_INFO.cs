@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// when <see cref="FileAlignmentInfo"/> is passed in the FileInformationClass parameter.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_alignment_info"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_alignment_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

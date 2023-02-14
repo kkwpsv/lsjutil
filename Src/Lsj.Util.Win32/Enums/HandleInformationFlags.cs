@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// HandleInformation Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-gethandleinformation"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-gethandleinformation"/>
     /// </para>
     /// </summary>
     public enum HandleInformationFlags : uint

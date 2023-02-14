@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Macros
     /// Edit Control Macros
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-edit-control-reference-macros"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/bumper-edit-control-reference-macros"/>
     /// </para>
     /// </summary>
     public static class EditControlMacros
@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Macros
         /// You can use this macro or send the <see cref="EM_NOSETFOCUS"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-edit_nosetfocus"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-edit_nosetfocus"/>
         /// </para>
         /// </summary>
         /// <param name="hwndCtl">

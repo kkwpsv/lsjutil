@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Exposes methods and properties that make a user interface element and its children accessible to client applications.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleacc/nn-oleacc-iaccessible"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleacc/nn-oleacc-iaccessible"/>
     /// </para>
     /// </summary>
     public unsafe struct IAccessible

@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// An application can obtain a filled-in <see cref="DIBSECTION"/> structure for a given DIB by calling the <see cref="GetObject"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-dibsection"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-dibsection"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

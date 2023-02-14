@@ -5,7 +5,7 @@
     /// The <see cref="DOT11_AUTH_ALGORITHM"/> enumerated type defines a wireless LAN authentication algorithm.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/nativewifi/dot11-auth-algorithm"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/nativewifi/dot11-auth-algorithm"/>
     /// </para>
     /// </summary>
     public enum DOT11_AUTH_ALGORITHM

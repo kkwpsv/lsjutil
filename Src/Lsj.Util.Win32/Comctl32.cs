@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// An application-defined callback function that the system calls when the property sheet is being created and initialized.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/prsht/nc-prsht-pfnpropsheetcallback"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/prsht/nc-prsht-pfnpropsheetcallback"/>
         /// </para>
         /// </summary>
         /// <param name="unnamedParam1">
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32
         /// Creates a new page for a property sheet.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/prsht/nf-prsht-createpropertysheetpagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/prsht/nf-prsht-createpropertysheetpagew"/>
         /// </para>
         /// </summary>
         /// <param name="constPropSheetPagePointer">
@@ -107,7 +107,7 @@ namespace Lsj.Util.Win32
         /// An application must call this function for pages that have not been passed to the <see cref="PropertySheet"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/prsht/nf-prsht-destroypropertysheetpage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/prsht/nf-prsht-destroypropertysheetpage"/>
         /// </para>
         /// </summary>
         /// <param name="unnamedParam1">
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// Gets the language currently in use by the common controls for a particular process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-getmuilanguage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-getmuilanguage"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// An application must call this function before creating a common control.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-initcommoncontrolsex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-initcommoncontrolsex"/>
         /// </para>
         /// </summary>
         /// <param name="picce">
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// Enables an application to specify a language to be used with the common controls that is different from the system language.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-initmuilanguage"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-initmuilanguage"/>
         /// </para>
         /// </summary>
         /// <param name="uiLang">

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// These events are used internally and should be ignored.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/focus-event-record-str"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/focus-event-record-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

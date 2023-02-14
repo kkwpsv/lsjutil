@@ -8,7 +8,7 @@
     /// For more information and a list of possible access right values for registry objects, see Registry Key Security and Access Rights.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/iads/ne-iads-ads_rights_enum"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/iads/ne-iads-ads_rights_enum"/>
     /// </para>
     /// </summary>
     /// <remarks>

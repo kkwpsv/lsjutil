@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Used for any handles. Use only when calling <see cref="GetFileInformationByHandleEx"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_stream_info"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info"/>
     /// </para>
     /// </summary>
     /// <remarks>

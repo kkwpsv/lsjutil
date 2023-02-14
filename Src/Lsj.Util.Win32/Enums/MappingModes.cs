@@ -5,7 +5,7 @@
     /// Mapping Modes
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/mapping-modes-and-translations"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/gdi/mapping-modes-and-translations"/>
     /// </para>
     /// </summary>
     public enum MappingModes

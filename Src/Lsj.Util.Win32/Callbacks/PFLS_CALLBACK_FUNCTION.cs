@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Callbacks
     /// PFLS_CALLBACK_FUNCTION
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-pfls_callback_function"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nc-winnt-pfls_callback_function"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

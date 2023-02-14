@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CIEXYZ"/> structure contains the x,y, and z coordinates of a specific color in a specified color space.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-ciexyz"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-ciexyz"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

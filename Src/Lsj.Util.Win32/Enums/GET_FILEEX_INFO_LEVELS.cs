@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// to specify the information level of the returned data.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ne-minwinbase-get_fileex_info_levels"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-minwinbase-get_fileex_info_levels"/>
     /// </para>
     /// </summary>
     public enum GET_FILEEX_INFO_LEVELS

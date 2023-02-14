@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Because a <see cref="UCHAR"/> is unsigned, its first bit (Most Significant Bit (MSB)) is not reserved for signing.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/050baef1-f978-4851-a3c7-ad701a90e54a"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/050baef1-f978-4851-a3c7-ad701a90e54a"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 1)]

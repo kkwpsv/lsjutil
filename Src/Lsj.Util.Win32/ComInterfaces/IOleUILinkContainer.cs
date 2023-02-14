@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// They also open a link's source document, update links, and break a link to the source.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oledlg/nn-oledlg-ioleuilinkcontainerw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oledlg/nn-oledlg-ioleuilinkcontainerw"/>
     /// </para>
     /// </summary>
     public unsafe struct IOleUILinkContainer

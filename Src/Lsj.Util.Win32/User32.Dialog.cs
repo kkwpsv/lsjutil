@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the return value of a message processed in the dialog box procedure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
         /// </para>
         /// </summary>
         public static readonly GetWindowLongIndexes DWLP_MSGRESULT = 0;
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32
         /// You must use the <see cref="CallWindowProc"/> function to call the dialog box procedure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
         /// </para>
         /// </summary>
         public static readonly GetWindowLongIndexes DWLP_DLGPROC = DWLP_MSGRESULT + IntPtr.Size;
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// Retrieves extra information private to the application, such as handles or pointers.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowlongptrw"/>
         /// </para>
         /// </summary>
         public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + IntPtr.Size;
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// <see cref="WM_INITDIALOG"/>, <see cref="WM_QUERYDRAGICON"/>, <see cref="WM_VKEYTOITEM"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-dlgproc"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-dlgproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -158,7 +158,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDialogIndirect"/> macro uses the <see cref="CreateDialogIndirectParam"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdialogindirectw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createdialogindirectw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -218,7 +218,7 @@ namespace Lsj.Util.Win32
         /// An application can use this value to initialize dialog box controls.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdialogindirectparamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createdialogindirectparamw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -285,7 +285,7 @@ namespace Lsj.Util.Win32
         /// An application can use this value to initialize dialog box controls.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdialogparamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createdialogparamw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32
         /// that a dialog box with a private window class does not process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defdlgprocw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defdlgprocw"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -380,7 +380,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DialogBox"/> is implemented as a call to the <see cref="DialogBoxParam"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dialogboxw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -423,7 +423,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DialogBoxIndirect"/> is implemented as a call to the <see cref="DialogBoxIndirectParam"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxindirectw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dialogboxindirectw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -479,7 +479,7 @@ namespace Lsj.Util.Win32
         /// An application can use this value to initialize dialog box controls.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxindirectparamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dialogboxindirectparamw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -545,7 +545,7 @@ namespace Lsj.Util.Win32
         /// An application can use this value to initialize dialog box controls.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxparamw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dialogboxparamw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -598,7 +598,7 @@ namespace Lsj.Util.Win32
         /// The list can optionally include mapped drives.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dlgdirlistw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirlistw"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -679,7 +679,7 @@ namespace Lsj.Util.Win32
         /// The list of names can include mapped drive letters.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dlgdirlistcomboboxw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirlistcomboboxw"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -771,7 +771,7 @@ namespace Lsj.Util.Win32
         /// The selection is interpreted as a drive letter, a file, or a directory name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dlgdirselectcomboboxexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirselectcomboboxexw"/>
         /// </para>
         /// </summary>
         /// <param name="hwndDlg">
@@ -820,7 +820,7 @@ namespace Lsj.Util.Win32
         /// and that the selection is a drive letter, filename, or directory name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dlgdirselectexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirselectexw"/>
         /// </para>
         /// </summary>
         /// <param name="hwndDlg">
@@ -862,7 +862,7 @@ namespace Lsj.Util.Win32
         /// Destroys a modal dialog box, causing the system to end any processing for the dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enddialog"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enddialog"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -902,7 +902,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MapDialogRect"/> takes the font into account and correctly converts a rectangle from dialog template units into pixels.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdialogbaseunits"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdialogbaseunits"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -940,7 +940,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the identifier of the specified control.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdlgctrlid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdlgctrlid"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -967,7 +967,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to a control in the specified dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdlgitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdlgitem"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -995,7 +995,7 @@ namespace Lsj.Util.Win32
         /// Translates the text of a specified control in a dialog box into an integer value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdlgitemint"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdlgitemint"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1040,7 +1040,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the title or text associated with a control in a dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdlgitemtextw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdlgitemtextw"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1073,7 +1073,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the first control in a group of controls that precedes (or follows) the specified control in a dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getnextdlggroupitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getnextdlggroupitem"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1119,7 +1119,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the first control that has the <see cref="WS_TABSTOP"/> style that precedes (or follows) the specified control.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getnextdlgtabitem"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getnextdlgtabitem"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1154,7 +1154,7 @@ namespace Lsj.Util.Win32
         /// Determines whether a message is intended for the specified dialog box and, if it is, processes the message.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isdialogmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdialogmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1225,7 +1225,7 @@ namespace Lsj.Util.Win32
         /// Sends a message to the specified control in a dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-senddlgitemmessagew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-senddlgitemmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1261,7 +1261,7 @@ namespace Lsj.Util.Win32
         /// Sets the text of a control in a dialog box to the string representation of a specified integer value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setdlgitemint"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdlgitemint"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// Sets the title or text of a control in a dialog box.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setdlgitemtextw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdlgitemtextw"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">

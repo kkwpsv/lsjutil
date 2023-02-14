@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Thread Priority Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriority"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriority"/>
     /// </para>
     /// </summary>
     public enum ThreadPriorityFlags

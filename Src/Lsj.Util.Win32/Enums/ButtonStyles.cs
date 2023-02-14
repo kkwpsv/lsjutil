@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// you can specify any of the button styles listed below.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/button-styles"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/button-styles"/>
     /// </para>
     /// </summary>
     /// <remarks>

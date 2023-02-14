@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Index For <see cref="GetSystemMetrics"/>
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetrics"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsystemmetrics"/>
     /// </para>
     /// </summary>
     public enum SystemMetric : int

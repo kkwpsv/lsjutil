@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BIND_OPTS2"/> or <see cref="BIND_OPTS3"/> structure can be used in place of the <see cref="BIND_OPTS"/> structure.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-bind_opts"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ns-objidl-bind_opts"/>
     /// </para>
     /// </summary>
     /// <remarks>

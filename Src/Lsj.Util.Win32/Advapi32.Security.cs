@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32
         /// Typically, server applications use this function to check access to a private object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheck"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheck"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -117,7 +117,7 @@ namespace Lsj.Util.Win32
         /// the function generates any necessary audit messages in the security event log.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheckandauditalarmw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheckandauditalarmw"/>
         /// </para>
         /// </summary>
         /// <param name="SubsystemName">
@@ -194,7 +194,7 @@ namespace Lsj.Util.Win32
         /// Typically, server applications use this function to check access to a private object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytype"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytype"/>
         /// </para> 
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -303,7 +303,7 @@ namespace Lsj.Util.Win32
         /// Alarms are not currently supported.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytypeandauditalarmw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytypeandauditalarmw"/>
         /// </para>
         /// </summary>
         /// <param name="SubsystemName">
@@ -425,7 +425,7 @@ namespace Lsj.Util.Win32
         /// Typically, server applications use this function to check access to a private object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlist"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlist"/>
         /// </para> 
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// the function generates any necessary audit messages in the security event log. Alarms are not currently supported.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlistandauditalarmw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlistandauditalarmw"/>
         /// </para> 
         /// </summary>
         /// <param name="SubsystemName">
@@ -655,7 +655,7 @@ namespace Lsj.Util.Win32
         /// Alarms are not currently supported.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlistandauditalarmbyhandlew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytyperesultlistandauditalarmbyhandlew"/>
         /// </para> 
         /// </summary>
         /// <param name="SubsystemName">
@@ -785,7 +785,7 @@ namespace Lsj.Util.Win32
         /// To control whether the new ACE can be inherited by child objects, use the <see cref="AddAccessAllowedAceEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedace"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedace"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -830,7 +830,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AddAccessAllowedAceEx"/> function adds an access-allowed access control entry (ACE) to the end of a discretionary access control list (DACL).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedaceex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedaceex"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -892,7 +892,7 @@ namespace Lsj.Util.Win32
         /// You can also use <see cref="AddAccessAllowedObjectAce"/> to add an ACE that only a specified type of child object can inherit.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedobjectace"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedobjectace"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -969,7 +969,7 @@ namespace Lsj.Util.Win32
         /// To control whether the new ACE can be inherited by child objects, use the <see cref="AddAccessDeniedAceEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedace"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedace"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -1015,7 +1015,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AddAccessDeniedAceEx"/> function adds an access-denied access control entry (ACE) to the end of a discretionary access control list (DACL).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedaceex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedaceex"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -1078,7 +1078,7 @@ namespace Lsj.Util.Win32
         /// You can also use <see cref="AddAccessDeniedObjectAce"/> to add an ACE that only a specified type of child object can inherit.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedobjectace"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessdeniedobjectace"/>
         /// </para>
         /// </summary>
         /// <param name="pAcl">
@@ -1157,7 +1157,7 @@ namespace Lsj.Util.Win32
         /// call the <see cref="ConvertStringSecurityDescriptorToSecurityDescriptor"/> function.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sddl/nf-sddl-convertsecuritydescriptortostringsecuritydescriptorw"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertsecuritydescriptortostringsecuritydescriptorw"/>
         /// </para>
         /// </summary>
         /// <param name="SecurityDescriptor">
@@ -1215,7 +1215,7 @@ namespace Lsj.Util.Win32
         /// This function retrieves a security descriptor that the <see cref="ConvertSecurityDescriptorToStringSecurityDescriptor"/> function converted to string format.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sddl/nf-sddl-convertstringsecuritydescriptortosecuritydescriptorw"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsecuritydescriptortosecuritydescriptorw"/>
         /// </para>
         /// </summary>
         /// <param name="StringSecurityDescriptor">
@@ -1261,7 +1261,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="CreatePrivateObjectSecurityEx"/> function.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createprivateobjectsecurity"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createprivateobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="ParentDescriptor">
@@ -1317,7 +1317,7 @@ namespace Lsj.Util.Win32
         /// for a new private object created by the resource manager calling this function.
         /// </para>
         /// <para>
-        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createprivateobjectsecurityex"/>
+        /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createprivateobjectsecurityex"/>
         /// </para>
         /// </summary>
         /// <param name="ParentDescriptor">
@@ -1477,7 +1477,7 @@ namespace Lsj.Util.Win32
         /// and its access control lists (ACLs) to a format that supports automatic propagation of inheritable access control entries (ACEs).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="ParentDescriptor">
@@ -1550,7 +1550,7 @@ namespace Lsj.Util.Win32
         /// For background information, see the Security Descriptors for Private Objects topic.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="ObjectDescriptor">
@@ -1570,7 +1570,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -1605,7 +1605,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetSecurityDescriptorControl"/> function retrieves a security descriptor control and revision information.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1634,7 +1634,7 @@ namespace Lsj.Util.Win32
         /// this function should be called before attempting network access to generate an anonymous token on the remote server.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken"/>
         /// </para>
         /// </summary>
         /// <param name="ThreadHandle">
@@ -1661,7 +1661,7 @@ namespace Lsj.Util.Win32
         /// when a handle to a private object is deleted. Alarms are not currently supported.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectcloseauditalarmw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectcloseauditalarmw"/>
         /// </para>
         /// </summary>
         /// <param name="SubsystemName">
@@ -1698,7 +1698,7 @@ namespace Lsj.Util.Win32
         /// Alarms are not currently supported.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectopenauditalarmw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectopenauditalarmw"/>
         /// </para>
         /// </summary>
         /// <param name="SubsystemName">

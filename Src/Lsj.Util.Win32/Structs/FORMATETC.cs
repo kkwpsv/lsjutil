@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used as a parameter in OLE functions and methods that require data format information.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-formatetc"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ns-objidl-formatetc"/>
     /// </para>
     /// </summary>
     /// <remarks>

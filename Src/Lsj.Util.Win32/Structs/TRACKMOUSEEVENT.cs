@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// leaves a window or hovers over a window for a specified amount of time.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-trackmouseevent"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-trackmouseevent"/>
     /// </para>
     /// </summary>
     /// <remarks>

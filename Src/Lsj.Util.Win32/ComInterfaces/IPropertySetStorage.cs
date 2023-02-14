@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Only one instance of a given FMTID may exist at a time within a single property storage.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/propidl/nn-propidl-ipropertysetstorage"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/propidl/nn-propidl-ipropertysetstorage"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// or <see cref="SystemParametersInfoParameters.SPI_SETAUDIODESCRIPTION"/> action value is specified.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-audiodescription"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-audiodescription"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

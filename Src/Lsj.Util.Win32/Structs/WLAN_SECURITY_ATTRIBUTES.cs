@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="WLAN_SECURITY_ATTRIBUTES"/> structure defines the security attributes for a wireless connection.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ns-wlanapi-wlan_security_attributes
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_security_attributes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.Enums
     /// of the Local Security Settings Microsoft Management Console (MMC) snap-in.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/privilege-constants"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/secauthz/privilege-constants"/>
     /// </para>
     /// </summary>
     /// <remarks>

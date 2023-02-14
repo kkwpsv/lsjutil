@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32
         /// Closes a handle to the specified registry key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regclosekey"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regclosekey"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32
         /// Establishes a connection to a predefined registry key on another computer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regconnectregistryw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regconnectregistryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32
         /// Copies the specified registry key, along with its values and subkeys, to the specified destination key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcopytreew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcopytreew"/>
         /// </para>
         /// </summary>
         /// <param name="hKeySrc">
@@ -163,7 +163,7 @@ namespace Lsj.Util.Win32
         /// Creates the specified registry key.
         /// If the key already exists in the registry, the function opens it.
         /// </para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcreatekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyw"/>
         /// <para>
         /// </para>
         /// </summary>
@@ -231,7 +231,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcreatekeyexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -355,7 +355,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcreatekeytransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeytransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// To enable an application to delete an entry in the alternate registry view, use the <see cref="RegDeleteKeyEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdeletekeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -531,7 +531,7 @@ namespace Lsj.Util.Win32
         /// To delete a subkey as a transacted operation, call the <see cref="RegDeleteKeyTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletekeyexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdeletekeyexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -590,7 +590,7 @@ namespace Lsj.Util.Win32
         /// Note that key names are not case sensitive.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletekeytransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdeletekeytransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -656,7 +656,7 @@ namespace Lsj.Util.Win32
         /// Deletes the subkeys and values of the specified key recursively.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletetreew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdeletetreew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -701,7 +701,7 @@ namespace Lsj.Util.Win32
         /// Note that value names are not case sensitive.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletevaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdeletevaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -741,7 +741,7 @@ namespace Lsj.Util.Win32
         /// The function retrieves the name of one subkey each time it is called.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumkeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regenumkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -804,7 +804,7 @@ namespace Lsj.Util.Win32
         /// The function retrieves information about one subkey each time it is called.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumkeyexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regenumkeyexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -889,7 +889,7 @@ namespace Lsj.Util.Win32
         /// The function copies one indexed value name and data block for the key each time it is called.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumvaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regenumvaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -983,7 +983,7 @@ namespace Lsj.Util.Win32
         /// Writes all the attributes of the specified open registry key into the registry.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regflushkey"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regflushkey"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1026,7 +1026,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the type and data for the specified registry value.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-reggetvaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-reggetvaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1160,7 +1160,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified registry hive as an application hive.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regloadappkeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadappkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="lpFile">
@@ -1230,7 +1230,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regloadkeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regloadkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1280,7 +1280,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the <see cref="HKEY_CURRENT_USER"/> key for the user the current thread is impersonating.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regopencurrentuser"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopencurrentuser"/>
         /// </para>
         /// </summary>
         /// <param name="samDesired">
@@ -1311,7 +1311,7 @@ namespace Lsj.Util.Win32
         /// Opens the specified registry key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regopenkeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1364,7 +1364,7 @@ namespace Lsj.Util.Win32
         /// To perform transacted registry operations on a key, call the <see cref="RegOpenKeyTransacted"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regopenkeyexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1435,7 +1435,7 @@ namespace Lsj.Util.Win32
         /// Note that key names are not case sensitive.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regopenkeytransactedw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeytransactedw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1509,7 +1509,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified registry key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryinfokeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regqueryinfokeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1602,7 +1602,7 @@ namespace Lsj.Util.Win32
         /// The data must be a null-terminated string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryvaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regqueryvaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1679,7 +1679,7 @@ namespace Lsj.Util.Win32
         /// returned are null-terminated, use the <see cref="RegGetValue"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryvalueexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regqueryvalueexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1789,7 +1789,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regreplacekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regreplacekeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1847,7 +1847,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regrestorekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regrestorekeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -1906,7 +1906,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsavekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsavekeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -2023,7 +2023,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RegSetKeySecurity"/> function sets the security of an open registry key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsetkeysecurity"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsetkeysecurity"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -2055,7 +2055,7 @@ namespace Lsj.Util.Win32
         /// Sets the data for the specified value in the specified registry key and subkey.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsetkeyvaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsetkeyvaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -2115,7 +2115,7 @@ namespace Lsj.Util.Win32
         /// The data must be a text string.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsetvaluew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsetvaluew"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -2178,7 +2178,7 @@ namespace Lsj.Util.Win32
         /// Sets the data and type of a specified value under a registry key.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsetvalueexw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsetvalueexw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">
@@ -2254,7 +2254,7 @@ namespace Lsj.Util.Win32
         /// should use the Volume Shadow Copy Service instead of the registry functions.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regunloadkeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regunloadkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hKey">

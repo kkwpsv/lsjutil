@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32
         /// Registers a window as being touch-capable.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registertouchwindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registertouchwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32
         /// Checks whether a specified window is touch-capable and, optionally, retrieves the modifier flags set for the window's touch capability.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-istouchwindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-istouchwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// Registers a window as no longer being touch-capable.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregistertouchwindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregistertouchwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">

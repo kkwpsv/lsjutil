@@ -5,7 +5,7 @@
     /// The RTS (request-to-send) flow control.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-dcb"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-dcb"/>
     /// </para>
     /// </summary>
     public enum RTS_CONTROL : uint

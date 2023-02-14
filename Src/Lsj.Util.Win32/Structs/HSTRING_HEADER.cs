@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Represents a header for an <see cref="HSTRING"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/hstring/ns-hstring-hstring_header"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/hstring/ns-hstring-hstring_header"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

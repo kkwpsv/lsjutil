@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="PANOSE"/> Values
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-panose"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-panose"/>
     /// </para>
     /// </summary>
     public enum PANOSEValues : byte

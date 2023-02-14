@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The constants are used in the <see cref="IOleLink"/> interface.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-oleupdate"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleidl/ne-oleidl-oleupdate"/>
     /// </para>
     /// </summary>
     public enum OLEUPDATE

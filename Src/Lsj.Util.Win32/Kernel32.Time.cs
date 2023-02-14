@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32
         /// Converts a file time to a local file time.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-filetimetolocalfiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-filetimetolocalfiletime"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileTime">
@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32
         /// Converts a file time to system time format. System time is based on Coordinated Universal Time (UTC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-filetimetosystemtime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-filetimetosystemtime"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileTime">
@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32
         /// These settings control the translations between Coordinated Universal Time (UTC) and local time.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-getdynamictimezoneinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-getdynamictimezoneinformation"/>
         /// </para>
         /// </summary>
         /// <param name="pTimeZoneInformation">
@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GetDynamicTimeZoneInformation"/> or <see cref="GetTimeZoneInformationForYear"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-gettimezoneinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-gettimezoneinformation"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeZoneInformation">
@@ -138,7 +138,7 @@ namespace Lsj.Util.Win32
         /// These settings control the translations between Coordinated Universal Time (UTC) and local time.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-gettimezoneinformationforyear"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-gettimezoneinformationforyear"/>
         /// </para>
         /// </summary>
         /// <param name="wYear">
@@ -174,7 +174,7 @@ namespace Lsj.Util.Win32
         /// These settings control translations from Coordinated Universal Time (UTC) to local time.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-setdynamictimezoneinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-setdynamictimezoneinformation"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeZoneInformation">
@@ -202,7 +202,7 @@ namespace Lsj.Util.Win32
         /// To support boundaries for daylight saving time that change from year to year, use the <see cref="SetDynamicTimeZoneInformation"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-settimezoneinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-settimezoneinformation"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeZoneInformation">
@@ -241,7 +241,7 @@ namespace Lsj.Util.Win32
         /// System time is based on Coordinated Universal Time (UTC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-systemtimetofiletime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-systemtimetofiletime"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemTime">
@@ -267,7 +267,7 @@ namespace Lsj.Util.Win32
         /// Converts a time in Coordinated Universal Time (UTC) to a specified time zone's corresponding local time.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-systemtimetotzspecificlocaltime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-systemtimetotzspecificlocaltime"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeZoneInformation">
@@ -304,7 +304,7 @@ namespace Lsj.Util.Win32
         /// Converts a local time to a time in Coordinated Universal Time (UTC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-tzspecificlocaltimetosystemtime"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-tzspecificlocaltimetosystemtime"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeZoneInformation">

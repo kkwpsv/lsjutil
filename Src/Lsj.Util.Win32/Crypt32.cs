@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CertCompareIntegerBlob"/> function compares two integer BLOBs to determine whether they represent equal numeric values.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/nf-wincrypt-certcompareintegerblob"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certcompareintegerblob"/>
         /// </para>
         /// </summary>
         /// <param name="pInt1">

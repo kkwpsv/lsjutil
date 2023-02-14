@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// For a list of related APIs and topics, see the See Also section.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/fileio/file-attribute-constants"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants"/>
     /// </para>
     /// </summary>
     public enum FileAttributes : uint

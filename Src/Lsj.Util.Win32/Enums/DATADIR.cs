@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// This determines the formats that the resulting enumerator can enumerate.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-datadir"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ne-objidl-datadir"/>
     /// </para>
     /// </summary>
     public enum DATADIR

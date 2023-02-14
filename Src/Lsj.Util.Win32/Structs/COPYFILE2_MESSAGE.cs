@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Passed to the CopyFile2ProgressRoutine callback function with information about a pending copy operation.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-copyfile2_message"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-copyfile2_message"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

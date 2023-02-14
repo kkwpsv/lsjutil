@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines values for extended parameters used for file mapping into an address space.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-mem_extended_parameter_type"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-mem_extended_parameter_type"/>
     /// </para>
     /// </summary>
     public enum MEM_EXTENDED_PARAMETER_TYPE : byte

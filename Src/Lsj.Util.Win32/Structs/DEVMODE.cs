@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="DEVMODE"/> structure is used for specifying characteristics of display and print devices in the Unicode (wide) character set.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-devmodew"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-devmodew"/>
     /// </para>
     /// </summary>
     /// <remarks>

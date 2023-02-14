@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32
         /// writes to and reads from the pipe, and then closes the pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-callnamedpipea"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-callnamedpipea"/>
         /// </para>
         /// </summary>
         /// <param name="lpNamedPipeName">
@@ -114,7 +114,7 @@ namespace Lsj.Util.Win32
         /// A client process connects by calling either the <see cref="CreateFile"/> or <see cref="CallNamedPipe"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-connectnamedpipe"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-connectnamedpipe"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -196,7 +196,7 @@ namespace Lsj.Util.Win32
         /// and establish its basic attributes or to create a new instance of an existing named pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea (CreateNamedPipeW document not exists)"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createnamedpipea (CreateNamedPipeW document not exists)"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -339,7 +339,7 @@ namespace Lsj.Util.Win32
         /// Creates an anonymous pipe, and returns handles to the read and write ends of the pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-createpipe"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-createpipe"/>
         /// </para>
         /// </summary>
         /// <param name="hReadPipe">
@@ -393,7 +393,7 @@ namespace Lsj.Util.Win32
         /// Disconnects the server end of a named pipe instance from a client process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-disconnectnamedpipe"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-disconnectnamedpipe"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -427,7 +427,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the client computer name for the specified named pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeclientcomputernamew"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeclientcomputernamew"/>
         /// </para>
         /// </summary>
         /// <param name="Pipe">
@@ -459,7 +459,7 @@ namespace Lsj.Util.Win32
         /// The information returned can vary during the lifetime of an instance of the named pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnamedpipehandlestatea"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnamedpipehandlestatea"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified named pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeinfo"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -584,7 +584,7 @@ namespace Lsj.Util.Win32
         /// It also returns information about data in the pipe.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-peeknamedpipe"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-peeknamedpipe"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -653,7 +653,7 @@ namespace Lsj.Util.Win32
         /// the function can also be used to control local buffering.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-setnamedpipehandlestate"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-setnamedpipehandlestate"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -710,7 +710,7 @@ namespace Lsj.Util.Win32
         /// Combines the functions that write a message to and read a message from the specified named pipe into a single network operation.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-transactnamedpipe"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/namedpipeapi/nf-namedpipeapi-transactnamedpipe"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -800,7 +800,7 @@ namespace Lsj.Util.Win32
         /// (that is, the pipe's server process has a pending <see cref="ConnectNamedPipe"/> operation on the pipe).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitnamedpipea"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-waitnamedpipea"/>
         /// </para>
         /// </summary>
         /// <param name="lpNamedPipeName">

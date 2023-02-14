@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes a transformation matrix that a magnifier control uses to magnify screen content.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/ns-magnification-magtransform"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/magnification/ns-magnification-magtransform"/>
     /// </para>
     /// <remark>
     /// The transformation matrix is

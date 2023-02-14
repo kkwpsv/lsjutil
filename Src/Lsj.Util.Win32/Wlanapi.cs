@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WlanCloseHandle"/> function closes a connection to the server.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlanclosehandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlanclosehandle"/>
         /// </para>
         /// </summary>
         /// <param name="hClientHandle">
@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WlanEnumInterfaces"/> function enumerates all of the wireless LAN interfaces currently enabled on the local computer.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/nf-wlanapi-wlanenuminterfaces"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlanenuminterfaces"/>
         /// </para>
         /// </summary>
         /// <param name="hClientHandle">
@@ -136,7 +136,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WlanGetProfile"/> function retrieves all information about a specified wireless profile.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile"/>
         /// </para>
         /// </summary>
         /// <param name="hClientHandle">
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WlanOpenHandle"/> function opens a connection to the server.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/nf-wlanapi-wlanopenhandle
+        /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlanopenhandle
         /// </para>
         /// </summary>
         /// <param name="dwClientVersion">
@@ -294,7 +294,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WlanQueryInterface"/> function queries various parameters of a specified interface.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/nf-wlanapi-wlanqueryinterface
+        /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlanqueryinterface
         /// </para>
         /// </summary>
         /// <param name="hClientHandle">

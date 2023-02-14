@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32
         /// The console session is the session that is currently attached to the physical console. 
         /// Note that it is not necessary that Remote Desktop Services be running for this function to succeed.
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wtsgetactiveconsolesessionid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-wtsgetactiveconsolesessionid"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32
         /// must use caution that they do not leak user tokens when calling this function.
         /// Service providers must close token handles after they have finished using them.
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtsapi32/nf-wtsapi32-wtsqueryusertoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtsapi32/nf-wtsapi32-wtsqueryusertoken"/>
         /// </para>
         /// </summary>
         /// <param name="SessionId">

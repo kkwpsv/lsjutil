@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Status Bar Styles
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/status-bar-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/status-bar-styles"/>
     /// </para>
     /// </summary>
     [Flags]

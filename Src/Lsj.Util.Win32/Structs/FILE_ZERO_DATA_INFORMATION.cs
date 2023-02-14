@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used by the <see cref="FSCTL_SET_ZERO_DATA"/> control code
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ns-winioctl-file_zero_data_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-file_zero_data_information"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

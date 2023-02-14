@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies settings for a time zone and dynamic daylight saving time.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/ns-timezoneapi-dynamic_time_zone_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/ns-timezoneapi-dynamic_time_zone_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

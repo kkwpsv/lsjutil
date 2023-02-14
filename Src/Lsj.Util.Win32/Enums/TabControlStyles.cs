@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Tab Control Styles
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/syslink-control-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/syslink-control-styles"/>
     /// </para>
     /// </summary>
     /// <remarks>

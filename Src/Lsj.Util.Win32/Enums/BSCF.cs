@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// in <see cref="IBindStatusCallback.OnDataAvailable"/> to indicate the type of data that is available.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775135(v%3Dvs.85)"/>
+    /// <see href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775135(v%3Dvs.85)"/>
     /// </para>
     /// </summary>
     public enum BSCF

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// The Shell calls the <see cref="CopyCallback"/> method prior to performing one of these operations.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/bb776049(v=vs.85)"/>
+    /// <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/bb776049(v=vs.85)"/>
     /// </para>
     /// </summary>
     /// <remarks>

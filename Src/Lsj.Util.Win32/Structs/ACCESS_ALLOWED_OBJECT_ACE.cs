@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// The ACE also contains a GUID and a set of flags that control inheritance of the ACE by child objects.
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-access_allowed_object_ace"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-access_allowed_object_ace"/>
     /// </para>
     /// </summary>
     /// <remarks>

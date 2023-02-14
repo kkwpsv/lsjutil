@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="RegSaveKeyEx"/> Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsavekeyexw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regsavekeyexw"/>
     /// </para>
     /// </summary>
     public enum RegSaveKeyExFlags : uint

@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// The pen can subsequently be selected into a device context and used to draw lines and curves.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpen"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpen"/>
         /// </para>
         /// </summary>
         /// <param name="iStyle">
@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreatePenIndirect"/> function creates a logical cosmetic pen that has the style, width, and color specified in a structure.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpenindirect"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpenindirect"/>
         /// </para>
         /// </summary>
         /// <param name="plpen">
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// that has the specified style, width, and brush attributes.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extcreatepen"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-extcreatepen"/>
         /// </para>
         /// </summary>
         /// <param name="iPenStyle">
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDCPenColor"/> function retrieves the current pen color for the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcpencolor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getdcpencolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdcpencolor"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setdcpencolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

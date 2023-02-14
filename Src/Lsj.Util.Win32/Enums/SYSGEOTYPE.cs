@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines the type of geographical location information requested in the <see cref="GetGeoInfo"/> or <see cref="GetGeoInfoEx"/> function.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ne-winnls-sysgeotype"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/ne-winnls-sysgeotype"/>
     /// </para>
     /// </summary>
     public enum SYSGEOTYPE

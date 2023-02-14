@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// You can still use <see cref="WNDCLASS"/> and <see cref="RegisterClass"/> if you do not need to set the small icon associated with the window class.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-wndclassw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-wndclassw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

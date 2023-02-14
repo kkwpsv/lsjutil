@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Used by <see cref="SHGetStockIconInfo"/> to identify which stock system icon to retrieve.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ne-shellapi-shstockiconid"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ne-shellapi-shstockiconid"/>
     /// </para>
     /// </summary>
     /// <remarks>

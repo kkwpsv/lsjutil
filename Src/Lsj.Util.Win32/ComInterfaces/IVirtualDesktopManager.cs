@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Exposes methods that enable an application to interact with groups of windows that form virtual workspaces.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ivirtualdesktopmanager"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ivirtualdesktopmanager"/>
     /// </para>
     /// </summary>
     /// <remarks>

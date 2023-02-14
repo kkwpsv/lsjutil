@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Requests the form of an item's display name to retrieve through <see cref="IShellItem.GetDisplayName"/> and <see cref="SHGetNameFromIDList"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-sigdn"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-sigdn"/>
     /// </para>
     /// </summary>
     /// <remarks>

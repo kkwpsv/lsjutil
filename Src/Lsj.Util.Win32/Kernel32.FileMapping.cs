@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node for the physical memory, see <see cref="CreateFileMappingNuma"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingw"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -246,7 +246,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens a named or unnamed file mapping object for a specified file and specifies the NUMA node for the physical memory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingnumaw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingnumaw"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -472,7 +472,7 @@ namespace Lsj.Util.Win32
         /// Writes to the disk a byte range within a mapped view of a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-flushviewoffile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-flushviewoffile"/>
         /// </para>
         /// </summary>
         /// <param name="lpBaseAddress">
@@ -511,7 +511,7 @@ namespace Lsj.Util.Win32
         /// However, this practice is not recommended.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile"/>
         /// </para>
         /// </summary>
         /// <param name="hFileMappingObject">
@@ -636,7 +636,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node for the physical memory, see <see cref="MapViewOfFileExNuma"/>.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffileex"/>
         /// </para>
         /// </summary>
         /// <param name="hFileMappingObject">
@@ -766,7 +766,7 @@ namespace Lsj.Util.Win32
         /// Maps a view of a file mapping into the address space of a calling process and specifies the NUMA node for the physical memory.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapviewoffileexnuma"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-mapviewoffileexnuma"/>
         /// </para>
         /// </summary>
         /// <param name="hFileMappingObject">
@@ -904,7 +904,7 @@ namespace Lsj.Util.Win32
         /// Opens a named file mapping object.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-openfilemappingw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-openfilemappingw"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -946,7 +946,7 @@ namespace Lsj.Util.Win32
         /// Unmaps a mapped view of a file from the calling process's address space.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile"/>
         /// </para>
         /// </summary>
         /// <param name="lpBaseAddress">
@@ -982,7 +982,7 @@ namespace Lsj.Util.Win32
         /// This is an extended version of <see cref="UnmapViewOfFile"/> that takes an additional flags parameter.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffileex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffileex"/>
         /// </para>
         /// </summary>
         /// <param name="BaseAddress">

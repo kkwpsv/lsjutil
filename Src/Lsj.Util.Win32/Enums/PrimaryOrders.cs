@@ -5,7 +5,7 @@
     /// Primary Orders
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-gdiinfo"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winddi/ns-winddi-gdiinfo"/>
     /// </para>
     /// </summary>
     public enum PrimaryOrders : uint

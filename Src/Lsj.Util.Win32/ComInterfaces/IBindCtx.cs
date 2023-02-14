@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Provides access to a bind context, which is an object that stores information about a particular moniker binding operation.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ibindctx"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ibindctx"/>
     /// </para>
     /// </summary>
     /// <remarks>

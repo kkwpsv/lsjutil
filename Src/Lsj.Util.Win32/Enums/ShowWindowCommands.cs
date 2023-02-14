@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Show Window Commands
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow"/>
     /// </para>
     /// </summary>
     public enum ShowWindowCommands : uint

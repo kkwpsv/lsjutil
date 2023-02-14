@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Trackbar Styles
     /// </para>
     /// <para>
-    /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/trackbar-control-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/trackbar-control-styles"/>
     /// </para>
     /// </summary>
     [Flags]

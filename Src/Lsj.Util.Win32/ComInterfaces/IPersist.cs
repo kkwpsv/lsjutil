@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// and are called by the container application or the default object handler.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersist"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-ipersist"/>
     /// </para>
     /// </summary>
     public unsafe struct IPersist

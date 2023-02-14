@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Used to impose new behavior on handle references that are not valid.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-process_mitigation_strict_handle_check_policy"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-process_mitigation_strict_handle_check_policy"/>
     /// </para>
     /// </summary>
     /// <remarks>

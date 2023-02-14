@@ -8,8 +8,8 @@ namespace Lsj.Util.Win32.Enums
     /// ThreadPoolFlags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-registerwaitforsingleobject"/>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueuetimer"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-registerwaitforsingleobject"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueuetimer"/>
     /// </para>
     /// </summary>
     [Flags]

@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains basic and extended limit information for a job object.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_extended_limit_information"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_extended_limit_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="Compression"/> Enumeration specifies the type of compression for a bitmap image.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/4e588f70-bd92-4a6f-b77f-35d0feaf7a57"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/4e588f70-bd92-4a6f-b77f-35d0feaf7a57"/>
     /// </para>
     /// </summary>
     /// <remarks>

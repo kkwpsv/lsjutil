@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32
         /// Closes an open object handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-closehandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle"/>
         /// </para>
         /// </summary>
         /// <param name="hObject">
@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32
         /// Duplicates an object handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-duplicatehandle"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle"/>
         /// </para>
         /// </summary>
         /// <param name="hSourceProcessHandle">
@@ -238,7 +238,7 @@ namespace Lsj.Util.Win32
         /// Retrieves certain properties of an object handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-gethandleinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-gethandleinformation"/>
         /// </para>
         /// </summary>
         /// <param name="hObject">
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// Sets certain properties of an object handle.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-sethandleinformation"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-sethandleinformation"/>
         /// </para>
         /// </summary>
         /// <param name="hObject">

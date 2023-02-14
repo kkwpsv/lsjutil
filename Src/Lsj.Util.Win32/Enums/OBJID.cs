@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Enums
     /// and all negative values for the following standard object identifiers.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winauto/object-identifiers"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winauto/object-identifiers"/>
     /// </para>
     /// </summary>
     public enum OBJID

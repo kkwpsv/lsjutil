@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="WLAN_INTERFACE_INFO"/> structure contains information about a wireless LAN interface.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wlanapi/ns-wlanapi-wlan_interface_info
+    /// From: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_interface_info
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

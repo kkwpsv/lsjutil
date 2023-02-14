@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="TIMECAPS"/> structure contains information about the resolution of the timer.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/ns-timeapi-timecaps"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timeapi/ns-timeapi-timecaps"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// Checks for specified operating systems and operating system features.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-isos"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-isos"/>
         /// </para>
         /// </summary>
         /// <param name="dwOS"></param>
@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32
         /// Searches for a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-pathfindonpathw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathfindonpathw"/>
         /// </para>
         /// </summary>
         /// <param name="pszPath">
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SHCopyKey"/> does not copy the security attributes of the keys.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-shcopykeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-shcopykeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hkeySrc">
@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32
         /// This function removes the key and all the key's values from the registry.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-shdeletekeyw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-shdeletekeyw"/>
         /// </para>
         /// </summary>
         /// <param name="hkey">

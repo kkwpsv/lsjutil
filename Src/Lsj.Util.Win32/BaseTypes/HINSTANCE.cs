@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// <see cref="HMODULE"/> and <see cref="HINSTANCE"/> are the same today, but represented different things in 16-bit Windows.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]

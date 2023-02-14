@@ -9,8 +9,8 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="BroadcastSystemMessage"/> and <see cref="BroadcastSystemMessageEx"/> Flags
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessagew"/>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-broadcastsystemmessagew"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
     /// </para>
     /// </summary>
     public enum BroadcastSystemMessageFlags : uint

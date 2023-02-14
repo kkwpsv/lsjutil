@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="closesocket"/> function closes an existing socket.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winsock/nf-winsock-closesocket"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-closesocket"/>
         /// </para>
         /// </summary>
         /// <param name="s">

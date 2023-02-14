@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="SHGetStockIconInfo"/> Flags.
     /// </para>
     /// <para>
-    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetstockiconinfo"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetstockiconinfo"/>
     /// </para>
     /// </summary>
     public enum SHGetStockIconInfoFlags : uint

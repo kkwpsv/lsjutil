@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32
         /// Access to <see cref="TOKEN_ADJUST_GROUPS"/> is required to enable or disable groups in an access token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32
         /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// If you want to determine group membership for app container tokens, you need to use the <see cref="CheckTokenMembershipEx"/> function.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Restricted Tokens.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -332,7 +332,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateWellKnownSid"/> function creates a SID for predefined aliases.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid"/>
         /// </para>
         /// </summary>
         /// <param name="WellKnownSidType">
@@ -364,7 +364,7 @@ namespace Lsj.Util.Win32
         /// This function can create either a primary token or an impersonation token.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -472,7 +472,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="IsTokenRestricted"/> function indicates whether a token contains a list of restricted security identifiers (SIDs).
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -499,7 +499,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessHandle">
@@ -531,7 +531,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OpenThreadToken"/> function opens the access token associated with a thread.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthreadtoken"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthreadtoken"/>
         /// </para>
         /// </summary>
         /// <param name="ThreadHandle">
@@ -574,7 +574,7 @@ namespace Lsj.Util.Win32
         /// The information that this function sets replaces existing information.
         /// The calling process must have appropriate access rights to set the information.
         /// <para>
-        /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
+        /// From : https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
