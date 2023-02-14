@@ -107,14 +107,64 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT DISP_E_BADINDEX = new HRESULT { _value = unchecked((int)0x8002000B) };
 
         /// <summary>
+        /// DISP_E_BADPARAMCOUNT
+        /// </summary>
+        public static readonly HRESULT DISP_E_BADPARAMCOUNT = new HRESULT { _value = unchecked((int)0x8002000E) };
+
+        /// <summary>
         /// DISP_E_BADVARTYPE
         /// </summary>
         public static readonly HRESULT DISP_E_BADVARTYPE = new HRESULT { _value = unchecked((int)0x80020008) };
 
         /// <summary>
+        /// DISP_E_EXCEPTION
+        /// </summary>
+        public static readonly HRESULT DISP_E_EXCEPTION = new HRESULT { _value = unchecked((int)0x80020009) };
+
+        /// <summary>
         /// DISP_E_MEMBERNOTFOUND
         /// </summary>
         public static readonly HRESULT DISP_E_MEMBERNOTFOUND = new HRESULT { _value = unchecked((int)0x80020003) };
+
+        /// <summary>
+        /// DISP_E_NONAMEDARGS
+        /// </summary>
+        public static readonly HRESULT DISP_E_NONAMEDARGS = new HRESULT { _value = unchecked((int)0x80020007) };
+
+        /// <summary>
+        /// DISP_E_OVERFLOW
+        /// </summary>
+        public static readonly HRESULT DISP_E_OVERFLOW = new HRESULT { _value = unchecked((int)0x8002000A) };
+
+        /// <summary>
+        /// DISP_E_PARAMNOTFOUND
+        /// </summary>
+        public static readonly HRESULT DISP_E_PARAMNOTFOUND = new HRESULT { _value = unchecked((int)0x80020004) };
+
+        /// <summary>
+        /// DISP_E_PARAMNOTOPTIONAL
+        /// </summary>
+        public static readonly HRESULT DISP_E_PARAMNOTOPTIONAL = new HRESULT { _value = unchecked((int)0x8002000F) };
+
+        /// <summary>
+        /// DISP_E_TYPEMISMATCH
+        /// </summary>
+        public static readonly HRESULT DISP_E_TYPEMISMATCH = new HRESULT { _value = unchecked((int)0x80020005) };
+
+        /// <summary>
+        /// DISP_E_UNKNOWNINTERFACE
+        /// </summary>
+        public static readonly HRESULT DISP_E_UNKNOWNINTERFACE = new HRESULT { _value = unchecked((int)0x80020001) };
+
+        /// <summary>
+        /// DISP_E_UNKNOWNLCID
+        /// </summary>
+        public static readonly HRESULT DISP_E_UNKNOWNLCID = new HRESULT { _value = unchecked((int)0x8002000C) };
+
+        /// <summary>
+        /// DISP_E_UNKNOWNNAME
+        /// </summary>
+        public static readonly HRESULT DISP_E_UNKNOWNNAME = new HRESULT { _value = unchecked((int)0x80020006) };
 
         /// <summary>
         /// DV_E_CLIPFORMAT
@@ -472,12 +522,12 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT STG_E_REVERTED = new HRESULT { _value = unchecked((int)0x80030102) };
 
         /// <summary>
-        /// Success.
+        /// S_OK
         /// </summary>
         public static readonly HRESULT S_OK = new HRESULT();
 
         /// <summary>
-        /// Success.
+        /// S_FALSE
         /// </summary>
         public static readonly HRESULT S_FALSE = new HRESULT { _value = 0x1 };
 

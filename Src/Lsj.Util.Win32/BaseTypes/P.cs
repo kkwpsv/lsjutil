@@ -13,6 +13,11 @@ namespace Lsj.Util.Win32.BaseTypes
     {
         private IntPtr _value;
 
+        public ref T Value
+        {
+            get => ref UnsafePInvokeExtensions.AsStructRef<T>(_value);
+        }
+
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
 

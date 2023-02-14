@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using System;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -10,6 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum SetWindowPosFlags : uint
     {
         /// <summary>

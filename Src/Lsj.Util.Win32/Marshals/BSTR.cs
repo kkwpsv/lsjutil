@@ -33,10 +33,13 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="handle"></param>
-        public BSTR(IntPtr handle) : base(IntPtr.Zero)
+        public BSTR(IntPtr handle, bool needFinalize = false) : base(IntPtr.Zero)
         {
             SetHandle(handle);
-            GC.SuppressFinalize(this);
+            if (!needFinalize)
+            {
+                GC.SuppressFinalize(this);
+            }
         }
 
         /// <inheritdoc/>
