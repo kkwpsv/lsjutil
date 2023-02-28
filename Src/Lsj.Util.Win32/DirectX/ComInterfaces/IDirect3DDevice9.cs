@@ -5,6 +5,11 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -21,6 +26,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     {
         IntPtr* _vTable;
 
+        /// <summary>
+        /// Reports the current cooperative-level status of the Direct3D device for a windowed or full-screen application.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>,
+        /// indicating that the device is operational and the calling application can continue.
+        /// If the method fails, the return value can be one of the following values:
+        /// <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DEVICENOTRESET"/>, <see cref="D3DERR_DRIVERINTERNALERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the device is lost but cannot be restored at the current time, <see cref="TestCooperativeLevel"/> returns the <see cref="D3DERR_DEVICELOST"/> return code.
+        /// This would be the case, for example, when a full-screen device has lost focus.
+        /// If an application detects a lost device, it should pause and periodically call <see cref="TestCooperativeLevel"/>
+        /// until it receives a return value of <see cref="D3DERR_DEVICENOTRESET"/>.
+        /// The application may then attempt to reset the device by calling <see cref="Reset"/> and,
+        /// if this succeeds, restore the necessary resources and resume normal operation.
+        /// Note that <see cref="Present"/> will return <see cref="D3DERR_DEVICELOST"/> if the device is either "lost" or "not reset".
+        /// A call to <see cref="TestCooperativeLevel"/> will fail if called on a different thread than that used to create the device being reset.
+        /// </remarks>
         public HRESULT TestCooperativeLevel()
         {
             fixed (void* thisPtr = &this)
@@ -29,6 +53,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Returns an estimate of the amount of available texture memory.
+        /// </summary>
+        /// <returns>
+        /// The function returns an estimate of the available texture memory.
+        /// </returns>
+        /// <remarks>
+        /// The returned value is rounded to the nearest MB.
+        /// This is done to reflect the fact that video memory estimates are never precise due to alignment
+        /// and other issues that affect consumption by certain resources.
+        /// Applications can use this value to make gross estimates of memory availability to make large-scale resource decisions
+        /// such as how many levels of a mipmap to attempt to allocate,
+        /// but applications cannot use this value to make small-scale decisions such as if there is enough memory left to allocate another resource.
+        /// </remarks>
         public UINT GetAvailableTextureMem()
         {
             fixed (void* thisPtr = &this)
@@ -288,6 +326,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Allows an application to fill a rectangular area of a <see cref="D3DPOOL_DEFAULT"/> surface with a specified color.
+        /// </summary>
+        /// <param name="pSurface">
+        /// Pointer to the surface to be filled.
+        /// </param>
+        /// <param name="pRect">
+        /// Pointer to the source rectangle.
+        /// Using <see cref="NullRef{RECT}"/> means that the entire surface will be filled.
+        /// </param>
+        /// <param name="color">
+        /// Color used for filling.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method can only be applied to a render target, a render-target texture surface,
+        /// or an off-screen plain surface with a pool type of <see cref="D3DPOOL_DEFAULT"/>.
+        /// <see cref="ColorFill"/> will work with all formats.
+        /// However, when using a reference or software device, the only formats supported are
+        /// <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_A1R5G5B5"/>, <see cref="D3DFMT_R5G6B5"/>, <see cref="D3DFMT_X8R8G8B8"/>,
+        /// <see cref="D3DFMT_A8R8G8B8"/>, <see cref="D3DFMT_YUY2"/>, <see cref="D3DFMT_G8R8_G8B8"/>, <see cref="D3DFMT_UYVY"/>,
+        /// <see cref="D3DFMT_R8G8_B8G8"/>, <see cref="D3DFMT_R16F"/>, <see cref="D3DFMT_G16R16F"/>, <see cref="D3DFMT_A16B16G16R16F"/>,
+        /// <see cref="D3DFMT_R32F"/>, <see cref="D3DFMT_G32R32F"/>, and <see cref="D3DFMT_A32B32G32R32F"/>.
+        /// When using a DirectX 7 or DirectX 8.x driver, the only YUV formats supported are <see cref="D3DFMT_UYVY"/> and <see cref="D3DFMT_YUY2"/>.
+        /// </remarks>
         public HRESULT ColorFill([In] in IDirect3DSurface9 pSurface, [In] in RECT pRect, [In] D3DCOLOR color)
         {
             fixed (void* thisPtr = &this)
@@ -338,6 +404,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Begins a scene.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// The method will fail with <see cref="D3DERR_INVALIDCALL"/> if <see cref="BeginScene"/> is called
+        /// while already in a <see cref="BeginScene"/>/<see cref="EndScene"/> pair.
+        /// This happens only when <see cref="BeginScene"/> is called twice without first calling <see cref="EndScene"/>.
+        /// </returns>
+        /// <remarks>
+        /// Applications must call <see cref="BeginScene"/> before performing any rendering
+        /// and must call <see cref="EndScene"/> when rendering is complete and before calling <see cref="BeginScene"/> again.
+        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene, and there is no need to call <see cref="EndScene"/>.
+        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
+        /// This applies to any application that creates multiple swap chains.
+        /// There should be one <see cref="BeginScene"/>/<see cref="EndScene"/> pair between any successive calls to present
+        /// (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
+        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
+        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
+        /// Multiple non-nested <see cref="BeginScene"/>/<see cref="EndScene"/> pairs between calls to present are legal,
+        /// but having more than one pair may incur a performance hit.
+        /// To enable maximal parallelism between the CPU and the graphics accelerator,
+        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// </remarks>
         public HRESULT BeginScene()
         {
             fixed (void* thisPtr = &this)
@@ -354,11 +444,51 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
-        public HRESULT Clear([In] DWORD Count, [In] D3DRECT[] pRects, [In] DWORD Flags, [In] D3DCOLOR Color, [In] float Z, [In] DWORD Stencil)
+        /// <summary>
+        /// Clears one or more surfaces such as a render target, multiple render targets, a stencil buffer, and a depth buffer.
+        /// </summary>
+        /// <param name="Count">
+        /// Number of rectangles in the array at <paramref name="pRects"/>.
+        /// Must be set to 0 if <paramref name="pRects"/> is <see langword="null"/>.
+        /// May not be 0 if <paramref name="pRects"/> is a valid pointer.
+        /// </param>
+        /// <param name="pRects">
+        /// Pointer to an array of <see cref="D3DRECT"/> structures that describe the rectangles to clear.
+        /// Set a rectangle to the dimensions of the rendering target to clear the entire surface.
+        /// Each rectangle uses screen coordinates that correspond to points on the render target.
+        /// Coordinates are clipped to the bounds of the viewport rectangle.
+        /// To indicate that the entire viewport rectangle is to be cleared, set this parameter to <see langword="null"/> and <paramref name="Count"/> to 0.
+        /// </param>
+        /// <param name="Flags">
+        /// Combination of one or more <see cref="D3DCLEAR"/> flags that specify the surface(s) that will be cleared.
+        /// </param>
+        /// <param name="Color">
+        /// Clear a render target to this ARGB color.
+        /// </param>
+        /// <param name="Z">
+        /// Clear the depth buffer to this new z value which ranges from 0 to 1.
+        /// See remarks.
+        /// </param>
+        /// <param name="Stencil">
+        /// Clear the stencil buffer to this new value which ranges from 0 to 2ⁿ-1 (n is the bit depth of the stencil buffer).
+        /// See remarks.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Use this method to clear a surface including: a render target, all render targets in an MRT, a stencil buffer, or a depth buffer.
+        /// Flags determines how many surfaces are cleared. Use pRects to clear a subset of a surface defined by an array of rectangles.
+        /// <see cref="Clear"/> will fail if you:
+        /// Try to clear either the depth buffer or the stencil buffer of a render target that does not have an attached depth buffer.
+        /// Try to clear the stencil buffer when the depth buffer does not contain stencil data.
+        /// </remarks>
+        public HRESULT Clear([In] DWORD Count, [In] D3DRECT[] pRects, [In] D3DCLEAR Flags, [In] D3DCOLOR Color, [In] float Z, [In] DWORD Stencil)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT[], DWORD, D3DCOLOR, float, DWORD, HRESULT>)_vTable[42])
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT[], D3DCLEAR, D3DCOLOR, float, DWORD, HRESULT>)_vTable[42])
                     (thisPtr, Count, pRects, Flags, Color, Z, Stencil);
             }
         }
@@ -491,6 +621,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Signals Direct3D to begin recording a device-state block.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// Applications can ensure that all recorded states are valid by calling the <see cref="ValidateDevice"/> method prior to calling this method.
+        /// The following methods can be recorded in a state block, after calling <see cref="BeginStateBlock"/> and before <see cref="EndStateBlock"/>.
+        /// <see cref="LightEnable"/>, <see cref="SetClipPlane"/>, <see cref="SetCurrentTexturePalette"/>, <see cref="SetFVF"/>,
+        /// <see cref="SetIndices"/>, <see cref="SetLight"/>, <see cref="SetMaterial"/>, <see cref="SetNPatchMode"/>,
+        /// <see cref="SetPixelShader"/>, <see cref="SetPixelShaderConstantB"/>, <see cref="SetPixelShaderConstantF"/>,
+        /// <see cref="SetPixelShaderConstantI"/>, <see cref="SetRenderState"/>, <see cref="SetSamplerState"/>,
+        /// <see cref="SetScissorRect"/>, <see cref="SetStreamSource"/>, <see cref="SetStreamSourceFreq"/>, <see cref="SetTexture"/>,
+        /// <see cref="SetTextureStageState"/>, <see cref="SetTransform"/>, <see cref="SetViewport"/>, <see cref="SetVertexDeclaration"/>,
+        /// <see cref="SetVertexShader"/>, <see cref="SetVertexShaderConstantB"/>,<see cref="SetVertexShaderConstantF"/>,
+        /// <see cref="SetVertexShaderConstantI"/>
+        /// The ordering of state changes in a state block is not guaranteed.
+        /// If the same state is specified multiple times in a state block, only the last value is used.
+        /// </remarks>
         public HRESULT BeginStateBlock()
         {
             fixed (void* thisPtr = &this)
