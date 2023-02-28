@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// Contains information identifying the adapter.
     /// </para>
     /// <para>
-    /// From: https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dadapter-identifier9
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dadapter-identifier9"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
