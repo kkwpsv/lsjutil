@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static System.Net.WebRequestMethods;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -28,6 +28,21 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public const uint D3DADAPTER_DEFAULT = 0;
+
+        /// <summary>
+        /// <para>
+        /// The device that returned this code caused the hardware adapter to be reset by the OS.
+        /// Most applications should destroy the device and quit.
+        /// Applications that must continue should destroy all video memory objects (surfaces, textures, state blocks etc)
+        /// and call <see cref="IDirect3DDevice9.Reset"/> to put the device in a default state.
+        /// If the application then continues rendering in the same way, the device will return to this state.
+        /// Applies to Direct3D 9Ex only.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_DEVICEHUNG = 0x88760874;
 
         /// <summary>
         /// <para>
@@ -75,5 +90,51 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public static readonly HRESULT D3DERR_INVALIDCALL = 0x8876086c;
+
+        /// <summary>
+        /// <para>
+        /// This device does not support the queried technique.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_NOTAVAILABLE = 0x8876086a;
+
+        /// <summary>
+        /// <para>
+        /// Direct3D does not have enough display memory to perform the operation.
+        /// The device is using more resources in a single scene than can fit simultaneously into video memory.
+        /// <see cref="IDirect3DDevice9.Present"/>, <see cref="IDirect3DDevice9Ex.PresentEx"/>,
+        /// or <see cref="IDirect3DDevice9Ex.CheckDeviceState"/> can return this error.
+        /// Recovery is similar to <see cref="D3DERR_DEVICEHUNG"/>,
+        /// though the application may want to reduce its per-frame memory usage as well to avoid having the error recur.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_OUTOFVIDEOMEMORY = 0x8876017c;
+
+        /// <summary>
+        /// <para>
+        /// The previous blit operation that is transferring information to or from this surface is incomplete.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_WASSTILLDRAWING = 0x8876021c;
+
+        /// <summary>
+        /// <para>
+        /// This is a success code. However, the autogeneration of mipmaps is not supported for this format.
+        /// This means that resource creation will succeed but the mipmap levels will not be automatically generated.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DOK_NOAUTOGEN = 0x0876086f;
     }
 }

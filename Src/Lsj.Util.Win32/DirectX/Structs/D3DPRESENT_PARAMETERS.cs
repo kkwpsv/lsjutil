@@ -4,8 +4,10 @@ using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -139,7 +141,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// One of the <see cref="D3DPRESENTFLAG"/> constants.
         /// </summary>
-        public DWORD Flags;
+        public D3DPRESENTFLAG Flags;
 
         /// <summary>
         /// The rate at which the display adapter refreshes the screen.

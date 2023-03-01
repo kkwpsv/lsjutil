@@ -5,10 +5,13 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -139,6 +142,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates an additional swap chain for rendering multiple views.
+        /// </summary>
+        /// <param name="pPresentationParameters">
+        /// Pointer to a D3DPRESENT_PARAMETERS structure, containing the presentation parameters for the new swap chain.
+        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// Calling this method changes the value of members of the <see cref="D3DPRESENT_PARAMETERS"/> structure.
+        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> == 0, calling <see cref="CreateAdditionalSwapChain"/> will increase it to 1.
+        /// If the application is in windowed mode, and if either the <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>
+        /// or the <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> == 0, they will be set to the client area width and height of the hwnd.
+        /// </param>
+        /// <param name="pSwapChain">
+        /// Address of a pointer to an <see cref="IDirect3DSwapChain9"/> interface, representing the additional swap chain.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_INVALIDCALL"/>,
+        /// <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// There is always at least one swap chain (the implicit swap chain) for each device because Direct3D 9 has one swap chain as a property of the device.
+        /// Note that any given device can support only one full-screen swap chain.
+        /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
+        /// when calling <see cref="IDirect3D9.CreateDevice"/>, <see cref="Reset"/> and <see cref="CreateAdditionalSwapChain"/>.
+        /// This means the application does not have to query the current desktop format before calling CreateDevice for windowed mode.
+        /// For full-screen mode, the back buffer format must be specified.
+        /// </remarks>
         public HRESULT CreateAdditionalSwapChain([In] in D3DPRESENT_PARAMETERS pPresentationParameters, [Out] out P<IDirect3DSwapChain9> pSwapChain)
         {
             fixed (void* thisPtr = &this)
@@ -242,12 +273,62 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
-        public HRESULT CreateCubeTexture([In] UINT EdgeLength, [In] UINT Levels, [In] DWORD Usage, [In] D3DFORMAT Format,
+        /// <summary>
+        /// Creates a cube texture resource.
+        /// </summary>
+        /// <param name="EdgeLength">
+        /// Size of the edges of all the top-level faces of the cube texture.
+        /// The pixel dimensions of subsequent levels of each face will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
+        /// </param>
+        /// <param name="Levels">
+        /// Number of levels in each face of the cube texture.
+        /// If this is zero, Direct3D will generate all cube texture sublevels down to 1x1 pixels
+        /// for each face for hardware that supports mipmapped cube textures.
+        /// Call <see cref="IDirect3DBaseTexture9.GetLevelCount"/> to see the number of levels generated.
+        /// </param>
+        /// <param name="Usage">
+        /// Usage can be 0, which indicates no usage value.
+        /// However, if usage is desired, use a combination of one or more <see cref="D3DUSAGE"/> constants.
+        /// It is good practice to match the usage parameter in <see cref="CreateCubeTexture"/>
+        /// with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of all levels in all faces of the cube texture.
+        /// </param>
+        /// <param name="Pool">
+        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing the memory class into which the cube texture should be placed.
+        /// </param>
+        /// <param name="ppCubeTexture">
+        /// Address of a pointer to an <see cref="IDirect3DCubeTexture9"/> interface, representing the created cube texture resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// A mipmap (texture) is a collection of successively downsampled (mipmapped) surfaces.
+        /// On the other hand, a cube texture (created by <see cref="CreateCubeTexture"/>) is a collection of six textures (mipmaps), one for each face.
+        /// All faces must be present in the cube texture.
+        /// Also, a cube map surface must be the same pixel size in all three dimensions (x, y, and z).
+        /// An application can discover support for Automatic Generation of Mipmaps (Direct3D 9) in a particular format
+        /// by calling <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
+        /// If <see cref="IDirect3D9.CheckDeviceFormat"/> returns <see cref="D3DOK_NOAUTOGEN"/>,
+        /// <see cref="CreateCubeTexture"/> will succeed but it will return a one-level texture.
+        /// </remarks>
+        public HRESULT CreateCubeTexture([In] UINT EdgeLength, [In] UINT Levels, [In] D3DUSAGE Usage, [In] D3DFORMAT Format,
             [In] D3DPOOL Pool, [Out] out P<IDirect3DCubeTexture9> ppCubeTexture, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, out P<IDirect3DCubeTexture9>, ref HANDLE, HRESULT>)_vTable[25])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DUSAGE, D3DFORMAT, D3DPOOL, out P<IDirect3DCubeTexture9>, ref HANDLE, HRESULT>)_vTable[25])
                     (thisPtr, EdgeLength, Levels, Usage, Format, Pool, out ppCubeTexture, ref pSharedHandle);
             }
         }
@@ -273,11 +354,69 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         }
 
         public HRESULT CreateRenderTarget([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample,
-            [In] DWORD MultisampleQuality, [In] BOOL Discard, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
+            [In] DWORD MultisampleQuality, [In] BOOL Lockable, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[28])
+                    (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Lockable, out ppSurface, ref pSharedHandle);
+            }
+        }
+
+        /// <summary>
+        /// Creates a depth-stencil resource.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the depth-stencil surface, in pixels.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the depth-stencil surface, in pixels.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the depth-stencil surface.
+        /// This value must be one of the enumerated depth-stencil formats for this device.
+        /// </param>
+        /// <param name="MultiSample">
+        /// Member of the D3DMULTISAMPLE_TYPE enumerated type, describing the multisampling buffer type.
+        /// This value must be one of the allowed multisample types.
+        /// When this surface is passed to <see cref="SetDepthStencilSurface"/>,
+        /// its multisample type must be the same as that of the render target set by <see cref="SetRenderTarget"/>.
+        /// </param>
+        /// <param name="MultisampleQuality">
+        /// Quality level. The valid range is between zero and one less than the level
+        /// returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+        /// Passing a larger value returns the error <see cref="D3DERR_INVALIDCALL"/>.
+        /// The <paramref name="MultisampleQuality"/> values of paired render targets, depth stencil surfaces,
+        /// and the <paramref name="MultiSample"/> type must all match.
+        /// </param>
+        /// <param name="Discard">
+        /// Set this flag to <see cref="TRUE"/> to enable z-buffer discarding, and <see cref="FALSE"/> otherwise.
+        /// If this flag is set, the contents of the depth stencil buffer will be invalid
+        /// after calling either <see cref="Present"/> or <see cref="SetDepthStencilSurface"/> with a different depth surface.
+        /// This flag has the same behavior as the constant, <see cref="D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL"/>, in <see cref="D3DPRESENTFLAG"/>.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the created depth-stencil surface resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// The memory class of the depth-stencil buffer is always <see cref="D3DPOOL_DEFAULT"/>.
+        /// </remarks>
+        public HRESULT CreateDepthStencilSurface([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample,
+            [In] DWORD MultisampleQuality, [In] BOOL Discard, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[29])
                     (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Discard, out ppSurface, ref pSharedHandle);
             }
         }
@@ -287,7 +426,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in POINT, HRESULT>)_vTable[29])
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in POINT, HRESULT>)_vTable[30])
                     (thisPtr, pSourceSurface, pSourceRect, pDestinationSurface, pDestPoint);
             }
         }
@@ -296,7 +435,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DBaseTexture9, in IDirect3DBaseTexture9, HRESULT>)_vTable[30])(thisPtr, pSourceTexture, pDestinationTexture);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DBaseTexture9, in IDirect3DBaseTexture9, HRESULT>)_vTable[31])(thisPtr, pSourceTexture, pDestinationTexture);
             }
         }
 
@@ -304,7 +443,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, HRESULT>)_vTable[31])(thisPtr, pRenderTarget, pDestSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, HRESULT>)_vTable[32])(thisPtr, pRenderTarget, pDestSurface);
             }
         }
 
@@ -312,7 +451,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DSurface9, HRESULT>)_vTable[32])(thisPtr, iSwapChain, pDestSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DSurface9, HRESULT>)_vTable[33])(thisPtr, iSwapChain, pDestSurface);
             }
         }
 
@@ -321,7 +460,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[33])
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[34])
                     (thisPtr, pSourceSurface, pSourceRect, pDestinationSurface, pDestRect, Filter);
             }
         }
@@ -358,7 +497,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, D3DCOLOR, HRESULT>)_vTable[34])(thisPtr, pSurface, pRect, color);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, D3DCOLOR, HRESULT>)_vTable[35])(thisPtr, pSurface, pRect, color);
             }
         }
 
@@ -367,7 +506,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DPOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[35])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DPOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[36])
                     (thisPtr, Width, Height, Format, Pool, out ppSurface, ref pSharedHandle);
             }
         }
@@ -376,7 +515,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DSurface9, HRESULT>)_vTable[36])(thisPtr, RenderTargetIndex, pRenderTarget);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DSurface9, HRESULT>)_vTable[37])(thisPtr, RenderTargetIndex, pRenderTarget);
             }
         }
 
@@ -384,7 +523,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DSurface9>, HRESULT>)_vTable[37])(thisPtr, RenderTargetIndex, out ppRenderTarget);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DSurface9>, HRESULT>)_vTable[38])(thisPtr, RenderTargetIndex, out ppRenderTarget);
             }
         }
 
@@ -392,7 +531,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, HRESULT>)_vTable[38])(thisPtr, pNewZStencil);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, HRESULT>)_vTable[39])(thisPtr, pNewZStencil);
             }
         }
 
@@ -400,7 +539,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DSurface9>, HRESULT>)_vTable[39])(thisPtr, out ppZStencilSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DSurface9>, HRESULT>)_vTable[40])(thisPtr, out ppZStencilSurface);
             }
         }
 
@@ -432,7 +571,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[40])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[41])(thisPtr);
             }
         }
 
@@ -440,7 +579,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[41])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[42])(thisPtr);
             }
         }
 
@@ -488,7 +627,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT[], D3DCLEAR, D3DCOLOR, float, DWORD, HRESULT>)_vTable[42])
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT[], D3DCLEAR, D3DCOLOR, float, DWORD, HRESULT>)_vTable[43])
                     (thisPtr, Count, pRects, Flags, Color, Z, Stencil);
             }
         }
@@ -497,7 +636,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, in D3DMATRIX, HRESULT>)_vTable[43])(thisPtr, State, pMatrix);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, in D3DMATRIX, HRESULT>)_vTable[44])(thisPtr, State, pMatrix);
             }
         }
 
@@ -505,7 +644,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, out D3DMATRIX, HRESULT>)_vTable[44])(thisPtr, State, out pMatrix);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, out D3DMATRIX, HRESULT>)_vTable[45])(thisPtr, State, out pMatrix);
             }
         }
 
@@ -513,7 +652,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, in D3DMATRIX, HRESULT>)_vTable[45])(thisPtr, unnamedParam1, unnamedParam2);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DTRANSFORMSTATETYPE, in D3DMATRIX, HRESULT>)_vTable[46])(thisPtr, unnamedParam1, unnamedParam2);
             }
         }
 
@@ -521,7 +660,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3DVIEWPORT9, HRESULT>)_vTable[46])(thisPtr, pViewport);
+                return ((delegate* unmanaged[Stdcall]<void*, in D3DVIEWPORT9, HRESULT>)_vTable[47])(thisPtr, pViewport);
             }
         }
 
@@ -529,7 +668,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out D3DVIEWPORT9, HRESULT>)_vTable[47])(thisPtr, out pViewport);
+                return ((delegate* unmanaged[Stdcall]<void*, out D3DVIEWPORT9, HRESULT>)_vTable[48])(thisPtr, out pViewport);
             }
         }
 
@@ -537,7 +676,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3DMATERIAL9, HRESULT>)_vTable[48])(thisPtr, pMaterial);
+                return ((delegate* unmanaged[Stdcall]<void*, in D3DMATERIAL9, HRESULT>)_vTable[49])(thisPtr, pMaterial);
             }
         }
 
@@ -545,7 +684,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out D3DMATERIAL9, HRESULT>)_vTable[49])(thisPtr, out pMaterial);
+                return ((delegate* unmanaged[Stdcall]<void*, out D3DMATERIAL9, HRESULT>)_vTable[50])(thisPtr, out pMaterial);
             }
         }
 
@@ -553,7 +692,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in D3DLIGHT9, HRESULT>)_vTable[50])(thisPtr, Index, unnamedParam2);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in D3DLIGHT9, HRESULT>)_vTable[51])(thisPtr, Index, unnamedParam2);
             }
         }
 
@@ -561,7 +700,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out D3DLIGHT9, HRESULT>)_vTable[51])(thisPtr, Index, out unnamedParam2);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out D3DLIGHT9, HRESULT>)_vTable[52])(thisPtr, Index, out unnamedParam2);
             }
         }
 
@@ -569,7 +708,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, BOOL, HRESULT>)_vTable[52])(thisPtr, Index, Enable);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, BOOL, HRESULT>)_vTable[53])(thisPtr, Index, Enable);
             }
         }
 
@@ -577,7 +716,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out BOOL, HRESULT>)_vTable[53])(thisPtr, Index, out pEnable);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out BOOL, HRESULT>)_vTable[54])(thisPtr, Index, out pEnable);
             }
         }
 
@@ -585,7 +724,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, float[], HRESULT>)_vTable[54])(thisPtr, Index, pPlane);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, float[], HRESULT>)_vTable[55])(thisPtr, Index, pPlane);
             }
         }
 
@@ -593,7 +732,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, float[], HRESULT>)_vTable[55])(thisPtr, Index, pPlane);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, float[], HRESULT>)_vTable[56])(thisPtr, Index, pPlane);
             }
         }
 
@@ -601,7 +740,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DRENDERSTATETYPE, DWORD, HRESULT>)_vTable[56])(thisPtr, State, Value);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DRENDERSTATETYPE, DWORD, HRESULT>)_vTable[57])(thisPtr, State, Value);
             }
         }
 
@@ -609,7 +748,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DRENDERSTATETYPE, out DWORD, HRESULT>)_vTable[57])(thisPtr, State, out pValue);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DRENDERSTATETYPE, out DWORD, HRESULT>)_vTable[58])(thisPtr, State, out pValue);
             }
         }
 
@@ -617,7 +756,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DSTATEBLOCKTYPE, out P<IDirect3DStateBlock9>, HRESULT>)_vTable[58])(thisPtr, Type, out ppSB);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DSTATEBLOCKTYPE, out P<IDirect3DStateBlock9>, HRESULT>)_vTable[59])(thisPtr, Type, out ppSB);
             }
         }
 
@@ -646,7 +785,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[59])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[60])(thisPtr);
             }
         }
 
@@ -654,7 +793,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DStateBlock9>, HRESULT>)_vTable[60])(thisPtr, out ppSB);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DStateBlock9>, HRESULT>)_vTable[61])(thisPtr, out ppSB);
             }
         }
 
@@ -662,7 +801,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3DCLIPSTATUS9, HRESULT>)_vTable[61])(thisPtr, pClipStatus);
+                return ((delegate* unmanaged[Stdcall]<void*, in D3DCLIPSTATUS9, HRESULT>)_vTable[62])(thisPtr, pClipStatus);
             }
         }
 
@@ -670,7 +809,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out D3DCLIPSTATUS9, HRESULT>)_vTable[62])(thisPtr, out pClipStatus);
+                return ((delegate* unmanaged[Stdcall]<void*, out D3DCLIPSTATUS9, HRESULT>)_vTable[63])(thisPtr, out pClipStatus);
             }
         }
 
@@ -678,7 +817,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DBaseTexture9>, HRESULT>)_vTable[63])(thisPtr, Stage, out ppTexture);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DBaseTexture9>, HRESULT>)_vTable[64])(thisPtr, Stage, out ppTexture);
             }
         }
 
@@ -686,7 +825,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DBaseTexture9, HRESULT>)_vTable[64])(thisPtr, Stage, pTexture);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DBaseTexture9, HRESULT>)_vTable[65])(thisPtr, Stage, pTexture);
             }
         }
 
@@ -694,7 +833,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, out DWORD, HRESULT>)_vTable[65])(thisPtr, Stage, Type, out pValue);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, out DWORD, HRESULT>)_vTable[66])(thisPtr, Stage, Type, out pValue);
             }
         }
 
@@ -702,7 +841,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, DWORD, HRESULT>)_vTable[66])(thisPtr, Stage, Type, Value);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, DWORD, HRESULT>)_vTable[67])(thisPtr, Stage, Type, Value);
             }
         }
 
@@ -710,7 +849,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, out DWORD, HRESULT>)_vTable[67])(thisPtr, Sampler, Type, out pValue);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, out DWORD, HRESULT>)_vTable[68])(thisPtr, Sampler, Type, out pValue);
             }
         }
 
@@ -718,7 +857,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, DWORD, HRESULT>)_vTable[68])(thisPtr, Sampler, Type, Value);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, DWORD, HRESULT>)_vTable[69])(thisPtr, Sampler, Type, Value);
             }
         }
 
@@ -726,7 +865,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[69])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[70])(thisPtr);
             }
         }
 
@@ -734,7 +873,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, PALETTEENTRY[], HRESULT>)_vTable[70])(thisPtr, PaletteNumber, pEntries);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, PALETTEENTRY[], HRESULT>)_vTable[71])(thisPtr, PaletteNumber, pEntries);
             }
         }
 
@@ -742,7 +881,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, PALETTEENTRY[], HRESULT>)_vTable[71])(thisPtr, PaletteNumber, pEntries);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, PALETTEENTRY[], HRESULT>)_vTable[72])(thisPtr, PaletteNumber, pEntries);
             }
         }
 
@@ -750,7 +889,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[72])(thisPtr, PaletteNumber);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[73])(thisPtr, PaletteNumber);
             }
         }
 
@@ -758,7 +897,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out UINT, HRESULT>)_vTable[73])(thisPtr, out PaletteNumber);
+                return ((delegate* unmanaged[Stdcall]<void*, out UINT, HRESULT>)_vTable[74])(thisPtr, out PaletteNumber);
             }
         }
 
@@ -766,7 +905,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in RECT, HRESULT>)_vTable[74])(thisPtr, pRect);
+                return ((delegate* unmanaged[Stdcall]<void*, in RECT, HRESULT>)_vTable[75])(thisPtr, pRect);
             }
         }
 
@@ -774,7 +913,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out RECT, HRESULT>)_vTable[75])(thisPtr, out pRect);
+                ((delegate* unmanaged[Stdcall]<void*, out RECT, HRESULT>)_vTable[76])(thisPtr, out pRect);
             }
         }
 
@@ -782,7 +921,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, BOOL, HRESULT>)_vTable[76])(thisPtr, bSoftware);
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL, HRESULT>)_vTable[77])(thisPtr, bSoftware);
             }
         }
 
@@ -790,7 +929,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, BOOL>)_vTable[77])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL>)_vTable[78])(thisPtr);
             }
         }
 
@@ -798,7 +937,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, float, HRESULT>)_vTable[78])(thisPtr, nSegments);
+                return ((delegate* unmanaged[Stdcall]<void*, float, HRESULT>)_vTable[79])(thisPtr, nSegments);
             }
         }
 
@@ -806,7 +945,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, float>)_vTable[79])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, float>)_vTable[80])(thisPtr);
             }
         }
 
@@ -814,7 +953,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, HRESULT>)_vTable[80])(thisPtr, PrimitiveType, StartVertex, PrimitiveCount);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, HRESULT>)_vTable[81])(thisPtr, PrimitiveType, StartVertex, PrimitiveCount);
             }
         }
 
@@ -823,7 +962,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT, HRESULT>)_vTable[81])
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, INT, UINT, UINT, UINT, UINT, HRESULT>)_vTable[82])
                     (thisPtr, unnamedParam1, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
             }
         }
@@ -832,7 +971,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, IntPtr, UINT, HRESULT>)_vTable[82])
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, IntPtr, UINT, HRESULT>)_vTable[83])
                     (thisPtr, PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride);
             }
         }
@@ -842,7 +981,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, UINT, IntPtr, D3DFORMAT, IntPtr, UINT, HRESULT>)_vTable[83])
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, UINT, IntPtr, D3DFORMAT, IntPtr, UINT, HRESULT>)_vTable[84])
                     (thisPtr, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
             }
         }
@@ -852,7 +991,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, in IDirect3DVertexBuffer9, in IDirect3DVertexDeclaration9, DWORD, HRESULT>)_vTable[84])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, in IDirect3DVertexBuffer9, in IDirect3DVertexDeclaration9, DWORD, HRESULT>)_vTable[85])
                     (thisPtr, SrcStartIndex, DestIndex, VertexCount, pDestBuffer, pVertexDecl, Flags);
             }
         }
@@ -861,7 +1000,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DVERTEXELEMENT9[], out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[85])(thisPtr, pVertexElements, out ppDecl);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DVERTEXELEMENT9[], out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[86])(thisPtr, pVertexElements, out ppDecl);
             }
         }
 
@@ -869,7 +1008,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexDeclaration9, HRESULT>)_vTable[86])(thisPtr, pDecl);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexDeclaration9, HRESULT>)_vTable[87])(thisPtr, pDecl);
             }
         }
 
@@ -877,7 +1016,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[87])(thisPtr, out ppDecl);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[88])(thisPtr, out ppDecl);
             }
         }
 
@@ -885,7 +1024,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[88])(thisPtr, FVF);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[89])(thisPtr, FVF);
             }
         }
 
@@ -893,7 +1032,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out DWORD, HRESULT>)_vTable[89])(thisPtr, out pFVF);
+                ((delegate* unmanaged[Stdcall]<void*, out DWORD, HRESULT>)_vTable[90])(thisPtr, out pFVF);
             }
         }
 
@@ -901,7 +1040,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[90])(thisPtr, pFunction, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[91])(thisPtr, pFunction, out ppShader);
             }
         }
 
@@ -909,7 +1048,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexShader9, HRESULT>)_vTable[91])(thisPtr, pShader);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexShader9, HRESULT>)_vTable[92])(thisPtr, pShader);
             }
         }
 
@@ -917,7 +1056,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[92])(thisPtr, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[93])(thisPtr, out ppShader);
             }
         }
 
@@ -925,7 +1064,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[93])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[94])(thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -933,7 +1072,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[94])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[95])(thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -941,7 +1080,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[95])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[96])(thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -949,7 +1088,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[96])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[97])(thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -957,7 +1096,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[97])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[98])(thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -965,7 +1104,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[98])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[99])(thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -973,7 +1112,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DVertexBuffer9, UINT, UINT, HRESULT>)_vTable[99])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DVertexBuffer9, UINT, UINT, HRESULT>)_vTable[100])
                     (thisPtr, StreamNumber, pStreamData, OffsetInBytes, Stride);
             }
         }
@@ -982,7 +1121,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<IDirect3DVertexBuffer9>, out UINT, out UINT, HRESULT>)_vTable[100])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<IDirect3DVertexBuffer9>, out UINT, out UINT, HRESULT>)_vTable[101])
                     (thisPtr, StreamNumber, out ppStreamData, out pOffsetInBytes, out pStride);
             }
         }
@@ -991,7 +1130,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, HRESULT>)_vTable[101])(thisPtr, StreamNumber, Setting);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, HRESULT>)_vTable[102])(thisPtr, StreamNumber, Setting);
             }
         }
 
@@ -999,7 +1138,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out UINT, HRESULT>)_vTable[102])(thisPtr, StreamNumber, out pSetting);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out UINT, HRESULT>)_vTable[103])(thisPtr, StreamNumber, out pSetting);
             }
         }
 
@@ -1007,7 +1146,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DIndexBuffer9, HRESULT>)_vTable[103])(thisPtr, pIndexData);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DIndexBuffer9, HRESULT>)_vTable[104])(thisPtr, pIndexData);
             }
         }
 
@@ -1015,7 +1154,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DIndexBuffer9>, HRESULT>)_vTable[104])(thisPtr, out ppIndexData);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DIndexBuffer9>, HRESULT>)_vTable[105])(thisPtr, out ppIndexData);
             }
         }
 
@@ -1023,7 +1162,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[105])(thisPtr, pFunction, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[106])(thisPtr, pFunction, out ppShader);
             }
         }
 
@@ -1031,7 +1170,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DPixelShader9, HRESULT>)_vTable[106])(thisPtr, pShader);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DPixelShader9, HRESULT>)_vTable[107])(thisPtr, pShader);
             }
         }
 
@@ -1039,7 +1178,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[107])(thisPtr, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[108])(thisPtr, out ppShader);
             }
         }
 
@@ -1047,7 +1186,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[108])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[109])(thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -1055,7 +1194,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[109])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[110])(thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -1063,7 +1202,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[110])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[111])(thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -1071,7 +1210,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[111])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[112])(thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -1079,7 +1218,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[112])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[113])(thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -1087,7 +1226,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[113])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[114])(thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -1095,7 +1234,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DRECTPATCH_INFO, HRESULT>)_vTable[114])(thisPtr, Handle, pNumSegs, pRectPatchInfo);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DRECTPATCH_INFO, HRESULT>)_vTable[115])(thisPtr, Handle, pNumSegs, pRectPatchInfo);
             }
         }
 
@@ -1103,7 +1242,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DTRIPATCH_INFO, HRESULT>)_vTable[115])(thisPtr, Handle, pNumSegs, pTriPatchInfo);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DTRIPATCH_INFO, HRESULT>)_vTable[116])(thisPtr, Handle, pNumSegs, pTriPatchInfo);
             }
         }
 
@@ -1111,7 +1250,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[116])(thisPtr, Handle);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[117])(thisPtr, Handle);
             }
         }
 
@@ -1119,7 +1258,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DQUERYTYPE, out P<IDirect3DQuery9>, HRESULT>)_vTable[117])(thisPtr, Type, out ppQuery);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DQUERYTYPE, out P<IDirect3DQuery9>, HRESULT>)_vTable[118])(thisPtr, Type, out ppQuery);
             }
         }
     }
