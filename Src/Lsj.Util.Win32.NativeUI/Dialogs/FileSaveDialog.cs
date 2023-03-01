@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
@@ -15,12 +16,12 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
     public class FileSaveDialog : FileDialog
     {
         /// <inheritdoc/>
-        protected override unsafe IFileDialog* CreateDialog()
+        protected override P<IFileDialog> CreateDialog()
         {
             var result = CoCreateInstance(CLSID_FileSaveDialog, NullRef<IUnknown>(), CLSCTX_INPROC_SERVER, IID_IFileDialog, out var obj);
             if (result)
             {
-                return (IFileDialog*)obj;
+                return (P<IFileDialog>)(IntPtr)obj;
             }
             else
             {

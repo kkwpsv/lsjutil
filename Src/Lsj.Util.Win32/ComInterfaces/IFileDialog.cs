@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -21,19 +20,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     public unsafe struct IFileDialog
     {
         IntPtr* _vTable;
-
-        /// <summary>
-        /// From <see cref="IModalWindow"/>.
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <returns></returns>
-        public HRESULT Show([In] HWND parent)
-        {
-            fixed (void* thisPtr = &this)
-            {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, HRESULT>)_vTable[3])(thisPtr, parent);
-            }
-        }
 
         /// <summary>
         /// Sets the file types that the dialog can open or save.

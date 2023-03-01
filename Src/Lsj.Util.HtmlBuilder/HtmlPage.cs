@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Lsj.Util.HtmlBuilder.Header;
+using System;
 using System.Reflection;
-using System.Text;
-using Lsj.Util.HtmlBuilder.Body;
-using Lsj.Util.HtmlBuilder.Header;
-
-
 
 namespace Lsj.Util.HtmlBuilder
 {
@@ -18,11 +12,8 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Version
         /// </summary>
-#if NETSTANDARD
-        public static readonly string Version = $"HtmlBuilder/lsj({typeof(HtmlPage).GetTypeInfo().Assembly.GetName().Version.ToString()})";
-#else
-        public static readonly string Version = $"HtmlBuilder/lsj({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
-#endif
+        public static readonly string Version = $"HtmlBuilder/lsj({Assembly.GetExecutingAssembly().GetName().Version})";
+
         /// <summary>
         /// HtmlPage
         /// </summary>
