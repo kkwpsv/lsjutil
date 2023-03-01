@@ -69,7 +69,7 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
             {
                 var start = str.IndexOf(NodeName) + NodeName.Length + 2;
                 var end = str.IndexOf("sign") - 2;
-#if NETCOREAPP3_0
+#if NET6_0_OR_GREATER
                 tosign = str[start..end];
 #else
                 tosign = str.Substring(start, end - start);

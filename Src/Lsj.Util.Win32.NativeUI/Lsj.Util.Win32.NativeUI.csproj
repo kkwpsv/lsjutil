@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows;net6.0-windows;netstandard2.0;net40</TargetFrameworks>
     <VersionPrefix>$(LsjUtilWin32NativeUIVersionPrefix)</VersionPrefix>
     <Description>My Utility For Win32 NativeUI</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

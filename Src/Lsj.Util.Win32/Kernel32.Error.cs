@@ -225,7 +225,7 @@ namespace Lsj.Util.Win32
         /// Each filter expression can invoke <see cref="GetExceptionInformation"/> to get exception information.
         /// </remarks>
 #if NETSTANDARD2_0
-        public static IntPtr GetExceptionInformation() =>throw new NotSupportedException();
+        public static IntPtr GetExceptionInformation() => throw new NotSupportedException();
 #else
         public static IntPtr GetExceptionInformation() => Marshal.GetExceptionPointers();
 #endif

@@ -565,10 +565,10 @@ namespace Lsj.Util.Text
         /// <param name="buffer"></param>
         public static unsafe string ReadStringFromByteSpan(Span<byte> buffer)
         {
-#if NET6_0
-            return Encoding.ASCII.GetString(buffer);
-#else
+#if NET40 || NETSTANDARD2_0
             return Encoding.ASCII.GetString(buffer.ToArray());
+#else
+            return Encoding.ASCII.GetString(buffer);
 #endif
         }
 

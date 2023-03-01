@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net5.0;netcoreapp3.1;netcoreapp3.0</TargetFrameworks>
     <VersionPrefix>$(LsjUtilAspNetCoreVersionPrefix)</VersionPrefix>
     <Description>My Utility For asp.net core</Description>
     <OutputType>Library</OutputType>
