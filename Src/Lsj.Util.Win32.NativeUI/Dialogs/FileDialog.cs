@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -20,7 +21,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <summary>
         /// Dialog
         /// </summary>
-        protected unsafe IFileDialog* _dialog = null;
+        protected P<IFileDialog> _dialog;
 
         /// <summary>
         /// IsPickFolders
@@ -48,7 +49,8 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                     SetOptions();
                     SetFileTypes();
                     SetTitle();
-                    if (_dialog->Show(owner))
+
+                    if (_dialog.As<IModalWindow>().Show(owner))
                     {
                         GetResult();
                         return ShowDialogResult.OK;
@@ -60,7 +62,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 }
                 finally
                 {
-                    ((IUnknown*)_dialog)->Release();
+                    _dialog.As<IUnknown>().Release();
                 }
             }
         }
@@ -68,20 +70,20 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <summary>
         /// Create Dialog
         /// </summary>
-        protected abstract unsafe IFileDialog* CreateDialog();
+        protected abstract P<IFileDialog> CreateDialog();
 
         private void SetOptions()
         {
             unsafe
             {
                 var result = S_OK;
-                if (_dialog->GetOptions(out var options))
+                if (_dialog.Value.GetOptions(out var options))
                 {
                     if (IsPickFolders)
                     {
                         options |= FOS_PICKFOLDERS;
                     }
-                    if (_dialog->SetOptions(options))
+                    if (_dialog.Value.SetOptions(options))
                     {
                         return;
                     }
@@ -101,7 +103,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                     {
                         return;
                     }
-                    var result = _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                    var result = _dialog.Value.SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
                     {
                         var nameStr = new LPWSTR(x.Name);
                         var specStr = new LPWSTR(x.Pattern);
@@ -134,7 +136,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
             unsafe
             {
                 var result = S_OK;
-                if (Title == null || _dialog->SetTitle(Title))
+                if (Title == null || _dialog.Value.SetTitle(Title))
                 {
                     return;
                 }
@@ -148,7 +150,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
             unsafe
             {
                 var result = S_OK;
-                if (result = _dialog->GetResult(out var shellItemPtr))
+                if (result = _dialog.Value.GetResult(out var shellItemPtr))
                 {
                     var shellItem = (IShellItem*)shellItemPtr;
                     try

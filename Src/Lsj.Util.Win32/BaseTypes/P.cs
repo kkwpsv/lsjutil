@@ -13,9 +13,22 @@ namespace Lsj.Util.Win32.BaseTypes
     {
         private IntPtr _value;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ref T Value
         {
             get => ref UnsafePInvokeExtensions.AsStructRef<T>(_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAs"></typeparam>
+        /// <returns></returns>
+        public ref TAs As<TAs>() where TAs : struct
+        {
+            return ref UnsafePInvokeExtensions.AsStructRef<TAs>(_value);
         }
 
         /// <inheritdoc/>
