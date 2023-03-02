@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.NativeUI
@@ -73,7 +74,7 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
-        /// On WM_CREATE
+        /// On <see cref="WM_CREATE"/>
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="createStruct"></param>
@@ -84,7 +85,7 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
-        /// On WM_DESTROY
+        /// On <see cref="WM_DESTROY"/>
         /// </summary>
         /// <param name="hWnd"></param>
         /// <returns></returns>
@@ -94,7 +95,7 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
-        /// On WM_PAINT
+        /// On <see cref="WM_PAINT"/>
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="wParam"></param>
