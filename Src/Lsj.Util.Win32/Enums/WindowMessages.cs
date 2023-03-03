@@ -655,6 +655,132 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Input Method Manager Messages
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when the IME gets a character of the conversion result.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-char"/>
+        /// </para>
+        /// </summary>
+        WM_IME_CHAR = 0x0286,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when the IME changes composition status as a result of a keystroke.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition"/>
+        /// </para>
+        /// </summary>
+        WM_IME_COMPOSITION = 0x010F,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when the IME window finds no space to extend the area for the composition window.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-compositionfull"/>
+        /// </para>
+        /// </summary>
+        WM_IME_COMPOSITIONFULL = 0x0284,
+
+        /// <summary>
+        /// <para>
+        /// Sent by an application to direct the IME window to carry out the requested command.
+        /// The application uses this message to control the IME window that it has created.
+        /// To send this message, the application calls the <see cref="SendMessage"/> function with the following parameters.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-control"/>
+        /// </para>
+        /// </summary>
+        WM_IME_CONTROL = 0x0283,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when the IME ends composition.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-compositionfull"/>
+        /// </para>
+        /// </summary>
+        WM_IME_ENDCOMPOSITION = 0x010E,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application by the IME to notify the application of a key press and to keep message order.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-keydown"/>
+        /// </para>
+        /// </summary>
+        WM_IME_KEYDOWN = 0x0290,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application by the IME to notify the application of a key release and to keep message order.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-keyup"/>
+        /// </para>
+        /// </summary>
+        WM_IME_KEYUP = 0x0291,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application to provide commands and request information.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-request"/>
+        /// </para>
+        /// </summary>
+        WM_IME_NOTIFY = 0x0282,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when the operating system is about to change the current IME.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-select"/>
+        /// </para>
+        /// </summary>
+        WM_IME_SELECT = 0x0285,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application when a window is activated.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-setcontext"/>
+        /// </para>
+        /// </summary>
+        WM_IME_SETCONTEXT = 0x0281,
+
+        /// <summary>
+        /// <para>
+        /// Sent immediately before the IME generates the composition string as a result of a keystroke.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-startcomposition"/>
+        /// </para>
+        /// </summary>
+        WM_IME_STARTCOMPOSITION = 0x010D,
+
+        #endregion
+
         #region Hook Notifications
 
         /// <summary>

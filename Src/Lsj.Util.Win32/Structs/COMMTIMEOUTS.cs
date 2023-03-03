@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.Structs
     /// If there are no bytes in the input buffer, <see cref="ReadFile"/> waits until a byte arrives and then returns immediately.
     /// If no bytes arrive within the time specified by <see cref="ReadTotalTimeoutConstant"/>, <see cref="ReadFile"/> times out.
     /// </remarks>
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COMMTIMEOUTS
     {
         /// <summary>
