@@ -171,7 +171,42 @@ namespace Lsj.Util.Win32
         /// The application must call <see cref="ImmReleaseContext"/> when it is finished with the input context.
         /// </remarks>
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetContext", ExactSpelling = true, SetLastError = true)]
-        public static extern HIMC ImmGetContext(HWND unnamedParam1);
+        public static extern HIMC ImmGetContext([In] HWND unnamedParam1);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the default window handle to the IME class.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immgetdefaultimewnd"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <returns>
+        /// Returns the default window handle to the IME class if successful, or <see cref="NULL"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// The operating system creates a default IME window for every thread.
+        /// The window is created based on the IME class.
+        /// The application can send the <see cref="WM_IME_CONTROL"/> message to this window.
+        /// </remarks>
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetDefaultIMEWnd", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND ImmGetDefaultIMEWnd([In] HWND unnamedParam1);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the IME is open or closed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immgetopenstatus"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <returns>
+        /// Returns a nonzero value if the IME is open, or 0 otherwise.
+        /// </returns>
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetOpenStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImmGetOpenStatus([In] HIMC unnamedParam1);
 
         /// <summary>
         /// <para>
@@ -190,7 +225,12 @@ namespace Lsj.Util.Win32
         public static extern BOOL ImmReleaseContext([In] HWND unnamedParam1, [In] HIMC unnamedParam2);
 
         /// <summary>
+        /// <para>
         /// Sets the position of the composition window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immsetcompositionwindow"/>
+        /// </para>
         /// </summary>
         /// <param name="unnamedParam1"></param>
         /// <param name="lpCompForm">
@@ -205,5 +245,24 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetCompositionWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImmSetCompositionWindow([In] HIMC unnamedParam1, [In] in COMPOSITIONFORM lpCompForm);
+
+        /// <summary>
+        /// <para>
+        /// Opens or closes the IME.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immgetcontext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <param name="unnamedParam2"></param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// </returns>
+        /// <remarks>
+        ///This function causes an <see cref="IMN_SETOPENSTATUS"/> command to be sent to the application.
+        /// </remarks>
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetOpenStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImmSetOpenStatus([In] HIMC unnamedParam1, [In] BOOL unnamedParam2);
     }
 }
