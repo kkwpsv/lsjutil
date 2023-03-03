@@ -18,7 +18,8 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="height"></param>
         /// <param name="style"></param>
         /// <param name="parentWindow"></param>
-        public Button(string text, int x, int y, int width, int height, ButtonStyles style, HWND parentWindow) : base("Button", text, x, y, width, height, (uint)style, parentWindow)
+        /// <param name="identifier"></param>
+        public Button(string text, int x, int y, int width, int height, ButtonStyles style, HWND parentWindow, WORD identifier) : base("Button", text, x, y, width, height, (uint)style, parentWindow, hMenu: (nint)identifier)
         {
 
         }

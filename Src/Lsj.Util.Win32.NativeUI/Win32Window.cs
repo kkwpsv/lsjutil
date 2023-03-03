@@ -29,7 +29,8 @@ namespace Lsj.Util.Win32.NativeUI
         /// Window Handle
         /// </summary>
         protected HWND _handle;
-        private readonly Wndproc _wndProc;
+        private readonly Wndproc? _wndProc;
+        private readonly IntPtr _hookedWndProc;
 
         /// <summary>
         /// Create 
@@ -62,6 +63,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="style"></param>
         /// <param name="stylesEx"></param>
         /// <param name="parentWindow"></param>
+        /// <param name="hMenu"></param>
         /// <param name="classInfo"></param>
         public Win32Window(string windowClassName, string windowText, bool needRegisterClass,
             int x = CW_USEDEFAULT,
@@ -71,15 +73,16 @@ namespace Lsj.Util.Win32.NativeUI
             WindowStyles style = WS_OVERLAPPEDWINDOW,
             WindowStylesEx stylesEx = WS_EX_OVERLAPPEDWINDOW,
             HWND parentWindow = default,
+            HMENU hMenu = default,
             WNDCLASSEX? classInfo = null)
         {
             _flags |= Win32WindowFlags.OwnWindow;
             var hInstance = GetModuleHandle(NULL);
-            _wndProc = (Wndproc)WindowProc;
 
             if (needRegisterClass)
             {
                 using var marshal = new StringToIntPtrMarshaler(windowClassName);
+                _wndProc = WindowProc;
                 classInfo ??= new WNDCLASSEX
                 {
                     cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
@@ -97,11 +100,21 @@ namespace Lsj.Util.Win32.NativeUI
                 RegisterWindowClass(hInstance, classInfo.Value);
             }
 
-            _handle = CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)style, (uint)stylesEx, parentWindow, hInstance);
+            _handle = CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)style, (uint)stylesEx, parentWindow, hMenu, hInstance);
 
             if (_handle == NULL)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            if (_wndProc == null)
+            {
+                _hookedWndProc = GetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC);
+                if (_hookedWndProc != NULL)
+                {
+                    _wndProc = WindowProc;
+                    SetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(_wndProc));
+                }
             }
 
             DWMInfo = new DWMInfo(this);
@@ -139,9 +152,9 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="styleEx"></param>
         /// <param name="parentWindow"></param>
         /// <param name="hInstance"></param>
-        protected virtual HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HINSTANCE hInstance)
+        protected virtual HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HMENU hMenu, HINSTANCE hInstance)
         {
-            return CreateWindowEx((WindowStylesEx)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, NULL, hInstance, NULL);
+            return CreateWindowEx((WindowStylesEx)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, hMenu, hInstance, NULL);
         }
     }
 }
