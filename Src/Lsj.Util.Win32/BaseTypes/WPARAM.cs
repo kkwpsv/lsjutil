@@ -50,5 +50,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator WPARAM(int val) => new WPARAM { _value = unchecked((UIntPtr)(uint)val) };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator uint(WPARAM val) => val._value.SafeToUInt32();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator int(WPARAM val) => val._value.SafeToInt32();
     }
 }

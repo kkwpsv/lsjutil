@@ -218,6 +218,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IStream = "0000000c-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ITfThreadMgr
+        /// </summary>
+        public static readonly IID IID_ITfThreadMgr = "AA80E801-2021-11D2-93E0-0060B067B86E";
+
+        /// <summary>
         /// IID_IViewObject
         /// </summary>
         public static readonly IID IID_IViewObject = "0000010d-0000-0000-C000-000000000046";

@@ -36,13 +36,13 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator short(WORD val) => unchecked((short)val._value);
+        public static explicit operator short(WORD val) => unchecked((short)val._value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator WORD(short val) => new WORD { _value = unchecked((ushort)val) };
+        public static explicit operator WORD(short val) => new WORD { _value = unchecked((ushort)val) };
 
         /// <summary>
         /// 
