@@ -1,12 +1,19 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -252,8 +259,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Full-screen applications should not specify a DisplayFormat that contains an alpha channel.
         /// This will result in a failed call.
         /// Note that an alpha channel can be present in the back buffer but the two display formats must be identical in all other respects.
-        /// For example, if <see cref="DisplayFormat"/> = <see cref="D3DFMT_X1R5G5B5"/>,
-        /// valid values for <see cref="BackBufferFormat"/> include <see cref="D3DFMT_X1R5G5B5"/> and <see cref="D3DFMT_A1R5G5B5"/>
+        /// For example, if <paramref name="AdapterFormat"/> = <see cref="D3DFMT_X1R5G5B5"/>,
+        /// valid values for <paramref name="BackBufferFormat"/> include <see cref="D3DFMT_X1R5G5B5"/> and <see cref="D3DFMT_A1R5G5B5"/>
         /// but exclude <see cref="D3DFMT_R5G6B5"/>.
         /// The following code fragment shows how you could use <see cref="CheckDeviceType"/> to test whether a certain device type can be used on this adapter.
         /// <code>
@@ -643,8 +650,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <paramref name="pPresentationParameters"/> is both an input and an output parameter.
         /// Calling this method may change several members including:
         /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/>, <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>,
-        /// and <see cref="BD3DPRESENT_PARAMETERS.ackBufferHeight"/> are 0 before the method is called, they will be changed when the method returns.
-        /// If <see cref="BD3DPRESENT_PARAMETERS.BackBufferFormat"/> equals <see cref="D3DFMT_UNKNOWN"/> before the method is called,
+        /// and <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> are 0 before the method is called, they will be changed when the method returns.
+        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> equals <see cref="D3DFMT_UNKNOWN"/> before the method is called,
         /// it will be changed when the method returns.
         /// </param>
         /// <param name="ppReturnedDeviceInterface">

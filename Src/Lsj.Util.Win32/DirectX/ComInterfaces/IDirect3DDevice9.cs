@@ -7,11 +7,14 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
-using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DXERR;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -253,6 +256,66 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a texture resource.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the top-level of the texture, in pixels.
+        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel.
+        /// Thus, if the division by 2 results in 0, 1 will be taken instead.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the top-level of the texture, in pixels.
+        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel.
+        /// Thus, if the division by 2 results in 0, 1 will be taken instead.
+        /// </param>
+        /// <param name="Levels">
+        /// Number of levels in the texture.
+        /// If this is zero, Direct3D will generate all texture sublevels down to 1 by 1 pixels for hardware that supports mipmapped textures.
+        /// Call <see cref="IDirect3DBaseTexture9.GetLevelCount"/> to see the number of levels generated.
+        /// </param>
+        /// <param name="Usage">
+        /// Usage can be 0, which indicates no usage value.
+        /// However, if usage is desired, use a combination of one or more <see cref="D3DUSAGE"/> constants.
+        /// It is good practice to match the usage parameter with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of all levels in the texture.
+        /// </param>
+        /// <param name="Pool">
+        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing the memory class into which the texture should be placed.
+        /// </param>
+        /// <param name="ppTexture">
+        /// Pointer to an <see cref="IDirect3DTexture9"/> interface, representing the created texture resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can discover support for Automatic Generation of Mipmaps (Direct3D 9) in a particular format
+        /// by calling <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
+        /// If <see cref="IDirect3D9.CheckDeviceFormat"/> returns <see cref="D3DOK_NOAUTOGEN"/>,
+        /// <see cref="CreateTexture"/> will succeed but it will return a one-level texture.
+        /// In Windows Vista CreateTexture can create a texture from a system memory pointer
+        /// allowing the application more flexibility over the use, allocation and deletion of the system memory.
+        /// For example, an application could pass a GDI system memory bitmap pointer and get a Direct3D texture interface around it.
+        /// Using a system memory pointer with <see cref="CreateTexture"/> has the following restrictions.
+        /// The pitch of the texture must be equal to the width multiplied by the number of bytes per pixel.
+        /// Only textures with a single mipmap level are supported. The <paramref name="Levels"/> argument must be 1.
+        /// The <paramref name="Pool"/> argument must be <see cref="D3DPOOL_SYSTEMMEM"/>.
+        /// The <paramref name="pSharedHandle"/> argument must be a valid pointer to a buffer that can hold the system memory point;
+        /// *<paramref name="pSharedHandle"/> must be a valid pointer to system memory
+        /// with a size in bytes of texture width * texture height * bytes per pixel of the texture format.
+        /// </remarks>
         public HRESULT CreateTexture([In] UINT Width, [In] UINT Height, [In] UINT Levels, [In] DWORD Usage,
             [In] D3DFORMAT Format, [In] D3DPOOL Pool, [Out] out P<IDirect3DTexture9> ppTexture, [In][Out] ref HANDLE pSharedHandle)
         {
@@ -263,6 +326,59 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a volume texture resource.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the top-level of the volume texture, in pixels.
+        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel. Thus, if the division by two results in 0 (zero), 1 will be taken instead.
+        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the top-level of the volume texture, in pixels.
+        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
+        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// </param>
+        /// <param name="Depth">
+        /// Depth of the top-level of the volume texture, in pixels.
+        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
+        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// </param>
+        /// <param name="Levels">
+        /// Number of levels in the texture.
+        /// If this is zero, Direct3D will generate all texture sublevels down to 1x1 pixels for hardware that supports mipmapped volume textures.
+        /// Call <see cref="IDirect3DBaseTexture9.GetLevelCount"/> to see the number of levels generated.
+        /// </param>
+        /// <param name="Usage">
+        /// Usage can be 0, which indicates no usage value.
+        /// If usage is desired, use <see cref="D3DUSAGE_DYNAMIC"/> or <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>.
+        /// For more information, see <see cref="D3DUSAGE"/>.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of all levels in the volume texture.
+        /// </param>
+        /// <param name="Pool">
+        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing the memory class into which the volume texture should be placed.
+        /// </param>
+        /// <param name="ppVolumeTexture">
+        /// Address of a pointer to an <see cref="IDirect3DVolumeTexture9"/> interface, representing the created volume texture resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
         public HRESULT CreateVolumeTexture([In] UINT Width, [In] UINT Height, [In] UINT Depth, [In] UINT Levels, [In] DWORD Usage,
             [In] D3DFORMAT Format, [In] D3DPOOL Pool, [Out] out P<IDirect3DVolumeTexture9> ppVolumeTexture, [In][Out] ref HANDLE pSharedHandle)
         {
@@ -333,16 +449,135 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
-        public HRESULT CreateVertexBuffer([In] UINT Length, [In] DWORD Usage, [In] DWORD FVF, [In] D3DPOOL Pool,
+        /// <summary>
+        /// Creates a vertex buffer.
+        /// </summary>
+        /// <param name="Length">
+        /// Size of the vertex buffer, in bytes.
+        /// For FVF vertex buffers, Length must be large enough to contain at least one vertex, but it need not be a multiple of the vertex size.
+        /// <paramref name="Length"/> is not validated for non-FVF buffers.
+        /// See Remarks.
+        /// </param>
+        /// <param name="Usage">
+        /// Usage can be 0, which indicates no usage value.
+        /// However, if usage is desired, use a combination of one or more <see cref="D3DUSAGE"/> constants.
+        /// It is good practice to match the usage parameter in <see cref="CreateVertexBuffer"/> with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="FVF">
+        /// Combination of <see cref="D3DFVF"/>, a usage specifier that describes the vertex format of the vertices in this buffer.
+        /// If this parameter is set to a valid FVF code, the created vertex buffer is an FVF vertex buffer (see Remarks).
+        /// Otherwise, if this parameter is set to zero, the vertex buffer is a non-FVF vertex buffer.
+        /// </param>
+        /// <param name="Pool">
+        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing a valid memory class into which to place the resource.
+        /// Do not set to <see cref="D3DPOOL_SCRATCH"/>.
+        /// </param>
+        /// <param name="ppVertexBuffer">
+        /// Address of a pointer to an <see cref="IDirect3DVertexBuffer9"/> interface, representing the created vertex buffer resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// A vertex buffer can be used with either hardware or software vertex processing.
+        /// This is determined by how the device and the vertex buffer are created.
+        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag to determine whether to process vertices in hardware or software.
+        /// There are three possibilities:
+        /// Process vertices in hardware by setting <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
+        /// Process vertices in software by setting <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>.
+        /// Process vertices in either hardware or software by setting <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>.
+        /// Mixed-mode devices might need to switch between software and hardware processing
+        /// (using <see cref="SetSoftwareVertexProcessing"/>) after the device is created.
+        /// When a vertex buffer is created, <see cref="CreateVertexBuffer"/> uses the usage parameter to decide whether to process vertices in hardware or software.
+        /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>,
+        /// <see cref="CreateVertexBuffer"/> must use 0.
+        /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>,
+        /// <see cref="CreateVertexBuffer"/> must use either 0 or <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>.
+        /// For either value, vertices will be processed in software.
+        /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>,
+        /// <see cref="CreateVertexBuffer"/> can use either 0 or <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>.
+        /// To use a vertex buffer with a mixed mode device, create a single vertex buffer which can be used for both hardware or software processing.
+        /// Use <see cref="SetStreamSource"/> to set the current vertex buffer and use <see cref="SetRenderState"/>,
+        /// if necessary, to change the device behavior to match.
+        /// It is recommended that the vertex buffer usage matches the device behavior.
+        /// Note that a vertex buffer created for software processing cannot be located in video memory.
+        /// The <see cref="IDirect3DDevice9"/> interface supports rendering of primitives using vertex data stored in vertex buffer objects.
+        /// Vertex buffers are created from the <see cref="IDirect3DDevice9"/>, and are usable only with the <see cref="IDirect3DDevice9"/> object from which they are created.
+        /// When set to a nonzero value, which must be a valid FVF code,
+        /// the <paramref name="FVF"/> parameter indicates that the buffer content is to be characterized by an FVF code.
+        /// A vertex buffer that is created with an FVF code is referred to as an FVF vertex buffer.
+        /// For more information, see FVF Vertex Buffers (Direct3D 9).
+        /// Non-FVF buffers can be used to interleave data during multipass rendering or multitexture rendering in a single pass.
+        /// To do this, one buffer contains geometry data and the others contain texture coordinates for each texture to be rendered.
+        /// When rendering, the buffer containing the geometry data is interleaved with each of the buffers containing the texture coordinates.
+        /// If FVF buffers were used instead, each of them would need to contain identical geometry data
+        /// in addition to the texture coordinate data specific to each texture rendered.
+        /// This would result in either a speed or memory penalty, depending on the strategy used.
+        /// For more information about texture coordinates, see Texture Coordinates (Direct3D 9).
+        /// </remarks>
+        public HRESULT CreateVertexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFVF FVF, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DVertexBuffer9> ppVertexBuffer, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, DWORD, D3DPOOL, out P<IDirect3DVertexBuffer9>, ref HANDLE, HRESULT>)_vTable[26])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, D3DFVF, D3DPOOL, out P<IDirect3DVertexBuffer9>, ref HANDLE, HRESULT>)_vTable[26])
                     (thisPtr, Length, Usage, FVF, Pool, out ppVertexBuffer, ref pSharedHandle);
             }
         }
 
+        /// <summary>
+        /// Creates an index buffer.
+        /// </summary>
+        /// <param name="Length">
+        /// Size of the index buffer, in bytes.
+        /// </param>
+        /// <param name="Usage">
+        /// Usage can be 0, which indicates no usage value.
+        /// However, if usage is desired, use a combination of one or more <see cref="D3DUSAGE"/> constants.
+        /// It is good practice to match the usage parameter in <see cref="CreateIndexBuffer"/>
+        /// with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the index buffer.
+        /// For more information, see Remarks.
+        /// The valid settings are the following:
+        /// <see cref="D3DFMT_INDEX16"/>: Indices are 16 bits each.
+        /// <see cref="D3DFMT_INDEX32"/>: Indices are 32 bits each.
+        /// </param>
+        /// <param name="Pool">
+        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing a valid memory class into which to place the resource.
+        /// </param>
+        /// <param name="ppIndexBuffer">
+        /// Address of a pointer to an <see cref="IDirect3DIndexBuffer9"/> interface, representing the created index buffer resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources;
+        /// set it to <see cref="NullRef{HANDLE}"/> to not share a resource.
+        /// This parameter is not used in Direct3D 9 for operating systems earlier than Windows Vista; set it to <see cref="NullRef{HANDLE}"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>,
+        /// <see cref="D3DXERR_INVALIDDATA"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// Index buffers are memory resources used to hold indices, they are similar to both surfaces and vertex buffers.
+        /// The use of index buffers enables Direct3D to avoid unnecessary data copying and to place the buffer in the optimal memory type for the expected usage.
+        /// To use index buffers, create an index buffer, lock it, fill it with indices, unlock it, pass it to <see cref="SetIndices"/>,
+        /// set up the vertices, set up the vertex shader, and call <see cref="DrawIndexedPrimitive"/> for rendering.
+        /// The <see cref="D3DCAPS9.MaxVertexIndex"/> member of the <see cref="D3DCAPS9"/> structure
+        /// indicates the types of index buffers that are valid for rendering.
+        /// </remarks>
         public HRESULT CreateIndexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DIndexBuffer9> ppIndexBuffer, [In][Out] ref HANDLE pSharedHandle)
         {
@@ -353,6 +588,54 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a render-target surface.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the render-target surface, in pixels.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the render-target surface, in pixels.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the render target.
+        /// </param>
+        /// <param name="MultiSample">
+        /// Member of the <see cref="D3DMULTISAMPLE_TYPE"/> enumerated type, which describes the multisampling buffer type.
+        /// This parameter specifies the antialiasing type for this render target.
+        /// When this surface is passed to <see cref="SetRenderTarget"/>, its multisample type must be the same as
+        /// that of the depth-stencil set by <see cref="SetDepthStencilSurface"/>.
+        /// </param>
+        /// <param name="MultisampleQuality">
+        /// Quality level. 
+        /// The valid range is between zero and one less than the level returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+        /// Passing a larger value returns the error, <see cref="D3DERR_INVALIDCALL"/>.
+        /// The <paramref name="MultisampleQuality"/> values of paired render targets, depth stencil surfaces, and the multisample type must all match.
+        /// </param>
+        /// <param name="Lockable">
+        /// Render targets are not lockable unless the application specifies <see cref="TRUE"/> for Lockable.
+        /// Note that lockable render targets reduce performance on some graphics hardware.
+        /// The readback performance (moving data from video memory to system memory) depends on the type of hardware used (AGP vs. PCI Express)
+        /// and is usually far lower than upload performance (moving data from system to video memory).
+        /// If you need read access to render targets, use <see cref="GetRenderTargetData"/> instead of lockable render targets.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// Render-target surfaces are placed in the <see cref="D3DPOOL_DEFAULT"/> memory class.
+        /// The creation of lockable, multisampled render targets is not supported.
+        /// </remarks>
         public HRESULT CreateRenderTarget([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample,
             [In] DWORD MultisampleQuality, [In] BOOL Lockable, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
         {
@@ -501,6 +784,43 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Create an off-screen surface.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the surface.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the surface.
+        /// </param>
+        /// <param name="Format">
+        /// Format of the surface.
+        /// See <see cref="D3DFORMAT"/>.
+        /// </param>
+        /// <param name="Pool">
+        /// Surface pool type.
+        /// See <see cref="D3DPOOL"/>.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Pointer to the <see cref="IDirect3DSurface9"/> interface created.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="D3DPOOL_SCRATCH"/> will return a surface that has identical characteristics to a surface
+        /// created by the DirectX 8.x method <see cref="CreateImageSurface"/>.
+        /// <see cref="D3DPOOL_DEFAULT"/> is the appropriate pool for use with the <see cref="StretchRect"/> and <see cref="ColorFill"/>.
+        /// <see cref="D3DPOOL_MANAGED"/> is not allowed when creating an offscreen plain surface.
+        /// For more information about memory pools, see <see cref="D3DPOOL"/>.
+        /// Off-screen plain surfaces are always lockable, regardless of their pool types.
+        /// </remarks>
         public HRESULT CreateOffscreenPlainSurface([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
         {
@@ -752,6 +1072,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a new state block that contains the values for all device states, vertex-related states, or pixel-related states.
+        /// </summary>
+        /// <param name="Type">
+        /// Type of state data that the method should capture.
+        /// This parameter can be set to a value defined in the <see cref="D3DSTATEBLOCKTYPE"/> enumerated type.
+        /// </param>
+        /// <param name="ppSB">
+        /// Pointer to a state block interface. See <see cref="IDirect3DStateBlock9"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// Vertex-related device states typically refer to those states that affect how the system processes vertices.
+        /// Pixel-related states generally refer to device states that affect how the system processes pixel or depth-buffer data during rasterization.
+        /// Some states are contained in both groups.
+        /// Differences between Direct3D 9 and Direct3D 10:
+        /// In Direct3D 9, a state block contains state data, for the states it was requested to capture, when the object is created.
+        /// To change the value of the state block, call <see cref="IDirect3DStateBlock9.Capture"/> or <see cref="BeginStateBlock"/>/<see cref="EndStateBlock"/>.
+        /// There is no state saved when a state block object is created in Direct3D 10.
+        /// </remarks>
         public HRESULT CreateStateBlock([In] D3DSTATEBLOCKTYPE Type, [Out] out P<IDirect3DStateBlock9> ppSB)
         {
             fixed (void* thisPtr = &this)
@@ -996,6 +1340,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Create a vertex shader declaration from the device and the vertex elements.
+        /// </summary>
+        /// <param name="pVertexElements">
+        /// An array of <see cref="D3DVERTEXELEMENT9"/> vertex elements.
+        /// </param>
+        /// <param name="ppDecl">
+        /// Pointer to an <see cref="IDirect3DVertexDeclaration9"/> pointer that returns the created vertex shader declaration.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// See the Vertex Declaration (Direct3D 9) page for a detailed description of how to map vertex declarations between different versions of DirectX.
+        /// </remarks>
         public HRESULT CreateVertexDeclaration([In] D3DVERTEXELEMENT9[] pVertexElements, [Out] out P<IDirect3DVertexDeclaration9> ppDecl)
         {
             fixed (void* thisPtr = &this)
@@ -1036,6 +1396,32 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a vertex shader.
+        /// </summary>
+        /// <param name="pFunction">
+        /// Pointer to an array of tokens that represents the vertex shader, including any embedded debug and symbol table information.
+        /// Use a function such as <see cref="D3DXCompileShader"/> to create the array from a HLSL shader.
+        /// Use a function like <see cref="D3DXAssembleShader"/> to create the token array from an assembly language shader.
+        /// Use a function like <see cref="ID3DXEffectCompiler.CompileShader"/> to create the array from an effect.
+        /// </param>
+        /// <param name="ppShader">
+        /// Pointer to the returned vertex shader interface (see <see cref="IDirect3DVertexShader9"/>).
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag to determine whether to process vertices in hardware or software.
+        /// There are three possibilities:
+        /// rocess vertices in hardware by setting <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
+        /// Process vertices in software by setting <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>.
+        /// Process vertices in either hardware or software by setting <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>.
+        /// To switch a mixed-mode device between software and hardware processing, use <see cref="SetSoftwareVertexProcessing"/>.
+        /// For an example using <see cref="D3DXCompileShader"/>, see HLSLwithoutEffects Sample.
+        /// </remarks>
         public HRESULT CreateVertexShader([In] IntPtr pFunction, [Out] out P<IDirect3DVertexShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
@@ -1158,6 +1544,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a pixel shader.
+        /// </summary>
+        /// <param name="pFunction">
+        /// Pointer to the pixel shader function token array, specifying the blending operations.
+        /// This value cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppShader">
+        /// Pointer to the returned pixel shader interface.
+        /// See <see cref="IDirect3DPixelShader9"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
         public HRESULT CreatePixelShader([In] IntPtr pFunction, [Out] out P<IDirect3DPixelShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
@@ -1254,6 +1656,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Creates a status query.
+        /// </summary>
+        /// <param name="Type">
+        /// Identifies the query type.
+        /// For more information, see <see cref="D3DQUERYTYPE"/>.
+        /// </param>
+        /// <param name="ppQuery">
+        /// Returns a pointer to the query interface that manages the query object.
+        /// See <see cref="IDirect3DQuery9"/>.
+        /// This parameter can be set to <see cref="NullRef{IDirect3DQuery9}"/> to see if a query is supported.
+        /// If the query is not supported, the method returns <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_NOTAVAILABLE"/> or <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method is provided for both synchronous and asynchronous queries.
+        /// It takes the place of GetInfo, which is no longer supported in Direct3D 9.
+        /// Synchronous and asynchronous queries are created with <see cref="CreateQuery"/> with <see cref="D3DQUERYTYPE"/>.
+        /// When a query has been created and the API calls have been made that are being queried,
+        /// use <see cref="IDirect3DQuery9.Issue"/> to issue a query and <see cref="IDirect3DQuery9.GetData"/> to get the results of the query.
+        /// </remarks>
         public HRESULT CreateQuery([In] D3DQUERYTYPE Type, [Out] out P<IDirect3DQuery9> ppQuery)
         {
             fixed (void* thisPtr = &this)
