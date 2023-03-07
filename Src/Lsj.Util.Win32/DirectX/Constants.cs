@@ -30,6 +30,11 @@ namespace Lsj.Util.Win32.DirectX
         public const uint D3DADAPTER_DEFAULT = 0;
 
         /// <summary>
+        /// D3DERR_COMMAND_UNPARSED
+        /// </summary>
+        public static readonly HRESULT D3DERR_COMMAND_UNPARSED = 0x88760BB8;
+
+        /// <summary>
         /// <para>
         /// The device that returned this code caused the hardware adapter to be reset by the OS.
         /// Most applications should destroy the device and quit.
@@ -100,6 +105,16 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public static readonly HRESULT D3DERR_NOTAVAILABLE = 0x8876086a;
+
+        /// <summary>
+        /// <para>
+        /// The requested item was not found.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_NOTFOUND = 0x88760866;
 
         /// <summary>
         /// <para>

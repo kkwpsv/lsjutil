@@ -451,6 +451,11 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_CLIPPLANEENABLE = 152,
 
         /// <summary>
+        /// D3DRS_SOFTWAREVERTEXPROCESSING
+        /// </summary>
+        D3DRS_SOFTWAREVERTEXPROCESSING = 153,
+
+        /// <summary>
         /// A float value that specifies the size to use for point size computation in cases where point size is not specified for each vertex.
         /// This value is not used when the vertex contains point size.
         /// This value is in screen space units if <see cref="D3DRS_POINTSCALEENABLE"/> is <see cref="FALSE"/>; otherwise this value is in world space units.

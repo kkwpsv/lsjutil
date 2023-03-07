@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -11,11 +12,13 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DLIGHTTYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMITIVETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DXERR;
-using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMITIVETYPE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -82,6 +85,18 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Evicts all managed resources, including both Direct3D and driver-managed resources.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="D3DERR_COMMAND_UNPARSED"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function causes only the <see cref="D3DPOOL_DEFAULT"/> copy of resources to be evicted.
+        /// The resource copy in system memory is retained.
+        /// See <see cref="D3DPOOL"/>.
+        /// </remarks>
         public HRESULT EvictManagedResources()
         {
             fixed (void* thisPtr = &this)
@@ -90,6 +105,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Returns an interface to the instance of the Direct3D object that created the device.
+        /// </summary>
+        /// <param name="ppD3D9">
+        /// Address of a pointer to an <see cref="IDirect3D9"/> interface, representing the interface of the Direct3D object that created the device.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling <see cref="GetDirect3D"/> will increase the internal reference count on the <see cref="IDirect3D9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3D9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetDirect3D([Out] out P<IDirect3D9> ppD3D9)
         {
             fixed (void* thisPtr = &this)
@@ -98,6 +127,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the capabilities of the rendering device.
+        /// </summary>
+        /// <param name="pCaps">
+        /// Pointer to a <see cref="D3DCAPS9"/> structure, describing the returned device.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetDeviceCaps"/> retrieves the software vertex pipeline capabilities when the device is being used in software vertex processing mode.
+        /// </remarks>
         public HRESULT GetDeviceCaps([Out] out D3DCAPS9 pCaps)
         {
             fixed (void* thisPtr = &this)
@@ -106,6 +148,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the display mode's spatial resolution, color resolution, and refresh frequency.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="pMode">
+        /// Pointer to a <see cref="D3DDISPLAYMODE"/> structure containing data about the display mode of the adapter.
+        /// As opposed to the display mode of the device, which may not be active if the device does not own full-screen mode.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetDisplayMode([In] UINT iSwapChain, [Out] out D3DDISPLAYMODE pMode)
         {
             fixed (void* thisPtr = &this)
@@ -114,6 +170,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the creation parameters of the device.
+        /// </summary>
+        /// <param name="pParameters">
+        /// Pointer to a <see cref="D3DDEVICE_CREATION_PARAMETERS"/> structure, describing the creation parameters of the device.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned if the argument is invalid.
+        /// </returns>
+        /// <remarks>
+        /// You can query the <see cref="D3DDEVICE_CREATION_PARAMETERS.AdapterOrdinal"/> member
+        /// of the returned <see cref="D3DDEVICE_CREATION_PARAMETERS"/> structure to retrieve the ordinal of the adapter represented by this device.
+        /// </remarks>
         public HRESULT GetCreationParameters([Out] out D3DDEVICE_CREATION_PARAMETERS pParameters)
         {
             fixed (void* thisPtr = &this)
@@ -183,6 +253,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a pointer to a swap chain.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// The swap chain ordinal value.
+        /// For more information, see <see cref="D3DCAPS9.NumberOfAdaptersInGroup"/> in <see cref="D3DCAPS9"/>.
+        /// </param>
+        /// <param name="pSwapChain">
+        /// Pointer to an <see cref="IDirect3DSwapChain9"/> interface that will receive a copy of swap chain.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetSwapChain([In] UINT iSwapChain, [Out] out P<IDirect3DSwapChain9> pSwapChain)
         {
             fixed (void* thisPtr = &this)
@@ -191,6 +275,18 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the number of implicit swap chains.
+        /// </summary>
+        /// <returns>
+        /// Number of implicit swap chains.
+        /// See Remarks.
+        /// </returns>
+        /// <remarks>
+        /// Implicit swap chains are created by the device during <see cref="IDirect3D9.CreateDevice"/>.
+        /// This method returns the number of swap chains created by <see cref="IDirect3D9.CreateDevice"/>.
+        /// An application may create additional swap chains using I<see cref="CreateAdditionalSwapChain"/>.
+        /// </remarks>
         public UINT GetNumberOfSwapChains()
         {
             fixed (void* thisPtr = &this)
@@ -216,6 +312,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a back buffer from the device's swap chain.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="iBackBuffer">
+        /// Index of the back buffer object to return.
+        /// Back buffers are numbered from 0 to the total number of back buffers minus one.
+        /// A value of 0 returns the first back buffer, not the front buffer.
+        /// The front buffer is not accessible through this method.
+        /// Use <see cref="GetFrontBufferData"/> to retrieve a copy of the front buffer.
+        /// </param>
+        /// <param name="Type">
+        /// Stereo view is not supported in Direct3D 9, so the only valid value for this parameter is <see cref="D3DBACKBUFFER_TYPE_MONO"/>.
+        /// </param>
+        /// <param name="ppBackBuffer">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned back buffer surface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If <paramref name="iBackBuffer"/> equals or exceeds the total number of back buffers,
+        /// then the function fails and returns <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetBackBuffer([In] UINT iSwapChain, [In] UINT iBackBuffer, [In] D3DBACKBUFFER_TYPE Type, [Out] out P<IDirect3DSurface9> ppBackBuffer)
         {
             fixed (void* thisPtr = &this)
@@ -225,6 +349,23 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Returns information describing the raster of the monitor on which the swap chain is presented.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="pRasterStatus">
+        /// Pointer to a <see cref="D3DRASTER_STATUS"/> structure filled with information
+        /// about the position or other status of the raster on the monitor driven by this adapter.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned if <paramref name="pRasterStatus"/> is invalid
+        /// or if the device does not support reading the current scan line.
+        /// To determine if the device supports reading the scan line, check for the <see cref="D3DCAPS_READ_SCANLINE"/> flag
+        /// in the <see cref="D3DCAPS9.Caps"/> member of <see cref="D3DCAPS9"/>.
+        /// </returns>
         public HRESULT GetRasterStatus([In] UINT iSwapChain, [Out] out D3DRASTER_STATUS pRasterStatus)
         {
             fixed (void* thisPtr = &this)
@@ -249,6 +390,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the gamma correction ramp for the swap chain.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="pRamp">
+        /// Pointer to an application-supplied <see cref="D3DGAMMARAMP"/> structure to fill with the gamma correction ramp.
+        /// </param>
         public void GetGammaRamp([In] UINT iSwapChain, [Out] out D3DGAMMARAMP pRamp)
         {
             fixed (void* thisPtr = &this)
@@ -723,6 +873,28 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Copies the render-target data from device memory to system memory.
+        /// </summary>
+        /// <param name="pRenderTarget">
+        /// Pointer to an <see cref="IDirect3DSurface9"/> object, representing a render target.
+        /// </param>
+        /// <param name="pDestSurface">
+        /// Pointer to an <see cref="IDirect3DSurface9"/> object, representing a destination surface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The destination surface must be either an off-screen plain surface or a level of a texture (mipmap or cube texture) created with <see cref="D3DPOOL_SYSTEMMEM"/>.
+        /// The source surface must be a regular render target or a level of a render-target texture (mipmap or cube texture) created with <see cref="POOL_DEFAULT"/>.
+        /// This method will fail if:
+        /// The render target is multisampled.
+        /// The source render target is a different size than the destination surface.
+        /// The source render target and destination surface formats do not match.
+        /// </remarks>
         public HRESULT GetRenderTargetData([In] in IDirect3DSurface9 pRenderTarget, [In] in IDirect3DSurface9 pDestSurface)
         {
             fixed (void* thisPtr = &this)
@@ -731,6 +903,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Generates a copy of the device's front buffer and places that copy in a system memory buffer provided by the application.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="pDestSurface">
+        /// Pointer to an <see cref="IDirect3DSurface9"/> interface that will receive a copy of the contents of the front buffer.
+        /// The data is returned in successive rows with no intervening space, starting from the vertically highest row on the device's output to the lowest.
+        /// For windowed mode, the size of the destination surface should be the size of the desktop.
+        /// For full-screen mode, the size of the destination surface should be the screen size.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_INVALIDCALL"/>
+        /// </returns>
+        /// <remarks>
+        /// The buffer pointed to by <paramref name="pDestSurface"/> will be filled with a representation of the front buffer,
+        /// converted to the standard 32 bits per pixel format <see cref="D3DFMT_A8R8G8B8"/>.
+        /// This method is the only way to capture an antialiased screen shot.
+        /// This function is very slow, by design, and should not be used in any performance-critical path.
+        /// For more information, see Lost Devices and Retrieved Data.
+        /// </remarks>
         public HRESULT GetFrontBufferData([In] UINT iSwapChain, [In] in IDirect3DSurface9 pDestSurface)
         {
             fixed (void* thisPtr = &this)
@@ -840,6 +1036,29 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a render-target surface.
+        /// </summary>
+        /// <param name="RenderTargetIndex">
+        /// Index of the render target. See Remarks.
+        /// </param>
+        /// <param name="ppRenderTarget">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned render-target surface for this device.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/> if one of the arguments is invalid,
+        /// or <see cref="D3DERR_NOTFOUND"/> if there's no render target available for the given index.
+        /// </returns>
+        /// <remarks>
+        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// This method however, will work even on a pure device because it returns an interface.
+        /// The device can now support multiple render targets.
+        /// The number of render targets supported by a device is contained in the <see cref="D3DCAPS9.NumSimultaneousRTs"/> member of <see cref="D3DCAPS9"/>.
+        /// See Multiple Render Targets (Direct3D 9).
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using the <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetRenderTarget([In] DWORD RenderTargetIndex, [Out] out P<IDirect3DSurface9> ppRenderTarget)
         {
             fixed (void* thisPtr = &this)
@@ -856,6 +1075,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the depth-stencil surface owned by the Direct3DDevice object.
+        /// </summary>
+        /// <param name="ppZStencilSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned depth-stencil surface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the device doesn't have a depth stencil buffer associated with it, the return value will be <see cref="D3DERR_NOTFOUND"/>.
+        /// Otherwise, if the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetDepthStencilSurface([Out] out P<IDirect3DSurface9> ppZStencilSurface)
         {
             fixed (void* thisPtr = &this)
@@ -896,6 +1130,32 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Ends a scene that was begun by calling <see cref="BeginScene"/>.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// The method will fail with <see cref="D3DERR_INVALIDCALL"/> if <see cref="BeginScene"/> is called
+        /// while already in a <see cref="BeginScene"/>/<see cref="EndScene"/> pair.
+        /// This happens only when <see cref="BeginScene"/> is called twice without first calling <see cref="EndScene"/>.
+        /// </returns>
+        /// <remarks>
+        /// When this method succeeds, the scene has been queued up for rendering by the driver.
+        /// This is not a synchronous method, so the scene is not guaranteed to have completed rendering when this method returns.
+        /// Applications must call <see cref="BeginScene"/> before performing any rendering
+        /// and must call <see cref="EndScene"/> when rendering is complete and before calling <see cref="BeginScene"/> again.
+        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene, and there is no need to call <see cref="EndScene"/>.
+        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
+        /// This applies to any application that creates multiple swap chains.
+        /// There should be one <see cref="BeginScene"/>/<see cref="EndScene"/> pair between any successive calls to present
+        /// (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
+        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
+        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
+        /// Multiple non-nested <see cref="BeginScene"/>/<see cref="EndScene"/> pairs between calls to present are legal,
+        /// but having more than one pair may incur a performance hit.
+        /// To enable maximal parallelism between the CPU and the graphics accelerator,
+        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// </remarks>
         public HRESULT EndScene()
         {
             fixed (void* thisPtr = &this)
@@ -961,6 +1221,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a matrix describing a transformation state.
+        /// </summary>
+        /// <param name="State">
+        /// Device state variable that is being modified.
+        /// This parameter can be any member of the <see cref="D3DTRANSFORMSTATETYPE"/> enumerated type, or the <see cref="D3DTS_WORLDMATRIX"/> macro.
+        /// </param>
+        /// <param name="pMatrix">
+        /// Pointer to a <see cref="D3DMATRIX"/> structure, describing the returned transformation state.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> if one of the arguments is invalid.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other flag values in <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetTransform([In] D3DTRANSFORMSTATETYPE State, [Out] out D3DMATRIX pMatrix)
         {
             fixed (void* thisPtr = &this)
@@ -985,6 +1263,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the viewport parameters currently set for the device.
+        /// </summary>
+        /// <param name="pViewport">
+        /// Pointer to a <see cref="D3DVIEWPORT9"/> structure, representing the returned viewport parameters.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned if the <paramref name="pViewport"/> parameter is invalid.
+        /// </returns>
+        /// <remarks>
+        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// This method however, will work even on a pure device.
+        /// </remarks>
         public HRESULT GetViewport([Out] out D3DVIEWPORT9 pViewport)
         {
             fixed (void* thisPtr = &this)
@@ -1001,6 +1293,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the current material properties for the device.
+        /// </summary>
+        /// <param name="pMaterial">
+        /// Pointer to a <see cref="D3DMATERIAL9"/> structure to fill with the currently set material properties.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> if the <paramref name="pMaterial"/> parameter is invalid.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetMaterial([Out] out D3DMATERIAL9 pMaterial)
         {
             fixed (void* thisPtr = &this)
@@ -1017,6 +1323,63 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a set of lighting properties that this device uses.
+        /// </summary>
+        /// <param name="Index">
+        /// Zero-based index of the lighting property set to retrieve.
+        /// This method will fail if a lighting property has not been set for this index by calling the <see cref="SetLight"/> method.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// Pointer to a <see cref="D3DLIGHT9"/> structure that is filled with the retrieved lighting-parameter set.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value is <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// Retrieve all the properties for an existing light source by calling the <see cref="GetLight"/> method for the device.
+        /// When calling the <see cref="GetLight"/> method, pass the zero-based index of the light source
+        /// for which the properties will be retrieved as the first parameter, and supply the address of a <see cref="D3DLIGHT9"/> structure as the second parameter.
+        /// The device fills the <see cref="D3DLIGHT9"/> structure to describe the lighting properties it uses for the light source at that index.
+        /// <code>
+        /// // Assume d3dDevice is a valid pointer to an IDirect3DDevice9 interface.
+        /// HRESULT hr;
+        /// D3DLight9 light;
+        /// 
+        /// // Get the property information for the first light.
+        /// hr = pd3dDevice->GetLight(0, &amp;light);
+        /// if (SUCCEEDED(hr))
+        ///     // Handle Success
+        /// else
+        ///     // Handle failure
+        /// </code>
+        /// If you supply an index outside the range of the light sources assigned in the device,
+        /// the <see cref="GetLight"/> method fails, returning <see cref="D3DERR_INVALIDCALL"/>.
+        /// When you assign a set of light properties for a light source in a scene,
+        /// the light source can be activated by calling the <see cref="LightEnable"/> method for the device.
+        /// New light sources are disabled by default.
+        /// The <see cref="LightEnable"/> method accepts two parameters.
+        /// Set the first parameter to the zero-based index of the light source to be affected by the method,
+        /// and set the second parameter to <see cref="TRUE"/> to enable the light or <see cref="FALSE"/> to disable it.
+        /// The following code example illustrates the use of this method by enabling the first light source in the device's list of light source properties.
+        /// <code>
+        /// // Assume d3dDevice is a valid pointer to an IDirect3DDevice9 interface.
+        /// HRESULT hr;
+        /// 
+        /// hr = pd3dDevice->LightEnable(0, TRUE);
+        /// if (SUCCEEDED(hr))
+        ///     // Handle Success
+        /// else
+        ///     // Handle failure
+        /// </code>
+        /// Check the <see cref="D3DCAPS9.MaxActiveLights"/> member of the <see cref="D3DCAPS9"/> structure
+        /// when you retrieve device capabilities to determine the maximum number of active lights supported by that device.
+        /// If you enable or disable a light that has no properties that are set with <see cref="SetLight"/>,
+        /// the <see cref="LightEnable"/> method creates a light source with the properties listed in following table and enables or disables it.
+        /// </remarks>
         public HRESULT GetLight([In] DWORD Index, [Out] out D3DLIGHT9 unnamedParam2)
         {
             fixed (void* thisPtr = &this)
@@ -1025,6 +1388,39 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Enables or disables a set of lighting parameters within a device.
+        /// </summary>
+        /// <param name="Index">
+        /// Zero-based index of the set of lighting parameters that are the target of this method.
+        /// </param>
+        /// <param name="Enable">
+        /// Value that indicates if the set of lighting parameters are being enabled or disabled.
+        /// Set this parameter to <see cref="TRUE"/> to enable lighting with the parameters at the specified index, or <see cref="FALSE"/> to disable it.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a value for <paramref name="Index"/> is outside the range of the light property sets assigned within the device, 
+        /// the <see cref="LightEnable"/> method creates a light source represented by a <see cref="D3DLIGHT9"/> structure
+        /// with the following properties and sets its enabled state to the value specified in <paramref name="Enable"/>.
+        /// Member                                  Default
+        /// <see cref="D3DLIGHT9.Type"/>            <see cref="D3DLIGHT_DIRECTIONAL"/>
+        /// <see cref="D3DLIGHT9.Diffuse"/>         (R:1, G:1, B:1, A:0)
+        /// <see cref="D3DLIGHT9.Specular"/>        (R:0, G:0, B:0, A:0)
+        /// <see cref="D3DLIGHT9.Ambient"/>         (R:0, G:0, B:0, A:0)
+        /// <see cref="D3DLIGHT9.Position"/>        (0, 0, 0)
+        /// <see cref="D3DLIGHT9.Direction"/>       (0, 0, 1)
+        /// <see cref="D3DLIGHT9.Range"/>           0
+        /// <see cref="D3DLIGHT9.Falloff"/>         0
+        /// <see cref="D3DLIGHT9.Attenuation0"/>    0
+        /// <see cref="D3DLIGHT9.Attenuation1"/>    0
+        /// <see cref="D3DLIGHT9.Attenuation2"/>    0
+        /// <see cref="D3DLIGHT9.Theta"/>           0
+        /// <see cref="D3DLIGHT9.Phi"/>             0
+        /// </remarks>
         public HRESULT LightEnable([In] DWORD Index, [In] BOOL Enable)
         {
             fixed (void* thisPtr = &this)
@@ -1033,6 +1429,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the activity status - enabled or disabled - for a set of lighting parameters within a device.
+        /// </summary>
+        /// <param name="Index">
+        /// Zero-based index of the set of lighting parameters that are the target of this method.
+        /// </param>
+        /// <param name="pEnable">
+        /// Pointer to a variable to fill with the status of the specified lighting parameters.
+        /// After the call, a nonzero value at this address indicates that the specified lighting parameters are enabled; a value of 0 indicates that they are disabled.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetLightEnable([In] DWORD Index, [Out] out BOOL pEnable)
         {
             fixed (void* thisPtr = &this)
@@ -1049,6 +1463,32 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the coefficients of a user-defined clipping plane for the device.
+        /// </summary>
+        /// <param name="Index">
+        /// Index of the clipping plane for which the plane equation coefficients are retrieved.
+        /// </param>
+        /// <param name="pPlane">
+        /// Pointer to a four-element array of values that represent the coefficients of the clipping plane in the form of the general plane equation.
+        /// See Remarks.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value is <see cref="D3DERR_INVALIDCALL"/>.
+        /// This error indicates that the value in <paramref name="Index"/> exceeds the maximum clipping plane index supported by the device,
+        /// or that the array at <paramref name="pPlane"/> is not large enough to contain four floating-point values.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// The coefficients that this method reports take the form of the general plane equation.
+        /// If the values in the array at <paramref name="pPlane"/> were labeled A, B, C, and D in the order that they appear in the array,
+        /// they would fit into the general plane equation so that Ax + By + Cz + Dw = 0.
+        /// A point with homogeneous coordinates (x, y, z, w) is visible in the half space of the plane if Ax + By + Cz + Dw >= 0.
+        /// Points that exist on or behind the clipping plane are clipped from the scene.
+        /// The plane equation used by this method exists in world space and is set by a previous call to the <see cref="SetClipPlane"/> method.
+        /// </remarks>
         public HRESULT GetClipPlane([In] DWORD Index, [Out] float[] pPlane)
         {
             fixed (void* thisPtr = &this)
@@ -1065,6 +1505,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a render-state value for a device.
+        /// </summary>
+        /// <param name="State">
+        /// Device state variable that is being queried.
+        /// This parameter can be any member of the <see cref="D3DRENDERSTATETYPE"/> enumerated type.
+        /// </param>
+        /// <param name="pValue">
+        /// Pointer to a variable that receives the value of the queried render state variable when the method returns.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> if one of the arguments is invalid.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetRenderState([In] D3DRENDERSTATETYPE State, [Out] out DWORD pValue)
         {
             fixed (void* thisPtr = &this)
@@ -1134,6 +1592,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Signals Direct3D to stop recording a device-state block and retrieve a pointer to the state block interface.
+        /// </summary>
+        /// <param name="ppSB">
+        /// Pointer to a state block interface.
+        /// See <see cref="IDirect3DStateBlock9"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT EndStateBlock([Out] out P<IDirect3DStateBlock9> ppSB)
         {
             fixed (void* thisPtr = &this)
@@ -1150,6 +1619,36 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the clip status.
+        /// </summary>
+        /// <param name="pClipStatus">
+        /// Pointer to a <see cref="D3DCLIPSTATUS9"/> structure that describes the clip status.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned if the argument is invalid.
+        /// </returns>
+        /// <remarks>
+        /// When clipping is enabled during vertex processing (by <see cref="ProcessVertices"/>, <see cref="DrawPrimitive"/>, or other drawing functions),
+        /// Direct3D computes a clip code for every vertex.
+        /// The clip code is a combination of D3DCS_* bits.
+        /// When a vertex is outside a particular clipping plane, the corresponding bit is set in the clipping code.
+        /// Direct3D maintains the clip status using <see cref="D3DCLIPSTATUS9"/>,
+        /// which has <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> members.
+        /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> is a bitwise "OR" of all vertex clip codes
+        /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> is a bitwise "AND" of all vertex clip codes.
+        /// Initial values are zero for <see cref="D3DCLIPSTATUS9.ClipUnion"/> and 0xFFFFFFFF for ClipIntersection.
+        /// When <see cref="D3DRS_CLIPPING"/> is set to <see cref="FALSE"/>,
+        /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> are set to zero.
+        /// Direct3D updates the clip status during drawing calls.
+        /// To compute clip status for a particular object, set <see cref="D3DCLIPSTATUS9.ClipUnion"/>
+        /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> to their initial value and continue drawing.
+        /// Clip status is not updated by <see cref="DrawRectPatch"/> and <see cref="DrawTriPatch"/> because there is no software emulation for them.
+        /// Clip status is used during software vertex processing.
+        /// Therefore, this method is not supported on pure or nonpure hardware processing devices.
+        /// For more information about pure devices, see <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetClipStatus([Out] out D3DCLIPSTATUS9 pClipStatus)
         {
             fixed (void* thisPtr = &this)
@@ -1158,6 +1657,26 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a texture assigned to a stage for a device.
+        /// </summary>
+        /// <param name="Stage">
+        /// Stage identifier of the texture to retrieve.
+        /// Stage identifiers are zero-based.
+        /// </param>
+        /// <param name="ppTexture">
+        /// Address of a pointer to an <see cref="IDirect3DBaseTexture9"/> interface, representing the returned texture.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// This method however, will work even on a pure device because it returns an interface.
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DTexture9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DTexture9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetTexture([In] DWORD Stage, [Out] out P<IDirect3DBaseTexture9> ppTexture)
         {
             fixed (void* thisPtr = &this)
@@ -1174,6 +1693,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a state value for an assigned texture.
+        /// </summary>
+        /// <param name="Stage">
+        /// Stage identifier of the texture for which the state is retrieved.
+        /// Stage identifiers are zero-based.
+        /// Devices can have up to eight set textures, so the maximum value allowed for Stage is 7.
+        /// </param>
+        /// <param name="Type">
+        /// Texture state to retrieve.
+        /// This parameter can be any member of the <see cref="D3DTEXTURESTAGESTATETYPE"/> enumerated type.
+        /// </param>
+        /// <param name="pValue">
+        /// Pointer a variable to fill with the retrieved state value.
+        /// The meaning of the retrieved value is determined by the <paramref name="Type"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>
+        /// If you want to use this method, you must create your device with any of the other flag values in <see cref="D3DCREATE"/>
+        /// </remarks>
         public HRESULT GetTextureStageState([In] DWORD Stage, [In] D3DTEXTURESTAGESTATETYPE Type, [Out] out DWORD pValue)
         {
             fixed (void* thisPtr = &this)
@@ -1190,6 +1733,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the sampler state value.
+        /// </summary>
+        /// <param name="Sampler">
+        /// The sampler stage index.
+        /// </param>
+        /// <param name="Type">
+        /// This parameter can be any member of the <see cref="D3DSAMPLERSTATETYPE"/> enumerated type.
+        /// </param>
+        /// <param name="pValue">
+        /// State value to get.
+        /// The meaning of this value is determined by the <paramref name="Type"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// </remarks>
         public HRESULT GetSamplerState([In] DWORD Sampler, [In] D3DSAMPLERSTATETYPE Type, [Out] out DWORD pValue)
         {
             fixed (void* thisPtr = &this)
@@ -1222,6 +1786,26 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves palette entries.
+        /// </summary>
+        /// <param name="PaletteNumber">
+        /// An ordinal value identifying the particular palette to retrieve.
+        /// </param>
+        /// <param name="pEntries">
+        /// Pointer to a <see cref="PALETTEENTRY"/> structure, representing the returned palette entries.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information about <see cref="PALETTEENTRY"/>, see the Platform SDK.
+        /// Note
+        /// As of Direct3D 9, the <see cref="PALETTEENTRY.peFlags"/> member of the <see cref="PALETTEENTRY"/> structure
+        /// does not workthe way it is documented in the Platform SDK.
+        /// The <see cref="PALETTEENTRY.peFlags"/> member is now the alpha channel for 8-bit palettized formats.
+        /// </remarks>
         public HRESULT GetPaletteEntries([In] UINT PaletteNumber, [Out] PALETTEENTRY[] pEntries)
         {
             fixed (void* thisPtr = &this)
@@ -1238,6 +1822,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the current texture palette.
+        /// </summary>
+        /// <param name="PaletteNumber">
+        /// Pointer to a returned value that identifies the current texture palette.
+        /// </param>
+        /// <returns>
+        /// f the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetCurrentTexturePalette([Out] out UINT PaletteNumber)
         {
             fixed (void* thisPtr = &this)
@@ -1254,11 +1848,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
-        public void GetScissorRect([Out] out RECT pRect)
+        /// <summary>
+        /// Gets the scissor rectangle.
+        /// </summary>
+        /// <param name="pRect">
+        /// Returns a pointer to a <see cref="RECT"/> structure that defines the rendering area within the render target if scissor test is enabled.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The scissor rectangle is used as a rectangular clipping region.
+        /// See Rectangles (Direct3D 9) for further information on the use of rectangles in DirectX.
+        /// </remarks>
+        public HRESULT GetScissorRect([Out] out RECT pRect)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out RECT, HRESULT>)_vTable[76])(thisPtr, out pRect);
+                return ((delegate* unmanaged[Stdcall]<void*, out RECT, HRESULT>)_vTable[76])(thisPtr, out pRect);
             }
         }
 
@@ -1270,6 +1878,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the vertex processing (hardware or software) mode.
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if software vertex processing is set.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can create a mixed-mode device to use both the software vertex processing and the hardware vertex processing.
+        /// To switch between the two vertex processing modes in DirectX 8.x,
+        /// use <see cref="SetRenderState"/> with the render state <see cref="D3DRS_SOFTWAREVERTEXPROCESSING"/> and the appropriate <see cref="BOOL"/> argument.
+        /// The drawback of the render state approach was the difficulty in defining the semantics for state blocks.
+        /// Applications and the runtime had to do extra work and be careful while recording and playing back state blocks.
+        /// In Direct3D 9, use <see cref="SetSoftwareVertexProcessing"/> instead. This new API is not recorded by StateBlocks.
+        /// Also refer to the notes for the <see cref="D3DCREATE"/> constants.
+        /// </remarks>
         public BOOL GetSoftwareVertexProcessing()
         {
             fixed (void* thisPtr = &this)
@@ -1286,6 +1910,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the N-patch mode segments.
+        /// </summary>
+        /// <returns>
+        /// Specifies the number of subdivision segments.
+        /// If the number of segments is less than 1.0, N-patches are disabled.
+        /// The default value is 0.0.
+        /// </returns>
         public float GetNPatchMode()
         {
             fixed (void* thisPtr = &this)
@@ -1527,6 +2159,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a vertex shader declaration.
+        /// </summary>
+        /// <param name="ppDecl">
+        /// Pointer to an <see cref="IDirect3DVertexDeclaration9"/> object that is returned.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetVertexDeclaration([Out] out P<IDirect3DVertexDeclaration9> ppDecl)
         {
             fixed (void* thisPtr = &this)
@@ -1543,11 +2185,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
-        public void GetFVF([Out] out DWORD pFVF)
+        /// <summary>
+        /// Gets the fixed vertex function declaration.
+        /// </summary>
+        /// <param name="pFVF">
+        /// A DWORD pointer to the fixed function vertex type.
+        /// For more information, see <see cref="D3DFVF"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The fixed vertex function declaration is a set of FVF flags that determine how vertices processed by the fixed function pipeline will be used.
+        /// </remarks>
+        public HRESULT GetFVF([Out] out D3DFVF pFVF)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out DWORD, HRESULT>)_vTable[90])(thisPtr, out pFVF);
+                return ((delegate* unmanaged[Stdcall]<void*, out D3DFVF, HRESULT>)_vTable[90])(thisPtr, out pFVF);
             }
         }
 
@@ -1593,6 +2249,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the currently set vertex shader.
+        /// </summary>
+        /// <param name="ppShader">
+        /// Pointer to a vertex shader interface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If <paramref name="ppShader"/> is invalid, <see cref="D3DERR_INVALIDCALL"/> is returned.
+        /// </returns>
+        /// <remarks>
+        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// This method however, will work even on a pure device because it returns an interface.
+        /// </remarks>
         public HRESULT GetVertexShader([Out] out P<IDirect3DVertexShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
@@ -1609,6 +2279,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a floating-point vertex shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="Vector4fCount">
+        /// Number of four float vectors in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetVertexShaderConstantF([In] UINT StartRegister, [Out] float[] pConstantData, [In] UINT Vector4fCount)
         {
             fixed (void* thisPtr = &this)
@@ -1625,6 +2311,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets an integer vertex shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="Vector4iCount">
+        /// Number of four integer vectors in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetVertexShaderConstantI([In] UINT StartRegister, [Out] int[] pConstantData, [In] UINT Vector4iCount)
         {
             fixed (void* thisPtr = &this)
@@ -1641,6 +2343,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a Boolean vertex shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="BoolCount">
+        /// Number of Boolean values in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetVertexShaderConstantB([In] UINT StartRegister, [Out] BOOL[] pConstantData, [In] UINT BoolCount)
         {
             fixed (void* thisPtr = &this)
@@ -1658,6 +2376,36 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves a vertex buffer bound to the specified data stream.
+        /// </summary>
+        /// <param name="StreamNumber">
+        /// Specifies the data stream, in the range from 0 to the maximum number of streams minus one.
+        /// </param>
+        /// <param name="ppStreamData">
+        /// Address of a pointer to an <see cref="IDirect3DVertexBuffer9"/> interface,
+        /// representing the returned vertex buffer bound to the specified data stream.
+        /// </param>
+        /// <param name="pOffsetInBytes">
+        /// 
+        /// Pointer containing the offset from the beginning of the stream to the beginning of the vertex data.
+        /// The offset is measured in bytes. See Remarks.</param>
+        /// <param name="pStride">
+        /// Pointer to a returned stride of the component, in bytes.
+        /// See Remarks.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A stream is defined as a uniform array of component data, where each component consists of one or more elements
+        /// representing a single entity such as position, normal, color, and so on.
+        /// When a FVF vertex shader is used, the stride of the vertex stream must match the vertex size, computed from the FVF.
+        /// When a declaration is used, the stride should be greater than or equal to the stream size computed from the declaration.
+        /// Calling this method increases the internal reference count on the <see cref="IDirect3DVertexBuffer9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DVertexBuffer9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetStreamSource([In] UINT StreamNumber, [Out] out P<IDirect3DVertexBuffer9> ppStreamData, [Out] out UINT pOffsetInBytes, [Out] out UINT pStride)
         {
             fixed (void* thisPtr = &this)
@@ -1675,6 +2423,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the stream source frequency divider value.
+        /// </summary>
+        /// <param name="StreamNumber">
+        /// Stream source number.
+        /// </param>
+        /// <param name="pSetting">
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Vertex shaders can now be invoked more than once per vertex.
+        /// See Drawing Non-Indexed Geometry.
+        /// </remarks>
         public HRESULT GetStreamSourceFreq([In] UINT StreamNumber, [Out] out UINT pSetting)
         {
             fixed (void* thisPtr = &this)
@@ -1691,6 +2455,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves index data.
+        /// </summary>
+        /// <param name="ppIndexData">
+        /// Address of a pointer to an <see cref="IDirect3DIndexBuffer9"/> interface, representing the returned index data.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling this method increases the internal reference count on the <see cref="IDirect3DIndexBuffer9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DIndexBuffer9"/> interface results in a memory leak.
+        /// </remarks>
         public HRESULT GetIndices([Out] out P<IDirect3DIndexBuffer9> ppIndexData)
         {
             fixed (void* thisPtr = &this)
@@ -1731,6 +2509,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Retrieves the currently set pixel shader.
+        /// </summary>
+        /// <param name="ppShader">
+        /// Pointer to a pixel shader interface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// </remarks>
         public HRESULT GetPixelShader([Out] out P<IDirect3DPixelShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
@@ -1747,6 +2538,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a floating-point shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="Vector4fCount">
+        /// Number of four float vectors in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetPixelShaderConstantF([In] UINT StartRegister, [Out] float[] pConstantData, [In] UINT Vector4fCount)
         {
             fixed (void* thisPtr = &this)
@@ -1763,6 +2570,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets an integer shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="Vector4iCount">
+        /// Number of four integer vectors in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetPixelShaderConstantI([In] UINT StartRegister, [Out] int[] pConstantData, [In] UINT Vector4iCount)
         {
             fixed (void* thisPtr = &this)
@@ -1779,6 +2602,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets a Boolean shader constant.
+        /// </summary>
+        /// <param name="StartRegister">
+        /// Register number that will contain the first constant value.
+        /// </param>
+        /// <param name="pConstantData">
+        /// Pointer to an array of constants.
+        /// </param>
+        /// <param name="BoolCount">
+        /// Number of Boolean values in the array of constants.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT GetPixelShaderConstantB([In] UINT StartRegister, [Out] BOOL[] pConstantData, [In] UINT BoolCount)
         {
             fixed (void* thisPtr = &this)
