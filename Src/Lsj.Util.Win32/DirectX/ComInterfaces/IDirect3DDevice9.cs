@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DXERR;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMITIVETYPE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -1293,6 +1294,32 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Renders a sequence of nonindexed, geometric primitives of the specified type from the current set of data input streams.
+        /// </summary>
+        /// <param name="PrimitiveType">
+        /// Member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type, describing the type of primitive to render.
+        /// </param>
+        /// <param name="StartVertex">
+        /// Index of the first vertex to load.
+        /// Beginning at <paramref name="StartVertex"/> the correct number of vertices will be read out of the vertex buffer.
+        /// </param>
+        /// <param name="PrimitiveCount">
+        /// Number of primitives to render.
+        /// The maximum number of primitives allowed is determined
+        /// by checking the <see cref="D3DCAPS9.MaxPrimitiveCount"/> member of the <see cref="D3DCAPS9"/> structure.
+        /// <paramref name="PrimitiveCount"/> is the number of primitives as determined by the primitive type.
+        /// If it is a line list, each primitive has two vertices.
+        /// If it is a triangle list, each primitive has three vertices.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </remarks>
         public HRESULT DrawPrimitive([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT StartVertex, [In] UINT PrimitiveCount)
         {
             fixed (void* thisPtr = &this)
@@ -1301,6 +1328,50 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Based on indexing, renders the specified geometric primitive into an array of vertices.
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// Member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type, describing the type of primitive to render.
+        /// <see cref="D3DPT_POINTLIST"/> is not supported with this method. See Remarks.
+        /// </param>
+        /// <param name="BaseVertexIndex">
+        /// Offset from the start of the vertex buffer to the first vertex. See Scenario 4.
+        /// </param>
+        /// <param name="MinVertexIndex">
+        /// Minimum vertex index for vertices used during this call.
+        /// This is a zero based index relative to <paramref name="BaseVertexIndex"/>.
+        /// </param>
+        /// <param name="NumVertices">
+        /// Number of vertices used during this call.
+        /// The first vertex is located at index: <paramref name="BaseVertexIndex"/> + <paramref name="MinVertexIndex"/>.
+        /// </param>
+        /// <param name="startIndex">
+        /// Index of the first index to use when accessing the vertex buffer.
+        /// Beginning at StartIndex to index vertices from the vertex buffer.
+        /// </param>
+        /// <param name="primCount">
+        /// Number of primitives to render.
+        /// The number of vertices used is a function of the primitive count and the primitive type.
+        /// The maximum number of primitives allowed is determined
+        /// by checking the <see cref="D3DCAPS9.MaxPrimitiveCount"/> member of the <see cref="D3DCAPS9"/> structure.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method draws indexed primitives from the current set of data input streams.
+        /// <paramref name="MinVertexIndex"/> and all the indices in the index stream are relative to the <paramref name="BaseVertexIndex"/>.
+        /// The <paramref name="MinVertexIndex"/> and <paramref name="NumVertices"/> parameters
+        /// specify the range of vertex indices used for each <see cref="DrawIndexedPrimitive"/> call.
+        /// These are used to optimize vertex processing of indexed primitives by processing a sequential range of vertices prior to indexing into these vertices.
+        /// It is invalid for any indices used during this call to reference any vertices outside of this range.
+        /// <see cref="DrawIndexedPrimitive"/> fails if no index array is set.
+        /// The <see cref="D3DPT_POINTLIST"/> member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type is not supported and is not a valid type for this method.
+        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </remarks>
         public HRESULT DrawIndexedPrimitive([In] D3DPRIMITIVETYPE unnamedParam1, [In] INT BaseVertexIndex, [In] UINT MinVertexIndex,
             [In] UINT NumVertices, [In] UINT startIndex, [In] UINT primCount)
         {
@@ -1311,6 +1382,40 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Renders data specified by a user memory pointer as a sequence of geometric primitives of the specified type.
+        /// </summary>
+        /// <param name="PrimitiveType">
+        /// Member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type, describing the type of primitive to render.
+        /// </param>
+        /// <param name="PrimitiveCount">
+        /// Number of primitives to render.
+        /// The maximum number of primitives allowed is determined
+        /// by checking the <see cref="D3DCAPS9.MaxPrimitiveCount"/> member of the <see cref="D3DCAPS9"/> structure.
+        /// <paramref name="PrimitiveCount"/> is the number of primitives as determined by the primitive type.
+        /// </param>
+        /// <param name="pVertexStreamZeroData">
+        /// User memory pointer to the vertex data.
+        /// </param>
+        /// <param name="VertexStreamZeroStride">
+        /// The number of bytes of data for each vertex. This value may not be 0.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method is intended for use in applications that are unable to store their vertex data in vertex buffers.
+        /// This method supports only a single vertex stream.
+        /// The effect of this call is to use the provided vertex data pointer and stride for vertex stream 0.
+        /// It is invalid to have the declaration of the current vertex shader refer to vertex streams other than stream 0.
+        /// Following any <see cref="DrawPrimitiveUP"/> call, the stream 0 settings,
+        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
+        /// The vertex data passed to <see cref="DrawPrimitiveUP"/> does not need to persist after the call.
+        /// Direct3D completes its access to that data prior to returning from the call.
+        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </remarks>
         public HRESULT DrawPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT PrimitiveCount, [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
             fixed (void* thisPtr = &this)
@@ -1320,6 +1425,56 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Renders the specified geometric primitive with data specified by a user memory pointer.
+        /// </summary>
+        /// <param name="PrimitiveType">
+        /// Member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type, describing the type of primitive to render.
+        /// </param>
+        /// <param name="MinVertexIndex">
+        /// Minimum vertex index.
+        /// This is a zero-based index.
+        /// </param>
+        /// <param name="NumVertices">
+        /// Number of vertices used during this call.
+        /// The first vertex is located at index: <paramref name="MinVertexIndex"/>.
+        /// </param>
+        /// <param name="PrimitiveCount">
+        /// Number of primitives to render.
+        /// The maximum number of primitives allowed is determined
+        /// by checking the <see cref="D3DCAPS9.MaxPrimitiveCount"/> member of the <see cref="D3DCAPS9"/> structure
+        /// (the number of indices is a function of the primitive count and the primitive type).
+        /// </param>
+        /// <param name="pIndexData">
+        /// User memory pointer to the index data.
+        /// </param>
+        /// <param name="IndexDataFormat">
+        /// Member of the D3DFORMAT enumerated type, describing the format of the index data. The valid settings are either:
+        /// <see cref="D3DFMT_INDEX16"/>, <see cref="D3DFMT_INDEX32"/>
+        /// </param>
+        /// <param name="pVertexStreamZeroData">
+        /// User memory pointer to the vertex data.
+        /// The vertex data must be in stream 0.
+        /// </param>
+        /// <param name="VertexStreamZeroStride">
+        /// The number of bytes of data for each vertex.
+        /// This value may not be 0.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method is intended for use in applications that are unable to store their vertex data in vertex buffers.
+        /// This method supports only a single vertex stream, which must be declared as stream 0.
+        /// Following any <see cref="DrawIndexedPrimitiveUP"/> call, the stream 0 settings,
+        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
+        /// Also, the index buffer setting for <see cref="SetIndices"/> is set to <see cref="NULL"/>.
+        /// The vertex data passed to <see cref="DrawIndexedPrimitiveUP"/> does not need to persist after the call.
+        /// Direct3D completes its access to that data prior to returning from the call.
+        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </remarks>
         public HRESULT DrawIndexedPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT MinVertexIndex, [In] UINT NumVertices,
             [In] UINT PrimitiveCount, [In] IntPtr pIndexData, [In] D3DFORMAT IndexDataFormat, [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
@@ -1632,6 +1787,39 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Draws a rectangular patch using the currently set streams.
+        /// </summary>
+        /// <param name="Handle">
+        /// Handle to the rectangular patch to draw.
+        /// </param>
+        /// <param name="pNumSegs">
+        /// Pointer to an array of four floating-point values that identify the number of segments
+        /// each edge of the rectangle patch should be divided into when tessellated.
+        /// See <see cref="D3DRECTPATCH_INFO"/>.
+        /// </param>
+        /// <param name="pRectPatchInfo">
+        /// Pointer to a <see cref="D3DRECTPATCH_INFO"/> structure, describing the rectangular patch to draw.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// For static patches:
+        /// Set the vertex shader, set the appropriate streams,  supply patch information in the <paramref name="pRectPatchInfo"/> parameter,
+        /// and specify a handle so that Direct3D can capture and cache information.
+        /// Call <see cref="DrawRectPatch"/> subsequently with <paramref name="pRectPatchInfo"/>
+        /// set to <see cref="NullRef{D3DRECTPATCH_INFO}"/> to efficiently draw the patch.
+        /// When drawing a cached patch, the currently set streams are ignored.
+        /// Override the cached <paramref name="pNumSegs"/> by specifying a new value for <paramref name="pNumSegs"/>.
+        /// When rendering a cached patch, you must set the same vertex shader that was set when it was captured.
+        /// Calling <see cref="DrawRectPatch"/> with a handle invalidates the same handle cached by a previous <see cref="DrawTriPatch"/> call.
+        /// For dynamic patches, the patch data changes for every rendering of the patch, so it is not efficient to cache information.
+        /// The application can convey this to Direct3D by setting <paramref name="Handle"/> to 0.
+        /// In this case, Direct3D draws the patch using the currently set streams and the <paramref name="pNumSegs"/> values, and does not cache any information.
+        /// It is not valid to simultaneously set <paramref name="Handle"/> to 0 and <paramref name="pRectPatchInfo"/> to <see cref="NullRef{D3DRECTPATCH_INFO}"/>.
+        /// </remarks>
         public HRESULT DrawRectPatch([In] UINT Handle, [In] float[] pNumSegs, [In] in D3DRECTPATCH_INFO pRectPatchInfo)
         {
             fixed (void* thisPtr = &this)
@@ -1640,6 +1828,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Draws a triangular patch using the currently set streams.
+        /// </summary>
+        /// <param name="Handle">
+        /// Handle to the triangular patch to draw.
+        /// </param>
+        /// <param name="pNumSegs">
+        /// Pointer to an array of three floating-point values that identify the number of segments
+        /// each edge of the triangle patch should be divided into when tessellated.
+        /// See <see cref="D3DTRIPATCH_INFO"/>.
+        /// </param>
+        /// <param name="pTriPatchInfo">
+        /// Pointer to a <see cref="D3DTRIPATCH_INFO"/> structure, describing the triangular high-order patch to draw.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// For static patches:
+        /// Set the vertex shader, set the appropriate streams, supply patch information in the <paramref name="pTriPatchInfo"/> parameter,
+        /// and specify a handle so that Direct3D can capture and cache information.
+        /// To efficiently draw the patch, call <see cref="DrawTriPatch"/> with <paramref name="pTriPatchInfo"/> set to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
+        /// When drawing a cached patch, the currently set streams are ignored.
+        /// Override the cached <paramref name="pNumSegs"/> by specifying a new value for <paramref name="pNumSegs"/>.
+        /// When rendering a cached patch, you must set the same vertex shader that was set when it was captured.
+        /// Calling <see cref="DrawTriPatch"/> with a handle invalidates the same handle cached by a previous <see cref="DrawRectPatch"/> call.
+        /// For dynamic patches, the patch data changes for every rendering of the patch so it is not efficient to cache information.
+        /// The application can convey this to Direct3D by setting <paramref name="Handle"/> to 0.
+        /// In this case, Direct3D draws the patch using the currently set streams and the <paramref name="pNumSegs"/> values, and does not cache any information.
+        /// It is not valid to simultaneously set <paramref name="Handle"/> to 0 and <paramref name="pTriPatchInfo"/> to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
+        /// </remarks>
         public HRESULT DrawTriPatch([In] UINT Handle, [In] float[] pNumSegs, [In] in D3DTRIPATCH_INFO pTriPatchInfo)
         {
             fixed (void* thisPtr = &this)
@@ -1648,6 +1868,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Frees a cached high-order patch.
+        /// </summary>
+        /// <param name="Handle">
+        /// Handle of the cached high-order patch to delete.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
         public HRESULT DeletePatch([In] UINT Handle)
         {
             fixed (void* thisPtr = &this)
