@@ -75,6 +75,19 @@ namespace Lsj.Util.Win32.DirectX
 
         /// <summary>
         /// <para>
+        /// The hardware adapter has been removed.
+        /// Application must destroy the device, do enumeration of adapters and create another Direct3D device.
+        /// If application continues rendering without calling Reset, the rendering calls will succeed.
+        /// Applies to Direct3D 9Ex only.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_DEVICEREMOVED = 0x88760870;
+
+        /// <summary>
+        /// <para>
         /// Internal driver error.
         /// Applications should destroy and recreate the device when receiving this error.
         /// For hints on debugging this error, see Driver Internal Errors (Direct3D 9).
