@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
+using System.Runtime.Versioning;
 
 namespace Lsj.Util.AspNetCore.Utils
 {
     /// <summary>
     /// CheckCode Helper
     /// </summary>
+#if NET5_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
     public static class CheckCodeHelper
     {
         private static string GetRandomString(int length = 4)
