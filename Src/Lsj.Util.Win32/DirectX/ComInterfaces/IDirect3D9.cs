@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DRESOURCETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
