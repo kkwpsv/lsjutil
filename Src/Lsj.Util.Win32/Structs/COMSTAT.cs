@@ -95,7 +95,7 @@ namespace Lsj.Util.Win32.Structs
             get => _bitFiled >> 7;
             set => _bitFiled |= (value << 7);
         }
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// The number of bytes received by the serial provider but not yet read by a <see cref="ReadFile"/> operation.

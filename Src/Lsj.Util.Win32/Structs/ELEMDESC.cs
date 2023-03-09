@@ -18,16 +18,16 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public TYPEDESC tdesc;
 
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         private ELEMDESC_DUMMYUNIONNAME _ELEMDESC_DUMMYUNIONNAME;
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// 
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public IDLDESC idldesc
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _ELEMDESC_DUMMYUNIONNAME.idldesc;
             set => _ELEMDESC_DUMMYUNIONNAME.idldesc = value;
@@ -36,9 +36,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public PARAMDESC paramdesc
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _ELEMDESC_DUMMYUNIONNAME.paramdesc;
             set => _ELEMDESC_DUMMYUNIONNAME.paramdesc = value;

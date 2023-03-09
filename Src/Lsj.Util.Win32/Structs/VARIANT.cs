@@ -321,16 +321,16 @@ namespace Lsj.Util.Win32.Structs
         public UIntPtr puintVal;
 
         [FieldOffset(8)]
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         private VARIANT__VARIANT_NAME_4 _VARIANT__VARIANT_NAME_4;
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// A reference to a database record.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public PVOID pvRecord
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _VARIANT__VARIANT_NAME_4.pvRecord;
             set => _VARIANT__VARIANT_NAME_4.pvRecord = value;
@@ -339,9 +339,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A reference to a UDT.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public IntPtr pRecInfo
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _VARIANT__VARIANT_NAME_4.pRecInfo;
             set => _VARIANT__VARIANT_NAME_4.pRecInfo = value;

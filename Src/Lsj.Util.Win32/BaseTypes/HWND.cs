@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.BaseTypes
         private HANDLE _value;
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is HWND hwnd && this == hwnd;
+        public override bool Equals(object? obj) => obj is HWND hwnd && this == hwnd;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();

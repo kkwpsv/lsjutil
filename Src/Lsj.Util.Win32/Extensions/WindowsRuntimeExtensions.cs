@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Extensions
             var result = WindowsCreateString(str, (uint)str.Length, out var hstr);
             if (!result.Succeed)
             {
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
             else
             {
@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32.Extensions
                 var result = RoGetActivationFactory(hstr, iid, out var factory);
                 if (!result.Succeed)
                 {
-                    throw Marshal.GetExceptionForHR(result);
+                    throw Marshal.GetExceptionForHR(result)!;
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.Extensions
                 var result = WindowsDeleteString(hstr);
                 if (!result.Succeed)
                 {
-                    throw Marshal.GetExceptionForHR(result);
+                    throw Marshal.GetExceptionForHR(result)!;
                 }
             }
         }

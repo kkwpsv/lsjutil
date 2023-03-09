@@ -62,9 +62,11 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The <see cref="string"/> value of <see cref="lpDesktop"/>,
-        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// which cannot be declared as <see cref="string"/>, or lead to heap memory corruption.
         /// </summary>
-        public string lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
+#pragma warning disable IDE1006
+        public string? lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
+#pragma warning restore IDE1006
 
         /// <summary>
         /// For console processes, this is the title displayed in the title bar if a new console window is created.
@@ -75,9 +77,11 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The <see cref="string"/> value of <see cref="lpTitleString"/>,
-        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// which cannot be declared as <see cref="string"/>, or lead to heap memory corruption.
         /// </summary>
-        public string lpTitleString => Marshal.PtrToStringUni(lpTitle);
+#pragma warning disable IDE1006
+        public string? lpTitleString => Marshal.PtrToStringUni(lpTitle);
+#pragma warning restore IDE1006
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEPOSITION"/>,

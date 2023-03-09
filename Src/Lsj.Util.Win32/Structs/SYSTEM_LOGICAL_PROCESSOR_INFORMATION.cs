@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public LOGICAL_PROCESSOR_RELATIONSHIP Relationship;
 
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         /// <summary>
         /// 
         /// </summary>
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Structs
             get => _SYSTEM_LOGICAL_PROCESSOR_INFORMATION_DUMMYUNIONNAME.Reserved;
             set => _SYSTEM_LOGICAL_PROCESSOR_INFORMATION_DUMMYUNIONNAME.Reserved = value;
         }
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// 

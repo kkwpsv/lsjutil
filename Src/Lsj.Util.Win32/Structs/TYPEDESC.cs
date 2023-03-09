@@ -20,16 +20,16 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct TYPEDESC
     {
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         private TYPEDESC_DUMMYUNIONNAME _TYPEDESC_DUMMYUNIONNAME;
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// With <see cref="VT_PTR"/>, the type pointed to.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public P<TYPEDESC> lptdesc
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _TYPEDESC_DUMMYUNIONNAME.lptdesc;
             set => _TYPEDESC_DUMMYUNIONNAME.lptdesc = value;
@@ -38,9 +38,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// With VT_CARRAY...
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public P<ARRAYDESC> lpadesc
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _TYPEDESC_DUMMYUNIONNAME.lpadesc;
             set => _TYPEDESC_DUMMYUNIONNAME.lpadesc = value;
@@ -49,9 +49,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// With <see cref="VT_USER_DEFINED"/>, this is used to get a TypeInfo for the UDT.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public HREFTYPE hreftype
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _TYPEDESC_DUMMYUNIONNAME.hreftype;
             set => _TYPEDESC_DUMMYUNIONNAME.hreftype = value;

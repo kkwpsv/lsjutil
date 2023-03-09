@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32.Marshals
         /// <summary>
         /// The <see cref="string"/> val
         /// </summary>
-        public string StringVal => handle != IntPtr.Zero ? Marshal.PtrToStringUni(handle) : null;
+        public string? StringVal => handle != IntPtr.Zero ? Marshal.PtrToStringUni(handle) : null;
 
         /// <summary>
         /// The handle

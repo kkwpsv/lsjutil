@@ -33,6 +33,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="handle"></param>
+        /// <param name="needFinalize"></param>
         public BSTR(IntPtr handle, bool needFinalize = false) : base(IntPtr.Zero)
         {
             SetHandle(handle);

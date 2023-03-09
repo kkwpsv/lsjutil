@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.BaseTypes
         public override string ToString() => _value.ToString("X");
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is IPointer p && p.ToIntPtr() == _value || obj is IntPtr ptr && ptr == _value;
+        public override bool Equals(object? obj) => obj is IPointer p && p.ToIntPtr() == _value || obj is IntPtr ptr && ptr == _value;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();

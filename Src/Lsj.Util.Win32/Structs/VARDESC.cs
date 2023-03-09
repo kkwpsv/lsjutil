@@ -26,9 +26,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr lpstrSchema;
 
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         private VARDESC_DUMMYUNIONNAME _VARDESC_DUMMYUNIONNAME;
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         private struct VARDESC_DUMMYUNIONNAME
@@ -43,9 +43,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// With <see cref="VAR_PERINSTANCE"/>, the offset of this variable within the instance.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public ULONG oInst
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _VARDESC_DUMMYUNIONNAME.oInst;
             set => _VARDESC_DUMMYUNIONNAME.oInst = value;
@@ -54,9 +54,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// With <see cref="VAR_CONST"/>, the value of the constant.
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         public IntPtr lpvarValue
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
         {
             get => _VARDESC_DUMMYUNIONNAME.lpvarValue;
             set => _VARDESC_DUMMYUNIONNAME.lpvarValue = value;

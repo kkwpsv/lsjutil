@@ -95,7 +95,7 @@ namespace Lsj.Util.Win32.Macros
         /// This macro works only with the <see cref="ButtonStyles.BS_COMMANDLINK"/> and <see cref="ButtonStyles.BS_DEFCOMMANDLINK"/> button styles.
         /// </remarks>
         /// <returns></returns>
-        public static bool Button_GetNote(IntPtr hwnd, out string psz, int pcc)
+        public static bool Button_GetNote(IntPtr hwnd, out string? psz, int pcc)
         {
             var lparam = Marshal.AllocHGlobal(pcc * 2);
             var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETNOTE, (UIntPtr)pcc, lparam);

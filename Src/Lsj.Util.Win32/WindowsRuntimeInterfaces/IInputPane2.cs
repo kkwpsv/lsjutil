@@ -11,6 +11,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     {
         IntPtr* _vTable;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public HRESULT TryShow([Out] out BOOLEAN result)
         {
             fixed (void* thisPtr = &this)
@@ -19,6 +24,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public HRESULT TryHide([Out] out BOOLEAN result)
         {
             fixed (void* thisPtr = &this)

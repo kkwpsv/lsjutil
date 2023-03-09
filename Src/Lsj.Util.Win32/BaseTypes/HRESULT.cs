@@ -564,7 +564,7 @@ namespace Lsj.Util.Win32.BaseTypes
         public Exception? ToException() => Marshal.GetExceptionForHR(this);
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is HRESULT hr && this == hr;
+        public override bool Equals(object? obj) => obj is HRESULT hr && this == hr;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();

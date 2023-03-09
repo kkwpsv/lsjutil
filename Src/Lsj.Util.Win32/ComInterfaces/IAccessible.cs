@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     {
         IntPtr* _vTable;
 
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006
 
         /// <summary>
         /// The <see cref="accSelect"/> method modifies the selection or moves the keyboard focus of the specified object.
@@ -193,6 +193,6 @@ namespace Lsj.Util.Win32.ComInterfaces
             }
         }
 
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
     }
 }

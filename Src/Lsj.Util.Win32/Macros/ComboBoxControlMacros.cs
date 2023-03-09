@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Macros
         /// The size of the buffer pointed to by <paramref name="lpwText"/> in WCHARs.
         /// </param>
         /// <returns></returns>
-        public static bool ComboBox_GetCueBannerText(HWND hwnd, out string lpwText, int cchText)
+        public static bool ComboBox_GetCueBannerText(HWND hwnd, out string? lpwText, int cchText)
         {
             var lparam = Marshal.AllocHGlobal(cchText * 2);
             var result = SendMessage(hwnd, (WindowMessages)CB_GETCUEBANNER, lparam.SafeToUIntPtr(), (IntPtr)cchText);

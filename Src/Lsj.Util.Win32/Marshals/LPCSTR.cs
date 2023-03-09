@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Marshals
     /// </summary>
     public class LPCSTR : CriticalHandle
     {
-        private string _str;
+        private string? _str;
 
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.Marshals
         /// <summary>
         /// The <see cref="string"/> val
         /// </summary>
-        public string StringVal => _str ?? (handle != IntPtr.Zero ? Marshal.PtrToStringAnsi(handle) : null);
+        public string? StringVal => _str ?? (handle != IntPtr.Zero ? Marshal.PtrToStringAnsi(handle) : null);
 
         internal IntPtr InternalGetHandle() => handle;
 

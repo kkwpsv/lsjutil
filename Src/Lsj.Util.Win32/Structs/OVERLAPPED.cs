@@ -56,9 +56,9 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-#pragma warning disable IDE1006 // 命名样式
+#pragma warning disable IDE1006 
         private OVERLAPPED_DUMMYUNIONNAME DUMMYUNIONNAME;
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// The low-order portion of the file position at which to start the I/O request, as specified by the user.

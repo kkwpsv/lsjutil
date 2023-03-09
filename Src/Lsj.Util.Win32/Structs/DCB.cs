@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32.Structs
             get => _bitFiled >> 15;
             set => _bitFiled |= (value << 15);
         }
-#pragma warning restore IDE1006 // 命名样式
+#pragma warning restore IDE1006 
 
         /// <summary>
         /// Reserved; must be zero.

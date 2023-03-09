@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.BaseTypes
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is DPI_AWARENESS_CONTEXT x && this == x;
+        public override bool Equals(object? obj) => obj is DPI_AWARENESS_CONTEXT x && this == x;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();
