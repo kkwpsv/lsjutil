@@ -3,6 +3,8 @@ using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
+using static Lsj.Util.Win32.DirectX.Enums.D3DBLENDOP;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

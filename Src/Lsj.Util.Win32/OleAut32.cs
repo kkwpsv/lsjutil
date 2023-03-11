@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -15,6 +16,87 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class OleAut32
     {
+        /// <summary>
+        /// <para>
+        /// Creates simplified type information for use in an implementation of <see cref="IDispatch"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-createdisptypeinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pidata">
+        /// The interface description that this type information describes.
+        /// </param>
+        /// <param name="lcid">
+        /// The locale identifier for the names used in the type information.
+        /// </param>
+        /// <param name="pptinfo">
+        /// On return, pointer to a type information implementation for use in <see cref="DispGetIDsOfNames"/> and <see cref="DispInvoke"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return one of these values.
+        /// <see cref="S_OK"/>: The interface is supported.
+        /// <see cref="E_INVALIDARG"/>: Either the interface description or the LCID is not valid.
+        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory to complete the operation.
+        /// </returns>
+        /// <remarks>
+        /// You can construct type information at run time by using <see cref="CreateDispTypeInfo"/>
+        /// and an <see cref="INTERFACEDATA"/> structure that describes the object being exposed.
+        /// The type information returned by this function is primarily designed to automate the implementation of <see cref="IDispatch"/>.
+        /// <see cref="CreateDispTypeInfo"/> does not return all of the type information described in Type Description Interfaces.
+        /// The argument pidata is not a complete description of an interface.
+        /// It does not include Help information, comments, optional parameters, and other type information that is useful in different contexts.
+        /// Accordingly, the recommended method for providing type information about an object is to describe the object using the Object Description Language (ODL),
+        /// and to compile the object description into a type library using the Microsoft Interface Definition Language (MIDL) compiler.
+        /// To use type information from a type library, use the <see cref="LoadTypeLib"/>
+        /// and <see cref="GetTypeInfoOfGuid"/> functions instead of <see cref="CreateDispTypeInfo"/>.
+        /// For more information Type Description Interfaces.
+        /// </remarks>
+        [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDispTypeInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateDispTypeInfo([In] in INTERFACEDATA pidata, [In] LCID lcid,[Out]out P< ITypeInfo> pptinfo);
+
+        /// <summary>
+        /// <para>
+        /// Creates a standard implementation of the <see cref="IDispatch"/> interface through a single function call.
+        /// This simplifies exposing objects through Automation.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-createstddispatch"/>
+        /// </para>
+        /// </summary>
+        /// <param name="punkOuter">
+        /// The object's <see cref="IUnknown"/> implementation.
+        /// </param>
+        /// <param name="pvThis">
+        /// The object to expose.
+        /// </param>
+        /// <param name="ptinfo">
+        /// The type information that describes the exposed object.
+        /// </param>
+        /// <param name="ppunkStdDisp">
+        /// The private unknown for the object that implements the <see cref="IDispatch"/> interface QueryInterface call.
+        /// This pointer is <see cref="NULL"/> if the function fails.
+        /// </param>
+        /// <returns>
+        /// This function can return one of these values.
+        /// <see cref="S_OK"/>: Success.
+        /// <see cref="E_INVALIDARG"/>: One of the first three arguments is not valid.
+        /// <see cref="E_OUTOFMEMORY"/>: There was insufficient memory to complete the operation.
+        /// </returns>
+        /// <remarks>
+        /// You can use <see cref="CreateStdDispatch"/> when creating an object instead of implementing the <see cref="IDispatch"/> member functions for the object.
+        /// However, the implementation that <see cref="CreateStdDispatch"/> creates has these limitations:
+        /// Supports only one national language.
+        /// Supports only dispatch-defined exception codes returned from <see cref="IDispatch.Invoke"/>.
+        /// <see cref="LoadTypeLib"/>, <see cref="GetTypeInfoOfGuid"/>, and <see cref="CreateStdDispatch"/> comprise the minimum set
+        /// of functions that you need to call to expose an object using a type library.
+        /// For more information on <see cref="LoadTypeLib"/> and <see cref="GetTypeInfoOfGuid"/>, see Type Description Interfaces.
+        /// <see cref="CreateDispTypeInfo"/> and <see cref="CreateStdDispatch"/> comprise the minimum set of dispatch components
+        /// you need to call to expose an object using type information provided by the <see cref="INTERFACEDATA"/> structure.
+        /// </remarks>
+        [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateStdDispatch", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateStdDispatch([In] in IUnknown punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
+
         /// <summary>
         /// <para>
         /// Converts the MS-DOS representation of time to the date and time representation stored in a variant.

@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

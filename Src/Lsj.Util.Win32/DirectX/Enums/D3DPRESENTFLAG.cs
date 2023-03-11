@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// This flag is available in Direct3D 9Ex only.
         /// Applications can achieve their own rotation possibly by using a rotated view matrix.
         /// The methods <see cref="GetDisplayModeEx"/> and <see cref="GetAdapterDisplayModeEx"/> should be used to to find the current rotation setting.
-        /// The backbuffer Width and Height parameters in <see cref="CreateDeviceEx"/> and <see cref="ResetEx"/> must be use landscape orientation,
+        /// The backbuffer Width and Height parameters in <see cref="IDirect3D9Ex.CreateDeviceEx"/> and <see cref="ResetEx"/> must be use landscape orientation,
         /// while the fullscreen display mode structure should be the same as
         /// what is returned from <see cref="EnumAdapterModesEx"/> (i.e. Width and Height are swapped when rotated 90 and 270 degrees).
         /// When using Lock on rotated render targets, upper-left corner assumptions no longer hold true,

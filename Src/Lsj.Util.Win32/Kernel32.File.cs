@@ -286,7 +286,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value will return <see cref="TRUE"/> when passed to the <see cref="SUCCEEDED"/> macro.
         /// <see cref="S_OK"/>: The copy operation completed successfully.
         /// <code>HRESULT_FROM_WIN32(ERROR_REQUEST_PAUSED)</code>:
-        /// The copy operation was paused by a <see cref="COPYFILE2_PROGRESS_PAUSE"/> return from the <see cref="CopyFile2ProgressRoutine"/> callback function.
+        /// The copy operation was paused by a <see cref="COPYFILE2_PROGRESS_PAUSE"/> return from the CopyFile2ProgressRoutine callback function.
         /// <code>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</code>:
         /// The copy operation was paused by a <see cref="COPYFILE2_PROGRESS_CANCEL"/> or <see cref="COPYFILE2_PROGRESS_STOP"/>
         /// return from the CopyFile2ProgressRoutine callback function.

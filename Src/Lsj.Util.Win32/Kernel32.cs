@@ -58,6 +58,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ActivateActCtx"/> function activates the specified activation context.
+        /// It does this by pushing the specified activation context to the top of the activation stack.
+        /// The specified activation context is thus associated with the current thread and any appropriate side-by-side API functions.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-activateactctx"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hActCtx">
+        /// Handle to an <see cref="ACTCTX"/> structure that contains information on the activation context that is to be made active.
+        /// </param>
+        /// <param name="lpCookie">
+        /// Pointer to a <see cref="ULONG_PTR"/> that functions as a cookie, uniquely identifying a specific, activated activation context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
+        /// For an example, see Retrieving the Last-Error Code.
+        /// For a complete list of error codes, see System Error Codes.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="lpCookie"/> parameter is later passed to <see cref="DeactivateActCtx"/>,
+        /// which verifies the pairing of calls to <see cref="ActivateActCtx"/> and <see cref="DeactivateActCtx"/>
+        /// and ensures that the appropriate activation context is being deactivated.
+        /// This is done because the deactivation of activation contexts must occur in the reverse order of activation.
+        /// The activation of activation contexts can be understood as pushing an activation context onto a stack of activation contexts.
+        /// The activation context you activate through this function redirects any binding to DLLs, window classes,
+        /// COM servers, type libraries, and mutexes for any side-by-side APIs you call.
+        /// The top item of an activation context stack is the active, default-activation context of the current thread.
+        /// If a null activation context handle is pushed onto the stack, thereby activating it,
+        /// the default settings in the original manifest override all activation contexts that are lower on the stack.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ActivateActCtx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ActivateActCtx([In] HANDLE hActCtx, [Out] out ULONG_PTR lpCookie);
+
+        /// <summary>
+        /// <para>
         /// Generates simple tones on the speaker.
         /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
         /// </para>
@@ -96,6 +134,32 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Beep([In] DWORD dwFreq, [In] DWORD dwDuration);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateActCtx"/> function creates an activation context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createactctxw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pActCtx">
+        /// Pointer to an <see cref="ACTCTX"/> structure that contains information about the activation context to be created.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a handle to the returned activation context.
+        /// Otherwise, it returns <see cref="INVALID_HANDLE_VALUE"/>.
+        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
+        /// For an example, see Retrieving the Last-Error Code.
+        /// For a complete list of error codes, see System Error Codes.
+        /// </returns>
+        /// <remarks>
+        /// Set any undefined bits in <see cref="ACTCTX.dwFlags"/> of <see cref="ACTCTX"/> to 0.
+        /// If any undefined bits are not set to 0, the call to <see cref="CreateActCtx"/> that creates the activation context fails and returns an invalid parameter error code.
+        /// The handle returned from <see cref="CreateActCtx"/> is passed in a call to <see cref="ActivateActCtx"/> to activate the context for the current thread.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateActCtxW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE CreateActCtx([In][Out] ref ACTCTX pActCtx);
 
         /// <summary>
         /// <para>

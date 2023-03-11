@@ -17,6 +17,17 @@ namespace Lsj.Util.Win32.Structs
     public struct COLORADJUSTMENT
     {
         /// <summary>
+        /// CA_LOG_FILTER
+        /// </summary>
+        public const ushort CA_LOG_FILTER = 2;
+
+        /// <summary>
+        /// CA_NEGATIVE
+        /// </summary>
+        public const ushort CA_NEGATIVE = 1;
+
+
+        /// <summary>
         /// The size, in bytes, of the structure.
         /// </summary>
         public WORD caSize;

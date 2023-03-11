@@ -1,4 +1,4 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.Macros.ComboBoxControlMacros;
 
 namespace Lsj.Util.Win32.Enums
 {

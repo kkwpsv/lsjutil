@@ -37,9 +37,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
 
         /// <summary>
         /// An interpolating basis defines the surface so that the surface goes through all the input vertices specified.
-        /// In DirectX 8, this was D3DBASIS_INTERPOLATE.
+        /// In DirectX 8, this was <see cref="D3DBASIS_INTERPOLATE"/>.
         /// </summary>
         D3DBASIS_CATMULL_ROM = 2,
+
+        /// <summary>
+        /// D3DBASIS_INTERPOLATE
+        /// </summary>
+        D3DBASIS_INTERPOLATE = D3DBASIS_CATMULL_ROM,
 
         /// <summary>
         /// Forces this enumeration to compile to 32 bits in size.

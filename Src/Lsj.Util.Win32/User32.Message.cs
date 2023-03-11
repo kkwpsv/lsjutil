@@ -40,6 +40,10 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
 
+        /// <summary>
+        /// BROADCAST_QUERY_DENY
+        /// </summary>
+        public const int BROADCAST_QUERY_DENY = 0x424D5144;
 
         /// <summary>
         /// <para>

@@ -693,12 +693,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For full-screen mode, the back buffer format must be specified.
         /// If you attempt to create a device on a 0x0 sized window, <see cref="CreateDevice"/> will fail.
         /// </remarks>
-        public HRESULT CreateDevice([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] HWND hFocusWindow, [In] DWORD BehaviorFlags,
+        public HRESULT CreateDevice([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] HWND hFocusWindow, [In] D3DCREATE BehaviorFlags,
             [In][Out] ref D3DPRESENT_PARAMETERS pPresentationParameters, [Out] out P<IDirect3DDevice9> ppReturnedDeviceInterface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DDEVTYPE, HWND, DWORD, ref D3DPRESENT_PARAMETERS, out P<IDirect3DDevice9>, HRESULT>)_vTable[15])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DDEVTYPE, HWND, D3DCREATE, ref D3DPRESENT_PARAMETERS, out P<IDirect3DDevice9>, HRESULT>)_vTable[15])
                     (thisPtr, Adapter, DeviceType, hFocusWindow, BehaviorFlags, ref pPresentationParameters, out ppReturnedDeviceInterface);
             }
         }

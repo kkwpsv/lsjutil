@@ -28,6 +28,11 @@ namespace Lsj.Util.Win32
         public const uint CONDITION_VARIABLE_LOCKMODE_SHARED = unchecked((uint)-1);
 
         /// <summary>
+        /// CRITICAL_SECTION_NO_DEBUG_INFO
+        /// </summary>
+        public const uint CRITICAL_SECTION_NO_DEBUG_INFO = 0x01000000;
+
+        /// <summary>
         /// INIT_ONCE_CTX_RESERVED_BITS
         /// </summary>
         public const int INIT_ONCE_CTX_RESERVED_BITS = 2;

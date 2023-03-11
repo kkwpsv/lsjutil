@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Comctl32;
 using static Lsj.Util.Win32.Enums.PROPSHEETHEADERFlags;
 using static Lsj.Util.Win32.Enums.PROPSHEETPAGEFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs

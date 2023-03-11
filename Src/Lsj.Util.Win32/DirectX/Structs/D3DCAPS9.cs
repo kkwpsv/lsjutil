@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -65,14 +65,14 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public DWORD Caps;
 
         /// <summary>
-        /// Driver-specific capabilities identified in D3DCAPS2.
+        /// Driver-specific capabilities identified in <see cref="D3DCAPS2"/>.
         /// </summary>
-        public DWORD Caps2;
+        public D3DCAPS2 Caps2;
 
         /// <summary>
-        /// Driver-specific capabilities identified in D3DCAPS3.
+        /// Driver-specific capabilities identified in <see cref="D3DCAPS3"/>.
         /// </summary>
-        public DWORD Caps3;
+        public D3DCAPS3 Caps3;
 
         /// <summary>
         /// Bit mask of values representing what presentation swap intervals are available.

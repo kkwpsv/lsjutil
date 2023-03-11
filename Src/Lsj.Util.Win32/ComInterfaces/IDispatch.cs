@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.BaseTypes.IID;
 using static Lsj.Util.Win32.Enums.DispInvokeFlags;
+using static Lsj.Util.Win32.OleAut32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using DISPPARAMS = Lsj.Util.Win32.Structs.DISPPARAMS;
 using EXCEPINFO = Lsj.Util.Win32.Structs.EXCEPINFO;
