@@ -5,6 +5,13 @@ using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLENDOP;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCMPFUNC;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCOLORWRITEENABLE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCULL;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDEBUGMONITORTOKENS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDEGREETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFILLMODE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFOGMODE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -448,7 +455,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// and subsequent bits control the activation of clipping planes at higher indexes.
         /// If a bit is set, the system applies the appropriate clipping plane during scene rendering.
         /// The default value is 0.
-        /// The <see cref="D3DCLIPPLANEn"/> macros are defined to provide a convenient way to enable clipping planes.
+        /// The D3DCLIPPLANEn macros are defined to provide a convenient way to enable clipping planes.
         /// </summary>
         D3DRS_CLIPPLANEENABLE = 152,
 

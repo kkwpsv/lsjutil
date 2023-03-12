@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lsj.Util.Win32.DirectX.BaseTypes;
+using System;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

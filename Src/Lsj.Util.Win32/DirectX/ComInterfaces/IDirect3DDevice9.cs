@@ -11,8 +11,12 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBACKBUFFER_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS2;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCURSORCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS2;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLIGHTTYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
@@ -2453,7 +2457,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The maximum number of samplers is determined from two caps:
         /// <see cref="D3DCAPS9.MaxSimultaneousTextures"/> and <see cref="D3DCAPS9.MaxTextureBlendStages"/> of the <see cref="D3DCAPS9"/> structure.
         /// There are two other special cases for stage/sampler numbers.
-        /// A special number called <see cref="D3DDMAPSAMPLER"/> is used for Displacement Mapping (Direct3D 9).
         /// A special number called <see cref="D3DDMAPSAMPLER"/> is used for Displacement Mapping (Direct3D 9).
         /// A programmable vertex shader uses a special number defined by a <see cref="D3DVERTEXTEXTURESAMPLER"/> when accessing Vertex Textures in vs_3_0(DirectX HLSL).
         /// </param>

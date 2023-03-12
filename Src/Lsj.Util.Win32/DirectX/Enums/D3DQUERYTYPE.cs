@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// <para>

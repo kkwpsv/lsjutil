@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.DirectX.Enums;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -11,7 +14,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// To turn off specular highlights, set <see cref="D3DRENDERSTATETYPE.D3DRS_SPECULARENABLE"/> to <see cref="FALSE"/>, using <see cref="D3DRENDERSTATETYPE"/>.
+    /// To turn off specular highlights, set <see cref="D3DRS_SPECULARENABLE"/> to <see cref="FALSE"/>, using <see cref="D3DRENDERSTATETYPE"/>.
     /// This is the fastest option because no specular highlights will be calculated.
     /// For more information about using the lighting engine to calculate specular lighting, see Specular Lighting (Direct3D 9).
     /// </remarks>

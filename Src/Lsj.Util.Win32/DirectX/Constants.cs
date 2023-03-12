@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDECLTYPE;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -30,9 +32,88 @@ namespace Lsj.Util.Win32.DirectX
         public const uint D3DADAPTER_DEFAULT = 0;
 
         /// <summary>
+        /// <para>
+        /// Specifies the maximum number of rectangles used in composing glyphs in <see cref="IDirect3DDevice9Ex.ComposeRects"/>.
+        /// Maximum number of rectangle glyphs to compose together in a text string.
+        /// See <see cref="IDirect3DDevice9Ex.ComposeRects"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dcomposerects-maxnumrects"/>
+        /// </para>
+        /// </summary>
+        public const uint D3DCOMPOSERECTS_MAXNUMRECTS = 0xFFFF;
+
+        /// <summary>
+        /// D3DCURSOR_IMMEDIATE_UPDATE
+        /// </summary>
+        public const uint D3DCURSOR_IMMEDIATE_UPDATE = 0x00000001;
+
+        /// <summary>
+        /// <para>
+        /// Initialize the last vertex element in a vertex declaration array.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3ddecl-end"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// This is used to initialize the last vertex element in a vertex declaration array.
+        /// </remarks>
+        public static readonly D3DVERTEXELEMENT9 D3DDECL_END = new D3DVERTEXELEMENT9
+        {
+            Stream = 0xFF,
+            Offset = 0,
+            Type = D3DDECLTYPE_UNUSED,
+            Method = 0,
+            Usage = 0,
+            UsageIndex = 0,
+        };
+
+        /// <summary>
+        /// D3DDMAPSAMPLER
+        /// </summary>
+        public const uint D3DDMAPSAMPLER = 256;
+
+        /// <summary>
+        /// <para>
+        /// Microsoft Windows Hardware Quality Labs (WHQL) driver testing.
+        /// This is a time-consuming test requiring a one-second or two-second time penalty.
+        /// This constant is used by the <see cref="D3DADAPTER_IDENTIFIER9.WHQLLevel"/> member of <see cref="D3DADAPTER_IDENTIFIER9"/>.
+        /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// <see cref="D3DENUM_WHQL_LEVEL"/> is deprecated for Direct3D9Ex running on Windows Vista,
+        /// Windows Server 2008, Windows 7, and Windows Server 2008 R2(or more current operating system).
+        /// Any of these operating systems return 1 for the WHQL level without checking the status of the driver.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3denum"/>
+        /// </para>
+        /// </summary>
+        public const uint D3DENUM_WHQL_LEVEL = 0x00000002;
+
+        /// <summary>
         /// D3DERR_COMMAND_UNPARSED
         /// </summary>
         public static readonly HRESULT D3DERR_COMMAND_UNPARSED = 0x88760BB8;
+
+        /// <summary>
+        /// <para>
+        /// The currently set render states cannot be used together.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_CONFLICTINGRENDERSTATE = 0x88760821;
+
+        /// <summary>
+        /// <para>
+        /// The current texture filters cannot be used together.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_CONFLICTINGTEXTUREFILTER = 0x8876081e;
 
         /// <summary>
         /// <para>
@@ -111,6 +192,16 @@ namespace Lsj.Util.Win32.DirectX
 
         /// <summary>
         /// <para>
+        /// The requested device type is not valid.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_INVALIDDEVICE = 0x8876086b;
+
+        /// <summary>
+        /// <para>
         /// This device does not support the queried technique.
         /// </para>
         /// <para>
@@ -146,6 +237,77 @@ namespace Lsj.Util.Win32.DirectX
 
         /// <summary>
         /// <para>
+        /// The application is requesting more texture-filtering operations than the device supports.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_TOOMANYOPERATIONS = 0x8876081d;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support a specified texture-blending argument for the alpha channel.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDALPHAARG = 0x8876081c;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support a specified texture-blending operation for the alpha channel.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDALPHAOPERATION = 0x8876081b;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support a specified texture-blending argument for color values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDCOLORARG = 0x8876081a;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support a specified texture-blending operation for color values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDCOLOROPERATION = 0x88760819;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support the specified texture factor value.
+        /// Not used; provided only to support older drivers.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDFACTORVALUE = 0x8876081f;
+
+        /// <summary>
+        /// <para>
+        /// The device does not support the specified texture filter.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_UNSUPPORTEDTEXTUREFILTER = 0x88760822;
+
+        /// <summary>
+        /// <para>
         /// The previous blit operation that is transferring information to or from this surface is incomplete.
         /// </para>
         /// <para>
@@ -153,6 +315,16 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public static readonly HRESULT D3DERR_WASSTILLDRAWING = 0x8876021c;
+
+        /// <summary>
+        /// <para>
+        /// The pixel format of the texture surface is not valid.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3derr"/>
+        /// </para>
+        /// </summary>
+        public static readonly HRESULT D3DERR_WRONGTEXTUREFORMAT = 0x88760818;
 
         /// <summary>
         /// <para>

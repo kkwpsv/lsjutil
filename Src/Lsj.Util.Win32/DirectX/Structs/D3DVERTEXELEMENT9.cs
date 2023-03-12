@@ -1,5 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDECLUSAGE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -33,13 +36,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// The data type, specified as a <see cref="D3DDECLTYPE"/>.
         /// One of several predefined types that define the data size. Some methods have an implied type.
         /// </summary>
-        public BYTE Type;
+        public D3DDECLTYPE Type;
 
         /// <summary>
         /// The method specifies the tessellator processing, which determines how the tessellator interprets (or operates on) the vertex data.
         /// For more information, see <see cref="D3DDECLMETHOD"/>.
         /// </summary>
-        public BYTE Method;
+        public D3DDECLMETHOD Method;
 
         /// <summary>
         /// Defines what the data will be used for; that is, the interoperability between vertex data layouts and vertex shaders.
@@ -50,7 +53,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// See <see cref="D3DDECLUSAGE"/> for a list of the available semantics.
         /// <see cref="D3DDECLUSAGE_TEXCOORD"/> can be used for user-defined fields (which don't have an existing usage defined).
         /// </summary>
-        public BYTE Usage;
+        public D3DDECLUSAGE Usage;
 
         /// <summary>
         /// Modifies the usage data to allow the user to specify multiple usage types.

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

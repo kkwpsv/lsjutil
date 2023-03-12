@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using Lsj.Util.Win32.DirectX.Enums;
+using Lsj.Util.Win32.DirectX.Structs;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

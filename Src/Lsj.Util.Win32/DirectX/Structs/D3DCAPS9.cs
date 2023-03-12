@@ -3,6 +3,12 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCURSORCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFVFCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -62,7 +68,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Differences between Direct3D 9 and Direct3D 9Ex:
         /// This flag is available in Direct3D 9Ex only.
         /// </summary>
-        public DWORD Caps;
+        public D3DCAPS Caps;
 
         /// <summary>
         /// Driver-specific capabilities identified in <see cref="D3DCAPS2"/>.
@@ -96,7 +102,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Specifically, this flag indicates that the driver supports a hardware color cursor in both high-resolution and low-resolution modes
         /// (with scan lines less than 400).
         /// </summary>
-        public DWORD CursorCaps;
+        public D3DCURSORCAPS CursorCaps;
 
         /// <summary>
         /// Flags identifying the capabilities of the device.
@@ -145,7 +151,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DDEVCAPS_TLVERTEXVIDEOMEMORY"/>:
         /// Device can use buffers from video memory for transformed and lit vertices.
         /// </summary>
-        public DWORD DevCaps;
+        public D3DDEVCAPS DevCaps;
 
         /// <summary>
         /// Miscellaneous driver primitive capabilities.
@@ -528,13 +534,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Otherwise, point size is determined by the render state <see cref="D3DRS_POINTSIZE"/>.
         /// If the application provides point size in both (the render state and the vertex declaration), the vertex data overrides the render-state data.
         /// <see cref="D3DFVFCAPS_TEXCOORDCOUNTMASK"/>:
-        /// Masks the low WORD of FVFCaps.
+        /// Masks the low WORD of <see cref="FVFCaps"/>.
         /// These bits, cast to the WORD data type, describe the total number of texture coordinate sets
         /// that the device can simultaneously use for multiple texture blending.
         /// (You can use up to eight texture coordinate sets for any vertex,
         /// but the device can blend using only the specified number of texture coordinate sets.)
         /// </summary>
-        public DWORD FVFCaps;
+        public D3DFVFCAPS FVFCaps;
 
         /// <summary>
         /// Combination of flags describing the texture operations supported by this device.
@@ -721,7 +727,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Device driver capabilities for adaptive tessellation.
         /// For more information, see <see cref="D3DDEVCAPS2"/>
         /// </summary>
-        public DWORD DevCaps2;
+        public D3DDEVCAPS2 DevCaps2;
 
         /// <summary>
         /// TBD
