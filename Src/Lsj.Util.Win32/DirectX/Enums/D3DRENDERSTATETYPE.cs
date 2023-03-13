@@ -13,6 +13,9 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DDEGREETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFILLMODE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFOGMODE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMATERIALCOLORSOURCE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPATCHEDGESTYLE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPMISCCAPS;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

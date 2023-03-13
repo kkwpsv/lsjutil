@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums

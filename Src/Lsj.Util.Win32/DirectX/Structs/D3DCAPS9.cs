@@ -9,6 +9,9 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFVFCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLINECAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRASTERCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
@@ -208,7 +211,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Device can perform z-test operations.
         /// This effectively renders a primitive and indicates whether any z pixels have been rendered.
         /// </summary>
-        public DWORD RasterCaps;
+        public D3DPRASTERCAPS RasterCaps;
 
         /// <summary>
         /// Z-buffer comparison capabilities.
@@ -230,7 +233,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DPCMPCAPS_NOTEQUAL"/>:
         /// Pass the z-test if the new z does not equal the current z.
         /// </summary>
-        public DWORD ZCmpCaps;
+        public D3DPRIMCAPS ZCmpCaps;
 
         /// <summary>
         /// Source-blending capabilities.
@@ -274,7 +277,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DPBLENDCAPS_ZERO"/>:
         /// Blend factor is (0, 0, 0, 0).
         /// </summary>
-        public DWORD SrcBlendCaps;
+        public D3DPBLENDCAPS SrcBlendCaps;
 
         /// <summary>
         /// Destination-blending capabilities.
