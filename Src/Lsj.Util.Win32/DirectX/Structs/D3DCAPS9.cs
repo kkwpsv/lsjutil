@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DCURSORCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFVFCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DLINECAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
@@ -436,7 +437,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DLINECAPS_ZTEST"/>:
         /// Supports z-buffer comparisons.
         /// </summary>
-        public DWORD LineCaps;
+        public D3DLINECAPS LineCaps;
 
         /// <summary>
         /// Maximum texture width for this device.

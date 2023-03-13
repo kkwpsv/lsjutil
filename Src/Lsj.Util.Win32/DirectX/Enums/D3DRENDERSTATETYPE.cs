@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DDEBUGMONITORTOKENS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDEGREETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFILLMODE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFOGMODE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DMATERIALCOLORSOURCE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

@@ -1,4 +1,5 @@
 ﻿using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
+using static Lsj.Util.Win32.DirectX.Constants;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

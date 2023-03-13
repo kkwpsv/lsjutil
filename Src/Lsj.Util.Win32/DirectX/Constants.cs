@@ -3,6 +3,7 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDECLTYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DQUERYTYPE;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -325,6 +326,35 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public static readonly HRESULT D3DERR_WRONGTEXTUREFORMAT = 0x88760818;
+
+        /// <summary>
+        /// <para>
+        /// This macro creates a value used by <see cref="IDirect3DQuery9.Issue"/> to issue a query begin.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dissue-begin"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <see cref="D3DISSUE_BEGIN"/> is valid for the following query type.
+        /// <see cref="D3DQUERYTYPE_OCCLUSION"/>
+        /// </remarks>
+        public const uint D3DISSUE_BEGIN = 1 << 1;
+
+        /// <summary>
+        /// <para>
+        /// This macro creates a value used by <see cref="IDirect3DQuery9.Issue"/> to issue a query end.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dissue-begin"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <see cref="D3DISSUE_END"/> is valid for the following query type.
+        /// <see cref="D3DQUERYTYPE_VCACHE"/>, <see cref="D3DQUERYTYPE_RESOURCEMANAGER"/>, <see cref="D3DQUERYTYPE_VERTEXSTATS"/>,
+        /// <see cref="D3DQUERYTYPE_EVENT"/>, <see cref="D3DQUERYTYPE_OCCLUSION"/>
+        /// </remarks>
+        public const uint D3DISSUE_END = 1 << 0;
 
         /// <summary>
         /// <para>

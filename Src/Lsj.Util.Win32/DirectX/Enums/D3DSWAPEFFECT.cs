@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
+using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
