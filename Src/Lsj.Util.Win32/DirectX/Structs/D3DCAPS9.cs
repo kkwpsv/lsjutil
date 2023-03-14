@@ -11,8 +11,10 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DFVFCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLINECAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRASTERCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSHADEMODE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

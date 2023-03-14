@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// Flags indicating the method the rasterizer uses to create an image on a surface.
     /// </para>
     /// <para>
-    /// From: <see href="hhttps://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dscanlineordering"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dscanlineordering"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -366,5 +366,15 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         public static readonly HRESULT D3DOK_NOAUTOGEN = 0x0876086f;
+
+        /// <summary>
+        /// D3DPRESENT_BACK_BUFFERS_MAX
+        /// </summary>
+        public const uint D3DPRESENT_BACK_BUFFERS_MAX = 3;
+
+        /// <summary>
+        /// D3DPRESENT_BACK_BUFFERS_MAX_EX
+        /// </summary>
+        public const uint D3DPRESENT_BACK_BUFFERS_MAX_EX = 30;
     }
 }

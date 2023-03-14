@@ -2,6 +2,7 @@
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
