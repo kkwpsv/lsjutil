@@ -1874,13 +1874,13 @@ namespace Lsj.Util.Win32
         /// Once the <see cref="LAYOUT_RTL"/> flag is selected, flags normally specifying right or left are reversed.
         /// To avoid confusion, consider defining alternate words for standard flags, such as those in the following table.
         /// Standard flag                       Suggested alternate name
-        /// <see cref="WS_EX_RIGHT"/>           <see cref="WS_EX_TRAILING"/>
-        /// <see cref="WS_EX_RTLREADING"/>      <see cref="WS_EX_REVERSEREADING"/>
-        /// <see cref="WS_EX_LEFTSCROLLBAR"/>   <see cref="WS_EX_LEADSCROLLBAR"/>
-        /// <see cref="ES_LEFT"/>               <see cref="ES_LEAD"/>
-        /// <see cref="ES_RIGHT"/>              <see cref="ES_TRAIL"/>
-        /// <see cref="EC_LEFTMARGIN"/>         <see cref="EC_LEADMARGIN"/>
-        /// <see cref="EC_RIGHTMARGIN"/>        <see cref="EC_TRAILMARGIN"/>
+        /// <see cref="WS_EX_RIGHT"/>           WS_EX_TRAILING
+        /// <see cref="WS_EX_RTLREADING"/>      WS_EX_REVERSEREADING
+        /// <see cref="WS_EX_LEFTSCROLLBAR"/>   WS_EX_LEADSCROLLBAR
+        /// <see cref="ES_LEFT"/>               ES_LEAD
+        /// <see cref="ES_RIGHT"/>              ES_TRAIL
+        /// <see cref="EC_LEFTMARGIN"/>         EC_LEADMARGIN
+        /// <see cref="EC_RIGHTMARGIN"/>        EC_TRAILMARGIN
         /// <see cref="SetLayout"/> cannot modify drawing directly into the bits of a DIB.
         /// For more information, see "Window Layout and Mirroring" in Window Features.
         /// </remarks>

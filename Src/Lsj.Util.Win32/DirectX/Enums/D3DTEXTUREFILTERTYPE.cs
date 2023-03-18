@@ -1,5 +1,8 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTEXTURECAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSAMPLERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE_QUERY;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

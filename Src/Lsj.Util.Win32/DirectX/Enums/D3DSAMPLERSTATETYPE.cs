@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREADDRESS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREFILTERTYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

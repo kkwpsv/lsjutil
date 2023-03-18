@@ -1,4 +1,5 @@
 ﻿using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTURESTAGESTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

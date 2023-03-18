@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRESOURCETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE_QUERY;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 

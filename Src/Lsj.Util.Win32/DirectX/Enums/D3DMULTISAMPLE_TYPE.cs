@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -19,10 +20,10 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// Method                                                      Parameters                          Sub-parameters
     /// <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>         MultiSampleType and pQualityLevels
     /// <see cref="IDirect3D9.CreateDevice"/>                       pPresentationParameters             MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9::CreateAdditionalSwapChain"/>   pPresentationParameters             MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9::CreateDepthStencilSurface"/>   MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9::CreateRenderTarget"/>          MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9::Reset"/>                       pPresentationParameters             MultiSampleType and pQualityLevels
+    /// <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>    pPresentationParameters             MultiSampleType and pQualityLevels
+    /// <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/>    MultiSampleType and pQualityLevels
+    /// <see cref="IDirect3DDevice9.CreateRenderTarget"/>           MultiSampleType and pQualityLevels
+    /// <see cref="IDirect3DDevice9.Reset"/>                        pPresentationParameters             MultiSampleType and pQualityLevels
     /// It is not good practice to switch from one multisample type to another to raise the quality of the antialiasing.
     /// <see cref="D3DMULTISAMPLE_NONE"/> enables swap effects other than discarding, locking, and so on.
     /// Whether the display device supports maskable multisampling (more than one sample for a multiple-sample render-target format plus antialias support)

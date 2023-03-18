@@ -63,10 +63,10 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// only the last frame is displayed, for both windowed and fullscreen presentation.
         /// This flag is available in Direct3D 9Ex on Windows 7 or later operating systems.
         /// When using <see cref="D3DSWAPEFFECT_FLIPEX"/>, each frame presented using <see cref="D3DPRESENT_INTERVAL_IMMEDIATE"/>
-        /// or <see cref="D3DPRESENT_INTERVAL_FORCEIMMEDIATE"/> will override the previous frame's present interval.
+        /// or D3DPRESENT_INTERVAL_FORCEIMMEDIATE will override the previous frame's present interval.
         /// For example, if you queue the following frames using the following swap effects:
         /// frame A (<see cref="D3DPRESENT_INTERVAL_ONE"/>), frame B(<see cref="D3DPRESENT_INTERVAL_ONE"/>),
-        /// frame C(<see cref="D3DPRESENT_INTERVAL_ONE"/>), frame D(<see cref="D3DPRESENT_INTERVAL_FORCEIMMEDIATE"/>),
+        /// frame C(<see cref="D3DPRESENT_INTERVAL_ONE"/>), frame D(D3DPRESENT_INTERVAL_FORCEIMMEDIATE),
         /// frame D will override frame C's present interval.
         /// The displayed frames per present interval are frame A, frame B, (frame C overridden by) frame D.
         /// See Remarks.
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// The driver will wait for the vertical retrace period (the runtime will "beam follow" to prevent tearing).
         /// Present operations will not be affected more frequently than the screen refresh;
         /// the runtime will complete at most one Present operation per adapter refresh period.
-        /// This is equivalent to using <see cref="D3DSWAPEFFECT_COPYVSYNC"/> in DirectX 8.1.
+        /// This is equivalent to using D3DSWAPEFFECT_COPYVSYNC in DirectX 8.1.
         /// This option is always available for both windowed and full-screen swap chains.
         /// See remarks.
         /// </summary>

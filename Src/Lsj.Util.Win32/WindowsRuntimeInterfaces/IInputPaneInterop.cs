@@ -1,10 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.WindowsRuntimeInterfaces.IIDs;
+using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
 namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
 {

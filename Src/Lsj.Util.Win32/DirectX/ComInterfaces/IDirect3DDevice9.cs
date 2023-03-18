@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -24,13 +23,17 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMITIVETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTEXTURECAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTA;
 using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREFILTERTYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREOP;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DXERR;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -2459,7 +2462,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DCAPS9.MaxSimultaneousTextures"/> and <see cref="D3DCAPS9.MaxTextureBlendStages"/> of the <see cref="D3DCAPS9"/> structure.
         /// There are two other special cases for stage/sampler numbers.
         /// A special number called <see cref="D3DDMAPSAMPLER"/> is used for Displacement Mapping (Direct3D 9).
-        /// A programmable vertex shader uses a special number defined by a <see cref="D3DVERTEXTEXTURESAMPLER"/> when accessing Vertex Textures in vs_3_0(DirectX HLSL).
+        /// A programmable vertex shader uses a special number defined by a D3DVERTEXTEXTURESAMPLER when accessing Vertex Textures in vs_3_0(DirectX HLSL).
         /// </param>
         /// <param name="pTexture">
         /// Pointer to an <see cref="IDirect3DBaseTexture9"/> interface, representing the texture being set.
@@ -2621,7 +2624,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The <see cref="ValidateDevice"/> method uses the current render states, textures, and texture-stage states to perform validation at the time of the call.
         /// Changes to these factors after the call invalidate the previous result, and the method must be called again before rendering a scene.
         /// For best performance, call <see cref="ValidateDevice"/> at initialization time; do not use it within a render loop.
-        /// Using diffuse iterated values, either as an argument or as an operation(<see cref="D3DTA_DIFFUSED3DTOP_BLENDDIFFUSEALPHA"/>) is rarely supported on current hardware.
+        /// Using diffuse iterated values, either as an argument or as an operation
+        /// (<see cref="D3DTA_DIFFUSE"/> <see cref="D3DTOP_BLENDDIFFUSEALPHA"/>) is rarely supported on current hardware.
         /// Most hardware can introduce iterated color data only at the last texture operation stage.
         /// Try to specify the texture (<see cref="D3DTA_TEXTURE"/>) for each stage as the first argument, rather than the second argument.
         /// Many cards do not support use of diffuse or scalar values at arbitrary texture stages.

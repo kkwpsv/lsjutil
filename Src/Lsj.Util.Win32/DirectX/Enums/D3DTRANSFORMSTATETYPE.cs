@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using static Lsj.Util.Win32.DirectX.Constants;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// <para>

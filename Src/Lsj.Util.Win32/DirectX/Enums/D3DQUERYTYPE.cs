@@ -1,6 +1,7 @@
-﻿using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
+﻿using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.DirectX.Constants;
-using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

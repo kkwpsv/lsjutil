@@ -3,6 +3,7 @@ using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLENDOP;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCMPFUNC;
@@ -16,6 +17,14 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DMATERIALCOLORSOURCE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPATCHEDGESTYLE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPMISCCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSHADEMODE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSTENCILCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSTENCILOP;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTA;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREOP;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE_QUERY;
+using static Lsj.Util.Win32.DirectX.Enums.D3DVERTEXBLENDFLAGS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DZBUFFERTYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -35,7 +44,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// Direct3D defines the <see cref="D3DRENDERSTATE_WRAPBIAS"/> constant as a convenience for applications to enable or disable texture wrapping,
     /// based on the zero-based integer of a texture coordinate set (rather than explicitly using one of the D3DRS_WRAP n state values).
     /// Add the <see cref="D3DRENDERSTATE_WRAPBIAS"/> value to the zero-based index of a texture coordinate
-    /// set to calculate the <see cref="D3DRS_WRAP"/> n value that corresponds to that index, as shown in the following example.
+    /// set to calculate the D3DRS_WRAPn value that corresponds to that index, as shown in the following example.
     /// <code>
     /// // Enable U/V wrapping for textures that use the texture 
     /// // coordinate set at the index within the dwIndex variable
@@ -813,7 +822,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
 
         /// <summary>
         /// Enable render-target writes to be gamma corrected to sRGB.
-        /// The format must expose <see cref="D3DUSAGE_SRGBWRITE"/>.
+        /// The format must expose <see cref="D3DUSAGE_QUERY_SRGBWRITE"/>.
         /// The default value is 0.
         /// </summary>
         D3DRS_SRGBWRITEENABLE = 194,

@@ -11,12 +11,12 @@
     public enum D3DCURSORCAPS
     {
         /// <summary>
-        /// The driver supports hardware color cursor in at least high resolution modes (height >= 400).
+        /// The driver supports hardware color cursor in at least high resolution modes (height &gt;= 400).
         /// </summary>
         D3DCURSORCAPS_COLOR = 0x00000001,
 
         /// <summary>
-        /// The driver supports hardware color cursor in low resolution modes (height < 400).
+        /// The driver supports hardware color cursor in low resolution modes (height &lt; 400).
         /// </summary>
         D3DCURSORCAPS_LOWRES = 0x00000002,
     }

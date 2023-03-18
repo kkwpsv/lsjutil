@@ -1,5 +1,10 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPMISCCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTA;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXOPCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREOP;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTURETRANSFORMFLAGS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTSS_TCI;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -164,7 +169,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// <summary>
         /// Per-stage constant color.
         /// To see if a device supports a per-stage constant color, see the <see cref="D3DPMISCCAPS_PERSTAGECONSTANT"/> constant in <see cref="D3DPMISCCAPS"/>.
-        /// <see cref="D3DTSS_CONSTANT"/> is used by <see cref="D3DTA_CONSTANT"/>. See D3DTA.
+        /// <see cref="D3DTSS_CONSTANT"/> is used by <see cref="D3DTA_CONSTANT"/>. See <see cref="D3DTA"/>.
         /// </summary>
         D3DTSS_CONSTANT = 32,
 

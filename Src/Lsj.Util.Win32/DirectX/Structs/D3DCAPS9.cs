@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCURSORCAPS;
@@ -13,8 +14,17 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DPBLENDCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRASTERCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRIMCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPSHADECAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTADDRESSCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTEXTURECAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTFILTERCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSAMPLERSTATETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DSHADEMODE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXOPCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREFILTERTYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREOP;
+using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTURETRANSFORMFLAGS;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -318,7 +328,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DPSHADECAPS_SPECULARGOURAUDRGB"/>:
         /// Device supports Gouraud shading of specular highlights.
         /// </summary>
-        public DWORD ShadeCaps;
+        public D3DPSHADECAPS ShadeCaps;
 
         /// <summary>
         /// Miscellaneous texture-mapping capabilities.
@@ -378,28 +388,28 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/>:
         /// Device requires that volume texture maps have dimensions specified as powers of two.
         /// </summary>
-        public DWORD TextureCaps;
+        public D3DPTEXTURECAPS TextureCaps;
 
         /// <summary>
         /// Texture-filtering capabilities for a texture.
         /// Per-stage filtering capabilities reflect which filtering modes are supported for texture stages when performing multiple-texture blending.
         /// This member can be any combination of the per-stage texture-filtering flags defined in <see cref="D3DPTFILTERCAPS"/>.
         /// </summary>
-        public DWORD TextureFilterCaps;
+        public D3DPTFILTERCAPS TextureFilterCaps;
 
         /// <summary>
         /// Texture-filtering capabilities for a cube texture.
         /// Per-stage filtering capabilities reflect which filtering modes are supported for texture stages when performing multiple-texture blending.
         /// This member can be any combination of the per-stage texture-filtering flags defined in <see cref="D3DPTFILTERCAPS"/>.
         /// </summary>
-        public DWORD CubeTextureFilterCaps;
+        public D3DPTFILTERCAPS CubeTextureFilterCaps;
 
         /// <summary>
         /// Texture-filtering capabilities for a volume texture.
         /// Per-stage filtering capabilities reflect which filtering modes are supported for texture stages when performing multiple-texture blending.
         /// This member can be any combination of the per-stage texture-filtering flags defined in <see cref="D3DPTFILTERCAPS"/>.
         /// </summary>
-        public DWORD VolumeTextureFilterCaps;
+        public D3DPTFILTERCAPS VolumeTextureFilterCaps;
 
         /// <summary>
         /// Texture-addressing capabilities for texture objects.
@@ -419,7 +429,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DPTADDRESSCAPS_WRAP"/>:
         /// Device can wrap textures to addresses.
         /// </summary>
-        public DWORD TextureAddressCaps;
+        public D3DPTADDRESSCAPS TextureAddressCaps;
 
         /// <summary>
         /// Texture-addressing capabilities for a volume texture.
@@ -526,7 +536,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// (<see cref="D3DRS_STENCILFAIL"/>, <see cref="D3DRS_STENCILPASS"/>, and <see cref="D3DRS_STENCILZFAIL"/>).
         /// For more information, see <see cref="D3DSTENCILCAPS"/>.
         /// </summary>
-        public DWORD StencilCaps;
+        public D3DSTENCILCAPS StencilCaps;
 
         /// <summary>
         /// Flexible vertex format capabilities.
@@ -600,11 +610,11 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <see cref="D3DTEXOPCAPS_SELECTARG1"/>:
         /// The <see cref="D3DTOP_SELECTARG1"/> texture-blending operation is supported.
         /// <see cref="D3DTEXOPCAPS_SELECTARG2"/>:
-        /// The D3DTOP_SELECTARG2 texture-blending operation is supported.
+        /// The <see cref="D3DTOP_SELECTARG2"/> texture-blending operation is supported.
         /// <see cref="D3DTEXOPCAPS_SUBTRACT"/>:
-        /// The D3DTOP_SUBTRACT texture-blending operation is supported.
+        /// The <see cref="D3DTOP_SUBTRACT"/> texture-blending operation is supported.
         /// </summary>
-        public DWORD TextureOpCaps;
+        public D3DTEXOPCAPS TextureOpCaps;
 
         /// <summary>
         /// Maximum number of texture-blending stages supported in the fixed function pipeline.
@@ -798,7 +808,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// This filter type is requested by calling <see cref="IDirect3DDevice9.StretchRect"/> using <see cref="D3DTEXF_LINEAR"/>.
         /// For more information, see <see cref="D3DTEXTUREFILTERTYPE"/> and <see cref="D3DTEXTUREFILTERTYPE"/>.
         /// </summary>
-        public DWORD StretchRectFilterCaps;
+        public D3DPTFILTERCAPS StretchRectFilterCaps;
 
         /// <summary>
         /// Device supports vertex shader version 2_0 extended capability.
@@ -816,7 +826,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// Device supports vertex shader texture filter capability.
         /// See <see cref="D3DPTFILTERCAPS"/>.
         /// </summary>
-        public DWORD VertexTextureFilterCaps;
+        public D3DPTFILTERCAPS VertexTextureFilterCaps;
 
         /// <summary>
         /// Maximum number of vertex shader instructions that can be run when using flow control.

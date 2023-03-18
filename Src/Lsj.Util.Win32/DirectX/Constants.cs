@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDECLTYPE;
@@ -376,5 +377,103 @@ namespace Lsj.Util.Win32.DirectX
         /// D3DPRESENT_BACK_BUFFERS_MAX_EX
         /// </summary>
         public const uint D3DPRESENT_BACK_BUFFERS_MAX_EX = 30;
+
+        /// <summary>
+        /// D3DPV_DONOTCOPYDATA
+        /// </summary>
+        public const uint D3DPV_DONOTCOPYDATA = 1 << 0;
+
+        /// <summary>
+        /// D3DRENDERSTATE_WRAPBIAS
+        /// </summary>
+        public const uint D3DRENDERSTATE_WRAPBIAS = 128U;
+
+        /// <summary>
+        /// D3DSGR_NO_CALIBRATION
+        /// </summary>
+        public const uint D3DSGR_NO_CALIBRATION = 0x00000000;
+
+        /// <summary>
+        /// D3DSGR_CALIBRATE
+        /// </summary>
+        public const uint D3DSGR_CALIBRATE = 0x00000001;
+
+        /// <summary>
+        /// D3DSTREAMSOURCE_INDEXEDDATA
+        /// </summary>
+        public const uint D3DSTREAMSOURCE_INDEXEDDATA = 1 << 30;
+
+        /// <summary>
+        /// D3DSTREAMSOURCE_INSTANCEDATA
+        /// </summary>
+        public const uint D3DSTREAMSOURCE_INSTANCEDATA = (uint)2 << 30;
+
+        /// <summary>
+        /// <para>
+        /// Maps indices in the range 0 through 255 to the corresponding transform states.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dts-worldmatrix"/>
+        /// </para>
+        /// </summary>
+        /// <param name="index">
+        /// An index value in the range 0 through 255.
+        /// </param>
+        /// <returns>
+        /// The <see cref="D3DTRANSFORMSTATETYPE"/> that maps to the given <paramref name="index"/>.
+        /// </returns>
+        /// <remarks>
+        /// Transform states in the range 256 through 511 are reserved to store up to 256 matrices that can be indexed using 8-bit indices.
+        /// </remarks>
+        public static D3DTRANSFORMSTATETYPE D3DTS_WORLDMATRIX(int index) => (D3DTRANSFORMSTATETYPE)(index + 256);
+
+        /// <summary>
+        /// <para>
+        /// Identifies the transformation matrix being set as the world transformation matrix.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dts-world"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// A <see cref="D3DTRANSFORMSTATETYPE"/> equivalent to D3DTS_WORLDMATRIX(0).
+        /// This macro is provided to facilitate porting existing applications to Direct3D 9.
+        /// </remarks>
+        public const D3DTRANSFORMSTATETYPE D3DTS_WORLD = (D3DTRANSFORMSTATETYPE)256;
+
+        /// <summary>
+        /// D3DWRAPCOORD_0
+        /// </summary>
+        public const uint D3DWRAPCOORD_0 = 0x00000001;
+
+        /// <summary>
+        /// D3DWRAPCOORD_1
+        /// </summary>
+        public const uint D3DWRAPCOORD_1 = 0x00000002;
+
+        /// <summary>
+        /// D3DWRAPCOORD_2
+        /// </summary>
+        public const uint D3DWRAPCOORD_2 = 0x00000004;
+
+        /// <summary>
+        /// D3DWRAPCOORD_3
+        /// </summary>
+        public const uint D3DWRAPCOORD_3 = 0x00000008;
+
+        /// <summary>
+        /// D3DWRAP_U
+        /// </summary>
+        public const uint D3DWRAP_U = 0x00000001;
+
+        /// <summary>
+        /// D3DWRAP_V
+        /// </summary>
+        public const uint D3DWRAP_V = 0x00000002;
+
+        /// <summary>
+        /// D3DWRAP_W
+        /// </summary>
+        public const uint D3DWRAP_W = 0x00000004;
     }
 }
