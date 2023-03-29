@@ -12,10 +12,10 @@ namespace Lsj.Util.Win32.Marshals
         private bool _isSelfManager;
 
         /// <summary>
-        /// 
+        /// Initialize from a string.
         /// </summary>
         /// <param name="str"></param>
-        public LPWSTR(string str) : base(IntPtr.Zero)
+        public LPWSTR(string? str) : base(IntPtr.Zero)
         {
             if (str != null)
             {
@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.Marshals
         }
 
         /// <summary>
-        /// 
+        /// Initialize from a string with specific buffer length in char.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="bufferLength"></param>
@@ -39,29 +39,41 @@ namespace Lsj.Util.Win32.Marshals
             {
                 throw new ArgumentOutOfRangeException(nameof(bufferLength), "Buffer length is smaller than string length");
             }
-            if (str != null)
+            _isSelfManager = true;
+            var buffer = Marshal.AllocHGlobal(bufferLength * sizeof(char));
+            unsafe
             {
-                _isSelfManager = true;
-                var buffer = Marshal.AllocHGlobal(bufferLength * sizeof(char));
-                unsafe
+                fixed (char* ptr = str)
                 {
-                    fixed (char* ptr = str)
-                    {
-                        Unsafe.CopyBlock((void*)buffer, ptr, (uint)str.Length * 2);
-                    }
+                    Unsafe.CopyBlock((void*)buffer, ptr, (uint)str.Length * 2);
                 }
-                SetHandle(buffer);
             }
-            else
-            {
-                GC.SuppressFinalize(this);
-            }
+            SetHandle(buffer);
         }
 
         /// <summary>
-        /// 
+        /// Initialize an empty LPWSTR with specific buffer length in char.
+        /// </summary>
+        /// <param name="bufferLength"></param>
+        public LPWSTR(int bufferLength) : base(IntPtr.Zero)
+        {
+            if (bufferLength <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Buffer length must be larger than zero");
+            }
+
+            _isSelfManager = true;
+            var buffer = Marshal.AllocHGlobal(bufferLength * sizeof(char));
+            SetHandle(buffer);
+        }
+
+        /// <summary>
+        /// Initialize from a pointer.
         /// </summary>
         /// <param name="handle"></param>
+        /// <remarks>
+        /// The memory will not be release.
+        /// </remarks>
         public LPWSTR(IntPtr handle) : base(IntPtr.Zero)
         {
             SetHandle(handle);
