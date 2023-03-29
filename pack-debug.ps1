@@ -1,5 +1,14 @@
 $ErrorActionPreference = "Stop"
 
+$msbuildPath = ${env:ProgramFiles} + '\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe'
+if (-Not (Test-Path $msbuildPath)) {
+    $msbuildPath = ${env:ProgramFiles(x86)} + '\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe'
+    if (-Not (Test-Path $msbuildPath)) {
+        Write-Output "MSBuild not found"
+        exit -1
+    }
+}
+
 $commitCount = git rev-list HEAD --count
 
 $env:VersionSuffix = "debug" + $commitCount
@@ -56,7 +65,7 @@ dotnet pack --include-source
 if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Office
-&${env:ProgramFiles}'\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe' -restore /t:pack /p:IncludeSymbols=true
+&$msbuildPath -restore /t:pack /p:IncludeSymbols=true
 if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf
