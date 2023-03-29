@@ -1,8 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -80,8 +79,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPrivateProfileIntW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetPrivateProfileInt([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [In] INT nDefault, [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern UINT GetPrivateProfileInt([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] INT nDefault, [In] LPWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -186,9 +184,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPrivateProfileStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetPrivateProfileString([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpDefault,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpReturnedString, [In] DWORD nSize, [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern DWORD GetPrivateProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpDefault,
+            [In] LPWSTR lpReturnedString, [In] DWORD nSize, [In] LPWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -248,8 +245,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileIntW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetProfileInt([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [In] INT nDefault);
+        public static extern UINT GetProfileInt([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] INT nDefault);
 
         /// <summary>
         /// <para>
@@ -339,9 +335,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetProfileString([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpDefault,
-            [In] IntPtr lpReturnedString, [In] DWORD nSize);
+        public static extern DWORD GetProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpDefault,
+            [In] LPWSTR lpReturnedString, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -424,9 +419,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WritePrivateProfileStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WritePrivateProfileString([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern BOOL WritePrivateProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName,
+            [In] LPWSTR lpString, [In] LPWSTR lpFileName);
 
         /// <summary>
         /// <para>
@@ -493,7 +487,6 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteProfileStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteProfileString([MarshalAs(UnmanagedType.LPWStr)][In] string lpAppName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern BOOL WriteProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpString);
     }
 }
