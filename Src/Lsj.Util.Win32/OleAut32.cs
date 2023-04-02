@@ -5,9 +5,14 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.DISPID;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DispInvokeFlags;
 using static Lsj.Util.Win32.Enums.VARENUM;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using DISPPARAMS = Lsj.Util.Win32.Structs.DISPPARAMS;
+using EXCEPINFO = Lsj.Util.Win32.Structs.EXCEPINFO;
 
 namespace Lsj.Util.Win32
 {
@@ -53,7 +58,7 @@ namespace Lsj.Util.Win32
         /// For more information Type Description Interfaces.
         /// </remarks>
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDispTypeInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateDispTypeInfo([In] in INTERFACEDATA pidata, [In] LCID lcid,[Out]out P< ITypeInfo> pptinfo);
+        public static extern HRESULT CreateDispTypeInfo([In] in INTERFACEDATA pidata, [In] LCID lcid, [Out] out P<ITypeInfo> pptinfo);
 
         /// <summary>
         /// <para>
@@ -96,6 +101,130 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateStdDispatch", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateStdDispatch([In] in IUnknown punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
+
+        /// <summary>
+        /// <para>
+        /// Low-level helper for <see cref="IDispatch.Invoke"/> that provides machine independence for customized Invoke.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-dispgetidsofnames"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ptinfo">
+        /// The type information for an interface.
+        /// This type information is specific to one interface and language code,
+        /// so it is not necessary to pass an interface identifier (IID) or LCID to this function.
+        /// </param>
+        /// <param name="rgszNames">
+        /// An array of name strings that can be the same array passed to <see cref="DispInvoke"/> in the <see cref="DISPPARAMS"/> structure.
+        /// If <paramref name="cNames"/> is greater than 1, the first name is interpreted as a method name,
+        /// and subsequent names are interpreted as parameters to that method.
+        /// </param>
+        /// <param name="cNames">
+        /// The number of elements in <paramref name="rgszNames"/>.
+        /// </param>
+        /// <param name="rgdispid">
+        /// An array of DISPIDs to be filled in by this function.
+        /// The first ID corresponds to the method name.
+        /// Subsequent IDs are interpreted as parameters to the method.
+        /// </param>
+        /// <returns>
+        /// <see cref="S_OK"/>: The interface is supported.
+        /// <see cref="E_INVALIDARG"/>: One of the parameters is not valid.
+        /// <see cref="DISP_E_UNKNOWNNAME"/>: 
+        /// One or more of the specified names were not known.
+        /// The returned array of DISPIDs contains <see cref="DISPID_UNKNOWN"/> for each entry that corresponds to an unknown name.
+        /// Any of the <see cref="ITypeInfo.Invoke"/> errors can also be returned.
+        /// </returns>
+        [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispGetIDsOfNames", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT DispGetIDsOfNames([In] in ITypeInfo ptinfo, [In] LPOLESTR[] rgszNames, [In] UINT cNames, [Out] DISPID[] rgdispid);
+
+        /// <summary>
+        /// <para>
+        /// Automatically calls member functions on an interface, given the type information for the interface.
+        /// You can describe an interface with type information and implement Invoke for the interface using this single call.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleauto/nf-oleauto-dispinvoke"/>
+        /// </para>
+        /// </summary>
+        /// <param name="_this">
+        /// An implementation of the <see cref="IDispatch"/> interface described by <paramref name="ptinfo"/>.
+        /// </param>
+        /// <param name="ptinfo">
+        /// The type information that describes the interface.
+        /// </param>
+        /// <param name="dispidMember">
+        /// The member to be invoked.
+        /// Use <see cref="IDispatch.GetIDsOfNames"/> or the object's documentation to obtain the <see cref="DISPID"/>.
+        /// </param>
+        /// <param name="wFlags">
+        /// Flags describing the context of the <see cref="IDispatch.Invoke"/> call.
+        /// <see cref="DISPATCH_METHOD"/>:
+        /// The member is invoked as a method.
+        /// If a property has the same name, both this and the <see cref="DISPATCH_PROPERTYGET"/> flag can be set.
+        /// <see cref="DISPATCH_PROPERTYGET"/>:
+        /// The member is retrieved as a property or data member.
+        /// <see cref="DISPATCH_PROPERTYPUT"/>:
+        /// The member is changed as a property or data member.
+        /// <see cref="DISPATCH_PROPERTYPUTREF"/>:
+        /// The member is changed by a reference assignment, rather than a value assignment.
+        /// This flag is valid only when the property accepts a reference to an object.
+        /// </param>
+        /// <param name="pparams">
+        /// Pointer to a structure containing an array of arguments,
+        /// an array of argument DISPIDs for named arguments, and counts for number of elements in the arrays.
+        /// </param>
+        /// <param name="pvarResult">
+        /// Pointer to where the result is to be stored, or <see cref="NullRef{VARIANT}"/> if the caller expects no result.
+        /// This argument is ignored if <see cref="DISPATCH_PROPERTYPUT"/> or <see cref="DISPATCH_PROPERTYPUTREF"/> is specified.
+        /// </param>
+        /// <param name="pexcepinfo">
+        /// Pointer to a structure containing exception information.
+        /// This structure should be filled in if <see cref="DISP_E_EXCEPTION"/> is returned.
+        /// </param>
+        /// <param name="puArgErr">
+        /// The index within rgvarg of the first argument that has an error.
+        /// Arguments are stored in pdispparams->rgvarg in reverse order, so the first argument is the one with the highest index in the array.
+        /// This parameter is returned only when the resulting return value is <see cref="DISP_E_TYPEMISMATCH"/> or <see cref="DISP_E_PARAMNOTFOUND"/>.
+        /// </param>
+        /// <returns>
+        /// <see cref="S_OK"/>:
+        /// Success.
+        /// <see cref="DISP_E_BADPARAMCOUNT"/>:
+        /// The number of elements provided to <see cref="DISPPARAMS"/> is different from the number of arguments accepted by the method or property.
+        /// <see cref="DISP_E_BADVARTYPE"/>:
+        /// One of the arguments in <see cref="DISPPARAMS"/> is not a valid variant type.
+        /// <see cref="DISP_E_EXCEPTION"/>:
+        /// The application needs to raise an exception. In this case, the structure passed in <paramref name="pexcepinfo"/> should be filled in.
+        /// <see cref="DISP_E_MEMBERNOTFOUND"/>:
+        /// The requested member does not exist.
+        /// <see cref="DISP_E_NONAMEDARGS"/>:
+        /// This implementation of <see cref="IDispatch"/> does not support named arguments.
+        /// <see cref="DISP_E_OVERFLOW"/>:
+        /// One of the arguments in <see cref="DISPPARAMS"/> could not be coerced to the specified type.
+        /// <see cref="DISP_E_PARAMNOTFOUND"/>:
+        /// One of the parameter IDs does not correspond to a parameter on the method.
+        /// In this case, <paramref name="puArgErr"/> is set to the first argument that contains the error.
+        /// <see cref="DISP_E_PARAMNOTOPTIONAL"/>:
+        /// A required parameter was omitted.
+        /// <see cref="DISP_E_TYPEMISMATCH"/>:
+        /// One or more of the arguments could not be coerced.
+        /// The index of the first parameter with the incorrect type within rgvarg is returned in <paramref name="puArgErr"/>.
+        /// <see cref="E_INVALIDARG"/>:
+        /// One of the parameters is not valid.
+        /// <see cref="E_OUTOFMEMORY"/>:
+        /// Insufficient memory to complete the operation.
+        /// Any of the <see cref="ITypeInfo.Invoke"/> errors can also be returned.
+        /// </returns>
+        /// <remarks>
+        /// The parameter _this is a pointer to an implementation of the interface that is being deferred to.
+        /// <see cref="DispInvoke"/> builds a stack frame, coerces parameters using standard coercion rules,
+        /// pushes them on the stack, and then calls the correct member function in the VTBL.
+        /// </remarks>
+        [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispInvoke", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT DispInvoke([In] IntPtr _this, [In] in ITypeInfo ptinfo, [In] DISPID dispidMember, [In] WORD wFlags,
+            [In] in DISPPARAMS pparams, [Out] out VARIANT pvarResult, [Out] out EXCEPINFO pexcepinfo, [Out] out UINT puArgErr);
 
         /// <summary>
         /// <para>

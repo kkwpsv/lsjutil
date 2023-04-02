@@ -1,10 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Macros

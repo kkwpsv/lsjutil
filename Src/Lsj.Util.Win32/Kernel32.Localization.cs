@@ -35,6 +35,61 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfo"/> function.
+        /// The <see cref="CALINFO_ENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumCalendarInfoProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317806(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalendarInfoString">
+        /// Pointer to a buffer containing a null-terminated calendar information string.
+        /// This string is formatted according to the calendar type passed to <see cref="EnumCalendarInfo"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumCalendarInfoProc"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfo"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumCalendarInfoProc([In] LPWSTR lpCalendarInfoString);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfoEx"/> function.
+        /// The <see cref="CALINFO_ENUMPROCEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumCalendarInfoProcEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317807(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalendarInfoString">
+        /// Pointer to a buffer containing a null-terminated calendar information string.
+        /// This string is formatted according to the calendar type passed to <see cref="EnumCalendarInfoEx"/>.
+        /// </param>
+        /// <param name="Calendar">
+        /// Calendar identifier that specifies the calendar associated with the supplied information.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumCalendarInfoProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoEx"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumCalendarInfoProcEx([In] LPWSTR lpCalendarInfoString, [In] CALID Calendar);
+
+        /// <summary>
+        /// <para>
         /// An application-defined callback function that processes enumerated geographical location information provided by the <see cref="EnumSystemGeoID"/> function.
         /// The <see cref="GEO_ENUMPROC"/> type defines a pointer to this callback function.
         /// EnumGeoInfoProc is a placeholder for the application-defined function name.
@@ -113,6 +168,99 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertDefaultLocale", ExactSpelling = true, SetLastError = true)]
         public static extern LCID ConvertDefaultLocale([In] LCID Locale);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates calendar information for a specified locale.
+        /// Note
+        /// To receive a calendar identifier in addition to calendar information, the application should use the <see cref="EnumCalendarInfoEx"/> function.
+        /// Another reason for preferring this function is that Microsoft is migrating toward the use of locale names
+        /// instead of locale identifiers for new locales, for interoperability reasons.
+        /// Note
+        /// Any application that will be run only on Windows Vista and later should use <see cref="EnumCalendarInfoExEx"/> in preference to <see cref="EnumCalendarInfo"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumcalendarinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalInfoEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumCalendarInfoProc"/>.
+        /// </param>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale for which to retrieve calendar information.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
+        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="Calendar">
+        /// Calendar identifier that specifies the calendar for which information is requested.
+        /// Note that this identifier can be <see cref="ENUM_ALL_CALENDARS"/>, to enumerate all calendars that are associated with the locale.
+        /// </param>
+        /// <param name="CalType">
+        /// Type of calendar information. For more information, see Calendar Type Information.
+        /// Only one calendar type can be specified per call to this function, except where noted.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call GetLastError, which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// See Remarks for <see cref="EnumCalendarInfoEx"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumCalendarInfo([In] CALINFO_ENUMPROC lpCalInfoEnumProc, [In] LCID Locale, [In] CALID Calendar, [In] CALTYPE CalType);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates calendar information for a locale specified by identifier.
+        /// Note
+        /// Any application that runs only on Windows Vista and later should use <see cref="EnumCalendarInfoExEx"/> in preference to this function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalInfoEnumProcEx">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumCalendarInfoProcEx"/>.
+        /// </param>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale for which to retrieve calendar information.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </param>
+        /// <param name="Calendar">
+        /// Calendar identifier that specifies the calendar for which information is requested.
+        /// Note that this identifier can be <see cref="ENUM_ALL_CALENDARS"/>, to enumerate all calendars that are associated with the locale.
+        /// </param>
+        /// <param name="CalType">
+        /// Type of calendar information. For more information, see Calendar Type Information.
+        /// Only one calendar type can be specified per call to this function, except where noted.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates calendar information for all applicable calendars for the specified locale,
+        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
+        /// The function enumerates the calendar information by calling the specified application-defined callback function.
+        /// It passes the callback function a pointer to a buffer containing the requested calendar information.
+        /// This process continues until <see cref="EnumCalendarInfoEx"/> finds the last applicable calendar or the callback function returns <see cref="FALSE"/>.
+        /// This function can enumerate data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumCalendarInfoEx([In] CALINFO_ENUMPROCEX lpCalInfoEnumProcEx, [In] LCID Locale, [In] CALID Calendar, [In] CALTYPE CalType);
 
         /// <summary>
         /// <para>

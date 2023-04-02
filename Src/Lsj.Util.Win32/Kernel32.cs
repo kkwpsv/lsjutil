@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.GetTimeFormatFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -24,6 +25,11 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static partial class Kernel32
     {
+        /// <summary>
+        /// DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION
+        /// </summary>
+        public const uint DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION = 1;
+
         /// <summary>
         /// NUMA_NO_PREFERRED_NODE
         /// </summary>
@@ -160,6 +166,49 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateActCtxW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateActCtx([In][Out] ref ACTCTX pActCtx);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DeactivateActCtx"/> function deactivates the activation context corresponding to the specified cookie.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deactivateactctx"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// Flags that indicate how the deactivation is to occur.
+        /// 0:
+        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is in the top frame of the activation stack,
+        /// the activation context is popped from the stack and thereby deactivated.
+        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is not in the top frame of the activation stack,
+        /// this function searches down the stack for the cookie.
+        /// If the cookie is found, a <see cref="STATUS_SXS_EARLY_DEACTIVATION"/> exception is thrown.
+        /// If the cookie is not found, a <see cref="STATUS_SXS_INVALID_DEACTIVATION"/> exception is thrown.
+        /// This value should be specified in most cases.
+        /// <see cref="DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION"/>:
+        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is in the top frame of the activation stack,
+        /// the function returns an <see cref="ERROR_INVALID_PARAMETER"/> error code.
+        /// Call <see cref="GetLastError"/> to obtain this code.
+        /// If this value is set and the cookie is not on the activation stack, a <see cref="STATUS_SXS_INVALID_DEACTIVATION"/> exception will be thrown.
+        /// If this value is set and the cookie is in a lower frame of the activation stack,
+        /// all of the frames down to and including the frame the cookie is in is popped from the stack.
+        /// </param>
+        /// <param name="ulCookie">
+        /// The <see cref="ULONG_PTR"/> that was passed into the call to <see cref="ActivateActCtx"/>.
+        /// This value is used as a cookie to identify a specific activated activation context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>. Otherwise, it returns <see cref="FALSE"/>.
+        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
+        /// For an example, see Retrieving the Last-Error Code.
+        /// For a complete list of error codes, see System Error Codes.
+        /// </returns>
+        /// <remarks>
+        /// The deactivation of activation contexts must occur in the reverse order of activation.
+        /// It can be understood as popping an activation context from a stack.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeactivateActCtx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeactivateActCtx([In] DWORD dwFlags, [In] ULONG_PTR ulCookie);
 
         /// <summary>
         /// <para>

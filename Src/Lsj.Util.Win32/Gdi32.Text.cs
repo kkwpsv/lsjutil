@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// <param name="nCount">
         /// The length of the string pointed to by <paramref name="lpString"/>.
         /// </param>
-        /// <param name="nMexExtent">
+        /// <param name="nMaxExtent">
         /// The maximum extent (in logical units) to which the string is processed.
         /// Characters that, if processed, would exceed this extent are ignored.
         /// Computations for any required ordering or glyph arrays apply only to the included characters.
@@ -310,11 +310,11 @@ namespace Lsj.Util.Win32
         /// this value must be used with <see cref="GetCharacterPlacement"/>.
         /// <see cref="GCP_JUSTIFY"/>:
         /// Adjusts the extents in the <see cref="GCP_RESULTS.lpDx"/> array
-        /// so that the string length is the same as <see cref="GCP_RESULTS.nMaxExtent"/>.
+        /// so that the string length is the same as <paramref name="nMaxExtent"/>.
         /// <see cref="GCP_JUSTIFY"/> may only be used in conjunction with <see cref="GCP_MAXEXTENT"/>.
         /// <see cref="GCP_KASHIDA"/>:
         /// Use Kashidas as well as, or instead of, adjusted extents to modify the length of the string
-        /// so that it is equal to the value specified by <see cref="GCP_RESULTS.nMaxExtent"/>.
+        /// so that it is equal to the value specified by <paramref name="nMaxExtent"/>.
         /// In the <see cref="GCP_RESULTS.lpDx"/> array, a Kashida is indicated by a negative justification index.
         /// <see cref="GCP_KASHIDA"/> may be used only in conjunction with <see cref="GCP_JUSTIFY"/>
         /// and only if the font (and language) support Kashidas.
@@ -323,8 +323,8 @@ namespace Lsj.Util.Win32
         /// greater than the number of characters in the input string.
         /// Because of this, when Kashidas are used, the application cannot assume
         /// that setting the arrays to be the size of the input string will be sufficient.
-        /// (The maximum possible will be approximately <see cref="GCP_RESULTS.dxPageWidth"/>/<see cref="GCP_RESULTS.dxAveCharWidth"/>,
-        /// where <see cref="GCP_RESULTS.dxPageWidth"/> is the width of the document and <see cref="GCP_RESULTS.dxAveCharWidth"/>
+        /// (The maximum possible will be approximately dxPageWidth/dxAveCharWidth,
+        /// where dxPageWidth is the width of the document and dxAveCharWidth
         /// is the average character width as returned from a <see cref="GetTextMetrics"/> call).
         /// Note that just because <see cref="GetFontLanguageInfo"/> returns the <see cref="GCP_KASHIDA"/> flag
         /// does not mean that it has to be used in the call to <see cref="GetCharacterPlacement"/>, just that the option is available.
@@ -348,7 +348,7 @@ namespace Lsj.Util.Win32
         /// that it has to be used in the call to <see cref="GetCharacterPlacement"/>, just that the option is available.
         /// <see cref="GCP_MAXEXTENT"/>:
         /// Compute extents of the string only as long as the resulting extent,
-        /// in logical units, does not exceed the values specified by the <paramref name="nMexExtent"/> parameter.
+        /// in logical units, does not exceed the values specified by the <paramref name="nMaxExtent"/> parameter.
         /// <see cref="GCP_NEUTRALOVERRIDE"/>:
         /// Certain languages only.
         /// Override the normal handling of neutrals and treat them as strong characters that match the strings reading order.
@@ -442,7 +442,7 @@ namespace Lsj.Util.Win32
         /// whose glyph indexes advance width is less than the width of the leading character.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharacterPlacementW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetCharacterPlacement([In] HDC hdc, [In] LPCWSTR lpString, [In] int nCount, [In] int nMexExtent,
+        public static extern DWORD GetCharacterPlacement([In] HDC hdc, [In] LPCWSTR lpString, [In] int nCount, [In] int nMaxExtent,
             [In][Out] ref GCP_RESULTS lpResults, [In] GetCharacterPlacementFlags dwFlags);
 
         /// <summary>
