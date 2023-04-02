@@ -1,14 +1,24 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.Enums;
+using Lsj.Util.Win32.DirectX.Structs;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
-using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
+using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
-using Lsj.Util.Win32.DirectX.Enums;
-using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPTADDRESSCAPS;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSTATEBLOCKTYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -25,6 +35,46 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     public unsafe struct IDirect3DDevice9Ex
     {
         IntPtr* _vTable;
+
+        /// <summary>
+        /// Prepare the texture sampler for monochrome convolution filtering on a single-color texture.
+        /// </summary>
+        /// <param name="width">
+        /// The width of the filter kernel; ranging from 1 - <see cref="D3DCONVOLUTIONMONO_MAXWIDTH"/>.
+        /// The default value is 1.
+        /// </param>
+        /// <param name="height">
+        /// The height of the filter kernel; ranging from 1 - <see cref="D3DCONVOLUTIONMONO_MAXHEIGHT"/>.
+        /// The default value is 1.
+        /// </param>
+        /// <param name="rows">
+        /// An array of weights, one weight for each kernel sub-element in the width.
+        /// This parameter must be <see langword="null"/>, which will set the weights equal to the default value.
+        /// </param>
+        /// <param name="columns">
+        /// An array of weights, one weight for each kernel sub-element in the height.
+        /// This parameter must be <see langword="null"/>, which will set the weights equal to the default value.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method is designed to filter a single color texture.
+        /// A monochrome convolution filter is a 2D box filter with all of the weights set to 1.0; the filter kernel resolution ranges from 1 x 1 to 7 x 7.
+        /// When monochrome texture filtering is set to a texture sampler and texture sampling is performed at location, then Direct3D performs convolution.
+        /// Restrictions include:
+        /// The filter specified by this method is recorded in state blocks as a part of <see cref="D3DSBT_PIXELSTATE"/>.
+        /// The only texture address mode supported is: <see cref="D3DPTADDRESSCAPS_BORDER"/>; the border color is always 0.
+        /// This method is not supported for mipmaps.
+        /// Using a non-monochrome texture with convolution filtering will generate a driver error.
+        /// </remarks>
+        public HRESULT SetConvolutionMonoKernel([In] UINT width, [In] UINT height, [In] float[] rows, [In] float[] columns)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, float[], float[], HRESULT>)_vTable[120])(thisPtr, width, height, rows, columns);
+            }
+        }
 
         /// <summary>
         /// Copy a text string to one surface using an alphabet of glyphs on another surface.
@@ -91,6 +141,231 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         }
 
         /// <summary>
+        /// Swap the swapchain's next buffer with the front buffer.
+        /// </summary>
+        /// <param name="pSourceRect">
+        /// Pointer to a <see cref="RECT"/> structure indicating region on the source surface to copy in window client coordinates.
+        /// Only applies when the swapchain was created with the <see cref="D3DSWAPEFFECT_COPY"/> flag.
+        /// If <see cref="NullRef{RECT}"/>, the entire source surface is presented.
+        /// If the rectangle exceeds the source surface, it is clipped to the source surface.
+        /// </param>
+        /// <param name="pDestRect">
+        /// Pointer to <see cref="RECT"/> structure indicating the target region on the destination surface in window client coordinates.
+        /// Only applies when the swapchain was created with the <see cref="D3DSWAPEFFECT_COPY"/> flag.
+        /// If <see cref="NullRef{RECT}"/>, the entire client area is filled.
+        /// If the rectangle exceeds the destination client area, it is clipped to the destination client area.
+        /// </param>
+        /// <param name="hDestWindowOverride">
+        /// Pointer to a destination window whose client area is taken as the target for this presentation.
+        /// If this value is <see cref="NULL"/>, the runtime uses
+        /// the <see cref="D3DPRESENT_PARAMETERS.hDeviceWindow"/> member of <see cref="D3DPRESENT_PARAMETERS"/> for the presentation.
+        /// Note
+        /// If you create a swap chain with <see cref="D3DSWAPEFFECT_FLIPEX"/>, you must pass <see cref="NULL"/> to <paramref name="hDestWindowOverride"/>
+        /// </param>
+        /// <param name="pDirtyRegion">
+        /// Pointer to a <see cref="RGNDATA"/> structure indicating the smallest set of pixels that need to be transferred.
+        /// This value must be <see cref="NullRef{RGNDATA}"/> unless the swapchain was created with the <see cref="D3DSWAPEFFECT_COPY"/> flag.
+        /// For more information about swapchains, see Flipping Surfaces (Direct3D 9).
+        /// If this value is non-NULL, the contained region is expressed in back buffer coordinates.
+        /// The method takes these rectangles into account when optimizing the presentation
+        /// by copying only the pixels within the region, or some suitably expanded set of rectangles.
+        /// This is an aid to optimization only, and the application should not rely on the region being copied exactly.
+        /// The implementation can choose to copy the whole source rectangle.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Allows the application to request that the method return immediately when the driver reports that it cannot schedule a presentation.
+        /// Valid values are 0, or any combination of <see cref="D3DPRESENT"/> flags.
+        /// If <paramref name="dwFlags"/> = 0, this method behaves as it did prior to Direct3D 9.
+        /// Present will spin until the hardware is free, without returning an error.
+        /// If <paramref name="dwFlags"/> = <see cref="D3DPRESENT_DONOTFLIP"/> the display driver is called with the front buffer as both the source and target surface.
+        /// The driver responds by scheduling a frame synch, but not changing the displayed surface.
+        /// This flag is only available in full-screen mode or when using <see cref="D3DSWAPEFFECT_FLIPEX"/> in windowed mode.
+        /// If <paramref name="dwFlags"/> = <see cref="D3DPRESENT_DONOTWAIT"/>, and the hardware is busy processing or waiting for a vertical sync interval,
+        /// the method will return <see cref="D3DERR_WASSTILLDRAWING"/>.
+        /// If <paramref name="dwFlags"/> = <see cref="D3DPRESENT_FORCEIMMEDIATE"/>, <see cref="D3DPRESENT_INTERVAL_IMMEDIATE"/> is enforced on this Present call.
+        /// This flag can only be specified when using <see cref="D3DSWAPEFFECT_FLIPEX"/>. This behavior is the same for windowed and full-screen modes.
+        /// If <paramref name="dwFlags"/> = <see cref="D3DPRESENT_LINEAR_CONTENT"/>, gamma correction is performed from linear space to sRGB for windowed swap chains.
+        /// This flag will take effect only when the driver exposes <see cref="D3DCAPS3_LINEAR_TO_SRGB_PRESENTATION"/> (see Gamma (Direct3D 9)).
+        /// </param>
+        /// <returns>
+        /// Possible return values include: <see cref="S_OK"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DEVICEHUNG"/>,
+        /// <see cref="D3DERR_DEVICEREMOVED"/>, or <see cref="D3DERR_OUTOFVIDEOMEMORY"/> (see D3DERR).
+        /// See Lost Device Behavior Changes for more information about lost, hung, and removed devices.
+        /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// <see cref="D3DSWAPEFFECT_FLIPEX"/> is only available in Direct3D9Ex running on Windows 7 (or more current operating system).
+        /// </returns>
+        /// <remarks>
+        /// Similar to the <see cref="IDirect3DDevice9.Present"/> Method, <see cref="PresentEx"/> adds a <paramref name="dwFlags"/> parameter.
+        /// When the swapchain is created with <see cref="D3DSWAPEFFECT_FLIPEX"/> flag, <paramref name="pSourceRect"/>,
+        /// <paramref name="pDestRect"/> and <paramref name="pDirtyRegion"/> values must be set to NULL.
+        /// </remarks>
+        public HRESULT PresentEx([In] in RECT pSourceRect, [In] in RECT pDestRect, [In] HWND hDestWindowOverride, [In] in RGNDATA pDirtyRegion, [In] D3DPRESENT dwFlags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in RECT, in RECT, HWND, in RGNDATA, D3DPRESENT, HRESULT>)_vTable[122])
+                    (thisPtr, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion, dwFlags);
+            }
+        }
+
+        /// <summary>
+        /// Get the priority of the GPU thread.
+        /// </summary>
+        /// <param name="pPriority">
+        /// Current GPU priority.
+        /// Valid values range from -7 to 7.
+        /// </param>
+        /// <returns>
+        /// Possible return values include: <see cref="D3D_OK"/> or <see cref="D3DERR_DEVICEREMOVED"/> (see D3DERR).
+        /// </returns>
+        /// <remarks>
+        /// Use <see cref="IDirect3DDevice9Ex.SetGPUThreadPriority"/> to set the priority of a thread.
+        /// This method will retrieve the priority of the thread stored with the Direct3D device even if it was created with the <see cref="D3DCREATE_PUREDEVICE"/> flag.
+        /// </remarks>
+        public HRESULT GetGPUThreadPriority([Out] out INT pPriority)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out INT, HRESULT>)_vTable[123])(thisPtr, out pPriority);
+            }
+        }
+
+        /// <summary>
+        /// Set the priority on the GPU thread.
+        /// </summary>
+        /// <param name="Priority">
+        /// The thread priority, ranging from -7 to 7.
+        /// </param>
+        /// <returns>
+        /// Possible return values include: <see cref="D3D_OK"/>, <see cref="D3DERR_INVALIDCALL"/>, or <see cref="D3DERR_DEVICEREMOVED"/> (see D3DERR).
+        /// </returns>
+        /// <remarks>
+        /// GPU thread priority is not reset when a device is lost.
+        /// The effects of calls to this method are not recorded in state blocks.
+        /// </remarks>
+        public HRESULT SetGPUThreadPriority([In] INT Priority)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, INT, HRESULT>)_vTable[124])(thisPtr, Priority);
+            }
+        }
+
+        /// <summary>
+        /// Suspend execution of the calling thread until the next vertical blank signal.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// Swap chain index.
+        /// This is an optional, zero-based index used to specify a swap chain on a multihead card.
+        /// </param>
+        /// <returns>
+        /// This method will always return <see cref="D3D_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method allows applications to efficiently throttle their frame rate to that of the monitor associated with the device.
+        /// Following a vertical blank, the amount of time it takes for the thread to wake up is typically very short.
+        /// In some scenarios the hardware may stop generating vertical blank signals when nothing is being displayed on the monitor.
+        /// In this case, the method will wait approximately 100ms and return with <see cref="D3D_OK"/>.
+        /// </remarks>
+        public HRESULT WaitForVBlank([In] UINT iSwapChain)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[125])(thisPtr, iSwapChain);
+            }
+        }
+
+        /// <summary>
+        /// Checks an array of resources to determine if it is likely that they will cause a large stall at Draw time
+        /// because the system must make the resources GPU-accessible.
+        /// </summary>
+        /// <param name="pResourceArray">
+        /// An array of <see cref="IDirect3DResource9"/> pointers that indicate the resources to check.
+        /// </param>
+        /// <param name="NumResources">
+        /// A value indicating the number of resources passed into the <paramref name="pResourceArray"/> parameter up to a maximum of 65535.
+        /// </param>
+        /// <returns>
+        /// If all the resources are in GPU-accessible memory, the method will return <see cref="S_OK"/>.
+        /// The system may need to perform a remapping operation to promote the resources, but will not have to copy data.
+        /// If no allocation that comprises the resources is on disk, but at least one allocation is not in GPU-accessible memory,
+        /// the method will return <see cref="S_RESIDENT_IN_SHARED_MEMORY"/>.
+        /// The system may need to perform a copy to promote the resource.
+        /// If at least one allocation that comprises the resources is on disk, this method will return <see cref="S_NOT_RESIDENT"/>.
+        /// The system may need to perform a copy to promote the resource.
+        /// </returns>
+        /// <remarks>
+        /// This API is no more than a reasonable guess at residency, since resources may have been demoted by the time the application uses them.
+        /// The expected usage pattern is as follows.
+        /// If the application determines that a set of resources are not resident,
+        /// then the application will substitute a lower-LOD version of the resource and continue with rendering.
+        /// The video memory manager API, offers a feature to allow the application to express that it would like these lower-LOD resources
+        /// to be made more likely to stay resident in GPU-accessible memory.
+        /// It is the app's responsibility to create, fill and destroy these lower-LOD versions, if it so chooses.
+        /// The application also needs to begin promotion of the higher-LOD versions
+        /// when the residency check indicates that the resource is not resident in GPU-accessible memory.
+        /// Since a per-process lock exists in kernel mode, a performant implementation will spawn a separate process whose sole job is to promote resources.
+        /// The application communicates resource identity between the two process by means of the Sharing Resources shared surfaces API
+        /// and promotes them by means of the <see cref="IDirect3DResource9.SetPriority"/>.
+        /// </remarks>
+        public HRESULT CheckResourceResidency([In] P<IDirect3DResource9>[] pResourceArray, [In] UINT32 NumResources)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DResource9>[], UINT32, HRESULT>)_vTable[126])(thisPtr, pResourceArray, NumResources);
+            }
+        }
+
+        /// <summary>
+        /// Set the number of frames that the system is allowed to queue for rendering.
+        /// </summary>
+        /// <param name="MaxLatency">
+        /// The maximum number of back buffer frames that a driver can queue.
+        /// The value is typically 3, but can range from 1 to 20.
+        /// A value of 0 will reset latency to the default.
+        /// For multi-head devices, <paramref name="MaxLatency"/> is specified per-head.
+        /// </param>
+        /// <returns>
+        /// Possible return values include: <see cref="D3D_OK"/> or <see cref="D3DERR_DEVICEREMOVED"/> (see D3DERR).
+        /// </returns>
+        /// <remarks>
+        /// Frame latency is the number of frames that are allowed to be stored in a queue, before submission for rendering.
+        /// Latency is often used to control how the CPU chooses between responding to user input and frames that are in the render queue.
+        /// It is often beneficial for applications that have no user input (for example, video playback) to queue more than 3 frames of data.
+        /// </remarks>
+        public HRESULT SetMaximumFrameLatency([In] UINT MaxLatency)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[127])(thisPtr, MaxLatency);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the number of frames of data that the system is allowed to queue.
+        /// </summary>
+        /// <param name="pMaxLatency">
+        /// Returns the number of frames that can be queued for render.
+        /// The value is typically 3, but can range from 1 to 20.
+        /// </param>
+        /// <returns>
+        /// Possible return values include: <see cref="D3D_OK"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DEVICEREMOVED"/>,
+        /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_INVALIDCALL"/>, or <see cref="D3DERR_OUTOFVIDEOMEMORY"/> (see D3DERR).
+        /// </returns>
+        /// <remarks>
+        /// Frame latency is the number of frames that are allowed to be stored in a queue, before submission for rendering.
+        /// Latency is often used to control how the CPU chooses between responding to user input and frames that are in the render queue.
+        /// It is often beneficial for applications that have no user input (for example, video playback) to queue more than 3 frames of data.
+        /// </remarks>
+        public HRESULT GetMaximumFrameLatency([Out] out UINT pMaxLatency)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out UINT, HRESULT>)_vTable[128])(thisPtr, out pMaxLatency);
+            }
+        }
+
+        /// <summary>
         /// Reports the current cooperative-level status of the Direct3D device for a windowed or full-screen application.
         /// </summary>
         /// <param name="hDestinationWindow">
@@ -115,6 +390,264 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, HWND, HRESULT>)_vTable[129])(thisPtr, hDestinationWindow);
+            }
+        }
+
+        /// <summary>
+        /// Creates a render-target surface.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the render-target surface, in pixels.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the render-target surface, in pixels.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the render target.
+        /// </param>
+        /// <param name="MultiSample">
+        /// Member of the <see cref="D3DMULTISAMPLE_TYPE"/> enumerated type, which describes the multisampling buffer type.
+        /// This parameter specifies the antialiasing type for this render target.
+        /// When this surface is passed to <see cref="IDirect3DDevice9.SetRenderTarget"/>,
+        /// its multisample type must be the same as that of the depth-stencil set by <see cref="IDirect3DDevice9.SetDepthStencilSurface"/>.
+        /// </param>
+        /// <param name="MultisampleQuality">
+        /// Quality level.
+        /// The valid range is between zero and one less than the level returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+        /// Passing a larger value returns the error, <see cref="D3DERR_INVALIDCALL"/>.
+        /// The <paramref name="MultisampleQuality"/> values of paired render targets, depth stencil surfaces, and the multisample type must all match.
+        /// </param>
+        /// <param name="Lockable">
+        /// Render targets are not lockable unless the application specifies <see cref="TRUE"/> for <paramref name="Lockable"/>.
+        /// Note that lockable render targets reduce performance on some graphics hardware.
+        /// The readback performance (moving data from video memory to system memory) depends on the type of hardware used (AGP vs. PCI Express)
+        /// and is usually far lower than upload performance (moving data from system to video memory).
+        /// If you need read access to render targets, use <see cref="IDirect3DDevice9.GetRenderTargetData"/> instead of lockable render targets.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <param name="Usage">
+        /// Combination of one or more <see cref="D3DUSAGE"/> constants which can be OR'd together.
+        /// Value of 0 indicates no usage.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// Render-target surfaces are placed in the <see cref="D3DPOOL_DEFAULT"/> memory class.
+        /// The creation of lockable, multisampled render targets is not supported.
+        /// </remarks>
+        public HRESULT CreateRenderTargetEx([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample, [In] DWORD MultisampleQuality,
+            [In] BOOL Lockable, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle, [In] D3DUSAGE Usage)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, D3DUSAGE, HRESULT>)_vTable[130])
+                    (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Lockable, out ppSurface, ref pSharedHandle, Usage);
+            }
+        }
+
+        /// <summary>
+        /// Create an off-screen surface.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the surface.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the surface.
+        /// </param>
+        /// <param name="Format">
+        /// Format of the surface.
+        /// See <see cref="D3DFORMAT"/>.
+        /// </param>
+        /// <param name="Pool">
+        /// Surface pool type.
+        /// See <see cref="D3DPOOL"/>.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Pointer to the <see cref="IDirect3DSurface9"/> interface created.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <param name="Usage">
+        /// Combination of one or more <see cref="D3DUSAGE"/> constants which can be OR'd together.
+        /// Value of 0 indicates no usage.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="D3DPOOL_SCRATCH"/> will return a surface that has identical characteristics to a surface
+        /// created by the DirectX 8.x method <see cref="CreateImageSurface"/>.
+        /// <see cref="D3DPOOL_DEFAULT"/> is the appropriate pool for use with the <see cref="IDirect3DDevice9.StretchRect"/> and <see cref="IDirect3DDevice9.ColorFill"/>.
+        /// <see cref="D3DPOOL_MANAGED"/> is not allowed when creating an offscreen plain surface.
+        /// For more information about memory pools, see <see cref="D3DPOOL"/>.
+        /// Off-screen plain surfaces are always lockable, regardless of their pool types.
+        /// </remarks>
+        public HRESULT CreateOffscreenPlainSurfaceEx([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
+            [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle, [In] D3DUSAGE Usage)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DPOOL, out P<IDirect3DSurface9>, ref HANDLE, D3DUSAGE, HRESULT>)_vTable[131])
+                    (thisPtr, Width, Height, Format, Pool, out ppSurface, ref pSharedHandle, Usage);
+            }
+        }
+
+        /// <summary>
+        /// Creates a depth-stencil surface.
+        /// </summary>
+        /// <param name="Width">
+        /// Width of the depth-stencil surface, in pixels.
+        /// </param>
+        /// <param name="Height">
+        /// Height of the depth-stencil surface, in pixels.
+        /// </param>
+        /// <param name="Format">
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the depth-stencil surface.
+        /// This value must be one of the enumerated depth-stencil formats for this device.
+        /// </param>
+        /// <param name="MultiSample">
+        /// Member of the <see cref="D3DMULTISAMPLE_TYPE"/> enumerated type, which describes the multisampling buffer type.
+        /// This value must be one of the allowed multisample types.
+        /// When this surface is passed to <see cref="IDirect3DDevice9.SetDepthStencilSurface"/>,
+        /// its multisample type must be the same as that of the render target set by <see cref="IDirect3DDevice9.SetRenderTarget"/>.
+        /// </param>
+        /// <param name="MultisampleQuality">
+        /// Quality level.
+        /// The valid range is between zero and one less than the level returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+        /// Passing a larger value returns the error, <see cref="D3DERR_INVALIDCALL"/>.
+        /// The <paramref name="MultisampleQuality"/> values of paired render targets, depth stencil surfaces, and the <paramref name="MultiSample"/> type must all match.
+        /// </param>
+        /// <param name="Discard">
+        /// Set this flag to <see cref="TRUE"/> to enable z-buffer discarding, and <see cref="FALSE"/> otherwise.
+        /// If this flag is set, the contents of the depth stencil buffer will be invalid 
+        /// after calling either <see cref="IDirect3DDevice9.Present"/>:: or <see cref="IDirect3DDevice9.SetDepthStencilSurface"/> with a different depth surface.
+        /// This flag has the same behavior as the constant, <see cref="D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL"/>, in <see cref="D3DPRESENTFLAG"/>.
+        /// </param>
+        /// <param name="ppSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the created depth-stencil surface resource.
+        /// </param>
+        /// <param name="pSharedHandle">
+        /// Reserved.
+        /// Set this parameter to <see cref="NullRef{HANDLE}"/>.
+        /// This parameter can be used in Direct3D 9 for Windows Vista to share resources.
+        /// </param>
+        /// <param name="Usage">
+        /// Combination of one or more <see cref="D3DUSAGE"/> constants which can be OR'd together.
+        /// Value of 0 indicates no usage.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// The memory class of the depth-stencil buffer is always <see cref="D3DPOOL_DEFAULT"/>.
+        /// </remarks>
+        public HRESULT CreateDepthStencilSurfaceEx([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample, [In] DWORD MultisampleQuality,
+            [In] BOOL Discard, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle, [In] D3DUSAGE Usage)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, D3DUSAGE, HRESULT>)_vTable[132])
+                    (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Discard, out ppSurface, ref pSharedHandle, Usage);
+            }
+        }
+
+        /// <summary>
+        /// Resets the type, size, and format of the swap chain with all other surfaces persistent.
+        /// </summary>
+        /// <param name="pPresentationParameters">
+        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure, describing the new presentation parameters.
+        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// When switching to full-screen mode, Direct3D will try to find a desktop format that matches the back buffer format,
+        /// so that back buffer and front buffer formats will be identical (to eliminate the need for color conversion).
+        /// When this method returns:
+        /// <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/>, <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>,
+        /// and <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> are set to zero.
+        /// <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> is set to <see cref="D3DFORMAT"/> for windowed mode only; a full-screen mode must specify a format.
+        /// </param>
+        /// <param name="pFullscreenDisplayMode">
+        /// Pointer to a <see cref="D3DDISPLAYMODEEX"/> structure that describes the properties of the desired display mode.
+        /// This value must be provided for fullscreen applications, but can be <see cref="NullRef{D3DDISPLAYMODEEX}"/> for windowed applications.
+        /// </param>
+        /// <returns>
+        /// The method can return: <see cref="D3D_OK"/>, <see cref="D3DERR_DEVICELOST"/> or <see cref="D3DERR_DEVICEHUNG"/> (see D3DERR).
+        /// If this method returns <see cref="D3DERR_DEVICELOST"/> or <see cref="D3DERR_DEVICEHUNG"/>
+        /// then the application can only call <see cref="ResetEx"/>, <see cref="CheckDeviceState"/> or release the interface pointer;
+        /// any other API call will cause an exception.
+        /// </returns>
+        /// <remarks>
+        /// If a call to <see cref="ResetEx"/> fails, the device will be placed in the lost state
+        /// (as indicated by a return value of <see cref="D3DERR_DEVICELOST"/> from a call to <see cref="CheckDeviceState"/>::).
+        /// Refer to <see cref="CheckDeviceState"/> and Lost Device Behavior Changes for further information
+        /// concerning the use of <see cref="ResetEx"/> in the context of lost devices.
+        /// Unlike previous versions of DirectX, calling <see cref="ResetEx"/> does not cause surfaces, textures or state information to be lost.
+        /// Pixel shaders and vertex shaders survive <see cref="ResetEx"/> calls for Direct3D 9.
+        /// They do not need to be re-created explicitly by the application.
+        /// There are two different types of swap chains: full-screen or windowed.
+        /// If the new swap chain is full-screen, the adapter will be placed in the display mode that matches the new size.
+        /// Applications can expect messages to be sent to them during this call (for example, before this call is returned);
+        /// applications should take precautions not to call into Direct3D at this time.
+        /// A call to <see cref="ResetEx"/> will fail if called on a different thread than that used to create the device being reset.
+        /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
+        /// when calling <see cref="IDirect3D9Ex.CreateDeviceEx"/>, <see cref="ResetEx"/>, and <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>.
+        /// This means the application does not have to query the current desktop format before calling <see cref="IDirect3D9Ex.CreateDeviceEx"/> for windowed mode.
+        /// For full-screen mode, the back buffer format must be specified.
+        /// Setting <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> equal to zero (BackBufferCount = 0) results in one back buffer.
+        /// When trying to reset more than one display adapter in a group,
+        /// set <paramref name="pPresentationParameters"/> to point to an array of <see cref="D3DPRESENT_PARAMETERS"/> structures, one for each display in the adapter group.
+        /// If a multihead device was created with <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>,
+        /// <see cref="ResetEx"/> requires an array of <see cref="D3DPRESENT_PARAMETERS"/> structures wherein each structure must specify a full-screen display.
+        /// To switch back to windowed mode, the application must destroy the device and re-create a non-multihead device in windowed mode.
+        /// </remarks>
+        public HRESULT ResetEx([In][Out] ref D3DPRESENT_PARAMETERS pPresentationParameters, [In][Out] ref D3DDISPLAYMODEEX pFullscreenDisplayMode)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ref D3DPRESENT_PARAMETERS, ref D3DDISPLAYMODEEX, HRESULT>)_vTable[133])
+                    (thisPtr, ref pPresentationParameters, ref pFullscreenDisplayMode);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the display mode's spatial resolution, color resolution, refresh frequency, and rotation settings.
+        /// </summary>
+        /// <param name="iSwapChain">
+        /// An unsigned integer specifying the swap chain.
+        /// </param>
+        /// <param name="pMode">
+        /// Pointer to a <see cref="D3DDISPLAYMODEEX"/> structure containing data about the display mode of the adapter.
+        /// As opposed to the display mode of the device, which may not be active if the device does not own full-screen mode.
+        /// Can be set to <see cref="NullRef{D3DDISPLAYMODEEX}"/>.
+        /// </param>
+        /// <param name="pRotation">
+        /// Pointer to a <see cref="D3DDISPLAYROTATION"/> indicating the type of screen rotation the application will do.
+        /// The value returned through this pointer is important when the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/> flag is used;
+        /// otherwise, it can be set to <see cref="NullRef{D3DDISPLAYROTATION}"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        public HRESULT GetDisplayModeEx([In] UINT iSwapChain, [Out] out D3DDISPLAYMODEEX pMode, [Out] out D3DDISPLAYROTATION pRotation)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out D3DDISPLAYMODEEX, out D3DDISPLAYROTATION, HRESULT>)_vTable[134])(thisPtr, iSwapChain, out pMode, out pRotation);
             }
         }
     }

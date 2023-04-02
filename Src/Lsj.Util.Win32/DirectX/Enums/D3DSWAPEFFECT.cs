@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
 using static Lsj.Util.Win32.DirectX.Enums.D3DMULTISAMPLE_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
@@ -79,7 +80,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// Accordingly, the presentation is synchronized with the display adapter's vertical retrace
         /// and its rate is constrained by the chosen presentation interval.
         /// A swap chain specified with the <see cref="D3DPRESENT_INTERVAL_IMMEDIATE"/> flag is the only exception.
-        /// (Refer to the description of the <see cref="D3DPRESENT_PARAMETERS.PresentationIntervals"/> member
+        /// (Refer to the description of the <see cref="D3DPRESENT_PARAMETERS.PresentationInterval"/> member
         /// of the <see cref="D3DPRESENT_PARAMETERS"/> structure.)
         /// In this case, a Present operation copies the back buffer content directly to the front buffer without waiting for the vertical retrace.
         /// </summary>

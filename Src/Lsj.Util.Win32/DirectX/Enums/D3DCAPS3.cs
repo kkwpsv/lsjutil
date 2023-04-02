@@ -1,8 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
-using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
-using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
-using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
+using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

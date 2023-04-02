@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -8,6 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -26,6 +28,104 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     public unsafe struct IDirect3D9Ex
     {
         IntPtr* _vTable;
+
+        /// <summary>
+        /// Returns the number of display modes available.
+        /// </summary>
+        /// <param name="Adapter">
+        /// Ordinal number denoting the display adapter from which to retrieve the display mode count.
+        /// </param>
+        /// <param name="pFilter">
+        /// Specifies the characteristics of the desired display mode.
+        /// See <see cref="D3DDISPLAYMODEFILTER"/>.
+        /// </param>
+        /// <returns>
+        /// The number of display modes available.
+        /// A return of value zero from this method is an indication that no such display mode is supported or simply this monitor is no longer available.
+        /// </returns>
+        /// <remarks>
+        /// Events such as display mode changes on other heads of the same hardware, monitor change or its connection status change,
+        /// and desktop extension/unextension could all affect the number of display mode available.
+        /// To fullscreen applications, <see cref="S_PRESENT_MODE_CHANGED"/> returned from <see cref="IDirect3DDevice9Ex.PresentEx"/>
+        /// or <see cref="IDirect3DDevice9Ex.CheckDeviceState"/> is the indication of display mode setting failure due to those events.
+        /// To increase the chance of setting a currently available display mode successfully,
+        /// fullscreen applications should try to requery the available display mode list upon receiving <see cref="S_PRESENT_MODE_CHANGED"/>.
+        /// </remarks>
+        public UINT GetAdapterModeCountEx([In] UINT Adapter, [In] in D3DDISPLAYMODEFILTER pFilter)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3DDISPLAYMODEFILTER, UINT>)_vTable[17])(thisPtr, Adapter, pFilter);
+            }
+        }
+
+        /// <summary>
+        /// This method returns the actual display mode info based on the given mode index.
+        /// </summary>
+        /// <param name="Adapter">
+        /// Ordinal number denoting the display adapter to enumerate.
+        /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
+        /// This method returns <see cref="D3DERR_INVALIDCALL"/> when this value equals or exceeds the number of display adapters in the system.
+        /// </param>
+        /// <param name="pFilter">
+        /// See <see cref="D3DDISPLAYMODEFILTER"/>.
+        /// </param>
+        /// <param name="Mode">
+        /// Represents the display-mode index which is an unsigned integer between zero and the value returned by <see cref="IDirect3D9.GetAdapterModeCount"/> minus one.
+        /// </param>
+        /// <param name="pMode">
+        /// A pointer to the available display mode of type <see cref="D3DDISPLAYMODEEX"/>.
+        /// </param>
+        /// <returns>
+        /// If the device can be used on this adapter, <see cref="D3D_OK"/> is returned.
+        /// If the Adapter equals or exceeds the number of display adapters in the system, <see cref="D3DERR_INVALIDCALL"/> is returned.
+        /// </returns>
+        public HRESULT EnumAdapterModesEx([In] UINT Adapter, [In] in D3DDISPLAYMODEFILTER pFilter, [In] UINT Mode, [Out] out D3DDISPLAYMODEEX pMode)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3DDISPLAYMODEFILTER, UINT, out D3DDISPLAYMODEEX, HRESULT>)_vTable[18])(thisPtr, Adapter, pFilter, Mode, out pMode);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the current display mode and rotation settings of the adapter.
+        /// </summary>
+        /// <param name="Adapter">
+        /// Ordinal number that denotes the display adapter to query.
+        /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
+        /// </param>
+        /// <param name="pMode">
+        /// Pointer to a <see cref="D3DDISPLAYMODEEX"/> structure containing data about the display mode of the adapter.
+        /// As opposed to the display mode of the device, which may not be active if the device does not own full-screen mode.
+        /// Can be set to <see cref="NullRef{D3DDISPLAYMODEEX}"/>.
+        /// </param>
+        /// <param name="pRotation">
+        /// Pointer to a <see cref="D3DDISPLAYROTATION"/> structure indicating the type of screen rotation the application will do.
+        /// The value returned through this pointer is important when the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/> flag is used;
+        /// otherwise, it can be set to <see cref="NullRef{D3DDISPLAYROTATION}"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If <paramref name="Adapter"/> is out of range or <paramref name="pMode"/> is invalid, this method returns <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetAdapterDisplayModeEx"/> does not return the correct format when the display is in an extended format, such as 2:10:10:10.
+        /// Instead, it returns the format X8R8G8B8.
+        /// To windowed applications, a value of <see cref="S_PRESENT_MODE_CHANGED"/> returned
+        /// from <see cref="IDirect3DDevice9Ex.PresentEx"/> or <see cref="IDirect3DDevice9Ex.CheckDeviceState"/> indicates
+        /// that the display mode changed and that the current display mode might have a different format.
+        /// To avoid a color-converting Present blt, windowed applications can optionally get new display mode information
+        /// by using this method and adjusting its swap chain format accordingly.
+        /// This method returns <see cref="D3DERR_NOTAVAILABLE"/> if this head is no longer part of the desktop or if the monitor is disconnected.
+        /// </remarks>
+        public HRESULT GetAdapterDisplayModeEx([In] UINT Adapter, [In][Out] ref D3DDISPLAYMODEEX pMode, [In][Out] ref D3DDISPLAYROTATION pRotation)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, ref D3DDISPLAYMODEEX, ref D3DDISPLAYROTATION, HRESULT>)_vTable[19])(thisPtr, Adapter, ref pMode, ref pRotation);
+            }
+        }
 
         /// <summary>
         /// Creates a device to represent the display adapter.
@@ -77,6 +177,28 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             {
                 return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DDEVTYPE, HWND, D3DCREATE, ref D3DPRESENT_PARAMETERS, ref D3DDISPLAYMODEEX, out P<IDirect3DDevice9Ex>, HRESULT>)_vTable[20])
                     (thisPtr, Adapter, DeviceType, hFocusWindow, BehaviorFlags, ref pPresentationParameters, ref pFullscreenDisplayMode, out ppReturnedDeviceInterface);
+            }
+        }
+
+        /// <summary>
+        /// This method returns a unique identifier for the adapter that is specific to the adapter hardware.
+        /// Applications can use this identifier to define robust mappings across various APIs (Direct3D 9, DXGI).
+        /// </summary>
+        /// <param name="Adapter">
+        /// Ordinal number denoting the display adapter from which to retrieve the LUID.
+        /// </param>
+        /// <param name="pLUID">
+        /// A unique identifier for the given adapter.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        public HRESULT GetAdapterLUID([In] UINT Adapter, [Out] out LUID pLUID)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out LUID, HRESULT>)_vTable[21])(thisPtr, Adapter, out pLUID);
             }
         }
     }
