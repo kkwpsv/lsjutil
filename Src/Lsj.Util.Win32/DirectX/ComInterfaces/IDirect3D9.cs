@@ -614,6 +614,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         }
 
         /// <summary>
+        /// Returns the handle of the monitor associated with the Direct3D object.
+        /// </summary>
+        /// <param name="Adapter">
+        /// Ordinal number that denotes the display adapter.
+        /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
+        /// </param>
+        /// <returns>
+        /// Handle of the monitor associated with the Direct3D object.
+        /// </returns>
+        public HRESULT GetAdapterMonitor([In] UINT Adapter)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[15])(thisPtr, Adapter);
+            }
+        }
+
+        /// <summary>
         /// Creates a device to represent the display adapter.
         /// </summary>
         /// <param name="Adapter">
@@ -699,7 +717,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DDEVTYPE, HWND, D3DCREATE, ref D3DPRESENT_PARAMETERS, out P<IDirect3DDevice9>, HRESULT>)_vTable[15])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DDEVTYPE, HWND, D3DCREATE, ref D3DPRESENT_PARAMETERS, out P<IDirect3DDevice9>, HRESULT>)_vTable[16])
                     (thisPtr, Adapter, DeviceType, hFocusWindow, BehaviorFlags, ref pPresentationParameters, out ppReturnedDeviceInterface);
             }
         }

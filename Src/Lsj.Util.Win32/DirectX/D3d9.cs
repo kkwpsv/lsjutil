@@ -52,5 +52,8 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [DllImport("D3d9.dll", CharSet = CharSet.Unicode, EntryPoint = "Direct3DCreate9", ExactSpelling = true)]
         public static extern P<IDirect3D9> Direct3DCreate9([In] UINT SDKVersion);
+
+        [DllImport("D3d9.dll", CharSet = CharSet.Unicode, EntryPoint = "Direct3DCreate9Ex", ExactSpelling = true)]
+        public static extern HRESULT Direct3DCreate9Ex([In] UINT SDKVersion, [Out] out P<IDirect3D9Ex> unnamedParam2);
     }
 }
