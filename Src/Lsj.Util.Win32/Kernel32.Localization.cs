@@ -259,7 +259,7 @@ namespace Lsj.Util.Win32
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumCalendarInfoEx([In] CALINFO_ENUMPROCEX lpCalInfoEnumProcEx, [In] LCID Locale, [In] CALID Calendar, [In] CALTYPE CalType);
 
         /// <summary>
