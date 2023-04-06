@@ -20,11 +20,21 @@ test-debug:
   stage: test
   script:
     - ".\\test-debug.ps1"
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: ".\\Test\\Lsj.Util.Tests\\TestResults\\*\\coverage.cobertura.xml"
 
 test:
   stage: test
   script:
     - ".\\test.ps1"
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: ".\\Test\\Lsj.Util.Tests\\TestResults\\*\\coverage.cobertura.xml"
     
 push-debug:
   stage: push
