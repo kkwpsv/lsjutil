@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
+using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDECLTYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DQUERYTYPE;
@@ -475,5 +476,10 @@ namespace Lsj.Util.Win32.DirectX
         /// D3DWRAP_W
         /// </summary>
         public const uint D3DWRAP_W = 0x00000004;
+
+        /// <summary>
+        /// IID_IDXGIFactory
+        /// </summary>
+        public static readonly IID IID_IDXGIFactory = new Guid("7b7166ec-21c7-44ae-b21a-c9ae321ae369");
     }
 }
