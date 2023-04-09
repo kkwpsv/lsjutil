@@ -212,9 +212,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Calling this method indicates that the application will need this managed resource shortly.
         /// This method has no effect on nonmanaged resources.
-        /// <see cref="IDirect3DResource9.PreLoad"/> detects "thrashing" conditions
+        /// <see cref="PreLoad"/> detects "thrashing" conditions
         /// where more resources are being used in each frame than can fit in video memory simultaneously.
-        /// Under such circumstances <see cref="IDirect3DResource9.PreLoad"/> silently does nothing.
+        /// Under such circumstances <see cref="PreLoad"/> silently does nothing.
         /// </remarks>
         public void PreLoad()
         {
@@ -237,6 +237,5 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 return ((delegate* unmanaged[Stdcall]<void*, D3DRESOURCETYPE>)_vTable[10])(thisPtr);
             }
         }
-
     }
 }

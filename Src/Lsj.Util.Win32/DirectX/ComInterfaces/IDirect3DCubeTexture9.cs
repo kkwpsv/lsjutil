@@ -1,10 +1,15 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
+using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLOCK;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -20,6 +25,127 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     public unsafe struct IDirect3DCubeTexture9
     {
         IntPtr* _vTable;
+
+        /// <summary>
+        /// Retrieves a description of one face of the specified cube texture level.
+        /// </summary>
+        /// <param name="Level">
+        /// Specifies a level of a mipmapped cube texture.
+        /// </param>
+        /// <param name="pDesc">
+        /// Pointer to a <see cref="D3DSURFACE_DESC"/> structure, describing one face of the specified cube texture level.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="D3DSURFACE_DESC"/> structure contains <see cref="D3DSURFACE_DESC.Width"/> and <see cref="D3DSURFACE_DESC.Height"/> members,
+        /// which describe the size of one face in the cube.
+        /// To get the size of the entire cube, multiply six (the number of cube faces) by the product of <see cref="D3DSURFACE_DESC.Width"/> and <see cref="D3DSURFACE_DESC.Height"/>.
+        /// </remarks>
+        public HRESULT GetLevelDesc([In] UINT Level, [Out] out D3DSURFACE_DESC pDesc)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out D3DSURFACE_DESC, HRESULT>)_vTable[17])(thisPtr, Level, out pDesc);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a cube texture map surface.
+        /// </summary>
+        /// <param name="FaceType">
+        /// Member of the <see cref="D3DCUBEMAP_FACES"/> enumerated type, identifying a cube map face.
+        /// </param>
+        /// <param name="Level">
+        /// Specifies a level of a mipmapped cube texture.
+        /// </param>
+        /// <param name="ppCubeMapSurface">
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned cube texture map surface.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// </remarks>
+        public HRESULT GetCubeMapSurface([In] D3DCUBEMAP_FACES FaceType, [In] UINT Level, [Out] out P<IDirect3DSurface9> ppCubeMapSurface)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, D3DCUBEMAP_FACES, UINT, out P<IDirect3DSurface9>, HRESULT>)_vTable[18])(thisPtr, FaceType, Level, out ppCubeMapSurface);
+            }
+        }
+
+        /// <summary>
+        /// Locks a rectangle on a cube texture resource.
+        /// </summary>
+        /// <param name="FaceType">
+        /// Member of the <see cref="D3DCUBEMAP_FACES"/> enumerated type, identifying a cube map face.
+        /// </param>
+        /// <param name="Level">
+        /// Specifies a level of a mipmapped cube texture.
+        /// </param>
+        /// <param name="pLockedRect">
+        /// Pointer to a <see cref="D3DLOCKED_RECT"/> structure, describing the region to lock.
+        /// </param>
+        /// <param name="pRect">
+        /// Pointer to a rectangle to lock.
+        /// Specified by a pointer to a <see cref="RECT"/> structure.
+        /// Specifying <see cref="NullRef{RECT}"/> for this parameter expands the dirty region to cover the entire cube texture.
+        /// </param>
+        /// <param name="Flags">
+        /// Combination of zero or more locking flags that describe the type of lock to perform.
+        /// For this method, the valid flags are:
+        /// <see cref="D3DLOCK_DISCARD"/>, <see cref="D3DLOCK_NO_DIRTY_UPDATE"/>,
+        /// <see cref="D3DLOCK_NOSYSLOCK"/>, <see cref="D3DLOCK_READONLY"/>
+        /// You may not specify a subrect when using <see cref="D3DLOCK_DISCARD"/>.
+        /// For a description of the flags, see <see cref="D3DLOCK"/>.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned if one or more of the arguments is invalid.
+        /// </returns>
+        /// <remarks>
+        /// For performance reasons, dirty regions are only recorded for level zero of a texture.
+        /// Dirty regions are automatically recorded when <see cref="LockRect"/> is called without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
+        /// See <see cref="IDirect3DDevice9.UpdateTexture"/> for more information.
+        /// Cube textures created with <see cref="D3DPOOL_DEFAULT"/> are not lockable.
+        /// Cube textures created in video memory are lockable when created with <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// The only lockable format for a depth-stencil texture is <see cref="D3DFMT_D16_LOCKABLE"/>.
+        /// </remarks>
+        public HRESULT LockRect([In] D3DCUBEMAP_FACES FaceType, [In] UINT Level, [Out] out D3DLOCKED_RECT pLockedRect, [In] in RECT pRect, [In] D3DLOCK Flags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, D3DCUBEMAP_FACES, UINT, out D3DLOCKED_RECT, in RECT, D3DLOCK, HRESULT>)_vTable[19])
+                    (thisPtr, FaceType, Level, out pLockedRect, pRect, Flags);
+            }
+        }
+
+        /// <summary>
+        /// Unlocks a rectangle on a cube texture resource.
+        /// </summary>
+        /// <param name="FaceType">
+        /// Member of the <see cref="D3DCUBEMAP_FACES"/> enumerated type, identifying a cube map face.
+        /// </param>
+        /// <param name="Level">
+        /// Specifies a level of a mipmapped cube texture.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        public HRESULT UnlockRect([In] D3DCUBEMAP_FACES FaceType, [In] UINT Level)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, D3DCUBEMAP_FACES, UINT, HRESULT>)_vTable[20])(thisPtr, FaceType, Level);
+            }
+        }
 
         /// <summary>
         /// Adds a dirty region to a cube texture resource.

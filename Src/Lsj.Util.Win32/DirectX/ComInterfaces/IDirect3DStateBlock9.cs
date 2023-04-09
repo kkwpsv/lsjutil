@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -12,9 +13,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d9helper/nn-d3d9helper-idirect3dstateblock9"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// This interface can be used to save and restore pipeline state. It can also be used to capture the current state.
+    /// The LPDIRECT3DSTATEBLOCK9 and PDIRECT3DSTATEBLOCK9 types are defined as pointers to the IDirect3DStateBlock9 interface.
+    /// <code>
+    /// typedef struct IDirect3DStateBlock9 *LPDIRECT3DSTATEBLOCK9, *PDIRECT3DSTATEBLOCK9;
+    /// </code>
+    /// </remarks>
     public unsafe struct IDirect3DStateBlock9
     {
         IntPtr* _vTable;
+
+        /// <summary>
+        /// Gets the device.
+        /// </summary>
+        /// <param name="ppDevice">
+        /// Pointer to the <see cref="IDirect3DDevice9"/> interface that is returned.
+        /// </param>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        public HRESULT GetDevice([Out] out P<IDirect3DDevice9> ppDevice)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IDirect3DDevice9>, HRESULT>)_vTable[3])(thisPtr, out ppDevice);
+            }
+        }
 
         /// <summary>
         /// Capture the current value of states that are included in a stateblock.
@@ -49,6 +75,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[4])(thisPtr);
+            }
+        }
+
+        /// <summary>
+        /// Apply the state block to the current device state.
+        /// </summary>
+        /// <returns>
+        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// If the method fails while in record mode, the return value is <see cref="D3DERR_INVALIDCALL"/>.
+        /// </returns>
+        public HRESULT Apply()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[5])(thisPtr);
             }
         }
     }
