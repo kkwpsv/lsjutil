@@ -28,13 +28,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// The following code shows how.
     /// <code>
     /// IDXGIDevice * pDXGIDevice = nullptr;
-    /// hr = g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+    /// hr = g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&amp;pDXGIDevice);
     /// 
-    /// hr = g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
-    /// hr = pDXGIDevice->GetAdapter( &pDXGIAdapter );
+    /// hr = g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&amp;pDXGIDevice);
+    /// hr = pDXGIDevice->GetAdapter( &amp;pDXGIAdapter );
     /// 
     /// IDXGIFactory * pIDXGIFactory = nullptr;
-    /// pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&pIDXGIFactory);
+    /// pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&amp;pIDXGIFactory);
     /// </code>
     /// Windows Phone 8: This API is supported.
     /// </remarks>
@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the application does not perform this sequence, DXGI will still make the full-screen/windowed transition,
         /// but may be forced to use a stretch operation (since the back buffers may not be the correct size), which may be less efficient.
         /// Even if a stretch is not required, presentation may not be optimal because the back buffers might not be directly interchangeable with the front buffer.
-        /// Thus, a call to <see cref="IDXGISwapChain.ResizeBuffers"/ on <see cref="WM_SIZE"/> is always recommended,
+        /// Thus, a call to <see cref="IDXGISwapChain.ResizeBuffers"/> on <see cref="WM_SIZE"/> is always recommended,
         /// since <see cref="WM_SIZE"/> is always sent during a fullscreen transition.
         /// While windowed, the application can, if it chooses, restrict the size of its window's client area to sizes to which it is comfortable rendering.
         /// A fully flexible application would make no such restriction,

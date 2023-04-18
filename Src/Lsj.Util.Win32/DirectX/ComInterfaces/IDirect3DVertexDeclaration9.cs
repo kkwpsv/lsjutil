@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
-using Lsj.Util.Win32.DirectX.Structs;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

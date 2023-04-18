@@ -773,7 +773,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// Width and height must be even.
         /// Direct3D 11 staging resources and initData parameters for this format use (rowPitch * (height + (height / 2))) bytes.
         /// An app using the YUY 4:2:0 formats must map the luma (Y) plane separately from the chroma (UV) planes.
-        /// Developers do this by calling <::CreateShaderResourceView twice for the same texture and passing in 1-channel and 2-channel formats.
+        /// Developers do this by calling <see cref="ID3D12Device.CreateShaderResourceView"/> twice for the same texture and passing in 1-channel and 2-channel formats.
         /// Passing in a 1-channel format compatible with the Y plane maps only the Y plane.
         /// Passing in a 2-channel format compatible with the UV planes (together) maps only the U and V planes as a single resource view.
         /// Direct3D 11.1:  This value is not supported until Windows 8.

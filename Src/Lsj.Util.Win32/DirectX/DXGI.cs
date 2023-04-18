@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX
         /// Note
         /// Starting with Windows 8, all DXGI factories (regardless if they were
         /// created with <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/>) enumerate adapters identically.
-        /// The enumeration order of adapters, which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1."EnumAdapters1/>,
+        /// The enumeration order of adapters, which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1.EnumAdapters1"/>,
         /// is as follows:
         /// Adapter with the output on which the desktop primary is displayed. This adapter corresponds with an index of zero.
         /// Adapters with outputs.
