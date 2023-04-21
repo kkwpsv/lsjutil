@@ -116,5 +116,40 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 return ((delegate* unmanaged[Stdcall]<void*, out DXGI_ADAPTER_DESC, HRESULT>)_vTable[8])(thisPtr, out pDesc);
             }
         }
+
+        /// <summary>
+        /// Checks whether the system supports a device interface for a graphics component.
+        /// </summary>
+        /// <param name="InterfaceName">
+        /// The GUID of the interface of the device version for which support is being checked.
+        /// This should usually be __uuidof(IDXGIDevice), which returns the version number of the Direct3D 9 UMD (user mode driver) binary.
+        /// Since WDDM 2.3, all driver components within a driver package (D3D9, D3D11, and D3D12) have been required to share a single version number,
+        /// so this is a good way to query the driver version regardless of which API is being used.
+        /// </param>
+        /// <param name="pUMDVersion">
+        /// The user mode driver version of <paramref name="InterfaceName"/>.
+        /// This is returned only if the interface is supported, otherwise this parameter will be NULL.
+        /// </param>
+        /// <returns>
+        /// <see cref="S_OK"/> indicates that the interface is supported, otherwise <see cref="DXGI_ERROR_UNSUPPORTED"/> is returned
+        /// (For more information, see <see cref="DXGI_ERROR"/>).
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// You can use <see cref="CheckInterfaceSupport"/> only to check whether a Direct3D 10.x interface is supported,
+        /// and only on Windows Vista SP1 and later versions of the operating system.
+        /// If you try to use <see cref="CheckInterfaceSupport"/> to check whether a Direct3D 11.x and later version interface is supported,
+        /// <see cref="CheckInterfaceSupport"/> returns <see cref="DXGI_ERROR_UNSUPPORTED"/>.
+        /// Therefore, do not use <see cref="CheckInterfaceSupport"/>.
+        /// Instead, to verify whether the operating system supports a particular interface, try to create the interface.
+        /// For example, if you call the <see cref="ID3D11Device.CreateBlendState"/> method and it fails, the operating system does not support the ID3D11BlendState interface.
+        /// </remarks>
+        public HRESULT CheckInterfaceSupport([In] in GUID InterfaceName, [Out] out LARGE_INTEGER pUMDVersion)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, out LARGE_INTEGER, HRESULT>)_vTable[9])(thisPtr, InterfaceName, out pUMDVersion);
+            }
+        }
     }
 }
