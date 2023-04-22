@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCURSORCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DDEVCAPS2;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLIGHTTYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLOCK;

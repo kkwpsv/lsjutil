@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -53,6 +55,44 @@ namespace Lsj.Util.Win32.DirectX
         [DllImport("D3d9.dll", CharSet = CharSet.Unicode, EntryPoint = "Direct3DCreate9", ExactSpelling = true)]
         public static extern P<IDirect3D9> Direct3DCreate9([In] UINT SDKVersion);
 
+        /// <summary>
+        /// <para>
+        /// Creates an <see cref="IDirect3D9Ex"/> object and returns an interface to it.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/zh-cn/windows/win32/api/d3d9/nf-d3d9-direct3dcreate9ex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SDKVersion">
+        /// The value of this parameter should be <see cref="D3D_SDK_VERSION"/>.
+        /// See Remarks.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// Address of a pointer to an <see cref="IDirect3D9Ex"/> interface, representing the created <see cref="IDirect3D9Ex"/> object.
+        /// If the function fails, NULL is inserted here.
+        /// </param>
+        /// <returns>
+        /// <see cref="D3DERR_NOTAVAILABLE"/> if Direct3DEx features are not supported (no WDDM driver is installed) 
+        /// or if the <paramref name="SDKVersion"/> does not match the version of the DLL.
+        /// <see cref="D3DERR_OUTOFMEMORY"/> if out-of-memory conditions are detected when creating the enumerator object.
+        /// <see cref="S_OK"/> if the creation of the enumerator object is successful.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="IDirect3D9Ex"/> object is the first object that the application creates and the last object that the application releases.
+        /// Functions for enumerating and retrieving capabilities of a device are accessible through the <see cref="IDirect3D9Ex"/> object.
+        /// This enables applications to select devices without creating them.
+        /// The <see cref="IDirect3D9Ex"/> interface supports enumeration of active display adapters and allows the creation of <see cref="IDirect3D9Ex"/> objects.
+        /// If the user dynamically adds adapters (either by adding devices to the desktop, or by hot-docking a laptop),
+        /// these devices are not included in the enumeration.
+        /// Creating a new <see cref="IDirect3D9Ex"/> interface will expose the new devices.
+        /// Pass the <see cref="D3D_SDK_VERSION"/> flag to this function to ensure that header files
+        /// used in the compiled application match the version of the installed runtime DLLs.
+        /// D3D_SDK_VERSION is changed in the runtime only when a header or another code change would require rebuilding the application.
+        /// If this function fails, it indicates that the versions of the header file and the runtime DLL do not match.
+        /// Note
+        /// <see cref="Direct3DCreate9Ex"/> is supported only in Windows Vista, Windows Server 2008, and Windows 7.
+        /// Earlier versions of the D3D9.dll library do not include Direct3D9Ex and <see cref="Direct3DCreate9Ex"/>.
+        /// </remarks>
         [DllImport("D3d9.dll", CharSet = CharSet.Unicode, EntryPoint = "Direct3DCreate9Ex", ExactSpelling = true)]
         public static extern HRESULT Direct3DCreate9Ex([In] UINT SDKVersion, [Out] out P<IDirect3D9Ex> unnamedParam2);
     }

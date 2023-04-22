@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBACKBUFFER_TYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;

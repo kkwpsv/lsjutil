@@ -2,9 +2,10 @@
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
-using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

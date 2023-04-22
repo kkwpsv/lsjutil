@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
+using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces

@@ -5,11 +5,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DLOCK;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
-using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces

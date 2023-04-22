@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DFORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
@@ -376,7 +377,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <returns>
         /// Possible return values include: <see cref="D3D_OK"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DEVICEHUNG"/>,
-        /// <see cref="D3DERR_DEVICEREMOVED"/>, or <see cref="D3DERR_OUTOFVIDEOMEMORY"/> (see D3DERR),
+        /// <see cref="D3DERR_DEVICEREMOVED"/>, or <see cref="D3DERR_OUTOFVIDEOMEMORY"/> (see <see cref="D3DERR"/>),
         /// or <see cref="S_PRESENT_MODE_CHANGED"/>, or <see cref="S_PRESENT_OCCLUDED"/> (see S_PRESENT).
         /// </returns>
         /// <remarks>

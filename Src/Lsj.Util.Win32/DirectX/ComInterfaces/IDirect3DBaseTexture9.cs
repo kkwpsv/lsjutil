@@ -4,9 +4,9 @@ using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREFILTERTYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
-
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

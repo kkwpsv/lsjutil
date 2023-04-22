@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// or <see cref="IDXGISwapChain.GetFrameStatistics"/> method.
     /// You can only use <see cref="IDXGISwapChain.GetFrameStatistics"/> for swap chains that either use the flip presentation model or draw in full-screen mode.
     /// You set the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value in the <see cref="DXGI_SWAP_CHAIN_DESC1.SwapEffect"/> member
-    /// of the <see cref=""/> structure to specify that the swap chain uses the flip presentation model.
+    /// of the <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure to specify that the swap chain uses the flip presentation model.
     /// The values in the <see cref="PresentCount"/> and <see cref="PresentRefreshCount"/> members
     /// indicate information about when a frame was presented on the display screen.
     /// You can use these values to determine whether a glitch occurred.
