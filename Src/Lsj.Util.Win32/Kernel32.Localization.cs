@@ -14,10 +14,12 @@ using static Lsj.Util.Win32.Enums.CALTYPE;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.FindStringFlags;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
+using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.IDNFlags;
 using static Lsj.Util.Win32.Enums.LCIDFlags;
 using static Lsj.Util.Win32.Enums.LCMapStringFlags;
 using static Lsj.Util.Win32.Enums.LGRPIDFlags;
+using static Lsj.Util.Win32.Enums.LocaleEnumFlags;
 using static Lsj.Util.Win32.Enums.MUIFlags;
 using static Lsj.Util.Win32.Enums.MUIQueryFlags;
 using static Lsj.Util.Win32.Enums.StringFlags;
@@ -89,10 +91,130 @@ namespace Lsj.Util.Win32
         public delegate BOOL EnumCalendarInfoProcEx([In] LPWSTR lpCalendarInfoString, [In] CALID Calendar);
 
         /// <summary>
+        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfoExEx"/> function.
+        /// The <see cref="CALINFO_ENUMPROCEXEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumCalendarInfoProcExEx"/> is a placeholder for the application-defined function name.
+        /// </summary>
+        /// <param name="lpCalendarInfoString">
+        /// Pointer to a buffer containing a null-terminated calendar information string.
+        /// This string is formatted according to the calendar type passed to <see cref="EnumCalendarInfoExEx"/>.
+        /// </param>
+        /// <param name="Calendar">
+        /// Calendar identifier that specifies the calendar associated with the specified information.
+        /// </param>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided input parameter of <see cref="EnumCalendarInfoExEx"/>.
+        /// This value is especially useful for multi-threaded applications, since it can be used to pass thread-specific data to this callback function.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumCalendarInfoProcExEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoExEx"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumCalendarInfoProcExEx([In] LPWSTR lpCalendarInfoString, [In] CALID Calendar, [In] LPWSTR lpReserved, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes date format information provided by the <see cref="EnumDateFormats"/> function.
+        /// The <see cref="DATEFMT_ENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumDateFormatsProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317813(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFormatString">
+        /// Pointer to a buffer containing a null-terminated date format string.
+        /// This string is a long or short date format, depending on the value of the dwFlags parameter of <see cref="EnumDateFormats"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumDateFormatsProc"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumDateFormats"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumDateFormatsProc([In] LPWSTR lpDateFormatString);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes enumerated date format information provided by the <see cref="EnumDateFormatsEx"/> function.
+        /// The <see cref="DATEFMT_ENUMPROCEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumDateFormatsProcEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317814(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFormatString">
+        /// Pointer to a buffer containing a null-terminated date format string.
+        /// This string is a long or short date format, depending on the value of the dwFlags parameter of <see cref="EnumDateFormatsEx"/>.
+        /// </param>
+        /// <param name="CalendarID">
+        /// Calendar identifier associated with the date format string.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumDateFormatsProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumDateFormatsEx"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumDateFormatsProcEx([In] LPWSTR lpDateFormatString, [In] CALID CalendarID);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined function that processes enumerated date format information provided by the <see cref="EnumDateFormatsExEx"/> function.
+        /// The <see cref="DATEFMT_ENUMPROCEXEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumDateFormatsProcExEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317815(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFormatString">
+        /// Pointer to a buffer containing a null-terminated date format string.
+        /// This string is a long or short date format, depending on the value of the dwFlags parameter passed to <see cref="EnumDateFormatsExEx"/>.
+        /// </param>
+        /// <param name="CalendarID">
+        /// Calendar identifier associated with the specified date format string.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided input parameter of <see cref="EnumDateFormatsExEx"/>.
+        /// This parameter is especially useful for multi-threaded applications,
+        /// since it can be used to pass thread-specific data to this callback function.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumDateFormatsProcExEx"/> function can carry out any desired task.
+        /// An application registers this function by passing its address to the <see cref="EnumDateFormatsExEx"/> function.
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        public delegate BOOL EnumDateFormatsProcExEx([In] LPWSTR lpDateFormatString, [In] CALID CalendarID, [In] LPARAM lParam);
+
+        /// <summary>
         /// <para>
         /// An application-defined callback function that processes enumerated geographical location information provided by the <see cref="EnumSystemGeoID"/> function.
         /// The <see cref="GEO_ENUMPROC"/> type defines a pointer to this callback function.
-        /// EnumGeoInfoProc is a placeholder for the application-defined function name.
+        /// <see cref="EnumGeoInfoProc"/> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317817(v=vs.85)"/>
@@ -105,7 +227,7 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An EnumGeoInfoProc function can carry out any desired task.
+        /// An <see cref="EnumGeoInfoProc"/> function can carry out any desired task.
         /// The application registers this function by passing its address to the <see cref="EnumSystemGeoID"/> function.
         /// </remarks>
         public delegate BOOL EnumGeoInfoProc([In] GEOID GeoId);
@@ -131,6 +253,73 @@ namespace Lsj.Util.Win32
         /// The application registers this function by passing its address to the <see cref="EnumSystemLocales"/> function.
         /// </remarks>
         public delegate BOOL EnumLocalesProc([In] LPWSTR lpLocaleString);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes enumerated locale information provided by the <see cref="EnumSystemLocalesEx"/> function.
+        /// The <see cref="LOCALE_ENUMPROCEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumLocalesProcEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nc-winnls-locale_enumprocex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// Pointer to a buffer containing a null-terminated locale name string.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// Flags defining locale information.
+        /// Values for this parameter can include a binary OR of flags, but some flag combinations never occur.
+        /// If the application specifies <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALTERNATE_SORTS"/>,
+        /// it can also specify <see cref="LOCALE_REPLACEMENT"/> so that the <see cref="EnumSystemLocalesEx"/> function can test to see if the locale is a replacement.
+        /// <see cref="LOCALE_ALL"/>
+        /// <see cref="LOCALE_ALTERNATE_SORTS"/>; for more information, see <see cref="EnumSystemLocalesEx"/>
+        /// <see cref="LOCALE_NEUTRALDATA"/>
+        /// <see cref="LOCALE_REPLACEMENT"/> This constant is not a valid input to the dwFlags parameter of <see cref="EnumSystemLocalesEx"/>.
+        /// To enumerate replacement locales, the application should call this function with the Arg2 parameter
+        /// specified as <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALL"/>, then check for this constant in the callback function.
+        /// <see cref="LOCALE_SUPPLEMENTAL"/>
+        /// <see cref="LOCALE_WINDOWS"/>
+        /// <see cref="LOCALE_NEUTRALDATA"/>
+        /// <see cref="LOCALE_SPECIFICDATA"/>
+        /// </param>
+        /// <param name="unnamedParam3">
+        /// An application-provided input parameter of <see cref="EnumSystemLocalesEx"/>.
+        /// This value is especially useful for multi-threaded applications, since it can be used to pass thread-specific data to this callback function.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumLocalesProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumSystemLocalesEx"/> function.
+        /// </remarks>
+        public delegate BOOL EnumLocalesProcEx([In] LPWSTR unnamedParam1, [In] DWORD unnamedParam2, [In] LPARAM unnamedParam3);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes enumerated geographical location information
+        /// provided by the <see cref="EnumSystemGeoNames"/> function.
+        /// The <see cref="GEO_ENUMNAMEPROC"/> type defines a pointer to this callback function.
+        /// <see cref="Geo_EnumNameProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nc-winnls-geo_enumnameproc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <param name="unnamedParam2"></param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="Geo_EnumNameProc"/> function can carry out any desired task,
+        /// and can use the information passed to it in the data parameter for any desired purpose.
+        /// The application registers this function by passing its address to the <see cref="EnumSystemGeoNames"/> function.
+        /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
+        /// For information about numeric UN M.49 codes, see Standard country or area codes for statistical use (M49).
+        /// </remarks>
+        public delegate BOOL Geo_EnumNameProc([In] LPWSTR unnamedParam1, [In] LPARAM unnamedParam2);
 
 
         /// <summary>
@@ -264,6 +453,233 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates calendar information for a locale specified by name.
+        /// Note
+        /// The application should call this function in preference to <see cref="EnumCalendarInfo"/> or <see cref="EnumCalendarInfoEx"/>
+        /// if designed to run only on Windows Vista and later.
+        /// Note
+        /// This function can enumerate data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumcalendarinfoexex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pCalInfoEnumProcExEx">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumCalendarInfoProcExEx"/>.
+        /// </param>
+        /// <param name="lpLocaleName">
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="Calendar">
+        /// Calendar identifier that specifies the calendar for which information is requested.
+        /// Note that this identifier can be <see cref="ENUM_ALL_CALENDARS"/>, to enumerate all calendars that are associated with the locale.
+        /// </param>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="CalType">
+        /// Type of calendar information.
+        /// For more information, see Calendar Type Information.
+        /// Only one calendar type can be specified per call to this function, except where noted.
+        /// </param>
+        /// <param name="lParam">
+        /// Application-provided parameter to pass to the callback function.
+        /// This value is especially useful for multi-threaded applications.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates calendar information for all applicable calendars for the specified locale,
+        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
+        /// The function enumerates the calendar information by calling the specified application-defined callback function.
+        /// It passes the callback function a pointer to a buffer containing the requested calendar information,
+        /// a calendar identifier, and an application-defined parameter that is useful for multi-threaded applications.
+        /// This process continues until <see cref="EnumCalendarInfoExEx"/> finds the last applicable calendar or the callback function returns <see cref="FALSE"/>.
+        /// Beginning in Windows 8: If your app passes language tags to this function from the Windows.Globalization namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoExEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumCalendarInfoExEx([In] CALINFO_ENUMPROCEXEX pCalInfoEnumProcExEx, [In] LPCWSTR lpLocaleName,
+            [In] CALID Calendar, [In] LPCWSTR lpReserved, [In] CALTYPE CalType, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the long date, short date, or year/month formats that are available for a specified locale.
+        /// Note
+        /// To receive a calendar identifier in addition to date format information,
+        /// the application should use the <see cref="EnumDateFormatsEx"/> function.
+        /// Another reason for preferring this function is that Microsoft is migrating toward
+        /// the use of locale names instead of locale identifiers for new locales, for interoperability reasons.
+        /// Note
+        /// Any application that will be run only on Windows Vista or later
+        /// should use <see cref="EnumDateFormatsExEx"/> in preference to <see cref="EnumDateFormats"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumdateformatsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFmtEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumDateFormatsProc"/>.
+        /// </param>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale for which to retrieve date format information.
+        /// You can use the MAKELCID macro to create an identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>,
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>, <see cref="LOCALE_INVARIANT"/>,
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flag specifying date formats.
+        /// For detailed definitions, see the <paramref name="dwFlags"/> parameter of <see cref="EnumDateFormatsExEx"/>.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This API is being updated to support the May 2019 Japanese era change.
+        /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// For details of operation of this function, see Remarks in <see cref="EnumDateFormatsEx"/>.
+        /// Note
+        /// To enumerate the date formats for locales with alternate calendars, the application should use <see cref="EnumDateFormatsEx"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDateFormats([In] DATEFMT_ENUMPROC lpDateFmtEnumProc, [In] LCID Locale, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the long date, short date, or year/month formats that are available for a specified locale.
+        /// Note
+        /// Any application that runs only on Windows Vista and later should use EnumDateFormatsExEx in preference to this function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumdateformatsexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFmtEnumProcEx">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumDateFormatsProcEx"/>.
+        /// </param>
+        /// <param name="Locale">
+        /// Locale identifier that specifies the locale for which to retrieve date format information.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flag specifying date formats.
+        /// For detailed definitions, see the dwFlags parameter of <see cref="EnumDateFormatsExEx"/>.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This API is being updated to support the May 2019 Japanese era change.
+        /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// The function enumerates the date formats by passing date format string pointers,
+        /// one at a time, to the specified application-defined callback function.
+        /// This process continues until <see cref="EnumDateFormatsEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
+        /// This function enumerates all date formats for the specified locale, including alternate calendars, if any.
+        /// However, the calendar identifier is not enumerated along with the date format,
+        /// making formats for locales with alternate calendars difficult to use.
+        /// This function can enumerate data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// The application should use <see cref="EnumDateFormatsEx"/> (instead of <see cref="EnumDateFormats"/>)
+        /// to enumerate date formats for locales with alternate calendars.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDateFormatsEx([In] DATEFMT_ENUMPROCEX lpDateFmtEnumProcEx, [In] LCID Locale, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the long date, short date, or year/month formats that are available for a locale specified by name.
+        /// Note
+        /// The application should call this function in preference to <see cref="EnumDateFormats"/> or <see cref="EnumDateFormatsEx"/>
+        /// if designed to run only on Windows Vista and later.
+        /// Note
+        /// This function can enumerate data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumdateformatsexex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDateFmtEnumProcExEx">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumDateFormatsProcExEx"/>.
+        /// </param>
+        /// <param name="lpLocaleName">
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flag specifying date formats.
+        /// The application can supply one of the following values or the <see cref="LOCALE_USE_CP_ACP"/> constant.
+        /// <see cref="DATE_SHORTDATE"/>:
+        /// Use short date formats. This value cannot be used with any of the other flag values.
+        /// <see cref="DATE_LONGDATE"/>:
+        /// Use long date formats. This value cannot be used with any of the other flag values.
+        /// <see cref="DATE_YEARMONTH"/>:
+        /// Use year/month formats. This value cannot be used with any of the other flag values.
+        /// <see cref="DATE_MONTHDAY"/>:
+        /// Use month/day formats. This value cannot be used with any of the other flag values.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided parameter to pass to the callback function.
+        /// This value is especially useful for multi-threaded applications.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_BADDB"/>. The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This API is being updated to support the May 2019 Japanese era change.
+        /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// The function enumerates the date formats by passing date format string pointers, one at a time,
+        /// to the specified application-defined callback function, along with an application-defined constant that is useful for multi-threaded applications.
+        /// This process continues until <see cref="EnumDateFormatsExEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the Windows.Globalization namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsExEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDateFormatsExEx([In] DATEFMT_ENUMPROCEXEX lpDateFmtEnumProcExEx, [In] LPCWSTR lpLocaleName,
+            [In] DWORD dwFlags, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Enumerates the geographical location identifiers (type GEOID) that are available on the operating system.
         /// <see cref="EnumSystemGeoID"/> is available for use in the operating systems specified in the Requirements section.
         /// It may be altered or unavailable in subsequent versions.
@@ -283,7 +699,7 @@ namespace Lsj.Util.Win32
         /// This parameter must be 0.
         /// </param>
         /// <param name="lpGeoEnumProc">
-        /// Pointer to the application-defined callback function EnumGeoInfoProc.
+        /// Pointer to the application-defined callback function <see cref="EnumGeoInfoProc"/>.
         /// The <see cref="EnumSystemGeoID"/> function makes repeated calls to this callback function until it returns <see cref="FALSE"/>.
         /// </param>
         /// <returns>
@@ -294,6 +710,39 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemGeoID", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemGeoID([In] GEOCLASS GeoClass, [In] GEOID ParentGeoId, [In] GEO_ENUMPROC lpGeoEnumProc);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the two-letter International Organization for Standardization (ISO) 3166-1 codes or numeric United Nations (UN) Series M,
+        /// Number 49 (M.49) codes for geographical locations that are available on the operating system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemgeonames"/>
+        /// </para>
+        /// </summary>
+        /// <param name="geoClass">
+        /// The geographical location class for which to enumerate the available two-letter ISO 3166-1 or numeric UN M.49 codes.
+        /// </param>
+        /// <param name="geoEnumProc">
+        /// Pointer to the application-defined callback function <see cref="Geo_EnumNameProc"/>.
+        /// The <see cref="EnumSystemGeoNames"/> function calls this callback function for each of the two-letter ISO 3166-1
+        /// or numeric UN M.49 codes for geographical locations that are available on the operating system until callback function returns <see cref="FALSE"/>.
+        /// </param>
+        /// <param name="data">
+        /// Application-specific information to pass to the callback function that the <paramref name="geoEnumProc"/> parameter specifies.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_FLAGS"/>: The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: A parameter value was not valid.
+        /// </returns>
+        /// <remarks>
+        /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
+        /// For information about numeric UN M.49 codes, see Standard country or area codes for statistical use (M49).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemGeoNames", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumSystemGeoNames([In] GEOCLASS geoClass, [In] GEO_ENUMNAMEPROC geoEnumProc, [In] LPARAM data);
 
         /// <summary>
         /// <para>
@@ -344,6 +793,62 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemLocales([In] LOCALE_ENUMPROC lpLocaleEnumProc, [In] LCIDFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the locales that are either installed on or supported by an operating system.
+        /// Note
+        /// The application should call this function in preference to <see cref="EnumSystemLocales"/> if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemlocalesex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleEnumProcEx">
+        /// Pointer to an application-defined callback function.
+        /// The <see cref="EnumSystemLocalesEx"/> function enumerates locales by making repeated calls to this callback function.
+        /// For more information, see <see cref="EnumLocalesProcEx"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags identifying the locales to enumerate.
+        /// The flags can be used singly or combined using a binary OR.
+        /// If the application specifies 0 for this parameter, the function behaves as for <see cref="LOCALE_ALL"/>.
+        /// <see cref="LOCALE_ALL"/>
+        /// <see cref="LOCALE_ALTERNATE_SORTS"/>; see Remarks
+        /// <see cref="LOCALE_NEUTRALDATA"/>
+        /// <see cref="LOCALE_SUPPLEMENTAL"/>
+        /// <see cref="LOCALE_WINDOWS"/>
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided parameter to be passed to the callback function.
+        /// This is especially useful for multi-threaded applications.
+        /// </param>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_BADDB"/>. The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates locales by passing locale names, one at a time,
+        /// to the application-defined callback function specified by <paramref name="lpLocaleEnumProcEx"/>.
+        /// Enumeration continues until all installed or supported names have been passed to the callback function
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// The choices for the <paramref name="dwFlags"/> parameter are different from those for <see cref="EnumSystemLocales"/>,
+        /// which must distinguish between installed and supported locales.
+        /// If <paramref name="dwFlags"/> specifies <see cref="LOCALE_ALTERNATE_SORTS"/>,
+        /// the callback function is called for every locale that represents an alternate sort order.
+        /// For example, Spanish (Spain) defaults to international sort order, but traditional sort order is available for an alternate sort.
+        /// German (Germany) defaults to dictionary sort order, but there is an alternate phone book sort order available.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumSystemLocalesEx([In] LOCALE_ENUMPROCEX lpLocaleEnumProcEx, [In] DWORD dwFlags, [In] LPARAM lParam, [In] LPVOID lpReserved);
 
         /// <summary>
         /// <para>

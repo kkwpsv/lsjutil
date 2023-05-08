@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -64,10 +65,10 @@ namespace Lsj.Util.Win32
         /// to all local and remote users warning them that shutdown has been initiated.
         /// If shutdown is prevented by <see cref="AbortSystemShutdown"/>,
         /// the system displays dialog box to the users informing them that the server is no longer shutting down.
-        /// To stop the local computer from shutting down, the calling process must have the SE_SHUTDOWN_NAME privilege.
-        /// To stop a remote computer from shutting down, the calling process must have the SE_REMOTE_SHUTDOWN_NAME privilege on the remote computer.
-        /// By default, users can enable the SE_SHUTDOWN_NAME privilege on the computer they are logged onto,
-        /// and administrators can enable the SE_REMOTE_SHUTDOWN_NAME privilege on remote computers.
+        /// To stop the local computer from shutting down, the calling process must have the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// To stop a remote computer from shutting down, the calling process must have the <see cref="SE_REMOTE_SHUTDOWN_NAME"/> privilege on the remote computer.
+        /// By default, users can enable the <see cref="SE_SHUTDOWN_NAME"/> privilege on the computer they are logged onto,
+        /// and administrators can enable the <see cref="SE_REMOTE_SHUTDOWN_NAME"/> privilege on remote computers.
         /// For more information, see Running with Special Privileges.
         /// Common reasons for failure include an invalid computer name, an inaccessible computer, or insufficient privilege.
         /// </remarks>
@@ -851,6 +852,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EncryptFile([In] LPCWSTR lpFileName);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates <see cref="DYNAMIC_TIME_ZONE_INFORMATION"/> entries stored in the registry.
+        /// This information is used to support time zones that experience annual boundary changes due to daylight saving time adjustments.
+        /// Use the information returned by this function when calling <see cref="GetDynamicTimeZoneInformationEffectiveYears"/>
+        /// to retrieve the specific range of years to pass to <see cref="GetTimeZoneInformationForYear"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/timezoneapi/nf-timezoneapi-enumdynamictimezoneinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwIndex">
+        /// Index value that represents the location of a <see cref="DYNAMIC_TIME_ZONE_INFORMATION"/> entry.
+        /// </param>
+        /// <param name="lpTimeZoneInformation">
+        /// Specifies settings for a time zone and dynamic daylight saving time.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="DWORD"/>.
+        /// Possible return values include:
+        /// <see cref="ERROR_SUCCESS"/>: The operation succeeded.
+        /// <see cref="ERROR_NO_MORE_ITEMS"/>: No more data is available for the given index.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: A parameter is invalid.
+        /// Any other value: The operation failed.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDynamicTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD EnumDynamicTimeZoneInformation([In] DWORD dwIndex, [Out] out DYNAMIC_TIME_ZONE_INFORMATION lpTimeZoneInformation);
 
         /// <summary>
         /// <para>

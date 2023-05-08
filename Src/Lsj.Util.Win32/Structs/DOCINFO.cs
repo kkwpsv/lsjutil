@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to a null-terminated string that specifies the type of data used to record the print job.
         /// The legal values for this member can be found by calling <see cref="EnumPrintProcessorDatatypes"/> and
-        /// can include such values as raw, emf, or XPS_PASS.
+        /// can include such values as raw, emf, or <see cref="XPS_PASS"/>.
         /// This member can be <see langword="null"/>. Note that the requested data type might be ignored.
         /// </summary>
         public IntPtr lpszDatatype;

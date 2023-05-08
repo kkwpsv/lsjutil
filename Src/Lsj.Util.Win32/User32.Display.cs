@@ -365,5 +365,67 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayMonitors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDisplayMonitors([In] HDC hdc, [In] in RECT lprcClip, [In] MONITORENUMPROC lpfnEnum, [In] LPARAM dwData);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="EnumDisplaySettings"/> function retrieves information about one of the graphics modes for a display device.
+        /// To retrieve information for all the graphics modes of a display device, make a series of calls to this function.
+        /// Note
+        /// Apps that you design to target Windows 8 and later can no longer query or set display modes
+        /// that are less than 32 bits per pixel (bpp); these operations will fail.
+        /// These apps have a compatibility manifest that targets Windows 8.
+        /// Windows 8 still supports 8-bit and 16-bit color modes for desktop apps that were built without a Windows 8 manifest;
+        /// Windows 8 emulates these modes but still runs in 32-bit color mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdisplaysettingsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszDeviceName">
+        /// A pointer to a null-terminated string that specifies the display device about whose graphics mode the function will obtain information.
+        /// This parameter is either <see cref="NULL"/> or a <see cref="DISPLAY_DEVICE.DeviceName"/> returned from <see cref="EnumDisplayDevices"/>.
+        /// A <see cref="NULL"/> value specifies the current display device on the computer on which the calling thread is running.
+        /// </param>
+        /// <param name="iModeNum">
+        /// The type of information to be retrieved.
+        /// This value can be a graphics mode index or one of the following values.
+        /// <see cref="ENUM_CURRENT_SETTINGS"/>:
+        /// Retrieve the current settings for the display device.
+        /// <see cref="ENUM_REGISTRY_SETTINGS"/>:
+        /// Retrieve the settings for the display device that are currently stored in the registry.
+        /// Graphics mode indexes start at zero. To obtain information for all of a display device's graphics modes,
+        /// make a series of calls to <see cref="EnumDisplaySettings"/>, as follows:
+        /// Set <paramref name="lpDevMode"/> to zero for the first call,
+        /// and increment <paramref name="iModeNum"/> by one for each subsequent call.
+        /// Continue calling the function until the return value is zero.
+        /// When you call <see cref="EnumDisplaySettings"/> with <paramref name="iModeNum"/> set to zero,
+        /// the operating system initializes and caches information about the display device.
+        /// When you call <see cref="EnumDisplaySettings"/> with <paramref name="iModeNum"/> set to a nonzero value,
+        /// the function returns the information that was cached the last time the function was called with <paramref name="iModeNum"/> set to zero.
+        /// </param>
+        /// <param name="lpDevMode">
+        /// A pointer to a <see cref="DEVMODE"/> structure into which the function stores information about the specified graphics mode.
+        /// Before calling <see cref="EnumDisplaySettings"/>, set the <see cref="DEVMODE.dmSize"/> member to <code>sizeof(DEVMODE)</code>,
+        /// and set the <see cref="DEVMODE.dmDriverExtra"/> member to indicate the size, in bytes, of the additional space available to receive private driver data.
+        /// The <see cref="EnumDisplaySettings"/> function sets values for the following five <see cref="DEVMODE"/> members:
+        /// <see cref="DEVMODE.dmBitsPerPel"/>
+        /// <see cref="DEVMODE.dmPelsWidth"/>
+        /// <see cref="DEVMODE.dmPelsWidth"/>
+        /// <see cref="DEVMODE.dmDisplayFlags"/>
+        /// <see cref="DEVMODE.dmDisplayFrequency"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The function fails if <paramref name="iModeNum"/> is greater than the index of the display device's last graphics mode.
+        /// As noted in the description of the <paramref name="iModeNum"/> parameter,
+        /// you can use this behavior to enumerate all of a display device's graphics modes.
+        /// This API does not participate in DPI virtualization.
+        /// The output given is always in terms of physical pixels, and is not related to the calling context.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplaySettingsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDisplaySettings([In] LPCWSTR lpszDeviceName, [In] DWORD iModeNum, [Out] out DEVMODE lpDevMode);
     }
 }
