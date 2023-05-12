@@ -2,6 +2,9 @@
 using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.DXGI;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

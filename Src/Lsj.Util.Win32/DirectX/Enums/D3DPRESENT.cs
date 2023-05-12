@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENTFLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 using static Lsj.Util.Win32.Winmm;

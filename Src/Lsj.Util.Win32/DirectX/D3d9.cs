@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <returns>
         /// <see cref="D3DERR_NOTAVAILABLE"/> if Direct3DEx features are not supported (no WDDM driver is installed) 
         /// or if the <paramref name="SDKVersion"/> does not match the version of the DLL.
-        /// <see cref="D3DERR_OUTOFMEMORY"/> if out-of-memory conditions are detected when creating the enumerator object.
+        /// <see cref="E_OUTOFMEMORY"/> if out-of-memory conditions are detected when creating the enumerator object.
         /// <see cref="S_OK"/> if the creation of the enumerator object is successful.
         /// </returns>
         /// <remarks>

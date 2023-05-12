@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.DirectX.Enums

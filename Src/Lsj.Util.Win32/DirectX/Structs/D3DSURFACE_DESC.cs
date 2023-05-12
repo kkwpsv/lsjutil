@@ -1,9 +1,9 @@
-﻿using Lsj.Util;
-using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
+using static Lsj.Util.Win32.DirectX.Enums.D3DUSAGE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

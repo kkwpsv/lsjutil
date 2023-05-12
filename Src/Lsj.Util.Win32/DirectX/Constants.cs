@@ -47,6 +47,26 @@ namespace Lsj.Util.Win32.DirectX
         public const uint D3DCOMPOSERECTS_MAXNUMRECTS = 0xFFFF;
 
         /// <summary>
+        /// <para>
+        /// Maximum height of a monochrome texture convolution filter.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dconvolutionmono"/>
+        /// </para>
+        /// </summary>
+        public const uint D3DCONVOLUTIONMONO_MAXHEIGHT = 7;
+
+        /// <summary>
+        /// <para>
+        /// Maximum width of a monochrome texture convolution filter.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dconvolutionmono"/>
+        /// </para>
+        /// </summary>
+        public const uint D3DCONVOLUTIONMONO_MAXWIDTH = 7;
+
+        /// <summary>
         /// D3DCURSOR_IMMEDIATE_UPDATE
         /// </summary>
         public const uint D3DCURSOR_IMMEDIATE_UPDATE = 0x00000001;
@@ -124,6 +144,19 @@ namespace Lsj.Util.Win32.DirectX
 
         /// <summary>
         /// <para>
+        /// This macro creates the value passed to <see cref="IDirect3DQuery9.GetData"/> to flush query data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dgetdata-flush"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// For more information about using queries, see Queries (Direct3D 9).
+        /// </remarks>
+        public const uint D3DGETDATA_FLUSH = 1 << 0;
+
+        /// <summary>
+        /// <para>
         /// This is a success code. However, the autogeneration of mipmaps is not supported for this format.
         /// This means that resource creation will succeed but the mipmap levels will not be automatically generated.
         /// </para>
@@ -162,6 +195,11 @@ namespace Lsj.Util.Win32.DirectX
         /// D3DSGR_CALIBRATE
         /// </summary>
         public const uint D3DSGR_CALIBRATE = 0x00000001;
+
+        /// <summary>
+        /// D3DSPD_IUNKNOWN
+        /// </summary>
+        public const uint D3DSPD_IUNKNOWN = 0x00000001;
 
         /// <summary>
         /// D3DSTREAMSOURCE_INDEXEDDATA
