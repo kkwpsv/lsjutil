@@ -30,7 +30,7 @@
     /// Restrictions and notes on formats
     /// A few formats have additional restrictions and implied behavior:
     /// 1. A resource declared with the <see cref="DXGI_FORMAT_R32G32B32"/> family of formats cannot be used simultaneously for vertex and texture data.
-    /// That is, you may not create a buffer resource with the <see cref="DXGI_FORMAT_R32G32B32"/> family of formats that uses any of the following bind flags:
+    /// That is, you may not create a buffer resource with the DXGI_FORMAT_R32G32B32 family of formats that uses any of the following bind flags:
     /// <see cref="D3D10_BIND_VERTEX_BUFFER"/>, <see cref="D3D10_BIND_INDEX_BUFFER"/>, <see cref="D3D10_BIND_CONSTANT_BUFFER"/>,
     /// or <see cref="D3D10_BIND_STREAM_OUTPUT"/> (see <see cref="D3D10_BIND_FLAG"/>).
     /// 2. <see cref="DXGI_FORMAT_R1_UNORM"/> is designed specifically for text filtering, and must be used with a format-specific,

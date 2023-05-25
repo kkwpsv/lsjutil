@@ -3,11 +3,8 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

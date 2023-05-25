@@ -8,6 +8,9 @@
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3dcommon/ne-d3dcommon-d3d_driver_type"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// The driver type is required when calling <see cref="D3D11CreateDevice"/> or <see cref="D3D11CreateDeviceAndSwapChain"/>.
+    /// </remarks>
     public enum D3D_DRIVER_TYPE
     {
         /// <summary>
@@ -32,15 +35,36 @@
         /// demonstration of functionality, debugging, or verifying bugs in other drivers.
         /// The reference device for this driver is installed by the Windows SDK 8.0 or later and is intended only as a debug aid for development purposes.
         /// This driver may be referred to as a REF driver, a reference driver, or a reference rasterizer.
-        /// Note  When you use the REF driver in Windows Store apps, the REF driver renders correctly but doesn't display any output on the screen. To verify bugs in hardware drivers for Windows Store apps, use D3D_DRIVER_TYPE_WARP for the WARP driver instead.
+        /// Note
+        /// When you use the REF driver in Windows Store apps, the REF driver renders correctly but doesn't display any output on the screen.
+        /// To verify bugs in hardware drivers for Windows Store apps, use <see cref="D3D_DRIVER_TYPE_WARP"/> for the WARP driver instead.
         /// </summary>
         D3D_DRIVER_TYPE_REFERENCE,
 
         /// <summary>
-        /// 
+        /// A NULL driver, which is a reference driver without render capability.
+        /// This driver is commonly used for debugging non-rendering API calls, it is not appropriate for retail applications.
+        /// This driver is installed by the DirectX SDK.
         /// </summary>
         D3D_DRIVER_TYPE_NULL,
+
+        /// <summary>
+        /// A software driver, which is a driver implemented completely in software.
+        /// The software implementation is not intended for a high-performance application due to its very slow performance.
+        /// </summary>
         D3D_DRIVER_TYPE_SOFTWARE,
+
+        /// <summary>
+        /// A WARP driver, which is a high-performance software rasterizer.
+        /// The rasterizer supports feature levels 9_1 through level 10_1 with a high performance software implementation.
+        /// For information about limitations creating a WARP device on certain feature levels, see Limitations Creating WARP and Reference Devices.
+        /// For more information about using a WARP driver, see Windows Advanced Rasterization Platform (WARP) In-Depth Guide.
+        /// Note
+        /// The WARP driver that Windows 8 includes supports feature levels 9_1 through level 11_1.
+        /// Note 
+        /// The WARP driver that Windows 8.1 includes fully supports feature level 11_1, including tiled resources,
+        /// <see cref="IDXGIDevice3.Trim"/>, shared BCn surfaces, minblend, and map default.
+        /// </summary>
         D3D_DRIVER_TYPE_WARP
     }
 }

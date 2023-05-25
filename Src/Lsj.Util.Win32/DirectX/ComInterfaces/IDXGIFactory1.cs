@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.DXGI;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

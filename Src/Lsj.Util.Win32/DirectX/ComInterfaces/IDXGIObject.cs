@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
 using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
