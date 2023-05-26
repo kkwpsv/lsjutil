@@ -82,13 +82,7 @@ namespace Lsj.Util.IO
         /// <inheritdoc/>
         public override void Write(byte[] buffer, int offset, int count)
         {
-#if NET40
-            var copiedBuffer = new byte[count];
-            UnsafeHelper.Copy(buffer, copiedBuffer, count);
-            AddBuffer(copiedBuffer);
-#else
             AddBuffer(buffer.AsSpan(offset, count).ToArray());
-#endif
         }
 
         /// <summary>

@@ -63,19 +63,13 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         internal bool CheckFlag(Win32WindowFlags flags) => (_flags & flags) != 0;
 
-#if! NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         internal void ThrowExceptionIfError() => ThrowExceptionIfError(GetLastError());
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         internal void ThrowExceptionIfError(SystemErrorCodes errorCode)
         {
             if (errorCode != SystemErrorCodes.ERROR_SUCCESS)
@@ -84,9 +78,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         internal void OnWin32Exception(SystemErrorCodes errorCode)
         {
             if (CustomErrorHandler != null)
@@ -99,9 +91,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         internal void OnComException(HRESULT hresult)
         {
             if (CustomErrorHandler != null)

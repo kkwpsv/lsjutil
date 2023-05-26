@@ -1,9 +1,9 @@
-#if NET40 || NET45
+#if NET45
+using Lsj.Util.IO;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Text;
-using Lsj.Util.IO;
 
 namespace Lsj.Util
 {

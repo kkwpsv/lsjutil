@@ -114,10 +114,10 @@ namespace Lsj.Util.Net.Web.Message
                             count = (int)rest;
                         }
                     }
-#if NETCOREAPP3_0_OR_GREATER
-                    _content.Write(content.Slice(0, count));
-#else
+#if NET45 || NETSTANDARD2_0
                     _content.Write(content.Slice(0, count).ToArray());
+#else
+                    _content.Write(content[..count]);
 #endif
                 }
 
@@ -155,10 +155,11 @@ namespace Lsj.Util.Net.Web.Message
                         }
                     }
                     var pos = _gzipRawStream.Position;
-#if NETCOREAPP3_0_OR_GREATER
-                    _gzipRawStream.Write(content.Slice(0, count));
-#else
+
+#if NET45 || NETSTANDARD2_0
                     _gzipRawStream.Write(content.Slice(0, count).ToArray());
+#else
+                    _gzipRawStream.Write(content[..count]);
 #endif
                     _gzipRawStream.Position = pos;
                 }

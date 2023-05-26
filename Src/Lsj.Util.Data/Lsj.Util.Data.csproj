@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilDataVersionPrefix)</VersionPrefix>
     <Description>My Utility For Data</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Net.Sockets
     /// </summary>
     public static class SocketAsyncExtensions
     {
-#if NET40 || NET45
+#if NET45
 
         /// <summary>
         /// ConnectAsync
@@ -31,7 +31,7 @@ namespace Lsj.Util.Net.Sockets
             Task.Factory.FromAsync(socket.BeginConnect, socket.EndConnect, address, port, null);
 
 #endif
-#if NET40 || NET45 || NETSTANDARD2_0
+#if  NET45 || NETSTANDARD2_0
 
         /// <summary>
         /// SendAsync

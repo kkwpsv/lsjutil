@@ -141,15 +141,5 @@ namespace Lsj.Util.Reflection
         /// <param name="genericTypeDefinition"></param>
         /// <returns></returns>
         public static Type GetGenericType(this Type type, Type genericTypeDefinition) => type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericTypeDefinition).FirstOrDefault();
-
-#if NET40
-        /// <summary>
-        /// SetValue
-        /// </summary>
-        /// <param name="property"></param>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetValue(this PropertyInfo property, object obj, object value) => property.SetValue(obj, value, null);
-#endif
     }
 }

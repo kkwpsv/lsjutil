@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilJSONVersionPrefix)</VersionPrefix>
     <Description>My Utility For JSON</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -9,7 +9,7 @@
     <ProjectReference Include="..\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 </Project>

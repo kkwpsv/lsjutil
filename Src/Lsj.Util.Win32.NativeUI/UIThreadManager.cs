@@ -114,11 +114,7 @@ namespace Lsj.Util.Win32.NativeUI
             };
             _actionItems.Add(item);
             await item.taskCompletionSource.Task.ConfigureAwait(false);
-#if NET40
-            await TaskEx.Yield();
-#else
             await Task.Yield();
-#endif
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Lsj.Util.Net.Socks5.Proxyer
         /// <param name="count"></param>
         public async void Send(byte[] buffer, int offset, int count)
         {
-#if NET40 || NET45 || NETSTANDARD2_0
+#if NET45 || NETSTANDARD2_0
             await _client.handle.SendAsync(buffer, offset, count);
 #else
             await _client.handle.SendAsync(buffer.AsMemory(offset, count), SocketFlags.None);
@@ -68,7 +68,7 @@ namespace Lsj.Util.Net.Socks5.Proxyer
                 _client.buffer = new byte[2048];
                 _client.offset = 0;
 
-#if NET40 || NET45 || NETSTANDARD2_0
+#if NET45 || NETSTANDARD2_0
                 int received = await _client.handle.ReceiveAsync(_client.buffer, _client.offset, 2048);
 #else
                 int received = await _client.handle.ReceiveAsync(_client.buffer.AsMemory(), SocketFlags.None);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Web;
+﻿using System.Net;
 
 namespace Lsj.Util.Net.Web
 {
@@ -18,11 +14,7 @@ namespace Lsj.Util.Net.Web
 
         public static string UrlEncode(this string src)
         {
-#if NET40
-            return HttpUtility.UrlEncode(src);
-#else
            return WebUtility.UrlEncode(src);
-#endif
         }
 
         /// <summary>
@@ -31,11 +23,7 @@ namespace Lsj.Util.Net.Web
         /// <param name="src"></param>
         public static string UrlDecode(this string src)
         {
-#if NET40
-            return HttpUtility.UrlDecode(src);
-#else
             return WebUtility.UrlDecode(src);
-#endif
         }
     }
 }

@@ -128,18 +128,10 @@ namespace Lsj.Util.Net.Web
                 UserHostAddress = ((IPEndPoint)_socket.RemoteEndPoint).Address.ToString()
             };
             Status = ContextStatus.Listening;
-#if NET40
-            TaskEx.Run(async () =>
-#else
             Task.Run(async () =>
-#endif
             {
                 var source = new CancellationTokenSource();
-#if NET40
-                await TaskEx.WhenAny(TaskEx.Delay(timeout), Read(source.Token));
-#else
                 await Task.WhenAny(Task.Delay(timeout), Read(source.Token));
-#endif
                 Status = ContextStatus.Processing;
                 if (Request.IsReadFinish || Request.IsError)
                 {

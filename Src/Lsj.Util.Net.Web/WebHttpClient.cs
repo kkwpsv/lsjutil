@@ -61,13 +61,8 @@ namespace Lsj.Util.Net.Web
             }
             request.UserAgent = this.UserAgent;
             request.CookieContainer = this.cookicontainer;
-#if NETSTANDARD
             request.GetRequestStreamAsync().Result.Write(data);
             return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
-#else
-            request.GetRequestStream().Write(data);
-            return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
-#endif
         }
 
         /// <summary>
@@ -114,11 +109,7 @@ namespace Lsj.Util.Net.Web
             request.UserAgent = this.UserAgent;
             request.CookieContainer = this.cookicontainer;
             request.UserAgent = this.UserAgent;
-#if NETSTANDARD
             return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
-#else
-            return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
-#endif
 
         }
 

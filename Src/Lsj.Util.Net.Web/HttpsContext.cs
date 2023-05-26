@@ -1,20 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Security;
-using System.Security.Authentication;
-using Lsj.Util.Collections;
-using Lsj.Util.Logs;
-using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Net.Web.Event;
+﻿using Lsj.Util.Logs;
 using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Net.Sockets;
-using System.Runtime.ConstrainedExecution;
+using System;
+using System.IO;
+using System.Net.Security;
+using System.Net.Sockets;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Lsj.Util.Net.Web
 {
@@ -48,13 +39,7 @@ namespace Lsj.Util.Net.Web
         protected override Stream CreateStream(Socket socket)
         {
             var x = new SslStream(new NetworkStream(socket, true), true);
-#if NETSTANDARD
             x.AuthenticateAsServerAsync(_cert, false, SslProtocols.Tls12, true).Wait();
-#elif NET40
-            x.AuthenticateAsServer(_cert, false, (SslProtocols)3072, true);
-#else
-            x.AuthenticateAsServer(_cert, false, SslProtocols.Tls12, true);
-#endif
             return x;
         }
 

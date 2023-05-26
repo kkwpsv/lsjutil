@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilAPIsUmeTripVersionPrefix)</VersionPrefix>
     <Description>My Utility For UmeTrip APIs</Description>
   </PropertyGroup>
@@ -8,7 +8,7 @@
     <ProjectReference Include="..\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />
     <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

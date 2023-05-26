@@ -106,19 +106,6 @@ namespace Lsj.Util
             return result.ToArray();
         }
 
-#if NET40
-        /// <summary>
-        /// ReadAsync
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="buffer"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static Task<int> ReadAsync(this Stream stream, byte[] buffer, int offset, int length) =>
-            Task<int>.Factory.FromAsync(stream.BeginRead, stream.EndRead, buffer, offset, length, null);
-#endif
-
         /// <summary>
         /// Write
         /// </summary>
@@ -142,17 +129,6 @@ namespace Lsj.Util
         /// <param name="buffer"></param>
         /// <returns></returns>
         public static Task WriteAsync(this Stream stream, byte[] buffer) => stream.WriteAsync(buffer, 0, buffer.Length);
-#endif
-
-#if NET40
-        /// <summary>
-        /// WriteAsync
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="buffer"></param>
-        /// <returns></returns>
-        public static Task WriteAsync(this Stream stream, byte[] buffer) =>
-            Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, buffer, 0, buffer.Length, null);
 #endif
 
         /// <summary>
