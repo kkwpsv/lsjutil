@@ -1,19 +1,29 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Static;
+using Lsj.Util.Text;
+using System;
 using System.IO;
 using System.IO.Compression;
-using Lsj.Util.Net.Web.Static;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
+    /// <summary>
+    /// File Respons
+    /// </summary>
     public class FileResponse : HttpResponse
     {
+        /// <inheritdoc/>
         public override long ContentLength => Headers[HttpHeaders.ContentLength].ConvertToLong();
 
+        /// <inheritdoc/>
         public override Stream Content => _content;
 
+        /// <summary>
+        /// FileResponse
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="request"></param>
         public FileResponse(string path, IHttpRequest request) : base()
         {
             var file = new FileInfo(path);
@@ -78,6 +88,7 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
+        /// <inheritdoc/>
         protected override void CleanUpUnmanagedResources()
         {
             _content.Dispose();
