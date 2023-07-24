@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -88,7 +89,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="SetupDiGetClassDevsEx"/> to retrieve the devices for a class on a remote computer.
         /// </remarks>
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetClassDevsW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDEVINFO SetupDiGetClassDevs([In] in GUID ClassGuid, [In] string Enumerator,
+        public static extern HDEVINFO SetupDiGetClassDevs([In] in GUID ClassGuid, [In] LPCWSTR Enumerator,
             [In] HWND hwndParent, [In] SetupDiGetClassDevsFlags Flags);
 
         /// <summary>
@@ -128,6 +129,9 @@ namespace Lsj.Util.Win32
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiEnumDeviceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiEnumDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] DWORD MemberIndex, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
 
+        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiEnumDeviceInterfaces", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetupDiEnumDeviceInterfaces([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
+            [In] in GUID InterfaceClassGuid, [In] DWORD MemberIndex, [In][Out] ref SP_DEVICE_INTERFACE_DATA DeviceInterfaceData);
 
         /// <summary>
         /// <para>
@@ -169,6 +173,11 @@ namespace Lsj.Util.Win32
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] IntPtr DeviceInstanceId,
             [In] DWORD DeviceInstanceIdSize, [Out] out DWORD RequiredSize);
+
+        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInterfaceDetailW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetupDiGetDeviceInterfaceDetail([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVICE_INTERFACE_DATA DeviceInterfaceData,
+            [In][Out] ref SP_DEVICE_INTERFACE_DETAIL_DATA DeviceInterfaceDetailData, [In] DWORD DeviceInterfaceDetailDataSize,
+            [Out] out DWORD RequiredSize, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
 
         /// <summary>
         /// <para>
