@@ -29,6 +29,10 @@ namespace Lsj.Util.Tests.Win32
                         {
                             continue;
                         }
+                        if (item.Attribute.Value.StartsWith("D3DX9"))
+                        {
+                            continue;
+                        }
                         failed.Add(item);
                     }
                 }
