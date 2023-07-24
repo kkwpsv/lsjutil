@@ -1522,7 +1522,7 @@ namespace Lsj.Util.Win32
         /// the hook function receives the specified events only from the thread specified by <paramref name="idThread"/>.
         /// If both are zero, the hook function receives the specified events from all threads and processes.
         /// Clients can call <see cref="SetWinEventHook"/> multiple times if they want to register additional hook functions or listen for additional events.
-        /// The client thread that calls SetWinEventHook must have a message loop in order to receive events.
+        /// The client thread that calls <see cref="SetWinEventHook"/> must have a message loop in order to receive events.
         /// When you use <see cref="SetWinEventHook"/> to set a callback in managed code,
         /// you should use the <see cref="GCHandle"/> structure to avoid exceptions.
         /// This tells the garbage collector not to move the callback.
@@ -1659,6 +1659,38 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemParametersInfo([In] SystemParametersInfoParameters uiAction, [In] UINT uiParam,
             [In] PVOID pvParam, [In] SystemParametersInfoFlags fWinIni);
+
+        /// <summary>
+        /// <para>
+        /// Removes an event hook function created by a previous call to <see cref="SetWinEventHook"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unhookwinevent"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWinEventHook">
+        /// Handle to the event hook returned in the previous call to <see cref="SetWinEventHook"/>.
+        /// </param>
+        /// <returns>
+        /// If successful, returns <see cref="TRUE"/>; otherwise, returns <see cref="FALSE"/>.
+        /// Three common errors cause this function to fail:
+        /// The <paramref name="hWinEventHook"/> parameter is <see cref="NULL"/> or not valid.
+        /// The event hook specified by <paramref name="hWinEventHook"/> was already removed.
+        /// <see cref="UnhookWinEvent"/> is called from a thread that is different from the original call to <see cref="SetWinEventHook"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function removes the event hook specified by <paramref name="hWinEventHook"/> that prevents the corresponding callback function
+        /// from receiving further event notifications.
+        /// If the client's thread ends, the system automatically calls this function.
+        /// Call this function from the same thread that installed the event hook.
+        /// <see cref="UnhookWinEvent"/> fails if called from a thread different from the call that corresponds to <see cref="SetWinEventHook"/>.
+        /// If <see cref="WINEVENT_INCONTEXT"/> was specified when this event hook was installed,
+        /// the system attempts to unload the corresponding DLL from all processes that loaded it.
+        /// Although unloading does not occur immediately, the hook function is not called after <see cref="UnhookWinEvent"/> returns.
+        /// For more information on <see cref="WINEVENT_INCONTEXT"/>, see In-Context Hook Functions.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWinEvent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnhookWinEvent([In] HWINEVENTHOOK hWinEventHook);
 
         /// <summary>
         /// <para>
