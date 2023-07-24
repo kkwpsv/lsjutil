@@ -8,19 +8,19 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// Safe dictionary
     /// </summary>
-    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
+    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue> where TKey : notnull
     {
-        private Dictionary<TKey, TValue> m_Dictionary;
+        private Dictionary<TKey, TValue> _dictionary;
 
         /// <summary>
         /// Keys
         /// </summary>
-        public ICollection<TKey> Keys => m_Dictionary.Keys;
+        public ICollection<TKey> Keys => _dictionary.Keys;
 
         /// <summary>
         /// Values
         /// </summary>
-        public ICollection<TValue> Values => m_Dictionary.Values;
+        public ICollection<TValue> Values => _dictionary.Values;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
@@ -33,18 +33,18 @@ namespace Lsj.Util.Collections
         /// <param name="src">Source</param>
         public SafeDictionary(Dictionary<TKey, TValue> src)
         {
-            this.m_Dictionary = src ?? throw new ArgumentNullException();
+            _dictionary = src ?? throw new ArgumentNullException();
         }
 
         /// <summary>
         /// NullValue
         /// </summary>
-        public virtual TValue NullValue => default;
+        public virtual TValue? NullValue => default;
 
         /// <summary>
         /// Count
         /// </summary>
-        public int Count => m_Dictionary.Count;
+        public int Count => _dictionary.Count;
 
         /// <summary>
         /// Is Readonly
@@ -59,7 +59,7 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                return Contain(key) ? m_Dictionary[key] : NullValue;
+                return Contain(key) ? _dictionary[key] : NullValue;
             }
             set
             {
@@ -138,7 +138,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="array">Destination Array</param>
         /// <param name="arrayIndex">Destination Array Index</param>
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((IDictionary<TKey, TValue>)this._dictionary).CopyTo(array, arrayIndex);
 
         /// <summary>
         /// If contain specific key
@@ -151,7 +151,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <returns>The contains.</returns>
         /// <param name="item">Item.</param>
-        public bool Contains(KeyValuePair<TKey, TValue> item) => this.Contain(item.Key) && this[item.Key].Equals(item.Value);
+        public bool Contains(KeyValuePair<TKey, TValue> item) => Contain(item.Key) && this[item.Key]!.Equals(item.Value);
 
         /// <summary>
         /// Try to get value
@@ -161,7 +161,7 @@ namespace Lsj.Util.Collections
         public bool TryGetValue(TKey key, out TValue value)
         {
             var flag = Contain(key);
-            value = flag ? m_Dictionary[key] : NullValue;
+            value = flag ? _dictionary[key] : NullValue;
             return flag;
         }
 
@@ -171,7 +171,7 @@ namespace Lsj.Util.Collections
         /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            foreach (var x in m_Dictionary)
+            foreach (var x in _dictionary)
             {
                 yield return x;
             }
@@ -197,7 +197,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        protected virtual void Set(TKey key, TValue value) => m_Dictionary[key] = value;
+        protected virtual void Set(TKey key, TValue value) => _dictionary[key] = value;
 
         /// <summary>
         /// Contain
@@ -213,20 +213,20 @@ namespace Lsj.Util.Collections
             }
             else
             {
-                return m_Dictionary.ContainsKey(key);
+                return _dictionary.ContainsKey(key);
             }
         }
 
         /// <summary>
         /// Clear
         /// </summary>
-        protected virtual void Clr() => m_Dictionary.Clear();
+        protected virtual void Clr() => _dictionary.Clear();
 
         /// <summary>
         /// Delete
         /// </summary>
         /// <param name="key"></param>
-        protected virtual void Del(TKey key) => m_Dictionary.Remove(key);
+        protected virtual void Del(TKey key) => _dictionary.Remove(key);
 
         internal void DelDirectly(TKey key) => Del(key);
     }

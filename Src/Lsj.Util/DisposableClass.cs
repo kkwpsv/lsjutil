@@ -16,7 +16,7 @@ namespace Lsj.Util
             Dispose(false);
         }
 
-        private bool IsDisposed = false;
+        private bool _isDisposed = false;
 
         /// <summary>
         /// Dispose
@@ -30,7 +30,7 @@ namespace Lsj.Util
 #pragma warning disable CA1063
         private void Dispose(bool flag)
         {
-            if (!IsDisposed)
+            if (!_isDisposed)
             {
                 try
                 {
@@ -45,7 +45,7 @@ namespace Lsj.Util
                     LogProvider.Default.Error(e);
                 }
             }
-            IsDisposed = true;
+            _isDisposed = true;
         }
 #pragma warning restore CA1063
 

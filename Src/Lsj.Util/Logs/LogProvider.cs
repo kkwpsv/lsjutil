@@ -58,7 +58,7 @@ namespace Lsj.Util.Logs
         /// Debug
         /// </summary>
         /// <param name="o">content</param>
-        public void Debug(object o) => Debug(o.ToString());
+        public void Debug(object o) => Debug(o.ToString()!);
 
         /// <summary>
         /// Info
@@ -82,7 +82,7 @@ namespace Lsj.Util.Logs
         /// Error
         /// </summary>
         /// <param name="obj">content</param>
-        public void Error(object obj) => Add(obj.ToString(), LogType.Error);
+        public void Error(object obj) => Add(obj.ToString()!, LogType.Error);
 
         /// <summary>
         /// Debug

@@ -10,7 +10,7 @@ namespace Lsj.Util
     /// </summary>
     public class ProcessStandardIORedirector
     {
-        private Process _process;
+        private Process? _process;
         private StreamWriter _input;
         private StreamReader _output;
         private ProcessStartInfo _startInfo;
@@ -66,7 +66,7 @@ namespace Lsj.Util
         /// <summary>
         /// IsRunning
         /// </summary>
-        public bool IsRunning => _process != null & !_process.HasExited;
+        public bool IsRunning => _process != null && !_process.HasExited;
 
         /// <summary>
         /// Kill Process
@@ -110,13 +110,13 @@ namespace Lsj.Util
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public async Task WriteLine(object o) => await WriteLine(o.ToString());
+        public async Task WriteLine(object o) => await WriteLine(o.ToString()!);
 
         /// <summary>
         /// Read Line To Standard Ouput
         /// </summary>
         /// <returns></returns>
-        public async Task<string> Readline()
+        public async Task<string?> Readline()
         {
             if (_process == null)
             {

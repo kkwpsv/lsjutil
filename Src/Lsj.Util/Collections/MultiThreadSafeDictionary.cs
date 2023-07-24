@@ -9,20 +9,20 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// Multi thread safe dictionary
     /// </summary>
-    public class MultiThreadSafeDictionary<TKey, TValue> : DisposableClass, IDisposable, IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
+    public class MultiThreadSafeDictionary<TKey, TValue> : DisposableClass, IDisposable, IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue> where TKey : notnull
     {
-        private ReadWriteLock m_lock = new ReadWriteLock();
-        private SafeDictionary<TKey, TValue> m_Dictionary;
+        private ReadWriteLock _lock = new ReadWriteLock();
+        private SafeDictionary<TKey, TValue> _dictionary;
 
         /// <summary>
         /// Keys
         /// </summary>
-        public ICollection<TKey> Keys => m_Dictionary.Keys;
+        public ICollection<TKey> Keys => _dictionary.Keys;
 
         /// <summary>
         /// Values
         /// </summary>
-        public ICollection<TValue> Values => m_Dictionary.Values;
+        public ICollection<TValue> Values => _dictionary.Values;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeDictionary{TKey, TValue}"/> class.
@@ -36,7 +36,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         public MultiThreadSafeDictionary(Dictionary<TKey, TValue> src)
         {
-            this.m_Dictionary = new SafeDictionary<TKey, TValue>(src);
+            _dictionary = new SafeDictionary<TKey, TValue>(src);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                using (m_lock.EnterRead())
+                using (_lock.EnterRead())
                 {
-                    return this.m_Dictionary.Count;
+                    return this._dictionary.Count;
                 }
             }
         }
@@ -66,16 +66,16 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                using (m_lock.EnterRead())
+                using (_lock.EnterRead())
                 {
-                    return m_Dictionary[key];
+                    return _dictionary[key];
                 }
             }
             set
             {
-                using (m_lock.EnterWrite())
+                using (_lock.EnterWrite())
                 {
-                    m_Dictionary[key] = value;
+                    _dictionary[key] = value;
                 }
             }
         }
@@ -88,9 +88,9 @@ namespace Lsj.Util.Collections
         /// <param name="value">Value.</param>
         public void Add(TKey key, TValue value)
         {
-            using (m_lock.EnterWrite())
+            using (_lock.EnterWrite())
             {
-                m_Dictionary.Add(key, value);
+                _dictionary.Add(key, value);
             }
         }
 
@@ -108,12 +108,12 @@ namespace Lsj.Util.Collections
         /// <param name="key">Key.</param>
         public bool Remove(TKey key)
         {
-            using (var x = m_lock.EnterUpgradeableRead())
+            using (var x = _lock.EnterUpgradeableRead())
             {
-                if (m_Dictionary.ContainsKey(key))
+                if (_dictionary.ContainsKey(key))
                 {
                     x.Upgrade();
-                    m_Dictionary.DelDirectly(key);
+                    _dictionary.DelDirectly(key);
                     return true;
                 }
                 else
@@ -131,12 +131,12 @@ namespace Lsj.Util.Collections
         /// <param name="item">Item.</param>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            using (var x = m_lock.EnterUpgradeableRead())
+            using (var x = _lock.EnterUpgradeableRead())
             {
-                if (m_Dictionary.Contains(item))
+                if (_dictionary.Contains(item))
                 {
                     x.Upgrade();
-                    m_Dictionary.DelDirectly(item.Key);
+                    _dictionary.DelDirectly(item.Key);
                     return true;
                 }
                 else
@@ -152,9 +152,9 @@ namespace Lsj.Util.Collections
         /// </summary>
         public void Clear()
         {
-            using (m_lock.EnterWrite())
+            using (_lock.EnterWrite())
             {
-                m_Dictionary.Clear();
+                _dictionary.Clear();
             }
         }
 
@@ -165,9 +165,9 @@ namespace Lsj.Util.Collections
         /// <param name="arrayIndex">Destination Array Index</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                m_Dictionary.CopyTo(array, arrayIndex);
+                _dictionary.CopyTo(array, arrayIndex);
             }
         }
 
@@ -177,9 +177,9 @@ namespace Lsj.Util.Collections
         /// <param name="key">Key</param>
         public bool ContainsKey(TKey key)
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                return m_Dictionary.ContainsKey(key);
+                return _dictionary.ContainsKey(key);
             }
         }
 
@@ -190,9 +190,9 @@ namespace Lsj.Util.Collections
         /// <param name="item">Item.</param>
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                return m_Dictionary.Contains(item);
+                return _dictionary.Contains(item);
             }
         }
 
@@ -203,9 +203,9 @@ namespace Lsj.Util.Collections
         /// <param name="value">Value</param>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                return m_Dictionary.TryGetValue(key, out value);
+                return _dictionary.TryGetValue(key, out value);
             }
         }
 
@@ -215,9 +215,9 @@ namespace Lsj.Util.Collections
         /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                return m_Dictionary.GetEnumerator();
+                return _dictionary.GetEnumerator();
             }
         }
 
@@ -231,9 +231,9 @@ namespace Lsj.Util.Collections
         /// </summary>
         public Dictionary<TKey, TValue> ToDictionary()
         {
-            using (m_lock.EnterRead())
+            using (_lock.EnterRead())
             {
-                return m_Dictionary.ToDictionary();
+                return _dictionary.ToDictionary();
             }
 
         }

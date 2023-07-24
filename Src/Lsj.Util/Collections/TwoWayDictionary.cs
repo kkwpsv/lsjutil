@@ -7,10 +7,10 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// Two way dictionary
     /// </summary>
-    public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : notnull where TValue : notnull
     {
-        private SafeDictionary<TKey, TValue> a;
-        private SafeDictionary<TValue, TKey> b;
+        private SafeDictionary<TKey, TValue> _a;
+        private SafeDictionary<TValue, TKey> _b;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
@@ -26,8 +26,8 @@ namespace Lsj.Util.Collections
         public TwoWayDictionary(bool IsMultiThreadSafety)
         {
             //TODO: Multi Thread Safety
-            this.a = new SafeDictionary<TKey, TValue>();
-            this.b = new SafeDictionary<TValue, TKey>();
+            this._a = new SafeDictionary<TKey, TValue>();
+            this._b = new SafeDictionary<TValue, TKey>();
         }
 
         /// <summary>
@@ -68,14 +68,14 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TKey GetKeyByValue(TValue value) => ContainsValue(value) ? b[value] : NullKey(value);
+        public TKey GetKeyByValue(TValue value) => ContainsValue(value) ? _b[value] : NullKey(value);
 
         /// <summary>
         /// Get Value By Key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TValue GetValueByKey(TKey key) => ContainsKey(key) ? a[key] : NullValue(key);
+        public TValue GetValueByKey(TKey key) => ContainsKey(key) ? _a[key] : NullValue(key);
 
         /// <summary>
         /// Try Get Key By Value
@@ -86,7 +86,7 @@ namespace Lsj.Util.Collections
         public bool TryGetKeyByValue(TValue value, out TKey result)
         {
             var contains = ContainsValue(value);
-            result = contains ? b[value] : NullKey(value);
+            result = contains ? _b[value] : NullKey(value);
             return contains;
         }
 
@@ -99,7 +99,7 @@ namespace Lsj.Util.Collections
         public bool TryGetValueByKey(TKey value, out TValue result)
         {
             var contains = ContainsKey(value);
-            result = contains ? a[value] : NullValue(value);
+            result = contains ? _a[value] : NullValue(value);
             return contains;
         }
 
@@ -110,14 +110,14 @@ namespace Lsj.Util.Collections
         /// <param name="value">value</param>
         public void Add(TKey key, TValue value)
         {
-            if (ContainsValue(value) && !a[key].Equals(value))
+            if (ContainsValue(value) && !_a[key].Equals(value))
             {
                 throw new InvalidOperationException("Duplicate value");
             }
             else
             {
-                a[key] = value;
-                b[value] = key;
+                _a[key] = value;
+                _b[value] = key;
             }
         }
 
@@ -126,7 +126,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return a.GetEnumerator();
+            return _a.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -140,7 +140,7 @@ namespace Lsj.Util.Collections
         /// <param name="key">Key</param>
         public bool ContainsKey(TKey key)
         {
-            return a.ContainsKey(key);
+            return _a.ContainsKey(key);
         }
 
         /// <summary>
@@ -149,18 +149,18 @@ namespace Lsj.Util.Collections
         /// <param name="value">Value</param>
         public bool ContainsValue(TValue value)
         {
-            return b.ContainsKey(value);
+            return _b.ContainsKey(value);
         }
 
         /// <summary>
         /// NullValue
         /// </summary>
-        protected virtual TValue NullValue(TKey key) => default;
+        protected virtual TValue NullValue(TKey key) => default!;
 
         /// <summary>
         /// NullKey
         /// </summary>
-        protected virtual TKey NullKey(TValue value) => default;
+        protected virtual TKey NullKey(TValue value) => default!;
 
     }
 

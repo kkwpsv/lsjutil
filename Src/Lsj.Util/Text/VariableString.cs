@@ -48,69 +48,69 @@ namespace Lsj.Util.Text
             }
         }
 
-        private char* handle;
-        private int bufferlength;
+        private char* _handle;
+        private int _bufferlength;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
+        /// Initializes a new instance of the <see cref="VariableString"/> class.
         /// </summary>
         public VariableString()
         {
-            this.Length = 0;
-            this.bufferlength = 10;
+            Length = 0;
+            _bufferlength = 10;
             Alloc();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
+        /// Initializes a new instance of the <see cref="VariableString"/> class.
         /// </summary>
         /// <param name="bufferlength">Buffer Length</param>
         public VariableString(int bufferlength)
         {
-            this.Length = 0;
-            this.bufferlength = bufferlength;
+            Length = 0;
+            _bufferlength = bufferlength;
             Alloc();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
+        /// Initializes a new instance of the <see cref="VariableString"/> class.
         /// </summary>
         /// <param name="src">Source</param>
         public VariableString(VariableString src)
         {
-            this.Length = src.Length;
-            this.bufferlength = src.bufferlength;
+            Length = src.Length;
+            _bufferlength = src._bufferlength;
             Alloc();
-            UnsafeHelper.Copy(src.handle, this.handle, this.bufferlength);
+            UnsafeHelper.Copy(src._handle, _handle, _bufferlength);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
+        /// Initializes a new instance of the <see cref="VariableString"/> class.
         /// </summary>
         /// <param name="str">Source String</param>
         public VariableString(string str)
         {
             var chars = str.ToCharArray();
-            this.Length = chars.Length;
-            this.bufferlength = this.Length < 10 ? 10 : this.Length;
+            Length = chars.Length;
+            _bufferlength = Length < 10 ? 10 : Length;
             Alloc();
             fixed (char* src = chars)
             {
-                UnsafeHelper.Copy(src, handle, Length);
+                UnsafeHelper.Copy(src, _handle, Length);
             }
         }
 
         private void Alloc()
         {
-            this.handle = (char*)Marshal.AllocHGlobal(bufferlength * 2).ToPointer();
+            _handle = (char*)Marshal.AllocHGlobal(_bufferlength * 2).ToPointer();
         }
 
         private void ReAlloc(int newbufferlength)
         {
-            var oldhandle = this.handle;
-            this.bufferlength = newbufferlength;
-            this.handle = (char*)Marshal.AllocHGlobal(newbufferlength * 2).ToPointer();
-            UnsafeHelper.Copy(oldhandle, handle, (Length > newbufferlength ? newbufferlength : Length) * 2);
+            var oldhandle = _handle;
+            _bufferlength = newbufferlength;
+            _handle = (char*)Marshal.AllocHGlobal(newbufferlength * 2).ToPointer();
+            UnsafeHelper.Copy(oldhandle, _handle, (Length > newbufferlength ? newbufferlength : Length) * 2);
             Marshal.FreeHGlobal((IntPtr)oldhandle);
         }
 
@@ -119,7 +119,7 @@ namespace Lsj.Util.Text
         /// </summary>
         protected override void CleanUpUnmanagedResources()
         {
-            Marshal.FreeHGlobal((IntPtr)handle);
+            Marshal.FreeHGlobal((IntPtr)_handle);
         }
 
         /// <summary>
@@ -128,10 +128,10 @@ namespace Lsj.Util.Text
         /// <returns></returns>
         public override string ToString()
         {
-            var chars = new char[this.Length];
+            var chars = new char[Length];
             fixed (char* src = chars)
             {
-                UnsafeHelper.Copy(handle, src, Length);
+                UnsafeHelper.Copy(_handle, src, Length);
             }
             return new string(chars);
         }
@@ -160,23 +160,23 @@ namespace Lsj.Util.Text
                 }
                 else
                 {
-                    return *(handle + index);
+                    return *(_handle + index);
                 }
             }
         }
 
-        int IComparable.CompareTo(object obj)
+        int IComparable.CompareTo(object? obj)
         {
-            if (obj is string)
+            if (obj is string str)
             {
-                using (var x = new VariableString(obj as string))
+                using (var x = new VariableString(str))
                 {
                     return CompareTo(x);
                 }
             }
-            else if (obj is VariableString)
+            else if (obj is VariableString variableStr)
             {
-                return CompareTo(obj as VariableString);
+                return CompareTo(variableStr);
             }
             else
             {
@@ -189,27 +189,27 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <returns></returns>
         /// <param name="other">Other.</param>
-        public int CompareTo(VariableString other)
+        public int CompareTo(VariableString? other)
         {
-            if (other == null)
+            if (other is null)
             {
                 return 1;
             }
-            else if (this.Length > other.Length)
+            else if (Length > other.Length)
             {
                 return 1;
             }
-            else if (this.Length < other.Length)
+            else if (Length < other.Length)
             {
                 return -1;
             }
             else
             {
-                for (int i = 0; i < this.Length; i++)
+                for (int i = 0; i < Length; i++)
                 {
-                    if (*(this.handle + i) != *(other.handle + i))
+                    if (*(_handle + i) != *(other._handle + i))
                     {
-                        return *(this.handle + i) - *(other.handle + i) > 0 ? 1 : -1;
+                        return *(_handle + i) - *(other._handle + i) > 0 ? 1 : -1;
                     }
                 }
                 return 0;
@@ -221,7 +221,7 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ((IComparable)(this)).CompareTo(obj) == 0;
         }
@@ -253,7 +253,7 @@ namespace Lsj.Util.Text
         {
             for (int i = 0; i < Length; i++)
             {
-                if (x == *(handle + i))
+                if (x == *(_handle + i))
                 {
                     return i;
                 }
@@ -311,7 +311,7 @@ namespace Lsj.Util.Text
             {
                 Length = length
             };
-            UnsafeHelper.Copy(handle, startIndex, result.handle, 0, length);
+            UnsafeHelper.Copy(_handle, startIndex, result._handle, 0, length);
             return result;
         }
 
@@ -323,11 +323,11 @@ namespace Lsj.Util.Text
         public static VariableString operator +(VariableString a, VariableString b)
         {
             var total = a.Length + b.Length;
-            if (a.bufferlength < total)
+            if (a._bufferlength < total)
             {
                 a.ReAlloc(total);
             }
-            UnsafeHelper.Copy(b.handle, 0, a.handle, a.Length, b.Length);
+            UnsafeHelper.Copy(b._handle, 0, a._handle, a.Length, b.Length);
             a.Length = total;
             return a;
         }

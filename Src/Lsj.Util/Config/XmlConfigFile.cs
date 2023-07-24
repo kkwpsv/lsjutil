@@ -2,6 +2,7 @@
 using Lsj.Util.Text;
 using Lsj.Util.Xml;
 using System.Linq;
+using System.Reflection;
 
 namespace Lsj.Util.Config
 
@@ -65,7 +66,7 @@ namespace Lsj.Util.Config
                     {
                         if (field.FieldType.IsAssignableFrom(typeof(ConfigElement)))
                         {
-                            var attribute = field.GetAttribute<ConfigElementNameAttribute>();
+                            var attribute = field.GetCustomAttribute<ConfigElementNameAttribute>();
                             if (attribute != null)
                             {
                                 var name = attribute.Name.ToSafeString();

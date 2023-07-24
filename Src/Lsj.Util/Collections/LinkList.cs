@@ -15,15 +15,15 @@ namespace Lsj.Util.Collections
         /// </summary>
         public struct LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
-            private readonly LinkList<T> linklist;
-            private LinkListNode<T> current;
-            private readonly int last;
+            private readonly LinkList<T> _linklist;
+            private LinkListNode<T>? _current;
+            private readonly int _last;
 
             internal LinkListEnumerator(LinkList<T> linklist)
             {
-                this.linklist = linklist;
-                this.last = linklist.Count - 1;
-                this.current = null;
+                _linklist = linklist;
+                _last = linklist.Count - 1;
+                _current = null;
             }
 
             /// <summary>
@@ -39,16 +39,16 @@ namespace Lsj.Util.Collections
             /// </summary>
             public bool MoveNext()
             {
-                if (current == null)
+                if (_current == null)
                 {
-                    current = linklist;
+                    _current = _linklist;
                     return true;
                 }
                 else
                 {
-                    if (current.Next != null)
+                    if (_current.Next != null)
                     {
-                        current = current.Next;
+                        _current = _current.Next;
                         return true;
                     }
                     else
@@ -63,14 +63,14 @@ namespace Lsj.Util.Collections
             /// </summary>
             public void Reset()
             {
-                current = null;
+                _current = null;
             }
 
             T IEnumerator<T>.Current
             {
                 get
                 {
-                    return current.Value;
+                    return _current.Value;
                 }
             }
 
@@ -78,7 +78,7 @@ namespace Lsj.Util.Collections
             {
                 get
                 {
-                    return current.Value;
+                    return _current.Value;
                 }
             }
 

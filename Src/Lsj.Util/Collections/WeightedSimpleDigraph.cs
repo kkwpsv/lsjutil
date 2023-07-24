@@ -7,7 +7,7 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class WeightedSimpleDigraph
     {
-        private readonly int?[,] data;
+        private readonly int?[,] _data;
 
         /// <summary>
         /// Order
@@ -20,8 +20,8 @@ namespace Lsj.Util.Collections
         /// <param name="order"></param>
         public WeightedSimpleDigraph(int order)
         {
-            this.Order = order;
-            this.data = new int?[order, order];
+            Order = order;
+            _data = new int?[order, order];
         }
 
         /// <summary>
@@ -36,11 +36,11 @@ namespace Lsj.Util.Collections
             {
                 throw new ArgumentOutOfRangeException("From or To cannot larger than order");
             }
-            if (data[from, to] != null)
+            if (_data[from, to] != null)
             {
                 throw new ArgumentException("there is already a edge");
             }
-            data[from, to] = weight;
+            _data[from, to] = weight;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Lsj.Util.Collections
             var flag = new bool[Order];
             for (int i = 0; i < Order; i++)
             {
-                dis[i] = data[from, i];
+                dis[i] = _data[from, i];
                 if (dis[i] != null)
                 {
                     prv[i] = from;
@@ -75,7 +75,7 @@ namespace Lsj.Util.Collections
                 var minDis = (int?)null;
                 for (int j = 0; j < Order; j++)
                 {
-                    if (!flag[j] && dis[j] != null && (minDis == null || dis[j].Value < minDis.Value))
+                    if (!flag[j] && dis[j] is int disj && (minDis == null || disj < minDis.Value))
                     {
                         minDis = dis[j];
                         nearest = j;
@@ -90,9 +90,9 @@ namespace Lsj.Util.Collections
                     flag[nearest] = true;
                     for (int k = 0; k < Order; k++)
                     {
-                        if (!flag[k] && data[nearest, k] != null && (dis[k] == null || minDis.Value + data[nearest, k] < dis[k]))
+                        if (!flag[k] && _data[nearest, k] != null && (dis[k] == null || minDis.Value + _data[nearest, k] < dis[k]))
                         {
-                            dis[k] = minDis.Value + data[nearest, k];
+                            dis[k] = minDis.Value + _data[nearest, k];
                             prv[k] = nearest;
                         }
                     }

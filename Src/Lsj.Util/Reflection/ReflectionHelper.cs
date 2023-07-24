@@ -26,17 +26,6 @@ namespace Lsj.Util.Reflection
         public static bool HasAttribute<T>(this MemberInfo member) where T : Attribute => member.GetCustomAttributes(typeof(T), true).Any();
 
         /// <summary>
-        /// Get Attribute
-        /// </summary>
-        /// <typeparam name="T">Attribute Type</typeparam>
-        /// <param name="member">member</param>
-        public static T GetAttribute<T>(this MemberInfo member) where T : Attribute
-        {
-            var x = member.GetCustomAttributes(typeof(T), true);
-            return (T)x.FirstOrDefault();
-        }
-
-        /// <summary>
         /// Create Instance
         /// </summary>
         /// <typeparam name="T">type</typeparam>
@@ -62,14 +51,6 @@ namespace Lsj.Util.Reflection
                 throw new InvalidCastException("Error Type");
             }
         }
-
-        /// <summary>
-        /// Create Instance
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="param">param</param>
-        /// <returns></returns>
-        public static object CreateInstance(this Type type, params object[] param) => Activator.CreateInstance(type, param);
 
         /// <summary>
         /// Get Type Name

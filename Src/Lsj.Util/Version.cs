@@ -95,11 +95,11 @@
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is Version o)
             {
-                return (this.Major == o.Major) && (this.Minor == o.Minor) && (this.Build == o.Build) && (this.Revision == o.Revision);
+                return (Major == o.Major) && (Minor == o.Minor) && (Build == o.Build) && (Revision == o.Revision);
             }
             else
             {

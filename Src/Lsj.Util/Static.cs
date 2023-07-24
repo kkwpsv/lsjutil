@@ -25,6 +25,6 @@ namespace Lsj.Util
         /// <summary>
         /// Version
         /// </summary>
-        public static Version Version => typeof(Static).Assembly.GetName().Version;
+        public static Version Version => typeof(Static).Assembly.GetName().Version!;
     }
 }

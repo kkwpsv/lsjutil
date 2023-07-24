@@ -21,7 +21,7 @@ namespace Lsj.Util
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
         /// <returns>The <see cref="IntPtr"/> to the unmanaged memory block. </returns>
-        public static IntPtr StructureToPtr<T>(T val)
+        public static IntPtr StructureToPtr<T>(T val) where T : struct
         {
             var result = System.Runtime.InteropServices.Marshal.AllocHGlobal(SizeOf<T>());
             System.Runtime.InteropServices.Marshal.StructureToPtr(val, result, false);

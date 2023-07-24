@@ -35,7 +35,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         public T Dequeue()
         {
-            if (items.TryTake(out T item))
+            if (items.TryTake(out var item))
             {
                 return item;
             }
