@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -152,6 +151,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="styleEx"></param>
         /// <param name="parentWindow"></param>
         /// <param name="hInstance"></param>
+        /// <param name="hMenu"></param>
         protected virtual HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HMENU hMenu, HINSTANCE hInstance)
         {
             return CreateWindowEx((WindowStylesEx)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, hMenu, hInstance, NULL);

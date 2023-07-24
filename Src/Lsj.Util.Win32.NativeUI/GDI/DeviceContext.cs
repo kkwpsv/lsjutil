@@ -42,8 +42,10 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <inheritdoc/>
         public override GdiObjectType ObjectType => GdiObjectType.DeviceContext;
 
+        /// <inheritdoc/>
         protected override void OnReleaseObject()
         {
             if (_deviceContextReleaseMode == DeviceContextReleaseMode.DeleteDC)

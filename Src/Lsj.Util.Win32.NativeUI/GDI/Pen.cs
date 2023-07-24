@@ -1,20 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Gdi32;
-using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.NativeUI.GDI
 {
+    /// <summary>
+    /// Pen
+    /// </summary>
     public class Pen : GdiObject
     {
         /// <summary>
@@ -24,6 +18,11 @@ namespace Lsj.Util.Win32.NativeUI.GDI
 
         private readonly GdiObjectReleaseMode _releaseMode;
 
+        /// <summary>
+        /// Pen
+        /// </summary>
+        /// <param name="hPen"></param>
+        /// <param name="releaseMode"></param>
         public Pen(HPEN hPen, GdiObjectReleaseMode releaseMode)
         {
             Handle = hPen;
@@ -34,8 +33,10 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <inheritdoc/>
         public override GdiObjectType ObjectType => GdiObjectType.Pen;
 
+        /// <inheritdoc/>
         protected override void OnReleaseObject()
         {
             if (_releaseMode == GdiObjectReleaseMode.DeleteObject)
@@ -44,6 +45,14 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <summary>
+        /// Create Pen
+        /// </summary>
+        /// <param name="penStyles"></param>
+        /// <param name="width"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        /// <exception cref="GDIOperationFailedException"></exception>
         public static Pen Create(PenStyles penStyles, int width, COLORREF color)
         {
             var result = CreatePen(penStyles, width, color);
@@ -57,6 +66,13 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <summary>
+        /// Create Solid Pen
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        /// <exception cref="GDIOperationFailedException"></exception>
         public static Pen CreateSolid(int width, COLORREF color)
         {
             var result = CreatePen(PenStyles.PS_SOLID, width, color);

@@ -20,6 +20,11 @@ namespace Lsj.Util.Win32.NativeUI.GDI
 
         private readonly GdiObjectReleaseMode _releaseMode;
 
+        /// <summary>
+        /// Brush
+        /// </summary>
+        /// <param name="hBrush"></param>
+        /// <param name="releaseMode"></param>
         public Brush(HBRUSH hBrush, GdiObjectReleaseMode releaseMode)
         {
             Handle = hBrush;
@@ -30,8 +35,10 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <inheritdoc/>
         public override GdiObjectType ObjectType => GdiObjectType.Brush;
 
+        /// <inheritdoc/>
         protected override void OnReleaseObject()
         {
             if (_releaseMode == GdiObjectReleaseMode.DeleteObject)
@@ -40,6 +47,12 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <summary>
+        /// From Color
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        /// <exception cref="Win32Exception"></exception>
         public static Brush FromColor(COLORREF color)
         {
             var result = CreateSolidBrush(color);
@@ -53,6 +66,12 @@ namespace Lsj.Util.Win32.NativeUI.GDI
             }
         }
 
+        /// <summary>
+        /// From System Color
+        /// </summary>
+        /// <param name="systemColors"></param>
+        /// <returns></returns>
+        /// <exception cref="Win32Exception"></exception>
         public static Brush FromSysColor(SystemColors systemColors)
         {
             var result = GetSysColorBrush(systemColors);
