@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Lsj.Util.Protobuf
@@ -30,8 +31,8 @@ namespace Lsj.Util.Protobuf
         {
             this.buffer = new byte[length];
             UnsafeHelper.Copy(data, offset, buffer, 0, length);
-            var fields = this.GetType().GetProperties().Where(x => x.GetAttribute<FieldAttribute>() != null).ToDictionary(x => x.GetAttribute<FieldAttribute>().FieldNumber, x => x);
-            var requires = this.GetType().GetProperties().Where(x => x.GetAttribute<FieldAttribute>() != null && x.GetAttribute<FieldAttribute>().IsRequired).ToDictionary(x => x.GetAttribute<FieldAttribute>().FieldNumber, x => false);
+            var fields = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FieldAttribute>() != null).ToDictionary(x => x.GetCustomAttribute<FieldAttribute>().FieldNumber, x => x);
+            var requires = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FieldAttribute>() != null && x.GetCustomAttribute<FieldAttribute>().IsRequired).ToDictionary(x => x.GetCustomAttribute<FieldAttribute>().FieldNumber, x => false);
             var flags = new List<int>();
             while (this.offset < this.buffer.Length)
             {
@@ -41,7 +42,7 @@ namespace Lsj.Util.Protobuf
                 if (fields.ContainsKey(fieldnumber))
                 {
                     var field = fields[fieldnumber];
-                    var attribute = field.GetAttribute<FieldAttribute>();
+                    var attribute = field.GetCustomAttribute<FieldAttribute>();
                     if (attribute.FieldType != type)
                     {
                         throw new InvalidCastException($"Bad data : {field.Name} wire_type not match");
@@ -435,10 +436,10 @@ namespace Lsj.Util.Protobuf
         public byte[] ToArray()
         {
             stream = new MemoryStream();
-            var fields = this.GetType().GetProperties().Where(x => x.GetAttribute<FieldAttribute>() != null).ToDictionary(x => x.GetAttribute<FieldAttribute>().FieldNumber, x => x);
+            var fields = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FieldAttribute>() != null).ToDictionary(x => x.GetCustomAttribute<FieldAttribute>().FieldNumber, x => x);
             foreach (var field in fields)
             {
-                var attribute = field.Value.GetAttribute<FieldAttribute>();
+                var attribute = field.Value.GetCustomAttribute<FieldAttribute>();
                 var type = attribute.FieldType;
 
                 var value = field.Value.GetValue(this, null);

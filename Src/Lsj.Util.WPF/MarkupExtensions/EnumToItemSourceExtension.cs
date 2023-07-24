@@ -36,7 +36,7 @@ namespace Lsj.Util.WPF.MarkupExtensions
             return _type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => new EnumItem
             {
                 Value = x.GetValue(null),
-                DisplayName = x.GetAttribute<DisplayNameAttribute>()?.DisplayName ?? x.Name,
+                DisplayName = x.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? x.Name,
             });
         }
 

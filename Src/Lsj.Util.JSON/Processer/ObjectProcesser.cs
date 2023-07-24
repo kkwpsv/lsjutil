@@ -15,9 +15,9 @@ namespace Lsj.Util.JSON.Processer
 
         public ObjectProcesser(Type type)
         {
-            _result = ReflectionHelper.CreateInstance(type);
+            _result = Activator.CreateInstance(type);
             _properties = type.GetProperties().Where(x => !x.HasAttribute<NotSerializeAttribute>())
-                .ToDictionary(x => x.HasAttribute<CustomJsonPropertyNameAttribute>() ? x.GetAttribute<CustomJsonPropertyNameAttribute>().Name : x.Name
+                .ToDictionary(x => x.HasAttribute<CustomJsonPropertyNameAttribute>() ? x.GetCustomAttribute<CustomJsonPropertyNameAttribute>().Name : x.Name
                 , x => x);
         }
 
@@ -30,7 +30,7 @@ namespace Lsj.Util.JSON.Processer
                 var property = _properties[name];
                 if (property.HasAttribute<CustomSerializeAttribute>())
                 {
-                    return property.GetAttribute<CustomSerializeAttribute>().SourceType;
+                    return property.GetCustomAttribute<CustomSerializeAttribute>().SourceType;
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace Lsj.Util.JSON.Processer
                 {
                     if (property.HasAttribute<CustomSerializeAttribute>())
                     {
-                        if (Activator.CreateInstance(property.GetAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
+                        if (Activator.CreateInstance(property.GetCustomAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
                         {
                             property.SetValue(_result, serializer.Parse(value));
                         }

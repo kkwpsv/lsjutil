@@ -21,7 +21,7 @@ namespace Lsj.Util.JSON.Processer
                 var property = _properties[name];
                 if (property.HasAttribute<CustomJsonPropertyNameAttribute>())
                 {
-                    if (Activator.CreateInstance(property.GetAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
+                    if (Activator.CreateInstance(property.GetCustomAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
                     {
                         value = serializer.Parse(value);
                     }

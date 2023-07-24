@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Lsj.Util.JSON
@@ -136,7 +137,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        var notSerializeProperties = val.GetType().GetAttribute<NotSerializePropertyAttribute>()?.Properties;
+                        var notSerializeProperties = val.GetType().GetCustomAttribute<NotSerializePropertyAttribute>()?.Properties;
                         var properties = val.GetType().GetProperties().
                             Where(x => !x.HasAttribute<NotSerializeAttribute>() && !x.GetIndexParameters().Any() &&
                             (notSerializeProperties == null || !notSerializeProperties.Contains(x.Name)));
@@ -144,13 +145,13 @@ namespace Lsj.Util.JSON
                         {
                             flag = true;
                             var name = property.Name;
-                            var attr = property.GetAttribute<CustomJsonPropertyNameAttribute>();
+                            var attr = property.GetCustomAttribute<CustomJsonPropertyNameAttribute>();
                             if (attr != null)
                             {
                                 name = attr.Name;
                             }
                             string value = "";
-                            var customSerializeAttribute = property.GetAttribute<CustomSerializeAttribute>();
+                            var customSerializeAttribute = property.GetCustomAttribute<CustomSerializeAttribute>();
                             if (customSerializeAttribute != null)
                             {
                                 if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)

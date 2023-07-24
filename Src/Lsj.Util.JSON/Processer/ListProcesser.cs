@@ -21,7 +21,7 @@ namespace Lsj.Util.JSON.Processer
             this.type = type;
             addMethod = type.GetMethod("Add");
             genericListType = type.GetGenericType(typeof(IList<>));
-            result = ReflectionHelper.CreateInstance(type);
+            result = Activator.CreateInstance(type);
         }
 
         public object GetResult() => result;
