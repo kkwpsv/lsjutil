@@ -4,6 +4,7 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ADAPTER_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.DirectX.Structs;
+﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Structs;
 using System;
 
 namespace Lsj.Util.Win32.DirectX.Enums
