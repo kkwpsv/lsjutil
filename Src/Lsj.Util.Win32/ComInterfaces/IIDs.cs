@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <summary>
         /// IID_IAccessible
         /// </summary>
-        public static readonly IID IID_IAccessible = " 618736e0-3c3d-11cf-810c-00aa00389b71";
+        public static readonly IID IID_IAccessible = "618736e0-3c3d-11cf-810c-00aa00389b71";
 
         /// <summary>
         /// IID_IAdviseSink
