@@ -31,6 +31,13 @@ namespace Lsj.Util.Win32.BaseTypes
             return ref UnsafePInvokeExtensions.AsStructRef<TAs>(_value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ref T FromPtr(IntPtr value) => ref UnsafePInvokeExtensions.AsStructRef<T>(value);
+
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
 

@@ -126,8 +126,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 {
                     fixed (BOOL* pDiscardedPtr = pDiscarded)
                     {
-                        return ((delegate* unmanaged[Stdcall]<void*, UINT, P<IDXGIResource>*, BOOL[], HRESULT>)_vTable[15])
-                        (thisPtr, NumResources, ppResourcesPtr, pDiscarded);
+                        return ((delegate* unmanaged[Stdcall]<void*, UINT, P<IDXGIResource>*, BOOL*, HRESULT>)_vTable[15])
+                        (thisPtr, NumResources, ppResourcesPtr, pDiscardedPtr);
                     }
                 }
             }

@@ -48,6 +48,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ID3D12Device
+        /// </summary>
+        public static readonly IID IID_ID3D12Device = "189819f1-1db6-4b57-be54-1821339b85f7";
+
+        /// <summary>
         /// IID_IDataAdviseHolder
         /// </summary>
         public static readonly IID IID_IDataAdviseHolder = "00000110-0000-0000-C000-000000000046";
@@ -61,6 +66,31 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IDispatch
         /// </summary>
         public static readonly IID IID_IDispatch = "00020400-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IDirect3DDevice9On12
+        /// </summary>
+        public static readonly IID IID_IDirect3DDevice9On12 = "e7fda234-b589-4049-940d-8878977531c8";
+
+        /// <summary>
+        /// IID_IDXGIFactory
+        /// </summary>
+        public static readonly IID IID_IDXGIFactory = "7b7166ec-21c7-44ae-b21a-c9ae321ae369";
+
+        /// <summary>
+        /// IID_IDXGIFactory1
+        /// </summary>
+        public static readonly IID IID_IDXGIFactory1 = "770aae78-f26f-4dba-a829-253c83d1b387";
+
+        /// <summary>
+        /// IID_IDXGIAdapter
+        /// </summary>
+        public static readonly IID IID_IDXGIAdapter = "2411e7e1-12ac-4ccf-bd14-9798e8534dc0";
+
+        /// <summary>
+        /// IID_IDXGIAdapter4
+        /// </summary>
+        public static readonly IID IID_IDXGIAdapter4 = "3c8d99d1-4fbf-4181-a82c-af66bf7bd24e";
 
         /// <summary>
         /// IID_IEnumIDList
@@ -81,6 +111,21 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IFileOpenDialog
         /// </summary>
         public static readonly IID IID_IFileOpenDialog = "d57c7288-d4ad-4768-be02-9d969532d960";
+
+        /// <summary>
+        /// IID_IInputPaneInterop
+        /// </summary>
+        public static readonly IID IID_IInputPaneInterop = "75CF2C57-9195-4931-8332-F0B409E916AF";
+
+        /// <summary>
+        /// IID_IInputPane
+        /// </summary>
+        public static readonly IID IID_IInputPane = "640ada70-06f3-4c87-a678-9829c9127c28";
+
+        /// <summary>
+        /// IID_IInputPane2
+        /// </summary>
+        public static readonly IID IID_IInputPane2 = "8a6b3f26-7090-4793-944c-c3f2cde26276";
 
         /// <summary>
         /// IID_ILockBytes
