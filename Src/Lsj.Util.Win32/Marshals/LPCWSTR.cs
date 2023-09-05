@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Marshals
@@ -6,7 +7,7 @@ namespace Lsj.Util.Win32.Marshals
     /// <summary>
     /// LPCWSTR implement by pinned string or dirtect pointer.
     /// </summary>
-    public class LPCWSTR : CriticalHandle
+    public class LPCWSTR : CriticalHandle, IPointer
     {
         private GCHandle _gcHandle;
 
@@ -39,6 +40,9 @@ namespace Lsj.Util.Win32.Marshals
 
         /// <inheritdoc/>
         public override bool IsInvalid => IsClosed;
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => handle;
 
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
