@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, LUID, in IID, out IntPtr, HRESULT>)_vTable[25])(thisPtr, AdapterLuid, riid, out ppAdapter);
+                return ((delegate* unmanaged[Stdcall]<void*, LUID, in IID, out IntPtr, HRESULT>)_vTable[26])(thisPtr, AdapterLuid, riid, out ppAdapter);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[26])(thisPtr, riid, out ppAdapter);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[27])(thisPtr, riid, out ppAdapter);
             }
         }
     }

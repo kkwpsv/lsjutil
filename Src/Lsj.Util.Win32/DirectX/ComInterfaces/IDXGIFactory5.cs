@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, IntPtr, UINT, HRESULT>)_vTable[27])(thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, IntPtr, UINT, HRESULT>)_vTable[28])(thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
             }
         }
     }

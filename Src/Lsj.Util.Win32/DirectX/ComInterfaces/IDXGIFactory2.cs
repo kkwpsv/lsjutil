@@ -46,6 +46,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         IntPtr* _vTable;
 
         /// <summary>
+        /// Determines whether to use stereo mode.
+        /// </summary>
+        /// <returns>
+        /// Indicates whether to use stereo mode.
+        /// <see cref="TRUE"/> indicates that you can use stereo mode; otherwise, <see cref="FALSE"/>.
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="IsWindowedStereoEnabled"/> always returns <see cref="FALSE"/>
+        /// because stereoscopic 3D display behavior isn’t available with the Platform Update for Windows 7.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </returns>
+        /// <remarks>
+        /// We recommend that windowed applications call <see cref="IsWindowedStereoEnabled"/> before they attempt to use stereo.
+        /// <see cref="IsWindowedStereoEnabled"/> returns <see cref="TRUE"/> if both of the following items are true:
+        /// All adapters in the computer have drivers that are capable of stereo.
+        /// This only means that the driver is implemented to the Windows Display Driver Model (WDDM) for Windows 8 (WDDM 1.2).
+        /// However, the adapter does not necessarily have to be able to scan out stereo.
+        /// The current desktop mode (desktop modes are mono) and system policy and hardware are configured
+        /// so that the Desktop Window Manager (DWM) performs stereo composition on at least one adapter output.
+        /// The creation of a windowed stereo swap chain succeeds if the first requirement is met.
+        /// However, if the adapter can't scan out stereo, the output on that adapter is reduced to mono.
+        /// The Direct3D 11.1 Simple Stereo 3D Sample shows how to add a stereoscopic 3D effect and how to respond to system stereo changes.
+        /// </remarks>
+        public BOOL IsWindowedStereoEnabled()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL>)_vTable[14])(thisPtr);
+            }
+        }
+
+        /// <summary>
         /// Creates a swap chain that is associated with an <see cref="HWND"/> handle to the output window for the swap chain.
         /// </summary>
         /// <param name="pDevice">
@@ -110,7 +142,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HWND, in DXGI_SWAP_CHAIN_DESC1,
-                    in DXGI_SWAP_CHAIN_FULLSCREEN_DESC, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[14])
+                    in DXGI_SWAP_CHAIN_FULLSCREEN_DESC, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[15])
                     (thisPtr, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, out ppSwapChain);
             }
         }
@@ -225,7 +257,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in IUnknown, in DXGI_SWAP_CHAIN_DESC1,
-                    in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[15])
+                    in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[16])
                     (thisPtr, pDevice, pWindow, pDesc, pRestrictToOutput, out ppSwapChain);
             }
         }
@@ -257,7 +289,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out LUID, HRESULT>)_vTable[16])(thisPtr, hResource, out pLuid);
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out LUID, HRESULT>)_vTable[17])(thisPtr, hResource, out pLuid);
             }
         }
 
@@ -288,7 +320,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, out DWORD, HRESULT>)_vTable[17])(thisPtr, WindowHandle, wMsg, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, out DWORD, HRESULT>)_vTable[18])(thisPtr, WindowHandle, wMsg, out pdwCookie);
             }
         }
 
@@ -317,7 +349,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[18])(thisPtr, hEvent, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[19])(thisPtr, hEvent, out pdwCookie);
             }
         }
 
@@ -337,7 +369,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[19])(thisPtr, dwCookie);
+                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[20])(thisPtr, dwCookie);
             }
         }
 
@@ -371,7 +403,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, out DWORD, HRESULT>)_vTable[20])(thisPtr, WindowHandle, wMsg, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, out DWORD, HRESULT>)_vTable[21])(thisPtr, WindowHandle, wMsg, out pdwCookie);
             }
         }
 
@@ -406,7 +438,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[21])(thisPtr, hEvent, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[22])(thisPtr, hEvent, out pdwCookie);
             }
         }
 
@@ -426,7 +458,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[22])(thisPtr, dwCookie);
+                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[23])(thisPtr, dwCookie);
             }
         }
 
@@ -494,7 +526,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DXGI_SWAP_CHAIN_DESC1, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[23])
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DXGI_SWAP_CHAIN_DESC1, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[24])
                     (thisPtr, pDevice, pDesc, pRestrictToOutput, out ppSwapChain);
             }
         }

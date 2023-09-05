@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[29])(thisPtr, hEvent, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[30])(thisPtr, hEvent, out pdwCookie);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[30])(thisPtr, dwCookie);
+                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[31])(thisPtr, dwCookie);
             }
         }
     }

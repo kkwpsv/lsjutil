@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.DirectX
@@ -130,5 +131,83 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory2", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory2([In] UINT Flags, [In] in IID riid, [Out] out P<IDXGIFactory2> ppFactory);
+
+        /// <summary>
+        /// <para>
+        /// Allows a process to indicate that it's resilient to any of its graphics devices being removed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nf-dxgi1_6-dxgideclareadapterremovalsupport"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
+        /// If this function is called after device creation, it returns <see cref="DXGI_ERROR_INVALID_CALL"/>.
+        /// If this is not the first time that this function is called, it returns <see cref="DXGI_ERROR_ALREADY_EXISTS"/>.
+        /// For a full list of error codes, see <see cref="DXGI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is graphics API-agnostic, meaning that apps running on other APIs, such as OpenGL and Vulkan, would also apply.
+        /// This function should be called once per process and before any device creation.
+        /// </remarks>
+        [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDeclareAdapterRemovalSupport", ExactSpelling = true)]
+        public static extern HRESULT DXGIDeclareAdapterRemovalSupport();
+
+        /// <summary>
+        /// <para>
+        /// Disables v-blank virtualization for the process.
+        /// This virtualization is used by the dynamic refresh rate (DRR) feature by default for all swap chains
+        /// to maintain a steady virtualized present rate and v-blank cadence from <see cref="IDXGIOutput.WaitForVBlank"/>.
+        /// By disabling virtualization, these APIs will see the changing refresh rate.
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
+        /// For a full list of error codes, see <see cref="DXGI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// By default, a DXGI swap chain is unable to observe the changing refresh rate
+        /// that's caused by the dynamic refresh rate (DRR) feature (see the blog post Dynamic refresh rate—Get the best of both worlds).
+        /// Instead, a swap chain is virtualized to always see a fraction of the refresh rate—60Hz if the DRR mode is 120Hz.
+        /// <see cref="DXGIDisableVBlankVirtualization"/> disables that virtualization for the entire process.
+        /// Your application will then see v-blank timings change as the system boosts between 60Hz and 120Hz,
+        /// and frames will arrive at the corresponding times for each rate, with present statistics reflecting those changes.
+        /// You should call <see cref="DXGIDisableVBlankVirtualization"/> once per process,
+        /// before creating any swap chains or calling <see cref="IDXGIOutput.WaitForVBlank"/>.
+        /// It can't be disabled for the lifetime of the process,
+        /// so any changes in v-blank timing or statistics from DRR boosting will remain observable to the process.
+        /// You can find more information on how Dynamic Refresh Rate works in the Compositor clock topic.
+        /// </remarks>
+        [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDisableVBlankVirtualization", ExactSpelling = true)]
+        public static extern HRESULT DXGIDisableVBlankVirtualization();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves an interface that Windows Store apps use for debugging the Microsoft DirectX Graphics Infrastructure (DXGI).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_3/nf-dxgi1_3-dxgigetdebuginterface1"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Flags">
+        /// Not used.
+        /// </param>
+        /// <param name="riid">
+        /// The globally unique identifier (GUID) of the requested interface type,
+        /// which can be the identifier for the <see cref="IDXGIDebug"/>, <see cref="IDXGIDebug1"/>, or <see cref="IDXGIInfoQueue"/> interfaces.
+        /// </param>
+        /// <param name="pDebug">
+        /// A pointer to a buffer that receives a pointer to the debugging interface.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DXGIGetDebugInterface1"/> function returns <see cref="E_NOINTERFACE"/> on systems
+        /// without the Windows Software Development Kit (SDK) installed, because it's a development-time aid.
+        /// </remarks>
+        [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIGetDebugInterface1", ExactSpelling = true)]
+        public static extern HRESULT DXGIGetDebugInterface1([In] UINT Flags,[In]in IID riid,[Out]out IntPtr pDebug);
     }
 }
