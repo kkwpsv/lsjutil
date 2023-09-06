@@ -4,6 +4,17 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ALPHA_MODE;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_MODE_ROTATION;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_PRESENT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SCALING;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -167,9 +178,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For info about how data values change when you present content to the screen, see Converting data for the color space.
         /// For info about calling Present1 when your app uses multiple threads, see Multithread Considerations and Multithreading and DXGI.
         /// Flip presentation model queue
-        /// Suppose the following frames with sync-interval values are queued from oldest (A) to newest (E) before you call <see cref="Present"/>.
+        /// Suppose the following frames with sync-interval values are queued from oldest (A) to newest (E) before you call <see cref="Present1"/>.
         /// A: 3, B: 0, C: 0, D: 1, E: 0
-        /// When you call <see cref="Present"/>, the runtime shows frame A for only 1 vertical blank interval.
+        /// When you call <see cref="Present1"/>, the runtime shows frame A for only 1 vertical blank interval.
         /// The runtime terminates frame A early because of the sync interval 0 in frame B.
         /// Then the runtime shows frame D for 1 vertical blank interval, and then frame E until you submit a new presentation.
         /// The runtime discards frames B and C.

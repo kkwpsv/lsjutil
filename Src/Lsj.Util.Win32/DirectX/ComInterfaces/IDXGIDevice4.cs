@@ -3,6 +3,7 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -96,7 +97,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pResults">
         /// A pointer to an array that receives <see cref="DXGI_RECLAIM_RESOURCE_RESULTS"/> values.
         /// Each value in the array corresponds to a resource at the same index that the <paramref name="ppResources"/> parameter specifies.
-        /// The caller can pass in <see langword=""="null"/>, if the caller intends to fill the resources with new content
+        /// The caller can pass in <see langword="null"/>, if the caller intends to fill the resources with new content
         /// regardless of whether the old content was discarded.
         /// </param>
         /// <returns>

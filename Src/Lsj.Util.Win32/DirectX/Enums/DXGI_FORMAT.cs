@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// <para>
@@ -29,7 +31,7 @@
     /// </code>
     /// Restrictions and notes on formats
     /// A few formats have additional restrictions and implied behavior:
-    /// 1. A resource declared with the <see cref="DXGI_FORMAT_R32G32B32"/> family of formats cannot be used simultaneously for vertex and texture data.
+    /// 1. A resource declared with the DXGI_FORMAT_R32G32B32 family of formats cannot be used simultaneously for vertex and texture data.
     /// That is, you may not create a buffer resource with the DXGI_FORMAT_R32G32B32 family of formats that uses any of the following bind flags:
     /// <see cref="D3D10_BIND_VERTEX_BUFFER"/>, <see cref="D3D10_BIND_INDEX_BUFFER"/>, <see cref="D3D10_BIND_CONSTANT_BUFFER"/>,
     /// or <see cref="D3D10_BIND_STREAM_OUTPUT"/> (see <see cref="D3D10_BIND_FLAG"/>).

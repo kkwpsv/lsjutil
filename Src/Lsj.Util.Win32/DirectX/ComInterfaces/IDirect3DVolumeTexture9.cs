@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </summary>
     /// <remarks>
     /// The <see cref="IDirect3DVolumeTexture9"/> interface can be obtained
-    /// by calling the <see cref="CreateVolumeTexture"/> method or one of the D3DXCreateVolumeTexturexxx functions.
+    /// by calling the <see cref="IDirect3DDevice9.CreateVolumeTexture"/> method or one of the D3DXCreateVolumeTexturexxx functions.
     /// This interface inherits additional functionality from the <see cref="IDirect3DBaseTexture9"/> interface.
     /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
     /// The LPDIRECT3DVOLUMETEXTURE9 and PDIRECT3DVOLUMETEXTURE9 types are defined as pointers to the <see cref="IDirect3DVolumeTexture9"/> interface.

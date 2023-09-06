@@ -4,6 +4,8 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 
 namespace Lsj.Util.Win32.DirectX
 {

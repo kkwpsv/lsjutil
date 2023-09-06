@@ -2,6 +2,8 @@
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -31,7 +33,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
 
         /// <summary>
         /// Optionally specify the Direct graphics command queue instance to use.
-        /// If <see cref="NULL"/> and <see cref="Enable9on12"/> is <see cref="TRUE"/>, 9On12 will internally create the graphics queue.
+        /// If <see cref="NULL"/> and <see cref="Enable9On12"/> is <see cref="TRUE"/>, 9On12 will internally create the graphics queue.
         /// The second entry of this array is reserved.
         /// </summary>
         public ByValIntPtrArrayStructForSize2 ppD3D12Queues;

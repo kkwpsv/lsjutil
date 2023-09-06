@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A pointer to a <see cref="DXGI_ADAPTER_DESC3"/> structure that describes the adapter.
         /// This parameter must not be <see cref="NullRef{DXGI_ADAPTER_DESC3}"/>.
         /// On feature level 9 graphics hardware, early versions of <see cref="GetDesc3"/> 
-        /// (<see cref = "IDXGIAdapter.GetDesc" /> and < see cref="IDXGIAdapter1.GetDesc1"/>) return zeros
+        /// (<see cref = "IDXGIAdapter.GetDesc" /> and <see cref="IDXGIAdapter1.GetDesc1"/>) return zeros
         /// for the PCI ID in the <see cref="DXGI_ADAPTER_DESC3.VendorId"/>, <see cref="DXGI_ADAPTER_DESC3.DeviceId"/>,
         /// <see cref="DXGI_ADAPTER_DESC3.SubSysId"/>, and <see cref="DXGI_ADAPTER_DESC3.Revision"/> members of the adapter description structure
         /// and “Software Adapter” for the description string in the Description member.

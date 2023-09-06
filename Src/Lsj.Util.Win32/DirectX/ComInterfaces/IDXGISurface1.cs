@@ -3,6 +3,11 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -74,7 +79,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// ...
         /// //Setup the device and and swapchain
         /// g_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1), (void**) &amp;g_pSurface1);
-        /// g_pSurface1->GetDC( FALSE, &g_hDC );
+        /// g_pSurface1->GetDC( FALSE, &amp;g_hDC );
         /// ...
         /// //Draw on the DC using GDI
         /// ...

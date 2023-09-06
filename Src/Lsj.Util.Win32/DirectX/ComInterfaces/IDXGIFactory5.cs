@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

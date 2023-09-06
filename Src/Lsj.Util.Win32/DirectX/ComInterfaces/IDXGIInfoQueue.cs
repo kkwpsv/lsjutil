@@ -5,6 +5,9 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Dxgidebug;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -106,7 +109,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// 
         ///     // Allocate space and get the message.
         ///     DXGI_INFO_QUEUE_MESSAGE * pMessage = (DXGI_INFO_QUEUE_MESSAGE*)malloc(messageLength);
-        ///     hr = pInfoQueue->GetMessage(DXGI_DEBUG_ALL, 0, pMessage, &messageLength);
+        ///     hr = pInfoQueue->GetMessage(DXGI_DEBUG_ALL, 0, pMessage, &amp;messageLength);
         ///     
         ///     // Do something with the message and free it
         ///     if(hr == S_OK){

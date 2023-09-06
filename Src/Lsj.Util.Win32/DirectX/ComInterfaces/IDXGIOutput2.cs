@@ -1,9 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
-using Lsj.Util.Win32.DirectX.Enums;
-using Lsj.Util.Win32.DirectX.Structs;
 using System;
-using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -35,7 +34,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="TRUE"/> if the output adapter is the primary adapter and it supports multiplane overlays, otherwise returns <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// See <see cref="CreateSwapChainForCoreWindow"/> for info on creating a foreground swap chain.
+        /// See <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/> for info on creating a foreground swap chain.
         /// </remarks>
         public BOOL SupportsOverlays()
         {

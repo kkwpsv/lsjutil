@@ -4,6 +4,7 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_COLOR_SPACE_TYPE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -59,7 +60,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// The current advanced color capabilities of the display attached to this output.
         /// Specifically, whether its capable of reproducing color and luminance values outside of the sRGB color space.
         /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709"/> indicates that the display is limited to SDR/sRGB;
-        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G2048_NONE_P2020"/> indicates that the display supports advanced color capabilities.
+        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020"/> indicates that the display supports advanced color capabilities.
         /// For detailed luminance and color capabilities, see additional members of this struct.
         /// </summary>
         public DXGI_COLOR_SPACE_TYPE ColorSpace;

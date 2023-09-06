@@ -1,12 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.DXGI;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <param name="pAdapter">
         /// A pointer to the video adapter to use when creating a device.
         /// Pass <see cref="NullRef{IUnknown}"/> to use the default adapter,
-        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory1.EnumAdapters"/>.
+        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory.EnumAdapters"/>.
         /// Note
         /// Don't mix the use of DXGI 1.0 (<see cref="IDXGIFactory"/>) and DXGI 1.1 (<see cref="IDXGIFactory1"/>) in an application.
         /// Use <see cref="IDXGIFactory"/> or <see cref="IDXGIFactory1"/>, but not both in an application.

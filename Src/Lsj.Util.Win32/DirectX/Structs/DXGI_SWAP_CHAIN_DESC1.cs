@@ -3,6 +3,8 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

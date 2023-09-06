@@ -1,13 +1,16 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.DirectX.DXGI;
+using static Lsj.Util.Win32.DirectX.Enums.D3D_DRIVER_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_PRESENT;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

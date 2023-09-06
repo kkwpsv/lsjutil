@@ -1,9 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
-using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -51,11 +54,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For example, 8bpp and non-DWM desktop modes are not supported.
         /// If <see cref="DuplicateOutput1"/> fails with <see cref="DXGI_ERROR_UNSUPPORTED"/>,
         /// the application can wait for system notification of desktop switches and mode changes
-        /// and then call <see cref="DuplicateOutput"/> again after such a notification occurs.
+        /// and then call <see cref="DuplicateOutput1"/> again after such a notification occurs.
         /// For more information, refer to <see cref="EVENT_SYSTEM_DESKTOPSWITCH"/> and mode change notification (<see cref="WM_DISPLAYCHANGE"/>).
         /// <see cref="DXGI_ERROR_NOT_CURRENTLY_AVAILABLE"/> if DXGI reached the limit on the maximum number of concurrent duplication applications (default of four).
         /// Therefore, the calling application cannot create any desktop duplication interfaces until the other applications close.
-        /// <see cref="DXGI_ERROR_SESSION_DISCONNECTED"/> if <see cref="DuplicateOutput"/> failed because the session is currently disconnected.
+        /// <see cref="DXGI_ERROR_SESSION_DISCONNECTED"/> if <see cref="DuplicateOutput1"/> failed because the session is currently disconnected.
         /// Other error codes are described in the <see cref="DXGI_ERROR"/> topic.
         /// </returns>
         /// <remarks>

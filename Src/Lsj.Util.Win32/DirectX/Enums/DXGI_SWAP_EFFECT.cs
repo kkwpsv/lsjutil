@@ -3,6 +3,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPRESENT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DSWAPEFFECT;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

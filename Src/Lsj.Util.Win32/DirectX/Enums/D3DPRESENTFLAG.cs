@@ -52,14 +52,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// Differences between Direct3D 9 and Direct3D 9Ex:
         /// This flag is available in Direct3D 9Ex only.
         /// Applications can achieve their own rotation possibly by using a rotated view matrix.
-        /// The methods <see cref="IDirect3DDevice9Ex.GetDisplayModeEx"/> and <see cref="IDirect3DDevice9Ex.GetAdapterDisplayModeEx"/>
+        /// The methods <see cref="IDirect3DDevice9Ex.GetDisplayModeEx"/> and <see cref="IDirect3D9Ex.GetAdapterDisplayModeEx"/>
         /// should be used to to find the current rotation setting.
         /// The backbuffer Width and Height parameters in <see cref="IDirect3D9Ex.CreateDeviceEx"/>
-        /// and <see cref="IDirect3D9Ex.ResetEx"/> must be use landscape orientation,
+        /// and <see cref="IDirect3DDevice9Ex.ResetEx"/> must be use landscape orientation,
         /// while the fullscreen display mode structure should be the same as
         /// what is returned from <see cref="IDirect3D9Ex.EnumAdapterModesEx"/> (i.e. Width and Height are swapped when rotated 90 and 270 degrees).
         /// When using Lock on rotated render targets, upper-left corner assumptions no longer hold true,
-        /// the render target <see cref="SURFACE_DESC"/> will remain landscape (as implied by the creation parameters),
+        /// the render target SURFACE_DESC will remain landscape (as implied by the creation parameters),
         /// and GDI window, mouse coordinates, and such need to be properly translated when used with the Direct3D render target and scene.
         /// </summary>
         D3DPRESENTFLAG_NOAUTOROTATE = 0x00000020,

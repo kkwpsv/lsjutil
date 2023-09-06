@@ -2,6 +2,7 @@
 using System;
 using static Lsj.Util.Win32.Enums.TYPEKIND;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.OleAut32;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

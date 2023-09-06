@@ -4,6 +4,12 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ENUM_MODES;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -251,7 +257,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[21])(thisPtr, pDevice,out ppOutputDuplication);
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[21])(thisPtr, pDevice, out ppOutputDuplication);
             }
         }
     }

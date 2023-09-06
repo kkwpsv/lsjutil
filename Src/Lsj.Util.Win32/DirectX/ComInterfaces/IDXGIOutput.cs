@@ -4,7 +4,11 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ENUM_MODES;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_USAGE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -287,7 +291,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pScanoutSurface">
         /// A pointer to a surface (see <see cref="IDXGISurface"/>) used for rendering an image to the screen.
-        /// The surface must have been created as a back buffer (<see cref="DXGI_USAGE_BACKBUFFER"/>).
+        /// The surface must have been created as a back buffer (<see cref="DXGI_USAGE_BACK_BUFFER"/>).
         /// </param>
         /// <returns>
         /// Returns one of the DXGI_ERROR values.
