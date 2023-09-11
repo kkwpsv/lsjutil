@@ -1,9 +1,15 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Enums;
+using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -68,6 +74,94 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<IDXGISurface2>, HRESULT>)_vTable[12])(thisPtr, index, out ppSurface);
+            }
+        }
+
+        /// <summary>
+        /// Creates a handle to a shared resource. You can then use the returned handle with multiple Direct3D devices.
+        /// </summary>
+        /// <param name="pAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that contains two separate
+        /// but related data members: an optional security descriptor,
+        /// and a Boolean value that determines whether child processes can inherit the returned handle.
+        /// Set this parameter to <see cref="NullRef{SECURITY_ATTRIBUTES}"/> if you want child processes
+        /// that the application might create to not inherit the handle returned by <see cref="CreateSharedHandle"/>,
+        /// and if you want the resource that is associated with the returned handle to get a default security descriptor.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a <see cref="SECURITY_DESCRIPTOR"/> for the resource.
+        /// Set this member to <see cref="NULL"/> if you want the runtime to assign
+        /// a default security descriptor to the resource that is associated with the returned handle.
+        /// The ACLs in the default security descriptor for the resource come from the primary or impersonation token of the creator.
+        /// For more info, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <param name="dwAccess">
+        /// The requested access rights to the resource.
+        /// In addition to the generic access rights, DXGI defines the following values:
+        /// <see cref="DXGI_SHARED_RESOURCE_READ"/> ( 0x80000000L ) - specifies read access to the resource.
+        /// <see cref="DXGI_SHARED_RESOURCE_WRITE"/> ( 1 ) - specifies write access to the resource.
+        /// You can combine these values by using a bitwise OR operation.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the resource to share.
+        /// The name is limited to <see cref="MAX_PATH"/> characters.
+        /// Name comparison is case sensitive.
+        /// You will need the resource name if you call the <see cref="ID3D11Device1.OpenSharedResourceByName"/> method to access the shared resource by name.
+        /// If you instead call the <see cref="ID3D11Device1.OpenSharedResource1"/> method
+        /// to access the shared resource by handle, set this parameter to <see cref="NULL"/>.
+        /// If <paramref name="lpName"/> matches the name of an existing resource,
+        /// <see cref="CreateSharedHandle"/> fails with <see cref="DXGI_ERROR_NAME_ALREADY_EXISTS"/>.
+        /// This occurs because these objects share the same namespace.
+        /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character (\).
+        /// For more information, see Kernel Object Namespaces.
+        /// Fast user switching is implemented using Terminal Services sessions.
+        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// The object can be created in a private namespace. For more information, see Object Namespaces.
+        /// </param>
+        /// <param name="pHandle">
+        /// A pointer to a variable that receives the NT HANDLE value to the resource to share.
+        /// You can use this handle in calls to access the resource.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful; otherwise, returns one of the following values:
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if one of the parameters is invalid.
+        /// <see cref="DXGI_ERROR_NAME_ALREADY_EXISTS"/> if the supplied name of the resource to share is already associated with another resource.
+        /// <see cref="E_ACCESSDENIED"/> if the object is being created in a protected namespace.
+        /// <see cref="E_OUTOFMEMORY"/> if sufficient memory is not available to create the handle.
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="CreateSharedHandle"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CreateSharedHandle"/> only returns the NT handle when you created the resource as shared and specified that it uses NT handles
+        /// (that is, you set the <see cref="D3D11_RESOURCE_MISC_SHARED_NTHANDLE"/> and <see cref="D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX"/> flags).
+        /// If you created the resource as shared and specified that it uses NT handles,
+        /// you must use <see cref="CreateSharedHandle"/> to get a handle for sharing.
+        /// In this situation, you can't use the <see cref="IDXGIResource.GetSharedHandle"/> method because it will fail.
+        /// You can pass the handle that <see cref="CreateSharedHandle"/> returns in a call to the <see cref="ID3D11Device1.OpenSharedResource1"/> method
+        /// to give a device access to a shared resource that you created on a different device.
+        /// Because the handle that <see cref="CreateSharedHandle"/> returns is an NT handle,
+        /// you can use the handle with <see cref="CloseHandle"/>, <see cref="DuplicateHandle"/>, and so on.
+        /// You can call <see cref="CreateSharedHandle"/> only once for a shared resource; later calls fail.
+        /// If you need more handles to the same shared resource, call <see cref="DuplicateHandle"/>.
+        /// When you no longer need the shared resource handle, call <see cref="CloseHandle"/> to close the handle, in order to avoid memory leaks.
+        /// If you pass a name for the resource to <paramref name="lpName"/> when you call <see cref="CreateSharedHandle"/> to share the resource,
+        /// you can subsequently pass this name in a call to the <see cref="ID3D11Device1.OpenSharedResourceByName"/> method
+        /// to give another device access to the shared resource.
+        /// If you use a named resource, a malicious user can use this named resource before you do and prevent your app from starting.
+        /// To prevent this situation, create a randomly named resource and store the name so that it can only be obtained by an authorized user.
+        /// Alternatively, you can use a file for this purpose.
+        /// To limit your app to one instance per user, create a locked file in the user's profile directory.
+        /// If you created the resource as shared and did not specify that it uses NT handles,
+        /// you cannot use <see cref="CreateSharedHandle"/> to get a handle for sharing because <see cref="CreateSharedHandle"/> will fail.
+        /// </remarks>
+        public HRESULT CreateSharedHandle([In] in SECURITY_ATTRIBUTES pAttributes, [In] DWORD dwAccess, [In] LPCWSTR lpName, [Out] out HANDLE pHandle)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in SECURITY_ATTRIBUTES, DWORD, IntPtr, out HANDLE, HRESULT>)_vTable[13])
+                    (thisPtr, pAttributes, dwAccess, lpName.ToIntPtr(), out pHandle);
             }
         }
     }
