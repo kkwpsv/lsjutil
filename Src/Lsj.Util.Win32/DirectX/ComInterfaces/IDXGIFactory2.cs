@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For info about how to use composition swap chains with XAML’s SwapChainBackgroundPanel class, see DirectX and XAML interop.
         /// The <see cref="IDXGISwapChain.SetFullscreenState"/>, <see cref="IDXGISwapChain.ResizeTarget"/>,
         /// <see cref="IDXGISwapChain.GetContainingOutput"/>, <see cref="IDXGISwapChain1.GetHwnd"/>,
-        /// and <see cref="IDXGISwapChain.GetCoreWindow"/> methods aren't valid on this type of swap chain.
+        /// and <see cref="IDXGISwapChain1.GetCoreWindow"/> methods aren't valid on this type of swap chain.
         /// If you call any of these methods on this type of swap chain, they fail.
         /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
         /// </remarks>
