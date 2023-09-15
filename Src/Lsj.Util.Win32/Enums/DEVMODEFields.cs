@@ -1,10 +1,12 @@
 ﻿using Lsj.Util.Win32.Structs;
+using System;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <see cref="DEVMODE"/> Fields
     /// </summary>
+    [Flags]
     public enum DEVMODEFields : uint
     {
         /// <summary>
