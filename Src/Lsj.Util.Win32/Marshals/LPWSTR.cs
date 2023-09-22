@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.BaseTypes;
 using System;
 using System.Runtime.InteropServices;
 
@@ -7,7 +8,7 @@ namespace Lsj.Util.Win32.Marshals
     /// <summary>
     /// LPWSTR implement by self-managed buffer or dirtect pointer.
     /// </summary>
-    public class LPWSTR : CriticalHandle
+    public class LPWSTR : CriticalHandle, IPointer
     {
         private bool _isSelfManager;
 
@@ -82,6 +83,9 @@ namespace Lsj.Util.Win32.Marshals
 
         /// <inheritdoc/>
         public override bool IsInvalid => IsClosed;
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => handle;
 
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
