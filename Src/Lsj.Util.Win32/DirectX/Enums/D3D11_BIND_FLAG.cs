@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// <para>
@@ -27,6 +29,7 @@
     /// <see cref="ID3D11Device.CheckFeatureSupport"/> fills members of a <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS"/> structure with the device's features.
     /// The relevant members here are <see cref="MapNoOverwriteOnDynamicConstantBuffer"/> and <see cref="MapNoOverwriteOnDynamicBufferSRV"/>.
     /// </remarks>
+    [Flags]
     public enum D3D11_BIND_FLAG : uint
     {
         /// <summary>

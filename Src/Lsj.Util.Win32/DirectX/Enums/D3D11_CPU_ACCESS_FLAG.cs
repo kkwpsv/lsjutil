@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
+using System;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -17,6 +18,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// When possible, create resources with no CPU access flags, as this enables better resource optimization.
     /// The <see cref="D3D11_RESOURCE_MISC_FLAG"/> cannot be used when creating resources with D3D11_CPU_ACCESS flags.
     /// </remarks>
+    [Flags]
     public enum D3D11_CPU_ACCESS_FLAG : uint
     {
         /// <summary>

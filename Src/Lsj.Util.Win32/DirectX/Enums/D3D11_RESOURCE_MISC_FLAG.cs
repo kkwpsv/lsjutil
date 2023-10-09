@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
+using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
@@ -20,6 +21,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// These flags can be combined by bitwise OR.
     /// The <see cref="D3D11_RESOURCE_MISC_FLAG"/> cannot be used when creating resources with D3D11_CPU_ACCESS flags.
     /// </remarks>
+    [Flags]
     public enum D3D11_RESOURCE_MISC_FLAG : uint
     {
         /// <summary>
