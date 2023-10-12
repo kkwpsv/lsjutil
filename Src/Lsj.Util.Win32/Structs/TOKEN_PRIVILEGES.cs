@@ -22,6 +22,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public DWORD PrivilegeCount;
 
+        private LUID_AND_ATTRIBUTES _privileges;
+
         /// <summary>
         /// Specifies an array of <see cref="LUID_AND_ATTRIBUTES"/> structures.
         /// Each structure contains the LUID and attributes of a privilege.
@@ -38,6 +40,6 @@ namespace Lsj.Util.Win32.Structs
         /// The privilege was used to gain access to an object or service.
         /// This flag is used to identify the relevant privileges in a set passed by a client application that may contain unnecessary privileges.
         /// </summary>
-        public LUID_AND_ATTRIBUTES Privileges;
+        public P<LUID_AND_ATTRIBUTES> Privileges => UnsafePInvokeExtensions.AsPointer(ref _privileges);
     }
 }
