@@ -1320,8 +1320,40 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LookupPrivilegeName([MarshalAs(UnmanagedType.LPWStr)][In] string lpSystemName, [In] in LUID lpLuid,
-            [In] IntPtr lpName, [In][Out] ref DWORD cchName);
+        public static extern BOOL LookupPrivilegeName([In] LPCWSTR lpSystemName, [In] in LUID lpLuid, [In] LPWSTR lpName, [In][Out] ref DWORD cchName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="LookupPrivilegeValue"/> function retrieves the locally unique identifier (LUID)
+        /// used on a specified system to locally represent the specified privilege name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-lookupprivilegevaluew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemName">
+        /// A pointer to a null-terminated string that specifies the name of the system on which the privilege name is retrieved.
+        /// If a null string is specified, the function attempts to find the privilege name on the local system.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to a null-terminated string that specifies the name of the privilege, as defined in the Winnt.h header file.
+        /// For example, this parameter could specify the constant, <see cref="SE_SECURITY_NAME"/>, or its corresponding string, "SeSecurityPrivilege".
+        /// </param>
+        /// <param name="lpLuid">
+        /// A pointer to a variable that receives the LUID by which the privilege is known on the system
+        /// specified by the <paramref name="lpSystemName"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LookupPrivilegeValue"/> function supports only the privileges specified in the Defined Privileges section of Winnt.h.
+        /// For a list of values, see Privilege Constants.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LookupPrivilegeValue([In] LPCWSTR lpSystemName, [In] LPCWSTR lpName, [Out] out LUID lpLuid);
 
         /// <summary>
         /// <para>
