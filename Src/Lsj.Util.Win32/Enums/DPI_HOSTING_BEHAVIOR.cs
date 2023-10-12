@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// DPI_HOSTING_BEHAVIOR enables a mixed content hosting behavior, which allows parent windows created in the thread
+    /// <see cref="DPI_HOSTING_BEHAVIOR"/> enables a mixed content hosting behavior, which allows parent windows created in the thread
     /// to host child windows with a different <see cref="DPI_AWARENESS_CONTEXT"/> value.
     /// This property only effects new windows created within this thread while the mixed hosting behavior is active.
     /// A parent window with this hosting behavior is able to host child windows with different <see cref="DPI_AWARENESS_CONTEXT"/> values,
