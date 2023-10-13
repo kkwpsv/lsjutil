@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CSIDL;
@@ -206,6 +207,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Gets a handle to an icon stored as a resource in a file or an icon stored in a file's associated executable file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-extractassociatediconw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hInst">
+        /// A handle to the instance of the calling application.
+        /// </param>
+        /// <param name="pszIconPath">
+        /// Pointer to a string that, on entry, specifies the full path and file name of the file that contains the icon.
+        /// The function extracts the icon handle from that file, or from an executable file associated with that file.
+        /// When this function returns, if the icon handle was obtained from an executable file
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file)
+        /// the function stores the full path and file name of that executable in the buffer pointed to by this parameter.
+        /// </param>
+        /// <param name="piIcon">
+        /// Pointer to a <see cref="WORD"/> value that, on entry, specifies the index of the icon whose handle is to be obtained.
+        /// When the function returns, if the icon handle was obtained from an executable file
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file),
+        /// this value points to the icon's index in that file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an icon handle.
+        /// If the icon is extracted from an associated executable file,
+        /// the function stores the full path and file name of the executable file in the string pointed to by <paramref name="pszIconPath"/>,
+        /// and stores the icon's identifier in the <see cref="WORD"/> pointed to by <paramref name="piIcon"/>.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When it is no longer needed, the caller is responsible for freeing the icon handle
+        /// returned by <see cref="ExtractAssociatedIcon"/> by calling the <see cref="DestroyIcon"/> function.
+        /// The <see cref="ExtractAssociatedIcon"/> function first looks for the indexed icon in the file specified by <paramref name="piIcon"/>.
+        /// If the function cannot obtain the icon handle from that file,
+        /// and the file has an associated executable file, it looks in that executable file for an icon.
+        /// Associations with executable files are based on file name extensions and are stored in the per-user part of the registry.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconW", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON ExtractAssociatedIcon([In] HINSTANCE hInst, [In][Out] LPWSTR pszIconPath, [In][Out] ref WORD piIcon);
+
+        /// <summary>
+        /// <para>
         /// Gets a handle to an icon from the specified executable file, DLL, or icon file.
         /// To retrieve an array of handles to large or small icons, use the <see cref="ExtractIconEx"/> function.
         /// </para>
@@ -240,7 +283,7 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON ExtractIcon([In] HINSTANCE hInst, [MarshalAs(UnmanagedType.LPWStr)][In] string pszExeFileName, [In] UINT nIconIndex);
+        public static extern HICON ExtractIcon([In] HINSTANCE hInst, [In] LPWSTR pszExeFileName, [In] UINT nIconIndex);
 
         /// <summary>
         /// <para>
@@ -298,8 +341,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SM_CYICON"/>, <see cref="SM_CXSMICON"/>, and <see cref="SM_CYSMICON"/> flags.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconExW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT ExtractIconEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpszFile, [In] int nIconIndex,
-            [Out] HICON[] phiconLarge, [Out] HICON[] phiconSmall, [In] UINT nIcons);
+        public static extern UINT ExtractIconEx([In] LPWSTR lpszFile, [In] int nIconIndex, [Out] HICON[] phiconLarge, [Out] HICON[] phiconSmall, [In] UINT nIcons);
 
         /// <summary>
         /// <para>
