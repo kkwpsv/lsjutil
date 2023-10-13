@@ -7,19 +7,17 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
-using static Lsj.Util.Win32.Enums.ComboBoxStyles;
+using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.DialogBoxMessages;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
-using static Lsj.Util.Win32.Enums.DlgDirListFlags;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
-using static Lsj.Util.Win32.Enums.ListBoxMessages;
+using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Shell32;
+using static Lsj.Util.Win32.BaseTypes.LANGID;
 
 namespace Lsj.Util.Win32
 {
@@ -593,272 +591,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Replaces the contents of a list box with the names of the subdirectories and files in a specified directory.
-        /// You can filter the list of names by specifying a set of file attributes.
-        /// The list can optionally include mapped drives.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirlistw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDlg">
-        /// A handle to the dialog box that contains the list box.
-        /// </param>
-        /// <param name="lpPathSpec">
-        /// A pointer to a buffer containing a null-terminated string that specifies an absolute path, relative path, or filename.
-        /// An absolute path can begin with a drive letter (for example, d:) or a UNC name (for example, \ machinename sharename).
-        /// The function splits the string into a directory and a filename.
-        /// The function searches the directory for names that match the filename.
-        /// If the string does not specify a directory, the function searches the current directory.
-        /// If the string includes a filename, the filename must contain at least one wildcard character (? or ).
-        /// If the string does not include a filename, the function behaves as if you had specified the asterisk wildcard character () as the filename.
-        /// All names in the specified directory that match the filename and
-        /// have the attributes specified by the <paramref name="uFileType"/> parameter are added to the list box.
-        /// </param>
-        /// <param name="nIDListBox">
-        /// The identifier of a list box in the <paramref name="hDlg"/> dialog box.
-        /// If this parameter is zero, <see cref="DlgDirList"/> does not try to fill a list box.
-        /// </param>
-        /// <param name="nIDStaticPath">
-        /// The identifier of a static control in the <paramref name="hDlg"/> dialog box.
-        /// <see cref="DlgDirList"/> sets the text of this control to display the current drive and directory.
-        /// This parameter can be zero if you do not want to display the current drive and directory.
-        /// </param>
-        /// <param name="uFileType">
-        /// Specifies the attributes of the files or directories to be added to the list box.
-        /// This parameter can be one or more of the following values.
-        /// <see cref="DDL_ARCHIVE"/>:
-        /// Includes archived files.
-        /// <see cref="DDL_DIRECTORY"/>:
-        /// Includes subdirectories. Subdirectory names are enclosed in square brackets ([ ]).
-        /// <see cref="DDL_DRIVES"/>:
-        /// All mapped drives are added to the list. Drives are listed in the form [- x-], where x is the drive letter.
-        /// <see cref="DDL_EXCLUSIVE"/>:
-        /// Includes only files with the specified attributes.
-        /// By default, read/write files are listed even if <see cref="DDL_READWRITE"/> is not specified.
-        /// <see cref="DDL_HIDDEN"/>:
-        /// Includes hidden files.
-        /// <see cref="DDL_READONLY"/>:
-        /// Includes read-only files.
-        /// <see cref="DDL_READWRITE"/>:
-        /// Includes read/write files with no additional attributes.
-        /// This is the default setting.
-        /// <see cref="DDL_SYSTEM"/>:
-        /// Includes system files.
-        /// <see cref="DDL_POSTMSGS"/>:
-        /// If set, <see cref="DlgDirList"/> uses the <see cref="PostMessage"/> function to send messages to the list box.
-        /// If not set, <see cref="DlgDirList"/> uses the <see cref="SendMessage"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// For example, if the string specified by <paramref name="lpPathSpec"/> is not a valid path, the function fails.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If <paramref name="lpPathSpec"/> specifies a directory, <see cref="DlgDirListComboBox"/> changes the current directory
-        /// to the specified directory before filling the list box.
-        /// The text of the static control identified by the <paramref name="nIDStaticPath"/> parameter is set to the name of the new current directory.
-        /// <see cref="DlgDirList"/> sends the <see cref="LB_RESETCONTENT"/> and <see cref="LB_DIR"/> messages to the list box.
-        /// If <paramref name="uFileType"/> includes the <see cref="DDL_DIRECTORY"/> flag
-        /// and <paramref name="lpPathSpec"/> specifies a first-level directory, such as C:\TEMP,
-        /// the list box will always include a ".." entry for the root directory.
-        /// This is true even if the root directory has hidden or system attributes
-        /// and the <see cref="DDL_HIDDEN"/> and <see cref="DDL_SYSTEM"/> flags are not specified.
-        /// The root directory of an NTFS volume has hidden and system attributes.
-        /// The directory listing displays long filenames, if any.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirList([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDListBox,
-            [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
-
-        /// <summary>
-        /// <para>
-        /// Replaces the contents of a combo box with the names of the subdirectories and files in a specified directory.
-        /// You can filter the list of names by specifying a set of file attributes.
-        /// The list of names can include mapped drive letters.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirlistcomboboxw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDlg">
-        /// A handle to the dialog box that contains the combo box.
-        /// </param>
-        /// <param name="lpPathSpec">
-        /// A pointer to a buffer containing a null-terminated string that specifies an absolute path, relative path, or file name.
-        /// An absolute path can begin with a drive letter (for example, d:) or a UNC name (for example, \machinename sharename).
-        /// The function splits the string into a directory and a file name.
-        /// The function searches the directory for names that match the file name.
-        /// If the string does not specify a directory, the function searches the current directory.
-        /// If the string includes a file name, the file name must contain at least one wildcard character (? or ).
-        /// If the string does not include a file name, the function behaves as if you had specified the asterisk wildcard character () as the file name.
-        /// All names in the specified directory that match the file name and have the attributes
-        /// specified by the <paramref name="uFileType"/> parameter are added to the list displayed in the combo box.
-        /// </param>
-        /// <param name="nIDComboBox">
-        /// The identifier of a combo box in the <paramref name="hDlg"/> dialog box.
-        /// If this parameter is zero, <see cref="DlgDirListComboBox"/> does not try to fill a combo box.
-        /// </param>
-        /// <param name="nIDStaticPath">
-        /// The identifier of a static control in the <paramref name="hDlg"/> dialog box.
-        /// <see cref="DlgDirListComboBox"/> sets the text of this control to display the current drive and directory.
-        /// This parameter can be zero if you do not want to display the current drive and directory.
-        /// </param>
-        /// <param name="uFileType">
-        /// A set of bit flags that specifies the attributes of the files or directories to be added to the combo box.
-        /// This parameter can be a combination of the following values.
-        /// <see cref="DDL_ARCHIVE"/>:
-        /// Includes archived files.
-        /// <see cref="DDL_DIRECTORY"/>:
-        /// Includes subdirectories. Subdirectory names are enclosed in square brackets ([ ]).
-        /// <see cref="DDL_DRIVES"/>:
-        /// All mapped drives are added to the list. Drives are listed in the form [- x-], where x is the drive letter.
-        /// <see cref="DDL_EXCLUSIVE"/>:
-        /// Includes only files with the specified attributes.
-        /// By default, read/write files are listed even if <see cref="DDL_READWRITE"/> is not specified.
-        /// <see cref="DDL_HIDDEN"/>:
-        /// Includes hidden files.
-        /// <see cref="DDL_READONLY"/>:
-        /// Includes read-only files.
-        /// <see cref="DDL_READWRITE"/>:
-        /// Includes read/write files with no additional attributes.
-        /// This is the default setting.
-        /// <see cref="DDL_SYSTEM"/>:
-        /// Includes system files.
-        /// <see cref="DDL_POSTMSGS"/>:
-        /// If set, <see cref="DlgDirListComboBox"/> uses the <see cref="PostMessage"/> function to send messages to the list box.
-        /// If not set, <see cref="DlgDirListComboBox"/> uses the <see cref="SendMessage"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is nonzero.
-        /// If the function fails, the return value is zero.
-        /// For example, if the string specified by <paramref name="lpPathSpec"/> is not a valid path, the function fails.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If <paramref name="lpPathSpec"/> specifies a directory, <see cref="DlgDirListComboBox"/> changes the current directory
-        /// to the specified directory before filling the combo box.
-        /// The text of the static control identified by the <paramref name="nIDStaticPath"/> parameter is set to the name of the new current directory.
-        /// <see cref="DlgDirListComboBox"/> sends the <see cref="CB_RESETCONTENT"/> and <see cref="CB_DIR"/> messages to the combo box.
-        /// Microsoft Windows NT 4.0 and later:
-        /// If <paramref name="uFileType"/> includes the <see cref="DDL_DIRECTORY"/> flag and <paramref name="lpPathSpec"/> specifies a first-level directory,
-        /// such as C:\TEMP, the combo box will always include a ".." entry for the root directory.
-        /// This is true even if the root directory has hidden or system attributes and the <see cref="DDL_HIDDEN"/> 
-        /// and <see cref="DDL_SYSTEM"/> flags are not specified.
-        /// The root directory of an NTFS volume has hidden and system attributes.
-        /// Security Warning:
-        /// Using this function incorrectly might compromise the security of your program.
-        /// Incorrect use of this function includes having <paramref name="lpPathSpec"/> indicate a non-writeable buffer,
-        /// or a buffer without a null-termination.
-        /// You should review the Security Considerations: Microsoft Windows Controls before continuing.
-        /// Microsoft Windows NT 4.0 and later:
-        /// The list displays long file names, if any.
-        /// Windows 95 or later:
-        /// The list displays short file names (the 8.3 form).
-        /// You can use the <see cref="SHGetFileInfo"/> or <see cref="GetFullPathName"/> functions to get the corresponding long file name.
-        /// Windows 95 or later:
-        /// <see cref="DlgDirListComboBox"/> is supported by the Microsoft Layer for Unicode.
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirListComboBox([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDComboBox,
-             [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the current selection from a combo box filled by using the <see cref="DlgDirListComboBox"/> function.
-        /// The selection is interpreted as a drive letter, a file, or a directory name.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirselectcomboboxexw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hwndDlg">
-        /// A handle to the dialog box that contains the combo box.
-        /// </param>
-        /// <param name="lpString">
-        /// A pointer to the buffer that receives the selected path.
-        /// </param>
-        /// <param name="cchOut">
-        /// The length, in characters, of the buffer pointed to by the <paramref name="lpString"/> parameter.
-        /// </param>
-        /// <param name="idComboBox">
-        /// The integer identifier of the combo box control in the dialog box.
-        /// </param>
-        /// <returns>
-        /// If the current selection is a directory name, the return value is <see cref="TRUE"/>.
-        /// If the current selection is not a directory name, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the current selection specifies a directory name or drive letter,
-        /// the <see cref="DlgDirSelectComboBoxEx"/> function removes the enclosing square brackets (and hyphens for drive letters)
-        /// so the name or letter is ready to be inserted into a new path or file name.
-        /// If there is no selection, the contents of the buffer pointed to by <paramref name="lpString"/> do not change.
-        /// The <see cref="DlgDirSelectComboBoxEx"/> function does not allow more than one file name to be returned from a combo box.
-        /// If the string is as long or longer than the buffer, the buffer contains the truncated string with a terminating null character.
-        /// <see cref="DlgDirSelectComboBoxEx"/> sends <see cref="CB_GETCURSEL"/> and <see cref="CB_GETLBTEXT"/> messages to the combo box.
-        /// You can use this function with all three types of combo boxes (<see cref="CBS_SIMPLE"/>, <see cref="CBS_DROPDOWN"/>,
-        /// and <see cref="CBS_DROPDOWNLIST"/>).
-        /// Security Warning:
-        /// Improper use of this function can cause problems for your application.
-        /// For instance, the <paramref name="cchOut"/> parameter should be set properly for both ANSI and Unicode versions.
-        /// Failure to do so could lead to a buffer overflow.
-        /// You should review Security Considerations: Microsoft Windows Controls before continuing.
-        /// Windows 95 or later:
-        /// <see cref="DlgDirSelectComboBoxEx"/> is supported by the Microsoft Layer for Unicode (MSLU).
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int cchOut, [In] int idComboBox);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the current selection from a single-selection list box.
-        /// It assumes that the list box has been filled by the <see cref="DlgDirList"/> function
-        /// and that the selection is a drive letter, filename, or directory name.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dlgdirselectexw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hwndDlg">
-        /// A handle to the dialog box that contains the list box.
-        /// </param>
-        /// <param name="lpString">
-        /// A pointer to a buffer that receives the selected path.
-        /// </param>
-        /// <param name="chCount">
-        /// The length, in TCHARs, of the buffer pointed to by lpString.
-        /// </param>
-        /// <param name="idListBox">
-        /// The identifier of a list box in the dialog box.
-        /// </param>
-        /// <returns>
-        /// If the current selection is a directory name, the return value is <see cref="TRUE"/>.
-        /// If the current selection is not a directory name, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="DlgDirSelectEx"/> function copies the selection to the buffer pointed to by the <paramref name="lpString"/> parameter.
-        /// If the current selection is a directory name or drive letter, <see cref="DlgDirSelectEx"/> removes the enclosing square brackets
-        /// (and hyphens, for drive letters), so that the name or letter is ready to be inserted into a new path.
-        /// If there is no selection, <paramref name="lpString"/> does not change.
-        /// If the string is as long or longer than the buffer, the buffer will contain the truncated string with a terminating null character.
-        /// <see cref="DlgDirSelectEx"/> sends <see cref="LB_GETCURSEL"/> and <see cref="LB_GETTEXT"/> messages to the list box.
-        /// The function does not allow more than one filename to be returned from a list box.
-        /// The list box must not be a multiple-selection list box.
-        /// If it is, this function does not return a zero value and <paramref name="lpString"/> remains unchanged.
-        /// Windows 95 or later:
-        /// <see cref="DlgDirSelectEx"/> is supported by the Microsoft Layer for Unicode.
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int chCount, [In] int idListBox);
-
-        /// <summary>
-        /// <para>
         /// Destroys a modal dialog box, causing the system to end any processing for the dialog box.
         /// </para>
         /// <para>
@@ -1219,6 +951,174 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapDialogRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MapDialogRect([In] HWND hDlg, [In][Out] ref RECT lpRect);
+
+        /// <summary>
+        /// <para>
+        /// Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message,
+        /// such as status or error information.
+        /// The message box returns an integer value that indicates which button the user clicked.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messageboxw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the owner window of the message box to be created.
+        /// If this parameter is <see cref="NULL"/>, the message box has no owner window.
+        /// </param>
+        /// <param name="lpText">
+        /// The message to be displayed.
+        /// If the string consists of more than one line, you can separate the lines using a carriage return and/or linefeed character between each line.
+        /// </param>
+        /// <param name="lpCaption">
+        /// The dialog box title.
+        /// If this parameter is <see langword="null"/>, the default title is Error.
+        /// </param>
+        /// <param name="uType">
+        /// The contents and behavior of the dialog box.
+        /// This parameter can be a combination of flags from the following groups of flags.
+        /// To indicate the buttons displayed in the message box, specify one of the following values.
+        /// <see cref="MB_ABORTRETRYIGNORE"/>, <see cref="MB_CANCELTRYCONTINUE"/>, <see cref="MB_HELP"/>, <see cref="MB_OK"/>,
+        /// <see cref="MB_OKCANCEL"/>, <see cref="MB_RETRYCANCEL"/>, <see cref="MB_YESNO"/>, <see cref="MB_YESNOCANCEL"/>
+        /// To display an icon in the message box, specify one of the following values.
+        /// <see cref="MB_ICONEXCLAMATION"/>, <see cref="MB_ICONWARNING"/>, <see cref="MB_ICONINFORMATION"/>, <see cref="MB_ICONASTERISK"/>,
+        /// <see cref="MB_ICONQUESTION"/>, <see cref="MB_ICONSTOP"/>, <see cref="MB_ICONERROR"/>, <see cref="MB_ICONHAND"/>
+        /// To indicate the default button, specify one of the following values.
+        /// <see cref="MB_DEFBUTTON1"/>, <see cref="MB_DEFBUTTON2"/>, <see cref="MB_DEFBUTTON3"/>, <see cref="MB_DEFBUTTON4"/>
+        /// To indicate the modality of the dialog box, specify one of the following values.
+        /// <see cref="MB_APPLMODAL"/>, <see cref="MB_SYSTEMMODAL"/>, <see cref="MB_TASKMODAL"/>
+        /// To specify other options, use one or more of the following values.
+        /// <see cref="MB_DEFAULT_DESKTOP_ONLY"/>, <see cref="MB_RIGHT"/>, <see cref="MB_RTLREADING"/>, <see cref="MB_SETFOREGROUND"/>,
+        /// <see cref="MB_TOPMOST"/>, <see cref="MB_SERVICE_NOTIFICATION"/>
+        /// </param>
+        /// <returns>
+        /// If a message box has a Cancel button, the function returns the <see cref="IDCANCEL"/> value
+        /// if either the ESC key is pressed or the Cancel button is selected.
+        /// If the message box has no Cancel button, pressing ESC has no effect.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is one of the following menu-item values.
+        /// <see cref="IDABORT"/>: The Abort button was selected.
+        /// <see cref="IDCANCEL"/>: The Cancel button was selected.
+        /// <see cref="IDCONTINUE"/>: The Continue button was selected.
+        /// <see cref="IDIGNORE"/>: The Ignore button was selected.
+        /// <see cref="IDNO"/>: The No button was selected.
+        /// <see cref="IDOK"/>: The OK button was selected.
+        /// <see cref="IDRETRY"/>: The Retry button was selected.
+        /// <see cref="IDTRYAGAIN"/>: The Try Again button was selected.
+        /// <see cref="IDYES"/>: The Yes button was selected.
+        /// </returns>
+        /// <remarks>
+        /// Adding two right-to-left marks (RLMs), represented by Unicode formatting character U+200F,
+        /// in the beginning of a MessageBox display string is interpreted by the MessageBox rendering engine
+        /// so as to cause the reading order of the MessageBox to be rendered as right-to-left (RTL).
+        /// When you use a system-modal message box to indicate that the system is low on memory,
+        /// the strings pointed to by the <paramref name="lpText"/> and <paramref name="lpCaption"/> parameters
+        /// should not be taken from a resource file because an attempt to load the resource may fail.
+        /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
+        /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxW", ExactSpelling = true, SetLastError = true)]
+        public static extern int MessageBox([In] HWND hWnd, [In] LPCWSTR lpText, [In] LPCWSTR lpCaption, [In] MessageBoxFlags uType);
+
+        /// <summary>
+        /// <para>
+        /// Creates, displays, and operates a message box.
+        /// The message box contains an application-defined message and title, plus any combination of predefined icons and push buttons.
+        /// The buttons are in the language of the system user interface.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messageboxexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the owner window of the message box to be created.
+        /// If this parameter is <see cref="NULL"/>, the message box has no owner window.
+        /// </param>
+        /// <param name="lpText">
+        /// The message to be displayed.
+        /// </param>
+        /// <param name="lpCaption">
+        /// The dialog box title.
+        /// If this parameter is <see cref="NULL"/>, the default title Error is used.
+        /// </param>
+        /// <param name="uType">
+        /// The contents and behavior of the dialog box.
+        /// For information on the supported flags, see <see cref="MessageBox"/>.
+        /// </param>
+        /// <param name="wLanguageId">
+        /// The language for the text displayed in the message box button(s).
+        /// Specifying a value of zero (0) indicates to display the button text in the default system language.
+        /// If this parameter is <code>MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL)</code>,
+        /// the current language associated with the calling thread is used.
+        /// To specify a language other than the current language, use the <see cref="MAKELANGID"/> macro to create this parameter.
+        /// For more information, see <see cref="MAKELANGID"/>.
+        /// </param>
+        /// <returns>
+        /// If a message box has a Cancel button, the function returns the <see cref="IDCANCEL"/> value
+        /// if either the ESC key is pressed or the Cancel button is selected.
+        /// If the message box has no Cancel button, pressing ESC has no effect.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is one of the following menu-item values.
+        /// <see cref="IDABORT"/>: The Abort button was selected.
+        /// <see cref="IDCANCEL"/>: The Cancel button was selected.
+        /// <see cref="IDCONTINUE"/>: The Continue button was selected.
+        /// <see cref="IDIGNORE"/>: The Ignore button was selected.
+        /// <see cref="IDNO"/>: The No button was selected.
+        /// <see cref="IDOK"/>: The OK button was selected.
+        /// <see cref="IDRETRY"/>: The Retry button was selected.
+        /// <see cref="IDTRYAGAIN"/>: The Try Again button was selected.
+        /// <see cref="IDYES"/>: The Yes button was selected.
+        /// </returns>
+        /// <remarks>
+        /// When you use a system-modal message box to indicate that the system is low on memory,
+        /// the strings pointed to by the <paramref name="lpText"/> and <paramref name="lpCaption"/> parameters should not be taken from a resource file
+        /// because an attempt to load the resource may fail.
+        /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
+        /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxExW", ExactSpelling = true, SetLastError = true)]
+        public static extern int MessageBoxEx([In] HWND hWnd, [In] LPCWSTR lpText, [In] LPCWSTR lpCaption, [In] MessageBoxFlags uType, [In] LANGID wLanguageId);
+
+        /// <summary>
+        /// <para>
+        /// Creates, displays, and operates a message box.
+        /// The message box contains application-defined message text and title, any icon, and any combination of predefined push buttons.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messageboxindirectw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpmbp">
+        /// A pointer to a <see cref="MSGBOXPARAMS"/> structure that contains information used to display the message box.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is one of the following menu-item values.
+        /// If a message box has a Cancel button, the function returns the <see cref="IDCANCEL"/> value
+        /// if either the ESC key is pressed or the Cancel button is selected.
+        /// If the message box has no Cancel button, pressing ESC has no effect.
+        /// If there is not enough memory to create the message box, the return value is zero.
+        /// <see cref="IDABORT"/>: The Abort button was selected.
+        /// <see cref="IDCANCEL"/>: The Cancel button was selected.
+        /// <see cref="IDCONTINUE"/>: The Continue button was selected.
+        /// <see cref="IDIGNORE"/>: The Ignore button was selected.
+        /// <see cref="IDNO"/>: The No button was selected.
+        /// <see cref="IDOK"/>: The OK button was selected.
+        /// <see cref="IDRETRY"/>: The Retry button was selected.
+        /// <see cref="IDTRYAGAIN"/>: The Try Again button was selected.
+        /// <see cref="IDYES"/>: The Yes button was selected.
+        /// </returns>
+        /// <remarks>
+        /// When you use a system-modal message box to indicate that the system is low on memory,
+        /// the strings pointed to by the <see cref="MSGBOXPARAMS.lpszText"/> and <see cref="MSGBOXPARAMS.lpszCaption"/> members
+        /// of the <see cref="MSGBOXPARAMS"/> structure should not be taken from a resource file,
+        /// because an attempt to load the resource may fail.
+        /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <see cref="MSGBOXPARAMS.hwndOwner"/> parameter.
+        /// The <see cref="MSGBOXPARAMS.hwndOwner"/> parameter should not identify a child window, such as a control in a dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxIndirectW", ExactSpelling = true, SetLastError = true)]
+        public static extern int MessageBoxIndirect([In] in MSGBOXPARAMS lpmbp);
 
         /// <summary>
         /// <para>
