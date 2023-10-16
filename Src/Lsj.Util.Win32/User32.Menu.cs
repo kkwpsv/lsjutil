@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -163,8 +164,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MF_MENUBARBREAK"/> and <see cref="MF_MENUBREAK"/>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AppendMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AppendMenu([In] HMENU hMenu, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
+        public static extern BOOL AppendMenu([In] HMENU hMenu, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem, [In] LPCWSTR lpNewItem);
 
         /// <summary>
         /// 
@@ -222,6 +222,47 @@ namespace Lsj.Util.Win32
             "It may be altered or unavailable in subsequent versions. Instead, use SetMenuItemInfo.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckMenuItem", ExactSpelling = true, SetLastError = true)]
         public static extern MenuFlags CheckMenuItem([In] HMENU hMenu, [In] UINT uIDCheckItem, [In] MenuFlags uCheck);
+
+        /// <summary>
+        /// <para>
+        /// Checks a specified menu item and makes it a radio item.
+        /// At the same time, the function clears all other menu items in the associated group and clears the radio-item type flag for those items.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-checkmenuradioitem"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu that contains the group of menu items.
+        /// </param>
+        /// <param name="first">
+        /// The identifier or position of the first menu item in the group.
+        /// </param>
+        /// <param name="last">
+        /// The identifier or position of the last menu item in the group.
+        /// </param>
+        /// <param name="check">
+        /// The identifier or position of the menu item to check.
+        /// </param>
+        /// <param name="flags">
+        /// Indicates the meaning of <paramref name="first"/>, <paramref name="last"/>, and <paramref name="check"/>.
+        /// If this parameter is <see cref="MF_BYCOMMAND"/>, the other parameters specify menu item identifiers.
+        /// If it is <see cref="MF_BYPOSITION"/>, the other parameters specify the menu item positions.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CheckMenuRadioItem"/> function sets the <see cref="MFT_RADIOCHECK"/> type flag
+        /// and the <see cref="MFS_CHECKED"/> state for the item specified by <paramref name="check"/> and,
+        /// at the same time, clears both flags for all other items in the group.
+        /// The selected item is displayed using a bullet bitmap instead of a check-mark bitmap.
+        /// For more information about menu item type and state flags, see the <see cref="MENUITEMINFO"/> structure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckMenuRadioItem", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckMenuRadioItem([In] HMENU hmenu, [In] UINT first, [In] UINT last, [In] UINT check, [In] MenuFlags flags);
 
         /// <summary>
         /// <para>
@@ -405,6 +446,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Ends the calling thread's active menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-endmenu"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a platform does not support <see cref="EndMenu"/>, send the owner of the active menu a <see cref="WM_CANCELMODE"/> message.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EndMenu();
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the menu assigned to the specified window.
         /// </para>
         /// <para>
@@ -429,6 +489,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified menu bar.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenubarinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window (menu bar) whose information is to be retrieved.
+        /// </param>
+        /// <param name="idObject">
+        /// The menu object.
+        /// This parameter can be one of the following values.
+        /// <see cref="OBJID_CLIENT"/>: The popup menu associated with the window.
+        /// <see cref="OBJID_MENU"/>: The menu bar associated with the window (see the <see cref="GetMenu"/> function).
+        /// <see cref="OBJID_SYSMENU"/>: The system menu associated with the window (see the <see cref="GetSystemMenu"/> function).
+        /// </param>
+        /// <param name="idItem">
+        /// The item for which to retrieve information.
+        /// If this parameter is zero, the function retrieves information about the menu itself.
+        /// If this parameter is 1, the function retrieves information about the first item on the menu, and so on.
+        /// </param>
+        /// <param name="pmbi">
+        /// A pointer to a <see cref="MENUBARINFO"/> structure that receives the information.
+        /// Note that you must set the <see cref="MENUBARINFO.cbSize"/> member to <code>sizeof(MENUBARINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuBarInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMenuBarInfo([In] HWND hwnd, [In] LONG idObject, [In] LONG idItem, [In][Out] ref MENUBARINFO pmbi);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the dimensions of the default check-mark bitmap.
         /// The system displays this bitmap next to selected menu items.
         /// Before calling the <see cref="SetMenuItemBitmaps"/> function to replace the default check-mark bitmap for a menu item,
@@ -446,6 +541,104 @@ namespace Lsj.Util.Win32
             "Applications should use the GetSystemMetrics function with the CXMENUCHECK and CYMENUCHECK values to retrieve the bitmap dimensions.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuCheckMarkDimensions", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetMenuCheckMarkDimensions();
+
+        /// <summary>
+        /// <para>
+        /// Determines the default menu item on the specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenudefaultitem"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu for which to retrieve the default menu item.
+        /// </param>
+        /// <param name="fByPos">
+        /// Indicates whether to retrieve the menu item's identifier or its position.
+        /// If this parameter is <see cref="FALSE"/>, the identifier is returned.
+        /// Otherwise, the position is returned.
+        /// </param>
+        /// <param name="gmdiFlags">
+        /// Indicates how the function should search for menu items.
+        /// This parameter can be zero or more of the following values.
+        /// <see cref="GMDI_GOINTOPOPUPS"/>:
+        /// If the default item is one that opens a submenu, the function is to search recursively in the corresponding submenu.
+        /// If the submenu has no default item, the return value identifies the item that opens the submenu.
+        /// By default, the function returns the first default item on the specified menu, regardless of whether it is an item that opens a submenu.
+        /// <see cref="GMDI_USEDISABLED"/>:
+        /// The function is to return a default item, even if it is disabled.
+        /// By default, the function skips disabled or grayed items.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the identifier or position of the menu item.
+        /// If the function fails, the return value is -1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuDefaultItem", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetMenuDefaultItem([In] HMENU hMenu, [In] UINT fByPos, [In] UINT gmdiFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about a specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle on a menu.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// A pointer to a <see cref="MENUINFO"/> structure containing information for the menu.
+        /// Note that you must set the <see cref="MENUINFO.cbSize"/> member to <code>sizeof(MENUINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMenuInfo([In] HMENU unnamedParam1, [In][Out] ref MENUINFO unnamedParam2);
+
+        /// <summary>
+        /// <para>
+        /// Determines the number of items in the specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuitemcount"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu to be examined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of items in the menu.
+        /// If the function fails, the return value is -1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemCount", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetMenuItemCount([In] HMENU hMenu);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the menu item identifier of a menu item located at the specified position in a menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuitemid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu that contains the item whose identifier is to be retrieved.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position of the menu item whose identifier is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// The return value is the identifier of the specified menu item.
+        /// If the menu item identifier is <see cref="NULL"/> or if the specified item opens a submenu, the return value is -1.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemID", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetMenuItemID([In] HMENU hMenu, [In] int nPos);
 
         /// <summary>
         /// <para>
@@ -492,43 +685,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Determines the number of items in the specified menu.
+        /// Retrieves the bounding rectangle for the specified menu item.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuitemcount"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuitemrect"/>
         /// </para>
         /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window containing the menu.
+        /// If this value is <see cref="NULL"/> and the <paramref name="hMenu"/> parameter represents a popup menu,
+        /// the function will find the menu window.
+        /// </param>
         /// <param name="hMenu">
-        /// A handle to the menu to be examined.
+        /// A handle to a menu.
+        /// </param>
+        /// <param name="uItem">
+        /// The zero-based position of the menu item.
+        /// </param>
+        /// <param name="lprcItem">
+        /// A pointer to a <see cref="RECT"/> structure that receives the bounding rectangle of the specified menu item expressed in screen coordinates.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value specifies the number of items in the menu.
-        /// If the function fails, the return value is -1.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemCount", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetMenuItemCount([In] HMENU hMenu);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the menu item identifier of a menu item located at the specified position in a menu.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenuitemid"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hMenu">
-        /// A handle to the menu that contains the item whose identifier is to be retrieved.
-        /// </param>
-        /// <param name="nPos">
-        /// The zero-based relative position of the menu item whose identifier is to be retrieved.
-        /// </param>
-        /// <returns>
-        /// The return value is the identifier of the specified menu item.
-        /// If the menu item identifier is <see cref="NULL"/> or if the specified item opens a submenu, the return value is -1.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemID", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetMenuItemID([In] HMENU hMenu, [In] int nPos);
+        /// <remarks>
+        /// In order for the returned rectangle to be meaningful, the menu must be popped up if a popup menu or attached to a window if a menu bar.
+        /// Menu item positions are not determined until the menu is displayed.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMenuItemRect([In] HWND hWnd, [In] HMENU hMenu, [In] UINT uItem, [Out] out RECT lprcItem);
 
         /// <summary>
         /// <para>
@@ -643,6 +830,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsubmenu"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
+        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern HMENU GetSubMenu([In] HMENU hMenu, [In] int nPos);
+
+        /// <summary>
+        /// <para>
         /// Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying.
         /// </para>
         /// <para>
@@ -676,27 +884,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMenu", ExactSpelling = true, SetLastError = true)]
         public static extern HMENU GetSystemMenu([In] HWND hWnd, [In] BOOL bRevert);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsubmenu"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hMenu">
-        /// A handle to the menu.
-        /// </param>
-        /// <param name="nPos">
-        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
-        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="NULL"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU GetSubMenu([In] HMENU hMenu, [In] int nPos);
 
         /// <summary>
         /// <para>
@@ -833,8 +1020,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The InsertMenu function has been superseded by the InsertMenuItem function." +
             "You can still use InsertMenu, however, if you do not need any of the extended features of InsertMenuItem.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InsertMenu([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
+        public static extern BOOL InsertMenu([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem, [In] LPCWSTR lpNewItem);
 
         /// <summary>
         /// <para>
@@ -873,6 +1059,24 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuItemW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InsertMenuItem([In] HMENU hmenu, [In] UINT item, [In] BOOL fByPosition, [In] in MENUITEMINFO lpmi);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a handle is a menu handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-ismenu"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to be tested.
+        /// </param>
+        /// <returns>
+        /// If the handle is a menu handle, the return value is nonzero.
+        /// If the handle is not a menu handle, the return value is zero.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsMenu([In] HMENU hMenu);
 
         /// <summary>
         /// <para>
@@ -927,6 +1131,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadMenuIndirectW", ExactSpelling = true, SetLastError = true)]
         public static extern HMENU LoadMenuIndirect([In] IntPtr lpMenuTemplate);
+
+        /// <summary>
+        /// <para>
+        /// Determines which menu item, if any, is at the specified location.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-menuitemfrompoint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window containing the menu.
+        /// If this value is <see cref="NULL"/> and the <paramref name="hMenu"/> parameter represents a popup menu,
+        /// the function will find the menu window.
+        /// </param>
+        /// <param name="hMenu">
+        /// A handle to the menu containing the menu items to hit test.
+        /// </param>
+        /// <param name="ptScreen">
+        /// A structure that specifies the location to test.
+        /// If <paramref name="hMenu"/> specifies a menu bar, this parameter is in window coordinates.
+        /// Otherwise, it is in client coordinates.
+        /// </param>
+        /// <returns>
+        /// Returns the zero-based position of the menu item at the specified location or -1 if no menu item is at the specified location.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MenuItemFromPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern int MenuItemFromPoint([In] HWND hWnd, [In] HMENU hMenu, [In] POINT ptScreen);
 
         /// <summary>
         /// <para>
@@ -1032,8 +1263,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The ModifyMenu function has been superseded by the SetMenuItemInfo function." +
             "You can still use ModifyMenu, however, if you do not need any of the extended features of SetMenuItemInfo.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ModifyMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ModifyMenu([In] HMENU hMnu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
+        public static extern BOOL ModifyMenu([In] HMENU hMnu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem, [In] LPCWSTR lpNewItem);
 
         /// <summary>
         /// <para>
@@ -1153,6 +1383,57 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenuItemBitmaps([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] HBITMAP hBitmapUnchecked,
             [In] HBITMAP hBitmapChecked);
+
+        /// <summary>
+        /// <para>
+        /// Sets the default menu item for the specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmenudefaultitem"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu to set the default item for.
+        /// </param>
+        /// <param name="uItem">
+        /// The identifier or position of the new default menu item or -1 for no default item.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPos"/>.
+        /// </param>
+        /// <param name="fByPos">
+        /// The meaning of <paramref name="uItem"/>.
+        /// If this parameter is <see cref="FALSE"/>, <paramref name="uItem"/> is a menu item identifier.
+        /// Otherwise, it is a menu item position.
+        /// See About Menus for more information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuDefaultItem", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuDefaultItem([In] HMENU hMenu, [In] UINT uItem, [In] UINT fByPos);
+
+        /// <summary>
+        /// <para>
+        /// Sets information for a specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmenuinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to a menu.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// A pointer to a <see cref="MENUINFO"/> structure for the menu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuInfo([In] HMENU unnamedParam1, [In] in MENUINFO unnamedParam2);
 
         /// <summary>
         /// <para>
