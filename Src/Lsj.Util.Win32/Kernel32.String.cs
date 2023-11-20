@@ -729,7 +729,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcat([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern LPWSTR lstrcat([In] LPWSTR lpString1, [In] LPWSTR lpString2);
 
         /// <summary>
         /// <para>
@@ -770,7 +770,7 @@ namespace Lsj.Util.Win32
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In] string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern int lstrcmp([In] LPCWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
         /// <para>
@@ -815,7 +815,7 @@ namespace Lsj.Util.Win32
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In] string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern int lstrcmpi([In] LPCWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
         /// <para>
@@ -856,7 +856,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpy([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern LPWSTR lstrcpy([In] LPWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
         /// <para>
@@ -909,7 +909,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpyn([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2, [In] int iMaxLength);
+        public static extern LPWSTR lstrcpyn([In] LPWSTR lpString1, [In] LPCWSTR lpString2, [In] int iMaxLength);
 
         /// <summary>
         /// <para>
@@ -927,7 +927,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern int lstrlen([In] LPCWSTR lpString);
 #pragma warning restore IDE1006
 
         /// <summary>
