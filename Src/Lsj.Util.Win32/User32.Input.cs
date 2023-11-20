@@ -3,15 +3,14 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
+using static Lsj.Util.Win32.Enums.MouseEventFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.MouseEventFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -476,6 +475,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the feedback configuration for a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowfeedbacksetting"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to check for feedback configuration.
+        /// </param>
+        /// <param name="feedback">
+        /// One of the values from the <see cref="FEEDBACK_TYPE"/> enumeration.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Specify <see cref="GWFS_INCLUDE_ANCESTORS"/> to check the parent window chain until a value is found.
+        /// The default is 0 and indicates that only the specified window will be checked.
+        /// </param>
+        /// <param name="pSize">
+        /// The size of memory region that the <paramref name="config"/> parameter points to.
+        /// The <paramref name="pSize"/> parameter specifies the size of the configuration data
+        /// for the feedback type in feedback and must be <code>sizeof(BOOL)</code>.
+        /// </param>
+        /// <param name="config">
+        /// The configuration data.
+        /// The <paramref name="config"/> parameter must point to a value of type <see cref="BOOL"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the specified feedback setting is configured on the specified window.
+        /// Otherwise, it returns <see cref="FALSE"/> (and config won't be modified).
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowFeedbackSetting", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowFeedbackSetting([In] HWND hwnd, [In] FEEDBACK_TYPE feedback, [In] DWORD dwFlags,
+            [In][Out] ref UINT32 pSize, [In] PVOID config);
+
+        /// <summary>
+        /// <para>
         /// Translates (maps) a virtual-key code into a scan code or character value, or translates a scan code into a virtual-key code.
         /// To specify a handle to the keyboard layout to use for translating the specified code, use the <see cref="MapVirtualKeyEx"/> function.
         /// </para>
@@ -845,7 +879,40 @@ namespace Lsj.Util.Win32
         /// These can be set or cleared using <see cref="SendInput"/> to simulate keystrokes.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKeyboardState", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetKeyboardState([MarshalAs(UnmanagedType.LPArray)][In] BYTE[] lpKeyState);
+        public static extern BOOL SetKeyboardState([In] BYTE[] lpKeyState);
+
+        /// <summary>
+        /// <para>
+        /// Sets the feedback configuration for a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowfeedbacksetting"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to configure feedback on.
+        /// </param>
+        /// <param name="feedback">
+        /// One of the values from the <see cref="FEEDBACK_TYPE"/> enumeration.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved.
+        /// Must be 0.
+        /// </param>
+        /// <param name="size">
+        /// The size, in bytes, of the configuration data.
+        /// Must be <code>sizeof(BOOL)</code> or 0 if the feedback setting is being reset.
+        /// </param>
+        /// <param name="configuration">
+        /// The configuration data.
+        /// Must be <see cref="BOOL"/> or <see cref="NULL"/> if the feedback setting is being reset.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful; otherwise, returns <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowFeedbackSetting", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowFeedbackSetting([In] HWND hwnd, [In] FEEDBACK_TYPE feedback, [In] DWORD dwFlags,
+            [In] UINT32 size, [In] PVOID configuration);
 
         /// <summary>
         /// <para>
