@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -8,15 +10,14 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
+using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
-using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using Lsj.Util.Win32.Callbacks;
 
 namespace Lsj.Util.Win32
 {
@@ -121,6 +122,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Defines a console alias for the specified executable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/addconsolealias"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Source">
+        /// The console alias to be mapped to the text specified by <paramref name="Target"/>.
+        /// </param>
+        /// <param name="Target">
+        /// The text to be substituted for <paramref name="Source"/>.
+        /// If this parameter is <see cref="NULL"/>, then the console alias is removed.
+        /// </param>
+        /// <param name="ExeName">
+        /// The name of the executable file for which the console alias is to be defined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddConsoleAlias", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddConsoleAlias([In] LPCWSTR Source, [In] LPCWSTR Target, [In] LPCWSTR ExeName);
+
+        /// <summary>
+        /// <para>
         /// Allocates a new console for the calling process.
         /// </para>
         /// <para>
@@ -186,6 +213,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes a pseudoconsole from the given handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/closepseudoconsole"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hPC">
+        /// A handle to an active pseudoconsole as opened by <see cref="CreatePseudoConsole"/>.
+        /// </param>
+        /// <remarks>
+        /// Upon closing a pseudoconsole, client applications attached to the session will be terminated as well.
+        /// A final painted frame may arrive on the hOutput handle originally provided to <see cref="CreatePseudoConsole"/> when this API is called.
+        /// It is expected that the caller will drain this information from the communication channel buffer and either present it or discard it.
+        /// Failure to drain the buffer may cause the Close call to wait indefinitely until it is drained or the communication channels are broken another way.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClosePseudoConsole", ExactSpelling = true, SetLastError = true)]
+        public static extern void ClosePseudoConsole([In] HPCON hPC);
+
+        /// <summary>
+        /// <para>
         /// Creates a console screen buffer.
         /// </para>
         /// <para>
@@ -244,6 +291,160 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateConsoleScreenBuffer", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateConsoleScreenBuffer([In] ACCESS_MASK dwDesiredAccess, [In] FileShareModes dwShareMode,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] DWORD dwFlags, [In] LPVOID lpScreenBufferData);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new pseudoconsole object for the calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="Creates a new pseudoconsole object for the calling process."/>
+        /// </para>
+        /// </summary>
+        /// <param name="size">
+        /// The dimensions of the window/buffer in count of characters that will be used on initial creation of the pseudoconsole.
+        /// This can be adjusted later with <see cref="ResizePseudoConsole"/>.
+        /// </param>
+        /// <param name="hInput">
+        /// An open handle to a stream of data that represents user input to the device.
+        /// This is currently restricted to synchronous I/O.
+        /// </param>
+        /// <param name="hOutput">
+        /// An open handle to a stream of data that represents application output from the device.
+        /// This is currently restricted to synchronous I/O.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The value can be one of the following:
+        /// 0: Perform a standard pseudoconsole creation.
+        /// PSEUDOCONSOLE_INHERIT_CURSOR: The created pseudoconsole session will attempt to inherit the cursor position of the parent console.
+        /// </param>
+        /// <param name="phPC">
+        /// Pointer to a location that will receive a handle to the new pseudoconsole device.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// This function is primarily used by applications attempting to be a terminal window for a command-line user interface (CUI) application.
+        /// The callers become responsible for presentation of the information on the output stream
+        /// and for collecting user input and serializing it into the input stream.
+        /// The input and output streams encoded as UTF-8 contain plain text interleaved with Virtual Terminal Sequences.
+        /// On the output stream, the virtual terminal sequences can be decoded
+        /// by the calling application to layout and present the plain text in a display window.
+        /// On the input stream, plain text represents standard keyboard keys input by a user.
+        /// More complicated operations are represented by encoding control keys and mouse movements as virtual terminal sequences embedded in this stream.
+        /// The handle created by this function must be closed with <see cref="ClosePseudoConsole"/> when operations are complete.
+        /// If using <see cref="PSEUDOCONSOLE_INHERIT_CURSOR"/>, the calling application should be prepared
+        /// to respond to the request for the cursor state in an asynchronous fashion on a background thread
+        /// by forwarding or interpreting the request for cursor information
+        /// that will be received on <paramref name="hOutput"/> and replying on <paramref name="hInput"/>.
+        /// Failure to do so may cause the calling application to hang while making another request of the pseudoconsole system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePseudoConsole", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreatePseudoConsole([In] COORD size, [In] HANDLE hInput, [In] HANDLE hOutput, [In] DWORD dwFlags, [Out] out HPCON phPC);
+
+        /// <summary>
+        /// <para>
+        /// Sets the character attributes for a specified number of character cells, beginning at the specified coordinates in a screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/fillconsoleoutputattribute"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="wAttribute">
+        /// The attributes to use when writing to the console screen buffer.
+        /// For more information, see Character Attributes.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of character cells to be set to the specified color attributes.
+        /// </param>
+        /// <param name="dwWriteCoord">
+        /// A <see cref="COORD"/> structure that specifies the character coordinates of the first cell whose attributes are to be set.
+        /// </param>
+        /// <param name="lpNumberOfAttrsWritten">
+        /// A pointer to a variable that receives the number of character cells whose attributes were actually set.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of character cells whose attributes are to be set extends
+        /// beyond the end of the specified row in the console screen buffer, the cells of the next row are set.
+        /// If the number of cells to write to extends beyond the end of the console screen buffer,
+        /// the cells are written up to the end of the console screen buffer.
+        /// The character values at the positions written to are not changed.
+        /// Tip
+        /// This API is not recommended and does not have a specific virtual terminal equivalent.
+        /// Filling the region outside the viewable window is not supported and is reserved for the terminal's history space.
+        /// Filling a visible region with new text or color is performed through moving the cursor, setting the new attributes,
+        /// then writing the desired text for that region, repeating characters if necessary for the length of the fill run.
+        /// Additional cursor movement may be required followed by writing the desired text to fill a rectangular region.
+        /// The client application is expected to keep its own memory of what is on the screen and is not able to query the remote state.
+        /// More information can be found in classic console versus virtual terminal documentation.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FillConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] WORD wAttribute, [In] DWORD nLength,
+            [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
+
+        /// <summary>
+        /// <para>
+        /// Writes a character to the console screen buffer a specified number of times, beginning at the specified coordinates.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/fillconsoleoutputcharacter"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="cCharacter">
+        /// The character to be written to the console screen buffer.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of character cells to which the character should be written.
+        /// </param>
+        /// <param name="dwWriteCoord">
+        /// A <see cref="COORD"/> structure that specifies the character coordinates of the first cell to which the character is to be written.
+        /// </param>
+        /// <param name="lpNumberOfCharsWritten">
+        /// A pointer to a variable that receives the number of characters actually written to the console screen buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of characters to write to extends beyond the end of the specified row in the console screen buffer,
+        /// characters are written to the next row.
+        /// If the number of characters to write to extends beyond the end of the console screen buffer,
+        /// the characters are written up to the end of the console screen buffer.
+        /// The attribute values at the positions written are not changed.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// Tip
+        /// This API is not recommended and does not have a specific virtual terminal equivalent.
+        /// Filling the region outside the viewable window is not supported and is reserved for the terminal's history space.
+        /// Filling a visible region with new text or color is performed through moving the cursor, setting the new attributes,
+        /// then writing the desired text for that region, repeating characters if necessary for the length of the fill run.
+        /// Additional cursor movement may be required followed by writing the desired text to fill a rectangular region.
+        /// The client application is expected to keep its own memory of what is on the screen and is not able to query the remote state.
+        /// More information can be found in classic console versus virtual terminal documentation.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FillConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] WCHAR cCharacter, [In] DWORD nLength,
+            [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfCharsWritten);
 
         /// <summary>
         /// <para>
@@ -339,6 +540,119 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the text for the specified console alias and executable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolealias"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSource">
+        /// The console alias whose text is to be retrieved.
+        /// </param>
+        /// <param name="lpTargetBuffer">
+        /// A pointer to a buffer that receives the text associated with the console alias.
+        /// </param>
+        /// <param name="TargetBufferLength">
+        /// The size of the buffer pointed to by <paramref name="lpTargetBuffer"/>, in bytes.
+        /// </param>
+        /// <param name="lpExeName">
+        /// The name of the executable file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleAlias([In] LPWSTR lpSource, [In] LPWSTR lpTargetBuffer, [In] DWORD TargetBufferLength, [In] LPWSTR lpExeName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves all defined console aliases for the specified executable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolealiases"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpAliasBuffer">
+        /// A pointer to a buffer that receives the aliases.
+        /// The format of the data is as follows: Source1=Target1\0Source2=Target2\0... SourceN=TargetN\0, where N is the number of console aliases defined.
+        /// </param>
+        /// <param name="AliasBufferLength">
+        /// The size of the buffer pointed to by <paramref name="lpAliasBuffer"/>, in bytes.
+        /// </param>
+        /// <param name="lpExeName">
+        /// The executable file whose aliases are to be retrieved.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To determine the required size for the <paramref name="lpExeName"/> buffer, use the <see cref="GetConsoleAliasesLength"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasesW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleAliases([In] LPWSTR lpAliasBuffer, [In] DWORD AliasBufferLength, [In] LPWSTR lpExeName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the required size for the buffer used by the <see cref="GetConsoleAliases"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolealiaseslength"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExeName">
+        /// The name of the executable file whose console aliases are to be retrieved.
+        /// </param>
+        /// <returns>
+        /// The size of the buffer required to store all console aliases defined for this executable file, in bytes.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasesLengthW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleAliasesLength([In] LPWSTR lpExeName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the names of all executable files with console aliases defined.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolealiasexes"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExeNameBuffer">
+        /// A pointer to a buffer that receives the names of the executable files.
+        /// </param>
+        /// <param name="ExeNameBufferLength">
+        /// The size of the buffer pointed to by <paramref name="lpExeNameBuffer"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To determine the required size for the <paramref name="lpExeNameBuffer"/> buffer, use the <see cref="GetConsoleAliasExesLength"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasExesW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleAliasExes([In] LPWSTR lpExeNameBuffer, [In] DWORD ExeNameBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the required size for the buffer used by the <see cref="GetConsoleAliasExes"/> function.
+        /// </para>
+        /// <para>
+        /// From：<see href="https://learn.microsoft.com/en-us/windows/console/getconsolealiasexeslength"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The size of the buffer required to store the names of all executable files that have console aliases defined, in bytes.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasExesLengthW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleAliasExesLength();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the input code page used by the console associated with the calling process.
         /// A console uses its input code page to translate keyboard input into the corresponding character value.
         /// </para>
@@ -387,24 +701,84 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves the window handle used by the console associated with the calling process.
+        /// Retrieves the display mode of the current console.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolewindow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoledisplaymode"/>
         /// </para>
         /// </summary>
+        /// <param name="lpModeFlags">
+        /// The display mode of the console.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="CONSOLE_FULLSCREEN"/>:
+        /// Full-screen console.
+        /// The console is in this mode as soon as the window is maximized.
+        /// At this point, the transition to full-screen mode can still fail.
+        /// <see cref="CONSOLE_FULLSCREEN_HARDWARE"/>:
+        /// Full-screen console communicating directly with the video hardware.
+        /// This mode is set after the console is in CONSOLE_FULLSCREEN mode to indicate that the transition to full-screen mode has completed.
+        /// 
+        /// The transition to a 100% full screen video hardware mode was removed in Windows Vista with the replatforming of the graphics stack to WDDM.
+        /// On later versions of Windows, the maximum resulting state is CONSOLE_FULLSCREEN representing a frameless window
+        /// that appears full screen but isn't in exclusive control of the hardware.
+        /// </param>
         /// <returns>
-        /// The return value is a handle to the window used by the console associated with the calling process
-        /// or <see cref="NULL"/> if there is no such associated console.
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleDisplayMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetConsoleDisplayMode([Out] out DWORD lpModeFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of the font used by the specified console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolefontsize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="nFont">
+        /// The index of the font whose size is to be retrieved.
+        /// This index is obtained by calling the <see cref="GetCurrentConsoleFont"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="COORD"/> structure that contains the width and height of each character in the font,
+        /// in logical units.
+        /// The <see cref="COORD.X"/> member contains the width, while the <see cref="COORD.Y"/> member contains the height.
+        /// If the function fails, the width and the height are zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleFontSize", ExactSpelling = true, SetLastError = true)]
+        public static extern COORD GetConsoleFontSize([In] HANDLE hConsoleOutput, [In] DWORD nFont);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the history settings for the calling process's console.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolehistoryinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpConsoleHistoryInfo">
+        /// A pointer to a <see cref="CONSOLE_HISTORY_INFO"/> structure that receives the history settings for the calling process's console.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// For an application that is hosted inside a pseudoconsole session,
-        /// this function returns a window handle for message queue purposes only.
-        /// The associated window is not displayed locally as the pseudoconsole is serializing all actions
-        /// to a stream for presentation on another terminal window elsewhere.
+        /// If the calling process is not a console process,
+        /// the function fails and sets the last error to <see cref="ERROR_ACCESS_DENIED"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND GetConsoleWindow();
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleHistoryInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetConsoleHistoryInfo([Out] out CONSOLE_HISTORY_INFO lpConsoleHistoryInfo);
 
         /// <summary>
         /// <para>
@@ -458,6 +832,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the original title for the current console window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoleoriginaltitle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpConsoleTitle">
+        /// A pointer to a buffer that receives a null-terminated string containing the original title.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpConsoleTitle"/> buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// If <paramref name="nSize"/> is zero, the return value is zero.
+        /// If the function succeeds, the return value is the length of the original console title, in characters.
+        /// If the function fails, the return value is zero and <see cref="GetLastError"/> returns the error code.
+        /// </returns>
+        /// <remarks>
+        /// To set the title for a console window, use the <see cref="SetConsoleTitle"/> function.
+        /// To retrieve the current title string, use the <see cref="GetConsoleTitle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleOriginalTitleW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleOriginalTitle([In] LPWSTR lpConsoleTitle, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the output code page used by the console associated with the calling process.
         /// A console uses its output code page to translate the character values written
         /// by the various output functions into the images displayed in the console window.
@@ -481,6 +881,39 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetConsoleOutputCP();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a list of the processes attached to the current console.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoleprocesslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpdwProcessList">
+        /// A pointer to a buffer that receives an array of process identifiers upon success.
+        /// This must be a valid buffer and cannot be <see langword="null"/>.
+        /// The buffer must have space to receive at least 1 returned process id.
+        /// </param>
+        /// <param name="dwProcessCount">
+        /// The maximum number of process identifiers that can be stored in the <paramref name="lpdwProcessList"/> buffer.
+        /// This must be greater than 0.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is less than or equal to <paramref name="dwProcessCount"/>
+        /// and represents the number of process identifiers stored in the <paramref name="lpdwProcessList"/> buffer.
+        /// If the buffer is too small to hold all the valid process identifiers, the return value is the required number of array elements.
+        /// The function will have stored no identifiers in the buffer.
+        /// In this situation, use the return value to allocate a buffer that is large enough to store the entire list and call the function again.
+        /// If the return value is zero, the function has failed, because every console has at least one process associated with it.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If a NULL process list was provided or the process count was 0,
+        /// the call will return 0 and <see cref="GetLastError"/> will return <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Please provide a buffer of at least one element to call this function.
+        /// Allocate a larger buffer and call again if the return code is larger than the length of the provided buffer.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleProcessList", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleProcessList([Out] DWORD[] lpdwProcessList, [In] DWORD dwProcessCount);
 
         /// <summary>
         /// <para>
@@ -512,6 +945,163 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleScreenBufferInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleScreenBufferInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended information about the specified console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolescreenbufferinfoex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpConsoleScreenBufferInfoEx">
+        /// A <see cref="CONSOLE_SCREEN_BUFFER_INFOEX"/> structure that receives the requested console screen buffer information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The rectangle returned in the <see cref="CONSOLE_SCREEN_BUFFER_INFOEX.srWindow"/> member of the <see cref="CONSOLE_SCREEN_BUFFER_INFOEX"/> structure
+        /// can be modified and then passed to the <see cref="SetConsoleWindowInfo"/> function to scroll the console screen buffer in the window,
+        /// to change the size of the window, or both.
+        /// All coordinates returned in the <see cref="CONSOLE_SCREEN_BUFFER_INFOEX"/> structure are in character-cell coordinates,
+        /// where the origin (0, 0) is at the upper-left corner of the console screen buffer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleScreenBufferInfoEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetConsoleScreenBufferInfoEx([In] HANDLE hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFOEX lpConsoleScreenBufferInfoEx);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current console selection.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoleselectioninfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpConsoleSelectionInfo">
+        /// A pointer to a <see cref="CONSOLE_SELECTION_INFO"/> structure that receives the selection information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleSelectionInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetConsoleSelectionInfo([Out] out CONSOLE_SELECTION_INFO lpConsoleSelectionInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the title for the current console window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsoletitle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpConsoleTitle">
+        /// A pointer to a buffer that receives a null-terminated string containing the title.
+        /// If the buffer is too small to store the title, the function stores as many characters of the title as will fit in the buffer, ending with a null terminator.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the buffer pointed to by the <paramref name="lpConsoleTitle"/> parameter, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the console window's title, in characters.
+        /// If the function fails, the return value is zero and <see cref="GetLastError"/> returns the error code.
+        /// </returns>
+        /// <remarks>
+        /// To set the title for a console window, use the <see cref="SetConsoleTitle"/> function.
+        /// To retrieve the original title string, use the <see cref="GetConsoleOriginalTitle"/> function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleTitleW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetConsoleTitle([In] LPWSTR lpConsoleTitle, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the window handle used by the console associated with the calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getconsolewindow"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the window used by the console associated with the calling process
+        /// or <see cref="NULL"/> if there is no such associated console.
+        /// </returns>
+        /// <remarks>
+        /// For an application that is hosted inside a pseudoconsole session,
+        /// this function returns a window handle for message queue purposes only.
+        /// The associated window is not displayed locally as the pseudoconsole is serializing all actions
+        /// to a stream for presentation on another terminal window elsewhere.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetConsoleWindow();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current console font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getcurrentconsolefont"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="bMaximumWindow">
+        /// If this parameter is <see cref="TRUE"/>, font information is retrieved for the maximum window size.
+        /// If this parameter is <see cref="FALSE"/>, font information is retrieved for the current window size.
+        /// </param>
+        /// <param name="lpConsoleCurrentFont">
+        /// A pointer to a <see cref="CONSOLE_FONT_INFO"/> structure that receives the requested font information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentConsoleFont", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCurrentConsoleFont([In] HANDLE hConsoleOutput, [In] BOOL bMaximumWindow, [Out] out CONSOLE_FONT_INFO lpConsoleCurrentFont);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended information about the current console font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getcurrentconsolefontex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="bMaximumWindow">
+        /// If this parameter is <see cref="TRUE"/>, font information is retrieved for the maximum window size.
+        /// If this parameter is <see cref="FALSE"/>, font information is retrieved for the current window size.
+        /// </param>
+        /// <param name="lpConsoleCurrentFontEx">
+        /// A pointer to a <see cref="CONSOLE_FONT_INFOEX"/> structure that receives the requested font information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentConsoleFontEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCurrentConsoleFontEx([In] HANDLE hConsoleOutput, [In] BOOL bMaximumWindow, [Out] out CONSOLE_FONT_INFOEX lpConsoleCurrentFontEx);
 
         /// <summary>
         /// <para>
@@ -573,6 +1163,79 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfConsoleInputEvents", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumberOfConsoleInputEvents([In] HANDLE hConsoleInput, [Out] out DWORD lpcNumberOfEvents);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the number of buttons on the mouse used by the current console.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getnumberofconsolemousebuttons"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpNumberOfMouseButtons">
+        /// A pointer to a variable that receives the number of mouse buttons.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a console receives mouse input, an <see cref="INPUT_RECORD"/> structure
+        /// containing a <see cref="MOUSE_EVENT_RECORD"/> structure is placed in the console's input buffer.
+        /// The <see cref="MOUSE_EVENT_RECORD.dwButtonState"/> member of <see cref="MOUSE_EVENT_RECORD"/> has a bit indicating the state of each mouse button.
+        /// The bit is 1 if the button is down and 0 if the button is up.
+        /// To determine the number of bits that are significant, use <see cref="GetNumberOfConsoleMouseButtons"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfConsoleMouseButtons", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumberOfConsoleMouseButtons([Out] out DWORD lpNumberOfMouseButtons);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the specified standard device (standard input, standard output, or standard error).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/getstdhandle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nStdHandle">
+        /// The standard device. This parameter can be one of the following values.
+        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device. Initially, this is the console input buffer, CONIN$.
+        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device. Initially, this is the active console screen buffer, CONOUT$.
+        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device. Initially, this is the active console screen buffer, CONOUT$.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified device,
+        /// or a redirected handle set by a previous call to <see cref="SetStdHandle"/>.
+        /// The handle has <see cref="GENERIC_READ"/> and <see cref="GENERIC_WRITE"/> access rights,
+        /// unless the application has used <see cref="SetStdHandle"/> to set a standard handle with lesser access.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If an application does not have associated standard handles, such as a service running on an interactive desktop,
+        /// and has not redirected them, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// Handles returned by <see cref="GetStdHandle"/> can be used by applications that need to read from or write to the console.
+        /// When a console is created, the standard input handle is a handle to the console's input buffer,
+        /// and the standard output and standard error handles are handles of the console's active screen buffer.
+        /// These handles can be used by the <see cref="ReadFile"/> and <see cref="WriteFile"/> functions,
+        /// or by any of the console functions that access the console input buffer or a screen buffer
+        /// (for example, the <see cref="ReadConsoleInput"/>, <see cref="WriteConsole"/>, or <see cref="GetConsoleScreenBufferInfo"/> functions).
+        /// The standard handles of a process may be redirected by a call to <see cref="SetStdHandle"/>,
+        /// in which case <see cref="GetStdHandle"/> returns the redirected handle.
+        /// If the standard handles have been redirected, you can specify the CONIN$ value in a call to the <see cref="CreateFile"/> function
+        /// to get a handle to a console's input buffer.
+        /// Similarly, you can specify the CONOUT$ value to get a handle to a console's active screen buffer.
+        /// Attach/detach behavior
+        /// When attaching to a new console, standard handles are always replaced with console handles
+        /// unless <see cref="STARTF_USESTDHANDLES"/> was specified during process creation.
+        /// If the existing value of the standard handle is <see cref="IntPtr.Zero"/>, or the existing value of the standard handle
+        /// looks like a console pseudohandle, the handle is replaced with a console handle.
+        /// When a parent uses both <see cref="CREATE_NEW_CONSOLE"/> and <see cref="STARTF_USESTDHANDLES"/> to create a console process,
+        /// standard handles will not be replaced unless the existing value of the standard handle is <see cref="IntPtr.Zero"/> or a console pseudohandle.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE GetStdHandle([In] DWORD nStdHandle);
 
         /// <summary>
         /// <para>
@@ -721,6 +1384,327 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Reads data from a console input buffer and removes it from the buffer, with configurable behavior.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsoleinputex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to an array of <see cref="INPUT_RECORD"/> structures that receives the input buffer data.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the array pointed to by the <paramref name="lpBuffer"/> parameter, in array elements.
+        /// </param>
+        /// <param name="lpNumberOfEventsRead">
+        /// A pointer to a variable that receives the number of input records read.
+        /// </param>
+        /// <param name="wFlags">
+        /// A set of flags (ORed together) that specify the console's reading behavior.
+        /// <see cref="CONSOLE_READ_NOREMOVE"/>:
+        /// Leave the events in the input buffer (as in <see cref="PeekConsoleInput"/>)
+        /// <see cref="CONSOLE_READ_NOWAIT"/>:
+        /// Return immediately, even if there are no events in the input buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is a configurable version of <see cref="ReadConsoleInput"/>.
+        /// See the remarks for <see cref="ReadConsoleInput"/> for additional operational details.
+        /// Calling <see cref="ReadConsoleInputEx"/> with the flags <code>CONSOLE_READ_NOMOVE | CONSOLE_READ_NOWAIT</code>
+        /// is equivalent to calling <see cref="PeekConsoleInput"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInputExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleInputEx([In] HANDLE hConsoleInput, [Out] INPUT_RECORD[] lpBuffer, [In] DWORD nLength,
+            [Out] out DWORD lpNumberOfEventsRead, [In] USHORT wFlags);
+
+        /// <summary>
+        /// <para>
+        /// Reads character and color attribute data from a rectangular block of character cells in a console screen buffer,
+        /// and the function writes the data to a rectangular block at a specified location in the destination buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsoleoutput"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a destination buffer that receives the data read from the console screen buffer.
+        /// This pointer is treated as the origin of a two-dimensional array of <see cref="CHAR_INFO"/> structures
+        /// whose size is specified by the <paramref name="dwBufferSize"/> parameter.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of the <paramref name="lpBuffer"/> parameter, in character cells.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the number of columns;
+        /// the <see cref="COORD.Y"/> member is the number of rows.
+        /// </param>
+        /// <param name="dwBufferCoord">
+        /// The coordinates of the upper-left cell in the <paramref name="lpBuffer"/> parameter
+        /// that receives the data read from the console screen buffer.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the column,
+        /// and the <see cref="COORD.Y"/> member is the row.
+        /// </param>
+        /// <param name="lpReadRegion">
+        /// A pointer to a <see cref="SMALL_RECT"/> structure.
+        /// On input, the structure members specify the upper-left and lower-right coordinates of the console screen buffer rectangle
+        /// from which the function is to read.
+        /// On output, the structure members specify the actual rectangle that was used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// ReadConsoleOutput treats the console screen buffer and the destination buffer as two-dimensional arrays (columns and rows of character cells).
+        /// The rectangle pointed to by the <paramref name="lpReadRegion"/> parameter specifies the size and location
+        /// of the block to be read from the console screen buffer.
+        /// A destination rectangle of the same size is located with its upper-left cell
+        /// at the coordinates of the <paramref name="dwBufferCoord"/> parameter in the <paramref name="lpBuffer"/> array.
+        /// Data read from the cells in the console screen buffer source rectangle is copied to the corresponding cells in the destination buffer.
+        /// If the corresponding cell is outside the boundaries of the destination buffer rectangle
+        /// (whose dimensions are specified by the <paramref name="dwBufferSize"/> parameter), the data is not copied.
+        /// Cells in the destination buffer corresponding to coordinates that are not within the boundaries of the console screen buffer are left unchanged.
+        /// In other words, these are the cells for which no screen buffer data is available to be read.
+        /// Before <see cref="ReadConsoleOutput"/> returns, it sets the members of the structure pointed to by the <paramref name="lpReadRegion"/> parameter
+        /// to the actual screen buffer rectangle whose cells were copied into the destination buffer.
+        /// This rectangle reflects the cells in the source rectangle for which there existed a corresponding cell in the destination buffer,
+        /// because <see cref="ReadConsoleOutput"/> clips the dimensions of the source rectangle to fit the boundaries of the console screen buffer.
+        /// If the rectangle specified by <paramref name="lpReadRegion"/> lies completely outside the boundaries of the console screen buffer,
+        /// or if the corresponding rectangle is positioned completely outside the boundaries of the destination buffer, no data is copied.
+        /// In this case, the function returns with the members of the structure pointed to by the <paramref name="lpReadRegion"/> parameter set
+        /// such that the <see cref="SMALL_RECT.Right"/> member is less than the <see cref="SMALL_RECT.Left"/>,
+        /// or the Bottom member is less than the Top.
+        /// To determine the size of the console screen buffer, use the <see cref="GetConsoleScreenBufferInfo"/> function.
+        /// The <see cref="ReadConsoleOutput"/> function has no effect on the console screen buffer's cursor position.
+        /// The contents of the console screen buffer are not changed by the function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleOutput([In] HANDLE hConsoleOutput, [Out] CHAR_INFO[] lpBuffer, [In] COORD dwBufferSize,
+            [In] COORD dwBufferCoord, [In][Out] ref SMALL_RECT lpReadRegion);
+
+        /// <summary>
+        /// <para>
+        /// Copies a specified number of character attributes from consecutive cells of a console screen buffer, beginning at a specified location.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsoleoutputattribute"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpAttribute">
+        /// A pointer to a buffer that receives the attributes being used by the console screen buffer.
+        /// For more information, see Character Attributes.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of screen buffer character cells from which to read.
+        /// The size of the buffer pointed to by the <paramref name="lpAttribute"/> parameter should be <code>nLength * sizeof(WORD)</code>.
+        /// </param>
+        /// <param name="dwReadCoord">
+        /// The coordinates of the first cell in the console screen buffer from which to read, in characters.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the column, and the <see cref="COORD.Y"/> member is the row.
+        /// </param>
+        /// <param name="lpNumberOfAttrsRead">
+        /// A pointer to a variable that receives the number of attributes actually read.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of attributes to be read from extends beyond the end of the specified screen buffer row,
+        /// attributes are read from the next row.
+        /// If the number of attributes to be read from extends beyond the end of the console screen buffer,
+        /// attributes up to the end of the console screen buffer are read.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleOutputAttribute([In] HANDLE hConsoleOutput, [Out] WORD[] lpAttribute, [In] DWORD nLength,
+            [In] COORD dwReadCoord, [Out] out DWORD lpNumberOfAttrsRead);
+
+        /// <summary>
+        /// <para>
+        /// Copies a number of characters from consecutive cells of a console screen buffer, beginning at a specified location.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/readconsoleoutputcharacter"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpCharacter">
+        /// A pointer to a buffer that receives the characters read from the console screen buffer.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of screen buffer character cells from which to read.
+        /// The size of the buffer pointed to by the <paramref name="lpCharacter"/> parameter should be <code>nLength * sizeof(TCHAR)</code>.
+        /// </param>
+        /// <param name="dwReadCoord">
+        /// The coordinates of the first cell in the console screen buffer from which to read, in characters.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the column, and the <see cref="COORD.Y"/> member is the row.
+        /// </param>
+        /// <param name="lpNumberOfCharsRead">
+        /// A pointer to a variable that receives the number of characters actually read.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of characters to be read from extends beyond the end of the specified screen buffer row,
+        /// characters are read from the next row.
+        /// If the number of characters to be read from extends beyond the end of the console screen buffer,
+        /// characters up to the end of the console screen buffer are read.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputCharacter", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPWSTR lpCharacter, [In] DWORD nLength,
+            [In] COORD dwReadCoord, [Out] out DWORD lpNumberOfCharsRead);
+
+        /// <summary>
+        /// <para>
+        /// Resizes the internal buffers for a pseudoconsole to the given size.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/resizepseudoconsole"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hPC">
+        /// A handle to an active pseudoconsole as opened by <see cref="CreatePseudoConsole"/>.
+        /// </param>
+        /// <param name="size">
+        /// The dimensions of the window/buffer in count of characters that will be used for the internal buffer of this pseudoconsole.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// This function can resize the internal buffers in the pseudoconsole session
+        /// to match the window/buffer size being used for display on the terminal end.
+        /// This ensures that attached Command-Line Interface (CUI) applications using the Console Functions
+        /// to communicate will have the correct dimensions returned in their calls.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResizePseudoConsole", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT ResizePseudoConsole([In] HPCON hPC, [In] COORD size);
+
+        /// <summary>
+        /// <para>
+        /// Moves a block of data in a screen buffer.
+        /// The effects of the move can be limited by specifying a clipping rectangle,
+        /// so the contents of the console screen buffer outside the clipping rectangle are unchanged.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/scrollconsolescreenbuffer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpScrollRectangle">
+        /// A pointer to a <see cref="SMALL_RECT"/> structure whose members specify the upper-left and lower-right coordinates
+        /// of the console screen buffer rectangle to be moved.
+        /// </param>
+        /// <param name="lpClipRectangle">
+        /// A pointer to a <see cref="SMALL_RECT"/> structure whose members specify the upper-left and lower-right coordinates
+        /// of the console screen buffer rectangle that is affected by the scrolling.
+        /// This pointer can be <see cref="NullRef{SMALL_RECT}"/>.
+        /// </param>
+        /// <param name="dwDestinationOrigin">
+        /// A <see cref="COORD"/> structure that specifies the upper-left corner
+        /// of the new location of the <paramref name="lpScrollRectangle"/> contents, in characters.
+        /// </param>
+        /// <param name="lpFill">
+        /// A pointer to a <see cref="CHAR_INFO"/> structure that specifies the character and color attributes
+        /// to be used in filling the cells within the intersection of <paramref name="lpScrollRectangle"/> and <paramref name="lpClipRectangle"/>
+        /// that were left empty as a result of the move.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ScrollConsoleScreenBuffer"/> copies the contents of a rectangular region of a screen buffer,
+        /// specified by the <paramref name="lpScrollRectangle"/> parameter, to another area of the console screen buffer.
+        /// The target rectangle has the same dimensions as the <paramref name="lpScrollRectangle"/> rectangle
+        /// with its upper-left corner at the coordinates specified by the <paramref name="dwDestinationOrigin"/> parameter.
+        /// Those parts of <paramref name="lpScrollRectangle"/> that do not overlap with the target rectangle
+        /// are filled in with the character and color attributes specified by the <paramref name="lpFill"/> parameter.
+        /// The clipping rectangle applies to changes made in both the <paramref name="lpScrollRectangle"/> rectangle and the target rectangle.
+        /// For example, if the clipping rectangle does not include a region that would have been filled by the contents of <paramref name="lpFill"/>,
+        /// the original contents of the region are left unchanged.
+        /// If the scroll or target regions extend beyond the dimensions of the console screen buffer, they are clipped.
+        /// For example, if <paramref name="lpScrollRectangle"/> is the region contained by (0,0) and (19,19)
+        /// and <paramref name="dwDestinationOrigin"/> is (10,15), the target rectangle is the region contained by (10,15) and (29,34).
+        /// However, if the console screen buffer is 50 characters wide and 30 characters high, the target rectangle is clipped to (10,15) and (29,29).
+        /// Changes to the console screen buffer are also clipped according to <paramref name="lpScrollRectangle"/>,
+        /// if the parameter specifies a <see cref="SMALL_RECT"/> structure.
+        /// If the clipping rectangle is specified as (0,0) and (49,19), only the changes that occur in that region of the console screen buffer are made.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollConsoleScreenBuffer", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ScrollConsoleScreenBuffer([In] HANDLE hConsoleOutput, [In] in SMALL_RECT lpScrollRectangle,
+            [In] in SMALL_RECT lpClipRectangle, [In] COORD dwDestinationOrigin, [In] in CHAR_INFO lpFill);
+
+        /// <summary>
+        /// <para>
+        /// Sets the specified screen buffer to be the currently displayed console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsoleactivescreenbuffer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A console can have multiple screen buffers.
+        /// <see cref="SetConsoleActiveScreenBuffer"/> determines which one is displayed.
+        /// You can write to an inactive screen buffer and then use <see cref="SetConsoleActiveScreenBuffer"/> to display the buffer's contents.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleActiveScreenBuffer", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleActiveScreenBuffer([In] HANDLE hConsoleOutput);
+
+        /// <summary>
+        /// <para>
         /// Sets the input code page used by the console associated with the calling process.
         /// A console uses its input code page to translate keyboard input into the corresponding character value.
         /// </para>
@@ -830,6 +1814,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the size and visibility of the cursor for the specified console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolecursorinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpConsoleCursorInfo">
+        /// A pointer to a <see cref="CONSOLE_CURSOR_INFO"/> structure that provides the new specifications for the console screen buffer's cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a screen buffer's cursor is visible, its appearance can vary,
+        /// ranging from completely filling a character cell to showing up as a horizontal line at the bottom of the cell.
+        /// The <see cref="CONSOLE_CURSOR_INFO.dwSize"/> member of the <see cref="CONSOLE_CURSOR_INFO"/> structure
+        /// specifies the percentage of a character cell that is filled by the cursor.
+        /// If this member is less than 1 or greater than 100, <see cref="SetConsoleCursorInfo"/> fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCursorInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleCursorInfo([In] HANDLE hConsoleOutput, [In] in CONSOLE_CURSOR_INFO lpConsoleCursorInfo);
+
+        /// <summary>
+        /// <para>
         /// Sets the cursor position in the specified console screen buffer.
         /// </para>
         /// <para>
@@ -860,6 +1875,57 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCursorPosition", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCursorPosition([In] HANDLE hConsoleOutput, [In] COORD dwCursorPosition);
+
+        /// <summary>
+        /// <para>
+        /// Sets the display mode of the specified console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsoledisplaymode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The display mode of the console. This parameter can be one or more of the following values.
+        /// <see cref="CONSOLE_FULLSCREEN_MODE "/> 1:
+        /// Text is displayed in full-screen mode.
+        /// <see cref="CONSOLE_WINDOWED_MODE"/> 2:
+        /// Text is displayed in a console window.
+        /// </param>
+        /// <param name="lpNewScreenBufferDimensions">
+        /// A pointer to a <see cref="COORD"/> structure that receives the new dimensions of the screen buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleDisplayMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleDisplayMode([In] HANDLE hConsoleOutput, [In] DWORD dwFlags, [Out] out COORD lpNewScreenBufferDimensions);
+
+        /// <summary>
+        /// <para>
+        /// Sets the history settings for the calling process's console.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setconsolehistoryinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpConsoleHistoryInfo">
+        /// A pointer to a <see cref="CONSOLE_HISTORY_INFO"/> structure that contains the history settings for the process's console.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the calling process is not a console process, the function fails and sets the last error code to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleHistoryInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleHistoryInfo([In] in CONSOLE_HISTORY_INFO lpConsoleHistoryInfo);
 
         /// <summary>
         /// <para>
@@ -950,6 +2016,12 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleOutputCP([In] UINT wCodePageID);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleScreenBufferInfoEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleScreenBufferInfoEx([In] HANDLE hConsoleOutput, [In] in CONSOLE_SCREEN_BUFFER_INFOEX lpConsoleScreenBufferInfoEx);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleScreenBufferSize", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleScreenBufferSize([In] HANDLE hConsoleOutput, [In] COORD dwSize);
+
         /// <summary>
         /// <para>
         /// Sets the attributes of characters written to the console screen buffer by the <see cref="WriteFile"/>
@@ -978,6 +2050,9 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleTextAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleTextAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes wAttributes);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleTitleW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleTitle([In] LPCWSTR lpConsoleTitle);
 
         /// <summary>
         /// <para>
@@ -1026,6 +2101,66 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleWindowInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleWindowInfo([In] HANDLE hConsoleOutput, [In] BOOL bAbsolute, [In] in SMALL_RECT lpConsoleWindow);
+
+        /// <summary>
+        /// <para>
+        /// Sets extended information about the current console font.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setcurrentconsolefontex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="bMaximumWindow">
+        /// If this parameter is <see cref="TRUE"/>, font information is set for the maximum window size.
+        /// If this parameter is <see cref="FALSE"/>, font information is set for the current window size.
+        /// </param>
+        /// <param name="lpConsoleCurrentFontEx">
+        /// A pointer to a <see cref="CONSOLE_FONT_INFOEX"/> structure that contains the font information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentConsoleFontEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetCurrentConsoleFontEx([In] HANDLE hConsoleOutput, [In] BOOL bMaximumWindow, [In] in CONSOLE_FONT_INFOEX lpConsoleCurrentFontEx);
+
+        /// <summary>
+        /// <para>
+        /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/setstdhandle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nStdHandle">
+        /// The standard device for which the handle is to be set. This parameter can be one of the following values.
+        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device.
+        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device.
+        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device.
+        /// </param>
+        /// <param name="hHandle">
+        /// The handle for the standard device.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The standard handles of a process may have been redirected by a call to <see cref="SetStdHandle"/>,
+        /// in which case <see cref="GetStdHandle"/> will return the redirected handle.
+        /// If the standard handles have been redirected, you can specify the CONIN$ value
+        /// in a call to the <see cref="CreateFile"/> function to get a handle to a console's input buffer.
+        /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetStdHandle([In] DWORD nStdHandle, [In] HANDLE hHandle);
 
         /// <summary>
         /// <para>
@@ -1238,5 +2373,51 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes[] lpAttribute,
             [In] COORD nLength, [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
+
+        /// <summary>
+        /// <para>
+        /// Copies a number of characters to consecutive cells of a console screen buffer, beginning at a specified location.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/writeconsoleoutputcharacter"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpCharacter">
+        /// The characters to be written to the console screen buffer.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of characters to be written.
+        /// </param>
+        /// <param name="dwWriteCoord">
+        /// A <see cref="COORD"/> structure that specifies the character coordinates of the first cell
+        /// in the console screen buffer to which characters will be written.
+        /// </param>
+        /// <param name="lpNumberOfCharsWritten">
+        /// A pointer to a variable that receives the number of characters actually written.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of characters to be written to extends beyond the end of the specified row in the console screen buffer,
+        /// characters are written to the next row.
+        /// If the number of characters to be written to extends beyond the end of the console screen buffer,
+        /// characters are written up to the end of the console screen buffer.
+        /// The attribute values at the positions written to are not changed.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
+        /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPCWSTR lpCharacter, [In] DWORD nLength,
+            [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfCharsWritten);
     }
 }
