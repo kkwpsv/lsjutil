@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies the input operations for which visual feedback should be provided.
     /// This enumeration is used by the <see cref="DwmShowContact"/> function.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwm_showcontact"/>
+    /// </para>
     /// </summary>
     public enum DWM_SHOWCONTACT
     {
