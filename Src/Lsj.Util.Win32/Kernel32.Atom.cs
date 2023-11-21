@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -170,7 +171,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtomW", ExactSpelling = true, SetLastError = true)]
-        public static extern ATOM GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern ATOM GlobalAddAtom([In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>

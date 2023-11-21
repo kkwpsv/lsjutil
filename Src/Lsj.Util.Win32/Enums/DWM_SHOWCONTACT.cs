@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Dwmapi;
+﻿using System;
+using static Lsj.Util.Win32.Dwmapi;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -11,41 +12,42 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwm_showcontact"/>
     /// </para>
     /// </summary>
-    public enum DWM_SHOWCONTACT
+    [Flags]
+    public enum DWM_SHOWCONTACT : uint
     {
         /// <summary>
         /// Down.
         /// </summary>
-        DWMSC_DOWN,
+        DWMSC_DOWN = 0x00000001,
 
         /// <summary>
         /// Up.
         /// </summary>
-        DWMSC_UP,
+        DWMSC_UP = 0x00000002,
 
         /// <summary>
         /// Drag.
         /// </summary>
-        DWMSC_DRAG,
+        DWMSC_DRAG = 0x00000004,
 
         /// <summary>
         /// Hold.
         /// </summary>
-        DWMSC_HOLD,
+        DWMSC_HOLD = 0x00000008,
 
         /// <summary>
         /// Pen barrel.
         /// </summary>
-        DWMSC_PENBARREL,
+        DWMSC_PENBARREL = 0x00000010,
 
         /// <summary>
         /// None.
         /// </summary>
-        DWMSC_NONE,
+        DWMSC_NONE = 0x00000000,
 
         /// <summary>
         /// All.
         /// </summary>
-        DWMSC_ALL
+        DWMSC_ALL = 0xFFFFFFFF,
     }
 }

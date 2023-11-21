@@ -3644,7 +3644,7 @@ namespace Lsj.Util.Win32
         /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetProp([In] HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString, [In] HANDLE hData);
+        public static extern BOOL SetProp([In] HWND hWnd, [In] LPCWSTR lpString, [In] HANDLE hData);
 
         /// <summary>
         /// 
