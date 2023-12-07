@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DwmInvalidateIconicBitmaps"/> should not be called frequently.
         /// Doing so can lead to poor performance as new bitmaps are created and retrieved.
         /// </remarks>
-        [DllImport("Dwmapi.dll", CharSet = CharSet.Unicode, EntryPoint = "DwmGetWindowAttribute", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Dwmapi.dll", CharSet = CharSet.Unicode, EntryPoint = "DwmInvalidateIconicBitmaps", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT DwmInvalidateIconicBitmaps([In] HWND hwnd);
 
         /// <summary>

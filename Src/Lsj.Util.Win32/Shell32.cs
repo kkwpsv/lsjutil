@@ -207,6 +207,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a duplicate of a specified icon.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-duplicateicon"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hInst"></param>
+        /// <param name="hIcon">
+        /// Handle to the icon to be duplicated.
+        /// </param>
+        /// <returns>
+        /// If successful, the function returns the handle to the new icon that was created; otherwise, <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When it is no longer needed, the caller is responsible for freeing the icon handle
+        /// returned by <see cref="DuplicateIcon"/> by calling the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateIcon", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON DuplicateIcon([In] HINSTANCE hInst, [In] HICON hIcon);
+
+        /// <summary>
+        /// <para>
         /// Gets a handle to an icon stored as a resource in a file or an icon stored in a file's associated executable file.
         /// </para>
         /// <para>

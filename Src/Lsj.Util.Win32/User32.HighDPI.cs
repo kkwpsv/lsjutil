@@ -192,7 +192,7 @@ namespace Lsj.Util.Win32
         /// It can be difficult to distinguish between a return value of <see cref="DDC_DEFAULT"/> and the error case, which is zero.
         /// To determine between the two, it is recommended that you call <see cref="GetLastError"/> to check the error.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDialogControlDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDialogDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DIALOG_DPI_CHANGE_BEHAVIORS GetDialogDpiChangeBehavior([In] HWND hDlg);
 
         /// <summary>

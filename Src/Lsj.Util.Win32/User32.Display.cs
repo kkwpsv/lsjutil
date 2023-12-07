@@ -998,7 +998,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// All sizes in the DEVMODE structure are in terms of physical pixels, and are not related to the calling context.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDisplayConfig", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDisplayConfig", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes SetDisplayConfig([In] UINT32 numPathArrayElements, [In] DISPLAYCONFIG_PATH_INFO[] pathArray,
             [In] UINT32 numModeInfoArrayElements, [In] DISPLAYCONFIG_MODE_INFO[] modeInfoArray, [In] SetDisplayConfigFlags flags);
     }

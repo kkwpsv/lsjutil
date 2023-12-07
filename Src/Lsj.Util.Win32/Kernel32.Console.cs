@@ -143,7 +143,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddConsoleAlias", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddConsoleAliasW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddConsoleAlias([In] LPCWSTR Source, [In] LPCWSTR Target, [In] LPCWSTR ExeName);
 
         /// <summary>
@@ -1584,7 +1584,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
         /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputCharacter", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPWSTR lpCharacter, [In] DWORD nLength,
             [In] COORD dwReadCoord, [Out] out DWORD lpNumberOfCharsRead);
 
@@ -1675,7 +1675,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
         /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollConsoleScreenBuffer", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollConsoleScreenBufferW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScrollConsoleScreenBuffer([In] HANDLE hConsoleOutput, [In] in SMALL_RECT lpScrollRectangle,
             [In] in SMALL_RECT lpClipRectangle, [In] COORD dwDestinationOrigin, [In] in CHAR_INFO lpFill);
 
@@ -2416,7 +2416,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions.
         /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPCWSTR lpCharacter, [In] DWORD nLength,
             [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfCharsWritten);
     }
