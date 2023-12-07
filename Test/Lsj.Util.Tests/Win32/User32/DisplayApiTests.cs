@@ -21,7 +21,7 @@ namespace Lsj.Util.Tests.Win32.User32
                 {
                     cb = SizeOf<DISPLAY_DEVICE>(),
                 };
-                if (EnumDisplayDevices(null, i, ref displayDevice, 0))
+                if (EnumDisplayDevices(NULL, i, ref displayDevice, 0))
                 {
                     i++;
                 }

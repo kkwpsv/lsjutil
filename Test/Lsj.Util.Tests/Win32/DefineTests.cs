@@ -12,6 +12,13 @@ namespace Lsj.Util.Tests.Win32
     [TestClass]
     public class DefineTests
     {
+        private static List<string> newApis = new List<string>
+        {
+            "DXGIDisableVBlankVirtualization",
+            "DXGIGetDebugInterface",
+            "SetThreadCursorCreationScaling",
+        };
+
         [TestMethod]
         public void TestEntryPoints()
         {
@@ -30,6 +37,10 @@ namespace Lsj.Util.Tests.Win32
                             continue;
                         }
                         if (item.Attribute.Value.StartsWith("D3DX9"))
+                        {
+                            continue;
+                        }
+                        if (newApis.Contains(item.Attribute.EntryPoint))
                         {
                             continue;
                         }
