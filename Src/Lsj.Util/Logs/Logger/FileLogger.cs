@@ -14,7 +14,7 @@ namespace Lsj.Util.Logs.Logger
         private readonly object lockobj = new object();
 
         /// <summary>
-        /// FilePath
+        /// FilePath (auto append yyyy-MM-dd.log suffix)
         /// </summary>
         public string FilePath { get; set; } = "./";
 
@@ -28,10 +28,9 @@ namespace Lsj.Util.Logs.Logger
             Monitor.Enter(lockobj);
             try
             {
-                if (!FilePath.IsExistsPath())
-                {
-                    Directory.CreateDirectory(FilePath);
-                }
+                var folder = Path.GetDirectoryName(FilePath);
+                Directory.CreateDirectory(folder!);
+
                 var name = FilePath + DateTime.Now.ToString("yyyy-MM-dd");
                 var num = 0;
 
@@ -40,7 +39,7 @@ namespace Lsj.Util.Logs.Logger
                     num++;
                 }
                 name = name + (num == 0 ? "" : $"-{num}") + ".log";
-                File.AppendAllText(name, $"[{type.ToString()}] {DateTime.Now.ToString()} \n{str}");
+                File.AppendAllText(name, $"[{type.ToString()}] {DateTime.Now.ToString()} \n{str}\n");
             }
             catch
             {

@@ -28,12 +28,5 @@ namespace Lsj.Util.IO
             }
             return result;
         }
-
-        /// <summary>
-        /// Check Path Is Exists
-        /// </summary>
-        /// <param name="path">path</param>
-        public static bool IsExistsPath(this string path) => Directory.Exists(path);
-
     }
 }
