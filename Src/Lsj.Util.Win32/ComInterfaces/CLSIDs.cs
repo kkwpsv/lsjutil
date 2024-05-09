@@ -38,6 +38,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly CLSID CLSID_StdURLMoniker = "79eac9e0-baf9-11ce-8c82-00aa004ba90b";
 
         /// <summary>
+        /// CLSID_TaskbarList
+        /// </summary>
+        public static readonly CLSID CLSID_TaskbarList = "56FDF344-FD6D-11d0-958A-006097C9A090";
+
+        /// <summary>
         /// CLSID_TF_ThreadMgr
         /// </summary>
         public static readonly CLSID CLSID_TF_ThreadMgr = "529A9E6B-6587-4F23-AB9E-9C7D683E3C50";

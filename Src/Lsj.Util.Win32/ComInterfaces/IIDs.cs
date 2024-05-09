@@ -263,6 +263,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IStream = "0000000c-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ITaskbarList
+        /// </summary>
+        public static readonly IID IID_ITaskbarList = "56FDF342-FD6D-11d0-958A-006097C9A090";
+
+        /// <summary>
+        /// IID_ITaskbarList2
+        /// </summary>
+        public static readonly IID IID_ITaskbarList2 = "602D4995-B13A-429b-A66E-1935E44F4317";
+
+        /// <summary>
         /// IID_ITfThreadMgr
         /// </summary>
         public static readonly IID IID_ITfThreadMgr = "AA80E801-2021-11D2-93E0-0060B067B86E";
