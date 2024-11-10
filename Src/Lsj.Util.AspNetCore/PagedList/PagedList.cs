@@ -24,17 +24,17 @@ namespace Lsj.Util.AspNetCore.PagedList
             }
             if (pageSize < 1)
             {
-                throw new ArgumentOutOfRangeException("pageSize", pageSize, "Page Sieze must be bigger than 1.");
+                throw new ArgumentOutOfRangeException("pageSize", pageSize, "Page Size must be bigger than 1.");
             }
-            this.PageNumber = pageNum;
-            this.TotalItemCount = srcSet.Count();
-            this.PageCount = (TotalItemCount / pageSize) + (TotalItemCount % pageSize == 0 ? 0 : 1);
-            this.HasPrevious = PageNumber != 1;
-            this.HasNext = PageNumber < PageCount;
-            this.SubList = srcSet.Skip((PageNumber - 1) * pageSize).Take(pageSize).ToList();
+            PageNumber = pageNum;
+            TotalItemCount = srcSet.Count();
+            PageCount = (TotalItemCount / pageSize) + (TotalItemCount % pageSize == 0 ? 0 : 1);
+            HasPrevious = PageNumber != 1;
+            HasNext = PageNumber < PageCount;
+            _subList = srcSet.Skip((PageNumber - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        private readonly List<T> SubList;
+        private readonly List<T> _subList;
 
 
         public int TotalItemCount { get; }
@@ -43,11 +43,11 @@ namespace Lsj.Util.AspNetCore.PagedList
         public bool HasNext { get; }
         public int PageNumber { get; }
 
-        public int Count => SubList.Count();
+        public int Count => _subList.Count();
 
-        public T this[int index] => SubList[index];
+        public T this[int index] => _subList[index];
 
-        public IEnumerator<T> GetEnumerator() => SubList.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => _subList.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

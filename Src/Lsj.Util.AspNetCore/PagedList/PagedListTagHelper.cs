@@ -76,8 +76,6 @@ namespace Lsj.Util.AspNetCore.PagedList
             this.UrlHelperFactory = urlHelperFactory;
         }
 
-
-
         private string GetPageUrl(int page)
         {
             var routeValues = new RouteValueDictionary();
