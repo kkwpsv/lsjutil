@@ -585,6 +585,87 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the specified firmware table from the firmware table provider.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemfirmwaretable"/>
+        /// </para>
+        /// </summary>
+        /// <param name="FirmwareTableProviderSignature">
+        /// The identifier of the firmware table provider to which the query is to be directed.
+        /// This parameter can be one of the following values.
+        /// 'ACPI': The ACPI firmware table provider.
+        /// 'FIRM': The raw firmware table provider.
+        /// 'RSMB': The raw SMBIOS firmware table provider.
+        /// </param>
+        /// <param name="FirmwareTableID">
+        /// The identifier of the firmware table.
+        /// This identifier is little endian, you must reverse the characters in the string.
+        /// For example, FACP is an ACPI provider, as described in the Signature field of the DESCRIPTION_HEADER structure in the ACPI specification
+        /// (see the Advanced Configuration and Power Interface (ACPI) Specification.
+        /// Therefore, use 'PCAF' to specify the FACP table, as shown in the following example:
+        /// <code>retVal = GetSystemFirmwareTable('ACPI', 'PCAF', pBuffer, BUFSIZE);</code>
+        /// For more information, see the Remarks section of the <see cref="EnumSystemFirmwareTables"/> function.
+        /// </param>
+        /// <param name="pFirmwareTableBuffer">
+        /// A pointer to a buffer that receives the requested firmware table.
+        /// If this parameter is <see cref="NULL"/>, the return value is the required buffer size.
+        /// For more information on the contents of this buffer, see the Remarks section.
+        /// </param>
+        /// <param name="BufferSize">
+        /// The size of the <paramref name="pFirmwareTableBuffer"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes written to the buffer.
+        /// This value will always be less than or equal to <paramref name="BufferSize"/>.
+        /// If the function fails because the buffer is not large enough, the return value is the required buffer size, in bytes.
+        /// This value is always greater than <paramref name="BufferSize"/>.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 10, version 1803, Universal Windows apps can access the System Management BIOS (SMBIOS) information
+        /// by declaring the smbios restricted capability in the app manifest.
+        /// See Access SMBIOS information from a Universal Windows App for details.
+        /// Only raw SMBIOS (RSMB) firmware tables can be accessed from a Universal Windows app.
+        /// As of Windows Server 2003 with Service Pack 1 (SP1), applications cannot access the \Device\PhysicalMemory object.
+        /// Access to this object is limited to kernel-mode drivers.
+        /// This change affects applications read System Management BIOS (SMBIOS) or other BIOS data stored in the lowest 1MB of physical memory.
+        /// Applications have the following alternatives to read data from low physical memory:
+        /// Retrieve the SMBIOS properties using WMI.
+        /// Many individual properties are contained in the Win32 classes.
+        /// You can also retrieve the raw SMBIOS data in a single buffer using the MSSMBios_RawSMBiosTables class.
+        /// Use the <see cref="GetSystemFirmwareTable"/> function to read the raw SMBIOS firmware table.
+        /// There is no way for applications to write to low physical memory.
+        /// The raw SMBIOS table provider ('RSMB') retrieves the contents of the raw SMBIOS firmware table.
+        /// The <paramref name="pFirmwareTableBuffer"/> buffer receives the following data:
+        /// <code>
+        /// #include &lt;windows.h&gt;
+        /// 
+        /// struct RawSMBIOSData
+        /// {
+        ///    BYTE Used20CallingMethod;
+        ///    BYTE SMBIOSMajorVersion;
+        ///    BYTE SMBIOSMinorVersion;
+        ///    BYTE DmiRevision;
+        ///    DWORD Length;
+        ///    BYTE SMBIOSTableData[];
+        /// };
+        /// </code>
+        /// The raw firmware table provider ('FIRM') retrieves the contents of the specified physical address range.
+        /// The function returns the size of the address range.
+        /// The ACPI table provider ('ACPI') retrieves the contents of the specified ACPI table.
+        /// Because OEMs can include ACPI firmware tables that are not listed in the ACPI specification,
+        /// you should first call <see cref="EnumSystemFirmwareTables"/> to enumerate all ACPI tables that are currently on the system.
+        /// For ACPI, if the system contains multiple tables with the same name, they are all enumerated with <see cref="EnumSystemFirmwareTables"/>.
+        /// However, <see cref="GetSystemFirmwareTable"/> retrieves only the first table in the list with this name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemFirmwareTable", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetSystemFirmwareTable([In] DWORD FirmwareTableProviderSignature, [In] DWORD FirmwareTableID,
+                [In] PVOID pFirmwareTableBuffer, [In] DWORD BufferSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the current system.
         /// To retrieve accurate information for an application running on WOW64, call the <see cref="GetNativeSystemInfo"/> function.
         /// </para>
