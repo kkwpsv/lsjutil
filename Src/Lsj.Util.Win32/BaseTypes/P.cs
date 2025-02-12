@@ -32,7 +32,17 @@ namespace Lsj.Util.Win32.BaseTypes
         }
 
         /// <summary>
-        /// 
+        /// As pointer of <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="TAs"></typeparam>
+        /// <returns></returns>
+        public P<TAs> AsP<TAs>() where TAs : struct
+        {
+            return new P<TAs> { _value = _value };
+        }
+
+        /// <summary>
+        /// From pointer
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
