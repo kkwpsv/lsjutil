@@ -56,5 +56,22 @@ namespace Lsj.Util.Win32.GUIDs
         /// For information about display adapter and monitors, see Display Devices Design Guide and Monitor Drivers.
         /// </remarks>
         public static readonly GUID GUID_DEVINTERFACE_MONITOR = new Guid(0xE6F07B5F, 0xEE97, 0x4a90, 0xB0, 0x76, 0x33, 0xF5, 0x7B, 0xF4, 0xEA, 0xA7);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GUID_DEVINTERFACE_DISK"/> device interface class is defined for hard disk storage devices.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// The system-supplied storage class drivers register an instance of <see cref="GUID_DEVINTERFACE_DISK"/> for a hard disk storage device.
+        /// The storage samples in the WDK include the disk class driver sample and the Addfilter Storage Filter Tool.
+        /// The disk class driver sample uses the obsolete identifier DiskClassGuid to register instances of the <see cref="GUID_DEVINTERFACE_DISK"/> device interface class.
+        /// The sample Addfilter application uses DiskClassGuid to enumerate instances of <see cref="GUID_DEVINTERFACE_DISK"/> device interface class.
+        /// For information about storage drivers, see Storage Drivers.
+        /// </remarks>
+        public static readonly GUID GUID_DEVINTERFACE_DISK = new Guid(0x53F56307, 0xB6BF, 0x11D0, 0x94, 0xF2, 0x00, 0xA0, 0xC9, 0x1E, 0xFB, 0x8B);
     }
 }
