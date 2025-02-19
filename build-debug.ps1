@@ -13,18 +13,6 @@ Set-Location Src\Lsj.Util\
 dotnet build
 if (!$?) { Exit $LASTEXITCODE }
 
-Set-Location ..\Lsj.Util.APIs.Alipay
-dotnet build
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.APIs.UmeTrip 
-dotnet build
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.APIs.WeChat
-dotnet build
-if (!$?) { Exit $LASTEXITCODE }
-
 Set-Location ..\Lsj.Util.AspNetCore
 dotnet build
 if (!$?) { Exit $LASTEXITCODE }
@@ -55,10 +43,6 @@ if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Net.Web
 dotnet build
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.Office
-&$msbuildPath -restore
 if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf

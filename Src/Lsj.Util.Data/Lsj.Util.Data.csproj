@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0;netstandard2.0;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilDataVersionPrefix)</VersionPrefix>
     <Description>My Utility For Data</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'">
+  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 </Project>

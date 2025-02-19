@@ -20,18 +20,6 @@ Set-Location Src\Lsj.Util\
 dotnet pack -c Debug --include-source
 if (!$?) { Exit $LASTEXITCODE }
 
-Set-Location ..\Lsj.Util.APIs.Alipay
-dotnet pack -c Debug --include-source
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.APIs.UmeTrip
-dotnet pack -c Debug --include-source
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.APIs.WeChat
-dotnet pack -c Debug --include-source
-if (!$?) { Exit $LASTEXITCODE }
-
 Set-Location ..\Lsj.Util.AspNetCore
 dotnet pack -c Debug --include-source
 if (!$?) { Exit $LASTEXITCODE }
@@ -62,10 +50,6 @@ if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Net.Web
 dotnet pack -c Debug --include-source
-if (!$?) { Exit $LASTEXITCODE }
-
-Set-Location ..\Lsj.Util.Office
-&$msbuildPath -restore /t:pack /p:IncludeSymbols=true
 if (!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf

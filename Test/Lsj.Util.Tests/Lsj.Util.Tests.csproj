@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="APIs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="3.2.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -18,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Lsj.Util.APIs.UmeTrip\Lsj.Util.APIs.UmeTrip.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.AspNetCore\Lsj.Util.AspNetCore.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />

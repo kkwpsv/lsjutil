@@ -3,15 +3,6 @@ $ErrorActionPreference = "Stop"
 nuget push Src\Lsj.Util\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
-nuget push Src\Lsj.Util.APIs.Alipay\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.APIs.UmeTrip\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.APIs.WeChat\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
 nuget push Src\Lsj.Util.AspNetCore\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
@@ -36,9 +27,6 @@ if(!$?) { Exit $LASTEXITCODE }
 nuget push Src\Lsj.Util.Net.Web\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
-nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
@@ -59,15 +47,6 @@ if(!$?) { Exit $LASTEXITCODE }
 
 
 nuget push Src\Lsj.Util\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.APIs.Alipay\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.APIs.UmeTrip\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.APIs.WeChat\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
 nuget push Src\Lsj.Util.AspNetCore\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
@@ -92,9 +71,6 @@ nuget push Src\Lsj.Util.Net\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/
 if(!$?) { Exit $LASTEXITCODE }
 
 nuget push Src\Lsj.Util.Net.Web\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
-if(!$?) { Exit $LASTEXITCODE }
-
-nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate

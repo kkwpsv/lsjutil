@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>net7.0-windows;net6.0-windows;netcoreapp3.0;net45</TargetFrameworks>
+    <TargetFrameworks>net9.0-windows;net8.0-windows;netcoreapp3.0;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilWPFVersionPrefix)</VersionPrefix>
     <Description>My Utility For WPF</Description>
     <UseWPF>true</UseWPF>
