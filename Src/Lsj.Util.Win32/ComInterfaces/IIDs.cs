@@ -153,6 +153,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMoniker = "0000000f-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_INetworkListManager
+        /// </summary>
+        public static readonly IID IID_INetworkListManager = "DCB00000-570F-4A9B-8D69-199FDBA5723B";
+
+        /// <summary>
         /// IID_IObjectWithSite
         /// </summary>
         public static readonly IID IID_IObjectWithSite = "FC4801A3-2BA9-11CF-A229-00AA003D7352";
