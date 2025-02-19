@@ -12,12 +12,15 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct LPVOID
+    public struct LPVOID : IPointer
     {
         private IntPtr _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
+
+        /// <inheritdoc/>
+        public nint ToIntPtr() => _value;
 
         /// <summary>
         /// 

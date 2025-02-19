@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Extensions;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;

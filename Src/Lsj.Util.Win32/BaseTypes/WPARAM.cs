@@ -1,5 +1,4 @@
-﻿using Lsj.Util.Win32.Extensions;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes

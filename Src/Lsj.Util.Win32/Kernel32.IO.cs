@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;

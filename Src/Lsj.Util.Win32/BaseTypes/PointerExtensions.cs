@@ -1,19 +1,18 @@
-﻿using Lsj.Util.Win32.BaseTypes;
-using System;
+﻿using System;
 
-namespace Lsj.Util.Win32.Extensions
+namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
-    /// <see cref="IntPtr"/> Extensions
+    /// Pointer Extensions
     /// </summary>
-    public static class IntPtrExtensions
+    public static class PointerExtensions
     {
         /// <summary>
         /// Safe Convert To <see cref="int"/>
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static int SafeToInt32(this IntPtr ptr) => IntPtr.Size == 8 ? (int)(ptr.ToInt64()) : ptr.ToInt32();
+        public static int SafeToInt32(this IntPtr ptr) => IntPtr.Size == 8 ? (int)ptr.ToInt64() : ptr.ToInt32();
 
         /// <summary>
         /// Safe Convert To <see cref="uint"/>
@@ -27,7 +26,7 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static int SafeToInt32(this IPointer ptr) => SafeToInt32(ptr.ToIntPtr());
+        public static int SafeToInt32(this IPointer ptr) => ptr.ToIntPtr().SafeToInt32();
 
         /// <summary>
         /// Safe Convert To <see cref="uint"/>
@@ -48,7 +47,7 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static uint SafeToUInt32(this IPointer ptr) => SafeToUInt32(ptr.ToIntPtr());
+        public static uint SafeToUInt32(this IPointer ptr) => ptr.ToIntPtr().SafeToUInt32();
 
         /// <summary>
         /// Safe Convert To <see cref="long"/>
@@ -69,7 +68,7 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static long SafeToInt64(this IPointer ptr) => SafeToInt64(ptr.ToIntPtr());
+        public static long SafeToInt64(this IPointer ptr) => ptr.ToIntPtr().SafeToInt64();
 
         /// <summary>
         /// Safe Convert To <see cref="ulong"/>
@@ -90,7 +89,7 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static ulong SafeToUInt64(this IPointer ptr) => SafeToUInt64(ptr.ToIntPtr());
+        public static ulong SafeToUInt64(this IPointer ptr) => ptr.ToIntPtr().SafeToUInt64();
 
         /// <summary>
         /// Safe Convert To <see cref="IntPtr"/>
@@ -111,6 +110,6 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
-        public static UIntPtr SafeToUIntPtr(this IPointer ptr) => SafeToUIntPtr(ptr.ToIntPtr());
+        public static UIntPtr SafeToUIntPtr(this IPointer ptr) => ptr.ToIntPtr().SafeToUIntPtr();
     }
 }

@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.Win32.Extensions\Lsj.Util.Win32.Extensions.csproj" />
     <ProjectReference Include="..\Lsj.Util.Win32\Lsj.Util.Win32.csproj" />
   </ItemGroup>
 </Project>
