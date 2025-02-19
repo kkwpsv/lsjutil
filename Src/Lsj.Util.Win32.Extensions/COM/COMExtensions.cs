@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Lsj.Util.Win32.Extensions
+namespace Lsj.Util.Win32.Extensions.COM
 {
     /// <summary>
     /// COM Extensions
     /// </summary>
-    public static class ComExtensions
+    public static class COMExtensions
     {
         /// <summary>
         /// <para>
@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Extensions
         /// <returns></returns>
         public static unsafe ref T InterfaceFromPointer<T>(IntPtr pointer) where T : struct
         {
-            return ref UnsafePInvokeExtensions.AsStructRef<T>(pointer);
+            return ref pointer.AsStructRef<T>();
         }
     }
 }

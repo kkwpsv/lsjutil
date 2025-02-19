@@ -36,6 +36,9 @@ if(!$?) { Exit $LASTEXITCODE }
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
+nuget push src\Lsj.Util.Win32.Extensions\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
+if(!$?) { Exit $LASTEXITCODE }
+
 nuget push src\Lsj.Util.Win32.NativeUI\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey $env:NugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
@@ -80,6 +83,9 @@ nuget push Src\Lsj.Util.SQLBuilder\bin\Release\*.nupkg -Source https://nuget.sdl
 if(!$?) { Exit $LASTEXITCODE }
 
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
+if(!$?) { Exit $LASTEXITCODE }
+
+nuget push src\Lsj.Util.Win32.Extensions\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
 nuget push src\Lsj.Util.Win32.NativeUI\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate

@@ -1,15 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System.ComponentModel;
 using System.IO;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
-using static Lsj.Util.Win32.Enums.IoControlCodes;
-using Lsj.Util.Win32.Structs;
-using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 
-namespace Lsj.Util.Win32.Extensions
+namespace Lsj.Util.Win32.Extensions.IO
 {
     /// <summary>
     /// Sparse File Extensions

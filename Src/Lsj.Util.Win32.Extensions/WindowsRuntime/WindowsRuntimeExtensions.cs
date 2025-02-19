@@ -3,7 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Combase;
 
-namespace Lsj.Util.Win32.Extensions
+namespace Lsj.Util.Win32.Extensions.WindowsRuntime
 {
     /// <summary>
     /// WindowsRuntime Extensions

@@ -57,6 +57,10 @@ Set-Location ..\Lsj.Util.Win32
 dotnet build
 if (!$?) { Exit $LASTEXITCODE }
 
+Set-Location ..\Lsj.Util.Win32.Extensions
+dotnet build
+if (!$?) { Exit $LASTEXITCODE }
+
 Set-Location ..\Lsj.Util.Win32.NativeUI
 dotnet build
 if (!$?) { Exit $LASTEXITCODE }

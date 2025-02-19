@@ -36,6 +36,9 @@ if(!$?) { Exit $LASTEXITCODE }
 nuget push src\Lsj.Util.Win32\bin\Debug\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 
+nuget push src\Lsj.Util.Win32.Extensions\bin\Debug\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
+if(!$?) { Exit $LASTEXITCODE }
+
 nuget push src\Lsj.Util.Win32.NativeUI\bin\Debug\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey $env:MyNugetKey -SkipDuplicate
 if(!$?) { Exit $LASTEXITCODE }
 

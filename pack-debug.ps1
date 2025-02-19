@@ -64,6 +64,10 @@ Set-Location ..\Lsj.Util.Win32
 dotnet pack -c Debug --include-source
 if (!$?) { Exit $LASTEXITCODE }
 
+Set-Location ..\Lsj.Util.Win32.Extensions
+dotnet pack -c Debug --include-source
+if (!$?) { Exit $LASTEXITCODE }
+
 Set-Location ..\Lsj.Util.Win32.NativeUI
 dotnet pack -c Debug --include-source
 if (!$?) { Exit $LASTEXITCODE }
