@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.Enums;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -25,5 +26,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator VARTYPE(ushort val) => new VARTYPE { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator VARTYPE(VARENUM val) => new VARTYPE { _value = (ushort)val };
     }
 }

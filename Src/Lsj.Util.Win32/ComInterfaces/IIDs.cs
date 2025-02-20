@@ -233,6 +233,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ISequentialStream = "0c733a30-2a1c-11ce-ade5-00aa0044773d";
 
         /// <summary>
+        /// IID_IShellDispatch
+        /// </summary>
+        public static readonly IID IID_IShellDispatch = "D8F015C0-C278-11CE-A49E-444553540000";
+
+        /// <summary>
+        /// IID_IShellDispatch2
+        /// </summary>
+        public static readonly IID IID_IShellDispatch2 = "A4C6892C-3BA9-11d2-9DEA-00C04FB16162";
+
+        /// <summary>
         /// IID_IShellFolder
         /// </summary>
         public static readonly IID IID_IShellFolder = "000214E6-0000-0000-C000-000000000046";

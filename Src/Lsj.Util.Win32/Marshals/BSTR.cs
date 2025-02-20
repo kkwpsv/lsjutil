@@ -43,6 +43,11 @@ namespace Lsj.Util.Win32.Marshals
             }
         }
 
+        private BSTR() : base(IntPtr.Zero)
+        {
+
+        }
+
         /// <inheritdoc/>
         public override bool IsInvalid => IsClosed;
 

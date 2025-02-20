@@ -12,5 +12,10 @@ namespace Lsj.Util.Win32.Extensions.COM
         /// NetworkListManager
         /// </summary>
         public static P<INetworkListManager> NetworkListManager => COMExtensions.CreateInstance<INetworkListManager>(CLSIDs.CLSID_NetworkListManager, IIDs.IID_INetworkListManager);
+
+        /// <summary>
+        /// Shell
+        /// </summary>
+        public static P<IShellDispatch> Shell => COMExtensions.CreateInstance<IShellDispatch>(CLSIDs.CLSID_Shell, IIDs.IID_IShellDispatch);
     }
 }
