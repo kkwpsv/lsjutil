@@ -59,5 +59,33 @@ namespace Lsj.Util.Win32.Extensions.COM
                 throw Marshal.GetExceptionForHR(result)!;
             }
         }
+
+        /// <summary>
+        /// As <see cref="Lsj.Util.Win32.ComInterfaces.IUnknown.QueryInterface"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public static P<IUnknown> AsIUnknown<T>(this P<T> from) where T : struct => from.AsP<IUnknown>();
+
+        /// <summary>
+        /// To Interface with <see cref="Lsj.Util.Win32.ComInterfaces.IUnknown.QueryInterface"/>
+        /// </summary>
+        /// <typeparam name="TTo"></typeparam>
+        /// <param name="iUnknown"></param>
+        /// <param name="toIID"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static P<TTo> ToInterface<TTo>(this P<IUnknown> iUnknown, IID toIID) where TTo : struct
+        {
+            if (iUnknown.Value.QueryInterface(toIID, out var ppvObject))
+            {
+                return (P<TTo>)ppvObject;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
