@@ -10,7 +10,7 @@ if (-Not (Test-Path $msbuildPath)) {
 }
 
 $bytes = [Convert]::FromBase64String([IO.File]::ReadAllText($env:SnkFile))
-[IO.File]::WriteAllBytes("Src\LSJ.snk", $bytes)
+[IO.File]::WriteAllBytes([IO.Path]::Combine((Get-Location), "Src\LSJ.snk"), $bytes)
 
 Set-Location Src\Lsj.Util\
 dotnet pack -c Release --include-source
