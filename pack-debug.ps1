@@ -13,7 +13,7 @@ $commitCount = git rev-list HEAD --count
 
 $env:VersionSuffix = "debug" + $commitCount
 
-$bytes = [Convert]::FromBase64String($env:SnkFile)
+$bytes = [Convert]::FromBase64String([IO.File]::ReadAllBytes($env:SnkFile))
 [IO.File]::WriteAllBytes("Src\LSJ.snk", $bytes)
 
 Set-Location Src\Lsj.Util\
