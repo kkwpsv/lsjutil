@@ -243,6 +243,26 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IShellDispatch2 = "A4C6892C-3BA9-11d2-9DEA-00C04FB16162";
 
         /// <summary>
+        /// IID_IShellDispatch3
+        /// </summary>
+        public static readonly IID IID_IShellDispatch3 = "177160ca-bb5a-411c-841d-bd38facdeaa0";
+
+        /// <summary>
+        /// IID_IShellDispatch4
+        /// </summary>
+        public static readonly IID IID_IShellDispatch4 = "efd84b2d-4bcf-4298-be25-eb542a59fbda";
+
+        /// <summary>
+        /// IID_IShellDispatch5
+        /// </summary>
+        public static readonly IID IID_IShellDispatch5 = "866738b9-6cf2-4de8-8767-f794ebe74f4e";
+
+        /// <summary>
+        /// IID_IShellDispatch6
+        /// </summary>
+        public static readonly IID IID_IShellDispatch6 = "286e6f1b-7113-4355-9562-96b7e9d64c54";
+
+        /// <summary>
         /// IID_IShellFolder
         /// </summary>
         public static readonly IID IID_IShellFolder = "000214E6-0000-0000-C000-000000000046";
