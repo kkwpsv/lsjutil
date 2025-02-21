@@ -13,8 +13,8 @@ $commitCount = git rev-list HEAD --count
 
 $env:VersionSuffix = "debug" + $commitCount
 
-b64 -d $env:SnkFile Src\LSJ.snk
-if (!$?) { Exit $LASTEXITCODE }
+$bytes = [Convert]::FromBase64String($env:SnkFile)
+[IO.File]::WriteAllBytes("Src\LSJ.snk", $bytes)
 
 Set-Location Src\Lsj.Util\
 dotnet pack -c Debug --include-source

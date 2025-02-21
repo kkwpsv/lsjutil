@@ -9,8 +9,8 @@ if (-Not (Test-Path $msbuildPath)) {
     }
 }
 
-b64 -d $env:SnkFile Src\LSJ.snk
-if (!$?) { Exit $LASTEXITCODE }
+$bytes = [Convert]::FromBase64String($env:SnkFile)
+[IO.File]::WriteAllBytes("Src\LSJ.snk", $bytes)
 
 Set-Location Src\Lsj.Util\
 dotnet pack -c Release --include-source
