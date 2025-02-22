@@ -16,8 +16,9 @@ namespace Lsj.Util.HtmlBuilder
         /// <param name="content"></param>
         public HtmlRawNode(string content)
         {
-            this.Content = content;
+            Content = content;
         }
+
         /// <summary>
         /// Content
         /// </summary>
@@ -26,6 +27,7 @@ namespace Lsj.Util.HtmlBuilder
             get;
             set;
         } = "";
+
         /// <summary>
         /// ToString
         /// </summary>

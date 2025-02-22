@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lsj.Util.HtmlBuilder.Body
+﻿namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
     /// Unknown Node
@@ -17,17 +12,19 @@ namespace Lsj.Util.HtmlBuilder.Body
         {
             get
             {
-                return name;
+                return _name;
             }
         }
-        string name = "unknown";
+
+        private string _name = "unknown";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.HtmlBuilder.Body.Unknown"/> class.
         /// </summary>
         /// <param name="type">Type.</param>
         public Unknown(string type)
         {
-            name = type;
+            _name = type;
         }
 
     }

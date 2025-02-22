@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.HtmlBuilder.Body;
+﻿using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.HtmlBuilder.Header;
 using Lsj.Util.Logs;
 using Lsj.Util.Text;
-
-
-
+using System;
 
 namespace Lsj.Util.HtmlBuilder
 {
@@ -237,13 +231,32 @@ namespace Lsj.Util.HtmlBuilder
                     return new P();
                 case "a":
                     return new A();
+                case "b":
+                    return new B();
+                case "strong":
+                    return new Strong();
                 case "img":
                     return new Img();
                 case "input":
                     return new Input();
                 case "label":
                     return new Label();
-
+                case "span":
+                    return new Span();
+                case "table":
+                    return new Table();
+                case "tbody":
+                    return new TBody();
+                case "tr":
+                    return new Tr();
+                case "th":
+                    return new Th();
+                case "td":
+                    return new Td();
+                case "dl":
+                    return new Dl();
+                case "dt":
+                    return new Dt();
 
                 default:
                     LogProvider.Default.Warn("Unknown type: " + type);
