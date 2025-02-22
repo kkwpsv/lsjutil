@@ -1,17 +1,18 @@
 ﻿namespace Lsj.Util.CsBuilder
 {
     /// <summary>
-    /// Statemetn
+    /// Statement
     /// </summary>
     public abstract class Statement
     {
-        internal static char BLANK = ' ';
+        /// <inheritdoc/>
+        public override string ToString() => ToString(0);
 
         /// <summary>
-        /// Convert To String
+        /// ToString
         /// </summary>
-        /// <param name="i">Count of blank</param>
+        /// <param name="level"></param>
         /// <returns></returns>
-        public abstract string ToString(int i);
+        public abstract string ToString(int level);
     }
 }

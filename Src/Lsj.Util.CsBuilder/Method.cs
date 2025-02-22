@@ -1,5 +1,4 @@
-﻿using Lsj.Util.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Lsj.Util.CsBuilder
@@ -37,54 +36,46 @@ namespace Lsj.Util.CsBuilder
         }
 
         /// <summary>
-        /// Param
+        /// Param (name -> type)
         /// </summary>
-        public SafeDictionary<string, string> Params
-        {
-            get;
-            set;
-        } = new SafeDictionary<string, string>();
+        public List<(string type, string name)> Params { get; } = new List<(string type, string name)>();
 
         /// <summary>
         /// Statements
         /// </summary>
-        public List<Statement> Statements
-        {
-            get;
-            set;
-        } = new List<Statement>();
+        public List<Statement> Statements { get; } = new List<Statement>();
 
-        /// <summary>
-        /// Convert To String
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => ToString(0);
-
-        /// <summary>
-        /// Convert To String
-        /// </summary>
-        /// <param name="i">Count of blank</param>
-        /// <returns></returns>
-        public override string ToString(int i)
+        /// <inheritdoc/>
+        public override string ToString(int level)
         {
             var sb = new StringBuilder();
-            sb.Append(NULL, i * 4);
+
+            sb.Append(' ', level * 4);
             sb.Append($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType} {Name} (");
+            var i = 0;
             foreach (var param in Params)
             {
-                sb.Append($@"{param.Value} {param.Key} ");
+                i++;
+                if (i != Params.Count)
+                {
+                    sb.Append($"{param.type} {param.name}, ");
+                }
+                else
+                {
+                    sb.Append($"{param.type} {param.name}");
+                }
             }
-            sb.Remove(sb.Length - 1, 1);
             sb.AppendLine(")");
-            sb.Append(NULL, i * 4);
+
+            sb.Append(' ', i * 4);
             sb.AppendLine("{");
 
             foreach (var statement in Statements)
             {
-                sb.Append(statement.ToString(i + 1));
+                sb.AppendLine(statement.ToString(i + 1));
             }
 
-            sb.Append(NULL, i * 4);
+            sb.Append(' ', i * 4);
             sb.AppendLine("}");
 
             return sb.ToString();
