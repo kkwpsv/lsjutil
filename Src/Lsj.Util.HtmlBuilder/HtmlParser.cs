@@ -233,6 +233,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new A();
                 case "b":
                     return new B();
+                case "i":
+                    return new I();
                 case "strong":
                     return new Strong();
                 case "img":
@@ -257,6 +259,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Dl();
                 case "dt":
                     return new Dt();
+                case "br":
+                    return new Br();
 
                 default:
                     LogProvider.Default.Warn("Unknown type: " + type);
