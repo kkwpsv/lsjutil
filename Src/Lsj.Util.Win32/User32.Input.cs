@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.RIDEV;
 
 namespace Lsj.Util.Win32
 {
@@ -390,6 +391,87 @@ namespace Lsj.Util.Win32
         public static extern SHORT GetKeyState([In] int nVirtKey);
 
         /// <summary>
+        /// Retrieves the raw input from the specified device.
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getrawinputdata"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hRawInput">
+        /// A handle to the <see cref="RAWINPUT"/> structure.
+        /// This comes from the lParam in <see cref="WM_INPUT"/>.
+        /// </param>
+        /// <param name="uiCommand">
+        /// <para>
+        /// The command flag.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RID_HEADER"/>
+        /// </para>
+        /// <para>
+        /// 0x10000005
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Get the header information from the <see cref="RAWINPUT"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RID_INPUT"/>
+        /// </para>
+        /// <para>
+        /// 0x10000003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Get the raw data from the <see cref="RAWINPUT"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </param>
+        /// <param name="pData">
+        /// A pointer to the data that comes from the <see cref="RAWINPUT"/> structure.
+        /// This depends on the value of <paramref name="uiCommand"/>.
+        /// If <paramref name="pData"/> is <see cref="NULL"/>, the required size of the buffer is returned in <paramref name="pcbSize"/>.
+        /// </param>
+        /// <param name="pcbSize">
+        /// The size, in bytes, of the data in <paramref name="pData"/>.
+        /// </param>
+        /// <param name="cbSizeHeader">
+        /// The size, in bytes, of the <see cref="RAWINPUTHEADER"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If <paramref name="pData"/> is <see cref="NULL"/> and the function is successful, the return value is 0.
+        /// If <paramref name="pData"/> is not <see cref="NULL"/> and the function is successful,
+        /// the return value is the number of bytes copied into <paramref name="pData"/>.
+        /// </para>
+        /// <para>
+        /// If there is an error, the return value is <code>(UINT)-1</code>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetRawInputData"/> gets the raw input one <see cref="RAWINPUT"/> structure at a time.
+        /// In contrast, <see cref="GetRawInputBuffer"/> gets an array of <see cref="RAWINPUT"/> structures.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputData", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetRawInputData([In] HRAWINPUT hRawInput, [In] UINT uiCommand, [In] LPVOID pData,
+            [In][Out] ref UINT pcbSize, [In] UINT cbSizeHeader);
+
+        /// <summary>
         /// <para>
         /// Retrieves the feedback configuration for a window.
         /// </para>
@@ -611,6 +693,54 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD OemKeyScan([In] WORD wOemChar);
+
+        /// <summary>
+        /// <para>
+        /// Registers the devices that supply the raw input data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerrawinputdevices"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pRawInputDevices">
+        /// An array of <see cref="RAWINPUTDEVICE"/> structures that represent the devices that supply the raw input.
+        /// </param>
+        /// <param name="uiNumDevices">
+        /// The number of <see cref="RAWINPUTDEVICE"/> structures pointed to by <paramref name="pRawInputDevices"/>.
+        /// </param>
+        /// <param name="cbSize">
+        /// The size, in bytes, of a <see cref="RAWINPUTDEVICE"/> structure.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
+        /// If the function fails, call <see cref="GetLastError"/> for more information.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To receive <see cref="WM_INPUT"/> messages,
+        /// an application must first register the raw input devices using <see cref="RegisterRawInputDevices"/>.
+        /// By default, an application does not receive raw input.
+        /// </para>
+        /// <para>
+        /// To receive <see cref="WM_INPUT_DEVICE_CHANGE"/> messages,
+        /// an application must specify the <see cref="RIDEV_DEVNOTIFY"/> flag for each device class
+        /// that is specified by the <see cref="RAWINPUTDEVICE.usUsagePage"/> and
+        /// <see cref="RAWINPUTDEVICE.usUsage"/> fields of the <see cref="RAWINPUTDEVICE"/> structure.
+        /// By default, an application does not receive <see cref="WM_INPUT_DEVICE_CHANGE"/> notifications for raw input device arrival and removal.
+        /// </para>
+        /// <para>
+        /// If a <see cref="RAWINPUTDEVICE"/> structure has the <see cref="RIDEV_REMOVE"/> flag set
+        /// and the <see cref="RAWINPUTDEVICE.hwndTarget"/> parameter is not set to <see cref="NULL"/>, then parameter validation will fail.
+        /// </para>
+        /// <para>
+        /// Only one window per raw input device class may be registered to receive raw input within a process
+        /// (the window passed in the last call to <see cref="RegisterRawInputDevices"/>).
+        /// Because of this, <see cref="RegisterRawInputDevices"/> should not be used from a library,
+        /// as it may interfere with any raw input processing logic already present in applications that load it.
+        /// </para>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterRawInputDevices", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterRawInputDevices([In] RAWINPUTDEVICE[] pRawInputDevices, [In] UINT uiNumDevices, [In] UINT cbSize);
 
         /// <summary>
         /// <para>
