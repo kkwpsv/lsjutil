@@ -25,10 +25,10 @@ namespace Lsj.Util.Win32.Structs
         public int abcA;
 
         /// <summary>
-        /// The B spacing of the character. The B spacing is the width of the drawn portion of the character glyph.
+        /// The B spacing of the character.
+        /// The B spacing is the width of the drawn portion of the character glyph.
         /// </summary>
         public UINT abcB;
-
 
         /// <summary>
         /// The C spacing of the character.

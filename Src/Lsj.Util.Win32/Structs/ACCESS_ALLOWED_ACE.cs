@@ -16,18 +16,26 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// ACE structures must be aligned on DWORD boundaries.
-    /// All Windows memory-management functions return DWORD-aligned handles to memory.
+    /// <para>
+    /// ACE structures must be aligned on <see cref="DWORD"/> boundaries.
+    /// All Windows memory-management functions return <see cref="DWORD"/>-aligned handles to memory.
+    /// </para>
+    /// <para>
     /// The access rights specified by the <see cref="Mask"/> member are granted to any trustee
     /// that possesses an enabled SID that matches the SID stored in the <see cref="SidStart"/> member.
+    /// </para>
+    /// <para>
     /// An <see cref="ACCESS_ALLOWED_ACE"/> structure can be created in an access control list (ACL)
     /// by a call to the <see cref="AddAccessAllowedAce"/> or <see cref="AddAccessAllowedAceEx"/> function.
     /// When these functions are used, the correct amount of memory needed to accommodate the trustee's SID is allocated
-    /// and the values of the <code>Header.AceType</code> and <code>Header.AceSize</code> members are set automatically.
-    /// If the <see cref="AddAccessAllowedAceEx"/> function is used, the <code>Header.AceFlags</code> member is also set.
+    /// and the values of the <see cref="ACE_HEADER.AceType"/> and <see cref="ACE_HEADER.AceSize"/> members are set automatically.
+    /// If the <see cref="AddAccessAllowedAceEx"/> function is used, the <see cref="ACE_HEADER.AceFlags"/> member is also set.
     /// When an <see cref="ACCESS_ALLOWED_ACE"/> structure is created outside an ACL,
-    /// sufficient memory must be allocated to accommodate the complete SID of the trustee in the <see cref="SidStart"/> member and the contiguous memory following it,
-    /// and the values of the <code>Header.AceType</code>, <code>Header.AceFlags</code>, and <code>Header.AceSize</code> members must be set explicitly by the application.
+    /// sufficient memory must be allocated to accommodate the complete SID of the trustee
+    /// in the <see cref="SidStart"/> member and the contiguous memory following it,
+    /// and the values of the <see cref="ACE_HEADER.AceType"/>, <see cref="ACE_HEADER.AceFlags"/>,
+    /// and <see cref="ACE_HEADER.AceSize"/> members must be set explicitly by the application.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ACCESS_ALLOWED_ACE

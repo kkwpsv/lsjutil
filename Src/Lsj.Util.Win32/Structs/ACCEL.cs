@@ -18,13 +18,94 @@ namespace Lsj.Util.Win32.Structs
     public struct ACCEL
     {
         /// <summary>
-        /// The accelerator behavior. This member can be one or more of the following values.
-        /// <see cref="FALT"/>, <see cref="FCONTROL"/>, <see cref="FNOINVERT"/>, <see cref="FSHIFT"/>, <see cref="FVIRTKEY"/>
+        /// <para>
+        /// The accelerator behavior.
+        /// This member can be one or more of the following values.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FALT"/>
+        /// </para>
+        /// <para>
+        /// 0x10
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The ALT key must be held down when the accelerator key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FCONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x08
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The CTRL key must be held down when the accelerator key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FNOINVERT"/>
+        /// </para>
+        /// <para>
+        /// 0x02
+        /// </para>
+        /// </term>
+        /// <term>
+        /// No top-level menu item is highlighted when the accelerator is used.
+        /// If this flag is not specified, a top-level menu item will be highlighted, if possible, when the accelerator is used.
+        /// This attribute is obsolete and retained only for backward compatibility with resource files designed for 16-bit Windows.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FSHIFT"/>
+        /// </para>
+        /// <para>
+        /// 0x04
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SHIFT key must be held down when the accelerator key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FVIRTKEY"/>
+        /// </para>
+        /// <para>
+        /// TRUE
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <see cref="key"/> member specifies a virtual-key code.
+        /// If this flag is not specified, <see cref="key"/> is assumed to specify a character code.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </summary>
         public AcceleratorBehaviors fVirt;
 
         /// <summary>
-        /// The accelerator key. This member can be either a virtual-key code or a character code.
+        /// The accelerator key.
+        /// This member can be either a virtual-key code or a character code.
         /// </summary>
         public WORD key;
 

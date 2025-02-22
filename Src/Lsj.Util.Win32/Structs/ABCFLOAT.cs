@@ -12,9 +12,13 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The A, B, and C widths are measured along the base line of the font.
+    /// </para>
+    /// <para>
     /// The character increment (total width) of a character is the sum of the A, B, and C spaces.
     /// Either the A or the C space can be negative to indicate underhangs or overhangs.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ABCFLOAT

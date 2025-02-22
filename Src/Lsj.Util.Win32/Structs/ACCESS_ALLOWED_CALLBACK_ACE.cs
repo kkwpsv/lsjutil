@@ -9,10 +9,12 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// The <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure defines an access control entry (ACE)
     /// for the discretionary access control list (DACL) that controls access to an object.
-    /// An access-allowed ACE allows access to an object for a specific trustee identified by a security identifier (SID).
-    /// When the <see cref="AuthzAccessCheck"/> function is called,
-    /// each <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure contained in the DACL of a <see cref="SECURITY_DESCRIPTOR"/> structure
-    /// passed through a pointer to the <see cref="AuthzAccessCheck"/> function invokes a call to the application-defined <see cref="AuthzAccessCheckCallback"/> function,
+    /// An access-allowed ACE allows access to an object for a specific trustee identified by asecurity identifier (SID).
+    /// </para>
+    /// <para>
+    /// When the <see cref="AuthzAccessCheck"/> function is called, each <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure
+    /// contained in the DACL of a <see cref="SECURITY_DESCRIPTOR"/> structure passed through a pointer to the <see cref="AuthzAccessCheck"/> function
+    /// invokes a call to the application-defined <see cref="AuthzAccessCheckCallback"/> function,
     /// in which a pointer to the <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure found is passed in the pAce parameter.
     /// </para>
     /// <para>
@@ -20,11 +22,20 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// ACE structures must be aligned on DWORD boundaries. All Windows memory-management functions return DWORD-aligned handles to memory.
-    /// The access rights specified by the <see cref="Mask"/> member are granted to any trustee that possesses an enabled SID
-    /// that matches the SID stored in the <see cref="SidStart"/> member.
+    /// <para>
+    /// ACE structures must be aligned on <see cref="DWORD"/> boundaries.
+    /// All Windows memory-management functions return <see cref="DWORD"/>-aligned handles to memory.
+    /// </para>
+    /// <para>
+    /// The access rights specified by the <see cref="Mask"/> member are granted to any trustee
+    /// that possesses an enabled SID that matches the SID stored in the <see cref="SidStart"/> member.
+    /// </para>
+    /// <para>
     /// When an <see cref="ACCESS_ALLOWED_CALLBACK_ACE"/> structure is created,
-    /// sufficient memory must be allocated to accommodate the complete SID of the trustee in the <see cref="SidStart"/> member and the contiguous memory that follows it.
+    /// sufficient memory must be allocated to accommodate the complete SID of the trustee
+    /// in the <see cref="SidStart"/> member and the contiguous memory that follows it.
+    /// </para>
+
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ACCESS_ALLOWED_CALLBACK_ACE

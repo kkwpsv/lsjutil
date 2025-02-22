@@ -16,27 +16,37 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// ACE structures must be aligned on DWORD boundaries.
-    /// All Windows memory-management functions return DWORD-aligned handles to memory.
-    /// The access rights specified by the <see cref="Mask"/> member are granted to any trustee
+    /// <para>
+    /// ACE structures must be aligned on <see cref="DWORD"/> boundaries.
+    /// All Windows memory-management functions return <see cref="DWORD"/>-aligned handles to memory.
+    /// </para>
+    /// <para>
+    /// The access rights specified by the <see cref="Mask"/> member are denied to any trustee
     /// that possesses an enabled SID that matches the SID stored in the <see cref="SidStart"/> member.
+    /// </para>
+    /// <para>
     /// An <see cref="ACCESS_DENIED_ACE"/> structure can be created in an access control list (ACL)
     /// by a call to the <see cref="AddAccessDeniedAce"/> or <see cref="AddAccessDeniedAceEx"/> function.
-    /// When these functions are used, the correct amount of memory needed to accommodate the trustee's SID is allocated
-    /// and the values of the <code>Header.AceType</code> and <code>Header.AceSize</code> members are set automatically.
-    /// If the <see cref="AddAccessDeniedAceEx"/> function is used, the <code>Header.AceFlags</code> member is also set.
+    /// When these functions are used, the correct amount of memory needed to accommodate the trustee's SID
+    /// is allocated and the values of the <see cref="ACE_HEADER.AceType"/> and <see cref="ACE_HEADER.AceSize"/> members are set automatically.
+    /// If the <see cref="AddAccessDeniedAceEx"/> function is used, the <see cref="ACE_HEADER.AceFlags"/> member is also set.
     /// When an <see cref="ACCESS_DENIED_ACE"/> structure is created outside an ACL,
-    /// sufficient memory must be allocated to accommodate the complete SID of the trustee in the <see cref="SidStart"/> member and the contiguous memory following it,
-    /// and the values of the <code>Header.AceType</code>, <code>Header.AceFlags</code>, and <code>Header.AceSize</code> members must be set explicitly by the application.
+    /// sufficient memory must be allocated to accommodate the complete SID of the trustee
+    /// in the <see cref="SidStart"/> member and the contiguous memory following it,
+    /// and the values of the <see cref="ACE_HEADER.AceType"/>, <see cref="ACE_HEADER.AceFlags"/>,
+    /// and <see cref="ACE_HEADER.AceSize"/> members must be set explicitly by the application.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ACCESS_DENIED_ACE
     {
         /// <summary>
-        /// <see cref="ACE_HEADER"/> structure that specifies the size and type of ACE.
+        /// An <see cref="ACE_HEADER"/> structure that specifies the size and type of ACE.
         /// It also contains flags that control inheritance of the ACE by child objects.
-        /// The <see cref="ACE_HEADER.AceType"/> member of the <see cref="ACE_HEADER"/> structure should be set to <see cref="ACCESS_DENIED_ACE_TYPE"/>,
-        /// and the <see cref="ACE_HEADER.AceSize"/> member should be set to the total number of bytes allocated for the <see cref="ACCESS_DENIED_ACE"/> structure.
+        /// The <see cref="ACE_HEADER.AceType"/> member of the <see cref="ACE_HEADER"/> structure
+        /// should be set to <see cref="ACCESS_DENIED_ACE_TYPE"/>,
+        /// and the <see cref="ACE_HEADER.AceSize"/> member should be set to the total number
+        /// of bytes allocated for the <see cref="ACCESS_DENIED_ACE"/> structure.
         /// </summary>
         public ACE_HEADER Header;
 
@@ -46,7 +56,7 @@ namespace Lsj.Util.Win32.Structs
         public ACCESS_MASK Mask;
 
         /// <summary>
-        /// The first DWORD of a trustee's SID.
+        /// /// The first <see cref="DWORD"/> of a trustee's SID.
         /// The remaining bytes of the SID are stored in contiguous memory after the <see cref="SidStart"/> member.
         /// This SID can be appended with application data.
         /// </summary>
