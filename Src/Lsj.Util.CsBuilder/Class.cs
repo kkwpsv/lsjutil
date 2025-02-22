@@ -10,5 +10,16 @@ namespace Lsj.Util.CsBuilder
     {
         /// <inheritdoc/>
         protected override string Keyword => "class";
+
+        /// <summary>
+        /// Members
+        /// </summary>
+        public List<ClassMember> Members
+        {
+            get;
+        } = new List<ClassMember>();
+
+        /// <inheritdoc/>
+        protected override IEnumerable<Statement> Children => Members;
     }
 }

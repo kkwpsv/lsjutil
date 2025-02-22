@@ -27,6 +27,11 @@ namespace Lsj.Util.CsBuilder
         protected abstract string Keyword { get; }
 
         /// <summary>
+        /// Children
+        /// </summary>
+        protected abstract IEnumerable<Statement> Children { get; }
+
+        /// <summary>
         /// Name
         /// </summary>
         public string Name
@@ -34,14 +39,6 @@ namespace Lsj.Util.CsBuilder
             get;
             set;
         }
-
-        /// <summary>
-        /// Members
-        /// </summary>
-        public List<ClassMember> Members
-        {
-            get;
-        } = new List<ClassMember>();
 
         /// <summary>
         /// Attributes
@@ -67,9 +64,9 @@ namespace Lsj.Util.CsBuilder
             sb.AppendLine("{");
 
             level++;
-            foreach (var member in Members)
+            foreach (var child in Children)
             {
-                sb.Append(member.ToString(level));
+                sb.AppendLine(child.ToString(level));
             }
             level--;
 
