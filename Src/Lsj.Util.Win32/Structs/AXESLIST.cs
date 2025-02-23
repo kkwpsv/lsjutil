@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The PostScript Open Type Font does not support multiple master functionality.
+    /// </para>
+    /// <para>
     /// The information on the axes of a multiple master font are specified by the <see cref="AXISINFO"/> structures.
-    /// The <see cref="axlNumAxes"/> member specifies the actual size of <see cref="axlAxisInfo"/>,
-    /// while <see cref="MM_MAX_NUMAXES"/>, which equals 16, is the maximum allowed size of <see cref="axlAxisInfo"/>.
+    /// The <see cref="axlNumAxes"/> member specifies the actual size of <see cref="axlAxisInfo"/>, while <see cref="MM_MAX_NUMAXES"/>,
+    /// which equals 16, is the maximum allowed size of <see cref="axlAxisInfo"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct AXESLIST

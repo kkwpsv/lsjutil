@@ -42,28 +42,100 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr GrantedAccessMask;
 
         /// <summary>
+        ///<para>
         /// An array of system access control list (SACL) evaluation results.
         /// Memory for this array is allocated by the application before calling <see cref="AccessCheck"/>.
-        /// SACL evaluation will only be performed if auditing is requested. 
+        /// SACL evaluation will only be performed if auditing is requested.
         /// Each element of this member can be one of the following values.
-        /// <see cref="AUTHZ_GENERATE_SUCCESS_AUDIT"/>: An audit message that indicates success was generated.
-        /// <see cref="AUTHZ_GENERATE_FAILURE_AUDIT"/>: An audit message that indicates failure was generated.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="AUTHZ_GENERATE_SUCCESS_AUDIT"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An audit message that indicates success was generated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="AUTHZ_GENERATE_FAILURE_AUDIT"/>
+        /// </para>
+        /// <para>
+        /// 0x2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An audit message that indicates failure was generated.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public IntPtr SaclEvaluationResults;
 
         /// <summary>
-        /// An array of results for each element of the array.
-        /// Memory for this array is allocated by the application before calling <see cref="AccessCheck"/>.
+        /// <para>
+        /// An array of results for each element of the array. Memory for this array is allocated by the application before calling <see cref="AccessCheck"/>.
+        /// </para>
+        /// <para>
         /// The following table lists the possible error values.
-        /// <see cref="ERROR_SUCCESS"/>:
-        /// All the access bits, not including <see cref="MAXIMUM_ALLOWED"/>, are granted and the <see cref="GrantedAccessMask"/> member is not zero.
-        /// <see cref="ERROR_PRIVILEGE_NOT_HELD"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// <term>
+        /// All the access bits, not including <see cref="MAXIMUM_ALLOWED"/>,
+        /// are granted and the <see cref="GrantedAccessMask"/> member is not zero.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PRIVILEGE_NOT_HELD"/>
+        /// </term>
+        /// <term>
         /// DesiredAccess includes <see cref="ACCESS_SYSTEM_SECURITY"/> and the client does not have SeSecurityPrivilege.
-        /// <see cref="ERROR_ACCESS_DENIED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Includes each of the following:
-        /// The requested bits are not granted.
-        /// MaximumAllowed bit is on and granted access is zero.
-        /// DesiredAccess is zero.
+        /// </para>
+        /// <list type="bullet">
+        /// <item><description>The requested bits are not granted.</description></item>
+        /// <item><description>MaximumAllowed bit is on and granted access is zero.</description></item>
+        /// <item><description>DesiredAccess is zero.</description></item>
+        /// </list>
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public IntPtr Error;
     }

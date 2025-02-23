@@ -1,10 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -34,10 +30,18 @@ namespace Lsj.Util.Win32.Structs
         public USHORT version;
 
         /// <summary>
+        /// <para>
         /// Null-terminated string representation of the resource manager UUID.
         /// Only the following values are valid.
-        /// Use “5fc860e0-6f6e-4fc2-83cd-46324f25e90b” for remote effective access evaluation that ignores central policy.
-        /// Use “9a81c2bd-a525-471d-a4ed-49907c0b23da” for remote effective access evaluation that takes central policy into account.
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>Use “5fc860e0-6f6e-4fc2-83cd-46324f25e90b” for remote effective access evaluation that ignores central policy.</description>
+        /// </item>
+        /// <item>
+        /// <description>Use “9a81c2bd-a525-471d-a4ed-49907c0b23da” for remote effective access evaluation that takes central policy into account.</description>
+        /// </item>
+        /// </list>
         /// </summary>
         public IntPtr ObjectUuid;
 

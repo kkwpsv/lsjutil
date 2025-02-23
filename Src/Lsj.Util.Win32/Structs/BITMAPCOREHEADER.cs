@@ -15,11 +15,16 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="BITMAPCOREINFO"/> structure combines the <see cref="BITMAPCOREHEADER"/> structure and a color table
-    /// to provide a complete definition of the dimensions and colors of a DIB.
+    /// <para>
+    /// The <see cref="BITMAPCOREINFO"/> structure combines the <see cref="BITMAPCOREHEADER"/> structure
+    /// and a color table to provide a complete definition of the dimensions and colors of a DIB.
     /// For more information about specifying a DIB, see <see cref="BITMAPCOREINFO"/>.
+    /// </para>
+    /// <para>
     /// An application should use the information stored in the <see cref="bcSize"/> member
-    /// to locate the color table in a <see cref="BITMAPCOREINFO"/> structure, using a method such as the following:
+    /// to locate the color table in a <see cref="BITMAPCOREINFO"/> structure,
+    /// using a method such as the following:
+    /// </para>
     /// <code>
     /// pColor = ((LPBYTE) pBitmapCoreInfo + (WORD) (pBitmapCoreInfo -&gt; bcSize)) 
     /// </code>

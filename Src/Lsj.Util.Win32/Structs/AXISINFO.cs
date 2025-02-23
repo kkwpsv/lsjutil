@@ -14,12 +14,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="AXISINFO"/> structure contains the name of an axis in a multiple master font
-    /// and also the minimum and maximum possible values for the axis.
+    /// <para>
+    /// The <see cref="AXISINFO"/> structure contains the name of an axis in a multiple master font and also the minimum and maximum possible values for the axis.
     /// The length of the name is <see cref="MM_MAX_AXES_NAMELEN"/>, which equals 16.
     /// An application queries these values before setting its desired values in the <see cref="DESIGNVECTOR"/> array.
+    /// </para>
+    /// <para>
     /// The PostScript Open Type Font does not support multiple master functionality.
+    /// </para>
+    /// <para>
     /// For the ANSI version of this structure, <see cref="axAxisName"/> must be an array of bytes.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct AXISINFO

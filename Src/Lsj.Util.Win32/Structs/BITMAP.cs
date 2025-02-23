@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The bitmap formats currently used are monochrome and color.
     /// The monochrome bitmap uses a one-bit, one-plane format.
     /// Each scan is a multiple of 16 bits.
+    /// </para>
+    /// <para>
     /// Scans are organized as follows for a monochrome bitmap of height n:
+    /// </para>
     /// <code>
     /// Scan 0 
     /// Scan 1 
@@ -27,12 +31,19 @@ namespace Lsj.Util.Win32.Structs
     /// Scan n-2 
     /// Scan n-1 
     /// </code>
+    /// <para>
     /// The pixels on a monochrome device are either black or white.
     /// If the corresponding bit in the bitmap is 1, the pixel is set to the foreground color;
     /// if the corresponding bit in the bitmap is zero, the pixel is set to the background color.
-    /// All devices that have the <see cref="RC_BITBLT"/> device capability support bitmaps. For more information, see <see cref="GetDeviceCaps"/>.
+    /// </para>
+    /// <para>
+    /// All devices that have the <see cref="RC_BITBLT"/> device capability support bitmaps.
+    /// For more information, see <see cref="GetDeviceCaps"/>.
+    /// </para>
+    /// <para>
     /// Each device has a unique color format.
     /// To transfer a bitmap from one device to another, use the <see cref="GetDIBits"/> and <see cref="SetDIBits"/> functions.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BITMAP
