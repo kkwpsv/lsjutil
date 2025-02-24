@@ -261,6 +261,10 @@ namespace Lsj.Util.HtmlBuilder
                     return new Dt();
                 case "br":
                     return new Br();
+                case "ul":
+                    return new Ul();
+                case "li":
+                    return new Li();
 
                 default:
                     LogProvider.Default.Warn("Unknown type: " + type);
