@@ -249,6 +249,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Table();
                 case "tbody":
                     return new TBody();
+                case "thead":
+                    return new THead();
                 case "tr":
                     return new Tr();
                 case "th":
