@@ -6,14 +6,21 @@ namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// <para>
-    /// CSIDL (constant special item ID list) values provide a unique system-independent way
-    /// to identify special folders used frequently by applications, but which may not have the same name or location on any given system.
+    /// CSIDL (constant special item ID list) values provide a unique system-independent way to identify special folders used frequently by applications,
+    /// but which may not have the same name or location on any given system.
     /// For example, the system folder may be "C:\Windows" on one system and "C:\Winnt" on another.
     /// These constants are defined in Shlobj.h.
-    /// As of Windows Vista, these values have been replaced by <see cref="KNOWNFOLDERID"/> values.
-    /// See that topic for a list of the new constants and their corresponding <see cref="CSIDL"/> values.
-    /// For convenience, corresponding <see cref="KNOWNFOLDERID"/> values are also noted here for each <see cref="CSIDL"/> value.
-    /// The <see cref="CSIDL"/> system is supported under Windows Vista for compatibility reasons.
+    /// </para>
+    /// /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// As of Windows Vista, these values have been replaced by <see cref="KNOWNFOLDERID"/> values.
+    /// See that topic for a list of the new constants and their corresponding CSIDL values.
+    /// For convenience, corresponding <see cref="KNOWNFOLDERID"/> values are also noted here for each CSIDL value.
+    /// </para>
+    /// <para>
+    /// The CSIDL system is supported under Windows Vista for compatibility reasons.
     /// However, new development should use <see cref="KNOWNFOLDERID"/> values rather than <see cref="CSIDL"/> values.
     /// </para>
     /// <para>
@@ -21,17 +28,23 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     /// <remarks>
-    /// These values supersede the use of environment variables for this purpose. 
-    /// They are in turn superseded in Windows Vista and later by the <see cref="KNOWNFOLDERID"/> values.
-    /// A <see cref="CSIDL"/> is used in conjunction with one of four Shell functions, <see cref="SHGetFolderLocation"/>,
-    /// <see cref="SHGetFolderPath"/>, <see cref="SHGetSpecialFolderLocation"/>, and <see cref="SHGetSpecialFolderPath"/>,
+    /// <para>
+    /// These values supersede the use of environment variables for this purpose.
+    /// They are in turn superseded in Windows Vista and later by the <see cref="KNOWNFOLDERID"/> values.
+    /// </para>
+    /// <para>
+    /// A CSIDL is used in conjunction with one of four Shell functions, <see cref="SHGetFolderLocation"/>, <see cref="SHGetFolderPath"/>,
+    /// <see cref="SHGetSpecialFolderLocation"/>, and <see cref="SHGetSpecialFolderPath"/>,
     /// to retrieve a special folder's path or pointer to an item identifier list (PIDL).
+    /// </para>
+    /// <para>
     /// Combine <see cref="CSIDL_FLAG_CREATE"/> with any of the other CSIDLs,
     /// except for <see cref="CSIDL_FLAG_DONT_VERIFY"/>, to force the creation of the associated folder.
     /// The remaining CSIDLs correspond to either file system folders or virtual folders.
-    /// Where the CSIDL identifies a file system folder, a commonly used path is given as an example. Other paths may be used.
-    /// Some CSIDLs can be mapped to an equivalent %VariableName% environment variable.
+    /// Where the CSIDL identifies a file system folder, a commonly used path is given as an example.
+    /// Other paths may be used. Some CSIDLs can be mapped to an equivalent <code>%VariableName%</code> environment variable.
     /// CSIDLs are more reliable, however, and should be used if possible.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct CSIDL

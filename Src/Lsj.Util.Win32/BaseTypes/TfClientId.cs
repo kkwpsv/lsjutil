@@ -12,13 +12,17 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Within TSF, applications and text services are generally referred to as clients.
     /// Each client receives a unique identifier that it uses to identify itself when calling various TSF manager methods.
     /// This identifier is of the <see cref="TfClientId"/> type.
+    /// </para>
+    /// <para>
     /// The <see cref="TfClientId"/> data type is supplied by the TSF manager.
     /// An application obtains a <see cref="TfClientId"/> value when it calls <see cref="ITfThreadMgr.Activate"/>.
-    /// The <see cref="TfClientId"/> value for a text service is passed to the <see cref="ITfTextInputProcessor.Activate"/> method.
+    /// The TfClientId value for a text service is passed to the <see cref="ITfTextInputProcessor.Activate"/> method.
     /// Any object that does not fit the above categories can obtain a client identifier by calling <see cref="ITfClientId.GetClientId"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct TfClientId

@@ -36,28 +36,64 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-3) };
 
         /// <summary>
-        /// Also known as Per Monitor v2.
-        /// An advancement over the original per-monitor DPI awareness mode, 
-        /// which enables applications to access new DPI-related scaling behaviors on a per top-level window basis.
-        /// Per Monitor v2 was made available in the Creators Update of Windows 10, and is not available on earlier versions of the operating system.
+        /// <para>
+        /// Also known as Per Monitor v2. An advancement over the original per-monitor DPI awareness mode, which enables applications to access new DPI-related scaling behaviors on a per top-level window basis.
+        /// </para>
+        /// <para>
+        /// Per Monitor v2 was made available in the Creators Update of Windows 10 (also known as version 1703), and is not available on earlier versions of the operating system.
+        /// </para>
+        /// <para>
         /// The additional behaviors introduced are as follows:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Child window DPI change notifications - In Per Monitor v2 contexts, the entire window tree is notified of any DPI changes that occur.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Scaling of non-client area - All windows will automatically have their non-client area drawn in a DPI sensitive fashion.
         /// Calls to <see cref="EnableNonClientDpiScaling"/> are unnecessary.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Scaling of Win32 menus - All NTUSER menus created in Per Monitor v2 contexts will be scaling in a per-monitor fashion.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Dialog Scaling - Win32 dialogs created in Per Monitor v2 contexts will automatically respond to DPI changes.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Improved scaling of comctl32 controls - Various comctl32 controls have improved DPI scaling behavior in Per Monitor v2 contexts.
-        /// Improved theming behavior - UxTheme handles opened in the context of a Per Monitor v2 window will operate
-        /// in terms of the DPI associated with that window.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Improved theming behavior - UxTheme handles opened in the context of a Per Monitor v2 window will operate in terms of the DPI associated with that window.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-4) };
 
         /// <summary>
+        /// <para>
         /// DPI unaware with improved quality of GDI-based content.
-        /// This mode behaves similarly to <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>, but also enables the system to
-        /// automatically improve the rendering quality of text and other GDI-based primitives when the window is displayed on a high-DPI monitor.
+        /// This mode behaves similarly to <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>,
+        /// but also enables the system to automatically improve the rendering quality of text and other GDI-based primitives
+        /// when the window is displayed on a high-DPI monitor.
+        /// </para>
+        /// <para>
         /// For more details, see Improving the high-DPI experience in GDI-based Desktop apps.
+        /// </para>
+        /// <para>
         /// <see cref="DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED"/> was introduced in the October 2018 update of Windows 10 (also known as version 1809).
+        /// </para>
         /// </summary>
         public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-5) };
 

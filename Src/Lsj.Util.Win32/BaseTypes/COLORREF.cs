@@ -12,14 +12,19 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     /// <remarks>
-    /// When specifying an explicit RGB color, the <see cref="COLORREF"/> value has the following hexadecimal form: 0x00bbggrr
-    /// The low-order byte contains a value for the relative intensity of red; the second byte contains a value for green;
-    /// and the third byte contains a value for blue.
-    /// The high-order byte must be zero.
-    /// The maximum value for a single byte is 0xFF.
+    /// <para>
+    /// When specifying an explicit <see cref="RGB"/> color, the <see cref="COLORREF"/> value has the following hexadecimal form: <code>0x00bbggrr</code>
+    /// </para>
+    /// <para>
+    /// The low-order byte contains a value for the relative intensity of red;
+    /// the second byte contains a value for green; and the third byte contains a value for blue.
+    /// The high-order byte must be zero. The maximum value for a single byte is 0xFF.
+    /// </para>
+    /// <para>
     /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
     /// To extract the individual values for the red, green, and blue components of a color value,
     /// use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros, respectively.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct COLORREF

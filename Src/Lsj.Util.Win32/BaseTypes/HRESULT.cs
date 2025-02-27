@@ -15,7 +15,6 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac"/>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/learnwin32/error-handling-in-com"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

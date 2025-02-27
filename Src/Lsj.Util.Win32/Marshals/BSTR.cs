@@ -6,7 +6,12 @@ using static Lsj.Util.Win32.Constants;
 namespace Lsj.Util.Win32.Marshals
 {
     /// <summary>
-    /// BSTR
+    /// <para>
+    /// A BSTR is a pointer to a null-terminated character string in which the string length is stored with the string.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/692a42a9-06ce-4394-b9bc-5d2a50440168"/>
+    /// </para>
     /// </summary>
     public class BSTR : CriticalHandle
     {

@@ -11,18 +11,49 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="SCODE"/> data type is the same as the <see cref="HRESULT"/> data type.
-    /// An SCODE value is divided into four fields:
+    /// </para>
+    /// <para>
+    /// An <see cref="SCODE"/> value is divided into four fields:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// A single-bit severity code which is set to 0 to indicate success and 1 to indicate failure.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// An 11-bit reserved field
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// A 4-bit facility code which indicates the area responsible for the error or warning.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// A 16-bit error or warning code which describes the problem that is causing the error or warning.
-    /// Many of the MAPI functions and methods return <see cref="SCODE"/> values defined as <see cref="HRESULT"/> data types as do the OLE methods and functions.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// Many of the MAPI functions and methods return <see cref="SCODE"/> values
+    /// defined as <see cref="HRESULT"/> data types as do the OLE methods and functions.
     /// OLE defines several macros that can be used to convert between an <see cref="SCODE"/> and an <see cref="HRESULT"/>.
+    /// </para>
+    /// <para>
     /// Note
-    /// In 64-bit MAPI, SCODE is still a 32-bit value.
+    /// </para>
+    /// <para>
+    /// In 64-bit MAPI, <see cref="SCODE"/> is still a 32-bit value.
+    /// </para>
+    /// <para>
     /// For more information about how MAPI uses the <see cref="SCODE"/> data type, see Error Handling.
-    /// For more information about OLE and the SCODE data type, see the OLE Programmer's Reference.
+    /// For more information about OLE and the <see cref="SCODE"/> data type, see the .
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct SCODE

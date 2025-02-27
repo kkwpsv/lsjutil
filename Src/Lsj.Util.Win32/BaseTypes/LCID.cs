@@ -1,9 +1,7 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.Kernel32;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Net.WebRequestMethods;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -82,14 +80,21 @@ namespace Lsj.Util.Win32.BaseTypes
         /// This value was provided so that partially specified locales could be completed with default values.
         /// Partially specified locales are now deprecated.
         /// </summary>
+        [Obsolete("Obsolete. Do not use. " +
+            "This value was provided so that partially specified locales could be completed with default values. " +
+            "Partially specified locales are now deprecated.")]
         public static readonly LCID LOCALE_IDEFAULTLANGUAGE = new LCID { _value = 0x00000009 };
 
         /// <summary>
+        /// <para>
         /// Language identifier with a hexadecimal value.
         /// For example, English (United States) has the value 0409, which indicates 0x0409 hexadecimal, and is equivalent to 1033 decimal.
         /// The maximum number of characters allowed for this string is five, including a terminating null character.
-        /// Windows Vista and later: Use of this constant can cause GetLocaleInfo to return an invalid locale identifier.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later: Use of this constant can cause <see cref="GetLocaleInfo"/> to return an invalid locale identifier.
         /// Your application should use the <see cref="LOCALE_SNAME"/> constant when calling this function.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_ILANGUAGE = new LCID { _value = 0x00000001 };
 
@@ -113,29 +118,53 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly LCID LOCALE_INVARIANT = new LCID { _value = 0x007f };
 
         /// <summary>
+        /// <para>
         /// An optional calendar type that is available for a locale.
         /// The calendar type can only represent an optional calendar that is available for the corresponding locale.
         /// To retrieve all optional calendars available for a locale, the application can use the following NLS functions:
-        /// <see cref="EnumCalendarInfo"/>, <see cref="EnumCalendarInfoEx"/>, <see cref="EnumCalendarInfoExEx"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="EnumCalendarInfo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="EnumCalendarInfoEx"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="EnumCalendarInfoExEx"/>
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public static readonly LCID LOCALE_IOPTIONALCALENDAR = new LCID { _value = 0x0000100B };
 
         /// <summary>
-        ///  Caution
-        ///  Since <see cref="LOCALE_NOUSEROVERRIDE"/> disables user preferences, its use is strongly discouraged.
-        ///  This constant does not guarantee data stability since custom locales, service updates,
-        ///  different operating system versions, and other scenarios can change data in unexpected ways
-        ///  For more information, see Using Persistent Locale Data.
-        ///  No user override.
-        ///  In several functions, for example, <see cref="GetLocaleInfo"/> and <see cref="GetLocaleInfoEx"/>,
-        ///  this constant causes the function to bypass any user override
-        ///  and use the system default value for any other constant specified in the function call.
-        ///  The information is retrieved from the locale database, even if the identifier indicates the current locale
-        ///  and the user has changed some of the values using the Control Panel,
-        ///  or if an application has changed these values by using <see cref="SetLocaleInfo"/>.
-        ///  If this constant is not specified, any values that the user has configured from the Control Panel
-        ///  or that an application has configured using <see cref="SetLocaleInfo"/> take precedence
-        ///  over the database settings for the current system default locale.
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Since <see cref="LOCALE_NOUSEROVERRIDE"/> disables user preferences, its use is strongly discouraged.
+        /// This constant does not guarantee data stability since custom locales, service updates,
+        /// different operating system versions, and other scenarios can change data in unexpected ways
+        /// For more information, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// No user override.
+        /// In several functions, for example, <see cref="GetLocaleInfo"/> and <see cref="GetLocaleInfoEx"/>,
+        /// this constant causes the function to bypass any user override
+        /// and use the system default value for any other constant specified in the function call.
+        /// The information is retrieved from the locale database, even if the identifier indicates the current locale
+        /// and the user has changed some of the values using the Control Panel,
+        /// or if an application has changed these values by using <see cref="SetLocaleInfo"/>.
+        /// If this constant is not specified, any values that the user has configured from the Control Panel
+        /// or that an application has configured using <see cref="SetLocaleInfo"/> take precedence
+        /// over the database settings for the current system default locale.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_NOUSEROVERRIDE = new LCID { _value = 0x80000000 };
 
@@ -163,8 +192,14 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly LCID LOCALE_RETURN_NUMBER = new LCID { _value = 0x20000000 };
 
         /// <summary>
-        /// Windows Vista and later: Preferred locale to use for console display.
+        /// <para>
+        /// Windows Vista and later: Preferred locale to use for console display.
         /// The maximum number of characters allowed for this string is 85, including a terminating null character.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// In general, applications should not make direct use of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> data.
         /// To determine what language resources to use in a console window,
         /// an application should call either <see cref="SetThreadUILanguage"/> or <see cref="SetThreadPreferredUILanguages"/>.
@@ -174,39 +209,50 @@ namespace Lsj.Util.Win32.BaseTypes
         /// For example, el-GR for Greek (Greece) is a valid console language,
         /// but if the current console code page is Latin-1 (code page 1252) the console displays Greek text
         /// mostly as a series of character-not-found symbols.
+        /// </para>
+        /// <para>
         /// If the language corresponding to this locale is supported in the console,
         /// the value is the same as that for <see cref="LOCALE_SNAME"/>, that is, the locale itself can be used for console display.
         /// However, the console cannot display languages that can be rendered only with Uniscribe.
         /// For example, the console cannot display Arabic or the various Indic languages.
-        /// Therefore, the <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> value for locales
-        /// corresponding to these languages is different from the value for <see cref="LOCALE_SNAME"/>.
-        /// For predefined locales, if the fallback value is different from the value for the locale itself,
-        /// the value for the neutral locale is used.
+        /// Therefore, the <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> value for locales corresponding to these languages is different from the value for <see cref="LOCALE_SNAME"/>.
+        /// </para>
+        /// <para>
+        /// For predefined locales, if the fallback value is different from the value for the locale itself, the value for the neutral locale is used.
         /// A specific locale is associated with both a language and a country/region,
         /// while a neutral locale is associated with a language but is not associated with any country/region.
         /// For example, ar-SA falls back to "en", not to "en-US".
-        /// This policy of using neutral locales is implemented consistently 
-        /// for predefined locales and is strongly recommended for custom locales.
+        /// This policy of using neutral locales is implemented consistently for predefined locales and is strongly recommended for custom locales.
         /// However, the policy is not enforced.
         /// For a custom locale, your application can use a specific locale instead of a neutral locale as a fallback.
-        /// Note
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
         /// None of the functions described in Calling the "Locale Name" Functions accept neutral locales as inputs.
         /// Thus <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> data is of very limited use.
         /// In particular, neither <see cref="GetLocaleInfo"/> nor <see cref="GetLocaleInfoEx"/> accepts neutral locales as inputs.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_SCONSOLEFALLBACKNAME = new LCID { _value = 0x0000006e };
 
         /// <summary>
+        /// <para>
         /// Character(s) for the date separator.
         /// The maximum number of characters allowed for this string is four, including a terminating null character.
+        /// </para>
+        /// <para>
         /// Windows Vista and later:
         /// This constant is deprecated. Use <see cref="LOCALE_SSHORTDATE"/> instead.
         /// A custom locale might not have a single, uniform separator character.
         /// For example, a format such as "12/31, 2006" is valid.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_SDATE = new LCID { _value = 0x0000001D };
 
         /// <summary>
+        /// <para>
         /// Long date formatting string for the locale.
         /// The maximum number of characters allowed for this string is 80, including a terminating null character.
         /// The string can consist of a combination of day, month, year, and era format pictures
@@ -214,8 +260,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Characters in single quotes remain as specified.
         /// For example, the Spanish (Spain) long date is "dddd, dd' de 'MMMM' de 'yyyy".
         /// Locales can define multiple long date formats.
+        /// </para>
+        /// <para>
         /// To get all of the long date formats for a locale,
         /// use <see cref="EnumDateFormats"/>, <see cref="EnumDateFormatsEx"/>, or <see cref="EnumDateFormatsExEx"/>.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_SLONGDATE = new LCID { _value = 0x00000020 };
 
@@ -230,13 +279,17 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly LCID LOCALE_SNAME = new LCID { _value = 0x0000005c };
 
         /// <summary>
+        /// <para>
         /// Short date formatting string for the locale.
         /// The maximum number of characters allowed for this string is 80, including a terminating null character.
         /// The string can consist of a combination of day, month, year, and era format pictures.
         /// For example, "M/d/yyyy" indicates that September 3, 2004 is written 9/3/2004.
+        /// </para>
+        /// <para>
         /// Locales can define multiple short date formats.
         /// To get all of the short date formats for this locale, use <see cref="EnumDateFormats"/>,
         /// <see cref="EnumDateFormatsEx"/>, or <see cref="EnumDateFormatsExEx"/>.
+        /// </para>
         /// </summary>
         public static readonly LCID LOCALE_SSHORTDATE = new LCID { _value = 0x0000001F };
 
@@ -259,6 +312,7 @@ namespace Lsj.Util.Win32.BaseTypes
 
         /// <summary>
         /// The default locale for the operating system.
+        ///  The value of this constant is 0x0800.
         /// </summary>
         public static readonly LCID LOCALE_SYSTEM_DEFAULT = new LCID { _value = 0x0800 };
 
