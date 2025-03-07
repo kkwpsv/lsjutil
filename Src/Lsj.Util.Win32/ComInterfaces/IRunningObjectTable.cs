@@ -22,6 +22,20 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/nn-objidl-irunningobjecttable"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The ROT contains entries of the following form: (pmkObjectName, pUnkObject).
+    /// </para>
+    /// <para>
+    /// The pmkObjectName element is a pointer to the moniker that identifies the running object.
+    /// The pUnkObject element is a pointer to the running object itself.
+    /// During the binding process, monikers consult the pmkObjectName entries in the ROT to see whether an object is already running.
+    /// </para>
+    /// <para>
+    /// Objects that can be named by monikers must be registered with the 
+    /// when they are loaded and their registration must be revoked when they are no longer running.
+    /// </para>
+    /// </remarks>
     public unsafe struct IRunningObjectTable
     {
         IntPtr* _vTable;

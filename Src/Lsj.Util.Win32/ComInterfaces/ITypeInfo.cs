@@ -30,20 +30,42 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Type information interfaces are intended to describe the parts of the application that can be called by outside clients,
     /// rather than those that might be used internally to build an application.
+    /// </para>
+    /// <para>
     /// The <see cref="ITypeInfo"/> interface provides access to the following:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// The set of function descriptions associated with the type.
     /// For interfaces, this contains the set of member functions in the interface.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// The set of data member descriptions associated with the type.
     /// For structures, this contains the set of fields of the type.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// The general attributes of the type, such as whether it describes a structure, an interface, and so on.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
     /// The type description of an <see cref="IDispatch"/> interface can be used to implement the interface.
     /// For more information, see the description of <see cref="CreateStdDispatch"/> in Dispatch Interface and API Functions.
+    /// </para>
+    /// <para>
     /// An instance of <see cref="ITypeInfo"/> provides various information about the type of an object, and is used in different ways.
     /// A compiler can use an <see cref="ITypeInfo"/> to compile references to members of the type.
     /// A type interface browser can use it to find information about each member of the type.
     /// An <see cref="IDispatch"/> implementer can use it to provide automatic delegation of <see cref="IDispatch"/> calls to an interface.
+    /// </para>
     /// </remarks>
     public unsafe struct ITypeInfo
     {

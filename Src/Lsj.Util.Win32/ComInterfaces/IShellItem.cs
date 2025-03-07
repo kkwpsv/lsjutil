@@ -20,8 +20,12 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// When to Implement
+    /// </para>
+    /// <para>
     /// Third parties do not implement this interface; only use the implementation provided with the system.
+    /// </para>
     /// </remarks>
     public unsafe struct IShellItem
     {

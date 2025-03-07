@@ -13,10 +13,12 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <summary>
     /// <para>
     /// Enables a linked object to provide its container with functions pertaining to linking.
-    /// The most important of these functions is binding to the link source, that is, activating the connection to the document
-    /// that stores the linked object's native data.
+    /// The most important of these functions is binding to the link source,
+    /// that is, activating the connection to the document that stores the linked object's native data.
     /// <see cref="IOleLink"/> also defines functions for managing information about the linked object,
     /// such as the location of the link source and the cached presentation data for the linked object.
+    /// </para>
+    /// <para>
     /// A container application can distinguish between embedded objects and linked objects by querying for <see cref="IOleLink"/>;
     /// only linked objects implement <see cref="IOleLink"/>.
     /// </para>

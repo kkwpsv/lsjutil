@@ -25,15 +25,12 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Note  This interface cannot be used to create a link to a URL.
-    /// The <see cref="IShellLink"/> interface has an ANSI version (IShellLinkA) and a Unicode version (IShellLinkW).
-    /// The version that will be used depends on whether you compile for ANSI or Unicode.
+    /// <para>
     /// Note
-    /// The shobjidl_core.h header defines <see cref="IShellLink"/> as an alias which automatically selects the ANSI or Unicode version
-    /// of this function based on the definition of the UNICODE preprocessor constant.
-    /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
-    /// that result in compilation or runtime errors.
-    /// For more information, see Conventions for Function Prototypes.
+    /// </para>
+    /// <para>
+    /// This interface cannot be used to create a link to a URL.
+    /// </para>
     /// </remarks>
     public unsafe struct IShellLink
     {

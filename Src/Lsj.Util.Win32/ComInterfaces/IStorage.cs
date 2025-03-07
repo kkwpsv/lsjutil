@@ -19,23 +19,27 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <para>
     /// The <see cref="IStorage"/> interface supports the creation and management of structured storage objects.
     /// Structured storage allows hierarchical storage of information within a single file, and is often referred to as "a file system within a file".
-    /// Elements of a structured storage object are storages and streams.
-    /// Storages are analogous to directories, and streams are analogous to files.
+    /// Elements of a structured storage object are storages and streams. Storages are analogous to directories, and streams are analogous to files.
     /// Within a structured storage there will be a primary storage object that may contain substorages, possibly nested, and streams.
     /// Storages provide the structure of the object, and streams contain the data, which is manipulated through the <see cref="IStream"/> interface.
-    /// The <see cref="IStorage"/> interface provides methods for
-    /// creating and managing the root storage object, child storage objects, and stream objects.
+    /// </para>
+    /// <para>
+    /// The <see cref="IStorage"/> interface provides methods for creating and managing the root storage object, child storage objects, and stream objects.
     /// These methods can create, open, enumerate, move, copy, rename, or delete the elements in the storage object.
+    /// </para>
+    /// <para>
     /// An application must release its <see cref="IStorage"/> pointers when it is done with the storage object to deallocate memory used.
     /// There are also methods for changing the date and time of an element.
-    /// There are a number of different modes in which a storage object and its elements can be opened,
-    /// determined by setting values from <see cref="STGM"/> Constants.
-    /// One aspect of this is how changes are committed.
-    /// You can set direct mode, in which changes to an object are immediately written to it, or transacted mode,
-    /// in which changes are written to a buffer until explicitly committed.
+    /// </para>
+    /// <para>
+    /// There are a number of different modes in which a storage object and its elements can be opened, determined by setting values from <see cref="STGM"/> Constants.
+    /// One aspect of this is how changes are committed. You can set direct mode, in which changes to an object are immediately written to it,
+    /// or transacted mode, in which changes are written to a buffer until explicitly committed.
     /// The <see cref="IStorage"/> interface provides methods for committing changes and reverting to the last-committed version.
     /// For example, a stream can be opened in read-only mode or read/write mode.
     /// For more information, see <see cref="STGM"/> Constants.
+    /// </para>
+    /// <para>
     /// Other methods provide access to information about a storage object and its elements through the <see cref="STATSTG"/> structure.
     /// </para>
     /// <para>

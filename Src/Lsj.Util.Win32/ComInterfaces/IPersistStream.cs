@@ -18,21 +18,31 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// One way in which this interface is used is to support OLE moniker implementations.
     /// Each of the OLE-provided moniker interfaces provides an <see cref="IPersistStream"/> implementation through which the moniker saves or loads itself.
     /// An instance of the OLE generic composite moniker class calls the <see cref="IPersistStream"/> methods of its component monikers
     /// to load or save the components in the proper sequence in a single stream.
-    /// <see cref="IPersistStream"/> URL Moniker Implementation
+    /// </para>
+    /// <para>
+    /// IPersistStream URL Moniker Implementation
+    /// </para>
+    /// <para>
     /// The URL moniker implementation of <see cref="IPersistStream"/> is found on an URL moniker object,
     /// which supports <see cref="IUnknown"/>, <see cref="IAsyncMoniker"/>, and <see cref="IMoniker"/>.
     /// The <see cref="IMoniker"/> interface inherits its definition from <see cref="IPersistStream"/> and thus,
     /// the URL moniker also provides an implementation of <see cref="IPersistStream"/> as part of its implementation of <see cref="IMoniker"/>.
+    /// </para>
+    /// <para>
     /// The <see cref="IAsyncMoniker"/> interface on an URL moniker is simply <see cref="IUnknown"/> (there are no additional methods);
     /// it is used to allow clients to determine if a moniker supports asynchronous binding.
     /// To get a pointer to the <see cref="IMoniker"/> interface on this object, call the <see cref="CreateURLMonikerEx"/> function.
-    /// Then, to get a pointer to <see cref="IPersistStream"/>, call the QueryInterface method.
+    /// Then, to get a pointer to <see cref="IPersistStream"/>, call the <see cref="IUnknown.QueryInterface"/> method.
+    /// </para>
+    /// <para>
     /// <see cref="IPersistStream"/>, in addition to inheriting its definition from <see cref="IUnknown"/>,
-    /// also inherits the single method of <see cref="IPersist"/>, <see cref="GetClassID"/>.
+    /// also inherits the single method of <see cref="IPersist"/>, <see cref="IPersist.GetClassID"/>.
+    /// </para>
     /// </remarks>
     public unsafe struct IPersistStream
     {

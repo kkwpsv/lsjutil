@@ -16,6 +16,8 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <para>
     /// Implemented by containers and used by OLE common dialog boxes.
     /// It supports these dialog boxes by providing the methods needed to manage a container's links.
+    /// </para>
+    /// <para>
     /// The <see cref="IOleUILinkContainer"/> methods enumerate the links associated with a container,
     /// and specify how they should be updated, automatically or manually.
     /// They change the source of a link and obtain information associated with a link.

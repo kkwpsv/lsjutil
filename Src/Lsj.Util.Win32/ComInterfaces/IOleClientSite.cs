@@ -15,7 +15,11 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// its moniker, its user interface, and other resources provided by its container.
     /// An object server calls <see cref="IOleClientSite"/> to request services from the container.
     /// A container must provide one instance of <see cref="IOleClientSite"/> for every compound-document object it contains.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This interface is not supported for use across machine boundaries.
     /// </para>
     /// <para>

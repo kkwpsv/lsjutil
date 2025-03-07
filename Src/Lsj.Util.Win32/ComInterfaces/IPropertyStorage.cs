@@ -10,25 +10,29 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <summary>
     /// <para>
     /// The <see cref="IPropertyStorage"/> interface manages the persistent properties of a single property set.
-    /// Persistent properties consist of information that can be stored persistently in a property set,
-    /// such as the summary information associated with a file.
+    /// Persistent properties consist of information that can be stored persistently in a property set, such as the summary information associated with a file.
     /// This contrasts with run-time properties associated with Controls and Automation, which can be used to affect system behavior.
     /// Use the methods of the <see cref="IPropertySetStorage"/> interface to create or open a persistent property set.
     /// An instance of the <see cref="IPropertySetStorage"/> interface can manage zero or more <see cref="IPropertyStorage"/> instances.
-    /// Each property within a property set is identified by a property identifier (ID), a four-byte ULONG value unique to that set.
+    /// </para>
+    /// <para>
+    /// Each property within a property set is identified by a property identifier (ID), a four-byte <see cref="ULONG"/> value unique to that set.
     /// You can also assign a string name to a property through the <see cref="IPropertyStorage"/> interface.
+    /// </para>
+    /// <para>
     /// Property IDs differ from the dispatch IDs used in Automation dispid property name tags.
     /// One difference is that the general-purpose use of property ID values zero and one is prohibited in <see cref="IPropertyStorage"/>,
-    /// while no such restriction exists in <see cref="IDispatch"/>.
-    /// In addition, while there is significant overlap among the data types for property values
-    /// that may be used in <see cref="IPropertyStorage"/> and <see cref="IDispatch"/>, the property sets are not identical.
+    /// while no such restriction exists in <see cref="IDispatch"/>. In addition, while there is significant overlap among the data types
+    /// for property values that may be used in <see cref="IPropertyStorage"/> and <see cref="IDispatch"/>, the property sets are not identical.
     /// Persistent property data types used in <see cref="IPropertyStorage"/> methods are defined in the <see cref="PROPVARIANT"/> structure.
+    /// </para>
+    /// <para>
     /// The <see cref="IPropertyStorage"/> interface can be used to access both simple and nonsimple property sets.
     /// Nonsimple property sets can hold several complex property types that cannot be held in a simple property set.
     /// For more information see Storage and Stream Objects for a Property Set.
     /// </para>
     /// <para>
-    /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/propidl/nn-propidl-ipropertystorage"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/propidl/nn-propidl-ipropertystorage"/>
     /// </para>
     /// </summary>
     public unsafe struct IPropertyStorage

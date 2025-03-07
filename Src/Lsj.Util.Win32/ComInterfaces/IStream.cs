@@ -16,42 +16,93 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Stream objects contain the data in a structured storage object, where storages provide the structure.
     /// Simple data can be written directly to a stream but, most frequently, streams are elements nested within a storage object.
     /// They are similar to standard files.
+    /// </para>
+    /// <para>
     /// The <see cref="IStream"/> interface defines methods similar to the MS-DOS FAT file functions.
     /// For example, each stream object has its own access rights and a seek pointer.
     /// The main difference between a DOS file and a stream object is that in the latter case,
     /// streams are opened using an <see cref="IStream"/> interface pointer rather than a file handle.
+    /// </para>
+    /// <para>
     /// The methods in this interface present your object's data as a contiguous sequence of bytes that you can read or write.
-    /// There are also methods for committing and reverting changes on streams that are open
-    /// in transacted mode and methods for restricting access to a range of bytes in the stream.
+    /// There are also methods for committing and reverting changes on streams that are open in transacted mode
+    /// and methods for restricting access to a range of bytes in the stream.
+    /// </para>
+    /// <para>
     /// Streams can remain open for long periods of time without consuming file-system resources.
-    /// The IUnknown::Release method is similar to a close function on a file.
+    /// The <see cref="IUnknown.Release"/> method is similar to a close function on a file.
     /// Once released, the stream object is no longer valid and cannot be used.
+    /// </para>
+    /// <para>
     /// Clients of asynchronous monikers can choose between a data-pull or data-push model
     /// for driving an asynchronous <see cref="IMoniker.BindToStorage"/> operation and for receiving asynchronous notifications.
     /// See URL Monikers for more information.
-    /// The following table compares the behavior of asynchronous <see cref="ISequentialStream.Read"/> and <see cref="IStream.Seek"/> calls returned
-    /// in <see cref="IBindStatusCallback.OnDataAvailable"/> in these two download models:
-    /// <see cref="IStream"/> method call
+    /// The following table compares the behavior of asynchronous <see cref="ISequentialStream.Read"/> and <see cref="IStream.Seek"/> calls
+    /// returned in <see cref="IBindStatusCallback.OnDataAvailable"/> in these two download models:
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// IStream method call
+    /// </term>
+    /// <term>
     /// Behavior in data-pull model
+    /// </term>
+    /// <term>
     /// Behavior in data-push model
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
     /// <see cref="Read"/> is called to read partial data (that is, not all the available data)
-    /// Returns <see cref="S_OK"/>. The client must continue to read all available data before returning
+    /// </term>
+    /// <term>
+    /// Returns S_OK. The client must continue to read all available data before returning
     /// from <see cref="IBindStatusCallback.OnDataAvailable"/> or else the bind operation is blocked.
     /// (that is, read until <see cref="S_FALSE"/> or <see cref="E_PENDING"/> is returned)
-    /// Returns <see cref="S_OK"/>. Even if the client returns from <see cref="IBindStatusCallback.OnDataAvailable"/> at this point
-    /// the bind operation continues and <see cref="IBindStatusCallback.OnDataAvailable"/> will be called again repeatedly until the binding finishes.
+    /// </term>
+    /// <term>
+    /// Returns S_OK. Even if the client returns from <see cref="IBindStatusCallback.OnDataAvailable"/> at this point the bind operation continues
+    /// and <see cref="IBindStatusCallback.OnDataAvailable"/> will be called again repeatedly until the binding finishes.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
     /// <see cref="Read"/> is called to read all the available data
+    /// </term>
+    /// <term>
     /// Returns <see cref="E_PENDING"/> if the bind operation has not completed,
     /// and <see cref="IBindStatusCallback.OnDataAvailable"/> will be called again when more data is available.
+    /// </term>
+    /// <term>
     /// Same as data-pull model.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
     /// <see cref="Read"/> is called to read all the available data and the bind operation is over (end of file)
+    /// </term>
+    /// <term>
     /// Returns <see cref="S_FALSE"/>.
-    /// There will be a subsequent call to <see cref="IBindStatusCallback.OnDataAvailable"/>
-    /// with the grfBSC flag set to <see cref="BSCF_LASTDATANOTIFICATION"/>.
+    /// There will be a subsequent call to <see cref="IBindStatusCallback.OnDataAvailable"/> with the grfBSC flag set to <see cref="BSCF_LASTDATANOTIFICATION"/>.
+    /// </term>
+    /// <term>
     /// Same as data-pull model.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
     /// <see cref="Seek"/> is called
-    /// Seek does not work in data-pull model
-    /// Seek does not work in data-push model.
+    /// </term>
+    /// <term>
+    /// <see cref="Seek"/> does not work in data-pull model
+    /// </term>
+    /// <term>
+    /// <see cref="Seek"/> does not work in data-push model.
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// For general information on this topic, see Asynchronous Monikers and Data-Pull-Model versus Data Push-Model for more specific information.
     /// Also, see Managing Memory Allocation for details on COM's rules for managing memory.
     /// </para>

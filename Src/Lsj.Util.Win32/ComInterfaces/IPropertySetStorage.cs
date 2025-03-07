@@ -10,20 +10,24 @@ namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// <para>
-    /// The <see cref="IPropertySetStorage"/> interface creates, opens, deletes, and enumerates property set storages
-    /// that support instances of the <see cref="IPropertyStorage"/> interface.
+    /// The <see cref="IPropertySetStorage"/> interface creates, opens, deletes,
+    /// and enumerates property set storages that support instances of the <see cref="IPropertyStorage"/> interface.
     /// The <see cref="IPropertyStorage"/> interface manages a single property set in a property storage subobject;
     /// and the <see cref="IPropertySetStorage"/> interface manages the storage of groups of such property sets.
     /// Any file system entity can support <see cref="IPropertySetStorage"/> that is currently implemented in the COM compound file object.
+    /// </para>
+    /// <para>
     /// The <see cref="IPropertySetStorage"/> and <see cref="IPropertyStorage"/> interfaces provide a uniform way to create and manage property sets,
     /// whether or not these sets reside in a storage object that supports <see cref="IStorage"/>.
     /// When called through an object supporting <see cref="IStorage"/> (such as structured and compound files) or <see cref="IStream"/>,
     /// the property sets created conform to the COM property set format, described in detail in Structured Storage Serialized Property Set Format.
-    /// Similarly, properties written using <see cref="IStorage"/> to the COM property set format
-    /// are visible through <see cref="IPropertySetStorage"/> and <see cref="IPropertyStorage"/>.
-    /// <see cref="IPropertySetStorage"/> methods identify property sets through a globally unique identifier (GUID) called a format identifier (<see cref="FMTID"/>).
-    /// The <see cref="FMTID"/> for a property set identifies the property identifiers in the property set, their meaning, and any constraints on the values.
-    /// The <see cref="FMTID"/> of a property set should also provide the means to manipulate that property set.
+    /// Similarly, properties written using <see cref="IStorage"/> to the COM property set format are visible
+    /// through <see cref="IPropertySetStorage"/> and <see cref="IPropertyStorage"/>.
+    /// </para>
+    /// <para>
+    /// <see cref="IPropertySetStorage"/> methods identify property sets through a globally unique identifier (GUID) called a format identifier (FMTID).
+    /// The FMTID for a property set identifies the property identifiers in the property set, their meaning, and any constraints on the values.
+    /// The FMTID of a property set should also provide the means to manipulate that property set.
     /// Only one instance of a given FMTID may exist at a time within a single property storage.
     /// </para>
     /// <para>
@@ -31,22 +35,31 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// There is an exception to the above in The DocumentSummaryInformation and UserDefined property set.
     /// This property set is unique in that it may have two property set sections in a single underlying stream.
     /// This property set is described in The DocumentSummaryInformation and UserDefined Property Sets.
     /// The first section is the DocumentSummaryInformation property set.
-    /// The second section is the UserDefined property set. Each section is identified by a unique format identifier (<see cref="FMTID"/>).
-    /// For example, <see cref="FMTID_DocSummaryInformation"/> and <see cref="FMTID_UserDefined"/> property set.
+    /// The second section is the UserDefined property set.
+    /// Each section is identified by a unique format identifier (FMTID).
+    /// For example, FMTID_DocSummaryInformation and FMTID_UserDefined property set.
     /// The fact that these two property sets can exist in a single stream affects the behavior of the <see cref="IPropertySetStorage"/> interface.
-    /// When <see cref="Create"/> is called to create the UserDefined property set, the first section is created automatically.
-    /// Once the <see cref="FMTID_UserDefinedProperties"/> is created, <see cref="FMTID_DocSummaryInformation"/> need not be created,
-    /// but can be opened with a call to <see cref="Open"/>.
+    /// </para>
+    /// <para>
+    /// When <see cref="IPropertySetStorage.Create"/> is called to create the UserDefined property set, the first section is created automatically.
+    /// Once the FMTID_UserDefinedProperties is created, FMTID_DocSummaryInformation need not be created,
+    /// but can be opened with a call to <see cref="IPropertySetStorage.Open"/>.
     /// Creating the first section does not automatically create the second section and it is not possible to open both sections simultaneously.
-    /// Calling <see cref="Delete"/>, to delete the first section, causes both sections to be deleted.
-    /// In other words, calling <see cref="Delete"/> with <see cref="FMTID_DocSummaryInformation"/> causes
-    /// both that section and the <see cref="FMTID_UserDefinedProperties"/> section to be deleted.
+    /// </para>
+    /// <para>
+    /// Calling <see cref="IPropertySetStorage.Delete"/>, to delete the first section, causes both sections to be deleted.
+    /// In other words, calling <see cref="IPropertySetStorage.Delete"/> with FMTID_DocSummaryInformation causes
+    /// both that section and the FMTID_UserDefinedProperties section to be deleted.
     /// However, deleting the second section does not automatically delete the first section.
+    /// </para>
+    /// <para>
     /// When <see cref="IPropertySetStorage.Enum"/> is used to enumerate property sets, the UserDefined property set is not enumerated.
+    /// </para>
     /// </remarks>
     public unsafe struct IPropertySetStorage
     {

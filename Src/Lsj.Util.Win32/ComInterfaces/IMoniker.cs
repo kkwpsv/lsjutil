@@ -15,9 +15,11 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <para>
     /// Enables you to use a moniker object, which contains information that uniquely identifies a COM object.
     /// An object that has a pointer to the moniker object's <see cref="IMoniker"/> interface can locate, activate,
-    /// and get access to the identified object without having any other specific information on
-    /// where the object is actually located in a distributed system.
-    /// Monikers are used as the basis for linking in COM. A linked object contains a moniker that identifies its source.
+    /// and get access to the identified object without having any other specific information on where the object is actually located in a distributed system.
+    /// </para>
+    /// <para>
+    /// Monikers are used as the basis for linking in COM.
+    /// A linked object contains a moniker that identifies its source.
     /// When the user activates the linked object to edit it, the moniker is bound; this loads the link source into memory.
     /// </para>
     /// <para>

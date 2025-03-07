@@ -9,9 +9,12 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <summary>
     /// <para>
     /// Provides the CLSID of an object that can be stored persistently in the system.
-    /// Allows the object to specify which object handler to use in the client process, as it is used in the default implementation of marshaling.
-    /// IPersist is the base interface for three other interfaces: <see cref="IPersistStorage"/>,
-    /// <see cref="IPersistStream"/>, and <see cref="IPersistFile"/>.
+    /// Allows the object to specify which object handler to use in the client process,
+    /// as it is used in the default implementation of marshaling.
+    /// </para>
+    /// <para>
+    /// <see cref="IPersist"/> is the base interface for three other interfaces:
+    /// <see cref="IPersistStorage"/>, <see cref="IPersistStream"/>, and <see cref="IPersistFile"/>.
     /// Each of these interfaces, therefore, includes the <see cref="GetClassID"/> method,
     /// and the appropriate one of these three interfaces is implemented on objects that can be serialized to a storage, a stream, or a file.
     /// The methods of these interfaces allow the state of these objects to be saved for later instantiations, and load the object using the saved state.

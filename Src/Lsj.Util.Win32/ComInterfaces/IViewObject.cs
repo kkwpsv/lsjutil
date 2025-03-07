@@ -22,15 +22,20 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <para>
     /// Enables an object to display itself directly without passing a data object to the caller.
     /// In addition, this interface can create and manage a connection with an advise sink so the caller can be notified of changes in the view object.
+    /// </para>
+    /// <para>
     /// The caller can request specific representations and specific target devices.
     /// For example, a caller can ask for either an object's content or an iconic representation.
     /// Also, the caller can ask the object to compose a picture for a target device that is independent of the drawing device context.
     /// As a result, the picture can be composed for one target device and drawn on another device context.
-    /// For example, to provide a print preview operation, you can compose the drawing for a printer target device
-    /// but actually draw the representation on the display.
+    /// For example, to provide a print preview operation, you can compose the drawing for a printer target device but actually draw the representation on the display.
+    /// </para>
+    /// <para>
     /// The <see cref="IViewObject"/> interface is similar to <see cref="IDataObject"/>;
     /// except that <see cref="IViewObject"/> places a representation of the data onto a device context
     /// while <see cref="IDataObject"/> places the representation onto a transfer medium.
+    /// </para>
+    /// <para>
     /// Unlike most other interfaces, <see cref="IViewObject"/> cannot be marshaled to another process.
     /// This is because device contexts are only effective in the context of one process.
     /// </para>

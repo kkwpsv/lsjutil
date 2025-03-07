@@ -14,9 +14,13 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This interface also provides the methods of the <see cref="ITaskbarList"/> interface, from which it inherits.
+    /// </para>
+    /// <para>
     /// The Shell also automatically attempts to detect full-screen applications,
     /// but it is not as reliable as using the <see cref="ITaskbarList2.MarkFullscreenWindow"/> method.
+    /// </para>
     /// </remarks>
     public unsafe struct ITaskbarList2
     {

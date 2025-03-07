@@ -22,61 +22,203 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The COM Object that implements <see cref="INetwork"/> also implements a property bag for additional properties.
-    /// To get access to this property bag you can use the <see cref="INetwork"/> interface and <see cref="IUnknown.QueryInterface"/> for <see cref="IPropertyBag"/>.
+    /// To get access to this property bag you can use the <see cref="INetwork"/> interface
+    /// and <see cref="IUnknown.QueryInterface"/> for <see cref="IPropertyBag"/>.
     /// The property bag on this COM Object contains the following properties:
-    /// <see cref="NA_DomainAuthenticationFailed"/>
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Parameter
+    /// </term>
+    /// <term>
+    /// Type
+    /// </term>
+    /// <term>
+    /// Description
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// NA_DomainAuthenticationFailed
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// Specifies that a domain network is not able to authenticate against the domain controller.
-    /// <see cref="NA_NetworkClass"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_NetworkClass
+    /// </term>
+    /// <term>
     /// <see cref="NLM_NETWORK_CLASS"/> value stored as <see cref="VT_UINT"/>
+    /// </term>
+    /// <term>
     /// Specifies the class of network. Possible values include:
-    /// <see cref="NLM_NETWORK_IDENTIFYING"/>(0x01)
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <para>
+    /// <see cref="NLM_NETWORK_IDENTIFYING"/> (0x01)
+    /// </para>
+    /// <para>
     /// This is the special "Identifying" network. No properties on this network class can be changed.
+    /// </para>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <para>
     /// <see cref="NLM_NETWORK_IDENTIFIED"/> (0x02)
+    /// </para>
+    /// <para>
     /// This is an Identified network.
+    /// </para>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <para>
     /// <see cref="NLM_NETWORK_UNIDENTIFIED"/> (0x03)
-    /// This is the special "Unidentified" network. The category of this network can be changed, but it will not persist when the network is disconnected.
-    /// <see cref="NA_InternetConnectivityV4"/> or <see cref="NA_InternetConnectivityV6"/>
-    /// <see cref="NLM_INTERNET_CONNECTIVITY"/> value stored as <see cref="VT_UINT"/>
+    /// </para>
+    /// <para>
+    /// This is the special "Unidentified" network.
+    /// The category of this network can be changed, but it will not persist when the network is disconnected.
+    /// </para>
+    /// </description>
+    /// </item>
+    /// </list>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <para>
+    /// NA_InternetConnectivityV4
+    /// </para>
+    /// <para>
+    /// or
+    /// </para>
+    /// <para>
+    /// NA_InternetConnectivityV6
+    /// </para>
+    /// </term>
+    /// <term>
+    /// <see cref="NLM_INTERNET_CONNECTIVITY"/> value stored as VT_UINT
+    /// </term>
+    /// <term>
     /// Provides details regarding IPv4 or IPv6 network connectivity. Possible values include:
-    /// <see cref="LM_INTERNET_CONNECTIVITY_WEBHIJACK"/>(0x1)
-    /// The detected network is a hotspot.
-    /// For example, when connected to a coffee Wi-Fi hotspot network and the local HTTP traffic is being redirected to a captive portal, this flag will be set.
-    /// <see cref="NLM_INTERNET_CONNECTIVITY_PROXIED"/> (0x2)
-    /// The detected network has a proxy configuration.
-    /// For example, when connected to a corporate network using a proxy for HTTP access, this flag will be set.
-    /// <see cref="NLM_INTERNET_CONNECTIVITY_CORPORATE"/> (0x4)
-    /// The machine has been configured for Direct Access and access is detected to the corporate domain network Direct Access has been configured for.
-    /// <see cref="NA_NameSetByPolicy"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_NameSetByPolicy
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The name of the network has been set by group policy.
-    /// <see cref="NA_IconSetByPolicy"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_IconSetByPolicy
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The icon of the network has been set by group policy.
-    /// <see cref="NA_DescriptionSetByPolicy"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_DescriptionSetByPolicy
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The description of the network has been set by group policy.
-    /// <see cref="NA_CategorySetByPolicy"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_CategorySetByPolicy
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The category of the network has been set by group policy.
-    /// <see cref="NA_NameReadOnly"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_NameReadOnly
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The name of the network is read only.
-    /// <see cref="NA_IconReadOnly"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_IconReadOnly
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The icon of the network is read only.
-    /// <see cref="NA_DescriptionReadOnly"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_DescriptionReadOnly
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The description of the network is read only.
-    /// <see cref="NA_CategoryReadOnly"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_CategoryReadOnly
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The category of the network is read only.
-    /// <see cref="NA_AllowMerge"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// NA_AllowMerge
+    /// </term>
+    /// <term>
     /// <see cref="VT_BOOL"/>
+    /// </term>
+    /// <term>
     /// The network can be merged with another network.
-    /// The <see cref="IPropertyBag"/> interface accepts <see cref="LPCOLESTR"/> as part of the <see cref="IPropertyBag.Read"/> and <see cref="IPropertyBag.Write"/> methods.
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The <see cref="IPropertyBag"/> interface accepts <see cref="LPCOLESTR"/>
+    /// as part of the <see cref="IPropertyBag.Read"/> and <see cref="IPropertyBag.Write"/> methods.
     /// For convenience, the string values for these properties are defined inside netlistmgr.h using the same names.
+    /// </para>
     /// </remarks>
     public unsafe struct INetwork
     {

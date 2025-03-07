@@ -9,28 +9,34 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <summary>
     /// <para>
     /// Exposes methods that enable an application to interact with groups of windows that form virtual workspaces.
+    /// This interface is implemented by VirtualDesktopManager, a COM class identified by <see cref="CLSID_VirtualDesktopManager"/>.
+    /// Use <code>CoCreateInstance(CLSID_VirtualDesktopManager)</code> to get an instance of this object.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ivirtualdesktopmanager"/>
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The user can group a collection of windows together to create a virtual desktop.
     /// Every window is considered to be part of a virtual desktop.
     /// When one virtual desktop is hidden, all of the windows associated with it are also hidden.
     /// This enables the user to create multiple working environments and to be able to switch between them.
     /// Similarly, when a virtual desktop is selected to be active, the windows associated with that virtual desktop are displayed on the screen.
+    /// </para>
+    /// <para>
     /// To support this concept, applications should avoid automatically switching the user from one virtual desktop to another.
-    /// Only the user should instigate that change.
-    /// In order to support this, newly created windows should appear on the currently active virtual desktop.
-    /// In addition, if an application can reuse currently active windows,
-    /// it should only reuse windows if they are on the currently active virtual desktop.
+    /// Only the user should instigate that change. In order to support this, newly created windows should appear on the currently active virtual desktop.
+    /// In addition, if an application can reuse currently active windows, it should only reuse windows if they are on the currently active virtual desktop.
     /// Otherwise, a new window should be created.
-    /// Virtual desktop visualization In the above image, the user has two virtual desktops and VD2 is the currently active virtual desktop.
+    /// </para>
+    /// <para>
+    /// In the above image, the user has two virtual desktops and <see cref="VD2"/> is the currently active virtual desktop.
     /// If the user clicks a link in an outlook message, there's a URI activation that should open the link in an Internet Explorer window.
     /// If the user has configured IE to open links in the current window, it would normally use the currently open window.
     /// However, in this case, IE is on an inactive virtual desktop.
     /// In this scenario, IE should create a new window in the currently active virtual desktop.
+    /// </para>
     /// </remarks>
     public unsafe struct IVirtualDesktopManager
     {

@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SFGAOF;
 using static Lsj.Util.Win32.Enums.SHCIDS;
 using static Lsj.Util.Win32.Enums.SHGDNF;
@@ -23,22 +24,31 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Implement this interface for objects that extend the Shell's namespace.
-    /// For example, implement this interface to create a separate namespace that requires a rooted Windows Explorer
-    /// or to install a new namespace directly within the hierarchy of the system namespace.
+    /// For example, implement this interface to create a separate namespace that
+    /// requires a rooted Windows Explorer or to install a new namespace directly within the hierarchy of the system namespace.
     /// You are most familiar with the contents of your namespace, so you are responsible for implementing everything needed to access your data.
+    /// </para>
+    /// <para>
     /// Use this interface when you need to display or perform an operation on the contents of the Shell's namespace.
     /// Objects that support <see cref="IShellFolder"/> are usually created by other Shell folder objects.
     /// To retrieve a folder's <see cref="IShellFolder"/> interface, you typically start by calling <see cref="SHGetDesktopFolder"/>.
     /// This function returns a pointer to the desktop's <see cref="IShellFolder"/> interface.
     /// You can then use its methods to retrieve an <see cref="IShellFolder"/> interface for a particular namespace folder.
+    /// </para>
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
     /// <see cref="IShellFolder"/> methods only accept PIDLs that are relative to the folder.
-    /// Some <see cref="IShellFolder"/> methods, such as <see cref="GetAttributesOf"/>, only accept single-level PIDLs.
-    /// In other words, the PIDL must contain only a single <see cref="SHITEMID"/> structure, plus the terminating NULL.
+    /// Some <see cref="IShellFolder"/> methods, such as <see cref="IShellFolder.GetAttributesOf"/>, only accept single-level PIDLs.
+    /// In other words, the PIDL must contain only a single <see cref="SHITEMID"/> structure, plus the terminating <see cref="NULL"/>.
     /// When you enumerate the contents of a folder with <see cref="IEnumIDList"/>, you will receive PIDLs of this form.
-    /// Other methods, such as <see cref="CompareIDs"/>, accept multi-level PIDLs.
+    /// Other methods, such as <see cref="IShellFolder.CompareIDs"/>, accept multi-level PIDLs.
     /// These PIDLs can have multiple <see cref="SHITEMID"/> structures and identify objects one or more levels below the parent folder.
     /// Check the reference to be sure what type of PIDL can be accepted by a particular method.
+    /// </para>
     /// </remarks>
     public unsafe struct IShellFolder
     {
