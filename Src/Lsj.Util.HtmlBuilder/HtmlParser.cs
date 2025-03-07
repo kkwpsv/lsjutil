@@ -227,6 +227,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new H1();
                 case "h2":
                     return new H2();
+                case "h3":
+                    return new H3();
                 case "p":
                     return new P();
                 case "a":
@@ -265,6 +267,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Br();
                 case "ul":
                     return new Ul();
+                case "ol":
+                    return new Ol();
                 case "li":
                     return new Li();
 
