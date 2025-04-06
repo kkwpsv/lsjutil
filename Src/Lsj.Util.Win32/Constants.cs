@@ -14,6 +14,16 @@ namespace Lsj.Util.Win32
         public const int ANYSIZE_ARRAY = 1;
 
         /// <summary>
+        /// AC_SRC_OVER
+        /// </summary>
+        public const byte AC_SRC_OVER = 0;
+
+        /// <summary>
+        /// AC_SRC_ALPHA
+        /// </summary>
+        public const byte AC_SRC_ALPHA = 1;
+
+        /// <summary>
         /// CACHE_FULLY_ASSOCIATIVE
         /// </summary>
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
