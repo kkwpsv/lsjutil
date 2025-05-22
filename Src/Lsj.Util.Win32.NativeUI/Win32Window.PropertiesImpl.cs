@@ -155,7 +155,7 @@ namespace Lsj.Util.Win32.NativeUI
         private void SetWindowStyles(WindowStyles value)
         {
             SetLastError(ERROR_SUCCESS);
-            if (SetWindowLong(_handle, GWL_STYLE, (uint)value) != NULL)
+            if (SetWindowLong(_handle, GWL_STYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
@@ -187,8 +187,7 @@ namespace Lsj.Util.Win32.NativeUI
                 SetTopMost();
             }
             SetLastError(ERROR_SUCCESS);
-            var result = SetWindowLong(_handle, GWL_EXSTYLE, (uint)value);
-            if (result != NULL)
+            if (SetWindowLong(_handle, GWL_EXSTYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
