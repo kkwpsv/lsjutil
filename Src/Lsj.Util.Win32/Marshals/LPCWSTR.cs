@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace Lsj.Util.Win32.Marshals
 {
     /// <summary>
-    /// LPCWSTR implement by pinned string or dirtect pointer.
+    /// LPCWSTR implement by pinned string or direct pointer.
     /// </summary>
     public class LPCWSTR : CriticalHandle, IPointer
     {
@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="str"></param>
-        public LPCWSTR(string str) : base(IntPtr.Zero)
+        public LPCWSTR(string? str) : base(IntPtr.Zero)
         {
             if (str != null)
             {
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCWSTR(string val) => new LPCWSTR(val);
+        public static implicit operator LPCWSTR(string? val) => new LPCWSTR(val);
 
         /// <summary>
         /// 
