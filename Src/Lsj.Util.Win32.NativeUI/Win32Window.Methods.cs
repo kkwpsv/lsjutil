@@ -1,5 +1,9 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.NativeUI;
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -9,6 +13,39 @@ namespace Lsj.Util.Win32.NativeUI
 {
     public partial class Win32Window
     {
+        /// <summary>
+        /// Hook window proc
+        /// </summary>
+        /// <exception cref="Win32Exception"></exception>
+        public void HookWindowProc()
+        {
+            if (CheckFlag(Win32WindowFlags.OtherProcess))
+            {
+                throw new NotSupportedException("Not support hook other process's window now.");
+            }
+            if (CheckFlag(Win32WindowFlags.WindowProcHooked))
+            {
+                throw new InvalidOperationException("Already hooked.");
+            }
+            if (CheckFlag(Win32WindowFlags.WindowProcUseThis))
+            {
+                throw new InvalidOperationException("No need to hook. Already use window proc of this.");
+            }
+
+            _hookedWndProc = GetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC);
+            if (_hookedWndProc != NULL)
+            {
+                _wndProc = WindowProc;
+                SetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(_wndProc));
+            }
+            else
+            {
+                throw new Win32Exception();
+            }
+
+            _flags |= Win32WindowFlags.WindowProcHooked;
+        }
+
 
         /// <summary>
         /// Show

@@ -40,6 +40,9 @@ namespace Lsj.Util.Win32.NativeUI
         internal enum Win32WindowFlags
         {
             OwnWindow = 0x1,
+            RegisteredClass = 0x02,
+            WindowProcHooked = 0x04,
+            WindowProcUseThis = 0x08,
             OtherProcess = 0x10,
         }
 
@@ -48,19 +51,26 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         protected override void CleanUpUnmanagedResources()
         {
-            if (_handle != NULL)
+            if (_handle != NULL && _flags == Win32WindowFlags.OwnWindow)
             {
                 DestroyWindow(_handle);
                 _handle = NULL;
             }
+            if (_windowClassName != null && _flags == Win32WindowFlags.RegisteredClass)
+            {
+                UnregisterClass(_windowClassName.ToIntPtr(), _hInstance);
+                _windowClassName.Dispose();
+            }
         }
 
-        private void RegisterWindowClass(HINSTANCE hInstance, in WNDCLASSEX wndclass)
+        private static ATOM RegisterWindowClass(in WNDCLASSEX wndClass)
         {
-            if (RegisterClassEx(wndclass) == 0)
+            var result = RegisterClassEx(wndClass);
+            if (result == 0)
             {
                 throw new Win32Exception();
             }
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

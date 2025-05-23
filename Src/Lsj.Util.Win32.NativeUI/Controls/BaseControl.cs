@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -26,13 +27,14 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="parentWindow"></param>
         /// <param name="styleEx"></param>
         /// <param name="hMenu"></param>
-        protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, HWND parentWindow, uint styleEx = 0, HMENU hMenu = default) : base(className, text, false, x, y, width, height, (WindowStyles)style, (WindowStylesEx)styleEx, parentWindow, hMenu)
+        protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, HWND parentWindow, uint styleEx = 0, HMENU hMenu = default)
+            : base(className, Kernel32.GetModuleHandle(NULL), text, x, y, width, height, (WindowStyles)style, (WindowStylesEx)styleEx, parentWindow, hMenu)
         {
 
         }
 
         /// <inheritdoc/>
-        protected override HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HMENU hMenu, HINSTANCE hInstance)
+        protected override HWND CreateWindowImpl(LPCWSTR windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HMENU hMenu, HINSTANCE hInstance)
         {
             if (!_hasInit.TryGetValue(GetType(), out var val) || !val)
             {
