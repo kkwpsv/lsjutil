@@ -12,12 +12,12 @@ namespace Lsj.Util.JSON
     /// <summary>
     /// JSON Parser
     /// </summary>
-    public static class JSONParser
+    public class JSONParser
     {
         /// <summary>
         /// LogProvider
         /// </summary>
-        public static LogProvider LogProvider
+        public LogProvider LogProvider
         {
             get;
             set;
@@ -26,15 +26,20 @@ namespace Lsj.Util.JSON
         /// <summary>
         /// Settings
         /// </summary>
-        public static JsonParserSettings Settings { get; } = new JsonParserSettings();
+        public JSONParserSettings Settings { get; } = new JSONParserSettings();
+
+        /// <summary>
+        /// Is Last Parse Complete
+        /// </summary>
+        public bool IsLastParseComplete { get; private set; }
 
         private enum Status
         {
-            wantStart,
-            wantName,
-            wantColon,
-            wantValue,
-            wantCommaOrEnd,
+            WantStart,
+            WantName,
+            WantColon,
+            WantValue,
+            WantCommaOrEnd,
             End
         }
 
@@ -43,7 +48,7 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static dynamic Parse(string str) => Parse(str, null);
+        public dynamic? Parse(string? str) => Parse(str, null);
 
         /// <summary>
         /// Parse
@@ -51,7 +56,7 @@ namespace Lsj.Util.JSON
         /// <typeparam name="T"></typeparam>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static T Parse<T>(string str)
+        public T? Parse<T>(string? str)
         {
             var result = Parse(str, typeof(T));
             return result ?? default(T);
@@ -60,25 +65,28 @@ namespace Lsj.Util.JSON
         /// <summary>
         /// Parse
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
+        /// <param name="str">the string</param>
+        /// <param name="type">type, dynamic if null</param>
         /// <returns></returns>
-        public static dynamic Parse(string str, Type type)
+        public dynamic? Parse(string? str, Type? type)
         {
             if (str.IsNullOrEmpty())
             {
+                IsLastParseComplete = true;
                 return null;
             }
+            IsLastParseComplete = false;
             unsafe
             {
                 fixed (char* ptr = str)
                 {
                     int index = 0;
-                    int length = str.Length;
+                    int length = str!.Length;
                     var r = 0;
-                    var result = ParseValue(ptr, ref index, length, type, ref r);
+                    var result = ParseValue(ptr, ref index, length, type, ref r, out var isComplete);
+                    IsLastParseComplete = isComplete;
                     index++;
-                    if (index != length)
+                    if (index < length)
                     {
                         char c = *(ptr + index);
                         while (char.IsWhiteSpace(c))
@@ -86,9 +94,10 @@ namespace Lsj.Util.JSON
                             index++;
                             c = *(ptr + index);
                         }
+
                         if (index != length)
                         {
-                            Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                            throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                         }
                     }
                     return result;
@@ -96,20 +105,18 @@ namespace Lsj.Util.JSON
             }
         }
 
-        private static unsafe object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
+        private unsafe object? ParseValue(char* ptr, ref int index, int length, Type? type, ref int r, out bool isComplete)
         {
             if (r > Settings.MaxLayer)
             {
-                Warn($@"Error JSON String. Maximum recursion limit.");
-                r--;
-                return type == null ? null : type.IsValueType ? Activator.CreateInstance(type) : null;
+                throw Error($@"Error JSON String. Maximum recursion limit.");
             }
             r++;
 
             char symbol = '\0';
-            var status = Status.wantStart;
+            var status = Status.WantStart;
             var processer = GetProcesserByType(type);
-            string name = null;
+            string? name = null;
             bool hasFirstName = false;
 
             for (; index < length; index++)
@@ -119,66 +126,170 @@ namespace Lsj.Util.JSON
                 {
                     continue;
                 }
-                else if (status == Status.wantStart)//起始字符
+                else if (status == Status.WantStart)//起始字符
                 {
                     if (c == '{')//object
                     {
                         symbol = c;
-                        status = Status.wantName;
-                        if (!(processer is IObjectProcesser))
+                        status = Status.WantName;
+                        if (processer is not IObjectProcesser)
                         {
-                            Error("Error Type. Json Object must be parsed to a normal object");
+                            throw Error("Error Type. Json Object must be parsed to a normal object");
                         }
+                        else if (processer is DynamicProcesser dynamicProcesser)
+                        {
+                            dynamicProcesser.SetEmptyObject();
+                        }
+                        continue;
                     }
                     else if (c == '[')//list
                     {
                         symbol = c;
-                        status = Status.wantValue;
-                        if (!(processer is IListProcesser))
+                        status = Status.WantValue;
+                        if (processer is not IListProcesser)
                         {
-                            Error("Error Type. Json Array must be parssed to a IList<> or IList.");
+                            throw Error("Error Type. Json Array must be parsed to a IList<> or IList.");
                         }
+                        else if (processer is DynamicProcesser dynamicProcesser)
+                        {
+                            dynamicProcesser.SetEmptyList();
+                        }
+                        continue;
                     }
                     else if (c == '"')//字符串
                     {
                         if (processer is IStringProcesser stringProcesser)
                         {
-                            var val = GetString(ptr, ref index, length);
+                            var val = GetString(ptr, ref index, length, out var isStringComplete);
                             stringProcesser.SetValue(val);
+                            if (!isStringComplete)
+                            {
+                                isComplete = false;
+                                return processer.GetResult();
+                            }
                             status = Status.End;
                             break;
                         }
                         else
                         {
-                            Error("Error Type. Json String must be parsed to string or enum");
+                            throw Error("Error Type. Json String must be parsed to string or enum");
                         }
                     }
-                    else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')//true
+                    else if (c == 't')//true
                     {
-                        index += 3;
-                        if (processer is IBoolProcesser boolProcesser)
+                        if (Settings.AllowPartial)
                         {
-                            boolProcesser.SetValue(true);
-                            status = Status.End;
-                            break;
+                            if (index + 1 < length)
+                            {
+                                if (*(ptr + index + 1) == 'r')
+                                {
+                                    index++;
+                                    if (index + 1 < length)
+                                    {
+                                        if (*(ptr + index + 1) == 'u')
+                                        {
+                                            index++;
+                                            if (index + 1 < length)
+                                            {
+                                                if (*(ptr + index + 1) == 'e')
+                                                {
+                                                    index++;
+                                                    status = Status.End;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (processer is IBoolProcesser boolProcesser)
+                            {
+                                boolProcesser.SetValue(true);
+                                break;
+                            }
+                            else
+                            {
+                                throw Error("Error Type. Json Bool must be parsed to bool");
+                            }
                         }
-                        else
+                        else if (length - index >= 4)
                         {
-                            Error("Error Type. Json Bool must be parsed to bool");
+                            if (*(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')
+                            {
+                                index += 3;
+                                if (processer is IBoolProcesser boolProcesser)
+                                {
+                                    boolProcesser.SetValue(true);
+                                    status = Status.End;
+                                    break;
+                                }
+                                else
+                                {
+                                    throw Error("Error Type. Json Bool must be parsed to bool");
+                                }
+                            }
                         }
                     }
-                    else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')//false
+                    else if (c == 'f')//false
                     {
-                        index += 4;
-                        if (processer is IBoolProcesser boolProcesser)
+                        if (Settings.AllowPartial)
                         {
-                            boolProcesser.SetValue(false);
-                            status = Status.End;
-                            break;
+                            if (index + 1 < length)
+                            {
+                                if (*(ptr + index + 1) == 'a')
+                                {
+                                    index++;
+                                    if (index + 1 < length)
+                                    {
+                                        if (*(ptr + index + 1) == 'l')
+                                        {
+                                            index++;
+                                            if (index + 1 < length)
+                                            {
+                                                if (*(ptr + index + 1) == 's')
+                                                {
+                                                    index++;
+                                                    if (index + 1 < length)
+                                                    {
+                                                        if (*(ptr + index + 1) == 'e')
+                                                        {
+                                                            index++;
+                                                            status = Status.End;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (processer is IBoolProcesser boolProcesser)
+                            {
+                                boolProcesser.SetValue(false);
+                                break;
+                            }
+                            else
+                            {
+                                throw Error("Error Type. Json Bool must be parsed to bool");
+                            }
                         }
-                        else
+                        else if (length - index >= 5)
                         {
-                            Error("Error Type. Json Bool must be parsed to bool");
+                            if (*(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 3) == 'e')
+                            {
+                                index += 4;
+                                if (processer is IBoolProcesser boolProcesser)
+                                {
+                                    boolProcesser.SetValue(false);
+                                    status = Status.End;
+                                    break;
+                                }
+                                else
+                                {
+                                    throw Error("Error Type. Json Bool must be parsed to bool");
+                                }
+                            }
                         }
                     }
                     else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
@@ -191,29 +302,68 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            Error("Error Type. Json Number must be parsed to a numeric type");
+                            throw Error("Error Type. Json Number must be parsed to a numeric type");
                         }
                     }
-                    else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
+                    else if (c == 'n')//null
                     {
-                        index += 3;
-                        if (processer is INullableProcesser nullableProcesser)
+                        if (Settings.AllowPartial)
                         {
-                            nullableProcesser.SetNull();
-                            status = Status.End;
-                            break;
+                            if (index + 1 < length)
+                            {
+                                if (*(ptr + index + 1) == 'u')
+                                {
+                                    index++;
+                                    if (index + 1 < length)
+                                    {
+                                        if (*(ptr + index + 1) == 'l')
+                                        {
+                                            index++;
+                                            if (index + 1 < length)
+                                            {
+                                                if (*(ptr + index + 1) == 'l')
+                                                {
+                                                    index++;
+                                                    status = Status.End;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (processer is INullableProcesser nullableProcesser)
+                            {
+                                nullableProcesser.SetNull();
+                                break;
+                            }
+                            else
+                            {
+                                throw Error("Error Type. Json Null must be parsed to a nullable object");
+                            }
                         }
-                        else
+                        else if (length - index >= 4)
                         {
-                            Error("Error Type. Json Null must be parsed to a nullable object");
+                            if (*(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')
+                            {
+                                index += 3;
+                                if (processer is INullableProcesser nullableProcesser)
+                                {
+                                    nullableProcesser.SetNull();
+                                    status = Status.End;
+                                    break;
+                                }
+                                else
+                                {
+                                    throw Error("Error Type. Json Null must be parsed to a nullable object");
+                                }
+                            }
                         }
                     }
-                    else
-                    {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
-                    }
+
+                    throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                 }
-                else if (status == Status.wantName)//名称
+                else if (status == Status.WantName)//字段名称
                 {
                     if (!hasFirstName && *(ptr + index) == '}')
                     {
@@ -222,32 +372,37 @@ namespace Lsj.Util.JSON
                     }
                     if (*(ptr + index) != '"')
                     {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                     else
                     {
-                        name = GetString(ptr, ref index, length);
-                        status = Status.wantColon;
+                        name = GetString(ptr, ref index, length, out var isNameComplete);
+                        if (!isNameComplete)
+                        {
+                            isComplete = false;
+                            return processer.GetResult();
+                        }
+                        status = Status.WantColon;
                     }
                 }
-                else if (status == Status.wantColon)//冒号
+                else if (status == Status.WantColon)//冒号
                 {
                     if (c == ':')
                     {
-                        status = Status.wantValue;
+                        status = Status.WantValue;
                     }
                     else
                     {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
-                else if (status == Status.wantValue)//值
+                else if (status == Status.WantValue)//值
                 {
                     if (name != null && processer is IObjectProcesser objectProcesser)
                     {
-                        var value = ParseValue(ptr, ref index, length, objectProcesser.GetValueType(name), ref r);
+                        var value = ParseValue(ptr, ref index, length, objectProcesser.GetValueType(name), ref r, out var isObjectComplete);
                         objectProcesser.Set(name, value);
-                        status = Status.wantCommaOrEnd;
+                        status = Status.WantCommaOrEnd;
                     }
                     else if (processer is IListProcesser listProcesser)
                     {
@@ -258,27 +413,27 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            var value = ParseValue(ptr, ref index, length, listProcesser.GetChildType(), ref r);
+                            var value = ParseValue(ptr, ref index, length, listProcesser.GetChildType(), ref r, out var isObjectComplete);
                             listProcesser.AddChild(value);
-                            status = Status.wantCommaOrEnd;
+                            status = Status.WantCommaOrEnd;
                         }
                     }
                     else
                     {
-                        Error("Internal Exception");
+                        throw Error("Internal Exception");
                     }
                 }
-                else if (status == Status.wantCommaOrEnd)
+                else if (status == Status.WantCommaOrEnd)
                 {
                     if (c == ',')
                     {
                         if (name != null)
                         {
-                            status = Status.wantName;
+                            status = Status.WantName;
                         }
                         else
                         {
-                            status = Status.wantValue;
+                            status = Status.WantValue;
                         }
                     }
                     else if (symbol == '{' && c == '}')
@@ -293,19 +448,20 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
             }
-            if (status != Status.End)
+            isComplete = status == Status.End;
+            if (status != Status.End && !Settings.AllowPartial)
             {
-                Error($@"Error JSON String. Not Complete.");
+                throw Error($@"Error JSON String. Not Complete.");
             }
             r--;
             return processer.GetResult();
         }
 
-        internal static IProcesser GetProcesserByType(Type type)
+        internal IProcesser GetProcesserByType(Type? type)
         {
             IProcesser processer;
             if (type != null)
@@ -316,7 +472,7 @@ namespace Lsj.Util.JSON
                 }
                 else if (type == typeof(bool))
                 {
-                    processer = new BoolProcesser();
+                    processer = new BoolProcesser(this);
                 }
                 else if (type == typeof(string))
                 {
@@ -324,38 +480,38 @@ namespace Lsj.Util.JSON
                 }
                 else if (type.IsDictionary())
                 {
-                    processer = new DictionaryProcesser(type);
+                    processer = new DictionaryProcesser(this, type);
                 }
                 else if (type.IsList())
                 {
-                    processer = new ListProcesser(type);
+                    processer = new ListProcesser(this, type);
                 }
                 else if (type.IsEnum)
                 {
-                    processer = new EnumProcesser(type);
+                    processer = new EnumProcesser(this, type);
                 }
                 else if (type.IsValueType)
                 {
-                    processer = new StructProcesser(type);
+                    processer = new StructProcesser(this, type);
                 }
                 else
                 {
-                    processer = new ObjectProcesser(type);
+                    processer = new ObjectProcesser(this, type);
                 }
             }
             else
             {
-                processer = new DynamicProcesser();
+                processer = new DynamicProcesser(this);
             }
 
             return processer;
         }
 
-        private static unsafe string GetString(char* ptr, ref int index, int length)
+        private unsafe string GetString(char* ptr, ref int index, int length, out bool isComplete)
         {
             if (*(ptr + index) != '"')
             {
-                Error("Internal Error");
+                throw Error("Internal Error");
             }
             index++;
             var sb = new StringBuilder();
@@ -364,6 +520,7 @@ namespace Lsj.Util.JSON
                 var c = *(ptr + index);
                 if (c == '"')
                 {
+                    isComplete = true;
                     return sb.ToString();
                 }
                 else if (c == '\\')
@@ -412,7 +569,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            Error($"Error JSON string. Index = {index}");
+                            throw Error($"Error JSON string. Index = {index}");
                         }
                     }
                 }
@@ -421,11 +578,18 @@ namespace Lsj.Util.JSON
                     sb.Append(c);
                 }
             }
-            Error("Error JSON String. Not Complete.");
-            return null;
+            if (!Settings.AllowPartial)
+            {
+                throw Error("Error JSON String. Not Complete.");
+            }
+            else
+            {
+                isComplete = false;
+                return sb.ToString();
+            }
         }
 
-        private static unsafe object GetNumeric(char* ptr, ref int index, int length)
+        private unsafe object GetNumeric(char* ptr, ref int index, int length)
         {
             bool hasDot = false;
             bool hasNumber = false;
@@ -443,7 +607,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (c >= '0' && c <= '9')
@@ -456,7 +620,7 @@ namespace Lsj.Util.JSON
                 {
                     if (index != start)
                     {
-                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                     else
                     {
@@ -471,7 +635,7 @@ namespace Lsj.Util.JSON
             }
             if (!hasNumber)
             {
-                Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
             var strVal = sb.ToString();
             index--;
@@ -504,20 +668,19 @@ namespace Lsj.Util.JSON
             }
             else
             {
-                Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                throw Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
-            return null;
         }
 
-        internal static void Debug(string str)
+        internal void Debug(string str)
         {
             LogProvider.Debug(str);
         }
-        internal static void Warn(string str)
+        internal void Warn(string str)
         {
             LogProvider.Warn(str);
         }
-        internal static void Error(string str, Exception exception = null)
+        internal Exception Error(string str, Exception? exception = null)
         {
             LogProvider.Error(str);
             throw new JSONParserException(str, exception);

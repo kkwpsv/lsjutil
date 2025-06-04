@@ -23,7 +23,7 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="message"></param>
         /// <param name="inner"></param>
-        public JSONParserException(string message, Exception inner) : base(message, inner)
+        public JSONParserException(string message, Exception? inner) : base(message, inner)
         {
         }
     }

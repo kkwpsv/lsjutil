@@ -1,12 +1,12 @@
 ﻿using Lsj.Util.JSON.Processer.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
     class DynamicProcesser : IObjectProcesser, IListProcesser, IStringProcesser, INumericProcesser, IBoolProcesser, INullableProcesser
     {
+        private readonly JSONParser _parser;
+
         /// <summary>
         /// type
         /// 0 Not Initialized
@@ -17,38 +17,47 @@ namespace Lsj.Util.JSON.Processer
         /// 5 Bool
         /// 6 Null
         /// </summary>
-        byte type = 0;
+        byte _type = 0;
 
-        object result = new JSONObject();
+        public DynamicProcesser(JSONParser parser)
+        {
+            _parser = parser;
+        }
+
+        object? _result;
         void EnsureInit(byte type)
         {
-            if (this.type != type)
+            if (_type != type)
             {
-                if (this.type != 0)
+                if (_type != 0)
                 {
-                    JSONParser.Error("Internal Exception");
+                    throw _parser.Error("Internal Exception");
                 }
-                this.type = type;
-                if (type == 2)
+                _type = type;
+                if (type == 1)
                 {
-                    result = new JSONArray();
+                    _result = new JSONObject();
+                }
+                else if (type == 2)
+                {
+                    _result = new JSONArray();
                 }
 
             }
         }
 
-        public object GetResult() => result;
+        public object? GetResult() => _result;
 
-        public Type GetValueType(string name)
+        public Type? GetValueType(string name)
         {
             EnsureInit(1);
             return null;
         }
 
-        public void Set(string name, object value)
+        public void Set(string name, object? value)
         {
             EnsureInit(1);
-            (result as JSONObject).Set(name, value);
+            (_result as JSONObject)!.Set(name, value);
         }
 
         public void SetEmptyObject()
@@ -56,7 +65,12 @@ namespace Lsj.Util.JSON.Processer
             EnsureInit(1);
         }
 
-        public Type GetChildType()
+        public void SetEmptyList()
+        {
+            EnsureInit(2);
+        }
+
+        public Type? GetChildType()
         {
             EnsureInit(2);
             return null;
@@ -65,62 +79,66 @@ namespace Lsj.Util.JSON.Processer
         public bool IsListEmpty()
         {
             EnsureInit(2);
-            return (result as JSONArray).Count == 0;
+            return (_result as JSONArray)!.Count == 0;
         }
 
-        public void AddChild(object value)
+        public void AddChild(object? value)
         {
             EnsureInit(2);
-            (result as JSONArray).Add(value);
+            (_result as JSONArray)!.Add(value);
         }
 
         public void SetValue(string value)
         {
             EnsureInit(3);
-            result = value;
+            _result = value;
         }
 
         public void SetValue(bool value)
         {
             EnsureInit(5);
-            result = value;
+            _result = value;
         }
 
         public void SetNull()
         {
             EnsureInit(6);
-            result = null;
+            _result = null;
         }
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
-            if (value is string str)
+            if (value is null)
+            {
+                SetNull();
+            }
+            else if (value is string str)
             {
                 EnsureInit(3);
-                result = value;
+                _result = value;
             }
-            else if (value.IsNumeric())
+            else if (value.IsNumeric() is true)
             {
                 EnsureInit(4);
-                result = value;
+                _result = value;
             }
             else if (value is bool b)
             {
                 EnsureInit(5);
-                result = b;
+                _result = b;
             }
             else if (value is JSONObject obj)
             {
-                foreach (var x in obj.data)
+                foreach (var x in obj.Data)
                 {
-                    var processer = JSONParser.GetProcesserByType(this.GetValueType(x.Key));
+                    var processer = _parser.GetProcesserByType(this.GetValueType(x.Key));
                     processer.SetValue(x.Value);
                     this.Set(x.Key, processer.GetResult());
                 }
             }
             else
             {
-                JSONParser.Error("value must be string, bool, numeric or JSONObject");
+                throw _parser.Error("value must be string, bool, numeric or JSONObject");
             }
         }
     }

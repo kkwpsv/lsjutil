@@ -6,7 +6,7 @@ namespace Lsj.Util.JSON.Processer.Interfaces
 {
     interface IProcesser
     {
-        void SetValue(object value);
-        object GetResult();
+        void SetValue(object? value);
+        object? GetResult();
     }
 }

@@ -1,31 +1,29 @@
 ﻿using Lsj.Util.JSON.Processer.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
     class NumericProcesser : INumericProcesser
     {
-        Type type;
-        object result;
+        private readonly Type _type;
+        private object? _result;
 
         public NumericProcesser(Type type)
         {
-            this.type = type;
+            _type = type;
         }
 
-        public object GetResult() => result;
+        public object? GetResult() => _result;
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
-            if (type == null)
+            if (_type == null)
             {
-                result = value;
+                _result = value;
             }
             else
             {
-                result = Convert.ChangeType(value, type);
+                _result = Convert.ChangeType(value, _type);
             }
         }
     }

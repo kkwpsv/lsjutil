@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.JSON
 {
@@ -13,6 +12,6 @@ namespace Lsj.Util.JSON
         /// <summary>
         /// Properties Name
         /// </summary>
-        public List<string> Properties { get; set; }
+        public List<string> Properties { get; set; } = new List<string>();
     }
 }

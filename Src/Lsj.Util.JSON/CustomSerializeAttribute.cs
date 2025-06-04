@@ -3,7 +3,7 @@
 namespace Lsj.Util.JSON
 {
     /// <summary>
-    /// Custom Seriailize Attribute
+    /// Custom Serialize Attribute
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class CustomSerializeAttribute : Attribute
@@ -11,11 +11,12 @@ namespace Lsj.Util.JSON
         /// <summary>
         /// Serializer Type
         /// </summary>
-        public Type Serializer { get; set; }
+        public Type? Serializer { get; set; }
+
         /// <summary>
         /// Json Source Type
         /// </summary>
-        public Type SourceType { get; set; }
+        public Type? SourceType { get; set; }
 
         /// <summary>
         /// 
@@ -35,14 +36,14 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="obj">object</param>
         /// <returns></returns>
-        object Convert(object obj);
+        object Convert(object? obj);
 
         /// <summary>
         /// Parse
         /// </summary>
         /// <param name="str">json str</param>
         /// <returns></returns>
-        object Parse(object str);
+        object Parse(object? str);
     }
 }
 

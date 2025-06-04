@@ -6,8 +6,8 @@ namespace Lsj.Util.JSON.Processer.Interfaces
 {
     interface IListProcesser : IProcesser
     {
-        Type GetChildType();
+        Type? GetChildType();
         bool IsListEmpty();
-        void AddChild(object value);
+        void AddChild(object? value);
     }
 }

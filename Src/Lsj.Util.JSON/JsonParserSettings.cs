@@ -1,9 +1,9 @@
 ﻿namespace Lsj.Util.JSON
 {
     /// <summary>
-    /// Json Parser Settings
+    /// JSON Parser Settings
     /// </summary>
-    public class JsonParserSettings
+    public class JSONParserSettings
     {
         /// <summary>
         /// Is Debug
@@ -40,5 +40,14 @@
             get;
             set;
         } = 100;
+
+        /// <summary>
+        /// Allow Partial JSON
+        /// </summary>
+        public bool AllowPartial
+        {
+            get;
+            set;
+        }
     }
 }

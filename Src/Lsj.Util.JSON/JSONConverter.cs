@@ -13,12 +13,12 @@ namespace Lsj.Util.JSON
     /// <summary>
     /// JSON Converter
     /// </summary>
-    public static class JSONConverter
+    public class JSONConverter
     {
         /// <summary>
         /// Convert Enum To String Or Int (Default String)
         /// </summary>
-        public static bool ConvertEnumToStringOrInt
+        public bool ConvertEnumToStringOrInt
         {
             get;
             set;
@@ -30,31 +30,35 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(decimal val) => val.ToString();
+        public string ConvertToJSONString(decimal val) => val.ToString();
+
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(bool val) => val ? "true" : "false";
+        public string ConvertToJSONString(bool val) => val ? "true" : "false";
+
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(string val) => @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
+        public string ConvertToJSONString(string val) => @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
+        
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(Enum val) => ConvertEnumToStringOrInt ? $@"""{val.ToString()}""" : ((int)(object)val).ToString();
+        public string ConvertToJSONString(Enum val) => ConvertEnumToStringOrInt ? $@"""{val.ToString()}""" : ((int)(object)val).ToString();
+
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(object val)
+        public string ConvertToJSONString(object? val)
         {
             if (val == null)
             {
@@ -154,13 +158,17 @@ namespace Lsj.Util.JSON
                             var customSerializeAttribute = property.GetCustomAttribute<CustomSerializeAttribute>();
                             if (customSerializeAttribute != null)
                             {
-                                if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
+                                if (customSerializeAttribute.Serializer is null)
+                                {
+                                    throw new Exception("Serializer cannot be null.");
+                                }
+                                else if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
                                 {
                                     value = ConvertToJSONString(serializer.Convert(property.GetValue(val, null)));
                                 }
                                 else
                                 {
-                                    throw new Exception("Custom Serializer Must Implement ISerializer");
+                                    throw new Exception("Custom serializer must implement ISerializer.");
                                 }
                             }
                             else

@@ -10,61 +10,66 @@ namespace Lsj.Util.JSON.Processer
 {
     class ObjectProcesser : IObjectProcesser, INullableProcesser
     {
-        protected object _result;
+        protected readonly JSONParser _parser;
+        protected object? _result;
         protected Dictionary<string, PropertyInfo> _properties;
 
-        public ObjectProcesser(Type type)
+        public ObjectProcesser(JSONParser parser, Type type)
         {
+            _parser = parser;
             _result = Activator.CreateInstance(type);
             _properties = type.GetProperties().Where(x => !x.HasAttribute<NotSerializeAttribute>())
-                .ToDictionary(x => x.HasAttribute<CustomJsonPropertyNameAttribute>() ? x.GetCustomAttribute<CustomJsonPropertyNameAttribute>().Name : x.Name
-                , x => x);
+                .ToDictionary(x => x.GetCustomAttribute<CustomJsonPropertyNameAttribute>()?.Name ?? x.Name, x => x);
         }
 
-        public object GetResult() => _result;
+        public object? GetResult() => _result;
 
-        public Type GetValueType(string name)
+        public Type? GetValueType(string name)
         {
             if (_properties.ContainsKey(name))
             {
                 var property = _properties[name];
-                if (property.HasAttribute<CustomSerializeAttribute>())
+                if (property.GetCustomAttribute<CustomSerializeAttribute>() is CustomSerializeAttribute attribute)
                 {
-                    return property.GetCustomAttribute<CustomSerializeAttribute>().SourceType;
+                    return attribute.SourceType;
                 }
                 else
                 {
                     return property.PropertyType;
                 }
             }
-            else if (!JSONParser.Settings.IgnoreNotExistsProperties)
+            else if (!_parser.Settings.IgnoreNotExistsProperties)
             {
-                throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
+                throw new InvalidDataException($@"Error JSON string. Cannot find property ""{name}"".");
             }
-            else if (!JSONParser.Settings.IsDebug)
+            else if (!_parser.Settings.IsDebug)
             {
-                JSONParser.Debug($@"Cannot Find Property ""{name}"".");
+                _parser.Debug($@"Cannot find property ""{name}"".");
             }
 
             return null;
         }
 
-        public virtual void Set(string name, object value)
+        public virtual void Set(string name, object? value)
         {
             if (_properties.ContainsKey(name))
             {
                 var property = _properties[name];
                 if (property.CanWrite)
                 {
-                    if (property.HasAttribute<CustomSerializeAttribute>())
+                    if (property.GetCustomAttribute<CustomSerializeAttribute>() is CustomSerializeAttribute customSerializeAttribute)
                     {
-                        if (Activator.CreateInstance(property.GetCustomAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
+                        if (customSerializeAttribute.Serializer is null)
+                        {
+                            throw _parser.Error("Serializer cannot be null.");
+                        }
+                        if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
                         {
                             property.SetValue(_result, serializer.Parse(value));
                         }
                         else
                         {
-                            throw new Exception("Custom Serializer Must Implement ISerializer");
+                            throw _parser.Error("Custom serializer must implement ISerializer.");
                         }
                     }
                     else
@@ -72,26 +77,26 @@ namespace Lsj.Util.JSON.Processer
                         property.SetValue(_result, value);
                     }
                 }
-                else if (!JSONParser.Settings.IgnoreNotWritableProperties)
+                else if (!_parser.Settings.IgnoreNotWritableProperties)
                 {
                     throw new InvalidDataException($@"Error JSON String. Cannot Write Property ""{name}"".");
                 }
-                else if (JSONParser.Settings.IsDebug)
+                else if (_parser.Settings.IsDebug)
                 {
-                    JSONParser.Debug($@"Cannot Write Property ""{name}"".");
+                    _parser.Debug($@"Cannot Write Property ""{name}"".");
                 }
             }
         }
 
         public void SetNull() => _result = null;
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
             if (value is JSONObject obj)
             {
-                foreach (var x in obj.data)
+                foreach (var x in obj.Data)
                 {
-                    var processer = JSONParser.GetProcesserByType(this.GetValueType(x.Key));
+                    var processer = _parser.GetProcesserByType(GetValueType(x.Key));
                     processer.SetValue(x.Value);
                     Set(x.Key, processer.GetResult());
                 }

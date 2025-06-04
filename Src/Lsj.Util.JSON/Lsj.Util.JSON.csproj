@@ -4,6 +4,7 @@
     <VersionPrefix>$(LsjUtilJSONVersionPrefix)</VersionPrefix>
     <Description>My Utility For JSON</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />

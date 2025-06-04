@@ -4,18 +4,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace Lsj.Util.JSON
 {
     /// <summary>
     /// JSON Array
     /// </summary>
-    public class JSONArray : DynamicObject, IEnumerable<object>
+    public class JSONArray : DynamicObject, IEnumerable<object?>
     {
-        internal readonly List<object> array = new List<object>();
+        internal readonly List<object?> array = new List<object?>();
 
         /// <summary>
         /// Count
@@ -23,10 +20,17 @@ namespace Lsj.Util.JSON
         public int Count => array.Count;
 
         /// <summary>
+        /// Get item by index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public object? this[int index] => array[index];
+
+        /// <summary>
         /// Add item
         /// </summary>
         /// <param name="value"></param>
-        public void Add(object value)
+        public void Add(object? value)
         {
             array.Add(value);
         }
@@ -37,7 +41,7 @@ namespace Lsj.Util.JSON
         /// <param name="binder"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
         {
             if (binder.Name == "Count")
             {
@@ -56,9 +60,9 @@ namespace Lsj.Util.JSON
         /// <param name="args"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object?[]? args, out object? result)
         {
-            if (binder.Name == "Add" && args.Length == 1)
+            if (binder.Name == "Add" && args?.Length == 1)
             {
                 result = null;
                 array.Add(args[0]);
@@ -76,7 +80,7 @@ namespace Lsj.Util.JSON
         /// <param name="indexes"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object? result)
         {
             if (indexes.Length == 1 && indexes[0] is int)
             {
@@ -95,7 +99,7 @@ namespace Lsj.Util.JSON
         /// <param name="indexes"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)
+        public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object? value)
         {
             if (indexes.Length == 1 && indexes[0] is int)
             {
@@ -123,9 +127,9 @@ namespace Lsj.Util.JSON
         {
             if (typeof(T).IsList())
             {
-                var processer = new ListProcesser(typeof(T));
+                var processer = new ListProcesser(new JSONParser(), typeof(T));
                 processer.SetValue(this);
-                return (T)processer.GetResult();
+                return (T)processer.GetResult()!;
             }
             else
             {

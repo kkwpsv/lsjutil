@@ -1,22 +1,22 @@
 ﻿using Lsj.Util.JSON.Processer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
     class BoolProcesser : IBoolProcesser
     {
-        bool result = false;
+        private readonly JSONParser _parser;
+        private bool _result = false;
 
-        public object GetResult() => result;
+        public BoolProcesser(JSONParser jsonParser) => _parser = jsonParser;
+
+        public object GetResult() => _result;
 
         public void SetValue(bool value)
         {
-            this.result = value;
+            _result = value;
         }
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
             if (value is bool val)
             {
@@ -24,7 +24,7 @@ namespace Lsj.Util.JSON.Processer
             }
             else
             {
-                JSONParser.Error("value must be bool");
+                throw _parser.Error("Value must be bool.");
             }
         }
     }

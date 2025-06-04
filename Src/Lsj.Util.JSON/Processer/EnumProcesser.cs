@@ -1,41 +1,45 @@
 ﻿using Lsj.Util.JSON.Processer.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
     class EnumProcesser : IStringProcesser, INumericProcesser
     {
-        object result;
-        Type type;
+        private readonly JSONParser _parser;
+        private readonly Type _type;
+        private object? _result;
 
-        public EnumProcesser(Type type)
+        public EnumProcesser(JSONParser jsonParser, Type type)
         {
-            this.type = type;
+            _type = type;
+            _parser = jsonParser;
         }
 
-        public object GetResult() => result;
+        public object? GetResult() => _result;
 
         public void SetValue(string val)
         {
-            result = Enum.Parse(type, val);
+            _result = Enum.Parse(_type, val);
         }
 
         public void SetValue(int val)
         {
-            result = Convert.ChangeType(val, type);
+            _result = Convert.ChangeType(val, _type);
         }
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
-            if (value is int intVal)
+            if (value is null)
+            {
+                throw _parser.Error("Value cannot be null.");
+            }
+            else if (value is int intVal)
             {
                 SetValue(intVal);
             }
             else
             {
-                SetValue(value.ToString());
+                SetValue(value.ToString()!);
             }
         }
     }

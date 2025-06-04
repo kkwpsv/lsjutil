@@ -12,46 +12,49 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Parse_EmptyAndNull()
         {
-            Assert.AreEqual<JSONObject>(null, JSONParser.Parse(""));
-            Assert.AreEqual<JSONObject>(null, JSONParser.Parse(null));
-            Assert.AreEqual(0, JSONParser.Parse<int>(""));
-            Assert.AreEqual(0, JSONParser.Parse<int>(null));
+            var parser = new JSONParser();
+            Assert.AreEqual<JSONObject>(null, parser.Parse(""));
+            Assert.AreEqual<JSONObject>(null, parser.Parse(null));
+            Assert.AreEqual(0, parser.Parse<int>(""));
+            Assert.AreEqual(0, parser.Parse<int>(null));
 
-            var emptyObject = JSONParser.Parse("{}");
+            var emptyObject = parser.Parse("{}");
             Assert.AreEqual(0, (emptyObject as JSONObject).GetDynamicMemberNames().Count());
 
-            var obj = JSONParser.Parse<TestObject>(@"{""C"":null}");
+            var obj = parser.Parse<TestObject>(@"{""C"":null}");
             Assert.AreEqual(null, obj.C);
 
-            var emptyObject2 = JSONParser.Parse("\r\n{\r\n}\r\n");
+            var emptyObject2 = parser.Parse("\r\n{\r\n}\r\n");
             Assert.AreEqual(0, (emptyObject2 as JSONObject).GetDynamicMemberNames().Count());
         }
 
         [TestMethod]
         public void Parse_Int()
         {
-            Assert.AreEqual(1, JSONParser.Parse("1"));
-            Assert.AreEqual(1, JSONParser.Parse<int>("1"));
+            var parser = new JSONParser();
+            Assert.AreEqual(1, parser.Parse("1"));
+            Assert.AreEqual(1, parser.Parse<int>("1"));
         }
 
         [TestMethod]
         public void Parse_Array()
         {
-            var result = JSONParser.Parse<List<int>>("[0,1,2,3]");
+            var parser = new JSONParser();
+            var result = parser.Parse<List<int>>("[0,1,2,3]");
             Assert.AreEqual(4, result.Count);
             for (int i = 0; i < 4; i++)
             {
                 Assert.AreEqual(i, result[i]);
             }
 
-            var result2 = JSONParser.Parse<List<int>>("[]");
+            var result2 = parser.Parse<List<int>>("[]");
             Assert.AreEqual(0, result2.Count);
 
-            var result3 = JSONParser.Parse("[]");
+            var result3 = parser.Parse("[]");
             Assert.AreEqual(typeof(JSONArray), result3.GetType());
             Assert.AreEqual(0, result3.Count);
 
-            var result4 = JSONParser.Parse<List<TestStruct>>(@"[{""A"":1},{""B"":2},{""C"":""ABC""}]");
+            var result4 = parser.Parse<List<TestStruct>>(@"[{""A"":1},{""B"":2},{""C"":""ABC""}]");
             Assert.AreEqual(3, result4.Count);
             Assert.AreEqual(1, result4[0].A);
             Assert.AreEqual(2, result4[1].B);
@@ -61,7 +64,8 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Parse_Object()
         {
-            var result = JSONParser.Parse<TestObject>(@"{""A"":1,""B"":2,""D"":4}");
+            var parser = new JSONParser();
+            var result = parser.Parse<TestObject>(@"{""A"":1,""B"":2,""D"":4}");
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
         }
@@ -69,14 +73,17 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Parse_Struct()
         {
-            var result = JSONParser.Parse<TestStruct>(@"{""A"":1,""B"":2,""D"":4}");
+            var parser = new JSONParser();
+            var result = parser.Parse<TestStruct>(@"{""A"":1,""B"":2,""D"":4}");
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
         }
+
         [TestMethod]
         public void Parse_Custom()
         {
-            var result = JSONParser.Parse<TestCustomObject>(@"{""A"":""Test"",""B"":""Test2""}");
+            var parser = new JSONParser();
+            var result = parser.Parse<TestCustomObject>(@"{""A"":""Test"",""B"":""Test2""}");
             Assert.AreEqual(true, result.A);
             Assert.AreEqual(false, result.B);
         }
@@ -84,7 +91,8 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Parse_Dynamic()
         {
-            var result = JSONParser.Parse(@"{""A"":1,""B"":2,""D"":4}");
+            var parser = new JSONParser();
+            var result = parser.Parse(@"{""A"":1,""B"":2,""D"":4}");
             int d1 = result.D;
             decimal d2 = result.D;
             Assert.AreEqual(1, result.A);

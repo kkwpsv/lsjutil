@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -607,7 +608,7 @@ namespace Lsj.Util.Text
         /// Is Null or Empty
         /// </summary>
         /// <param name="src"></param>
-        public static bool IsNullOrEmpty(this string src) => string.IsNullOrEmpty(src);
+        public static bool IsNullOrEmpty(this string? src) => string.IsNullOrEmpty(src);
 
         /// <summary>
         /// 
