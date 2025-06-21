@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LsjUtilVersionPrefix>8.0.0</LsjUtilVersionPrefix>
-    <LsjUtilAspNetCoreVersionPrefix>8.0.0</LsjUtilAspNetCoreVersionPrefix>
+    <LsjUtilAspNetCoreVersionPrefix>8.0.1</LsjUtilAspNetCoreVersionPrefix>
     <LsjUtilCsBuilderVersionPrefix>8.0.0</LsjUtilCsBuilderVersionPrefix>
     <LsjUtilDataVersionPrefix>8.0.0</LsjUtilDataVersionPrefix>
     <LsjUtilDynamicVersionPrefix>8.0.0</LsjUtilDynamicVersionPrefix>
