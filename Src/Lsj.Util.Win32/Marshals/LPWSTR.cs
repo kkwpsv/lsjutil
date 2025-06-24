@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 namespace Lsj.Util.Win32.Marshals
 {
     /// <summary>
-    /// LPWSTR implement by self-managed buffer or dirtect pointer.
+    /// LPWSTR implement by self-managed buffer or direct pointer.
     /// </summary>
     public class LPWSTR : CriticalHandle, IPointer
     {
-        private bool _isSelfManager;
+        private bool _isSelfManaged;
 
         /// <summary>
         /// Initialize from a string.
@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Marshals
         {
             if (str != null)
             {
-                _isSelfManager = true;
+                _isSelfManaged = true;
                 SetHandle(Marshal.StringToHGlobalUni(str));
             }
             else
@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.Marshals
             {
                 throw new ArgumentOutOfRangeException(nameof(bufferLength), "Buffer length is smaller than string length");
             }
-            _isSelfManager = true;
+            _isSelfManaged = true;
             var buffer = Marshal.AllocHGlobal(bufferLength * sizeof(char));
             unsafe
             {
@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32.Marshals
                 throw new ArgumentOutOfRangeException("Buffer length must be larger than zero");
             }
 
-            _isSelfManager = true;
+            _isSelfManaged = true;
             var buffer = Marshal.AllocHGlobal(bufferLength * sizeof(char));
             SetHandle(buffer);
         }
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32.Marshals
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
         {
-            if (_isSelfManager)
+            if (_isSelfManaged)
             {
                 Marshal.FreeHGlobal(handle);
             }
@@ -114,7 +114,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPWSTR(string val) => new LPWSTR(val);
+        public static implicit operator LPWSTR(string? val) => new LPWSTR(val);
 
         /// <summary>
         /// 
