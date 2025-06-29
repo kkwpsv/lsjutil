@@ -1,13 +1,15 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ButtonStyles;
+using static Lsj.Util.Win32.Enums.ButtonControlMessages;
 
 namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// Contains information that defines a split button (<see cref="ButtonStyles.BS_SPLITBUTTON"/> and <see cref="ButtonStyles.BS_DEFSPLITBUTTON"/> styles).
-    /// Used with the <see cref="ButtonControlMessages.BCM_GETSPLITINFO"/> and <see cref="ButtonControlMessages.BCM_SETSPLITINFO"/> messages.
+    /// Contains information that defines a split button (<see cref="BS_SPLITBUTTON"/> and <see cref="BS_DEFSPLITBUTTON"/> styles).
+    /// Used with the <see cref="BCM_GETSPLITINFO"/> and <see cref="BCM_SETSPLITINFO"/> messages.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-button_splitinfo"/>

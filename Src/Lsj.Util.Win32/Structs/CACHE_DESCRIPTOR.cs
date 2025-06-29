@@ -17,11 +17,43 @@ namespace Lsj.Util.Win32.Structs
     public struct CACHE_DESCRIPTOR
     {
         /// <summary>
-        /// The cache level.
-        /// This member can be one of the following values.
-        /// 1: L1
-        /// 2: L2
-        /// 3: L3
+        /// <para>
+        /// The cache level. This member can currently be one of the following values; other values may be supported in the future.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// L1
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2
+        /// </term>
+        /// <term>
+        /// L2
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 3
+        /// </term>
+        /// <term>
+        /// L3
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public BYTE Level;
 

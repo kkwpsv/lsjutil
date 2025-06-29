@@ -62,12 +62,99 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lpCustColors;
 
         /// <summary>
+        /// <para>
         /// A set of bit flags that you can use to initialize the Color dialog box.
         /// When the dialog box returns, it sets these flags to indicate the user's input.
         /// This member can be a combination of the following flags.
-        /// <see cref="CC_ANYCOLOR"/>, <see cref="CC_ENABLEHOOK"/>, <see cref="CC_ENABLETEMPLATE"/>, <see cref="CC_ENABLETEMPLATEHANDLE"/>,
-        /// <see cref="CC_FULLOPEN"/>, <see cref="CC_PREVENTFULLOPEN"/>, <see cref="CC_RGBINIT"/>, <see cref="CC_SHOWHELP"/>,
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_ANYCOLOR"/>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to display all available colors in the set of basic colors.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_ENABLEHOOK"/>
+        /// </term>
+        /// <term>
+        /// Enables the hook procedure specified in the <see cref="lpfnHook"/> member of this structure.
+        /// This flag is used only to initialize the dialog box.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_ENABLETEMPLATE"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="hInstance"/> and <see cref="lpTemplateName"/> members specify a dialog box template to use in place of the default template.
+        /// This flag is used only to initialize the dialog box.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_ENABLETEMPLATEHANDLE"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="hInstance"/> member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores the <see cref="lpTemplateName"/> member if this flag is specified. This flag is used only to initialize the dialog box.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_FULLOPEN"/>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to display the additional controls that allow the user to create custom colors.
+        /// If this flag is not set, the user must click the Define Custom Color button to display the custom color controls.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_PREVENTFULLOPEN"/>
+        /// </term>
+        /// <term>
+        /// Disables the Define Custom Color button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_RGBINIT"/>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to use the color specified in the <see cref="rgbResult"/> member as the initial color selection.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CC_SHOWHELP"/>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to display the Help button.
+        /// The <see cref="hwndOwner"/> member must specify the window to receive the <see cref="HELPMSGSTRING"/> registered messages
+        /// that the dialog box sends when the user clicks the Help button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="CC_SOLIDCOLOR"/>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to display only solid colors in the set of basic colors.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public CHOOSECOLORFlags Flags;
 

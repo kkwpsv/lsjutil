@@ -20,12 +20,18 @@ namespace Lsj.Util.Win32.Enums
     public enum BROWSEINFOFlags : uint
     {
         /// <summary>
+        /// <para>
         /// Only return file system directories.
         /// If the user selects folders that are not part of the file system, the OK button is grayed.
-        /// Note 
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// The OK button remains enabled for "\\server" items, as well as "\\server\share" and directory items.
         /// However, if the user selects a "\\server" item,
         /// passing the PIDL returned by <see cref="SHBrowseForFolder"/> to <see cref="SHGetPathFromIDList"/> fails.
+        /// </para>
         /// </summary>
         BIF_RETURNONLYFSDIRS = 0x00000001,
 
@@ -62,26 +68,22 @@ namespace Lsj.Util.Win32.Enums
         BIF_VALIDATE = 0x00000020,
 
         /// <summary>
+        /// <para>
         /// Version 5.0.
         /// Use the new user interface.
         /// Setting this flag provides the user with a larger dialog box that can be resized.
         /// The dialog box has several new capabilities, including: drag-and-drop capability
         /// within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands.
-        /// Note 
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// If COM is initialized through <see cref="CoInitializeEx"/> with the <see cref="COINIT_MULTITHREADED"/> flag set,
         /// <see cref="SHBrowseForFolder"/> fails if <see cref="BIF_NEWDIALOGSTYLE"/> is passed.
+        /// </para>
         /// </summary>
         BIF_NEWDIALOGSTYLE = 0x00000040,
-
-        /// <summary>
-        /// Version 5.0.
-        /// Use the new user interface, including an edit box.
-        /// This flag is equivalent to <code>BIF_EDITBOX | BIF_NEWDIALOGSTYLE</code>.
-        /// Note
-        /// If COM is initialized through <see cref="CoInitializeEx"/> with the <see cref="COINIT_MULTITHREADED"/> flag set,
-        /// <see cref="SHBrowseForFolder"/> fails if <see cref="BIF_USENEWUI"/> is passed.
-        /// </summary>
-        BIF_USENEWUI = (BIF_NEWDIALOGSTYLE | BIF_EDITBOX),
 
         /// <summary>
         /// Version 5.0.
@@ -94,6 +96,22 @@ namespace Lsj.Util.Win32.Enums
         /// Otherwise, the browse dialog box will not display the URL.
         /// </summary>
         BIF_BROWSEINCLUDEURLS = 0x00000080,
+
+        /// <summary>
+        /// <para>
+        /// Version 5.0.
+        /// Use the new user interface, including an edit box.
+        /// This flag is equivalent to <code>BIF_EDITBOX | BIF_NEWDIALOGSTYLE</code>.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// If COM is initialized through <see cref="CoInitializeEx"/> with the <see cref="COINIT_MULTITHREADED"/> flag set,
+        /// <see cref="SHBrowseForFolder"/> fails if <see cref="BIF_USENEWUI"/> is passed.
+        /// </para>
+        /// </summary>
+        BIF_USENEWUI = (BIF_NEWDIALOGSTYLE | BIF_EDITBOX),
 
         /// <summary>
         /// Version 6.0.
@@ -121,10 +139,14 @@ namespace Lsj.Util.Win32.Enums
         BIF_BROWSEFORCOMPUTER = 0x00001000,
 
         /// <summary>
+        /// <para>
         /// Only allow the selection of printers.
         /// If the user selects anything other than a printer, the OK button is grayed.
-        /// In Windows XP and later systems, the best practice is to use a Windows XP-style dialog,
+        /// </para>
+        /// <para>
+        /// In Windows XP and later systems, the best practice is to use a Windows XP-style dialog,
         /// setting the root of the dialog to the Printers and Faxes folder (<see cref="CSIDL_PRINTERS"/>).
+        /// </para>
         /// </summary>
         BIF_BROWSEFORPRINTER = 0x00002000,
 

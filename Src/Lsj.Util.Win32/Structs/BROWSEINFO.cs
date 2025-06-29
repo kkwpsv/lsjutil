@@ -17,13 +17,6 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfow"/>
     /// </para>
     /// </summary>
-    /// <remarks>
-    /// The shlobj_core.h header defines <see cref="BROWSEINFO"/> as an alias which automatically
-    /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-    /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead
-    /// to mismatches that result in compilation or runtime errors.
-    /// For more information, see Conventions for Function Prototypes.
-    /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct BROWSEINFO
     {  
@@ -57,12 +50,6 @@ namespace Lsj.Util.Win32.Structs
         /// Version numbers refer to the minimum version of Shell32.dll required
         /// for <see cref="SHBrowseForFolder"/> to recognize flags added in later releases.
         /// See Shell and Common Controls Versions for more information.
-        /// <see cref="BIF_RETURNONLYFSDIRS"/>, <see cref="BIF_DONTGOBELOWDOMAIN "/>, <see cref="BIF_STATUSTEXT"/>,
-        /// <see cref="BIF_RETURNFSANCESTORS"/>, <see cref="BIF_EDITBOX"/>, <see cref="BIF_VALIDATE"/>,
-        /// <see cref="BIF_NEWDIALOGSTYLE"/>, <see cref="BIF_BROWSEINCLUDEURLS"/>, <see cref="BIF_USENEWUI"/>,
-        /// <see cref="BIF_UAHINT"/>, <see cref="BIF_NONEWFOLDERBUTTON"/>, <see cref="BIF_NOTRANSLATETARGETS"/>,
-        /// <see cref="BIF_BROWSEFORCOMPUTER"/>, <see cref="BIF_BROWSEFORPRINTER"/>, <see cref="BIF_BROWSEINCLUDEFILES"/>,
-        /// <see cref="BIF_SHAREABLE"/>, <see cref="BIF_BROWSEFILEJUNCTIONS"/>
         /// </summary>
         public BROWSEINFOFlags ulFlags;
 

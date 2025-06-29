@@ -23,12 +23,139 @@ namespace Lsj.Util.Win32.Structs
         public CHAR_INFO_Char Char;
 
         /// <summary>
+        /// <para>
         /// The character attributes. This member can be zero or any combination of the following values.
-        /// <see cref="FOREGROUND_BLUE"/>, <see cref="FOREGROUND_GREEN"/>, <see cref="FOREGROUND_RED"/>, <see cref="FOREGROUND_INTENSITY"/>,
-        /// <see cref="BACKGROUND_BLUE"/>, <see cref="BACKGROUND_GREEN"/>, <see cref="BACKGROUND_RED"/>, <see cref="BACKGROUND_INTENSITY"/>,
-        /// <see cref="COMMON_LVB_LEADING_BYTE"/>, <see cref="COMMON_LVB_TRAILING_BYTE"/>, <see cref="COMMON_LVB_GRID_HORIZONTAL"/>,
-        /// <see cref="COMMON_LVB_GRID_LVERTICAL"/>, <see cref="COMMON_LVB_GRID_RVERTICAL"/>, <see cref="COMMON_LVB_REVERSE_VIDEO"/>,
-        /// <see cref="COMMON_LVB_UNDERSCORE"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FOREGROUND_BLUE"/> 
+        /// </term>
+        /// <term>
+        /// Text color contains blue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FOREGROUND_GREEN"/> 
+        /// </term>
+        /// <term>
+        /// Text color contains green.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FOREGROUND_RED"/> 
+        /// </term>
+        /// <term>
+        /// Text color contains red.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FOREGROUND_INTENSITY"/> 
+        /// </term>
+        /// <term>
+        /// Text color is intensified.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BACKGROUND_BLUE"/> 
+        /// </term>
+        /// <term>
+        /// Background color contains blue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BACKGROUND_GREEN"/> 
+        /// </term>
+        /// <term>
+        /// Background color contains green.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BACKGROUND_RED"/> 
+        /// </term>
+        /// <term>
+        /// Background color contains red.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BACKGROUND_INTENSITY"/> 
+        /// </term>
+        /// <term>
+        /// Background color is intensified.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_LEADING_BYTE"/> 
+        /// </term>
+        /// <term>
+        /// Leading byte.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_TRAILING_BYTE"/> 
+        /// </term>
+        /// <term>
+        /// Trailing byte.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_GRID_HORIZONTAL"/> 
+        /// </term>
+        /// <term>
+        /// Top horizontal.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_GRID_LVERTICAL"/> 
+        /// </term>
+        /// <term>
+        /// Left vertical.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_GRID_RVERTICAL"/> 
+        /// </term>
+        /// <term>
+        /// Right vertical.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_REVERSE_VIDEO"/> 
+        /// </term>
+        /// <term>
+        /// Reverse foreground and background attribute.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMMON_LVB_UNDERSCORE"/> 
+        /// </term>
+        /// <term>
+        /// Underscore.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public ConsoleCharacterAttributes Attributes;
 

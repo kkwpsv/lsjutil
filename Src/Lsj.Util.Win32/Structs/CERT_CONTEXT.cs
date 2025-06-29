@@ -9,11 +9,11 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// The CERT_CONTEXT structure contains both the encoded and decoded representations of a certificate.
-    /// A certificate context returned by one of the functions defined in Wincrypt.h must be freed
-    /// by calling the <see cref="CertFreeCertificateContext"/> function.
-    /// The <see cref="CertDuplicateCertificateContext"/> function can be called to make a duplicate copy
-    /// (which also must be freed by calling <see cref="CertFreeCertificateContext"/>).
+    /// The <see cref="CERT_CONTEXT"/> structure contains both the encoded and decoded representations of a certificate.
+    /// A certificate context returned by one of the functions defined in Wincrypt.h
+    /// must be freed by calling the <see cref="CertFreeCertificateContext"/> function.
+    /// The <see cref="CertDuplicateCertificateContext"/> function can be called
+    /// to make a duplicate copy (which also must be freed by calling <see cref="CertFreeCertificateContext"/>).
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-cert_context"/>
@@ -23,12 +23,28 @@ namespace Lsj.Util.Win32.Structs
     public struct CERT_CONTEXT
     {
         /// <summary>
+        /// <para>
         /// Type of encoding used. It is always acceptable to specify both the certificate and message encoding types
         /// by combining them with a bitwise-OR operation as shown in the following example:
-        /// <code>X509_ASN_ENCODING | PKCS_7_ASN_ENCODING</code>
+        /// </para>
+        /// <para>
+        /// <code>X509_ASN_ENCODING | PKCS_7_ASN_ENCODING </code>
+        /// </para>
+        /// <para>
         /// Currently defined encoding types are:
-        /// <see cref="X509_ASN_ENCODING"/>
-        /// <see cref="PKCS_7_ASN_ENCODING"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// X509_ASN_ENCODING
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PKCS_7_ASN_ENCODING
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public CertEncodingTypes dwCertEncodingType;
 

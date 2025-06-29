@@ -6,23 +6,23 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// The <see cref="CERT_NAME_BLOB"/> structure contains an arbitrary array of bytes.
-    /// The structure definition includes aliases appropriate to the various functions that use it.
+    /// The CryptoAPI <see cref="CRYPT_INTEGER_BLOB"/> structure is used for an arbitrary array of bytes.
+    /// It is declared in Wincrypt.h and provides flexibility for objects that can contain various data types.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa381414(v=vs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-crypt_integer_blob"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct CERT_NAME_BLOB
     {
         /// <summary>
-        /// A <see cref="DWORD"/> variable that contains the count, in bytes, of data.
+        /// The count of bytes in the buffer pointed to by <see cref="pbData"/>.
         /// </summary>
         public DWORD cbData;
 
         /// <summary>
-        /// A pointer to the data buffer.
+        /// A pointer to a block of data bytes.
         /// </summary>
         public IntPtr pbData;
     }

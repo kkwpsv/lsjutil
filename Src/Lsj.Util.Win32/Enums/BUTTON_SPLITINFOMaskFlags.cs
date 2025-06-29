@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
-
+using static Lsj.Util.Win32.Enums.SplitButtonStyles;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <see cref="BUTTON_SPLITINFO.himlGlyph"/> is valid.
-        /// Use when <see cref="BUTTON_SPLITINFO.uSplitStyle"/> is set to <see cref="SplitButtonStyles.BCSS_IMAGE"/>.
+        /// Use when <see cref="BUTTON_SPLITINFO.uSplitStyle"/> is set to <see cref="BCSS_IMAGE"/>.
         /// </summary>
         BCSIF_IMAGE = 0x0002,
 

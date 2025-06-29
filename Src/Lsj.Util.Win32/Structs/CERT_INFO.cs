@@ -31,9 +31,43 @@ namespace Lsj.Util.Win32.Structs
         public const uint CERT_V3 = 2;
 
         /// <summary>
-        /// The version number of a certificate.
-        /// This member can be one of the following version numbers.
-        /// <see cref="CERT_V1"/>, <see cref="CERT_V2"/>, <see cref="CERT_V3"/>
+        /// <para>
+        /// The version number of a certificate. This member can be one of the following version numbers.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CERT_V1"/>
+        /// </term>
+        /// <term>
+        /// Version 1
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CERT_V2"/>
+        /// </term>
+        /// <term>
+        /// Version 2
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CERT_V3"/>
+        /// </term>
+        /// <term>
+        /// Version 3
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD dwVersion;
 
