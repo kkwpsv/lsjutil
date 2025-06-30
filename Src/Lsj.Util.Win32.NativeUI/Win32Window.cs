@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="windowClassName">window class name, auto generate if <see langword="null"/></param>
         /// <param name="classStyles">window class style</param>
         /// <param name="windowProc">window class procedure, use <see cref="WindowProc"/> if <see href="NULL"/></param>
-        /// <param name="hInstance">window class hInstance<param>
+        /// <param name="hInstance">window class hInstance</param>
         /// <param name="hIcon">window class hIcon, <see cref="IDI_APPLICATION"/> if <see href="NULL"/></param>
         /// <param name="hCursor">window class hCursor, <see cref="IDC_ARROW"/> if <see href="NULL"/></param>
         /// <param name="hbrBackground">window class hbrBackground, <see cref="COLOR_WINDOW"/> if <see href="NULL"/></param>
