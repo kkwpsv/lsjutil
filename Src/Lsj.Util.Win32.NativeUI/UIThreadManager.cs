@@ -34,18 +34,22 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Init a new UI thread and run message loop.
         /// </summary>
-        public UIThreadManager()
+        public UIThreadManager() : this("UIThreadManager Thread")
         {
-            if (_current != null)
-            {
-                throw new InvalidOperationException("Current thread has already a UIThreadManager");
-            }
-            _current = this;
+        }
+
+        /// <summary>
+        /// Init a new UI thread and run message loop.
+        /// </summary>
+        /// <param name="threadName">Thread name.</param>
+        public UIThreadManager(string threadName)
+        {
             _thread = new Thread(() =>
             {
+                _current = this;
                 MessageLoopImpl();
             });
-            _thread.Name = "UIThreadManager Thread";
+            _thread.Name = threadName;
             _thread.SetApartmentState(ApartmentState.STA);
             _thread.Start();
         }
