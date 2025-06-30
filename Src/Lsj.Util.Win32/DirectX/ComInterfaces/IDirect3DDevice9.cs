@@ -1731,12 +1731,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Try to clear either the depth buffer or the stencil buffer of a render target that does not have an attached depth buffer.
         /// Try to clear the stencil buffer when the depth buffer does not contain stencil data.
         /// </remarks>
-        public HRESULT Clear([In] DWORD Count, [In] D3DRECT[] pRects, [In] D3DCLEAR Flags, [In] D3DCOLOR Color, [In] float Z, [In] DWORD Stencil)
+        public HRESULT Clear([In] DWORD Count, [In] D3DRECT[]? pRects, [In] D3DCLEAR Flags, [In] D3DCOLOR Color, [In] float Z, [In] DWORD Stencil)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT[], D3DCLEAR, D3DCOLOR, float, DWORD, HRESULT>)_vTable[43])
-                    (thisPtr, Count, pRects, Flags, Color, Z, Stencil);
+                fixed (D3DRECT* pRectsPtr = pRects)
+                {
+                    return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DRECT*, D3DCLEAR, D3DCOLOR, float, DWORD, HRESULT>)_vTable[43])
+                        (thisPtr, Count, pRectsPtr, Flags, Color, Z, Stencil);
+                }
             }
         }
 
