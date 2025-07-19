@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="FW_HEAVY"/>: 900
         /// <see cref="FW_BLACK"/>: 900
         /// </summary>
-        public int lfWeight;
+        public LONG lfWeight;
 
         /// <summary>
         /// An italic font if set to <see langword="true"/>.

@@ -9,7 +9,7 @@
     /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/9518fece-d2f2-4799-9df6-ba3db1d73371"/>
     /// </para>
     /// </summary>
-    public enum FontQualities
+    public enum FontQualities : byte
     {
         /// <summary>
         /// Specifies that the character quality of the font does not matter, so <see cref="DRAFT_QUALITY"/> can be used.

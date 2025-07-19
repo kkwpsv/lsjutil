@@ -11,7 +11,7 @@
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-logfontw"/>
     /// </para>
     /// </summary>
-    public enum ClipPrecisions : int
+    public enum ClipPrecisions : byte
     {
         /// <summary>
         /// Specifies that default clipping MUST be used.
