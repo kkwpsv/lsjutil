@@ -5,7 +5,7 @@
     <LsjUtilCsBuilderVersionPrefix>8.0.0</LsjUtilCsBuilderVersionPrefix>
     <LsjUtilDataVersionPrefix>8.0.0</LsjUtilDataVersionPrefix>
     <LsjUtilDynamicVersionPrefix>8.0.0</LsjUtilDynamicVersionPrefix>
-    <LsjUtilHtmlBuilderVersionPrefix>8.0.0</LsjUtilHtmlBuilderVersionPrefix>
+    <LsjUtilHtmlBuilderVersionPrefix>8.0.1</LsjUtilHtmlBuilderVersionPrefix>
     <LsjUtilJSONVersionPrefix>8.0.0</LsjUtilJSONVersionPrefix>
     <LsjUtilNetVersionPrefix>8.0.0</LsjUtilNetVersionPrefix>
     <LsjUtilNetWebVersionPrefix>8.0.0</LsjUtilNetWebVersionPrefix>
@@ -13,7 +13,7 @@
     <LsjUtilSQLBuilderVersionPrefix>8.0.0</LsjUtilSQLBuilderVersionPrefix>
     <LsjUtilWin32VersionPrefix>8.0.1</LsjUtilWin32VersionPrefix>
     <LsjUtilWin32ExtensionsVersionPrefix>8.0.0</LsjUtilWin32ExtensionsVersionPrefix>
-    <LsjUtilWin32NativeUIVersionPrefix>8.0.0</LsjUtilWin32NativeUIVersionPrefix>
+    <LsjUtilWin32NativeUIVersionPrefix>8.1.0</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>8.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>8.0.0</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
