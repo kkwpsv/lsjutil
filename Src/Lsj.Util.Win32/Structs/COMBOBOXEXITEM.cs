@@ -20,11 +20,77 @@ namespace Lsj.Util.Win32.Structs
     public struct COMBOBOXEXITEM
     {
         /// <summary>
+        /// <para>
         /// A set of bit flags that specify attributes of this structure or of an operation that is using this structure.
         /// The flags specify members that are valid or must be filled in.
         /// This member can be a combination of the following values.
-        /// <see cref="CBEIF_TEXT"/>, <see cref="CBEIF_IMAGE"/>, <see cref="CBEIF_SELECTEDIMAGE"/>, <see cref="CBEIF_OVERLAY"/>,
-        /// <see cref="CBEIF_INDENT"/>, <see cref="CBEIF_LPARAM"/>, <see cref="CBEIF_DI_SETITEM"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_DI_SETITEM"/>
+        /// </term>
+        /// <term>
+        /// Set this flag when processing <see cref="CBEN_GETDISPINFO"/>; the ComboBoxEx control will retain the supplied information and will not request it again.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_IMAGE"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iImage"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_INDENT"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iIndent"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_LPARAM"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="lParam"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_OVERLAY"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iOverlay"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_SELECTEDIMAGE"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iSelectedImage"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CBEIF_TEXT"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="pszText"/> member is valid or must be filled in.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public COMBOBOXEXITEMFlags mask;
 

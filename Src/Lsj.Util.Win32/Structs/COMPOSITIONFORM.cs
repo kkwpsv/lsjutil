@@ -20,7 +20,55 @@ namespace Lsj.Util.Win32.Structs
     public struct COMPOSITIONFORM
     {
         /// <summary>
+        /// <para>
         /// Position style. This member can be one of the following values:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CFS_DEFAULT"/>
+        /// </term>
+        /// <term>
+        /// Move the composition window to the default position.
+        /// The IME window can display the composition window outside the client area, such as in a floating window.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CFS_FORCE_POSITION"/>
+        /// </term>
+        /// <term>
+        /// Display the upper left corner of the composition window at exactly the position specified by <see cref="ptCurrentPos"/>.
+        /// The coordinates are relative to the upper left corner of the window containing the composition window and are not subject to adjustment by the IME.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CFS_POINT"/>
+        /// </term>
+        /// <term>
+        /// Display the upper left corner of the composition window at the position specified by <see cref="ptCurrentPos"/>.
+        /// The coordinates are relative to the upper left corner of the window containing the composition window and are subject to adjustment by the IME.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CFS_RECT"/>
+        /// </term>
+        /// <term>
+        /// Display the composition window at the position specified by <see cref="rcArea"/>.
+        /// The coordinates are relative to the upper left of the window containing the composition window.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public COMPOSITIONFORMStyles dwStyle;
 

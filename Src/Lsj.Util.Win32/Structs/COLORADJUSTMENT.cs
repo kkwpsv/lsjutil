@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ILLUMINANT;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -11,6 +12,9 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="COLORADJUSTMENT"/> structure defines the color adjustment values
     /// used by the <see cref="StretchBlt"/> and <see cref="StretchDIBits"/> functions when the stretch mode is <see cref="HALFTONE"/>.
     /// You can set the color adjustment values by calling the <see cref="SetColorAdjustment"/> function.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-coloradjustment"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -33,45 +37,158 @@ namespace Lsj.Util.Win32.Structs
         public WORD caSize;
 
         /// <summary>
+        /// <para>
         /// Specifies how the output image should be prepared.
-        /// This member may be set to NULL or any combination of the following values.
-        /// <see cref="CA_NEGATIVE"/>:
+        /// This member may be set to <see cref="NULL"/> or any combination of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CA_NEGATIVE"/>
+        /// </term>
+        /// <term>
         /// Specifies that the negative of the original image should be displayed.
-        /// <see cref="CA_LOG_FILTER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CA_LOG_FILTER"/>
+        /// </term>
+        /// <term>
         /// Specifies that a logarithmic function should be applied to the final density of the output colors.
         /// This will increase the color contrast when the luminance is low.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public WORD caFlags;
 
         /// <summary>
-        /// The type of standard light source under which the image is viewed.
-        /// This member may be set to one of the following values.
-        /// <see cref="ILLUMINANT_DEVICE_DEFAULT"/>:
+        /// <para>
+        /// The type of standard light source under which the image is viewed. This member may be set to one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_DEVICE_DEFAULT"/>
+        /// </term>
+        /// <term>
         /// Device's default. Standard used by output devices.
-        /// <see cref="ILLUMINANT_A"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_A"/>
+        /// </term>
+        /// <term>
         /// Tungsten lamp.
-        /// <see cref="ILLUMINANT_B"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_B"/>
+        /// </term>
+        /// <term>
         /// Noon sunlight.
-        /// <see cref="ILLUMINANT_C"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_C"/>
+        /// </term>
+        /// <term>
         /// NTSC daylight.
-        /// <see cref="ILLUMINANT_D50"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_D50"/>
+        /// </term>
+        /// <term>
         /// Normal print.
-        /// <see cref="ILLUMINANT_D55"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_D55"/>
+        /// </term>
+        /// <term>
         /// Bond paper print.
-        /// <see cref="ILLUMINANT_D65"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_D65"/>
+        /// </term>
+        /// <term>
         /// Standard daylight. Standard for CRTs and pictures.
-        /// <see cref="ILLUMINANT_D75"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_D75"/>
+        /// </term>
+        /// <term>
         /// Northern daylight.
-        /// <see cref="ILLUMINANT_F2"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_F2"/>
+        /// </term>
+        /// <term>
         /// Cool white lamp.
-        /// <see cref="ILLUMINANT_TUNGSTEN"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_TUNGSTEN"/>
+        /// </term>
+        /// <term>
         /// Same as <see cref="ILLUMINANT_A"/>.
-        /// <see cref="ILLUMINANT_DAYLIGHT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_DAYLIGHT"/>
+        /// </term>
+        /// <term>
         /// Same as <see cref="ILLUMINANT_C"/>.
-        /// <see cref="ILLUMINANT_FLUORESCENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_FLUORESCENT"/>
+        /// </term>
+        /// <term>
         /// Same as <see cref="ILLUMINANT_F2"/>.
-        /// <see cref="ILLUMINANT_NTSC"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ILLUMINANT_NTSC"/>
+        /// </term>
+        /// <term>
         /// Same as <see cref="ILLUMINANT_C"/>.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public WORD caIlluminantIndex;
 

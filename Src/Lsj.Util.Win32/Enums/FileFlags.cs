@@ -113,5 +113,15 @@ namespace Lsj.Util.Win32.Enums
         /// but creation of the next instance fails with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
         /// </summary>
         FILE_FLAG_FIRST_PIPE_INSTANCE = 0x00080000,
+
+        /// <summary>
+        /// FILE_FLAG_IGNORE_IMPERSONATED_DEVICEMAP
+        /// </summary>
+        FILE_FLAG_IGNORE_IMPERSONATED_DEVICEMAP = 0x00020000,
+
+        /// <summary>
+        /// FILE_FLAG_OPEN_REQUIRING_OPLOCK
+        /// </summary>
+        FILE_FLAG_OPEN_REQUIRING_OPLOCK = 0x00040000,
     }
 }

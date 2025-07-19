@@ -16,11 +16,18 @@ namespace Lsj.Util.Win32.Structs
     public struct CONSOLE_CURSOR_INFO
     {
         /// <summary>
-        /// The percentage of the character cell that is filled by the cursor. This value is between 1 and 100.
+        /// <para>
+        /// The percentage of the character cell that is filled by the cursor.
+        /// This value is between 1 and 100.
         /// The cursor appearance varies, ranging from completely filling the cell to showing up as a horizontal line at the bottom of the cell.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// While the <see cref="dwSize"/> value is normally between 1 and 100, under some circumstances a value outside of that range might be returned.
         /// For example, if CursorSize is set to 0 in the registry, the <see cref="dwSize"/> value returned would be 0.
+        /// </para>
         /// </summary>
         public DWORD dwSize;
 

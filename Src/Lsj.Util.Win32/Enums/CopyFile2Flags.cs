@@ -48,6 +48,56 @@ namespace Lsj.Util.Win32.Enums
         COPY_FILE_NO_OFFLOAD = 0x00040000,
 
         /// <summary>
+        /// COPY_FILE_IGNORE_EDP_BLOCK
+        /// </summary>
+        COPY_FILE_IGNORE_EDP_BLOCK = 0x00400000,
+
+        /// <summary>
+        /// COPY_FILE_IGNORE_SOURCE_ENCRYPTION
+        /// </summary>
+        COPY_FILE_IGNORE_SOURCE_ENCRYPTION = 0x00800000,
+
+        /// <summary>
+        /// COPY_FILE_DONT_REQUEST_DEST_WRITE_DAC
+        /// </summary>
+        COPY_FILE_DONT_REQUEST_DEST_WRITE_DAC = 0x02000000,
+
+        /// <summary>
+        /// COPY_FILE_OPEN_AND_COPY_REPARSE_POINT
+        /// </summary>
+        COPY_FILE_OPEN_AND_COPY_REPARSE_POINT = 0x00200000,
+
+        /// <summary>
+        /// COPY_FILE_DIRECTORY
+        /// </summary>
+        COPY_FILE_DIRECTORY = 0x00000080,
+
+        /// <summary>
+        /// COPY_FILE_SKIP_ALTERNATE_STREAMS
+        /// </summary>
+        COPY_FILE_SKIP_ALTERNATE_STREAMS = 0x00008000,
+
+        /// <summary>
+        /// COPY_FILE_DISABLE_PRE_ALLOCATION
+        /// </summary>
+        COPY_FILE_DISABLE_PRE_ALLOCATION = 0x04000000,
+
+        /// <summary>
+        /// COPY_FILE_ENABLE_LOW_FREE_SPACE_MODE
+        /// </summary>
+        COPY_FILE_ENABLE_LOW_FREE_SPACE_MODE = 0x08000000,
+
+        /// <summary>
+        /// COPY_FILE_REQUEST_COMPRESSED_TRAFFIC
+        /// </summary>
+        COPY_FILE_REQUEST_COMPRESSED_TRAFFIC = 0x10000000,
+
+        /// <summary>
+        /// COPY_FILE_ENABLE_SPARSE_COPY
+        /// </summary>
+        COPY_FILE_ENABLE_SPARSE_COPY = 0x20000000,
+
+        /// <summary>
         /// The file is copied and the source file is opened for write access.
         /// </summary>
         COPY_FILE_OPEN_SOURCE_FOR_WRITE = 0x00000004,

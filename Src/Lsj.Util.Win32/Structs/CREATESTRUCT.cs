@@ -16,25 +16,49 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Because the <see cref="lpszClass"/> member can contain a pointer to a local (and thus inaccessable) atom,
+    /// <para>
+    /// Because the lpszClass member can contain a pointer to a local (and thus inaccessible) atom,
     /// do not obtain the class name by using this member.
     /// Use the <see cref="GetClassName"/> function instead.
-    /// You should access the data represented by the <see cref="lpCreateParams"/> member using a pointer that
-    /// has been declared using the UNALIGNED type, because the pointer may not be DWORD aligned.
+    /// </para>
+    /// <para>
+    /// You should access the data represented by the <see cref="lpCreateParams"/> member
+    /// using a pointer that has been declared using the UNALIGNED type, because the pointer may not be <see cref="DWORD"/> aligned.
+    /// This is demonstrated in the following example:
+    /// </para>
+    /// <code>
+    /// typedef struct tagMyData 
+    /// {
+    ///     // Define creation data here.
+    /// }
+    /// 
+    /// typedef struct tagMyDlgData
+    /// {
+    ///     SHORT   cbExtra;
+    ///     MYDATA  myData;
+    /// } MYDLGDATA, UNALIGNED *PMYDLGDATA;
+    /// PMYDLGDATA pMyDlgdata = (PMYDLGDATA) (((LPCREATESTRUCT) lParam)->lpCreateParams);
+    /// </code>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct CREATESTRUCT
     {
         /// <summary>
+        /// <para>
         /// Contains additional data which may be used to create the window.
         /// If the window is being created as a result of a call to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function,
         /// this member contains the value of the lpParam parameter specified in the function call.
+        /// </para>
+        /// <para>
         /// If the window being created is a MDI client window, this member contains a pointer to a <see cref="CLIENTCREATESTRUCT"/> structure.
         /// If the window being created is a MDI child window, this member contains a pointer to an <see cref="MDICREATESTRUCT"/> structure.
-        /// If the window is being created from a dialog template, this member is the address of a SHORT value that specifies the size,
-        /// in bytes, of the window creation data.
+        /// </para>
+        /// <para>
+        /// If the window is being created from a dialog template,
+        /// this member is the address of a <see cref="SHORT"/> value that specifies the size, in bytes, of the window creation data.
         /// The value is immediately followed by the creation data.
         /// For more information, see the following Remarks section.
+        /// </para>
         /// </summary>
         public LPVOID lpCreateParams;
 

@@ -18,27 +18,93 @@ namespace Lsj.Util.Win32.Structs
     public struct COPYFILE2_MESSAGE
     {
         /// <summary>
+        /// <para>
         /// Value from the <see cref="COPYFILE2_MESSAGE_TYPE"/> enumeration used as a discriminant for the <see cref="Info"/> union within this structure.
-        /// <see cref="COPYFILE2_CALLBACK_CHUNK_STARTED"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_CHUNK_STARTED"/>
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates a single chunk of a stream has started to be copied.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.ChunkStarted"/> structure within the <see cref="Info"/> union.
-        /// <see cref="COPYFILE2_CALLBACK_CHUNK_FINISHED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_CHUNK_FINISHED"/>
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates the copy of a single chunk of a stream has completed.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.ChunkFinished"/> structure within the <see cref="Info"/> union.
-        /// <see cref="COPYFILE2_CALLBACK_STREAM_STARTED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_STREAM_STARTED"/>
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates both source and destination handles for a stream have been opened and the copy of the stream is about to be started.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.StreamStarted"/> structure within the <see cref="Info"/> union.
         /// This does not indicate that the copy has started for that stream.
-        /// <see cref="COPYFILE2_CALLBACK_STREAM_FINISHED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_STREAM_FINISHED"/>
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates the copy operation for a stream have started to be completed,
-        /// either successfully or due to a <see cref="COPYFILE2_PROGRESS_STOP"/> return from CopyFile2ProgressRoutine.
+        /// either successfully or due to a <see cref="COPYFILE2_PROGRESS_STOP"/> return from <see cref="CopyFile2ProgressRoutine"/>.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.StreamFinished"/> structure within the <see cref="Info"/> union.
-        /// <see cref="COPYFILE2_CALLBACK_POLL_CONTINUE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_POLL_CONTINUE"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
         /// May be sent periodically.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.PollContinue"/> structure within the <see cref="Info"/> union.
-        /// <see cref="COPYFILE2_CALLBACK_ERROR"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="COPYFILE2_CALLBACK_ERROR"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
         /// An error was encountered during the copy operation.
         /// Information is in the <see cref="COPYFILE2_MESSAGE_Info.Error"/> structure within the <see cref="Info"/> union.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public COPYFILE2_MESSAGE_TYPE Type;
 

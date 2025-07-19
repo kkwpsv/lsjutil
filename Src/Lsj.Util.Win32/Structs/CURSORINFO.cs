@@ -23,13 +23,48 @@ namespace Lsj.Util.Win32.Structs
         public DWORD cbSize;
 
         /// <summary>
-        /// The cursor state.
-        /// This parameter can be one of the following values.
-        /// 0: The cursor is hidden.
-        /// <see cref="CURSOR_SHOWING"/>: The cursor is showing.
-        /// <see cref="CURSOR_SUPPRESSED"/>:
-        /// Windows 8: The cursor is suppressed.
+        /// <para>
+        /// The cursor state. This parameter can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The cursor is hidden.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CURSOR_SHOWING"/>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The cursor is showing.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CURSOR_SUPPRESSED"/>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Windows 8: The cursor is suppressed.
         /// This flag indicates that the system is not drawing the cursor because the user is providing input through touch or pen instead of the mouse.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public CursorStates flags;
 

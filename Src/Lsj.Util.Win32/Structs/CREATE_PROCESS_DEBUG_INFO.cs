@@ -19,10 +19,13 @@ namespace Lsj.Util.Win32.Structs
     public struct CREATE_PROCESS_DEBUG_INFO
     {
         /// <summary>
-        /// A handle to the process's image file.
-        /// If this member is <see cref="NULL"/>, the handle is not valid.
+        /// <para>
+        /// A handle to the process's image file. If this member is <see cref="NULL"/>, the handle is not valid.
         /// Otherwise, the debugger can use the member to read from and write to the image file.
+        /// </para>
+        /// <para>
         /// When the debugger is finished with this file, it should close the handle using the <see cref="CloseHandle"/> function.
+        /// </para>
         /// </summary>
         public HANDLE hFile;
 
@@ -73,10 +76,13 @@ namespace Lsj.Util.Win32.Structs
         public LPTHREAD_START_ROUTINE lpStartAddress;
 
         /// <summary>
+        /// <para>
         /// A pointer to the file name associated with the <see cref="hFile"/> member.
         /// This parameter may be <see cref="NULL"/>, or it may contain the address of a string pointer in the address space of the process being debugged.
         /// That address may, in turn, either be <see cref="NULL"/> or point to the actual filename.
         /// If <see cref="fUnicode"/> is a nonzero value, the name string is Unicode; otherwise, it is ANSI.
+        /// </para>
+        /// <para>
         /// This member is strictly optional.
         /// Debuggers must be prepared to handle the case where <see cref="lpImageName"/> is <see cref="NULL"/>
         /// or *<see cref="lpImageName"/> (in the address space of the process being debugged) is <see cref="NULL"/>.
@@ -84,6 +90,7 @@ namespace Lsj.Util.Win32.Structs
         /// and will not likely pass an image name for the first DLL event.
         /// The system also does not provide this information in the case of debug events
         /// that originate from a call to the <see cref="DebugActiveProcess"/> function.
+        /// </para>
         /// </summary>
         public LPVOID lpImageName;
 

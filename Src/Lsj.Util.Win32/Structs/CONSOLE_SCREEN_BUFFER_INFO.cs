@@ -27,7 +27,8 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The attributes of the characters written to a screen buffer by the <see cref="WriteFile"/> and <see cref="WriteConsole"/> functions,
-        /// or echoed to a screen buffer by the ReadFile and ReadConsole functions. For more information, see Character Attributes.
+        /// or echoed to a screen buffer by the <see cref="ReadFile"/> and <see cref="ReadConsole"/> functions.
+        /// For more information, see Character Attributes.
         /// </summary>
         public ConsoleCharacterAttributes wAttributes;
 

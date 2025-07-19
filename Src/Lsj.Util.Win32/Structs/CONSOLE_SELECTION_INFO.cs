@@ -1,10 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -20,23 +15,60 @@ namespace Lsj.Util.Win32.Structs
     public struct CONSOLE_SELECTION_INFO
     {
         /// <summary>
-        /// The selection indicator.
-        /// This member can be one or more of the following values.
-        /// <see cref="CONSOLE_MOUSE_DOWN"/>:
-        /// Mouse is down.
-        /// The user is actively adjusting the selection rectangle with a mouse.
-        /// <see cref="CONSOLE_MOUSE_SELECTION"/>:
-        /// Selecting with the mouse.
-        /// If off, the user is operating conhost.exe mark mode selection with the keyboard.
-        /// <see cref="CONSOLE_NO_SELECTION"/>:
+        /// <para>
+        /// The selection indicator. This member can be one or more of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CONSOLE_MOUSE_DOWN"/> 0x0008
+        /// </term>
+        /// <term>
+        /// Mouse is down. The user is actively adjusting the selection rectangle with a mouse.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CONSOLE_MOUSE_SELECTION"/> 0x0004
+        /// </term>
+        /// <term>
+        /// Selecting with the mouse. If off, the user is operating conhost.exe mark mode selection with the keyboard.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CONSOLE_NO_SELECTION"/> 0x0000
+        /// </term>
+        /// <term>
         /// No selection.
-        /// <see cref="CONSOLE_SELECTION_IN_PROGRESS"/>:
-        /// Selection has begun.
-        /// If a mouse selection, this will typically not occur without the <see cref="CONSOLE_SELECTION_NOT_EMPTY"/> flag.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CONSOLE_SELECTION_IN_PROGRESS"/> 0x0001
+        /// </term>
+        /// <term>
+        /// Selection has begun. If a mouse selection, this will typically not occur without the <see cref="CONSOLE_SELECTION_NOT_EMPTY"/> flag.
         /// If a keyboard selection, this may occur when mark mode has been entered but the user is still navigating to the initial position.
-        /// <see cref="CONSOLE_SELECTION_NOT_EMPTY"/>:
-        /// Selection rectangle not empty.
-        /// The payload of <see cref="dwSelectionAnchor"/> and <see cref="srSelection"/> are valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CONSOLE_SELECTION_NOT_EMPTY"/> 0x0002
+        /// </term>
+        /// <term>
+        /// Selection rectangle not empty. The payload of <see cref="dwSelectionAnchor"/> and <see cref="srSelection "/> are valid.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD dwFlags;
 

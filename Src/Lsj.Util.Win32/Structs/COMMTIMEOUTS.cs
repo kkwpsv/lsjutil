@@ -16,24 +16,44 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// If an application sets <see cref="ReadIntervalTimeout"/> and <see cref="ReadTotalTimeoutMultiplier"/> to <see cref="MAXDWORD"/>
     /// and sets <see cref="ReadTotalTimeoutConstant"/> to a value greater than zero and less than <see cref="MAXDWORD"/>,
     /// one of the following occurs when the <see cref="ReadFile"/> function is called:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// If there are any bytes in the input buffer, <see cref="ReadFile"/> returns immediately with the bytes in the buffer.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// If there are no bytes in the input buffer, <see cref="ReadFile"/> waits until a byte arrives and then returns immediately.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// If no bytes arrive within the time specified by <see cref="ReadTotalTimeoutConstant"/>, <see cref="ReadFile"/> times out.
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COMMTIMEOUTS
     {
         /// <summary>
+        /// <para>
         /// The maximum time allowed to elapse before the arrival of the next byte on the communications line, in milliseconds.
         /// If the interval between the arrival of any two bytes exceeds this amount,
         /// the <see cref="ReadFile"/> operation is completed and any buffered data is returned.
         /// A value of zero indicates that interval time-outs are not used.
-        /// A value of <see cref="MAXDWORD"/>, combined with zero values for both the <see cref="ReadTotalTimeoutConstant"/>
-        /// and <see cref="ReadTotalTimeoutMultiplier"/> members, specifies that the read operation
-        /// is to return immediately with the bytes that have already been received, even if no bytes have been received.
+        /// </para>
+        /// <para>
+        /// A value of <see cref="MAXDWORD"/>, combined with zero values
+        /// for both the <see cref="ReadTotalTimeoutConstant"/> and <see cref="ReadTotalTimeoutMultiplier"/> members,
+        /// specifies that the read operation is to return immediately with the bytes that have already been received, even if no bytes have been received.
+        /// </para>
         /// </summary>
         public DWORD ReadIntervalTimeout;
 
@@ -44,11 +64,14 @@ namespace Lsj.Util.Win32.Structs
         public DWORD ReadTotalTimeoutMultiplier;
 
         /// <summary>
+        /// <para>
         /// A constant used to calculate the total time-out period for read operations, in milliseconds.
-        /// For each read operation, this value is added to the product
-        /// of the <see cref="ReadTotalTimeoutMultiplier"/> member and the requested number of bytes.
+        /// For each read operation, this value is added to the product of the <see cref="ReadTotalTimeoutMultiplier"/> member and the requested number of bytes.
+        /// </para>
+        /// <para>
         /// A value of zero for both the <see cref="ReadTotalTimeoutMultiplier"/> and <see cref="ReadTotalTimeoutConstant"/> members
         /// indicates that total time-outs are not used for read operations.
+        /// </para>
         /// </summary>
         public DWORD ReadTotalTimeoutConstant;
 
@@ -59,11 +82,14 @@ namespace Lsj.Util.Win32.Structs
         public DWORD WriteTotalTimeoutMultiplier;
 
         /// <summary>
+        /// <para>
         /// A constant used to calculate the total time-out period for write operations, in milliseconds.
-        /// For each write operation, this value is added to the product
-        /// of the <see cref="WriteTotalTimeoutMultiplier"/> member and the number of bytes to be written.
+        /// For each write operation, this value is added to the product of the <see cref="WriteTotalTimeoutMultiplier"/> member and the number of bytes to be written.
+        /// </para>
+        /// <para>
         /// A value of zero for both the <see cref="WriteTotalTimeoutMultiplier"/> and <see cref="WriteTotalTimeoutConstant"/> members
         /// indicates that total time-outs are not used for write operations.
+        /// </para>
         /// </summary>
         public DWORD WriteTotalTimeoutConstant;
     }

@@ -31,15 +31,99 @@ namespace Lsj.Util.Win32.Structs
         public ULONG nInitialChars;
 
         /// <summary>
-        /// A user-defined control character used to signal that the read is complete.
+        /// A mask specifying which control characters between 0x00 and 0x1F should be used to signal that the read is complete.
+        /// Each bit corresponds to a character with the least significant bit corresponding to 0x00 or NUL
+        /// and the most significant bit corresponding to 0x1F or US.
+        /// Multiple bits (control characters) can be specified.
         /// </summary>
         public ULONG dwCtrlWakeupMask;
 
         /// <summary>
+        /// <para>
         /// The state of the control keys. This member can be one or more of the following values.
-        /// <see cref="CAPSLOCK_ON"/>, <see cref="ENHANCED_KEY"/>, <see cref="LEFT_ALT_PRESSED"/>, <see cref="LEFT_CTRL_PRESSED"/>,
-        /// <see cref="NUMLOCK_ON"/>, <see cref="RIGHT_ALT_PRESSED"/>, <see cref="RIGHT_CTRL_PRESSED"/>, <see cref="SCROLLLOCK_ON"/>,
-        /// <see cref="SHIFT_PRESSED"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CAPSLOCK_ON"/> 0x0080
+        /// </term>
+        /// <term>
+        /// The CAPS LOCK light is on.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ENHANCED_KEY"/> 0x0100
+        /// </term>
+        /// <term>
+        /// The key is enhanced. See remarks.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LEFT_ALT_PRESSED"/> 0x0002
+        /// </term>
+        /// <term>
+        /// The left ALT key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LEFT_CTRL_PRESSED"/> 0x0008
+        /// </term>
+        /// <term>
+        /// The left CTRL key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NUMLOCK_ON"/> 0x0020
+        /// </term>
+        /// <term>
+        /// The NUM LOCK light is on.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RIGHT_ALT_PRESSED"/> 0x0001
+        /// </term>
+        /// <term>
+        /// The right ALT key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RIGHT_CTRL_PRESSED"/> 0x0004
+        /// </term>
+        /// <term>
+        /// The right CTRL key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SCROLLLOCK_ON"/> 0x0040
+        /// </term>
+        /// <term>
+        /// The SCROLL LOCK light is on.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SHIFT_PRESSED"/> 0x0010
+        /// </term>
+        /// <term>
+        /// The SHIFT key is pressed.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public ControlKeyStates dwControlKeyState;
     }

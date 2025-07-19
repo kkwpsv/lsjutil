@@ -13,22 +13,30 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="LDECI4"/> type is used to represent real numbers to four decimal places.
+    /// <para>
+    /// The LDECI4 type is used to represent real numbers to four decimal places.
     /// For example, (LDECI4) 10000 represents the real number 1.0000, and (LDECI4) -12345 represents -1.2345.
-    /// For a monochrome printer, if you set the luminance for the Cyan member (that is, Cyan.Y) to 65534 (0xFFFE),
+    /// </para>
+    /// <para>
+    /// For a monochrome printer, if you set the luminance for the <see cref="Cyan"/> member (that is, Cyan.Y) to 65534 (0xFFFE),
     /// you can select any of the available halftone pattern sizes.
-    /// To select a halftone pattern size for a monochrome printer,
-    /// set the <see cref="GDIINFO.ulHTPatternSize"/> member of the <see cref="GDIINFO"/> structure to the halftone pattern size that you want.
-    /// If Cyan.Y is not set to 65534 (0xFFFE), halftone pattern sizes
-    /// other than <see cref="HT_PATSIZE_8x8_M"/> or <see cref="HT_PATSIZE_8x8"/> are converted to <see cref="HT_PATSIZE_DEFAULT"/>.
-    /// Setting the <see cref="RedGamma"/>, <see cref="BlueGamma"/>, and <see cref="GreenGamma"/> members of this structure
-    /// to 0xFFFF can affect color management in printers when Image Color Management (ICM) is disabled.
+    /// To select a halftone pattern size for a monochrome printer, set the <see cref="GDIINFO.ulHTPatternSize"/> member
+    /// of the <see cref="GDIINFO"/> structure to the halftone pattern size that you want.
+    /// If Cyan.Y is not set to 65534 (0xFFFE), halftone pattern sizes other than <see cref="HT_PATSIZE_8x8_M"/>
+    /// or <see cref="HT_PATSIZE_8x8"/> are converted to <see cref="HT_PATSIZE_DEFAULT"/>.
+    /// </para>
+    /// <para>
+    /// Setting the <see cref="RedGamma"/>, <see cref="BlueGamma"/>, and <see cref="GreenGamma"/> members
+    /// of this structure to 0xFFFF can affect color management in printers when Image Color Management (ICM) is disabled.
     /// In this situation, the GDI halftone module switches from performing its own color management to performing none,
     /// which potentially can cause a significant change in the resulting printer output.
     /// When ICM is enabled (and <see cref="RedGamma"/>, <see cref="BlueGamma"/>, and <see cref="GreenGamma"/> are set to 0XFFFF),
     /// there is no difference in color output.
     /// For more information, see Color Management for Printers.
+    /// </para>
+    /// <para>
     /// Any values in the <see cref="COLORINFO"/> structure that are out of the specified range default to the NTSC values.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COLORINFO
@@ -64,10 +72,14 @@ namespace Lsj.Util.Win32.Structs
         public CIECHROMA Yellow;
 
         /// <summary>
+        /// <para>
         /// Specify <see cref="CIECHROMA"/> structures that each define the x-coordinate, y-coordinate, and Y-coordinate (luminance) of the named color.
+        /// </para>
+        /// <para>
         /// The <see cref="Cyan"/> member can have a special meaning for monochrome printers.
         /// Cyan.Y must be set to 65534 (0xFFFE) to enable all of the grayscale halftone pattern sizes.
         /// For more information, see the following Remarks section.
+        /// </para>
         /// </summary>
         public CIECHROMA AlignmentWhite;
 

@@ -14,9 +14,13 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// COM does not persist the user's password information.
     /// For applications that use passwords, please see the documentation on Cryptography (CryptoAPI).
+    /// </para>
+    /// <para>
     /// This structure is equivalent to the <see cref="SEC_WINNT_AUTH_IDENTITY"/> structure.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COAUTHIDENTITY
@@ -52,9 +56,42 @@ namespace Lsj.Util.Win32.Structs
         public ULONG PasswordLength;
 
         /// <summary>
+        /// <para>
         /// Indicates whether the strings are Unicode strings.
-        /// <see cref="SEC_WINNT_AUTH_IDENTITY_ANSI"/>: The strings are ANSI strings.
-        /// <see cref="SEC_WINNT_AUTH_IDENTITY_UNICODE"/>: The strings are Unicode strings.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_WINNT_AUTH_IDENTITY_ANSI"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The strings are ANSI strings.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_WINNT_AUTH_IDENTITY_UNICODE"/>
+        /// </para>
+        /// <para>
+        /// 0x2
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public ULONG Flags;
     }

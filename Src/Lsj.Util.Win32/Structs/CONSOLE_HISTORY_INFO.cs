@@ -31,8 +31,27 @@ namespace Lsj.Util.Win32.Structs
         public UINT NumberOfHistoryBuffers;
 
         /// <summary>
+        /// <para>
         /// This parameter can be zero or the following value.
-        /// <see cref="HISTORY_NO_DUP_FLAG"/>: 	Duplicate entries will not be stored in the history buffer.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="HISTORY_NO_DUP_FLAG"/> 0x1
+        /// </term>
+        /// <term>
+        /// Duplicate entries will not be stored in the history buffer.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD dwFlags;
     }

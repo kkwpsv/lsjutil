@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -16,16 +15,23 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Lead bytes are unique to DBCS code pages that allow for more than 256 characters.
     /// A lead byte is the first byte of a 2-byte character in a DBCS.
     /// On each DBCS code page, the lead bytes occupy a specific range of byte values.
     /// This range is different for different code pages.
+    /// </para>
+    /// <para>
     /// The lead byte information is not very helpful for most code pages,
     /// and is not even provided for many multi-byte encodings, for example, UTF-8 and GB18030.
     /// Your applications are discouraged from using this information to predict
     /// what the <see cref="MultiByteToWideChar"/> or <see cref="WideCharToMultiByte"/> function will do.
-    /// The function might end up using a default character or performing other default behavior if the bytes following the lead byte are not as expected.
+    /// The function might end up using a default character or performing other default behavior
+    /// if the bytes following the lead byte are not as expected.
+    /// </para>
+    /// <para>
     /// <see cref="CPINFOEX"/>, used by the <see cref="GetCPInfoEx"/> function, provides an extended version of this structure.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct CPINFO
@@ -47,15 +53,21 @@ namespace Lsj.Util.Win32.Structs
         public ByValBYTEArrayStructForSize2 DefaultChar;
 
         /// <summary>
+        /// <para>
         /// A fixed-length array of lead byte ranges, for which the number of lead byte ranges is variable.
         /// If the code page has no lead bytes, every element of the array is set to NULL.
         /// If the code page has lead bytes, the array specifies a starting value and an ending value for each range.
         /// Ranges are inclusive, and the maximum number of ranges for any code page is five.
         /// The array uses two bytes to describe each range, with two null bytes as a terminator after the last range
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Some code pages use lead bytes and a combination of other encoding mechanisms.
         /// This member is usually only populated for a subset of the code pages that use lead bytes in some form.
         /// For more information, see the Remarks section.
+        /// </para>
         /// </summary>
         public ByValBYTEArrayStructForSize12 LeadByte;
     }

@@ -16,27 +16,52 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="COSERVERINFO"/> structure is used primarily to identify a remote system in object creation functions.
     /// Computer resources are named using the naming scheme of the network transport.
-    /// By default, all UNC ("\server" or "server") and DNS names ("domain.com", "example.microsoft.com", or "135.5.33.19") names are allowed.
-    /// If <see cref="pAuthInfo"/> is set to <see cref="NULL"/>, Snego will be used to negotiate an authentication service
-    /// that will work between the client and server.
-    /// However, a non-NULL <see cref="COAUTHINFO"/> structure can be specified for <see cref="pAuthInfo"/> to meet any one of the following needs:
+    /// By default, all UNC ("\\server" or "server") and DNS names ("domain.com", "example.microsoft.com", or "135.5.33.19") names are allowed.
+    /// </para>
+    /// <para>
+    /// If <see cref="pAuthInfo"/> is set to <see cref="NULL"/>, Snego will be used to negotiate an authentication service that will work between the client and server.
+    /// However, a non-<see cref="NULL"/><see cref="COAUTHINFO"/> structure can be specified for <see cref="pAuthInfo"/> to meet any one of the following needs:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// To specify a different client identity for computer remote activations.
     /// The specified identity will be used for the launch permission check on the server rather than the real client identity.
-    /// To specify that Kerberos, rather than NTLMSSP, is used for machine remote activation.
-    /// A nondefault client identity may or may not be specified.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// To specify that Kerberos, rather than NTLMSSP, is used for machine remote activation. A nondefault client identity may or may not be specified.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// To request unsecure activation.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// To specify a proprietary authentication service.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
     /// If <see cref="pAuthInfo"/> is not <see cref="NULL"/>, those values will be used to specify the authentication settings for the remote call.
     /// These settings will be passed to the <see cref="RpcBindingSetAuthInfoEx"/> function.
+    /// </para>
+    /// <para>
     /// If the <see cref="pAuthInfo"/> parameter is <see cref="NULL"/>, then <see cref="COAUTHINFO.dwAuthnLevel"/> can be overridden
     /// by the authentication level set by the <see cref="CoInitializeSecurity"/> function.
-    /// If the <see cref="CoInitializeSecurity"/> function isn't called,
-    /// then the authentication level specified under the AppID registry key is used, if it exists.
-    /// Starting with Windows XP with Service Pack 2 (SP2), <see cref="COAUTHINFO.dwAuthnLevel"/> is the maximum of <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/>
+    /// If the <see cref="CoInitializeSecurity"/> function isn't called, then the authentication level specified under the AppID registry key is used, if it exists.
+    /// </para>
+    /// <para>
+    /// Starting with Windows XP with Service Pack 2 (SP2), <see cref="COAUTHINFO.dwAuthnLevel"/> is the maximum of <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/>
     /// and the process-wide authentication level of the client process that is issuing the activation request.
     /// For earlier versions of the operating system, this is <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COSERVERINFO

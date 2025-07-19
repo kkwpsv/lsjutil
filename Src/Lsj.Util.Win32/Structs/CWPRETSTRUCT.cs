@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Defines the message parameters passed to a <see cref="WH_CALLWNDPROCRET"/> hook procedure, CallWndRetProc.
     /// </para>
     /// <para>
-    /// From: 
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-cwpretstruct"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

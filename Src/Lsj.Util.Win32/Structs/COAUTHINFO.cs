@@ -22,20 +22,46 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// If <see cref="COSERVERINFO.pAuthInfo"/> in <see cref="COSERVERINFO"/> is set to <see cref="NULL"/>,
+    /// <para>
+    /// If <see cref="pAuthInfo"/> in <see cref="COSERVERINFO"/> is set to <see cref="NULL"/>,
     /// Snego will be used to negotiate an authentication service that will work between the client and server.
-    /// However, a non-NULL <see cref="COAUTHINFO"/> structure can be specified for pAuthInfo to meet any one of the following needs:
+    /// However, a non-<see cref="NULL"/><see cref="COAUTHINFO"/> structure can be specified 
+    /// for <see cref="COSERVERINFO.pAuthInfo"/> to meet any one of the following needs:
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// To specify a different client identity for computer remote activations.
     /// The specified identity will be used for the launch permission check on the server rather than the real client identity.
-    /// To specify that Kerberos, rather than NTLMSSP, is used for machine remote activation.A nondefault client identity may or may not be specified.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// To specify that Kerberos, rather than NTLMSSP, is used for machine remote activation.
+    /// A nondefault client identity may or may not be specified.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// To request unsecure activation.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// To specify a proprietary authentication service.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
     /// Specifying a <see cref="COAUTHINFO"/> structure allows DCOM activations to work correctly with security providers other than NTLMSSP.
     /// You can also specify additional security information used during remote activations for interoperability with alternate implementations of DCOM.
+    /// </para>
+    /// <para>
     /// If you set <see cref="dwAuthzSvc"/>, <see cref="pwszServerPrincName"/>, <see cref="dwImpersonationLevel"/>,
     /// or <see cref="dwCapabilities"/> to incorrect values and call either <see cref="CoGetClassObject"/> or <see cref="CoCreateInstanceEx"/>,
     /// these functions do not return <see cref="E_INVALIDARG"/> or a similar error.
     /// Default values are used instead of the incorrect values.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct COAUTHINFO
@@ -62,12 +88,14 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr pwszServerPrincName;
 
         /// <summary>
-        /// The authentication level to be used.
-        /// For a list of values, see Authentication Level Constants.
-        /// As of Windows Server 2003, remote activations use the default authentication level
-        /// specified in the <see cref="CoInitializeSecurity"/> dwAuthnLevel parameter.
-        /// In previous versions of Windows, <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/> was always
-        /// used for the security level unless another level was explicitly specified.
+        /// <para>
+        /// The authentication level to be used. For a list of values, see Authentication Level Constants.
+        /// </para>
+        /// <para>
+        /// As of Windows Server 2003, remote activations use the default authentication level specified
+        /// in the <see cref="CoInitializeSecurity"/> <see cref="dwAuthnLevel"/> parameter.
+        /// In previous versions of Windows, <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/> was always used for the security level unless another level was explicitly specified.
+        /// </para>
         /// </summary>
         public RPC_C_AUTHN_LEVEL dwAuthnLevel;
 
