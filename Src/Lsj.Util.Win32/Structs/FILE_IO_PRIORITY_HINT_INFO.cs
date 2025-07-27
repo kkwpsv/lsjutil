@@ -14,13 +14,16 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="SetFileInformationByHandle"/> function can be used with this structure
     /// to associate a priority hint with I/O operations on a file-handle basis.
     /// In addition to the idle priority (very low), this function allows normal priority and low priority.
-    /// Whether these priorities are supported and honored by the underlying drivers depends on their implementation
-    /// (which is why they are called hints).
+    /// Whether these priorities are supported and honored by the underlying drivers depends on their implementation (which is why they are called hints).
     /// For more information, see the I/O Prioritization in Windows Vista white paper on the Windows Hardware Developer Central (WHDC) website.
+    /// </para>
+    /// <para>
     /// This structure must be aligned on a <see cref="LONGLONG"/> (8-byte) boundary.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_IO_PRIORITY_HINT_INFO

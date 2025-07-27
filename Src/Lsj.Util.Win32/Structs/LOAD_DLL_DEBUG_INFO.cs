@@ -17,10 +17,14 @@ namespace Lsj.Util.Win32.Structs
     public struct LOAD_DLL_DEBUG_INFO
     {
         /// <summary>
+        /// <para>
         /// A handle to the loaded DLL.
         /// If this member is <see cref="NULL"/>, the handle is not valid.
         /// Otherwise, the member is opened for reading and read-sharing in the context of the debugger.
+        /// </para>
+        /// <para>
         /// When the debugger is finished with this file, it should close the handle using the <see cref="CloseHandle"/> function.
+        /// </para>
         /// </summary>
         public HANDLE hFile;
 
@@ -43,17 +47,21 @@ namespace Lsj.Util.Win32.Structs
         public DWORD nDebugInfoSize;
 
         /// <summary>
+        /// <para>
         /// A pointer to the file name associated with <see cref="hFile"/>.
         /// This member may be <see cref="NULL"/>, or it may contain the address of a string pointer in the address space of the process being debugged.
         /// That address may, in turn, either be <see cref="NULL"/> or point to the actual filename.
         /// If <see cref="fUnicode"/> is a nonzero value, the name string is Unicode; otherwise, it is ANSI.
+        /// </para>
+        /// <para>
         /// This member is strictly optional.
         /// Debuggers must be prepared to handle the case where <see cref="lpImageName"/> is <see cref="NULL"/>
-        /// or *<see cref="lpImageName"/> (in the address space of the process being debugged) is <see cref="NULL"/>.
+        /// or <code>*lpImageName</code> (in the address space of the process being debugged) is <see cref="NULL"/>.
         /// Specifically, the system will never provide an image name for a create process event,
         /// and it will not likely pass an image name for the first DLL event.
-        /// The system will also never provide this information in the case of debugging events that originate
-        /// from a call to the <see cref="DebugActiveProcess"/> function.
+        /// The system will also never provide this information in the case of debugging events
+        /// that originate from a call to the <see cref="DebugActiveProcess"/> function.
+        /// </para>
         /// </summary>
         public LPVOID lpImageName;
 

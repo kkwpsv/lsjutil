@@ -25,7 +25,79 @@ namespace Lsj.Util.Win32.Structs
     public struct LOGPEN
     {
         /// <summary>
+        /// <para>
         /// The pen style, which can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_SOLID"/>
+        /// </term>
+        /// <term>
+        /// The pen is solid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_DASH"/>
+        /// </term>
+        /// <term>
+        /// The pen is dashed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_DOT"/>
+        /// </term>
+        /// <term>
+        /// The pen is dotted.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_DASHDOT"/>
+        /// </term>
+        /// <term>
+        /// The pen has alternating dashes and dots.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_DASHDOTDOT"/>
+        /// </term>
+        /// <term>
+        /// The pen has dashes and double dots.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_NULL"/>
+        /// </term>
+        /// <term>
+        /// The pen is invisible.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PS_INSIDEFRAME"/>
+        /// </term>
+        /// <term>
+        /// The pen is solid.
+        /// When this pen is used in any GDI drawing function that takes a bounding rectangle,
+        /// the dimensions of the figure are shrunk so that it fits entirely in the bounding rectangle,
+        /// taking into account the width of the pen.
+        /// This applies only to geometric pens.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public PenStyles lopnStyle;
 

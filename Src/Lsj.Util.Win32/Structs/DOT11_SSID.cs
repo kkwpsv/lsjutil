@@ -13,10 +13,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The SSID that is specified by the <see cref="ucSSID"/> member is not a null-terminated ASCII string.
     /// The length of the SSID is determined by the <see cref="uSSIDLength"/> member.
+    /// </para>
+    /// <para>
     /// A wildcard SSID is an SSID whose <see cref="uSSIDLength"/> member is set to zero.
     /// When the desired SSID is set to the wildcard SSID, the 802.11 station can connect to any basic service set (BSS) network.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
     public struct DOT11_SSID

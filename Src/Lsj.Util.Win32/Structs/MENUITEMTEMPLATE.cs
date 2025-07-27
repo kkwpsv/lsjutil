@@ -16,23 +16,113 @@ namespace Lsj.Util.Win32.Structs
     public struct MENUITEMTEMPLATE
     {
         /// <summary>
+        /// <para>
         /// One or more of the following predefined menu options that control the appearance of the menu item as shown in the following table.
-        /// <see cref="MF_CHECKED"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_CHECKED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008L
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the menu item has a check mark next to it.
-        /// <see cref="MF_GRAYED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_GRAYED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001L
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the menu item is initially inactive and drawn with a gray effect.
-        /// <see cref="MF_HELP"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_HELP"/>
+        /// </para>
+        /// <para>
+        /// 0x00004000L
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the menu item has a vertical separator to its left.
-        /// <see cref="MF_MENUBARBREAK"/>:
-        /// Indicates that the menu item is placed in a new column. The old and new columns are separated by a bar.
-        /// <see cref="MF_MENUBREAK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_MENUBARBREAK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020L
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the menu item is placed in a new column.
-        /// <see cref="MF_OWNERDRAW"/>:
+        /// The old and new columns are separated by a bar.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_MENUBREAK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that the menu item is placed in a new column.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_OWNERDRAW"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100L
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the owner window of the menu is responsible for drawing all visual aspects of the menu item,
         /// including highlighted, selected, and inactive states.
         /// This option is not valid for an item in a menu bar.
-        /// <see cref="MF_POPUP"/>:
-        /// Indicates that the item is one that opens a drop-down menu or submenu. 
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MF_POPUP"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that the item is one that opens a drop-down menu or submenu.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public WORD mtOption;
 
@@ -43,9 +133,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WORD mtID;
 
-        ///// <summary>
-        ///// The menu item.
-        ///// </summary>
-        //public WCHAR[1] mtString;
+        /// <summary>
+        /// The menu item.
+        /// </summary>
+        public WCHAR mtString;
     }
 }

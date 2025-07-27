@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
@@ -29,13 +28,60 @@ namespace Lsj.Util.Win32.Structs
         public DWORD cbStruct;
 
         /// <summary>
-        /// On input, dwFlags specifies the initialization and creation flags.
+        /// <para>
+        /// On input, <see cref="dwFlags"/> specifies the initialization and creation flags.
         /// It may be a combination of the following flags.
-        /// <see cref="ELF_SHOWHELP"/>: Specifies that the dialog box will display a Help button.
-        /// <see cref="ELF_DISABLEUPDATENOW"/>: Specifies that the Update Now button will be disabled on initialization.
-        /// <see cref="ELF_DISABLEOPENSOURCE"/>: Specifies that the Open Source button will be disabled on initialization.
-        /// <see cref="ELF_DISABLECHANGESOURCE"/>: Specifies that the Change Source button will be disabled on initialization.
-        /// <see cref="ELF_DISABLECANCELLINK"/>: Specifies that the Cancel Link button will be disabled on initialization.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ELF_SHOWHELP"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the dialog box will display a Help button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ELF_DISABLEUPDATENOW"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the Update Now button will be disabled on initialization.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ELF_DISABLEOPENSOURCE"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the Open Source button will be disabled on initialization.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ELF_DISABLECHANGESOURCE"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the Change Source button will be disabled on initialization.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ELF_DISABLECANCELLINK"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the Cancel Link button will be disabled on initialization.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public EditLinksFlags dwFlags;
 

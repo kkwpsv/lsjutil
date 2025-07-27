@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOLEAN;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -33,12 +34,12 @@ namespace Lsj.Util.Win32.Structs
         public DWORD NumberOfLinks;
 
         /// <summary>
-        /// <see langword="true"/> if the file in the delete queue; otherwise, <see langword="false"/>.
+        /// <see cref="TRUE"/> if the file in the delete queue; otherwise, <see cref="FALSE"/>.
         /// </summary>
         public BOOLEAN DeletePending;
 
         /// <summary>
-        /// <see langword="true"/> if the file is a directory; otherwise, <see langword="false"/>.
+        /// <see cref="TRUE"/> if the file is a directory; otherwise, <see cref="FALSE"/>.
         /// </summary>
         public BOOLEAN Directory;
     }

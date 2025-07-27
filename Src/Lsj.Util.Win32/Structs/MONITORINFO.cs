@@ -2,18 +2,20 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.MONITORINFOFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// The MONITORINFO structure contains information about a display monitor.
-    /// The <see cref="GetMonitorInfo"/> function stores information in a <see cref="MONITORINFO"/> structure or a <see cref="MONITORINFOEX"/> structure.
-    /// The <see cref="MONITORINFO"/> structure is a subset of the <see cref="MONITORINFOEX"/> structure.
-    /// The <see cref="MONITORINFOEX"/> structure adds a string member to contain a name for the display monitor.
+    /// The <see cref="MONITORINFO"/> structure contains information about a display monitor.
     /// </para>
     /// <para>
-    /// The <see cref="MONITORINFOEX"/> structure contains information about a display monitor.
+    /// The <see cref="GetMonitorInfo"/> function stores information in a <see cref="MONITORINFO"/> structure or a <see cref="MONITORINFOEX"/> structure.
+    /// </para>
+    /// <para>
+    /// The <see cref="MONITORINFO"/> structure is a subset of the <see cref="MONITORINFOEX"/> structure.
+    /// The <see cref="MONITORINFOEX"/> structure adds a string member to contain a name for the display monitor.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-monitorinfo"/>
@@ -46,7 +48,30 @@ namespace Lsj.Util.Win32.Structs
         public RECT rcWork;
 
         /// <summary>
+        /// <para>
         /// A set of flags that represent attributes of the display monitor.
+        /// </para>
+        /// <para>
+        /// The following flag is defined.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MONITORINFOF_PRIMARY"/>
+        /// </term>
+        /// <term>
+        /// This is the primary display monitor.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public MONITORINFOFlags dwFlags;
     }

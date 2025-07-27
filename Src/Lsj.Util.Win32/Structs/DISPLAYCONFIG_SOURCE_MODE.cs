@@ -14,15 +14,19 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The arrangement of source surfaces on the desktop is controlled by the position member,
     /// which specifies the position in desktop coordinates of the upper-left corner of the source surface.
     /// The source surface that is positioned at (0, 0) is considered the primary.
     /// GDI has strict rules about how the source surfaces can be arranged in the desktop space.
     /// For example, there cannot be any gaps between source surfaces, and there can be no overlaps.
+    /// </para>
+    /// <para>
     /// The <see cref="SetDisplayConfig"/> function attempts to rearrange source surfaces in order to enforce these layout rules.
     /// The caller must make every effort to lay out the source surfaces correctly
     /// because GDI rearranges the sources in an undefined manner to enforce the layout rules.
     /// The resultant layout may not be what the caller wanted to achieve.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DISPLAYCONFIG_SOURCE_MODE

@@ -21,18 +21,18 @@ namespace Lsj.Util.Win32.Structs
     {
         /// <summary>
         /// Specifies the lowest acceptable address.
-        /// Calling <see cref="VirtualAlloc2"/> or <see cref="MapViewOfFile3"/>,
-        /// and specifying <see cref="NULL"/> for <see cref="LowestStartingAddress"/>,
-        /// gives the same behavior as calling <see cref="VirtualAlloc"/>/<see cref="MapViewOfFile"/>.
+        /// This address must be a multiple of the allocation granularity returned by <see cref="GetSystemInfo"/>,
+        /// or a multiple of the large page size returned by <see cref="GetLargePageMinimum"/> if large pages are being requested.
+        /// If this member is <see cref="NULL"/>, then there is no lower limit.
         /// </summary>
         public PVOID LowestStartingAddress;
 
         /// <summary>
+        /// <para>
         /// Specifies the highest acceptable address (inclusive).
         /// This address must not exceed lpMaximumApplicationAddress returned by <see cref="GetSystemInfo"/>.
-        /// Calling <see cref="VirtualAlloc2"/> or <see cref="MapViewOfFile3"/>,
-        /// and specifying <see cref="NULL"/> for <see cref="HighestEndingAddress"/>,
-        /// gives the same behavior as calling <see cref="VirtualAlloc"/>/<see cref="MapViewOfFile"/>.
+        /// If this member is <see cref="NULL"/>, then there is no upper limit.
+        /// </para>
         /// </summary>
         public PVOID HighestEndingAddress;
 

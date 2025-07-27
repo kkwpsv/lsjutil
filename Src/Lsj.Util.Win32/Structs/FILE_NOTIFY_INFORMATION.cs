@@ -24,10 +24,84 @@ namespace Lsj.Util.Win32.Structs
         public DWORD NextEntryOffset;
 
         /// <summary>
-        /// The type of change that has occurred.
-        /// This member can be one of the following values.
-        /// <see cref="FILE_ACTION_ADDED"/>, <see cref="FILE_ACTION_REMOVED"/>, <see cref="FILE_ACTION_MODIFIED"/>,
-        /// <see cref="FILE_ACTION_RENAMED_OLD_NAME"/>, <see cref="FILE_ACTION_RENAMED_NEW_NAME"/>
+        /// <para>
+        /// The type of change that has occurred. This member can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_ACTION_ADDED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The file was added to the directory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_ACTION_REMOVED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The file was removed from the directory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_ACTION_MODIFIED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The file was modified. This can be a change in the time stamp or attributes.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_ACTION_RENAMED_OLD_NAME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The file was renamed and this is the old name.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_ACTION_RENAMED_NEW_NAME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000005
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The file was renamed and this is the new name.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FILE_ACTION Action;
 
@@ -37,9 +111,13 @@ namespace Lsj.Util.Win32.Structs
         public DWORD FileNameLength;
 
         /// <summary>
+        /// <para>
         /// A variable-length field that contains the file name relative to the directory handle.
         /// The file name is in the Unicode character format and is not null-terminated.
+        /// </para>
+        /// <para>
         /// If there is both a short and long name for the file, the function will return one of these names, but it is unspecified which one.
+        /// </para>
         /// </summary>
         public WCHAR FileName;
     }

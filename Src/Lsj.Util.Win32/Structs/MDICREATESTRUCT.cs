@@ -67,14 +67,74 @@ namespace Lsj.Util.Win32.Structs
         public int cy;
 
         /// <summary>
+        /// <para>
         /// The style of the MDI child window.
         /// If the MDI client window was created with the <see cref="MDIS_ALLCHILDSTYLES"/> window style,
         /// this member can be any combination of the window styles listed in the Window Styles page.
         /// Otherwise, this member can be one or more of the following values.
-        /// <see cref="WS_MINIMIZE"/>: Creates an MDI child window that is initially minimized.
-        /// <see cref="WS_MAXIMIZE"/>: Creates an MDI child window that is initially maximized.
-        /// <see cref="WS_HSCROLL"/>: Creates an MDI child window that has a horizontal scroll bar.
-        /// <see cref="WS_VSCROLL"/>: Creates an MDI child window that has a vertical scroll bar.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WS_MINIMIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x20000000L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates an MDI child window that is initially minimized.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WS_MAXIMIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x01000000L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates an MDI child window that is initially maximized.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WS_HSCROLL"/>
+        /// </para>
+        /// <para>
+        /// 0x00100000L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates an MDI child window that has a horizontal scroll bar.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WS_VSCROLL"/>
+        /// </para>
+        /// <para>
+        /// 0x00200000L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates an MDI child window that has a vertical scroll bar.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public WindowStyles style;
 

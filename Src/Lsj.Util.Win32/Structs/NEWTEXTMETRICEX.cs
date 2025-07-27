@@ -14,12 +14,12 @@ namespace Lsj.Util.Win32.Structs
     public struct NEWTEXTMETRICEX
     {
         /// <summary>
-        /// A NEWTEXTMETRIC structure.
+        /// A <see cref="NEWTEXTMETRIC"/> structure.
         /// </summary>
         public NEWTEXTMETRIC ntmTm;
 
         /// <summary>
-        /// A FONTSIGNATURE structure indicating the coverage of the font.
+        /// A <see cref="FONTSIGNATURE"/> structure indicating the coverage of the font.
         /// </summary>
         public FONTSIGNATURE ntmFontSig;
     }

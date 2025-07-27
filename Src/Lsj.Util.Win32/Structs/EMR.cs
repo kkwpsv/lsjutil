@@ -16,39 +16,52 @@ namespace Lsj.Util.Win32.Structs
     public struct EMR
     {
         /// <summary>
+        /// <para>
         /// The record type.
         /// The parameter can be one of the following (with a link to the associated record structure).
-        /// EMR_ABORTPATH EMR_ALPHABLEND EMR_ANGLEARC EMR_ARC EMR_ARCTO
-        /// EMR_BEGINPATH EMR_BITBLT EMR_CHORD EMR_CLOSEFIGURE EMR_COLORCORRECTPALETTE
-        /// EMR_COLORMATCHTOTARGETW EMR_CREATEBRUSHINDIRECT EMR_CREATECOLORSPACE
-        /// EMR_CREATECOLORSPACEW EMR_CREATEDIBPATTERNBRUSHPT EMR_CREATEMONOBRUSH
-        /// EMR_CREATEPALETTE EMR_CREATEPEN EMR_DELETECOLORSPACE EMR_DELETEOBJECT
-        /// EMR_ELLIPSE EMR_ENDPATH EMR_EOF EMR_EXCLUDECLIPRECT EMR_EXTCREATEFONTINDIRECTW
-        /// EMR_EXTCREATEPEN EMR_EXTFLOODFILL EMR_EXTSELECTCLIPRGN EMR_EXTTEXTOUTA
-        /// EMR_EXTTEXTOUTW EMR_FILLPATH EMR_FILLRGN EMR_FLATTENPATH EMR_FRAMERGN
-        /// EMR_GDICOMMENT EMR_GLSBOUNDEDRECORD EMR_GLSRECORD EMR_GRADIENTFILL
-        /// EMR_INTERSECTCLIPRECT EMR_INVERTRGN EMR_LINETO EMR_MASKBLT EMR_MODIFYWORLDTRANSFORM
-        /// EMR_MOVETOEX EMR_OFFSETCLIPRGN EMR_PAINTRGN EMR_PIE EMR_PIXELFORMAT
-        /// EMR_PLGBLT EMR_POLYBEZIER EMR_POLYBEZIER16 EMR_POLYBEZIERTO EMR_POLYBEZIERTO16
-        /// EMR_POLYDRAW EMR_POLYDRAW16 EMR_POLYGON EMR_POLYGON16 EMR_POLYLINE EMR_POLYLINE16
-        /// EMR_POLYLINETO EMR_POLYLINETO16 EMR_POLYPOLYGON EMR_POLYPOLYGON16
-        /// EMR_POLYPOLYLINE EMR_POLYPOLYLINE16 EMR_POLYTEXTOUTA EMR_POLYTEXTOUTW
-        /// EMR_REALIZEPALETTE EMR_RECTANGLE EMR_RESIZEPALETTE EMR_RESTOREDC EMR_ROUNDRECT
-        /// EMR_SAVEDC EMR_SCALEVIEWPORTEXTEX EMR_SCALEWINDOWEXTEX EMR_SELECTCLIPPATH
-        /// EMR_SELECTOBJECT EMR_SELECTPALETTE EMR_SETARCDIRECTION EMR_SETBKCOLOR EMR_SETBKMODE
-        /// EMR_SETBRUSHORGEX EMR_SETCOLORADJUSTMENT EMR_SETCOLORSPACE EMR_SETDIBITSTODEVICE
-        /// EMR_SETICMMODE EMR_SETICMPROFILEA EMR_SETICMPROFILEW EMR_SETLAYOUT EMR_SETMAPMODE
-        /// EMR_SETMAPPERFLAGS EMR_SETMETARGN EMR_SETMITERLIMIT EMR_SETPALETTEENTRIES
-        /// EMR_SETPIXELV EMR_SETPOLYFILLMODE EMR_SETROP2 EMR_SETSTRETCHBLTMODE
-        /// EMR_SETTEXTALIGN EMR_SETTEXTCOLOR EMR_SETVIEWPORTEXTEX EMR_SETVIEWPORTORGEX
-        /// EMR_SETWINDOWEXTEX EMR_SETWINDOWORGEX EMR_SETWORLDTRANSFORM EMR_STRETCHBLT
-        /// EMR_STRETCHDIBITS EMR_STROKEANDFILLPATH EMR_STROKEPATH EMR_TRANSPARENTBLT EMR_WIDENPATH
+        /// </para>
+        /// <para>
+        /// <see cref="EMR_ABORTPATH"/> <see cref="EMR_ALPHABLEND"/> <see cref="EMR_ANGLEARC"/>
+        /// <see cref="EMR_ARC"/> <see cref="EMR_ARCTO"/> <see cref="EMR_BEGINPATH"/> <see cref="EMR_BITBLT"/>
+        /// <see cref="EMR_CHORD"/> <see cref="EMR_CLOSEFIGURE"/> <see cref="EMR_COLORCORRECTPALETTE"/>
+        /// <see cref="EMR_COLORMATCHTOTARGETW"/> <see cref="EMR_CREATEBRUSHINDIRECT"/> <see cref="EMR_CREATECOLORSPACE"/>
+        /// <see cref="EMR_CREATECOLORSPACEW"/> <see cref="EMR_CREATEDIBPATTERNBRUSHPT"/> <see cref="EMR_CREATEMONOBRUSH"/>
+        /// <see cref="EMR_CREATEPALETTE"/> <see cref="EMR_CREATEPEN"/> <see cref="EMR_DELETECOLORSPACE"/>
+        /// <see cref="EMR_DELETEOBJECT"/> <see cref="EMR_ELLIPSE"/> <see cref="EMR_ENDPATH"/> <see cref="EMR_EOF"/>
+        /// <see cref="EMR_EXCLUDECLIPRECT"/> <see cref="EMR_EXTCREATEFONTINDIRECTW"/> <see cref="EMR_EXTCREATEPEN"/>
+        /// <see cref="EMR_EXTFLOODFILL"/> <see cref="EMR_EXTSELECTCLIPRGN"/> <see cref="EMR_EXTTEXTOUTA"/>
+        /// <see cref="EMR_EXTTEXTOUTW"/> <see cref="EMR_FILLPATH"/> <see cref="EMR_FILLRGN"/> <see cref="EMR_FLATTENPATH"/>
+        /// <see cref="EMR_FRAMERGN"/> <see cref="EMR_GDICOMMENT"/> <see cref="EMR_GLSBOUNDEDRECORD"/>
+        /// <see cref="EMR_GLSRECORD"/> <see cref="EMR_GRADIENTFILL"/> <see cref="EMR_INTERSECTCLIPRECT"/>
+        /// <see cref="EMR_INVERTRGN"/> <see cref="EMR_LINETO"/> <see cref="EMR_MASKBLT"/> <see cref="EMR_MODIFYWORLDTRANSFORM"/>
+        /// <see cref="EMR_MOVETOEX"/> <see cref="EMR_OFFSETCLIPRGN"/> <see cref="EMR_PAINTRGN"/> <see cref="EMR_PIE"/>
+        /// <see cref="EMR_PIXELFORMAT"/> <see cref="EMR_PLGBLT"/> <see cref="EMR_POLYBEZIER"/> <see cref="EMR_POLYBEZIER16"/>
+        /// <see cref="EMR_POLYBEZIERTO"/> <see cref="EMR_POLYBEZIERTO16"/> <see cref="EMR_POLYDRAW"/>
+        /// <see cref="EMR_POLYDRAW16"/> <see cref="EMR_POLYGON"/> <see cref="EMR_POLYGON16"/> <see cref="EMR_POLYLINE"/>
+        /// <see cref="EMR_POLYLINE16"/> <see cref="EMR_POLYLINETO"/> <see cref="EMR_POLYLINETO16"/> <see cref="EMR_POLYPOLYGON"/>
+        /// <see cref="EMR_POLYPOLYGON16"/> <see cref="EMR_POLYPOLYLINE"/> <see cref="EMR_POLYPOLYLINE16"/>
+        /// <see cref="EMR_POLYTEXTOUTA"/> <see cref="EMR_POLYTEXTOUTW"/> <see cref="EMR_REALIZEPALETTE"/>
+        /// <see cref="EMR_RECTANGLE"/> <see cref="EMR_RESIZEPALETTE"/> <see cref="EMR_RESTOREDC"/> <see cref="EMR_ROUNDRECT"/>
+        /// <see cref="EMR_SAVEDC"/> <see cref="EMR_SCALEVIEWPORTEXTEX"/> <see cref="EMR_SCALEWINDOWEXTEX"/>
+        /// <see cref="EMR_SELECTCLIPPATH"/> <see cref="EMR_SELECTOBJECT"/> <see cref="EMR_SELECTPALETTE"/>
+        /// <see cref="EMR_SETARCDIRECTION"/> <see cref="EMR_SETBKCOLOR"/> <see cref="EMR_SETBKMODE"/>
+        /// <see cref="EMR_SETBRUSHORGEX"/> <see cref="EMR_SETCOLORADJUSTMENT"/> <see cref="EMR_SETCOLORSPACE"/>
+        /// <see cref="EMR_SETDIBITSTODEVICE"/> <see cref="EMR_SETICMMODE"/> <see cref="EMR_SETICMPROFILEA"/>
+        /// <see cref="EMR_SETICMPROFILEW"/> <see cref="EMR_SETLAYOUT"/> <see cref="EMR_SETMAPMODE"/>
+        /// <see cref="EMR_SETMAPPERFLAGS"/> <see cref="EMR_SETMETARGN"/> <see cref="EMR_SETMITERLIMIT"/>
+        /// <see cref="EMR_SETPALETTEENTRIES"/> <see cref="EMR_SETPIXELV"/> <see cref="EMR_SETPOLYFILLMODE"/>
+        /// <see cref="EMR_SETROP2"/> <see cref="EMR_SETSTRETCHBLTMODE"/> <see cref="EMR_SETTEXTALIGN"/>
+        /// <see cref="EMR_SETTEXTCOLOR"/> <see cref="EMR_SETVIEWPORTEXTEX"/> <see cref="EMR_SETVIEWPORTORGEX"/>
+        /// <see cref="EMR_SETWINDOWEXTEX"/> <see cref="EMR_SETWINDOWORGEX"/> <see cref="EMR_SETWORLDTRANSFORM"/>
+        /// <see cref="EMR_STRETCHBLT"/> <see cref="EMR_STRETCHDIBITS"/> <see cref="EMR_STROKEANDFILLPATH"/>
+        /// <see cref="EMR_STROKEPATH"/> <see cref="EMR_TRANSPARENTBLT"/> <see cref="EMR_WIDENPATH"/>
+        /// </para>
         /// </summary>
         public DWORD iType;
 
         /// <summary>
-        /// The size of the record, in bytes
-        /// . This member must be a multiple of four.
+        /// The size of the record, in bytes.
+        /// This member must be a multiple of four.
         /// </summary>
         public DWORD nSize;
     }

@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Mandatory parameter to the <see cref="HeapOptimizeResources"/> class.
-    /// The <see cref="HEAP_OPTIMIZE_RESOURCES_CURRENT_VERSION"/> constant is available to fill in
-    /// the <see cref="Version"/> field of the <see cref="HEAP_OPTIMIZE_RESOURCES_INFORMATION"/> structure.
+    /// </para>
+    /// <para>
+    /// The <see cref="HEAP_OPTIMIZE_RESOURCES_CURRENT_VERSION"/> constant is available
+    /// to fill in the <see cref="Version"/> field of the <see cref="HEAP_OPTIMIZE_RESOURCES_INFORMATION"/> structure.
     /// The only legal value for this field is currently 1.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct HEAP_OPTIMIZE_RESOURCES_INFORMATION

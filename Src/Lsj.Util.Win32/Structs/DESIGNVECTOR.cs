@@ -14,9 +14,13 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The dvNumAxes member determines the actual size of dvValues, and thus, of <see cref="DESIGNVECTOR"/>.
-    /// The constant <see cref="MM_MAX_NUMAXES"/>, which is 16, specifies the maximum allowed size of the dvValues array.
+    /// <para>
+    /// The <see cref="dvNumAxes"/> member determines the actual size of <see cref="dvValues"/>, and thus, of <see cref="DESIGNVECTOR"/>.
+    /// The constant <see cref="MM_MAX_NUMAXES"/>, which is 16, specifies the maximum allowed size of the <see cref="dvValues"/> array.
+    /// </para>
+    /// <para>
     /// The PostScript Open Type Font does not support multiple master functionality.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DESIGNVECTOR

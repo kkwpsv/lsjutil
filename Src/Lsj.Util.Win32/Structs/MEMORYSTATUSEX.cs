@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <see cref="MEMORYSTATUSEX"/> reflects the state of memory at the time of the call.
     /// It also reflects the size of the paging file at that time.
     /// The operating system can enlarge the paging file up to the maximum size set by the administrator.
+    /// </para>
+    /// <para>
     /// The physical memory sizes returned include the memory from all nodes.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MEMORYSTATUSEX

@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -15,17 +16,24 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Extended display identification data (EDID) is a set of data that is provided by a display to describe its capabilities to a graphics adapter.
+    /// <para>
+    /// Extended display identification data (EDID) is a set of data
+    /// that is provided by a display to describe its capabilities to a graphics adapter.
     /// EDID data allows a computer to detect the type of monitor that is connected to it.
     /// EDID data includes the manufacturer name, the product type, the timings that are supported by the display,
     /// the display size, as well as other display characteristics.
     /// EDID is defined by a standard published by the Video Electronics Standards Association (VESA).
-    /// A named device object has a path and name of the form \Device\DeviceName.
+    /// </para>
+    /// <para>
+    /// A named device object has a path and name of the form <code>\Device\DeviceName</code>.
     /// This is known as the device name of the device object.
+    /// </para>
+    /// <para>
     /// If an application calls the <see cref="DisplayConfigGetDeviceInfo"/> function to obtain the monitor name
     /// and <see cref="DisplayConfigGetDeviceInfo"/> either cannot get the monitor name or the target is forced without a monitor connected,
-    /// the string in the <see cref="monitorFriendlyDeviceName"/> member of the <see cref="DISPLAYCONFIG_TARGET_DEVICE_NAME"/> structure is a NULL string
-    /// and none of the bit-field flags in the <see cref="DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS"/> structure are set.
+    /// the string in the <see cref="monitorFriendlyDeviceName"/> member of the <see cref="DISPLAYCONFIG_TARGET_DEVICE_NAME"/> structure
+    /// is a <see cref="NULL"/> string and none of the bit-field flags in the <see cref="DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS"/> structure are set.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DISPLAYCONFIG_TARGET_DEVICE_NAME

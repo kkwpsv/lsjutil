@@ -20,9 +20,27 @@ namespace Lsj.Util.Win32.Structs
         public DWORD cbThis;
 
         /// <summary>
+        /// <para>
         /// Flags describing the maximum size of the glyph indices. This member can be the following value.
-        /// <see cref="GS_8BIT_INDICES"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GS_8BIT_INDICES"/>
+        /// </term>
+        /// <term>
         /// Treat glyph indices as 8-bit wide values. Otherwise, they are 16-bit wide values.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD flAccel;
 

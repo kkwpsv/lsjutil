@@ -27,10 +27,99 @@ namespace Lsj.Util.Win32.Structs
         public HWND hwnd;
 
         /// <summary>
+        /// <para>
         /// The flash status.
         /// This parameter can be one or more of the following values.
-        /// <see cref="FLASHW_ALL"/>, <see cref="FLASHW_CAPTION"/>, <see cref="FLASHW_STOP"/>,
-        /// <see cref="FLASHW_TIMER"/>, <see cref="FLASHW_TIMERNOFG"/>, <see cref="FLASHW_TRAY"/>.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_ALL"/>
+        /// </para>
+        /// <para>
+        /// 0x00000003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flash both the window caption and taskbar button.
+        /// This is equivalent to setting the <code>FLASHW_CAPTION | FLASHW_TRAY</code> flags.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_CAPTION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flash the window caption.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_STOP"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Stop flashing. The system restores the window to its original state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_TIMER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flash continuously, until the FLASHW_STOP flag is set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_TIMERNOFG"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000C
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flash continuously until the window comes to the foreground.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FLASHW_TRAY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flash the taskbar button.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FLASHWINFOFlags dwFlags;
 

@@ -29,10 +29,15 @@ namespace Lsj.Util.Win32.Structs
         public WORD fUnicode;
 
         /// <summary>
+        /// <para>
         /// The lower 16 bits of the length of the string in bytes.
-        /// As <see cref="nDebugStringLength"/> is of type <see cref="WORD"/>, this does not always contain the full length of the string in bytes.
+        /// As <see cref="nDebugStringLength"/> is of type <see cref="WORD"/>,
+        /// this does not always contain the full length of the string in bytes.
+        /// </para>
+        /// <para>
         /// For example, if the original output string is longer than 65536 bytes,
         /// this field will contain a value that is less than the actual string length in bytes.
+        /// </para>
         /// </summary>
         public WORD nDebugStringLength;
     }

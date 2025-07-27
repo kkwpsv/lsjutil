@@ -21,34 +21,146 @@ namespace Lsj.Util.Win32.Structs
     public struct DEBUG_EVENT
     {
         /// <summary>
-        /// The code that identifies the type of debugging event. This member can be one of the following values.
-        /// <see cref="CREATE_PROCESS_DEBUG_EVENT"/>:
-        /// Reports a create-process debugging event.
+        /// <para>
+        /// The code that identifies the type of debugging event.
+        /// This member can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CREATE_PROCESS_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Reports a create-process debugging event (includes both a process and its main thread).
         /// The value of <see cref="DEBUG_EVENT_u.CreateProcessInfo"/> specifies a <see cref="CREATE_PROCESS_DEBUG_INFO"/> structure.
-        /// <see cref="CREATE_THREAD_DEBUG_EVENT"/>:
-        /// Reports a create-thread debugging event.
-        /// The value of <see cref="CreateThread"/> specifies a <see cref="CREATE_THREAD_DEBUG_INFO"/> structure.
-        /// <see cref="EXCEPTION_DEBUG_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CREATE_THREAD_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Reports a create-thread debugging event (does not include the main thread of a process, see `CREATE_PROCESS_DEBUG_EVENT`).
+        /// The value of <see cref="DEBUG_EVENT_u.CreateThread"/> specifies a <see cref="CREATE_THREAD_DEBUG_INFO"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EXCEPTION_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports an exception debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.Exception"/> specifies an <see cref="EXCEPTION_DEBUG_INFO"/> structure.
-        /// <see cref="EXIT_PROCESS_DEBUG_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EXIT_PROCESS_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports an exit-process debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.ExitProcess"/> specifies an <see cref="EXIT_PROCESS_DEBUG_INFO"/> structure.
-        /// <see cref="EXIT_THREAD_DEBUG_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EXIT_THREAD_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports an exit-thread debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.ExitThread"/> specifies an <see cref="EXIT_THREAD_DEBUG_INFO"/> structure.
-        /// <see cref="LOAD_DLL_DEBUG_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOAD_DLL_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports a load-dynamic-link-library (DLL) debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.LoadDll"/> specifies a <see cref="LOAD_DLL_DEBUG_INFO"/> structure.
-        /// <see cref="OUTPUT_DEBUG_STRING_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="OUTPUT_DEBUG_STRING_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 8
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports an output-debugging-string debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.DebugString"/> specifies an <see cref="OUTPUT_DEBUG_STRING_INFO"/> structure.
-        /// <see cref="RIP_EVENT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RIP_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 9
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports a RIP-debugging event (system debugging error).
-        /// The value of <see cref="DEBUG_EVENT_u.RipInfo"/>RipInfo specifies a <see cref="RIP_INFO"/> structure.
-        /// <see cref="UNLOAD_DLL_DEBUG_EVENT"/>:
+        /// The value of <see cref="DEBUG_EVENT_u.RipInfo"/> specifies a <see cref="RIP_INFO"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="UNLOAD_DLL_DEBUG_EVENT"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
         /// Reports an unload-DLL debugging event.
         /// The value of <see cref="DEBUG_EVENT_u.UnloadDll"/> specifies an <see cref="UNLOAD_DLL_DEBUG_INFO"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DebuggingEvents dwDebugEventCode;
 

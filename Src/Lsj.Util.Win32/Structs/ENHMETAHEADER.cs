@@ -8,8 +8,9 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// The <see cref="ENHMETAHEADER"/> structure contains enhanced-metafile data
     /// such as the dimensions of the picture stored in the enhanced metafile,
-    /// the count of records in the enhanced metafile,
-    /// the resolution of the device on which the picture was created, and so on.
+    /// the count of records in the enhanced metafile, the resolution of the device on which the picture was created, and so on.
+    /// </para>
+    /// <para>
     /// This structure is always the first record in an enhanced metafile.
     /// </para>
     /// <para>

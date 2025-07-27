@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// The <see cref="MAT2"/> structure contains the values for a transformation matrix used by the <see cref="GetGlyphOutline"/> function.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-mat2"/>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The identity matrix produces a transformation in which the transformed graphical object is identical to the source object.

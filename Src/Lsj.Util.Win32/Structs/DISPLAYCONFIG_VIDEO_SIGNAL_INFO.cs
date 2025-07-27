@@ -88,14 +88,23 @@ namespace Lsj.Util.Win32.Structs
             }
 
             /// <summary>
+            /// <para>
             /// The ratio of the VSync rate of a monitor that displays through a Miracast connected session to the VSync rate of the Miracast sink.
+            /// </para>
+            /// <para>
             /// To avoid visual artifacts, the VSync rate of the display monitor that's connected to the Miracast sink
             /// must be an integer multiple of the VSync rate of the Miracast sink.
             /// The display miniport driver reports the latter rate to the operating system as the refresh rate of the desktop present path.
-            /// Note
-            /// The operating system fails any attempt by the driver to add a target mode that results in a Miracast target having a VSync rate below 23.9 Hz.
+            /// </para>
+            /// /// <para>
+            /// Note  The operating system fails any attempt by the driver to add a target mode that results in a Miracast target having a VSync rate below 23.9 Hz.
+            /// </para>
+            /// <para>
             /// For a non-Miracast target, the driver should set <see cref="vSyncFreqDivider"/> to zero.
-            /// Supported starting with Windows 8.1.
+            /// </para>
+            /// <para>
+            /// Supported starting with Windows 8.1.
+            /// </para>
             /// </summary>
 #pragma warning disable IDE1006
             public UINT32 vSyncFreqDivider
@@ -106,9 +115,12 @@ namespace Lsj.Util.Win32.Structs
             }
 
             /// <summary>
-            /// Reserved for system use.
-            /// Do not use in your driver.
-            /// Supported starting with Windows 8.1.
+            /// <para>
+            /// Reserved for system use. Do not use in your driver.
+            /// </para>
+            /// <para>
+            /// Supported starting with Windows 8.1.
+            /// </para>
             /// </summary>
 #pragma warning disable IDE1006
             public UINT32 reserved

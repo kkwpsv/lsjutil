@@ -27,9 +27,84 @@ namespace Lsj.Util.Win32.Structs
         public DWORD cbSize;
 
         /// <summary>
+        /// <para>
         /// The thread state. This member can be one or more of the following values.
-        /// <see cref="GUI_CARETBLINKING"/>, <see cref="GUI_INMENUMODE"/>, <see cref="GUI_INMOVESIZE"/>, <see cref="GUI_POPUPMENUMODE"/>,
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GUI_CARETBLINKING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The caret's blink state. This bit is set if the caret is visible.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GUI_INMENUMODE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The thread's menu state. This bit is set if the thread is in menu mode.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GUI_INMOVESIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The thread's move state. This bit is set if the thread is in a move or size loop.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GUI_POPUPMENUMODE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The thread's pop-up menu state. This bit is set if the thread has an active pop-up menu.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
         /// <see cref="GUI_SYSTEMMENUMODE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The thread's system menu state. This bit is set if the thread is in a system menu mode.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public GUITHREADINFOFlags flags;
 

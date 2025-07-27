@@ -12,9 +12,13 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <see cref="ENUMTEXTMETRIC"/> is an extension of <see cref="NEWTEXTMETRICEX"/> that includes the axis information for a multiple master font.
-    /// The <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> functions have been modified 
-    /// to return pointers to the <see cref="ENUMTEXTMETRIC"/> and <see cref="ENUMLOGFONTEXDV"/> structures.
+    /// </para>
+    /// <para>
+    /// The <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> functions
+    /// have been modified to return pointers to the <see cref="ENUMTEXTMETRIC"/> and <see cref="ENUMLOGFONTEXDV"/> structures.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ENUMTEXTMETRIC

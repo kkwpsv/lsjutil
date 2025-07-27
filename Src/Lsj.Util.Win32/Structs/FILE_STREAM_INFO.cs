@@ -14,11 +14,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="FILE_STREAM_INFO"/> structure is used to enumerate the streams for a file.
+    /// </para>
+    /// <para>
     /// Support for named data streams is file-system-specific.
-    /// The <see cref="FILE_STREAM_INFO"/> structure must be aligned on a LONGLONG(8-byte) boundary.
+    /// </para>
+    /// <para>
+    /// The <see cref="FILE_STREAM_INFO"/> structure must be aligned on a <see cref="LONGLONG"/> (8-byte) boundary.
     /// If a buffer contains two or more of these structures, the <see cref="NextEntryOffset"/> value in each entry,
     /// except the last, falls on an 8-byte boundary.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_STREAM_INFO

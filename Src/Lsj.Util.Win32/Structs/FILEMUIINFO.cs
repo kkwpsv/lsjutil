@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.MUI_FILETYPE;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -12,7 +13,11 @@ namespace Lsj.Util.Win32.Structs
     /// Most of this data is stored in the resource configuration data for the particular file.
     /// When this structure is retrieved by <see cref="GetFileMUIInfo"/>, not all fields are necessarily filled in.
     /// The fields used depend on the flags that the application has passed to that function.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// Your MUI applications can use the MUI macros to access this structure.
     /// </para>
     /// <para>
@@ -20,10 +25,13 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// All offsets are from the base of the structure.
-    /// An offset of 0 indicates that the data is not available.
+    /// <para>
+    /// All offsets are from the base of the structure. An offset of 0 indicates that the data is not available.
+    /// </para>
+    /// <para>
     /// The following is an example showing how to access data for the position in the structure that is described by an offset.
     /// This example accesses the language name string with the position defined by <see cref="dwLanguageNameOffset"/>.
+    /// </para>
     /// <code>
     /// PFILEMUIINFO pFileMUIInfo = NULL;
     /// 
@@ -31,10 +39,14 @@ namespace Lsj.Util.Win32.Structs
     /// 
     /// LPWSTR lpszLang = reinterpret_cast&lt;LPWSTR&gt;(reinterpret_cast&lt;BYTE*&gt;(pFileMUIInfo) + pFileMUIInfo-&gt;dwLanguageNameOffset);
     /// </code>
+    /// <para>
     /// This example uses two reinterpret casts.
     /// First the code casts to BYTE* so the pointer arithmetic for the offset will be done in bytes.
     /// Then the code casts the resulting pointer to the desired type.
+    /// </para>
+    /// <para>
     /// Alternatively, the code can be written as shown below. The effect is the same; the choice is strictly one of style.
+    /// </para>
     /// <code>
     /// PFILEMUIINFO pFileMUIInfo = NULL;
     /// 
@@ -60,15 +72,31 @@ namespace Lsj.Util.Win32.Structs
         public DWORD dwVersion;
 
         /// <summary>
+        /// <para>
         /// The file type. Possible values are:
-        /// <see cref="MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL"/>:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL"/>.
         /// The input file does not have resource configuration data.
         /// This file type is typical for older executable files.
         /// If this file type is specified, the other file types will not provide useful information.
-        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN"/>:
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN"/>.
         /// The input file is an LN file.
-        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI"/>:
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI"/>.
         /// The input file is a language-specific resource file.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public MUI_FILETYPE dwFileType;
 

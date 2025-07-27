@@ -13,12 +13,16 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are specified in logical units; that is,
-    /// they depend on the current mapping mode of the specified display context.
+    /// <para>
+    /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are specified in logical units;
+    /// that is, they depend on the current mapping mode of the specified display context.
+    /// </para>
+    /// <para>
     /// Note, <see cref="OUTLINETEXTMETRIC"/> is defined using the current pack setting.
     /// To avoid problems, make sure that the application is built using the platform default packing.
     /// For example, 32-bit Windows uses a default of 8-byte packing.
-    /// For more information, see the MSDN topic "C-Compiler Packing Issues".
+    /// For more information, see C-Compiler Packing Issues.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct OUTLINETEXTMETRIC
@@ -44,14 +48,68 @@ namespace Lsj.Util.Win32.Structs
         public PANOSE otmPanoseNumber;
 
         /// <summary>
-        /// The nature of the font pattern. This member can be a combination of the following bits.
-        /// Bit Meaning
-        /// 0   Italic
-        /// 1   Underscore
-        /// 2   Negative
-        /// 3   Outline
-        /// 4   Strikeout
-        /// 5   Bold
+        /// <para>
+        /// The nature of the font pattern.
+        /// This member can be a combination of the following bits.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Bit
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Italic
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// Underscore
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2
+        /// </term>
+        /// <term>
+        /// Negative
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 3
+        /// </term>
+        /// <term>
+        /// Outline
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 4
+        /// </term>
+        /// <term>
+        /// Strikeout
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 5
+        /// </term>
+        /// <term>
+        /// Bold
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public UINT otmfsSelection;
 

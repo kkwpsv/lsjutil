@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
+using static Lsj.Util.Win32.Enums.KeyEventFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -22,8 +23,58 @@ namespace Lsj.Util.Win32.Structs
     public struct INPUT
     {
         /// <summary>
+        /// <para>
         /// The type of the input event. This member can be one of the following values.
-        /// <see cref="INPUT_MOUSE"/>, <see cref="INPUT_KEYBOARD"/>, <see cref="INPUT_HARDWARE"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="INPUT_MOUSE"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The event is a mouse event. Use the mi structure of the union.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="INPUT_KEYBOARD"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The event is a keyboard event. Use the ki structure of the union.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="INPUT_HARDWARE"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The event is a hardware event. Use the hi structure of the union.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public InputTypes type;
 

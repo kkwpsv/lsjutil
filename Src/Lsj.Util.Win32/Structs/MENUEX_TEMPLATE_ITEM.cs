@@ -42,23 +42,33 @@ namespace Lsj.Util.Win32.Structs
         public UINT uId;
 
         /// <summary>
-        /// Specifies whether the menu item is the last item in the menu bar, drop-down menu, submenu,
-        /// or shortcut menu and whether it is an item that opens a drop-down menu or submenu.
+        /// <para>
+        /// Specifies whether the menu item is the last item in the menu bar, drop-down menu, submenu, or shortcut menu
+        /// and whether it is an item that opens a drop-down menu or submenu.
         /// This member can be zero or more of these values.
         /// For 32-bit applications, this member is a word; for 16-bit applications, it is a byte.
-        /// 0x80:
+        /// </para>
+        /// <para>
+        /// 0x80
+        /// </para>
+        /// <para>
         /// The structure defines the last menu item in the menu bar, drop-down menu, submenu, or shortcut menu.
-        /// 0x01:
-        /// The structure defines a item that opens a drop-down menu or submenu.
+        /// </para>
+        /// <para>
+        /// 0x01
+        /// </para>
+        /// <para>
+        /// The structure defines an item that opens a drop-down menu or submenu.
         /// Subsequent structures define menu items in the corresponding drop-down menu or submenu.
+        /// </para>
         /// </summary>
         public WORD wFlags;
 
-        ///// <summary>
-        ///// The menu item text.
-        ///// This member is a null-terminated Unicode string, aligned on a word boundary.
-        ///// The size of the menu item definition varies depending on the length of this string.
-        ///// </summary>
-        //public WCHAR[1] szText;
+        /// <summary>
+        /// The menu item text.
+        /// This member is a null-terminated Unicode string, aligned on a word boundary.
+        /// The size of the menu item definition varies depending on the length of this string.
+        /// </summary>
+        public WCHAR szText;
     }
 }

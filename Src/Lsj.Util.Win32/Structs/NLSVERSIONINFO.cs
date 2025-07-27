@@ -7,17 +7,25 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
+    /// <para>
     /// Deprecated. Contains version information about an NLS capability.
-    /// Starting with Windows 8, your app should use <see cref="NLSVERSIONINFOEX"/> instead of <see cref="NLSVERSIONINFO"/>.
+    /// </para>
+    /// <para>
+    /// Starting with Windows 8, your app should use <see cref="NLSVERSIONINFOEX"/> instead of <see cref="NLSVERSIONINFO"/>.
+    /// </para>
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/ns-winnls-nlsversioninfo-r1"/>
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Starting with Windows 8, <see cref="NLSVERSIONINFO"/> is deprecated.
+    /// <para>
+    /// Starting with Windows 8, <see cref="NLSVERSIONINFO"/> is deprecated.
     /// In fact, it is identical to <see cref="NLSVERSIONINFOEX"/>, which your app should use instead.
+    /// </para>
+    /// <para>
     /// See Remarks for <see cref="NLSVERSIONINFOEX"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct NLSVERSIONINFO

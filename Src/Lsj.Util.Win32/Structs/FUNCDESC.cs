@@ -18,15 +18,34 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="cParams"/> field specifies the total number of required and optional parameters.
+    /// </para>
+    /// <para>
     /// The <see cref="cParamsOpt"/> field specifies the form of optional parameters accepted by the function, as follows:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// A value of 0 specifies that no optional arguments are supported.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// A value of –1 specifies that the method's last parameter is a pointer to a safe array of variants.
-    /// Any number of variant arguments greater than cParams –1 must be packaged by the caller into a safe array and passed as the final parameter.
+    /// Any number of variant arguments greater than <see cref="cParams"/> –1 must be packaged
+    /// by the caller into a safe array and passed as the final parameter.
     /// This array of optional parameters must be freed by the caller after control is returned from the call.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// Any other number indicates that the last n parameters of the function are variants and do not need to be specified by the caller explicitly.
     /// The parameters left unspecified should be filled in by the compiler or interpreter
     /// as variants of type <see cref="VT_ERROR"/> with the value <see cref="DISP_E_PARAMNOTFOUND"/>.
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FUNCDESC

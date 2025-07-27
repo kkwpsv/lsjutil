@@ -27,17 +27,61 @@ namespace Lsj.Util.Win32.Structs
         public DISPLAYCONFIG_PATH_TARGET_INFO targetInfo;
 
         /// <summary>
-        /// A bitwise OR of flag values that indicates the state of the path.
-        /// The following values are supported:
-        /// <see cref="DISPLAYCONFIG_PATH_ACTIVE"/>:
+        /// <para>
+        /// A bitwise OR of flag values that indicates the state of the path. The following values are supported:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_PATH_ACTIVE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
         /// Set by <see cref="QueryDisplayConfig"/> to indicate that the path is active and part of the desktop.
         /// If this flag value is set, <see cref="SetDisplayConfig"/> attempts to enable this path.
-        /// <see cref="DISPLAYCONFIG_PATH_SUPPORT_VIRTUAL_MODE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_PATH_SUPPORT_VIRTUAL_MODE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
         /// Set by <see cref="QueryDisplayConfig"/> to indicate that the path supports virtual modes.
-        /// Supported starting in Windows 10.
-        /// <see cref="DISPLAYCONFIG_PATH_BOOST_REFRESH_RATE"/>:
+        /// Supported starting in Windows 10.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_PATH_BOOST_REFRESH_RATE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
         /// Set by <see cref="QueryDisplayConfig"/> to indicate that the path supports virtual refresh rates.
-        /// Supported starting in Windows 11.
+        /// Supported starting in Windows 11.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DISPLAYCONFIG_PATH_INFOFlags flags;
     }

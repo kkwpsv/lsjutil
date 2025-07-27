@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// to optimize rendering of an inactive object by making more efficient use of the GDI.
     /// </para>
     /// <para>
-    /// From: 
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ocidl/ns-ocidl-dvaspectinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

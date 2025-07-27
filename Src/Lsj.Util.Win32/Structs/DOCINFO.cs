@@ -43,10 +43,35 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lpszDatatype;
 
         /// <summary>
-        /// Specifies additional information about the print job.
-        /// This member must be zero or one of the following values.
-        /// <see cref="DI_APPBANDING"/>: Applications that use banding should set this flag for optimal performance during printing.
-        /// <see cref="DI_ROPS_READ_DESTINATION"/>: The application will use raster operations that involve reading from the destination surface.
+        /// <para>
+        /// Specifies additional information about the print job. This member must be zero or one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DI_APPBANDING"/>
+        /// </term>
+        /// <term>
+        /// Applications that use banding should set this flag for optimal performance during printing.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DI_ROPS_READ_DESTINATION"/>
+        /// </term>
+        /// <term>
+        /// The application will use raster operations that involve reading from the destination surface.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DOCINFOFlags fwType;
     }

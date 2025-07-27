@@ -20,10 +20,22 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// When a DCB structure is used to configure the 8250, the following restrictions apply to the values
-    /// specified for the <see cref="ByteSize"/> and <see cref="StopBits"/> members:
+    /// <para>
+    /// When a <see cref="DCB"/> structure is used to configure the 8250,
+    /// the following restrictions apply to the values specified for the <see cref="ByteSize"/> and <see cref="StopBits"/> members:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// The number of data bits must be 5 to 8 bits.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// The use of 5 data bits with 2 stop bits is an invalid combination, as is 6, 7, or 8 data bits with 1.5 stop bits.
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DCB
@@ -35,12 +47,201 @@ namespace Lsj.Util.Win32.Structs
         public DWORD DCBlength;
 
         /// <summary>
-        /// The baud rate at which the communications device operates.
-        /// This member can be an actual baud rate value, or one of the following indexes.
-        /// <see cref="CBR_110"/>, <see cref="CBR_300"/>, <see cref="CBR_600"/>, <see cref="CBR_1200"/>,
-        /// <see cref="CBR_2400"/>, <see cref="CBR_4800"/>, <see cref="CBR_9600"/>, <see cref="CBR_14400"/>,
-        /// <see cref="CBR_19200"/>, <see cref="CBR_38400"/>, <see cref="CBR_57600"/>, <see cref="CBR_115200"/>,
-        /// <see cref="CBR_128000"/>, <see cref="CBR_256000"/>
+        /// <para>
+        /// The baud rate at which the communications device operates. This member can be an actual baud rate value, or one of the following indexes.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_110"/>
+        /// </para>
+        /// <para>
+        /// 110
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 110 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_300"/>
+        /// </para>
+        /// <para>
+        /// 300
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 300 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_600"/>
+        /// </para>
+        /// <para>
+        /// 600
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 600 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_1200"/>
+        /// </para>
+        /// <para>
+        /// 1200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 1200 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_2400"/>
+        /// </para>
+        /// <para>
+        /// 2400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 2400 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_4800"/>
+        /// </para>
+        /// <para>
+        /// 4800
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 4800 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_9600"/>
+        /// </para>
+        /// <para>
+        /// 9600
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 9600 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_14400"/>
+        /// </para>
+        /// <para>
+        /// 14400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 14400 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_19200"/>
+        /// </para>
+        /// <para>
+        /// 19200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 19200 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_38400"/>
+        /// </para>
+        /// <para>
+        /// 38400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 38400 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_57600"/>
+        /// </para>
+        /// <para>
+        /// 57600
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 57600 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_115200"/>
+        /// </para>
+        /// <para>
+        /// 115200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 115200 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_128000"/>
+        /// </para>
+        /// <para>
+        /// 128000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 128000 bps
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CBR_256000"/>
+        /// </para>
+        /// <para>
+        /// 256000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 256000 bps
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public CBR BaudRate;
 
@@ -87,9 +288,59 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// The DTR (data-terminal-ready) flow control.
-        /// This member can be one of the following values.
-        /// <see cref="DTR_CONTROL_DISABLE"/>, <see cref="DTR_CONTROL_ENABLE"/>, <see cref="DTR_CONTROL_HANDSHAKE"/>
+        /// <para>
+        /// The DTR (data-terminal-ready) flow control. This member can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DTR_CONTROL_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables the DTR line when the device is opened and leaves it disabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DTR_CONTROL_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x01
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the DTR line when the device is opened and leaves it on.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DTR_CONTROL_HANDSHAKE"/>
+        /// </para>
+        /// <para>
+        /// 0x02
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables DTR handshaking.
+        /// If handshaking is enabled, it is an error for the application to adjust the line by using the <see cref="EscapeCommFunction"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DTR_CONTROL fDtrControl
         {
@@ -162,9 +413,75 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
+        /// <para>
         /// The RTS (request-to-send) flow control. This member can be one of the following values.
-        /// <see cref="RTS_CONTROL_DISABLE"/>, <see cref="RTS_CONTROL_ENABLE"/>,
-        /// <see cref="RTS_CONTROL_HANDSHAKE"/>, <see cref="RTS_CONTROL_TOGGLE"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RTS_CONTROL_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables the RTS line when the device is opened and leaves it disabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RTS_CONTROL_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x01
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the RTS line when the device is opened and leaves it on.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RTS_CONTROL_HANDSHAKE"/>
+        /// </para>
+        /// <para>
+        /// 0x02
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables RTS handshaking.
+        /// The driver raises the RTS line when the "type-ahead" (input) buffer is less than one-half full
+        /// and lowers the RTS line when the buffer is more than three-quarters full.
+        /// If handshaking is enabled, it is an error for the application to adjust the line by using the <see cref="EscapeCommFunction"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RTS_CONTROL_TOGGLE"/>
+        /// </para>
+        /// <para>
+        /// 0x03
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Specifies that the RTS line will be high if bytes are available for transmission.
+        /// After all buffered bytes have been sent, the RTS line will be low.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD fRtsControl
         {
@@ -220,15 +537,140 @@ namespace Lsj.Util.Win32.Structs
         public BYTE ByteSize;
 
         /// <summary>
+        /// <para>
         /// The parity scheme to be used. This member can be one of the following values.
-        /// <see cref="EVENPARITY"/>, <see cref="MARKPARITY"/>, <see cref="NOPARITY"/>, <see cref="ODDPARITY"/>, <see cref="SPACEPARITY"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EVENPARITY"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Even parity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MARKPARITY"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Mark parity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="NOPARITY"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// No parity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ODDPARITY"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Odd parity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SPACEPARITY"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Space parity.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public PARITY Parity;
 
         /// <summary>
-        /// The number of stop bits to be used.
-        /// This member can be one of the following values.
-        /// <see cref="ONESTOPBIT"/>, <see cref="ONE5STOPBITS"/>, <see cref="TWOSTOPBITS"/>
+        /// <para>
+        /// The number of stop bits to be used. This member can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ONESTOPBIT"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 1 stop bit.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ONE5STOPBITS"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 1.5 stop bits.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="TWOSTOPBITS"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// 2 stop bits.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public BYTE StopBits;
 

@@ -17,16 +17,23 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="FILE_FULL_DIR_INFO"/> structure is a subset of the information in the <see cref="FILE_ID_BOTH_DIR_INFO"/> structure.
     /// If the additional information is not needed then the operation will be faster as it comes from the directory entry;
     /// <see cref="FILE_ID_BOTH_DIR_INFO"/> contains information from both the directory entry and the Master File Table (MFT).
+    /// </para>
+    /// <para>
     /// No specific access rights are required to query this information.
-    /// All dates and times are in absolute system-time format. Absolute system time is the number of 100-nanosecond intervals since the start of the year 1601.
-    /// This <see cref="FILE_FULL_DIR_INFO"/> structure must be aligned on a LONGLONG (8-byte) boundary.
+    /// </para>
+    /// <para>
+    /// All dates and times are in absolute system-time format.
+    /// Absolute system time is the number of 100-nanosecond intervals since the start of the year 1601.
+    /// </para>
+    /// <para>
+    /// This <see cref="FILE_FULL_DIR_INFO"/> structure must be aligned on a <see cref="LONGLONG"/> (8-byte) boundary.
     /// If a buffer contains two or more of these structures, the <see cref="NextEntryOffset"/> value in each entry,
     /// except the last, falls on an 8-byte boundary.
-    /// To compile an application that uses this structure, define the _WIN32_WINNT macro as 0x0600 or later.
-    /// For more information, see Using the Windows Headers.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_FULL_DIR_INFO
@@ -78,7 +85,34 @@ namespace Lsj.Util.Win32.Structs
         public LARGE_INTEGER AllocationSize;
 
         /// <summary>
-        /// The file attributes
+        /// <para>
+        /// The file attributes.
+        /// This member can be any valid combination of the following attributes:
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_ARCHIVE (0x00000020)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_COMPRESSED (0x00000800)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_DIRECTORY (0x00000010)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_HIDDEN (0x00000002)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_NORMAL (0x00000080)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_READONLY (0x00000001)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_SYSTEM (0x00000004)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_TEMPORARY (0x00000100)
+        /// </para>
         /// </summary>
         public FileAttributes FileAttributes;
 

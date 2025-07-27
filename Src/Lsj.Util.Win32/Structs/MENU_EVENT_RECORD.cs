@@ -8,6 +8,9 @@ namespace Lsj.Util.Win32.Structs
     /// Describes a menu event in a console <see cref="INPUT_RECORD"/> structure.
     /// These events are used internally and should be ignored.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/menu-event-record-str"/>
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MENU_EVENT_RECORD

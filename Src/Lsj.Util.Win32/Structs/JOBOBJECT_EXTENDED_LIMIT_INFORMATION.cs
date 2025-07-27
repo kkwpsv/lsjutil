@@ -15,15 +15,21 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The system tracks the value of <see cref="PeakProcessMemoryUsed"/> and <see cref="PeakJobMemoryUsed"/> constantly.
     /// This allows you know the peak memory usage of each job.
-    /// You can use this information to establish a memory limit using the <see cref="JOB_OBJECT_LIMIT_PROCESS_MEMORY"/>
-    /// or <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY"/> value.
+    /// You can use this information to establish a memory limit
+    /// using the <see cref="JOB_OBJECT_LIMIT_PROCESS_MEMORY"/> or <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY"/> value.
+    /// </para>
+    /// <para>
     /// Note that the job memory and process memory limits are very similar in operation, but they are independent.
     /// You could set a job-wide limit of 100 MB with a per-process limit of 10 MB.
     /// In this scenario, no single process could commit more than 10 MB, and the set of processes associated with a job could never exceed 100 MB.
+    /// </para>
+    /// <para>
     /// To register for notifications that a job has exceeded its peak memory limit while allowing processes to continue to commit memory,
     /// use the <see cref="SetInformationJobObject"/> function with the <see cref="JobObjectNotificationLimitInformation"/> information class.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION

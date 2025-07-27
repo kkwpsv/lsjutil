@@ -21,18 +21,27 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// No specific access rights are required to query this information.
+    /// </para>
+    /// <para>
     /// File reference numbers, also called file IDs, are guaranteed to be unique only within a static file system.
     /// They are not guaranteed to be unique over time, because file systems are free to reuse them.
     /// Nor are they guaranteed to remain constant.
-    /// For example, the FAT file system generates the file reference number for a file from the byte offset of
-    /// the file's directory entry record (DIRENT) on the disk.
+    /// For example, the FAT file system generates the file reference number for a file
+    /// from the byte offset of the file's directory entry record (DIRENT) on the disk.
     /// Defragmentation can change this byte offset.
     /// Thus a FAT file reference number can change over time.
+    /// </para>
+    /// <para>
     /// All dates and times are in absolute system-time format.
     /// Absolute system time is the number of 100-nanosecond intervals since the start of the year 1601.
-    /// This <see cref="FILE_ID_BOTH_DIR_INFO"/> structure must be aligned on a DWORDLONG (8-byte) boundary.
-    /// If a buffer contains two or more of these structures, the <see cref="NextEntryOffset"/> value in each entry, except the last, falls on an 8-byte boundary.
+    /// </para>
+    /// <para>
+    /// This <see cref="FILE_ID_BOTH_DIR_INFO"/> structure must be aligned on a <see cref="DWORDLONG"/> (8-byte) boundary.
+    /// If a buffer contains two or more of these structures, the <see cref="NextEntryOffset"/> value in each entry,
+    /// except the last, falls on an 8-byte boundary.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_ID_BOTH_DIR_INFO
@@ -84,8 +93,33 @@ namespace Lsj.Util.Win32.Structs
         public LARGE_INTEGER AllocationSize;
 
         /// <summary>
-        /// The file attributes.
-        /// This member can be any valid combination of the following attributes:
+        /// <para>
+        /// The file attributes. This member can be any valid combination of the following attributes:
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_ARCHIVE (0x00000020)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_COMPRESSED (0x00000800)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_DIRECTORY (0x00000010)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_HIDDEN (0x00000002)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_NORMAL (0x00000080)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_READONLY (0x00000001)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_SYSTEM (0x00000004)
+        /// </para>
+        /// <para>
+        /// FILE_ATTRIBUTE_TEMPORARY (0x00000100)
+        /// </para>
         /// </summary>
         public FileAttributes FileAttributes;
 

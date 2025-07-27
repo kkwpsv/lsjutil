@@ -15,15 +15,19 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Use the <see cref="pfnDeferredFillIn"/> field to enable an object to defer filling in the <see cref="bstrDescription"/>,
     /// <see cref="bstrHelpFile"/>, and <see cref="dwHelpContext"/> fields until they are needed.
     /// This field might be used, for example, if loading the string for the error is a time-consuming operation.
     /// To use deferred fill-in, the object puts a function pointer in this slot
     /// and does not fill any of the other fields except <see cref="wCode"/>, which is required.
-    /// To get additional information, the caller passes the <see cref="EXCEPINFO"/> structure back to the pexcepinfo callback function,
-    /// which fills in the additional information.
+    /// </para>
+    /// <para>
+    /// To get additional information, the caller passes the <see cref="EXCEPINFO"/> structur
+    /// back to the pexcepinfo callback function, which fills in the additional information.
     /// When the ActiveX object and the ActiveX client are in different processes,
-    /// the ActiveX object calls <see cref="pfnDeferredFillIn"/> before returning to the controller.
+    /// the ActiveX object calls pfnDeferredFillIn before returning to the controller.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct EXCEPINFO

@@ -11,6 +11,9 @@ namespace Lsj.Util.Win32.Structs
     /// the index of three vertices in the pVertex array in the <see cref="GradientFill"/> function.
     /// These three vertices form one triangle.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-gradient_triangle"/>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The <see cref="GRADIENT_TRIANGLE"/> structure specifies the values in the pVertex array

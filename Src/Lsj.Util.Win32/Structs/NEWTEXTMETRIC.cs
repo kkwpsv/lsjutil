@@ -15,10 +15,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The last four members of the <see cref="NEWTEXTMETRIC"/> structure are not included in the <see cref="TEXTMETRIC"/> structure;
     /// in all other respects, the structures are identical.
+    /// </para>
+    /// <para>
     /// The sizes in the <see cref="NEWTEXTMETRIC"/> structure are typically specified in logical units;
     /// that is, they depend on the current mapping mode of the display context.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct NEWTEXTMETRIC
@@ -70,18 +74,22 @@ namespace Lsj.Util.Win32.Structs
         public LONG tmWeight;
 
         /// <summary>
+        /// <para>
         /// The extra width per string that may be added to some synthesized fonts.
-        /// When synthesizing some attributes, such as bold or italic,
-        /// graphics device interface (GDI) or a device may have to add width to a string on both a per-character and per-string basis.
-        /// For example, GDI makes a string bold by expanding the spacing of each character and overstriking by an offset value;
-        /// it italicizes a font by shearing the string.
+        /// When synthesizing some attributes, such as bold or italic, graphics device interface (GDI) or a device
+        /// may have to add width to a string on both a per-character and per-string basis.
+        /// For example, GDI makes a string bold by expanding the spacing of each character
+        /// and overstriking by an offset value; it italicizes a font by shearing the string.
         /// In either case, there is an overhang past the basic string.
         /// For bold strings, the overhang is the distance by which the overstrike is offset.
         /// For italic strings, the overhang is the amount the top of the font is sheared past the bottom of the font.
-        /// The tmOverhang member enables the application to determine how much of the character width
-        /// returned by a <see cref="GetTextExtentPoint32"/> function call on a single character
-        /// is the actual character width and how much is the per-string extra width.
+        /// </para>
+        /// <para>
+        /// The <see cref="tmOverhang"/> member enables the application to determine
+        /// how much of the character width returned by a <see cref="GetTextExtentPoint32"/> function call
+        /// on a single character is the actual character width and how much is the per-string extra width.
         /// The actual width is the extent minus the overhang.
+        /// </para>
         /// </summary>
         public LONG tmOverhang;
 
@@ -133,6 +141,7 @@ namespace Lsj.Util.Win32.Structs
         public BYTE tmStruckOut;
 
         /// <summary>
+        /// <para>
         /// The pitch and family of the selected font.
         /// The low-order bit (bit 0) specifies the pitch of the font.
         /// If it is 1, the font is variable pitch (or proportional).
@@ -141,10 +150,13 @@ namespace Lsj.Util.Win32.Structs
         /// If both bits are 0, the font is a raster font; if bit 1 is 1 and bit 2 is 0, the font is a vector font;
         /// if bit 1 is 0 and bit 2 is set, or if both bits are 1, the font is some other type.
         /// Bit 3 is 1 if the font is a device font; otherwise, it is 0.
+        /// </para>
+        /// <para>
         /// The four high-order bits designate the font family.
         /// The <see cref="tmPitchAndFamily"/> member can be combined with the hexadecimal value 0xF0
         /// by using the bitwise AND operator and can then be compared with the font family names for an identical match.
         /// For more information about the font families, see <see cref="LOGFONT"/>.
+        /// </para>
         /// </summary>
         public BYTE tmPitchAndFamily;
 
@@ -154,18 +166,123 @@ namespace Lsj.Util.Win32.Structs
         public BYTE tmCharSet;
 
         /// <summary>
+        /// <para>
         /// Specifies whether the font is italic, underscored, outlined, bold, and so forth.
         /// May be any reasonable combination of the following values.
-        /// Bit Name                                Meaning
-        /// 0   <see cref="NTM_ITALIC"/>            italic
-        /// 5   <see cref="NTM_BOLD"/>              bold
-        /// 8   <see cref="NTM_REGULAR"/>           regular
-        /// 16  <see cref="NTM_NONNEGATIVE_AC"/>    no glyph in a font at any size has a negative A or C space.
-        /// 17  <see cref="NTM_PS_OPENTYPE"/>       PostScript OpenType font
-        /// 18  <see cref="NTM_TT_OPENTYPE"/>       TrueType OpenType font
-        /// 19  <see cref="NTM_MULTIPLEMASTER"/>    multiple master font
-        /// 20  <see cref="NTM_TYPE1"/>             Type 1 font
-        /// 21  <see cref="NTM_DSIG"/>              font with a digital signature. This allows traceability and ensures that the font has been tested and is not corrupted
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Bit
+        /// </term>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_ITALIC"/>
+        /// </term>
+        /// <term>
+        /// italic
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 5
+        /// </term>
+        /// <term>
+        /// NTM_BOLD
+        /// </term>
+        /// <term>
+        /// bold
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 8
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_REGULAR"/>
+        /// </term>
+        /// <term>
+        /// regular
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 16
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_NONNEGATIVE_AC"/>
+        /// </term>
+        /// <term>
+        /// no glyph in a font at any size has a negative A or C space.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 17
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_PS_OPENTYPE"/>
+        /// </term>
+        /// <term>
+        /// PostScript OpenType font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 18
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_TT_OPENTYPE"/>
+        /// </term>
+        /// <term>
+        /// TrueType OpenType font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 19
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_MULTIPLEMASTER"/>
+        /// </term>
+        /// <term>
+        /// multiple master font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 20
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_TYPE1"/>
+        /// </term>
+        /// <term>
+        /// Type 1 font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 21
+        /// </term>
+        /// <term>
+        /// <see cref="NTM_DSIG"/>
+        /// </term>
+        /// <term>
+        /// font with a digital signature.
+        /// This allows traceability and ensures that the font has been tested and is not corrupted
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public NEWTEXTMETRICFlags ntmFlags;
 

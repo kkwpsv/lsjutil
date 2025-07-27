@@ -17,17 +17,88 @@ namespace Lsj.Util.Win32.Structs
     public struct MEM_EXTENDED_PARAMETER
     {
         /// <summary>
+        /// <para>
         /// A <see cref="MEM_EXTENDED_PARAMETER_TYPE"/> value that indicates the type of the parameter.
-        /// If Type is set to <see cref="MemExtendedParameterAddressRequirements"/>,
+        /// </para>
+        /// <para>
+        /// If <see cref="Type"/> is set to <see cref="MemExtendedParameterAddressRequirements"/>,
         /// then <see cref="Pointer"/> must be a pointer to a caller-allocated <see cref="MEM_ADDRESS_REQUIREMENTS"/> structure
         /// that specifies the lowest and highest base address and alignment.
-        /// If Type is set to <see cref="MemExtendedParameterNumaNode"/>, then <see cref="ULong"/> must be set to the desired node number.
+        /// </para>
+        /// <para>
+        /// If <see cref="Type"/> is set to <see cref="MemExtendedParameterNumaNode"/>,
+        /// then <see cref="ULong64"/> must be set to the desired node number.
+        /// </para>
+        /// <para>
+        /// If <see cref="Type"/> is set to <see cref="MemExtendedParameterAttributeFlags"/>,
+        /// then <see cref="ULong64"/> must be set to a value that contains the desired flags:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MEM_EXTENDED_PARAMETER_NONPAGED"/>
+        /// </term>
+        /// <term>
+        /// 0x02
+        /// </term>
+        /// <term>
+        /// The allocation is non-pageable.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MEM_EXTENDED_PARAMETER_NONPAGED_LARGE"/>
+        /// </term>
+        /// <term>
+        /// 0x08
+        /// </term>
+        /// <term>
+        /// The allocation is mapped using large pages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MEM_EXTENDED_PARAMETER_NONPAGED_HUGE"/>
+        /// </term>
+        /// <term>
+        /// 0x10
+        /// </term>
+        /// <term>
+        /// The allocation is mapped using huge pages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MEM_EXTENDED_PARAMETER_EC_CODE"/>
+        /// </term>
+        /// <term>
+        /// 0x40
+        /// </term>
+        /// <term>
+        /// The allocation will contain emulation-compatible (EC) code.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(0)]
         public MEM_EXTENDED_PARAMETER_TYPE Type;
 
         /// <summary>
-        /// 
+        /// If <see cref="Type"/> is set to <see cref="MemExtendedParameterNumaNode"/>,
+        /// then <see cref="ULong64"/> must be set to the desired node number.
         /// </summary>
         [FieldOffset(8)]
         public DWORD64 ULong64;

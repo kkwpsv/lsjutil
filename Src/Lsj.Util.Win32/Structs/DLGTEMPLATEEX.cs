@@ -1,9 +1,8 @@
-﻿namespace Lsj.Util.Win32.Structs
+﻿using System;
+
+namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
-    /// <para>
-    /// This struct is just a PLACEHOLDER, which cannot be defined in C#.
-    /// </para>
     /// <para>
     /// An extended dialog box template begins with a <see cref="DLGTEMPLATEEX"/> header that describes the dialog box and
     /// specifies the number of controls in the dialog box.
@@ -16,6 +15,7 @@
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dlgbox/dlgtemplateex"/>
     /// </para>
     /// </summary>
+    [Obsolete("This struct is just a PLACEHOLDER, which cannot be defined in C#.")]
     public struct DLGTEMPLATEEX
     {
     }

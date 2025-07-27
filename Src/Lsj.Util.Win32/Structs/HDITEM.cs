@@ -6,7 +6,9 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.HDITEMFilterType;
 using static Lsj.Util.Win32.Enums.HDITEMFormats;
 using static Lsj.Util.Win32.Enums.HDITEMMMasks;
+using static Lsj.Util.Win32.Enums.HeaderControlMessages;
 using static Lsj.Util.Win32.Enums.HeaderControlNotifications;
+using static Lsj.Util.Win32.Enums.HeaderControlStyles;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -28,11 +30,112 @@ namespace Lsj.Util.Win32.Structs
         public const uint HDIS_FOCUSED = 0x00000001;
 
         /// <summary>
+        /// <para>
         /// Flags indicating which other structure members contain valid data or must be filled in.
         /// This member can be a combination of the following values:
-        /// <see cref="HDI_BITMAP"/>, <see cref="HDI_DI_SETITEM"/>, <see cref="HDI_FORMAT"/>, <see cref="HDI_FILTER"/>,
-        /// <see cref="HDI_HEIGHT"/>, <see cref="HDI_IMAGE"/>, <see cref="HDI_LPARAM"/>, <see cref="HDI_ORDER"/>,
-        /// <see cref="HDI_STATE"/>, <see cref="HDI_TEXT"/>, <see cref="HDI_WIDTH"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The hbm member is valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_DI_SETITEM"/>
+        /// </term>
+        /// <term>
+        /// While handling the message <see cref="HDM_GETITEM"/>, the header control may not have all the values needed to complete the request.
+        /// In this case, the control must call the application back for the values via the <see cref="HDN_GETDISPINFO"/> notification.
+        /// If <see cref="HDI_DI_SETITEM"/> has been passed in the <see cref="HDM_GETITEM"/> message,
+        /// the control will cache any values returned from <see cref="HDN_GETDISPINFO"/> (otherwise the values remain unset.)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_FORMAT"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="fmt"/> member is valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_FILTER"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="type"/> and <see cref="pvFilter"/> members are valid.
+        /// This is used to filter out the values specified in the <see cref="type"/> member.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_HEIGHT"/>
+        /// </term>
+        /// <term>
+        /// The same as <see cref="HDI_WIDTH"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_IMAGE"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iImage"/> member is valid and specifies the image to be displayed with the item.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_LPARAM"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="lParam"/> member is valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_ORDER"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="iOrder"/> member is valid and specifies the item's order value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_STATE"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later. The state member is valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_TEXT"/>
+        /// </term>
+        /// <term>
+        /// The pszText and <see cref="cchTextMax"/> members are valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDI_WIDTH"/>
+        /// </term>
+        /// <term>
+        /// The cxy member is valid and specifies the item's width.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public HDITEMMMasks mask;
 
@@ -62,17 +165,187 @@ namespace Lsj.Util.Win32.Structs
         public int cchTextMax;
 
         /// <summary>
+        /// <para>
         /// Flags that specify the item's format.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
         /// Text Justification:
+        /// </term>
+        /// <term>
         /// Set one of the following flags to specify text justification:
-        /// <see cref="HDF_CENTER"/>, <see cref="HDF_LEFT"/>, <see cref="HDF_RIGHT"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_CENTER"/>
+        /// </term>
+        /// <term>
+        /// The item's contents are centered.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_LEFT"/>
+        /// </term>
+        /// <term>
+        /// The item's contents are left-aligned.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_RIGHT"/>
+        /// </term>
+        /// <term>
+        /// The item's contents are right-aligned.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// Display:
+        /// </term>
+        /// <term>
         /// Set one of the following flags to control the display:
-        /// <see cref="HDF_BITMAP"/>, <see cref="HDF_BITMAP_ON_RIGHT"/>, <see cref="HDF_OWNERDRAW"/>, <see cref="HDF_STRING"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The item displays a bitmap.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_BITMAP_ON_RIGHT"/>
+        /// </term>
+        /// <term>
+        /// The bitmap appears to the right of text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_OWNERDRAW"/>
+        /// </term>
+        /// <term>
+        /// The header control's owner draws the item.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_STRING"/>
+        /// </term>
+        /// <term>
+        /// The item displays a string.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// Combining Flags:
+        /// </term>
+        /// <term>
         /// The preceding value can be combined with:
-        /// <see cref="HDF_IMAGE"/>, <see cref="HDF_JUSTIFYMASK"/>, <see cref="HDF_RTLREADING"/>, <see cref="HDF_SORTDOWN"/>,
-        /// <see cref="HDF_SORTUP"/>, <see cref="HDF_CHECKBOX"/>, <see cref="HDF_CHECKED"/>, <see cref="HDF_FIXEDWIDTH"/>, <see cref="HDF_SPLITBUTTON"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_IMAGE"/>
+        /// </term>
+        /// <term>
+        /// Display an image from an image list. Specify the image list by sending an <see cref="HDM_SETIMAGELIST"/> message.
+        /// Specify the index of the image in the <see cref="iImage"/> member of this structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_JUSTIFYMASK"/>
+        /// </term>
+        /// <term>
+        /// Isolate the bits corresponding to the three justification flags listed in the preceding table.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_RTLREADING"/>
+        /// </term>
+        /// <term>
+        /// Typically, windows displays text left-to-right (LTR).
+        /// Windows can be mirrored to display languages such as Hebrew or Arabic that read right-to-left (RTL).
+        /// Usually, header text is read in the same direction as the text in its parent window.
+        /// If <see cref="HDF_RTLREADING"/> is set, header text will read in the opposite direction from the text in the parent window.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_SORTDOWN"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// Draws a down-arrow on this item.
+        /// This is typically used to indicate that information in the current window is sorted on this column in descending order.
+        /// This flag cannot be combined with <see cref="HDF_IMAGE"/> or <see cref="HDF_BITMAP"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_SORTUP"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// Draws an up-arrow on this item.
+        /// This is typically used to indicate that information in the current window is sorted on this column in ascending order.
+        /// This flag cannot be combined with <see cref="HDF_IMAGE"/> or <see cref="HDF_BITMAP"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_CHECKBOX"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// The item displays a checkbox.
+        /// The flag is only valid when the <see cref="HDS_CHECKBOXES"/> style is first set on the header control.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_CHECKED"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// The item displays a checked checkbox. The flag is only valid when HDF_CHECKBOX is also set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_FIXEDWIDTH"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// The width of the item cannot be modified by a user action to resize it.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDF_SPLITBUTTON"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// The item displays a split button.
+        /// The <see cref="HDN_DROPDOWN"/> notification is sent when the split button is clicked.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public HDITEMFormats fmt;
 
@@ -97,9 +370,53 @@ namespace Lsj.Util.Win32.Structs
         public int iOrder;
 
         /// <summary>
-        /// The type of filter specified by <see cref="pvFilter"/>.
-        /// The possible types include:
-        /// <see cref="HDFT_ISSTRING"/>, <see cref="HDFT_ISNUMBER"/>, <see cref="HDFT_HASNOVALUE"/>, <see cref="HDFT_ISDATE"/>
+        /// <para>
+        /// The type of filter specified by pvFilter. The possible types include:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="HDFT_ISSTRING"/>
+        /// </term>
+        /// <term>
+        /// String data.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDFT_ISNUMBER"/>
+        /// </term>
+        /// <term>
+        /// Numerical data.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDFT_HASNOVALUE"/>
+        /// </term>
+        /// <term>
+        /// Ignore <see cref="pvFilter"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HDFT_ISDATE"/>
+        /// </term>
+        /// <term>
+        /// Version 6.00 and later.
+        /// Date data.
+        /// The <see cref="pvFilter"/> member is a pointer to a <see cref="SYSTEMTIME"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public HDITEMFilterType type;
 
@@ -112,9 +429,28 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr pvFilter;
 
         /// <summary>
+        /// <para>
         /// The state.
         /// The only valid, supported value for this member is the following:
-        /// <see cref="HDIS_FOCUSED"/>: The item has keyboard focus.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// HDIS_FOCUSED
+        /// </term>
+        /// <term>
+        /// The item has keyboard focus.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public UINT state;
     }

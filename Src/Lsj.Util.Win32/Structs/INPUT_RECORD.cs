@@ -19,9 +19,66 @@ namespace Lsj.Util.Win32.Structs
     public struct INPUT_RECORD
     {
         /// <summary>
+        /// <para>
         /// A handle to the type of input event and the event record stored in the <see cref="Event"/> member.
+        /// </para>
+        /// <para>
         /// This member can be one of the following values.
-        /// <see cref="FOCUS_EVENT"/>,<see cref="KEY_EVENT"/>, <see cref="MENU_EVENT"/>, <see cref="MOUSE_EVENT"/>, <see cref="WINDOW_BUFFER_SIZE_EVENT"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FOCUS_EVENT"/> 0x0010
+        /// </term>
+        /// <term>
+        /// The <see cref="Event"/> member contains a <see cref="FOCUS_EVENT_RECORD"/> structure.
+        /// These events are used internally and should be ignored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="KEY_EVENT"/> 0x0001
+        /// </term>
+        /// <term>
+        /// The <see cref="Event"/> member contains a <see cref="KEY_EVENT_RECORD"/> structure with information about a keyboard event.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MENU_EVENT"/> 0x0008
+        /// </term>
+        /// <term>
+        /// The <see cref="Event"/> member contains a <see cref="MENU_EVENT_RECORD"/> structure.
+        /// These events are used internally and should be ignored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MOUSE_EVENT"/> 0x0002
+        /// </term>
+        /// <term>
+        /// The <see cref="Event"/> member contains a <see cref="MOUSE_EVENT_RECORD"/> structure
+        /// with information about a mouse movement or button press event.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WINDOW_BUFFER_SIZE_EVENT"/> 0x0004
+        /// </term>
+        /// <term>
+        /// The <see cref="Event"/> member contains a <see cref="WINDOW_BUFFER_SIZE_RECORD"/> structure
+        /// with information about the new size of the console screen buffer.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public InputRecordEventTypes EventType;
 

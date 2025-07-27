@@ -50,17 +50,52 @@ namespace Lsj.Util.Win32.Structs
         public UINT cArgs;
 
         /// <summary>
+        /// <para>
         /// Invoke flags.
-        /// <see cref="DISPATCH_METHOD"/>:
-        /// The member is invoked as a method. 
-        /// If a property has the same name, both this and the <see cref="DISPATCH_PROPERTYGET"/> flag can be set.
-        /// <see cref="DISPATCH_PROPERTYGET"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DISPATCH_METHOD"/>
+        /// </term>
+        /// <term>
+        /// The member is invoked as a method. If a property has the same name, both this and the DISPATCH_PROPERTYGET flag can be set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DISPATCH_PROPERTYGET"/>
+        /// </term>
+        /// <term>
         /// The member is retrieved as a property or data member.
-        /// <see cref="DISPATCH_PROPERTYPUT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DISPATCH_PROPERTYPUT"/>
+        /// </term>
+        /// <term>
         /// The member is set as a property or data member.
-        /// <see cref="DISPATCH_PROPERTYPUTREF"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DISPATCH_PROPERTYPUTREF"/>
+        /// </term>
+        /// <term>
         /// The member is changed by a reference assignment, rather than a value assignment.
         /// This flag is valid only when the property accepts a reference to an object.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public WORD wFlags;
 

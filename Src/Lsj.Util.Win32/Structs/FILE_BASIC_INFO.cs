@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -10,6 +9,9 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// Contains the basic information for a file.
     /// Used for file handles.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_basic_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -32,7 +34,17 @@ namespace Lsj.Util.Win32.Structs
         public LARGE_INTEGER LastWriteTime;
 
         /// <summary>
+        /// <para>
         /// The time the file was changed in <see cref="FILETIME"/> format.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The distinction between <see cref="ChangeTime"/> and <see cref="LastWriteTime"/>,
+        /// is that <see cref="LastWriteTime"/> relates to the underlying data-stream,
+        /// while <see cref="ChangeTime"/> refers to changes to file metadata, such as renames and attribute changes.
+        /// </para>
         /// </summary>
         public LARGE_INTEGER ChangeTime;
 

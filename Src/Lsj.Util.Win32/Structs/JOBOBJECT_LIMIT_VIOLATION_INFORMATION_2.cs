@@ -20,67 +20,302 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// When any notification limit specified in a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION_2"/> structure is exceeded,
     /// the system sends a <see cref="JOB_OBJECT_MSG_NOTIFICATION_LIMIT"/> message to the I/O completion port associated with the job.
+    /// </para>
+    /// <para>
     /// To retrieve information about the limits that were exceeded, the application monitoring the I/O completion port
     /// must call the <see cref="QueryInformationJobObject"/> function with the <see cref="JobObjectLimitViolationInformation2"/> information class
     /// and a pointer to a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION_2"/> structure.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct JOBOBJECT_LIMIT_VIOLATION_INFORMATION_2
     {
         /// <summary>
+        /// <para>
         /// Flags that identify the notification limits in effect for the job.
         /// This member is a bitfield that determines whether other structure members are used.
         /// This member can be any combination of the following values.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has a committed memory notification limit. The <see cref="JobHighMemoryLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_LOW"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_LOW"/>
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has a committed minimum memory notification limit. The <see cref="JobLowMemoryLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_READ_BYTES"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_READ_BYTES"/>
+        /// </para>
+        /// <para>
+        /// 0x00010000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has an I/O read bytes notification limit. The <see cref="IoReadBytesLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_WRITE_BYTES"/>:
-        /// The job has an I/O write bytes notification limit. The <see cref="IoWriteBytesLimit"/> member contains more information. 
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_TIME"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_WRITE_BYTES"/>
+        /// </para>
+        /// <para>
+        /// 0x00020000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job has an I/O write bytes notification limit. The <see cref="IoWriteBytesLimit"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_TIME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has a user-mode execution time notification limit. The <see cref="PerJobUserTimeLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00040000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has notification limit for the extent to which a job can exceed its CPU rate control limit.
         /// The <see cref="RateControlToleranceLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00040000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has notification limit for the extent to which a job can exceed its CPU rate control limit.
-        /// The <see cref="CpuRateControlToleranceLimit"/> member contains more information. 
-        /// <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>:
+        /// The <see cref="CpuRateControlToleranceLimit"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00080000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has notification limit for the extent to which a job can exceed its I/O rate control limit.
         /// The <see cref="IoRateControlToleranceLimit"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00100000
+        /// </para>
+        /// </term>
+        /// <term>
         /// The job has notification limit for the extent to which a job can exceed its network rate control limit.
-        /// The <see cref="NetRateControlToleranceLimit"/> member contains more information. 
+        /// The <see cref="NetRateControlToleranceLimit"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(0)]
         public JOB_OBJECT_LIMIT LimitFlags;
 
         /// <summary>
+        /// <para>
         /// Flags that identify the notification limits that have been exceeded.
         /// This member is a bitfield that determines whether other structure members are used.
         /// This member can be any combination of the following values.
-        /// <see cref="JOB_OBJECT_LIMIT_READ_BYTES"/>:
-        /// The job's I/O read bytes notification limit has been exceeded. The <see cref="IoReadBytes"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_WRITE_BYTES"/>:
-        /// The job's I/O write bytes notification limit has been exceeded. The <see cref="IoWriteBytes"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_TIME"/>:
-        /// The job's user-mode execution time notification limit has been exceeded. The <see cref="PerJobUserTime"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH"/>:
-        /// The job's committed maximum memory notification limit has been exceeded. The <see cref="JobMemory"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_LOW"/>:
-        /// The job's committed memory has fallen below its minimum notification limit. The <see cref="JobMemory"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>:
-        /// The job's CPU rate control limit has been exceeded. The <see cref="RateControlTolerance"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>:
-        /// The job's CPU rate control limit has been exceeded. The <see cref="CpuRateControlTolerance"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>:
-        /// The job's I/O rate control limit has been exceeded. The <see cref="IoRateControlTolerance"/> member contains more information.
-        /// <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>:
-        /// The job's network rate control limit has been exceeded. The <see cref="NetRateControlTolerance"/> member contains more information.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_READ_BYTES"/>
+        /// </para>
+        /// <para>
+        /// 0x00010000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's I/O read bytes notification limit has been exceeded.
+        /// The <see cref="IoReadBytes"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_WRITE_BYTES"/>
+        /// </para>
+        /// <para>
+        /// 0x00020000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's I/O write bytes notification limit has been exceeded.
+        /// The <see cref="IoWriteBytes"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_TIME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's user-mode execution time notification limit has been exceeded.
+        /// The <see cref="PerJobUserTime"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's committed maximum memory notification limit has been exceeded.
+        /// The <see cref="JobMemory"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_LOW"/>
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's committed memory has fallen below its minimum notification limit.
+        /// The <see cref="JobMemory"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00040000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's CPU rate control limit has been exceeded.
+        /// The <see cref="RateControlTolerance"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00040000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's CPU rate control limit has been exceeded.
+        /// The <see cref="CpuRateControlTolerance"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00080000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's I/O rate control limit has been exceeded.
+        /// The <see cref="IoRateControlTolerance"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>
+        /// </para>
+        /// <para>
+        /// 0x00100000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job's network rate control limit has been exceeded.
+        /// The <see cref="NetRateControlTolerance"/> member contains more information.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(4)]
         public JOB_OBJECT_LIMIT ViolationLimitFlags;
@@ -150,43 +385,235 @@ namespace Lsj.Util.Win32.Structs
         public DWORD64 JobMemoryLimit;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>,
         /// this member specifies the extent to which the job exceeded its CPU rate control limits at the time the notification was sent.
         /// This member can be one of the following values.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(72)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE RateControlTolerance;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>,
         /// this member specifies the extent to which the job exceeded its CPU rate control limits at the time the notification was sent.
         /// This member can be one of the following values.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its CPU rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(72)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE CpuRateControlTolerance;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_RATE_CONTROL"/>,
         /// this member contains the CPU rate control notification limits specified for the job.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(76)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE RateControlToleranceLimit;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> parameter specifies <see cref="JOB_OBJECT_LIMIT_CPU_RATE_CONTROL"/>,
         /// this member contains the CPU rate control notification limits specified for the job.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its CPU rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(76)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE CpuRateControlToleranceLimit;
@@ -199,43 +626,235 @@ namespace Lsj.Util.Win32.Structs
         public DWORD64 JobLowMemoryLimit;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>,
         /// this member specifies the extent to which the job exceeded its I/O rate control limits at the time the notification was sent.
         /// This member can be one of the following values.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its I/O rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its I/O rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its I/O rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(88)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE IoRateControlTolerance;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> parameter specifies <see cref="JOB_OBJECT_LIMIT_IO_RATE_CONTROL"/>,
         /// this member contains the I/O rate control notification limits specified for the job.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its I/O rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its I/O rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its I/O rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(92)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE IoRateControlToleranceLimit;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>,
         /// this member specifies the extent to which the job exceeded its network rate control limits at the time the notification was sent.
         /// This member can be one of the following values.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its network rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its network rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job exceeded its network rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(96)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE NetRateControlTolerance;
 
         /// <summary>
+        /// <para>
         /// If the <see cref="LimitFlags"/> parameter specifies <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>,
         /// this member contains the network rate control notification limits specified for the job.
-        /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
-        /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.
-        /// <see cref="ToleranceHigh"/>: The job exceeded its CPU rate control limits for 60% of the tolerance interval.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceLow"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its network rate control limits for 20% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceMedium"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its network rate control limits for 40% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ToleranceHigh"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The job can exceed its network rate control limits for 60% of the tolerance interval.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(100)]
         public JOBOBJECT_RATE_CONTROL_TOLERANCE NetRateControlToleranceLimit;

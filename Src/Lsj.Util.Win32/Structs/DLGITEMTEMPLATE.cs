@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -19,39 +20,106 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// In a standard template for a dialog box, the <see cref="DLGITEMTEMPLATE"/> structure is always immediately followed
-    /// by three variable-length arrays specifying the class, title, and creation data for the control.
+    /// <para>
+    /// In a standard template for a dialog box, the <see cref="DLGITEMTEMPLATE"/> structure is always immediately
+    /// followed by three variable-length arrays specifying the class, title, and creation data for the control.
     /// Each array consists of one or more 16-bit elements.
-    /// Each <see cref="DLGITEMTEMPLATE"/> structure in the template must be aligned on a DWORD boundary.
-    /// The class and title arrays must be aligned on WORD boundaries.
-    /// The creation data array must be aligned on a WORD boundary.
+    /// </para>
+    /// <para>
+    /// Each <see cref="DLGITEMTEMPLATE"/> structure in the template must be aligned on a <see cref="DWORD"/> boundary.
+    /// The class and title arrays must be aligned on <see cref="WORD"/> boundaries.
+    /// The creation data array must be aligned on a <see cref="WORD"/> boundary.
+    /// </para>
+    /// <para>
     /// Immediately following each <see cref="DLGITEMTEMPLATE"/> structure is a class array that specifies the window class of the control.
-    /// If the first element of this array is any value other than 0xFFFF, the system treats the array as a null-terminated Unicode string
-    /// that specifies the name of a registered window class.
+    /// If the first element of this array is any value other than 0xFFFF,
+    /// the system treats the array as a null-terminated Unicode string that specifies the name of a registered window class.
     /// If the first element is 0xFFFF, the array has one additional element that specifies the ordinal value of a predefined system class.
     /// The ordinal can be one of the following atom values.
-    /// 0x0080: Button
-    /// 0x0081: Edit
-    /// 0x0082: Static
-    /// 0x0083: List box
-    /// 0x0084: Scroll bar
-    /// 0x0085: Combo box
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Value
+    /// </term>
+    /// <term>
+    /// Meaning
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// 0x0080
+    /// </term>
+    /// <term>
+    /// Button
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// 0x0081
+    /// </term>
+    /// <term>
+    /// Edit
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// 0x0082
+    /// </term>
+    /// <term>
+    /// Static
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// 0x0083
+    /// </term>
+    /// <term>
+    /// List box
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// 0x0084
+    /// </term>
+    /// <term>
+    /// Scroll bar
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// 0x0085
+    /// </term>
+    /// <term>
+    /// Combo box
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// Following the class array is a title array that contains the initial text or resource identifier of the control.
-    /// If the first element of this array is 0xFFFF, the array has one additional element that specifies an ordinal value of a resource,
-    /// such as an icon, in an executable file.
-    /// You can use a resource identifier for controls, such as static icon controls, that load and display an icon or other resource rather than text.
-    /// If the first element is any value other than 0xFFFF, the system treats the array as a null-terminated Unicode string
-    /// that specifies the initial text.
-    /// The creation data array begins at the next WORD boundary after the title array.
+    /// If the first element of this array is 0xFFFF, the array has one additional element
+    /// that specifies an ordinal value of a resource, such as an icon, in an executable file.
+    /// You can use a resource identifier for controls, such as static icon controls,
+    /// that load and display an icon or other resource rather than text.
+    /// If the first element is any value other than 0xFFFF,
+    /// the system treats the array as a null-terminated Unicode string that specifies the initial text.
+    /// </para>
+    /// <para>
+    /// The creation data array begins at the next <see cref="WORD"/> boundary after the title array.
     /// This creation data can be of any size and format.
     /// If the first word of the creation data array is nonzero, it indicates the size, in bytes, of the creation data (including the size word).
     /// The control's window procedure must be able to interpret the data.
-    /// When the system creates the control, it passes a pointer to this data in the lParam parameter
-    /// of the <see cref="WindowMessages.WM_CREATE"/> message that it sends to the control.
+    /// When the system creates the control, it passes a pointer to this data in the <see cref="MSG.lParam"/> parameter
+    /// of the <see cref="WM_CREATE"/> message that it sends to the control.
+    /// </para>
+    /// <para>
     /// If you specify character strings in the class and title arrays, you must use Unicode strings.
     /// Use the <see cref="MultiByteToWideChar"/> function to generate Unicode strings from ANSI strings.
-    /// The <see cref="x"/>, <see cref="y"/>, <see cref="cx"/>, and <see cref="cy"/> members specify values in dialog box units.
+    /// </para>
+    /// <para>
+    /// The x, y, cx, and cy members specify values in dialog box units.
     /// You can convert these values to screen units (pixels) by using the <see cref="MapDialogRect"/> function.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DLGITEMTEMPLATE

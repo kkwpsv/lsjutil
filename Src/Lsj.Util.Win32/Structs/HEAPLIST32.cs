@@ -38,8 +38,27 @@ namespace Lsj.Util.Win32.Structs
         public ULONG_PTR th32HeapID;
 
         /// <summary>
+        /// <para>
         /// This member can be one of the following values.
-        /// <see cref="HF32_DEFAULT"/>: Process's default heap
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="HF32_DEFAULT"/>
+        /// </term>
+        /// <term>
+        /// Process's default heap
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD dwFlags;
     }

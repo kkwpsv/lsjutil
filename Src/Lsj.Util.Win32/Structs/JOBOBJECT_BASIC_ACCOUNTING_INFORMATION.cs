@@ -27,18 +27,26 @@ namespace Lsj.Util.Win32.Structs
         public LARGE_INTEGER TotalKernelTime;
 
         /// <summary>
+        /// <para>
         /// The total amount of user-mode execution time for all active processes associated with the job
-        /// (as well as all terminated processes no longer associated with the job) since the last call that set a per-job user-mode time limit,
-        /// in 100-nanosecond ticks.
+        /// (as well as all terminated processes no longer associated with the job)
+        /// since the last call that set a per-job user-mode time limit, in 100-nanosecond ticks.
+        /// </para>
+        /// <para>
         /// This member is set to 0 on creation of the job, and each time a per-job user-mode time limit is established.
+        /// </para>
         /// </summary>
         public LARGE_INTEGER ThisPeriodTotalUserTime;
 
         /// <summary>
+        /// <para>
         /// The total amount of kernel-mode execution time for all active processes associated with the job
-        /// (as well as all terminated processes no longer associated with the job) since the last call that set a per-job kernel-mode time limit,
-        /// in 100-nanosecond ticks.
+        /// (as well as all terminated processes no longer associated with the job)
+        /// since the last call that set a per-job kernel-mode time limit, in 100-nanosecond ticks.
+        /// </para>
+        /// <para>
         /// This member is set to zero on creation of the job, and each time a per-job kernel-mode time limit is established.
+        /// </para>
         /// </summary>
         public LARGE_INTEGER ThisPeriodTotalKernelTime;
 

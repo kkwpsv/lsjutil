@@ -10,11 +10,17 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/magnification/ns-magnification-magtransform"/>
     /// </para>
     /// <remark>
+    /// <para>
     /// The transformation matrix is
+    /// </para>
+    /// <code>
     /// (n, 0.0, 0.0)
     /// (0.0, n, 0.0)
     /// (0.0, 0.0, 1.0)
+    /// </code>
+    /// <para>
     /// where n is the magnification factor.
+    /// </para>
     /// </remark>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

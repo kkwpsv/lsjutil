@@ -14,12 +14,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// MEMORYSTATUS reflects the state of memory at the time of the call. It also reflects the size of the paging file at that time.
+    /// <para>
+    /// <see cref="MEMORYSTATUS"/> reflects the state of memory at the time of the call.
+    /// It also reflects the size of the paging file at that time.
     /// The operating system can enlarge the paging file up to the maximum size set by the administrator.
+    /// </para>
+    /// <para>
     /// On computers with more than 4 GB of memory, the <see cref="MEMORYSTATUS"/> structure can return incorrect information,
     /// reporting a value of –1 to indicate an overflow.
     /// If your application is at risk for this behavior,
     /// use the <see cref="GlobalMemoryStatusEx"/> function instead of the <see cref="GlobalMemoryStatus"/> function.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MEMORYSTATUS

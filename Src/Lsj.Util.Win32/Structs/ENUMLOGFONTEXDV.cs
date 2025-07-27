@@ -12,10 +12,14 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The actual size of <see cref="ENUMLOGFONTEXDV"/> depends on that of <see cref="DESIGNVECTOR"/>,
     /// which, in turn depends on its <see cref="DESIGNVECTOR.dvNumAxes"/> member.
-    /// The <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> functions have been modified
-    /// to return pointers to <see cref="ENUMTEXTMETRIC"/> and <see cref="ENUMLOGFONTEXDV"/> to the callback function.
+    /// </para>
+    /// <para>
+    /// The <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> functions
+    /// have been modified to return pointers to <see cref="ENUMTEXTMETRIC"/> and <see cref="ENUMLOGFONTEXDV"/> to the callback function.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ENUMLOGFONTEXDV

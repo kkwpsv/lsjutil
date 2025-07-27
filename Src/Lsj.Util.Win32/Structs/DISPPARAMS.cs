@@ -16,7 +16,12 @@ namespace Lsj.Util.Win32.Structs
     public struct DISPPARAMS
     {
         /// <summary>
+        /// <para>
         /// An array of arguments.
+        /// </para>
+        /// <para>
+        /// Note: these arguments appear in reverse order
+        /// </para>
         /// </summary>
         public IntPtr rgvarg;
 

@@ -18,9 +18,35 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// To enable a debugger to debug a target that is running on a different architecture (32-bit versus 64-bit),
     /// use one of the explicit forms of this structure.
-    /// <see cref="MEMORY_BASIC_INFORMATION32"/>, <see cref="MEMORY_BASIC_INFORMATION64"/>
+    /// </para>
+    /// <code>
+    /// typedef struct _MEMORY_BASIC_INFORMATION32 {
+    ///     DWORD BaseAddress;
+    ///     DWORD AllocationBase;
+    ///     DWORD AllocationProtect;
+    ///     DWORD RegionSize;
+    ///     DWORD State;
+    ///     DWORD Protect;
+    ///     DWORD Type;
+    /// }
+    /// MEMORY_BASIC_INFORMATION32, *PMEMORY_BASIC_INFORMATION32;
+    /// 
+    /// typedef struct DECLSPEC_ALIGN(16) _MEMORY_BASIC_INFORMATION64 {
+    ///     ULONGLONG BaseAddress;
+    ///     ULONGLONG AllocationBase;
+    ///     DWORD AllocationProtect;
+    ///     DWORD __alignment1;
+    ///     ULONGLONG RegionSize;
+    ///     DWORD State;
+    ///     DWORD Protect;
+    ///     DWORD Type;
+    ///     DWORD __alignment2;
+    /// }
+    /// MEMORY_BASIC_INFORMATION64, *PMEMORY_BASIC_INFORMATION64;
+    /// </code>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MEMORY_BASIC_INFORMATION
@@ -43,21 +69,72 @@ namespace Lsj.Util.Win32.Structs
         public MemoryProtectionConstants AllocationProtect;
 
         /// <summary>
+        /// 
+        /// </summary>
+        public WORD PartitionId;
+
+        /// <summary>
         /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
         /// </summary>
         public SIZE_T RegionSize;
 
         /// <summary>
-        /// The state of the pages in the region. This member can be one of the following values.
-        /// <see cref="MEM_COMMIT"/>:
+        /// <para>
+        /// The state of the pages in the region.
+        /// This member can be one of the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// State
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_COMMIT"/>
+        /// </para>
+        /// <para>
+        /// 0x1000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates committed pages for which physical storage has been allocated, either in memory or in the paging file on disk.
-        /// <see cref="MEM_FREE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_FREE"/>
+        /// </para>
+        /// <para>
+        /// 0x10000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates free pages not accessible to the calling process and available to be allocated.
         /// For free pages, the information in the <see cref="AllocationBase"/>, <see cref="AllocationProtect"/>,
         /// <see cref="Protect"/>, and <see cref="Type"/> members is undefined.
-        /// <see cref="MEM_RESERVE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_RESERVE"/>
+        /// </para>
+        /// <para>
+        /// 0x2000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates reserved pages where a range of the process's virtual address space is reserved without any physical storage being allocated.
         /// For reserved pages, the information in the <see cref="Protect"/> member is undefined.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD State;
 
@@ -68,13 +145,58 @@ namespace Lsj.Util.Win32.Structs
         public DWORD Protect;
 
         /// <summary>
+        /// <para>
         /// The type of pages in the region. The following types are defined.
-        /// <see cref="MEM_IMAGE"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Type
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_IMAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x1000000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the memory pages within the region are mapped into the view of an image section.
-        /// <see cref="MEM_MAPPED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_MAPPED"/>
+        /// </para>
+        /// <para>
+        /// 0x40000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the memory pages within the region are mapped into the view of a section.
-        /// <see cref="MEM_PRIVATE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MEM_PRIVATE"/>
+        /// </para>
+        /// <para>
+        /// 0x20000
+        /// </para>
+        /// </term>
+        /// <term>
         /// Indicates that the memory pages within the region are private (that is, not shared by other processes).
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public MemoryTypes Type;
     }

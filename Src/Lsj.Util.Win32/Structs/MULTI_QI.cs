@@ -1,7 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -30,9 +32,9 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A pointer to the interface requested in <see cref="pIID"/>.
-        /// This member must be <see langword="null"/> on input.
+        /// This member must be <see cref="NULL"/> on input.
         /// </summary>
-        public IntPtr pItf;
+        public P<IUnknown> pItf;
 
         /// <summary>
         /// The return value of the QueryInterface call to locate the requested interface.

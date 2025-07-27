@@ -25,11 +25,22 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        public ByValBYTEArrayStructForSize20 Reserved;
+        public ByValBYTEArrayStructForSize18 Reserved;
+
+        /// <summary>
+        /// The number of groups included in the <see cref="GroupMasks"/> array.
+        /// This field was introduced in Windows 20H2. On earlier versions, this value is always 0.
+        /// </summary>
+        public WORD GroupCount;
 
         /// <summary>
         /// A <see cref="GROUP_AFFINITY"/> structure that specifies a group number and processor affinity within the group.
         /// </summary>
         public GROUP_AFFINITY GroupMask;
+
+        /// <summary>
+        /// An array of <see cref="GROUP_AFFINITY"/> structure that specifies a group number and processor affinity within the group.
+        /// </summary>
+        public AnySizeArray<GROUP_AFFINITY> GroupMasks;
     }
 }

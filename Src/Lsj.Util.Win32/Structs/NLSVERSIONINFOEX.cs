@@ -36,17 +36,25 @@ namespace Lsj.Util.Win32.Structs
         public DWORD dwNLSVersion;
 
         /// <summary>
+        /// <para>
         /// Defined version. This value is used to track changes in the repertoire of Unicode code points.
         /// The value increments when the Unicode repertoire is extended, for example, if more characters are defined.
-        /// Starting with Windows 8: Deprecated. Use dwNLSVersion instead.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 8: Deprecated. Use <see cref="dwNLSVersion"/> instead.
+        /// </para>
         /// </summary>
         public DWORD dwDefinedVersion;
 
         /// <summary>
+        /// <para>
         /// Identifier of the sort order used for the input locale for the represented version.
         /// For example, for a custom locale en-Mine that uses 0409 for a sort order identifier, this member contains "0409".
         /// If this member specifies a "real" sort, <see cref="guidCustomVersion"/> is set to an empty GUID.
-        /// Starting with Windows 8: Deprecated. Use <see cref="guidCustomVersion"/> instead.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 8: Deprecated. Use <see cref="guidCustomVersion"/> instead.
+        /// </para>
         /// </summary>
         public DWORD dwEffectiveId;
 

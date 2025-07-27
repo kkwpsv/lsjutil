@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DVASPECT;
+using static Lsj.Util.Win32.Enums.CLIPFORMAT;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -28,10 +29,27 @@ namespace Lsj.Util.Win32.Structs
     public struct FORMATETC
     {
         /// <summary>
+        /// <para>
         /// The clipboard format of interest. There are three types of formats recognized by OLE:
-        /// Standard interchange formats, such as CF_TEXT.
-        /// Private application formats understood only by the application offering the format, or by other applications offering similar features.
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Standard interchange formats, such as <see cref="CF_TEXT"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Private application formats understood only by the application offering the format,
+        /// or by other applications offering similar features.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// OLE formats, which are used to create linked or embedded objects.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public CLIPFORMAT cfFormat;
 

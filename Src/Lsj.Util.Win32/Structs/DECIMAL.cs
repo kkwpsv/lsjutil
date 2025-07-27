@@ -6,7 +6,9 @@ namespace Lsj.Util.Win32.Structs
     /// <summary>
     /// <para>
     /// Represents a decimal data type that provides a sign and scale for a number (as in coordinates.)
-    /// Decimal variables are stored as 96-bit(12-byte) unsigned integers scaled by a variable power of 10.
+    /// </para>
+    /// <para>
+    /// Decimal variables are stored as 96-bit (12-byte) unsigned integers scaled by a variable power of 10.
     /// The power of 10 scaling factor specifies the number of digits to the right of the decimal point, and ranges from 0 to 28.
     /// </para>
     /// <para>

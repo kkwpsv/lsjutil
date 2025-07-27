@@ -52,19 +52,29 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lpszCaption;
 
         /// <summary>
+        /// <para>
         /// The contents and behavior of the dialog box.
-        /// This member can be a combination of flags described for the uType parameter of the <see cref="MessageBoxEx"/> function.
+        /// This member can be a combination of flags described for the "uType parameter of the <see cref="MessageBoxEx"/> function.
+        /// </para>
+        /// <para>
         /// In addition, you can specify the <see cref="MB_USERICON"/> flag (0x00000080L)
         /// if you want the message box to display the icon specified by the <see cref="lpszIcon"/> member.
+        /// </para>
         /// </summary>
         public MessageBoxFlags dwStyle;
 
         /// <summary>
+        /// <para>
         /// Identifies an icon resource.
         /// This parameter can be either a null-terminated string or an integer resource identifier passed to the <see cref="MAKEINTRESOURCE"/> macro.
+        /// </para>
+        /// <para>
         /// To load one of the standard system-defined icons, set the <see cref="hInstance"/> member to <see cref="NULL"/>
         /// and set <see cref="lpszIcon"/> to one of the values listed with the <see cref="LoadIcon"/> function.
+        /// </para>
+        /// <para>
         /// This member is ignored if the <see cref="dwStyle"/> member does not specify the <see cref="MB_USERICON"/> flag.
+        /// </para>
         /// </summary>
         public IntPtr lpszIcon;
 
@@ -86,16 +96,20 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lpfnMsgBoxCallback;
 
         /// <summary>
+        /// <para>
         /// The language in which to display the text contained in the predefined push buttons.
         /// This value must be in the form returned by the <see cref="MAKELANGID"/> macro.
+        /// </para>
+        /// <para>
         /// For a list of supported language identifiers, see Language Identifiers.
         /// Note that each localized release of Windows typically contains resources only for a limited set of languages.
         /// Thus, for example, the U.S. version offers <see cref="LANG_ENGLISH"/>,
-        /// the French version offers <see cref="LANG_FRENCH"/>,
-        /// the German version offers <see cref="LANG_GERMAN"/>, and the Japanese version offers <see cref="LANG_JAPANESE"/>.
+        /// the French version offers <see cref="LANG_FRENCH"/>, the German version offers <see cref="LANG_GERMAN"/>,
+        /// and the Japanese version offers <see cref="LANG_JAPANESE"/>.
         /// Each version offers <see cref="LANG_NEUTRAL"/>.
         /// This limits the set of values that can be used with the <see cref="dwLanguageId"/> parameter.
         /// Before specifying a language identifier, you should enumerate the locales that are installed on a system.
+        /// </para>
         /// </summary>
         public DWORD dwLanguageId;
     }

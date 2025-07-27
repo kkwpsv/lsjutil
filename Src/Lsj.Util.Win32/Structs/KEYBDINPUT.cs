@@ -18,17 +18,23 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <see cref="INPUT_KEYBOARD"/> supports nonkeyboard-input methods—such as handwriting recognition or voice recognition—
     /// as if it were text input by using the <see cref="KEYEVENTF_UNICODE"/> flag.
     /// If <see cref="KEYEVENTF_UNICODE"/> is specified, <see cref="SendInput"/> sends a <see cref="WM_KEYDOWN"/> or <see cref="WM_KEYUP"/> message
     /// to the foreground thread's message queue with wParam equal to <see cref="VK_PACKET"/>.
-    /// Once <see cref="GetMessage"/> or <see cref="PeekMessage"/> obtains this message, passing the message to <see cref="TranslateMessage"/>
-    /// posts a <see cref="WM_CHAR"/> message with the Unicode character originally specified by <see cref="wScan"/>.
+    /// Once <see cref="GetMessage"/> or <see cref="PeekMessage"/> obtains this message,
+    /// passing the message to <see cref="TranslateMessage"/> posts a <see cref="WM_CHAR"/> message with the Unicode character
+    /// originally specified by <see cref="wScan"/>.
     /// This Unicode character will automatically be converted to the appropriate ANSI value if it is posted to an ANSI window.
+    /// </para>
+    /// <para>
     /// Set the <see cref="KEYEVENTF_SCANCODE"/> flag to define keyboard input in terms of the scan code.
-    /// This is useful to simulate a physical keystroke regardless of which keyboard is currently being used.
-    /// The virtual key value of a key may alter depending on the current keyboard layout or what other keys were pressed,
+    /// This is useful for simulating a physical keystroke regardless of which keyboard is currently being used.
+    /// You can also pass the <see cref="KEYEVENTF_EXTENDEDKEY"/> flag if the scan code is an extended key.
+    /// The virtual key value of a key can change depending on the current keyboard layout or what other keys were pressed,
     /// but the scan code will always be the same.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct KEYBDINPUT

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
+using static Lsj.Util.Win32.Enums.StorageInfoFlags;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -16,6 +17,10 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_storage_info"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// If a volume is built on top of storage devices with different properties (for example a mirrored, spanned, striped, or RAID configuration)
+    /// the sizes returned are those of the largest size of any of the underlying storage devices.
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_STORAGE_INFO
     {
@@ -41,7 +46,45 @@ namespace Lsj.Util.Win32.Structs
         public ULONG FileSystemEffectivePhysicalBytesPerSectorForAtomicity;
 
         /// <summary>
+        /// <para>
         /// This member can contain combinations of flags specifying information about the alignment of the storage.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STORAGE_INFO_FLAGS_ALIGNED_DEVICE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// When set, this flag indicates that the logical sectors of the storage device are aligned to physical sector boundaries.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STORAGE_INFO_FLAGS_PARTITION_ALIGNED_ON_DEVICE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// When set, this flag indicates that the partition is aligned to physical sector boundaries on the storage device.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public StorageInfoFlags Flags;
 

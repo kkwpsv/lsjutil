@@ -1,7 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.ComboBoxStyles;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.ListBoxStyles;
 using static Lsj.Util.Win32.Enums.OwnerDrawActions;
@@ -28,10 +29,75 @@ namespace Lsj.Util.Win32.Structs
     public struct DRAWITEMSTRUCT
     {
         /// <summary>
+        /// <para>
         /// The control type. This member can be one of the following values. See Remarks.
-        /// <see cref="ODT_BUTTON"/>, <see cref="ODT_COMBOBOX"/>, <see cref="ODT_LISTBOX"/>,
-        /// <see cref="ODT_LISTVIEW"/>, <see cref="ODT_MENU"/>, <see cref="ODT_STATIC"/>,
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_BUTTON"/>
+        /// </term>
+        /// <term>
+        /// Owner-drawn button
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_COMBOBOX"/>
+        /// </term>
+        /// <term>
+        /// Owner-drawn combo box
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_LISTBOX"/>
+        /// </term>
+        /// <term>
+        /// Owner-drawn list box
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_LISTVIEW"/>
+        /// </term>
+        /// <term>
+        /// List-view control
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_MENU"/>
+        /// </term>
+        /// <term>
+        /// Owner-drawn menu item
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODT_STATIC"/>
+        /// </term>
+        /// <term>
+        /// Owner-drawn static control
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="ODT_TAB"/>
+        /// </term>
+        /// <term>
+        /// Tab control
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public OwnerDrawControlTypes CtlType;
 
@@ -52,18 +118,150 @@ namespace Lsj.Util.Win32.Structs
         public UINT itemID;
 
         /// <summary>
+        /// <para>
         /// The required drawing action. This member can be one or more of the values.
-        /// <see cref="ODA_DRAWENTIRE"/>, <see cref="ODA_FOCUS"/>, <see cref="ODA_SELECT"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ODA_DRAWENTIRE"/>
+        /// </term>
+        /// <term>
+        /// The entire control needs to be drawn.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODA_FOCUS"/>
+        /// </term>
+        /// <term>
+        /// The control has lost or gained the keyboard focus.
+        /// The <see cref="itemState"/> member should be checked to determine whether the control has the focus.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODA_SELECT"/>
+        /// </term>
+        /// <term>
+        /// The selection status has changed.
+        /// The <see cref="itemState"/> member should be checked to determine the new selection state.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public OwnerDrawActions itemAction;
 
         /// <summary>
-        /// The visual state of the item after the current drawing action takes place.
-        /// This member can be a combination of the values shown in the following table.
-        /// <see cref="ODS_CHECKED"/>, <see cref="ODS_COMBOBOXEDIT"/>, <see cref="ODS_DEFAULT"/>,
-        /// <see cref="ODS_DISABLED"/>, <see cref="ODS_FOUCUS"/>, <see cref="ODS_GRAYED"/>,
-        /// <see cref="ODS_HOTLIGHT"/>, <see cref="ODS_INACTIVE"/>, <see cref="ODS_NOACCEL"/>,
-        /// <see cref="ODS_NOFOCUSRECT"/>, <see cref="ODS_SELECTED"/>
+        /// <para>
+        /// The visual state of the item after the current drawing action takes place. This member can be a combination of the values shown in the following table.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_CHECKED"/>
+        /// </term>
+        /// <term>
+        /// The menu item is to be checked. This bit is used only in a menu.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_COMBOBOXEDIT"/>
+        /// </term>
+        /// <term>
+        /// The drawing takes place in the selection field (edit control) of an owner-drawn combo box.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_DEFAULT"/>
+        /// </term>
+        /// <term>
+        /// The item is the default item.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_DISABLED"/>
+        /// </term>
+        /// <term>
+        /// The item is to be drawn as disabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_FOCUS"/>
+        /// </term>
+        /// <term>
+        /// The item has the keyboard focus.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_GRAYED"/>
+        /// </term>
+        /// <term>
+        /// The item is to be grayed. This bit is used only in a menu.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_HOTLIGHT"/>
+        /// </term>
+        /// <term>
+        /// The item is being hot-tracked, that is, the item will be highlighted when the mouse is on the item.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_INACTIVE"/>
+        /// </term>
+        /// <term>
+        /// The item is inactive and the window associated with the menu is inactive.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_NOACCEL"/>
+        /// </term>
+        /// <term>
+        /// The control is drawn without the keyboard accelerator cues.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_NOFOCUSRECT"/>
+        /// </term>
+        /// <term>
+        /// The control is drawn without focus indicator cues.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ODS_SELECTED"/>
+        /// </term>
+        /// <term>
+        /// The menu item's status is selected.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public OwnerDrawStates itemState;
 
@@ -88,17 +286,40 @@ namespace Lsj.Util.Win32.Structs
         public RECT rcItem;
 
         /// <summary>
+        /// <para>
         /// The application-defined value associated with the menu item.
         /// For a control, this parameter specifies the value last assigned to the list box or combo box
-        /// by the <see cref="LB_SETITEMDATA"/> or <see cref="ComboBoxControlMessages.CB_SETITEMDATA"/> message.
-        /// If the list box or combo box has the <see cref="LBS_HASSTRINGS"/> or <see cref="ComboBoxStyles.CBS_HASSTRINGS"/> style,
+        /// by the <see cref="LB_SETITEMDATA"/> or <see cref="CB_SETITEMDATA"/> message.
+        /// If the list box or combo box has the <see cref="LBS_HASSTRINGS"/> or <see cref="CBS_HASSTRINGS"/> style,
         /// this value is initially zero.
-        /// Otherwise, this value is initially the value that was passed to the list box or combo box in the lParam parameter of
-        /// one of the following messages:
-        /// <see cref="ComboBoxControlMessages.CB_ADDSTRING"/>, <see cref="ComboBoxControlMessages.CB_INSERTSTRING"/>,
-        /// <see cref="LB_ADDSTRING"/>, <see cref="LB_INSERTSTRING"/>
-        /// If <see cref="CtlType"/> is <see cref="ODT_BUTTON"/> or
-        /// <see cref="ODT_STATIC"/>, <see cref="itemData"/> is zero.
+        /// Otherwise, this value is initially the value that was passed to the list box or combo box
+        /// in the <see cref="MSG.lParam"/> parameter of one of the following messages:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="CB_ADDSTRING"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CB_INSERTSTRING"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LB_ADDSTRING"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LB_INSERTSTRING"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// If <see cref="CtlType"/> is <see cref="ODT_BUTTON"/> or <see cref="ODT_STATIC"/>, <see cref="itemData"/> is zero.
+        /// </para>
         /// </summary>
         public ULONG_PTR itemData;
     }

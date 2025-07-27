@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_PATH_TARGET_INFOFlags;
 using static Lsj.Util.Win32.Enums.QueryDisplayConfigFlags;
+using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_PATH_INFOFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -17,14 +18,20 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// A <see cref="DISPLAYCONFIG_PATH_TARGET_INFO"/> structure is specified
     /// in the <see cref="DISPLAYCONFIG_PATH_INFO.targetInfo"/> member of a <see cref="DISPLAYCONFIG_PATH_INFO"/> structure.
+    /// </para>
+    /// <para>
     /// A target corresponds to the number of possible video outputs on a display adapter.
     /// This number, however, does not equate to the number of physical connectors on the display adapter.
     /// Each connector exposes a number of targets that includes backward compatibility with older connector technology.
     /// For example, a DVI connector exposes a DVI target, as well as a VGA target.
     /// A DisplayPort connector, which was introduced in 2006, exposes DisplayPort, HDMI, DVI, legacy TV, and VGA targets.
+    /// </para>
+    /// <para>
     /// The <see cref="statusFlags"/> member is set when you call the <see cref="QueryDisplayConfig"/> function.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct DISPLAYCONFIG_PATH_TARGET_INFO
@@ -137,22 +144,103 @@ namespace Lsj.Util.Win32.Structs
         public BOOL targetAvailable;
 
         /// <summary>
-        /// A bitwise OR of flag values that indicates the status of the target.
-        /// The following values are supported:
-        /// <see cref="DISPLAYCONFIG_TARGET_IN_USE"/>:
+        /// <para>
+        /// A bitwise OR of flag values that indicates the status of the target. The following values are supported:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_IN_USE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
         /// Target is in use on an active path.
-        /// <see cref="DISPLAYCONFIG_TARGET_FORCIBLE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_FORCIBLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
         /// The output can be forced on this target even if a monitor is not detected.
-        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_BOOT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_BOOT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
         /// Output is currently being forced in a boot-persistent manner.
-        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_PATH"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_PATH"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
         /// Output is currently being forced in a path-persistent manner.
-        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_SYSTEM"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_FORCED_AVAILABILITY_SYSTEM"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
         /// Output is currently being forced in a nonpersistent manner.
-        /// <see cref="DISPLAYCONFIG_TARGET_IS_HMD"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISPLAYCONFIG_TARGET_IS_HMD"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
         /// The output is a head-mounted display (HMD).
         /// Such a path is only returned from <see cref="QueryDisplayConfig"/> using the <see cref="QDC_INCLUDE_HMD"/> flag.
-        /// Supported starting in the Windows 10 Creators Update(Version 1703).
+        /// </para>
+        /// <para>
+        /// Supported starting in the Windows 10 Creators Update (Version 1703).
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         [FieldOffset(44)]
         public DISPLAYCONFIG_PATH_TARGET_INFOFlags statusFlags;

@@ -27,6 +27,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An array of words containing the function parameters, in reverse of the order they are passed to the function.
         /// </summary>
-        public WORD rdParm;
+        public AnySizeArray<WORD> rdParm;
     }
 }
