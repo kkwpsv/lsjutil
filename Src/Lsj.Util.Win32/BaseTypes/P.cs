@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ref T FromPtr(IntPtr value) => ref UnsafePInvokeExtensions.AsStructRef<T>(value);
+        public static P<T> FromPtr(IntPtr value) => new P<T> { _value = value };
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
