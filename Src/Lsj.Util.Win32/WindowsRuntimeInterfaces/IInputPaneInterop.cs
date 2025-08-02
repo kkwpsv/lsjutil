@@ -1,7 +1,10 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
@@ -19,6 +22,9 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// You can obtain an instance of the <see cref="IInputPaneInterop"/> interface by calling
     /// the <see cref="IUnknown.QueryInterface"/> method on the activation factory instance for the InputPane class.
     /// </remarks>
+    [WindowsVersionRequirement(WindowsVersion.Windows10, 14393)]
+    [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 6, IID = "75CF2C57-9195-4931-8332-F0B409E916AF",
+        InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IInputPaneInterop
     {
         IntPtr* _vTable;
