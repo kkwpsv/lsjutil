@@ -43,6 +43,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
+        public static implicit operator string(IID val) => val._value.ToString();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         public static implicit operator IID(string val) => new IID { _value = new Guid(val) };
     }
 }

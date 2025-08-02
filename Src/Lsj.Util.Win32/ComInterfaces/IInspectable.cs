@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -18,6 +19,8 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <see cref="IInspectable"/> methods have no effect on COM apartments and are safe to call from user interface threads.
     /// </remark>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows8)]
+    [ComInterface(BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, IID = "AF86E2E0-B12D-4c6a-9C5A-D7AA65101E90", InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IInspectable
     {
         IntPtr* _vTable;

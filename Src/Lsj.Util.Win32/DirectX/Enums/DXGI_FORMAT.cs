@@ -890,12 +890,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// <summary>
         /// 
         /// </summary>
-        DXGI_FORMAT_SAMPLER_FEEDBACK_MIN_MIP_OPAQUE,
+        DXGI_FORMAT_SAMPLER_FEEDBACK_MIN_MIP_OPAQUE = 189,
 
         /// <summary>
         /// 
         /// </summary>
-        DXGI_FORMAT_SAMPLER_FEEDBACK_MIP_REGION_USED_OPAQUE,
+        DXGI_FORMAT_SAMPLER_FEEDBACK_MIP_REGION_USED_OPAQUE = 190,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        DXGI_FORMAT_A4B4G4R4_UNORM = 191,
 
         /// <summary>
         /// Forces this enumeration to compile to 32 bits in size.

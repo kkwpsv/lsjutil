@@ -32,6 +32,27 @@ namespace Lsj.Util.Win32.DirectX
 
         /// <summary>
         /// <para>
+        /// Creates an instance of IDirect3DDevice from an <see cref="IDXGIDevice"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windows.graphics.directx.direct3d11.interop/nf-windows-graphics-directx-direct3d11-interop-createdirect3d11devicefromdxgidevice"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dxgiDevice">
+        /// The <see cref="IDXGIDevice"/> to create the Direct3DDevice from.
+        /// </param>
+        /// <param name="graphicsDevice">
+        /// A Direct3DDevice instance that wraps the DXGIDevice.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirect3D11DeviceFromDXGIDevice", ExactSpelling = true)]
+        public static extern HRESULT CreateDirect3D11DeviceFromDXGIDevice(in IDXGIDevice dxgiDevice, [Out] out P<IInspectable> graphicsDevice);
+
+        /// <summary>
+        /// <para>
         /// Creates a device that represents the display adapter.
         /// </para>
         /// <para>
@@ -139,7 +160,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D11CreateDevice", ExactSpelling = true)]
         public static extern HRESULT D3D11CreateDevice([In] in IDXGIAdapter pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
-            [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[] pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
+            [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[]? pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
             [Out] out P<ID3D11Device> ppDevice, [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);
 
         /// <summary>

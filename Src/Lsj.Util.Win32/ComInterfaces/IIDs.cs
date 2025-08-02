@@ -48,6 +48,26 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ID3D11Device
+        /// </summary>
+        public static readonly IID IID_ID3D11Device = "db6f6ddb-ac77-4e88-8253-819df9bbf140";
+
+        /// <summary>
+        /// IID_ID3D11DeviceChild
+        /// </summary>
+        public static readonly IID IID_ID3D11DeviceChild = "1841e5c8-16b0-489b-bcc8-44cfb0d5deae";
+
+        /// <summary>
+        /// IID_ID3D11DeviceContext
+        /// </summary>
+        public static readonly IID IID_ID3D11DeviceContext = "c0bfa96c-e089-44fb-8eaf-26f8796190da";
+
+        /// <summary>
+        /// ID3D11Texture2D
+        /// </summary>
+        public static readonly IID IID_ID3D11Texture2D = "6f15aaf2-d208-4e89-9ab4-489535d34f9c";
+
+        /// <summary>
         /// IID_ID3D12Device
         /// </summary>
         public static readonly IID IID_ID3D12Device = "189819f1-1db6-4b57-be54-1821339b85f7";
@@ -68,19 +88,39 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDispatch = "00020400-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IDirect3D11CaptureFrame
+        /// </summary>
+        public static readonly IID IID_IDirect3D11CaptureFrame = "fa50c623-38da-4b32-acf3-fa9734ad800e";
+
+        /// <summary>
+        /// IID_IDirect3D11CaptureFramePool
+        /// </summary>
+        public static readonly IID IID_IDirect3D11CaptureFramePool = "24eb6d22-1975-422e-82e7-780dbd8ddf24";
+
+        /// <summary>
+        /// IID_IDirect3D11CaptureFramePoolStatics
+        /// </summary>
+        public static readonly IID IID_IDirect3D11CaptureFramePoolStatics = "7784056a-67aa-4d53-ae54-1088d5a8ca21";
+
+        /// <summary>
+        /// IID_IDirect3DDevice
+        /// </summary>
+        public static readonly IID IID_IDirect3DDevice = "a37624ab-8d5f-4650-9d3e-9eae3d9bc670";
+
+        /// <summary>
         /// IID_IDirect3DDevice9On12
         /// </summary>
         public static readonly IID IID_IDirect3DDevice9On12 = "e7fda234-b589-4049-940d-8878977531c8";
 
         /// <summary>
-        /// IID_IDXGIFactory
+        /// IID_IDirect3DDxgiInterfaceAccess
         /// </summary>
-        public static readonly IID IID_IDXGIFactory = "7b7166ec-21c7-44ae-b21a-c9ae321ae369";
+        public static readonly IID IID_IDirect3DDxgiInterfaceAccess = "A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1";
 
         /// <summary>
-        /// IID_IDXGIFactory1
+        /// IID_IDirect3DSurface
         /// </summary>
-        public static readonly IID IID_IDXGIFactory1 = "770aae78-f26f-4dba-a829-253c83d1b387";
+        public static readonly IID IID_IDirect3DSurface = "0bf4a146-13c1-4694-bee3-7abf15eaf586";
 
         /// <summary>
         /// IID_IDXGIAdapter
@@ -91,6 +131,21 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IDXGIAdapter4
         /// </summary>
         public static readonly IID IID_IDXGIAdapter4 = "3c8d99d1-4fbf-4181-a82c-af66bf7bd24e";
+
+        /// <summary>
+        /// IID_IDXGIDevice
+        /// </summary>
+        public static readonly IID IID_IDXGIDevice = "54ec77fa-1377-44e6-8c32-88fd5f44c84c";
+
+        /// <summary>
+        /// IID_IDXGIFactory
+        /// </summary>
+        public static readonly IID IID_IDXGIFactory = "7b7166ec-21c7-44ae-b21a-c9ae321ae369";
+
+        /// <summary>
+        /// IID_IDXGIFactory1
+        /// </summary>
+        public static readonly IID IID_IDXGIFactory1 = "770aae78-f26f-4dba-a829-253c83d1b387";
 
         /// <summary>
         /// IID_IEnumIDList
@@ -113,9 +168,19 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IFileOpenDialog = "d57c7288-d4ad-4768-be02-9d969532d960";
 
         /// <summary>
-        /// IID_IInputPaneInterop
+        /// IID_IGraphicsCaptureItem
         /// </summary>
-        public static readonly IID IID_IInputPaneInterop = "75CF2C57-9195-4931-8332-F0B409E916AF";
+        public static readonly IID IID_IGraphicsCaptureItem = "79c3f95b-31f7-4ec2-a464-632ef5d30760";
+
+        /// <summary>
+        /// IID_IGraphicsCaptureItemInterop
+        /// </summary>
+        public static readonly IID IID_IGraphicsCaptureItemInterop = "3628E81B-3CAC-4C60-B7F4-23CE0E0C3356";
+
+        /// <summary>
+        /// IID_IGraphicsCaptureSession
+        /// </summary>
+        public static readonly IID IID_IGraphicsCaptureSession = "814e42a9-f70f-4ad7-939b-fddcc6eb880d";
 
         /// <summary>
         /// IID_IInputPane
@@ -126,6 +191,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IInputPane2
         /// </summary>
         public static readonly IID IID_IInputPane2 = "8a6b3f26-7090-4793-944c-c3f2cde26276";
+
+        /// <summary>
+        /// IID_IInputPaneInterop
+        /// </summary>
+        public static readonly IID IID_IInputPaneInterop = "75CF2C57-9195-4931-8332-F0B409E916AF";
+
+        /// <summary>
+        /// IID_IInspectable
+        /// </summary>
+        public static readonly IID IID_IInspectable = "AF86E2E0-B12D-4c6a-9C5A-D7AA65101E90";
 
         /// <summary>
         /// IID_ILockBytes
