@@ -6,11 +6,8 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// Sent with a power setting event and contains data about the specific change
-    /// . For more information, see Registering for Power Events and Power Setting GUIDs.
-    /// </para>
-    /// <para>
-    /// Data is after DataLength, which cannot be marshal automatically.
+    /// Sent with a power setting event and contains data about the specific change.
+    /// For more information, see Registering for Power Events and Power Setting GUIDs.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-powerbroadcast_setting"/>
@@ -29,11 +26,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public DWORD DataLength;
 
-        /*
         /// <summary>
         /// The new value of the power setting. The type and possible values for this member depend on PowerSettng.
         /// </summary>
-        public byte[] Data;
-        */
+        public AnySizeArray<UCHAR> Data;
     }
 }

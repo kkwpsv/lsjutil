@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     {
         /// <summary>
         /// The size of the structure, in bytes.
-        /// The caller must set this member to <code>sizeof(WINDOWINFO)</code>.
+        /// The caller must set this member to <c>sizeof(WINDOWINFO)</c>.
         /// </summary>
         public DWORD cbSize;
 

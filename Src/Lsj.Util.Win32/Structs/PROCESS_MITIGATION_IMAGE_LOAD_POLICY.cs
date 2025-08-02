@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     public struct PROCESS_MITIGATION_IMAGE_LOAD_POLICY
     {
         /// <summary>
-        /// This member is reserved for system use.
+        /// Reserved for system use.
         /// </summary>
         public DWORD Flags;
 

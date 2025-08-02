@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="RegCreateKeyEx"/>, or <see cref="RegSaveKeyEx"/>.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa379560(v%3Dvs.85)"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypesbase/ns-wtypesbase-security_attributes"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -28,12 +28,16 @@ namespace Lsj.Util.Win32.Structs
         public DWORD nLength;
 
         /// <summary>
+        /// <para>
         /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that controls access to the object.
-        /// If the value of this member is <see cref="IntPtr.Zero"/>, the object is assigned the default security descriptor
-        /// associated with the access token of the calling process.
-        /// This is not the same as granting access to everyone by assigning a <see cref="IntPtr.Zero"/> discretionary access control list (DACL).
+        /// If the value of this member is <see cref="NULL"/>,
+        /// the object is assigned the default security descriptor associated with the access token of the calling process.
+        /// This is not the same as granting access to everyone by assigning a <see cref="NULL"/> discretionary access control list (DACL).
         /// By default, the default DACL in the access token of a process allows access only to the user represented by the access token.
+        /// </para>
+        /// <para>
         /// For information about creating a security descriptor, see Creating a Security Descriptor.
+        /// </para>
         /// </summary>
         public LPVOID lpSecurityDescriptor;
 

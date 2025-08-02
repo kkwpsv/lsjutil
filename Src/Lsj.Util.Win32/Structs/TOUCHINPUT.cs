@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -12,48 +14,198 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The following table lists the flags for the <see cref="dwFlags"/> member.
-    /// <see cref="TOUCHEVENTF_MOVE"/>:
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Flag
+    /// </term>
+    /// <term>
+    /// Value
+    /// </term>
+    /// <term>
+    /// Description
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_MOVE"/>
+    /// </term>
+    /// <term>
+    /// 0x0001
+    /// </term>
+    /// <term>
     /// Movement has occurred. Cannot be combined with <see cref="TOUCHEVENTF_DOWN"/>.
-    /// <see cref="TOUCHEVENTF_DOWN"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_DOWN"/>
+    /// </term>
+    /// <term>
+    /// 0x0002
+    /// </term>
+    /// <term>
     /// The corresponding touch point was established through a new contact.
     /// Cannot be combined with <see cref="TOUCHEVENTF_MOVE"/> or <see cref="TOUCHEVENTF_UP"/>.
-    /// <see cref="TOUCHEVENTF_UP"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_UP"/>
+    /// </term>
+    /// <term>
+    /// 0x0004
+    /// </term>
+    /// <term>
     /// A touch point was removed.
-    /// <see cref="TOUCHEVENTF_INRANGE"/>:
-    /// A touch point is in range. This flag is used to enable touch hover support on compatible hardware.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_INRANGE"/>
+    /// </term>
+    /// <term>
+    /// 0x0008
+    /// </term>
+    /// <term>
+    /// A touch point is in range.
+    /// This flag is used to enable touch hover support on compatible hardware.
     /// Applications that do not want support for hover can ignore this flag.
-    /// <see cref="TOUCHEVENTF_PRIMARY"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_PRIMARY"/>
+    /// </term>
+    /// <term>
+    /// 0x0010
+    /// </term>
+    /// <term>
     /// Indicates that this <see cref="TOUCHINPUT"/> structure corresponds to a primary contact point.
     /// See the following text for more information on primary touch points.
-    /// <see cref="TOUCHEVENTF_NOCOALESCE"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_NOCOALESCE"/>
+    /// </term>
+    /// <term>
+    /// 0x0020
+    /// </term>
+    /// <term>
     /// When received using <see cref="GetTouchInputInfo"/>, this input was not coalesced.
-    /// <see cref="TOUCHEVENTF_PEN"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_PEN"/>
+    /// </term>
+    /// <term>
+    /// 0x0040
+    /// </term>
+    /// <term>
     /// The touch event was triggered by a stylus device.
-    /// <see cref="TOUCHEVENTF_PALM"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHEVENTF_PALM"/>
+    /// </term>
+    /// <term>
+    /// 0x0080
+    /// </term>
+    /// <term>
     /// The touch event was triggered by the user's palm.
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// Note
-    /// If the target hardware on a machine does not support hover, when the <see cref="TOUCHEVENTF_UP"/> flag is set, the <see cref="TOUCHEVENTF_INRANGE"/> flag is cleared.
-    /// If the target hardware on a machine supports hover, the <see cref="TOUCHEVENTF_UP"/> and <see cref="TOUCHEVENTF_INRANGE"/> flags will be set independently.
+    /// </para>
+    /// <para>
+    /// If the target hardware on a machine does not support hover,
+    /// when the <see cref="TOUCHEVENTF_UP"/> flag is set, the <see cref="TOUCHEVENTF_INRANGE"/> flag is cleared.
+    /// If the target hardware on a machine supports hover,
+    /// the <see cref="TOUCHEVENTF_UP"/> and <see cref="TOUCHEVENTF_INRANGE"/> flags will be set independently.
+    /// </para>
+    /// <para>
     /// The following table lists the flags for the <see cref="dwMask"/> member.
-    /// <see cref="TOUCHINPUTMASKF_CONTACTAREA"/>:
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Flag
+    /// </term>
+    /// <term>
+    /// Value
+    /// </term>
+    /// <term>
+    /// Description
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHINPUTMASKF_CONTACTAREA"/>
+    /// </term>
+    /// <term>
+    /// 0x0004
+    /// </term>
+    /// <term>
     /// <see cref="cxContact"/> and <see cref="cyContact"/> are valid.
     /// See the following text for more information on primary touch points.
-    /// <see cref="TOUCHINPUTMASKF_EXTRAINFO"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHINPUTMASKF_EXTRAINFO"/>
+    /// </term>
+    /// <term>
+    /// 0x0002
+    /// </term>
+    /// <term>
     /// <see cref="dwExtraInfo"/> is valid.
-    /// <see cref="TOUCHINPUTMASKF_TIMEFROMSYSTEM"/>:
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="TOUCHINPUTMASKF_TIMEFROMSYSTEM"/>
+    /// </term>
+    /// <term>
+    /// 0x0001
+    /// </term>
+    /// <term>
     /// The system time was set in the <see cref="TOUCHINPUT"/> structure.
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// A touch point is designated as primary when it is the first touch point to be established from a previous state of no touch points.
-    /// The <see cref="TOUCHEVENTF_PRIMARY"/> flag continues to be set for all subsequent events for the primary touch point until the primary touch point is released.
+    /// The <see cref="TOUCHEVENTF_PRIMARY"/> flag continues to be set for all subsequent events
+    /// for the primary touch point until the primary touch point is released.
     /// Note that a <see cref="TOUCHEVENTF_UP"/> event on the primary touch point does not necessarily designate the end of a Windows Touch operation;
     /// the current Windows Touch operation proceeds from the establishment of the primary touch point until the last touch point is released.
+    /// </para>
+    /// <para>
     /// Note that a solitary touch point or, in a set of simultaneous touch points, the first to be detected, is designated the primary.
     /// The system mouse position follows the primary touch point and, in addition to touch messages,
-    /// also generates <see cref="WM_LBUTTONDOWN"/>, <see cref="WM_MOUSEMOVE"/>, and <see cref="WM_LBUTTONUP"/> messages in response to actions on a primary touch point.
+    /// also generates <see cref="WM_LBUTTONDOWN"/>, <see cref="WM_MOUSEMOVE"/>, and <see cref="WM_LBUTTONUP"/> messages
+    /// in response to actions on a primary touch point.
     /// The primary touch point can also generate <see cref="WM_RBUTTONDOWN"/> and <see cref="WM_RBUTTONUP"/> messages using the press and hold gesture.
+    /// </para>
+    /// <para>
     /// Note that the touch point identifier may be dynamic and is associated with a given touch point only as long as the touch point persists.
     /// If contact is broken and then resumed (for example, if a finger is removed from the surface and then pressed down again),
     /// the same touch point (the same finger, pen, or other such device) may receive a different touch point identifier.
+    /// </para>
+    /// <para>
+    /// The following type is defined to represent a constant pointer to a <see cref="TOUCHINPUT"/> structure.
+    /// </para>
+    /// <code>
+    /// typedef TOUCHINPUT const * PCTOUCHINPUT;
+    /// </code>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct TOUCHINPUT

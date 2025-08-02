@@ -18,13 +18,21 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Do not use environment variables when specifying a path.
     /// The <see cref="LoadUserProfile"/> function does not expand environment variables, such as %username%, in a path.
-    /// When the <see cref="LoadUserProfile"/> call returns successfully, the <see cref="hProfile"/> member receives a registry key handle
-    /// opened to the root of the user's subtree, opened with full access (<see cref="KEY_ALL_ACCESS"/>).
-    /// For more information see the Remarks sections in <see cref="LoadUserProfile"/>, Registry Key Security and Access Rights, and Registry Hives.
+    /// </para>
+    /// <para>
+    /// When the <see cref="LoadUserProfile"/> call returns successfully,
+    /// the <see cref="hProfile"/> member receives a registry key handle opened to the root of the user's subtree,
+    /// opened with full access (<see cref="KEY_ALL_ACCESS"/>).
+    /// For more information see the Remarks sections in <see cref="LoadUserProfile"/>,
+    /// Registry Key Security and Access Rights, and Registry Hives.
+    /// </para>
+    /// <para>
     /// Services and applications that call <see cref="LoadUserProfile"/> should check to see if the user has a roaming profile.
     /// If the user has a roaming profile, specify its path as the <see cref="lpProfilePath"/> member of this structure.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PROFILEINFO
@@ -35,9 +43,21 @@ namespace Lsj.Util.Win32.Structs
         public DWORD dwSize;
 
         /// <summary>
+        /// <para>
         /// This member can be one of the following flags:
-        /// <see cref="PI_NOUI"/>: Prevents the display of profile error messages.
-        /// <see cref="PI_APPLYPOLICY"/>: Not supported.
+        /// </para>
+        /// <para>
+        /// <see cref="PI_NOUI"/>
+        /// </para>
+        /// <para>
+        /// Prevents the display of profile error messages.
+        /// </para>
+        /// <para>
+        /// <see cref="PI_APPLYPOLICY"/>
+        /// </para>
+        /// <para>
+        /// Not supported.
+        /// </para>
         /// </summary>
         public PROFILEINFOFlags dwFlags;
 

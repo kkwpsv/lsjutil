@@ -28,10 +28,14 @@ namespace Lsj.Util.Win32.Structs
         public ByValStringStructForSize256 strInterfaceDescription;
 
         /// <summary>
+        /// <para>
         /// Contains a <see cref="WLAN_INTERFACE_STATE"/> value that indicates the current state of the interface.
-        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:
+        /// </para>
+        /// <para>
+        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:
         /// Only the <see cref="wlan_interface_state_connected"/>, <see cref="wlan_interface_state_disconnected"/>,
         /// and <see cref="wlan_interface_state_authenticating"/> values are supported.
+        /// </para>
         /// </summary>
         public WLAN_INTERFACE_STATE isState;
     }

@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.POINTER_INPUT_TYPE;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
 
@@ -33,11 +34,15 @@ namespace Lsj.Util.Win32.Structs
         public UINT32 pointerId;
 
         /// <summary>
+        /// <para>
         /// An identifier common to multiple pointers for which the source device reported an update in a single input frame.
         /// For example, a parallel-mode multi-touch digitizer may report the positions of multiple touch contacts in a single update to the system.
+        /// </para>
+        /// <para>
         /// Note that frame identifier is assigned as input is reported to the system for all pointers across all devices.
         /// Therefore, this field may not contain strictly sequential values in a single series of messages that a window receives.
         /// However, this field will contain the same numerical value for all input updates that were reported in the same input frame by a single device.
+        /// </para>
         /// </summary>
         public UINT32 frameId;
 
@@ -60,20 +65,28 @@ namespace Lsj.Util.Win32.Structs
         public HWND hwndTarget;
 
         /// <summary>
+        /// <para>
         /// The predicted screen coordinates of the pointer, in pixels.
+        /// </para>
+        /// <para>
         /// The predicted value is based on the pointer position reported by the digitizer and the motion of the pointer.
         /// This correction can compensate for visual lag due to inherent delays in sensing and processing the pointer location on the digitizer.
         /// This is applicable to pointers of type <see cref="PT_TOUCH"/>.
         /// For other pointer types, the predicted value will be the same as the non-predicted value (see <see cref="ptPixelLocationRaw"/>).
+        /// </para>
         /// </summary>
         public POINT ptPixelLocation;
 
         /// <summary>
+        /// <para>
         /// The predicted screen coordinates of the pointer, in HIMETRIC units.
+        /// </para>
+        /// <para>
         /// The predicted value is based on the pointer position reported by the digitizer and the motion of the pointer.
         /// This correction can compensate for visual lag due to inherent delays in sensing and processing the pointer location on the digitizer.
         /// This is applicable to pointers of type <see cref="PT_TOUCH"/>.
-        /// For other pointer types, the predicted value will be the same as the non-predicted value (see ptHimetricLocationRaw).
+        /// For other pointer types, the predicted value will be the same as the non-predicted value (see <see cref="ptHimetricLocationRaw"/>).
+        /// </para>
         /// </summary>
         public POINT ptHimetricLocation;
 
@@ -90,28 +103,43 @@ namespace Lsj.Util.Win32.Structs
         public POINT ptHimetricLocationRaw;
 
         /// <summary>
+        /// <para>
         /// 0 or the time stamp of the message, based on the system tick count when the message was received.
+        /// </para>
+        /// <para>
         /// The application can specify the input time stamp in either <see cref="dwTime"/> or <see cref="PerformanceCount"/>.
-        /// The value cannot be more recent than the current tick count or <see cref="QueryPerformanceCount"/> (QPC) value of the injection thread.
-        /// Once a frame is injected with a time stamp, all subsequent frames must include a timestamp until all contacts in the frame go to an UP state.
+        /// The value cannot be more recent than the current tick count
+        /// or QueryPerformanceCount (QPC) value of the injection thread.
+        /// Once a frame is injected with a time stamp,
+        /// all subsequent frames must include a timestamp until all contacts in the frame go to an UP state.
         /// The custom timestamp value must also be provided for the first element in the contacts array.
         /// The time stamp values after the first element are ignored.
         /// The custom timestamp value must increment in every injection frame.
-        /// When <see cref="PerformanceCount"/> is specified,
-        /// the time stamp will be converted to the current time in .1 millisecond resolution upon actual injection.
+        /// </para>
+        /// <para>
+        /// When <see cref="PerformanceCount"/> is specified, the time stamp will be converted
+        /// to the current time in .1 millisecond resolution upon actual injection.
         /// If a custom <see cref="PerformanceCount"/> resulted in the same .1 millisecond window from the previous injection,
         /// <see cref="ERROR_NOT_READY"/> is returned and injection will not occur.
         /// While injection will not be invalidated immediately by the error,
         /// the next successful injection must have a <see cref="PerformanceCount"/> value
         /// that is at least 0.1 millisecond from the previously successful injection.
         /// This is also true if <see cref="dwTime"/> is used.
+        /// </para>
+        /// <para>
         /// If both <see cref="dwTime"/> and <see cref="PerformanceCount"/> are specified in <see cref="InjectTouchInput"/>,
         /// <see cref="ERROR_INVALID_PARAMETER"/> is returned.
+        /// </para>
+        /// <para>
         /// <see cref="InjectTouchInput"/> cannot switch between <see cref="dwTime"/> and <see cref="PerformanceCount"/> once injection has started.
+        /// </para>
+        /// <para>
         /// If neither <see cref="dwTime"/> and <see cref="PerformanceCount"/> are specified,
         /// <see cref="InjectTouchInput"/> allocates the timestamp based on the timing of the call.
-        /// If <see cref="InjectTouchInput"/> calls are repeatedly less than 0.1 millisecond apart, <see cref="ERROR_NOT_READY"/> might be returned.
-        /// The error will not invalidate the input immediately, but the injection application needs to retry the same frame again for injection to succeed.
+        /// If <see cref="InjectTouchInput"/> calls are repeatedly less than 0.1 millisecond apart,
+        /// <see cref="ERROR_NOT_READY"/> might be returned. The error will not invalidate the input immediately,
+        /// but the injection application needs to retry the same frame again for injection to succeed.
+        /// </para>
         /// </summary>
         public DWORD dwTime;
 
@@ -128,11 +156,19 @@ namespace Lsj.Util.Win32.Structs
         public INT32 InputData;
 
         /// <summary>
+        /// <para>
         /// Indicates which keyboard modifier keys were pressed at the time the input was generated.
         /// May be zero, or a combination of the following values from Modifier Key State.
+        /// </para>
+        /// <para>
         /// <see cref="POINTER_MOD_SHIFT"/> – A SHIFT key was pressed.
+        /// </para>
+        /// <para>
         /// <see cref="POINTER_MOD_CTRL"/> – A CTRL key was pressed.
+        /// </para>
+        /// <para>
         /// Use <see cref="GetKeyState"/>.
+        /// </para>
         /// </summary>
         public DWORD dwKeyStates;
 

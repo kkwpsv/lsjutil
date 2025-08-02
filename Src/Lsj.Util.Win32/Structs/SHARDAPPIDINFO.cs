@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Shell32;
@@ -20,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to an <see cref="IShellItem"/> object that represents the object in the Shell namespace.
         /// </summary>
-        public IntPtr psi;
+        public P<IShellItem> psi;
 
         /// <summary>
         /// The application-defined AppUserModelID associated with the item.

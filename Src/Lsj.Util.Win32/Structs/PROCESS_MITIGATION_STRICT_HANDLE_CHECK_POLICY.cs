@@ -13,15 +13,20 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// As a general rule, strict handle checking cannot be turned off once it is turned on.
     /// Therefore, when calling the <see cref="SetProcessMitigationPolicy"/> function with this policy,
-    /// the values of the <see cref="RaiseExceptionOnInvalidHandleReference"/> and
-    /// <see cref="HandleExceptionsPermanentlyEnabled"/> substructure members must be the same.
+    /// the values of the <see cref="RaiseExceptionOnInvalidHandleReference"/>
+    /// and <see cref="HandleExceptionsPermanentlyEnabled"/> substructure members must be the same.
     /// It is not possible to enable invalid handle exceptions only temporarily.
+    /// </para>
+    /// <para>
     /// The exception to the general rule about strict handle checking always being a permanent state
     /// is that debugging tools such as Application Verifier can cause the operating system to enable invalid handle exceptions temporarily.
     /// Under those cases, it is possible for the <see cref="GetProcessMitigationPolicy"/> function
-    /// to return with <see cref="RaiseExceptionOnInvalidHandleReference"/> set to 1, but <see cref="HandleExceptionsPermanentlyEnabled"/> set to 0.
+    /// to return with <see cref="RaiseExceptionOnInvalidHandleReference"/> set to 1,
+    /// but <see cref="HandleExceptionsPermanentlyEnabled"/> set to 0.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PROCESS_MITIGATION_STRICT_HANDLE_CHECK_POLICY

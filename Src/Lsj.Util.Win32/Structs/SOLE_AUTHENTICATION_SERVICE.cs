@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
@@ -29,7 +30,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The principal name to be used with the authentication service.
-        /// If the principal name is <see langword="null"/>, the current user identifier is assumed.
+        /// If the principal name is <see cref="NULL"/>, the current user identifier is assumed.
         /// A NULL principal name is allowed for NTLMSSP, Kerberos, and Snego authentication services but may not work for other authentication services.
         /// For Schannel, this member must point to a <see cref="CERT_CONTEXT"/> structure that contains the server's certificate;
         /// if it NULL and if a certificate for the current user does not exist, <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/> is returned.

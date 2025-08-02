@@ -30,9 +30,9 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// Set (0x1) to allow threads to opt out of the restrictions on dynamic code generation
-        /// by calling the <see cref="SetThreadInformation"/> function with the ThreadInformation parameter set to ThreadDynamicCodePolicy;
+        /// by calling the <see cref="SetThreadInformation"/> function with the ThreadInformation parameter set to <see cref="ThreadDynamicCodePolicy"/>;
         /// otherwise leave unset (0x0).
-        /// You should not use the <see cref="AllowThreadOptOut"/> and ThreadDynamicCodePolicy settings together to provide strong security.
+        /// You should not use the <see cref="AllowThreadOptOut"/> and <see cref="ThreadDynamicCodePolicy"/> settings together to provide strong security.
         /// These settings are only intended to enable applications to adapt their code more easily for full dynamic code restrictions.
         /// </summary>
         public DWORD AllowThreadOptOut

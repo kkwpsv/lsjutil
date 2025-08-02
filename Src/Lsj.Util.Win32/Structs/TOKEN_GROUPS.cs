@@ -1,9 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GroupAttributes;
-using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -24,34 +22,155 @@ namespace Lsj.Util.Win32.Structs
         public DWORD GroupCount;
 
         /// <summary>
+        /// <para>
         /// Specifies an array of <see cref="SID_AND_ATTRIBUTES"/> structures that contain a set of SIDs and corresponding attributes.
-        /// The <see cref="SID_AND_ATTRIBUTES.Attributes"/> members of the <see cref="SID_AND_ATTRIBUTES"/> structures can have the following values.
-        /// <see cref="SE_GROUP_ENABLED"/>:
-        /// The SID is enabled for access checks. When the system performs an access check,
+        /// </para>
+        /// <para>
+        /// The <see cref="Attributes"/> members of the <see cref="SID_AND_ATTRIBUTES"/> structures can have the following values.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The SID is enabled for access checks.
+        /// When the system performs an access check,
         /// it checks for access-allowed and access-denied access control entries (ACEs) that apply to the SID.
+        /// </para>
+        /// <para>
         /// A SID without this attribute is ignored during an access check unless the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute is set.
-        /// <see cref="SE_GROUP_ENABLED_BY_DEFAULT"/>:
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_ENABLED_BY_DEFAULT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID is enabled by default.
-        /// <see cref="SE_GROUP_INTEGRITY"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_INTEGRITY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID is a mandatory integrity SID.
-        /// <see cref="SE_GROUP_INTEGRITY_ENABLED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_INTEGRITY_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID is enabled for mandatory integrity checks.
-        /// <see cref="SE_GROUP_LOGON_ID"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_LOGON_ID"/>
+        /// </para>
+        /// <para>
+        /// 0xC0000000L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID is a logon SID that identifies the logon session associated with an access token.
-        /// <see cref="SE_GROUP_MANDATORY"/>:
-        /// The SID cannot have the <see cref="SE_GROUP_ENABLED"/> attribute cleared by a call to the <see cref="AdjustTokenGroups"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_MANDATORY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SID cannot have the SE_GROUP_ENABLED attribute cleared by a call to the <see cref="AdjustTokenGroups"/> function.
         /// However, you can use the <see cref="CreateRestrictedToken"/> function to convert a mandatory SID to a deny-only SID.
-        /// <see cref="SE_GROUP_OWNER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_OWNER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID identifies a group account for which the user of the token is the owner of the group,
         /// or the SID can be assigned as the owner of the token or objects.
-        /// <see cref="SE_GROUP_RESOURCE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_RESOURCE"/>
+        /// </para>
+        /// <para>
+        /// 0x20000000L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The SID identifies a domain-local group.
-        /// <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/>:
-        /// The SID is a deny-only SID in a restricted token.
-        /// When the system performs an access check, it checks for access-denied ACEs that apply to the SID;
-        /// it ignores access-allowed ACEs for the SID.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The SID is a deny-only SID in a restricted token. When the system performs an access check,
+        /// it checks for access-denied ACEs that apply to the SID; it ignores access-allowed ACEs for the SID.
+        /// </para>
+        /// <para>
         /// If this attribute is set, <see cref="SE_GROUP_ENABLED"/> is not set, and the SID cannot be reenabled.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
-        public SID_AND_ATTRIBUTES Groups;
+        public AnySizeArray<SID_AND_ATTRIBUTES> Groups;
     }
 }

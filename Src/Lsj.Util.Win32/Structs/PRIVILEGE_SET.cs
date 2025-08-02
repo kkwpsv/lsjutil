@@ -54,13 +54,45 @@ namespace Lsj.Util.Win32.Structs
         public DWORD Control;
 
         /// <summary>
+        /// <para>
         /// Specifies an array of <see cref="LUID_AND_ATTRIBUTES"/> structures describing the set's privileges.
         /// The following attributes are defined for privileges.
-        /// <see cref="SE_PRIVILEGE_ENABLED_BY_DEFAULT"/>: The privilege is enabled by default.
-        /// <see cref="SE_PRIVILEGE_ENABLED"/>: The privilege is enabled.
-        /// <see cref="SE_PRIVILEGE_USED_FOR_ACCESS"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_ENABLED_BY_DEFAULT"/>
+        /// </term>
+        /// <term>
+        /// The privilege is enabled by default.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_ENABLED"/>
+        /// </term>
+        /// <term>
+        /// The privilege is enabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_USED_FOR_ACCESS"/>
+        /// </term>
+        /// <term>
         /// The privilege was used to gain access to an object or service.
         /// This flag is used to identify the relevant privileges in a set passed by a client application that may contain unnecessary privileges.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public LUID_AND_ATTRIBUTES Privilege;
     }

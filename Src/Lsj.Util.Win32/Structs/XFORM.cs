@@ -12,39 +12,245 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The following list describes how the members are used for each operation.
-    /// Operation   eM11                            eM12                                eM21                                eM22
-    /// Rotation    Cosine                          Sine                                Negative sine                       Cosine
-    /// Scaling     Horizontal scaling component    Not used                            Not used                            Vertical Scaling Component
-    /// Shear       Not used                        Horizontal Proportionality Constant Vertical Proportionality Constant   Not used
-    /// Reflection  Horizontal Reflection Component Not used                            Not used                            Vertical Reflection Component
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Operation
+    /// </term>
+    /// <term>
+    /// <see cref="eM11"/>
+    /// </term>
+    /// <term>
+    /// <see cref="eM12"/>
+    /// </term>
+    /// <term>
+    /// <see cref="eM21"/>
+    /// </term>
+    /// <term>
+    /// <see cref="eM22"/>
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// Rotation
+    /// </term>
+    /// <term>
+    /// Cosine
+    /// </term>
+    /// <term>
+    /// Sine
+    /// </term>
+    /// <term>
+    /// Negative sine
+    /// </term>
+    /// <term>
+    /// Cosine
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Scaling
+    /// </term>
+    /// <term>
+    /// Horizontal scaling component
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// <term>
+    /// Vertical Scaling Component
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Shear
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// <term>
+    /// Horizontal Proportionality Constant
+    /// </term>
+    /// <term>
+    /// Vertical Proportionality Constant
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Reflection
+    /// </term>
+    /// <term>
+    /// Horizontal Reflection Component
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// <term>
+    /// Not used
+    /// </term>
+    /// <term>
+    /// Vertical Reflection Component
+    /// </term>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct XFORM
     {
         /// <summary>
-        /// Scaling     Horizontal scaling component
-        /// Rotation    Cosine of rotation angle
-        /// Reflection  Horizontal component
+        /// <para>
+        /// The following.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Operation
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Scaling
+        /// </term>
+        /// <term>
+        /// Horizontal scaling component
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Rotation
+        /// </term>
+        /// <term>
+        /// Cosine of rotation angle
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Reflection
+        /// </term>
+        /// <term>
+        /// Horizontal component
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FLOAT eM11;
 
         /// <summary>
-        /// Shear       Horizontal proportionality constant
-        /// Rotation    Sine of the rotation angle
+        /// <para>
+        /// The following.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Operation
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Shear
+        /// </term>
+        /// <term>
+        /// Horizontal proportionality constant
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Rotation
+        /// </term>
+        /// <term>
+        /// Sine of the rotation angle
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FLOAT eM12;
 
         /// <summary>
-        /// Shear       Vertical proportionality constant
-        /// Rotation    Negative sine of the rotation angle
+        /// <para>
+        /// The following.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Operation
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Shear
+        /// </term>
+        /// <term>
+        /// Vertical proportionality constant
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Rotation
+        /// </term>
+        /// <term>
+        /// Negative sine of the rotation angle
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FLOAT eM21;
 
         /// <summary>
-        /// Scaling     Vertical scaling component
-        /// Rotation    Cosine of rotation angle
-        /// Reflection  Vertical reflection component
+        /// <para>
+        /// The following.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Operation
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Scaling
+        /// </term>
+        /// <term>
+        /// Vertical scaling component
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Rotation
+        /// </term>
+        /// <term>
+        /// Cosine of rotation angle
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Reflection
+        /// </term>
+        /// <term>
+        /// Vertical reflection component
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public FLOAT eM22;
 

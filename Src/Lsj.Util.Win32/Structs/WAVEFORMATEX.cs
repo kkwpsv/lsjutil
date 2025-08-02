@@ -9,10 +9,13 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// The <see cref="WAVEFORMATEX"/> structure defines the format of waveform-audio data.
     /// Only format information common to all waveform-audio data formats is included in this structure.
-    /// For formats that require additional information, this structure is included as the first member
-    /// in another structure, along with the additional information.
+    /// For formats that require additional information, this structure is included as the first member in another structure,
+    /// along with the additional information.
+    /// </para>
+    /// <para>
     /// Formats that support more than two channels or sample sizes of more than 16 bits
-    /// can be described in a <see cref="WAVEFORMATEXTENSIBLE"/> structure, which includes the <see cref="WAVEFORMATEX"/> structure.
+    /// can be described in a <see cref="WAVEFORMATEXTENSIBLE"/> structure,
+    /// which includes the <see cref="WAVEFORMAT"/> structure.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/ns-mmeapi-waveformatex"/>
@@ -59,14 +62,19 @@ namespace Lsj.Util.Win32.Structs
         public DWORD nAvgBytesPerSec;
 
         /// <summary>
+        /// <para>
         /// Block alignment, in bytes.
-        /// The block alignment is the minimum atomic unit of data for the wFormatTag format type.
+        /// The block alignment is the minimum atomic unit of data for the <see cref="wFormatTag"/> format type.
         /// If <see cref="wFormatTag"/> is <see cref="WAVE_FORMAT_PCM"/> or <see cref="WAVE_FORMAT_EXTENSIBLE"/>,
-        /// <see cref="nBlockAlign"/> must be equal to the product of <see cref="nChannels"/> and <see cref="wBitsPerSample"/> divided by 8 (bits per byte).
+        /// <see cref="nBlockAlign"/> must be equal to the product of <see cref="nChannels"/>
+        /// and <see cref="wBitsPerSample"/> divided by 8 (bits per byte).
         /// For non-PCM formats, this member must be computed according to the manufacturer's specification of the format tag.
-        /// Software must process a multiple of nBlockAlign bytes of data at a time.
+        /// </para>
+        /// <para>
+        /// Software must process a multiple of <see cref="nBlockAlign"/> bytes of data at a time.
         /// Data written to and read from a device must always start at the beginning of a block.
         /// For example, it is illegal to start playback of PCM data in the middle of a sample (that is, on a non-block-aligned boundary).
+        /// </para>
         /// </summary>
         public WORD nBlockAlign;
 

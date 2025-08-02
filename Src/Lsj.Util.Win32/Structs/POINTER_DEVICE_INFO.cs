@@ -25,8 +25,15 @@ namespace Lsj.Util.Win32.Structs
         public const int POINTER_DEVICE_PRODUCT_STRING_MAX = 520;
 
         /// <summary>
+        /// <para>
         /// One of the values from <see cref="DISPLAYCONFIG_ROTATION"/>, which identifies the orientation of the input digitizer.
-        /// Note This value is 0 when the source of input is Touch Injection.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This value is 0 when the source of input is Touch Injection.
+        /// </para>
         /// </summary>
         public DISPLAYCONFIG_ROTATION displayOrientation;
 

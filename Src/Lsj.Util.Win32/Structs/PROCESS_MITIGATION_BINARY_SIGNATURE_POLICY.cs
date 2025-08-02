@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     public struct PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY
     {
         /// <summary>
-        /// This member is reserved for system use.
+        /// Reserved for system use.
         /// </summary>
         public DWORD Flags;
 
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// 
+        /// Reserved for system use.
         /// </summary>
         public DWORD ReservedFlags
         {

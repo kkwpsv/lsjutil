@@ -29,21 +29,146 @@ namespace Lsj.Util.Win32.Structs
         public RECT rcTitleBar;
 
         /// <summary>
+        /// <para>
         /// An array that receives a value for each element of the title bar.
         /// The following are the title bar elements represented by the array.
-        /// Index   Title Bar Element
-        /// 0       The title bar itself.
-        /// 1       Reserved.
-        /// 2       Minimize button.
-        /// 3       Maximize button.
-        /// 4       Help button.
-        /// 5       Close button.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Index
+        /// </term>
+        /// <term>
+        /// Title Bar Element
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The title bar itself.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// Reserved.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2
+        /// </term>
+        /// <term>
+        /// Minimize button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 3
+        /// </term>
+        /// <term>
+        /// Maximize button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 4
+        /// </term>
+        /// <term>
+        /// Help button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 5
+        /// </term>
+        /// <term>
+        /// Close button.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Each array element is a combination of one or more of the following values.
-        /// <see cref="STATE_SYSTEM_FOCUSABLE"/>: The element can accept the focus.
-        /// <see cref="STATE_SYSTEM_INVISIBLE"/>: The element is invisible.
-        /// <see cref="STATE_SYSTEM_OFFSCREEN"/>: The element has no visible representation.
-        /// <see cref="STATE_SYSTEM_UNAVAILABLE"/>: The element is unavailable.
-        /// <see cref="STATE_SYSTEM_PRESSED"/>: The element is in the pressed state.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STATE_SYSTEM_FOCUSABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00100000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The element can accept the focus.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STATE_SYSTEM_INVISIBLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The element is invisible.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STATE_SYSTEM_OFFSCREEN"/>
+        /// </para>
+        /// <para>
+        /// 0x00010000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The element has no visible representation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STATE_SYSTEM_UNAVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The element is unavailable.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="STATE_SYSTEM_PRESSED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The element is in the pressed state.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public ByValDWORDArrayStructForSize6 rgstate;
     }

@@ -16,34 +16,56 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// In SetupAPI.h, this structure equates to either SP_DRVINFO_DATA_V1 or SP_DRVINFO_DATA_V2,
     /// based on whether you include the following line in your source code:
+    /// </para>
     /// <code>
     /// #define  USE_SP_DRVINFO_DATA_V1 1
     /// </code>
+    /// <para>
     /// Define this identifier only if your component must run on Windows 98 or Millennium Edition, or on Windows NT.
     /// If your component is run only in Windows 2000 and later versions of Windows, do not define the identifier.
     /// If the identifier is not defined, SP_DRVINFO_DATA_V2 is used.
+    /// </para>
+    /// <para>
     /// SP_DRVINFO_DATA_V1 does not contain <see cref="DriverDate"/> and <see cref="DriverVersion"/> members.
+    /// </para>
+    /// <para>
     /// SetupDiXxx functions that take an <see cref="SP_DRVINFO_DATA"/> structure as a parameter verify
     /// that the <see cref="cbSize"/> member of the supplied structure is equal to the size, in bytes, of the structure.
     /// If the <see cref="cbSize"/> member is not set correctly for an input parameter,
     /// the function will fail and set an error code of <see cref="ERROR_INVALID_PARAMETER"/>.
-    /// If the cbSize member is not set correctly for an output parameter, 
+    /// If the <see cref="cbSize"/> member is not set correctly for an output parameter,
     /// the function will fail and set an error code of <see cref="ERROR_INVALID_USER_BUFFER"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SP_DRVINFO_DATA
     {
         /// <summary>
-        /// The size, in bytes, of the SP_DRVINFO_DATA structure. For more information, see the Remarks section in this topic.
+        /// The size, in bytes, of the <see cref="SP_DRVINFO_DATA"/> structure.
+        /// For more information, see the Remarks section in this topic.
         /// </summary>
         public DWORD cbSize;
 
         /// <summary>
+        /// <para>
         /// The type of driver represented by this structure.
         /// Must be one of the following values:
-        /// <see cref="SPDIT_CLASSDRIVER"/> <see cref="SPDIT_COMPATDRIVER"/>
+        /// </para>
+        /// <para>
+        /// <see cref="SPDIT_CLASSDRIVER"/>
+        /// </para>
+        /// <para>
+        /// This structure represents a class driver.
+        /// </para>
+        /// <para>
+        /// <see cref="SPDIT_COMPATDRIVER"/>
+        /// </para>
+        /// <para>
+        /// This structure represents a compatible driver.
+        /// </para>
         /// </summary>
         public DWORD DriverType;
 

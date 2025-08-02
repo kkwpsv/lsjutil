@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// 
+        /// This member is reserved for system use.
         /// </summary>
         public DWORD ReservedFlags
         {

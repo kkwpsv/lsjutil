@@ -36,9 +36,9 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// With VT_CARRAY...
+        /// With <see cref="VT_CARRAY"/>...
         /// </summary>
-#pragma warning disable IDE1006 
+#pragma warning disable IDE1006
         public P<ARRAYDESC> lpadesc
 #pragma warning restore IDE1006 
         {
@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// With <see cref="VT_USER_DEFINED"/>, this is used to get a TypeInfo for the UDT.
+        /// With <see cref="VT_USERDEFINED"/>, this is used to get a TypeInfo for the UDT.
         /// </summary>
 #pragma warning disable IDE1006 
         public HREFTYPE hreftype

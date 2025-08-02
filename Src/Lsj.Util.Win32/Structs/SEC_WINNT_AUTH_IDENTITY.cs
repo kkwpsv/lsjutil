@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -13,8 +12,12 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// When this structure is used with RPC, the structure must remain valid for the lifetime of the binding handle.
+    /// </para>
+    /// <para>
     /// The strings may be ANSI or Unicode, depending on the value you assign to the <see cref="Flags"/> member.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SEC_WINNT_AUTH_IDENTITY
@@ -32,7 +35,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A string that contains the user name.
         /// </summary>
-        public IntPtr User;
+        public P<char> User;
 
         /// <summary>
         /// The length, in characters, of the user string, not including the terminating null character.
@@ -42,7 +45,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A string that contains the domain name or the workgroup name.
         /// </summary>
-        public IntPtr Domain;
+        public P<char> Domain;
 
         /// <summary>
         /// The length, in characters, of the domain string, not including the terminating null character.
@@ -54,7 +57,7 @@ namespace Lsj.Util.Win32.Structs
         /// When you have finished using the password, remove the sensitive information from memory by calling <see cref="SecureZeroMemory"/>.
         /// For more information about protecting the password, see Handling Passwords.
         /// </summary>
-        public IntPtr Password;
+        public P<char> Password;
 
         /// <summary>
         /// The length, in characters, of the password string, not including the terminating null character.
@@ -62,9 +65,35 @@ namespace Lsj.Util.Win32.Structs
         public uint PasswordLength;
 
         /// <summary>
+        /// <para>
         /// This member can be one of the following values.
-        /// <see cref="SEC_WINNT_AUTH_IDENTITY_ANSI"/>: The strings in this structure are in ANSI format. 
-        /// <see cref="SEC_WINNT_AUTH_IDENTITY_UNICODE"/>: The strings in this structure are in Unicode format. 
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="SEC_WINNT_AUTH_IDENTITY_ANSI"/>
+        /// </term>
+        /// <term>
+        /// The strings in this structure are in ANSI format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SEC_WINNT_AUTH_IDENTITY_UNICODE"/>
+        /// </term>
+        /// <term>
+        /// The strings in this structure are in Unicode format.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public uint Flags;
     }

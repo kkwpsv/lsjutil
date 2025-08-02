@@ -21,8 +21,29 @@ namespace Lsj.Util.Win32.Structs
     public struct STRRET
     {
         /// <summary>
-        /// A value that specifies the desired format of the string. This can be one of the following values.
-        /// <see cref="STRRET_WSTR"/>, <see cref="STRRET_OFFSET"/>, <see cref="STRRET_CSTR"/>
+        /// <para>
+        /// A value that specifies the desired format of the string.
+        /// This can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="STRRET_CSTR"/>
+        /// </para>
+        /// <para>
+        /// The string is returned in the <see cref="cStr"/> member.
+        /// </para>
+        /// <para>
+        /// <see cref="STRRET_OFFSET"/>
+        /// </para>
+        /// <para>
+        /// The <see cref="uOffset"/> member value indicates the number of bytes
+        /// from the beginning of the item identifier list where the string is located.
+        /// </para>
+        /// <para>
+        /// <see cref="STRRET_WSTR"/>
+        /// </para>
+        /// <para>
+        /// The string is at the address specified by <see cref="pOleStr"/> member.
+        /// </para>
         /// </summary>
         [FieldOffset(0)]
         public STRRET_TYPE uType;

@@ -1,8 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -25,6 +22,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A variable-length item identifier.
         /// </summary>
-        public BYTE abID;
+        public AnySizeArray<BYTE> abID;
     }
 }

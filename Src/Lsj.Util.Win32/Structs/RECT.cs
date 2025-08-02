@@ -11,6 +11,11 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-rect"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="RECT"/> structure is identical to the <see cref="RECTL"/> structure.
+    /// </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct RECT
     {

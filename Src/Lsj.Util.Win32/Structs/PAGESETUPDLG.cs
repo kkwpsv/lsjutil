@@ -22,13 +22,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// If the <see cref="PSD_INHUNDREDTHSOFMILLIMETERS"/> and <see cref="PSD_INTHOUSANDTHSOFINCHES"/> flags are not specified,
     /// the system queries the <see cref="LOCALE_IMEASURE"/> value of the default user locale to determine the unit of measure
     /// (either hundredths of millimeters or thousandths of inches) for the margin widths and paper size.
-    /// If both <see cref="hDevNames"/> and <see cref="hDevMode"/> have valid handles
-    /// and the printer name specified by the <see cref="DEVNAMES.wDeviceOffset"/> member of the <see cref="DEVNAMES"/> structure
+    /// </para>
+    /// <para>
+    /// If both <see cref="hDevNames"/> and <see cref="hDevMode"/> have valid handles and the printer name
+    /// specified by the <see cref="DEVNAMES.wDeviceOffset"/> member of the <see cref="DEVNAMES"/> structure
     /// is not the same as the name specified by the <see cref="DEVMODE.dmDeviceName"/> member of the <see cref="DEVMODE"/> structure,
     /// the system uses the name specified by <see cref="DEVNAMES.wDeviceOffset"/> by default.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PAGESETUPDLG
@@ -66,15 +70,296 @@ namespace Lsj.Util.Win32.Structs
         public HGLOBAL hDevNames;
 
         /// <summary>
+        /// <para>
         /// A set of bit flags that you can use to initialize the Page Setup dialog box.
         /// When the dialog box returns, it sets these flags to indicate the user's input.
         /// This member can be one or more of the following values.
-        /// <see cref="PSD_DEFAULTMINMARGINS"/>, <see cref="PSD_DISABLEMARGINS"/>, <see cref="PSD_DISABLEORIENTATION"/>,
-        /// <see cref="PSD_DISABLEPAGEPAINTING"/>, <see cref="PSD_DISABLEPAPER"/>, <see cref="PSD_DISABLEPRINTER"/>,
-        /// <see cref="PSD_ENABLEPAGEPAINTHOOK"/>, <see cref="PSD_ENABLEPAGESETUPHOOK"/>, <see cref="PSD_ENABLEPAGESETUPTEMPLATE"/>,
-        /// <see cref="PSD_ENABLEPAGESETUPTEMPLATEHANDLE"/>, <see cref="PSD_INHUNDREDTHSOFMILLIMETERS"/>, <see cref="PSD_INTHOUSANDTHSOFINCHES"/>,
-        /// <see cref="PSD_INWININIINTLMEASURE"/>, <see cref="PSD_MARGINS"/>, <see cref="PSD_MINMARGINS"/>, <see cref="PSD_NONETWORKBUTTON"/>,
-        /// <see cref="PSD_NOWARNING"/>, <see cref="PSD_RETURNDEFAULT"/>, <see cref="PSD_SHOWHELP"/>
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DEFAULTMINMARGINS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sets the minimum values that the user can specify for the page margins to be the minimum margins allowed by the printer.
+        /// This is the default.
+        /// This flag is ignored if the <see cref="PSD_MARGINS"/> and <see cref="PSD_MINMARGINS"/> flags are also specified.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DISABLEMARGINS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables the margin controls, preventing the user from setting the margins.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DISABLEORIENTATION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables the orientation controls, preventing the user from setting the page orientation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DISABLEPAGEPAINTING"/>
+        /// </para>
+        /// <para>
+        /// 0x00080000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Prevents the dialog box from drawing the contents of the sample page.
+        /// If you enable a PagePaintHook hook procedure, you can still draw the contents of the sample page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DISABLEPAPER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables the paper controls, preventing the user from setting page parameters such as the paper size and source.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_DISABLEPRINTER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Obsolete.
+        /// </para>
+        /// <para>
+        /// Windows XP/2000: Disables the Printer button, preventing the user from invoking a dialog box that contains additional printer setup information.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_ENABLEPAGEPAINTHOOK"/>
+        /// </para>
+        /// <para>
+        /// 0x00040000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the hook procedure specified in the <see cref="lpfnPagePaintHook"/> member.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_ENABLEPAGESETUPHOOK"/>
+        /// </para>
+        /// <para>
+        /// 0x00002000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the hook procedure specified in the <see cref="lpfnPageSetupHook"/> member.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_ENABLEPAGESETUPTEMPLATE"/>
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that the <see cref="hInstance"/> and <see cref="lpPageSetupTemplateName"/> members
+        /// specify a dialog box template to use in place of the default template.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_ENABLEPAGESETUPTEMPLATEHANDLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00020000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that the <see cref="hPageSetupTemplate"/> member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores the <see cref="lpPageSetupTemplateName"/> member if this flag is specified.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_INHUNDREDTHSOFMILLIMETERS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that hundredths of millimeters are the unit of measurement for margins and paper size.
+        /// The values in the <see cref="rtMargin"/>, <see cref="rtMinMargin"/>,
+        /// and <see cref="ptPaperSize"/> members are in hundredths of millimeters.
+        /// You can set this flag on input to override the default unit of measurement for the user's locale.
+        /// When the function returns, the dialog box sets this flag to indicate the units used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_INTHOUSANDTHSOFINCHES"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Indicates that thousandths of inches are the unit of measurement for margins and paper size.
+        /// The values in the <see cref="rtMargin"/>, <see cref="rtMinMargin"/>,
+        /// and <see cref="ptPaperSize"/> members are in thousandths of inches.
+        /// You can set this flag on input to override the default unit of measurement for the user's locale.
+        /// When the function returns, the dialog box sets this flag to indicate the units used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_INWININIINTLMEASURE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Reserved.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_MARGINS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Causes the system to use the values specified in the <see cref="rtMargin"/> member
+        /// as the initial widths for the left, top, right, and bottom margins.
+        /// If <see cref="PSD_MARGINS"/> is not set, the system sets the initial widths to one inch for all margins.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_MINMARGINS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Causes the system to use the values specified in the <see cref="rtMinMargin"/> member
+        /// as the minimum allowable widths for the left, top, right, and bottom margins.
+        /// The system prevents the user from entering a width that is less than the specified minimum.
+        /// If <see cref="PSD_MINMARGINS"/> is not specified, the system sets the minimum allowable widths to those allowed by the printer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_NONETWORKBUTTON"/>
+        /// </para>
+        /// <para>
+        /// 0x00200000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Hides and disables the Network button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_NOWARNING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Prevents the system from displaying a warning message when there is no default printer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_RETURNDEFAULT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="PageSetupDlg"/> does not display the dialog box.
+        /// Instead, it sets the <see cref="hDevNames"/> and <see cref="hDevMode"/> members
+        /// to handles to <see cref="DEVMODE"/> and <see cref="DEVNAMES"/> structures that are initialized for the system default printer.
+        /// <see cref="PageSetupDlg"/> returns an error if either <see cref="hDevNames"/> or <see cref="hDevMode"/> is not <see cref="NULL"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PSD_SHOWHELP"/>
+        /// </para>
+        /// <para>
+        /// 0x00000800
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Causes the dialog box to display the Help button.
+        /// The <see cref="hwndOwner"/> member must specify the window to receive the <see cref="HELPMSGSTRING"/> registered messages
+        /// that the dialog box sends when the user clicks the Help button.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public PAGESETUPDLGFlags Flags;
 

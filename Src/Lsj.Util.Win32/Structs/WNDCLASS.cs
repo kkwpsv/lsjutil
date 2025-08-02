@@ -3,6 +3,10 @@ using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.SystemColors;
+using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -10,8 +14,11 @@ namespace Lsj.Util.Win32.Structs
     /// <summary>
     /// <para>
     /// Contains the window class attributes that are registered by the <see cref="RegisterClass"/> function.
+    /// </para>
+    /// <para>
     /// This structure has been superseded by the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
-    /// You can still use <see cref="WNDCLASS"/> and <see cref="RegisterClass"/> if you do not need to set the small icon associated with the window class.
+    /// You can still use <see cref="WNDCLASS"/> and <see cref="RegisterClass"/>
+    /// if you do not need to set the small icon associated with the window class.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-wndclassw"/>
@@ -62,35 +69,147 @@ namespace Lsj.Util.Win32.Structs
         public HCURSOR hCursor;
 
         /// <summary>
+        /// <para>
         /// A handle to the class background brush.
-        /// This member can be a handle to the brush to be used for painting the background, or it can be a color value.
+        /// This member can be a handle to the physical brush to be used for painting the background, or it can be a color value.
+        /// A color value must be one of the following standard system colors (the value 1 must be added to the chosen color).
+        /// If a color value is given, you must convert it to one of the following <see cref="HBRUSH"/> types:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_ACTIVEBORDER"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_ACTIVECAPTION"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_APPWORKSPACE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_BACKGROUND"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_BTNFACE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_BTNSHADOW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_BTNTEXT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_CAPTIONTEXT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_GRAYTEXT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_HIGHLIGHT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_HIGHLIGHTTEXT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_INACTIVEBORDER"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_INACTIVECAPTION"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_MENU"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_MENUTEXT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_SCROLLBAR"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_WINDOW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_WINDOWFRAME"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="COLOR_WINDOWTEXT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// The system automatically deletes class background brushes when the class is unregistered by using <see cref="UnregisterClass"/>.
         /// An application should not delete these brushes.
-        /// When this member is <see cref="IntPtr.Zero"/>, an application must paint its own background whenever
-        /// it is requested to paint in its client area.
-        /// To determine whether the background must be painted, an application can either process
-        /// the <see cref="WindowMessages.WM_ERASEBKGND"/> message or test the fErase member of the <see cref="PAINTSTRUCT"/> structure
+        /// </para>
+        /// <para>
+        /// When this member is <see cref="NULL"/>,
+        /// an application must paint its own background whenever it is requested to paint in its client area.
+        /// To determine whether the background must be painted,
+        /// an application can either process the <see cref="WM_ERASEBKGND"/> message
+        /// or test the <see cref="PAINTSTRUCT.fErase"/> member of the <see cref="PAINTSTRUCT"/> structure
         /// filled by the <see cref="BeginPaint"/> function.
+        /// </para>
         /// </summary>
         public HBRUSH hbrBackground;
 
         /// <summary>
-        /// Pointer to a null-terminated character string that specifies the resource name of the class menu, as the name appears in the resource file.
-        /// Or an Integer to identify the menu.
-        /// If this member is <see cref="IntPtr.Zero"/>, windows belonging to this class have no default menu.
+        /// The resource name of the class menu, as the name appears in the resource file.
+        /// If you use an integer to identify the menu, use the <see cref="MAKEINTRESOURCE"/> macro.
+        /// If this member is <see cref="NULL"/>, windows belonging to this class have no default menu.
         /// </summary>
         public IntPtr lpszMenuName;
 
         /// <summary>
+        /// <para>
         /// A pointer to a null-terminated string or is an atom.
-        /// If this parameter is an atom, it must be a class atomcreated by a previous call to
-        /// the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
-        /// The atom must be in the low-order word of <see cref="lpszClassName"/>; the high-order word must be zero.
+        /// If this parameter is an atom, it must be a class atom created
+        /// by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// The atom must be in the low-order word of lpszClassName; the high-order word must be zero.
+        /// </para>
+        /// <para>
         /// If <see cref="lpszClassName"/> is a string, it specifies the window class name.
         /// The class name can be any name registered with <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>,
         /// or any of the predefined control-class names.
+        /// </para>
+        /// <para>
         /// The maximum length for <see cref="lpszClassName"/> is 256.
-        /// If <see cref="lpszClassName"/> is greater than the maximum length, the <see cref="RegisterClassEx"/> function will fail.
+        /// If <see cref="lpszClassName"/> is greater than the maximum length, the <see cref="RegisterClass"/> function will fail.
+        /// </para>
         /// </summary>
         public IntPtr lpszClassName;
     }

@@ -11,6 +11,10 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windef/ns-windef-size"/>
     /// </para>
     /// </summary>
+    /// <remark>
+    /// The rectangle dimensions stored in this structure can correspond to viewport extents,
+    /// window extents, text extents, bitmap dimensions, or the aspect-ratio filter for some extended functions.
+    /// </remark>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SIZE
     {

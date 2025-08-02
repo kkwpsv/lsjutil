@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// The TEXTMETRIC structure contains basic information about a physical font.
+    /// The <see cref="TEXTMETRIC"/> structure contains basic information about a physical font.
     /// All sizes are specified in logical units; that is, they depend on the current mapping mode of the display context.
     /// </para>
     /// <para>
@@ -67,6 +67,7 @@ namespace Lsj.Util.Win32.Structs
         public LONG tmWeight;
 
         /// <summary>
+        /// <para>
         /// The extra width per string that may be added to some synthesized fonts.
         /// When synthesizing some attributes, such as bold or italic, graphics device interface (GDI) or a device
         /// may have to add width to a string on both a per-character and per-string basis.
@@ -75,10 +76,13 @@ namespace Lsj.Util.Win32.Structs
         /// In either case, there is an overhang past the basic string.
         /// For bold strings, the overhang is the distance by which the overstrike is offset.
         /// For italic strings, the overhang is the amount the top of the font is sheared past the bottom of the font.
-        /// The <see cref="tmOverhang"/> member enables the application to determine how much of the character width
-        /// returned by a <see cref="GetTextExtentPoint32"/> function call on a single character is the actual character width
-        /// and how much is the per-string extra width.
+        /// </para>
+        /// <para>
+        /// The <see cref="tmOverhang"/> member enables the application to determine
+        /// how much of the character width returned by a <see cref="GetTextExtentPoint32"/> function call
+        /// on a single character is the actual character width and how much is the per-string extra width.
         /// The actual width is the extent minus the overhang.
+        /// </para>
         /// </summary>
         public LONG tmOverhang;
 
@@ -130,40 +134,188 @@ namespace Lsj.Util.Win32.Structs
         public BYTE tmStruckOut;
 
         /// <summary>
+        /// <para>
         /// Specifies information about the pitch, the technology, and the family of a physical font.
+        /// </para>
+        /// <para>
         /// The four low-order bits of this member specify information about the pitch and the technology of the font.
         /// A constant is defined for each of the four bits.
-        /// <see cref="TMPF_FIXED_PITCH"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Constant
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TMPF_FIXED_PITCH"/>
+        /// </term>
+        /// <term>
         /// If this bit is set the font is a variable pitch font.
         /// If this bit is clear the font is a fixed pitch font.
         /// Note very carefully that those meanings are the opposite of what the constant name implies.
-        /// <see cref="TMPF_VECTOR"/>: 	If this bit is set the font is a vector font.
-        /// <see cref="TMPF_TRUETYPE"/>: If this bit is set the font is a TrueType font.
-        /// <see cref="TMPF_DEVICE"/>: If this bit is set the font is a device font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TMPF_VECTOR"/>
+        /// </term>
+        /// <term>
+        /// If this bit is set the font is a vector font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TMPF_TRUETYPE"/>
+        /// </term>
+        /// <term>
+        /// If this bit is set the font is a TrueType font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TMPF_DEVICE"/>
+        /// </term>
+        /// <term>
+        /// If this bit is set the font is a device font.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// <para>
         /// An application should carefully test for qualities encoded in these low-order bits, making no arbitrary assumptions.
         /// For example, besides having their own bits set, TrueType and PostScript fonts set the <see cref="TMPF_VECTOR"/> bit.
         /// A monospace bitmap font has all of these low-order bits clear; a proportional bitmap font sets the <see cref="TMPF_FIXED_PITCH"/> bit.
         /// A Postscript printer device font sets the <see cref="TMPF_DEVICE"/>, <see cref="TMPF_VECTOR"/>, and <see cref="TMPF_FIXED_PITCH"/> bits.
+        /// </para>
+        /// <para>
         /// The four high-order bits of <see cref="tmPitchAndFamily"/> designate the font's font family.
         /// An application can use the value 0xF0 and the bitwise AND operator to mask out the four low-order bits of <see cref="tmPitchAndFamily"/>,
         /// thus obtaining a value that can be directly compared with font family names to find an identical match.
         /// For information about font families, see the description of the <see cref="LOGFONT"/> structure.
+        /// </para>
         /// </summary>
         public TEXTMETRICPitchAndFamilyFlags tmPitchAndFamily;
 
         /// <summary>
-        /// The character set of the font.
-        /// The character set can be one of the following values.
-        /// <see cref="ANSI_CHARSET"/>, <see cref="BALTIC_CHARSET"/>, <see cref="CHINESEBIG5_CHARSET"/>, <see cref="DEFAULT_CHARSET"/>,
-        /// <see cref="EASTEUROPE_CHARSET"/>, <see cref="GB2312_CHARSET"/>, <see cref="GREEK_CHARSET"/>, <see cref="HANGUL_CHARSET"/>,
-        /// <see cref="MAC_CHARSET"/>, <see cref="OEM_CHARSET"/>, <see cref="RUSSIAN_CHARSET"/>, <see cref="SHIFTJIS_CHARSET"/>,
-        /// <see cref="SYMBOL_CHARSET"/>, <see cref="TURKISH_CHARSET"/>, <see cref="VIETNAMESE_CHARSET"/>
+        /// <para>
+        /// The character set of the font. The character set can be one of the following values.
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ANSI_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="BALTIC_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CHINESEBIG5_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DEFAULT_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="EASTEUROPE_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="GB2312_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="GREEK_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HANGUL_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MAC_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="OEM_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="RUSSIAN_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SHIFTJIS_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SYMBOL_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="TURKISH_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VIETNAMESE_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Korean language edition of Windows:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="JOHAB_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Middle East language edition of Windows:
-        /// <see cref="ARABIC_CHARSET"/>, <see cref="HEBREW_CHARSET"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ARABIC_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HEBREW_CHARSET"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Thai language edition of Windows:
-        /// <see cref="THAI_CHARSET"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// THAI_CHARSET
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         public BYTE tmCharSet;
     }

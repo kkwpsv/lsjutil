@@ -7,6 +7,8 @@ namespace Lsj.Util.Win32.Structs
     /// <summary>
     /// <para>
     /// The security identifier (SID) structure is a variable-length structure used to uniquely identify users or groups.
+    /// </para>
+    /// <para>
     /// Applications should not modify a SID directly.
     /// To create and manipulate a security identifier, use the functions listed in the See Also section.
     /// </para>
@@ -35,6 +37,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public DWORD SubAuthority;
+        public AnySizeArray<DWORD> SubAuthority;
     }
 }

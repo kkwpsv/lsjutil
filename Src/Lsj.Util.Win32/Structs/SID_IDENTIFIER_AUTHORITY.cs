@@ -1,5 +1,4 @@
-﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals.ByValStructs;
+﻿using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -13,15 +12,79 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The identifier authority value identifies the agency that issued the SID. The following identifier authorities are predefined.
-    /// SECURITY_NULL_SID_AUTHORITY: 0
-    /// SECURITY_WORLD_SID_AUTHORITY: 1
-    /// SECURITY_LOCAL_SID_AUTHORITY: 2
-    /// SECURITY_CREATOR_SID_AUTHORITY: 3
-    /// SECURITY_NON_UNIQUE_AUTHORITY: 4
-    /// SECURITY_NT_AUTHORITY: 5
-    /// SECURITY_RESOURCE_MANAGER_AUTHORITY: 9
+    /// <para>
+    /// The identifier authority value identifies the agency that issued the SID.
+    /// The following identifier authorities are predefined. 
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Identifier authority
+    /// </term>
+    /// <term>
+    /// Value
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// SECURITY_NULL_SID_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 0
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_WORLD_SID_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 1
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_LOCAL_SID_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 2
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_CREATOR_SID_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 3
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_NON_UNIQUE_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 4
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_NT_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 5
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// SECURITY_RESOURCE_MANAGER_AUTHORITY
+    /// </term>
+    /// <term>
+    /// 9
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// A SID must contain a top-level authority and at least one relative identifier (RID) value.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SID_IDENTIFIER_AUTHORITY

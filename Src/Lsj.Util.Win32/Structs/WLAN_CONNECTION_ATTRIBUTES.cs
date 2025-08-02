@@ -18,17 +18,25 @@ namespace Lsj.Util.Win32.Structs
     public struct WLAN_CONNECTION_ATTRIBUTES
     {
         /// <summary>
+        /// <para>
         /// A <see cref="WLAN_INTERFACE_STATE"/> value that indicates the state of the interface.
-        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2: 
+        /// </para>
+        /// <para>
+        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:
         /// Only the <see cref="wlan_interface_state_connected"/>, <see cref="wlan_interface_state_disconnected"/>,
         /// and <see cref="wlan_interface_state_authenticating"/> values are supported.
+        /// </para>
         /// </summary>
         public WLAN_INTERFACE_STATE isState;
 
         /// <summary>
+        /// <para>
         /// A <see cref="WLAN_CONNECTION_MODE"/> value that indicates the mode of the connection.
-        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:
+        /// </para>
+        /// <para>
+        /// Windows XP with SP3 and Wireless LAN API for Windows XP with SP2:
         /// Only the <see cref="wlan_connection_mode_profile"/> value is supported.
+        /// </para>
         /// </summary>
         public WLAN_CONNECTION_MODE wlanConnectionMode;
 

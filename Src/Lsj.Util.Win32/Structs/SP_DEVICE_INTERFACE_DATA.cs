@@ -32,10 +32,27 @@ namespace Lsj.Util.Win32.Structs
         public GUID InterfaceClassGuid;
 
         /// <summary>
+        /// <para>
         /// Can be one or more of the following:
-        /// <see cref="SPINT_ACTIVE"/>: The interface is active (enabled).
-        /// <see cref="SPINT_DEFAULT"/>: The interface is the default interface for the device class.
-        /// <see cref="SPINT_REMOVED"/>: The interface is removed.
+        /// </para>
+        /// <para>
+        /// <see cref="SPINT_ACTIVE"/>
+        /// </para>
+        /// <para>
+        /// The interface is active (enabled).
+        /// </para>
+        /// <para>
+        /// <see cref="SPINT_DEFAULT"/>
+        /// </para>
+        /// <para>
+        /// The interface is the default interface for the device class.
+        /// </para>
+        /// <para>
+        /// <see cref="SPINT_REMOVED"/>
+        /// </para>
+        /// <para>
+        /// The interface is removed.
+        /// </para>
         /// </summary>
         public DWORD Flags;
 

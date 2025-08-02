@@ -20,17 +20,7 @@ namespace Lsj.Util.Win32.Structs
     {
         /// <summary>
         /// The type of relationship between the logical processors.
-        /// This parameter can be one of the following <see cref="LOGICAL_PROCESSOR_RELATIONSHIP"/> values.
-        /// <see cref="RelationCache"/>:
-        /// The specified logical processors share a cache. The <see cref="Cache"/> member contains additional information.
-        /// <see cref="RelationGroup"/>:
-        /// The specified logical processors share a processor group. The <see cref="Group"/> member contains additional information.
-        /// <see cref="RelationNumaNode"/>:
-        /// The specified logical processors are part of the same NUMA node. The <see cref="NumaNode"/> member contains additional information.
-        /// <see cref="RelationProcessorCore"/>:
-        /// The specified logical processors share a single processor core. The <see cref="Processor"/> member contains additional information.
-        /// <see cref="RelationProcessorPackage"/>:
-        /// The specified logical processors share a physical package. The <see cref="Processor"/> member contains additional information.
+        /// This parameter can be one of the <see cref="LOGICAL_PROCESSOR_RELATIONSHIP"/> enumeration values.
         /// </summary>
         [FieldOffset(0)]
         public LOGICAL_PROCESSOR_RELATIONSHIP Relationship;
@@ -43,15 +33,16 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A <see cref="PROCESSOR_RELATIONSHIP"/> structure that describes processor affinity.
-        /// This structure contains valid data only if the <see cref="Relationship"/> member
-        /// is <see cref="RelationProcessorCore"/> or <see cref="RelationProcessorPackage"/>.
+        /// This structure contains valid data only if the <see cref="Relationship"/> member is <see cref="RelationProcessorCore"/>,
+        /// <see cref="RelationProcessorDie"/>, <see cref="RelationProcessorModule"/> or <see cref="RelationProcessorPackage"/>.
         /// </summary>
         [FieldOffset(8)]
         public PROCESSOR_RELATIONSHIP Processor;
 
         /// <summary>
         /// A <see cref="NUMA_NODE_RELATIONSHIP"/> structure that describes a NUMA node.
-        /// This structure contains valid data only if the <see cref="Relationship"/> member is <see cref="RelationNumaNode"/>.
+        /// This structure contains valid data only if the <see cref="Relationship"/> member
+        /// is <see cref="RelationNumaNode"/> or <see cref="RelationNumaNodeEx"/>.
         /// </summary>
         [FieldOffset(8)]
         public NUMA_NODE_RELATIONSHIP NumaNode;

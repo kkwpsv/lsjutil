@@ -16,12 +16,20 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="PROCESSOR_RELATIONSHIP"/> structure describes the logical processors associated with either a processor core or a processor package.
-    /// If the <see cref="PROCESSOR_RELATIONSHIP"/> structure represents a processor core, the <see cref="GroupCount"/> member is always 1.
-    /// If the <see cref="PROCESSOR_RELATIONSHIP"/> structure represents a processor package, the <see cref="GroupCount"/> member is 1 only
-    /// if all processors are in the same processor group.
+    /// <para>
+    /// The <see cref="PROCESSOR_RELATIONSHIP"/> structure describes the logical processors
+    /// associated with either a processor core or a processor package.
+    /// </para>
+    /// <para>
+    /// If the <see cref="PROCESSOR_RELATIONSHIP"/> structure represents a processor core,
+    /// the <see cref="GroupCount"/> member is always 1.
+    /// </para>
+    /// <para>
+    /// If the <see cref="PROCESSOR_RELATIONSHIP"/> structure represents a processor package,
+    /// the <see cref="GroupCount"/> member is 1 only if all processors are in the same processor group.
     /// If the package contains more than one NUMA node, the system might assign different NUMA nodes to different processor groups.
     /// In this case, the <see cref="GroupCount"/> member is the number of groups to which NUMA nodes in the package are assigned.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PROCESSOR_RELATIONSHIP
@@ -32,25 +40,36 @@ namespace Lsj.Util.Win32.Structs
         public const byte LTP_PC_SMT = 0x1;
 
         /// <summary>
-        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of 
-        /// the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorCore"/>,
+        /// <para>
+        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member
+        /// of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorCore"/>,
         /// this member is <see cref="LTP_PC_SMT"/> if the core has more than one logical processor, or 0 if the core has one logical processor.
-        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of
-        /// the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorPackage"/>, this member is always 0.
+        /// </para>
+        /// <para>
+        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member
+        /// of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorPackage"/>,
+        /// this member is always 0.
+        /// </para>
         /// </summary>
         public BYTE Flags;
 
         /// <summary>
-        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of
-        /// the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorCore"/>,
+        /// <para>
+        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member
+        /// of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorCore"/>,
         /// <see cref="EfficiencyClass"/> specifies the intrinsic tradeoff between performance and power for the applicable core.
-        /// A core with a higher value for the efficiency class has intrinsically greater performance and less efficiency
-        /// than a core with a lower value for the efficiency class.
+        /// A core with a higher value for the efficiency class has intrinsically greater performance
+        /// and less efficiency than a core with a lower value for the efficiency class.
         /// <see cref="EfficiencyClass"/> is only nonzero on systems with a heterogeneous set of cores.
-        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of
-        /// the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorPackage"/>,
+        /// </para>
+        /// <para>
+        /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member
+        /// of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorPackage"/>,
         /// <see cref="EfficiencyClass"/> is always 0.
-        /// The minimum operating system version that supports this member is Windows 10.
+        /// </para>
+        /// <para>
+        /// The minimum operating system version that supports this member is Windows 10.
+        /// </para>
         /// </summary>
         public BYTE EfficiencyClass;
 
@@ -70,6 +89,6 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="GroupCount"/> member specifies the number of structures in the array.
         /// Each structure in the array specifies a group number and processor affinity within the group.
         /// </summary>
-        public GROUP_AFFINITY GroupMask;
+        public AnySizeArray<GROUP_AFFINITY> GroupMask;
     }
 }

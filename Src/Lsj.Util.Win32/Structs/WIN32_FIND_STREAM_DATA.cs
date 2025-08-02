@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about the stream found by the <see cref="FindFirstStreamW"/> or <see cref="FindNextStreamW"/> function.
     /// </para>
     /// <para>
-    /// From: 
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-win32_find_stream_data"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

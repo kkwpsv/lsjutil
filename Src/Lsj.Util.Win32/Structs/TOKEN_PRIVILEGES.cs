@@ -22,24 +22,69 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public DWORD PrivilegeCount;
 
-        private LUID_AND_ATTRIBUTES _privileges;
-
         /// <summary>
+        /// <para>
         /// Specifies an array of <see cref="LUID_AND_ATTRIBUTES"/> structures.
-        /// Each structure contains the LUID and attributes of a privilege.
-        /// To get the name of the privilege associated with a <see cref="LUID"/>, call the <see cref="LookupPrivilegeName"/> function,
+        /// Each structure contains the <see cref="LUID"/> and attributes of a privilege.
+        /// To get the name of the privilege associated with a <see cref="LUID"/>,
+        /// call the <see cref="LookupPrivilegeName"/> function,
         /// passing the address of the <see cref="LUID"/> as the value of the lpLuid parameter.
+        /// </para>
+        /// <para>
         /// Important
+        /// </para>
+        /// <para>
         /// The constant <see cref="ANYSIZE_ARRAY"/> is defined as 1 in the public header Winnt.h.
-        /// To create this array with more than one element, you must allocate sufficient memory for the structure to take into account additional elements.
+        /// To create this array with more than one element,
+        /// you must allocate sufficient memory for the structure to take into account additional elements.
+        /// </para>
+        /// <para>
         /// The attributes of a privilege can be a combination of the following values.
-        /// <see cref="SE_PRIVILEGE_ENABLED"/>: The privilege is enabled.
-        /// <see cref="SE_PRIVILEGE_ENABLED_BY_DEFAULT"/>: The privilege is enabled by default.
-        /// <see cref="SE_PRIVILEGE_REMOVED"/>: Used to remove a privilege. For details, see <see cref="AdjustTokenPrivileges"/>.
-        /// <see cref="SE_PRIVILEGE_USED_FOR_ACCESS"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_ENABLED"/>
+        /// </term>
+        /// <term>
+        /// The privilege is enabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_ENABLED_BY_DEFAULT"/>
+        /// </term>
+        /// <term>
+        /// The privilege is enabled by default.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_REMOVED"/>
+        /// </term>
+        /// <term>
+        /// Used to remove a privilege. For details, see <see cref="AdjustTokenPrivileges"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_USED_FOR_ACCESS"/>
+        /// </term>
+        /// <term>
         /// The privilege was used to gain access to an object or service.
         /// This flag is used to identify the relevant privileges in a set passed by a client application that may contain unnecessary privileges.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
-        public P<LUID_AND_ATTRIBUTES> Privileges => UnsafePInvokeExtensions.AsPointer(ref _privileges);
+        public AnySizeArray<LUID_AND_ATTRIBUTES> Privileges;
     }
 }

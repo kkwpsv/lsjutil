@@ -20,13 +20,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// If the user chooses a setting such as Large Fonts, which enlarges the dialog box,
-    /// the watermark that is painted on the start and finish pages will be enlarged as well.
+    /// <para>
+    /// If the user chooses a setting such as Large Fonts,
+    /// which enlarges the dialog box, the watermark that is painted on the start and finish pages will be enlarged as well.
     /// The size and position of the original bitmap will remain the same.
     /// The additional area will be filled with the color of the pixel in the upper-left corner of the bitmap.
+    /// </para>
+    /// <para>
     /// The <see cref="PSH_WIZARD"/>, <see cref="PSH_WIZARD97"/>, and <see cref="PSH_WIZARD_LITE"/> styles are mutually incompatible.
     /// Only one of these style flags should be set.
     /// <see cref="PSH_AEROWIZARD"/> should be combined with <see cref="PSH_WIZARD"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PROPSHEETHEADER
@@ -39,132 +43,315 @@ namespace Lsj.Util.Win32.Structs
         public DWORD dwSize;
 
         /// <summary>
+        /// <para>
         /// Flags that indicate which options to use when creating the property sheet page.
         /// This member can be a combination of the following values.
-        /// <see cref="PSH_DEFAULT"/>:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_DEFAULT"/>  (0x00000000)
+        /// </term>
+        /// <term>
         /// Uses the default meaning for all structure members, and creates a normal property sheet.
         /// This flag has a value of zero and is not combined with other flags.
-        /// <see cref="PSH_AEROWIZARD"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_AEROWIZARD"/> (0x00004000)
+        /// </term>
+        /// <term>
         /// Version 6.00 and later.
         /// Creates a wizard property sheet that uses the Aero style.
         /// The <see cref="PSH_WIZARD"/> flag must also be set.
         /// The single-threaded apartment (STA) model must be used.
-        /// <see cref="PSH_HASHELP"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_HASHELP"/>  (0x00000200)
+        /// </term>
+        /// <term>
         /// Permits property sheet pages to display a Help button.
         /// You must also set the <see cref="PSP_HASHELP"/> flag in the page's <see cref="PROPSHEETPAGE"/> structure when the page is created.
         /// If any of the initial property sheet pages enable a Help button, <see cref="PSH_HASHELP"/> will be set automatically.
         /// If none of the initial pages enable a Help button, you must explicitly set <see cref="PSH_HASHELP"/>
         /// if you want to have Help buttons on any pages that might be added later.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_HEADER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_HEADER"/> (0x00080000)
+        /// </term>
+        /// <term>
         /// Version 5.80 and later.
         /// Indicates that a header bitmap will be used with a Wizard97 wizard.
         /// You must also set the <see cref="PSH_WIZARD97"/> flag.
         /// If the <see cref="PSH_USEHBMHEADER"/> flag is set, then the header bitmap is obtained from the <see cref="hbmHeader"/> member.
         /// Otherwise, the header bitmap is obtained from the <see cref="pszbmHeader"/> member.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_HEADERBITMAP"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_HEADERBITMAP"/> (0x08000000)
+        /// </term>
+        /// <term>
         /// Version 6.00 and later.
         /// The <see cref="pszbmHeader"/> member specifies a bitmap that is displayed in the header area.
         /// Must be used in combination with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_MODELESS"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_MODELESS"/> (0x00000400)
+        /// </term>
+        /// <term>
         /// Causes the <see cref="PropertySheet"/> function to create the property sheet as a modeless dialog box instead of as a modal dialog box.
         /// When this flag is set, <see cref="PropertySheet"/> returns immediately after the dialog box is created,
         /// and the return value from <see cref="PropertySheet"/> is the window handle to the property sheet dialog box.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_NOAPPLYNOW"/>:
-        /// Removes the Apply button. This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_NOCONTEXTHELP"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_NOAPPLYNOW"/> (0x00000080)
+        /// </term>
+        /// <term>
+        /// Removes the Apply button.
+        /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_NOCONTEXTHELP"/> (0x02000000)
+        /// </term>
+        /// <term>
         /// Version 5.80 and later.
         /// Removes the context-sensitive Help button ("?"), which is usually present on the caption bar of property sheets.
         /// This flag is not valid for wizards.
         /// See About Property Sheets for a discussion of how to remove the caption bar Help button for earlier versions of the common controls.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_NOMARGIN"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_NOMARGIN"/> (0x10000000)
+        /// </term>
+        /// <term>
         /// Version 6.00 or later.
-        /// Specifies that no margin is inserted between the page and the frame.
-        /// Must be used in combination with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_PROPSHEETPAGE"/>:
-        /// Uses the <see cref="ppsp"/> member and ignores the <see cref="phpage"/> member when creating the pages for the property sheet.
-        /// <see cref="PSH_PROPTITLE"/>:
+        /// Specifies that no margin is inserted between the page and the frame. Must be used in combination with <see cref="PSH_AEROWIZARD"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_PROPSHEETPAGE"/> (0x00000008)
+        /// </term>
+        /// <term>
+        /// Uses the <<see cref="ppsp"/> member and ignores the <see cref="phpage"/> member when creating the pages for the property sheet.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_PROPTITLE"/> (0x00000001)
+        /// </term>
+        /// <term>
         /// Indicates that the <see cref="pszCaption"/> is the name of the thing for which properties are being shown.
         /// Windows makes a version- and language-dependent adjustment to the caption.
         /// For example, in English, the phrase "Properties for" is prepended to a nonempty <see cref="pszCaption"/>
         /// (and if the <see cref="pszCaption"/> produces an empty caption, then the title is simply "Properties").
         /// If this flag is omitted, then the <see cref="pszCaption"/> is used unaltered.
-        /// <see cref="PSH_RESIZABLE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_RESIZABLE"/> (0x04000000)
+        /// </term>
+        /// <term>
         /// Allows the wizard to be resized by the user.
         /// Maximize and minimize buttons appear in the wizard's frame and the frame is sizable.
         /// To use this flag, you must also set <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_RTLREADING"/>:
-        /// Sets the property sheet or wizard window to right-to-left (RTL) reading order, appropriate for languages like Hebrew and Arabic.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_RTLREADING"/> (0x00000800)
+        /// </term>
+        /// <term>
+        /// Sets the property sheet or wizard window to right-to-left (RTL) reading order,
+        /// appropriate for languages like Hebrew and Arabic.
         /// If this flag is not specified, property sheet windows default to left-to-right (LTR) reading order,
         /// and wizard windows match the reading order of the current page.
-        /// <see cref="PSH_STRETCHWATERMARK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_STRETCHWATERMARK"/> (0x00040000)
+        /// </term>
+        /// <term>
         /// Stretches the watermark in Wizard97-style wizards.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
         /// This style flag is only included to provide backward compatibility for certain applications.
         /// Its use is not recommended, and it is only supported by common controls versions 4.0 and 4.01.
         /// With common controls version 5.80 and later, this flag is ignored.
-        /// <see cref="PSH_USECALLBACK"/>:
-        /// Calls the function specified by the pfnCallback parameter when certain events occur.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USECALLBACK"/> (0x00000100)
+        /// </term>
+        /// <term>
+        /// Calls the function specified by the <see cref="pfnCallback"/> parameter when certain events occur.
         /// For more information, see the description of the <see cref="PFNPROPSHEETCALLBACK"/> callback function.
-        /// <see cref="PSH_USEHBMHEADER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEHBMHEADER"/> (0x00100000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
         /// Obtains the header bitmap from the <see cref="hbmHeader"/> member instead of the <see cref="pszbmHeader"/> member.
         /// You must also set either the <see cref="PSH_AEROWIZARD"/> flag
         /// or the <see cref="PSH_WIZARD97"/> flag together with the <see cref="PSH_HEADER"/> flag.
-        /// <see cref="PSH_USEHBMWATERMARK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEHBMWATERMARK"/> (0x00010000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
         /// Obtains the watermark bitmap from the <see cref="hbmWatermark"/> member instead of the <see cref="pszbmWatermark"/> member.
         /// You must also set <see cref="PSH_WIZARD97"/> and <see cref="PSH_WATERMARK"/>.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_USEHICON"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEHICON"/> (0x00000002)
+        /// </term>
+        /// <term>
         /// Uses <see cref="hIcon"/> as the small icon in the title bar of the property sheet dialog box.
-        /// <see cref="PSH_USEHPLWATERMARK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEHPLWATERMARK"/> (0x00020000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
-        /// Uses the <see cref="HPALETTE"/> structure pointed to by the <see cref="hplWatermark"/> membe
+        /// Uses the <see cref="HPALETTE"/> structure pointed to by the <see cref="hplWatermark"/> member
         /// instead of the default palette to draw the watermark bitmap and/or header bitmap for a Wizard97 wizard.
         /// You must also set <see cref="PSH_WIZARD97"/>, and <see cref="PSH_WATERMARK"/> or <see cref="PSH_HEADER"/>.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_USEICONID"/>:
-        /// Uses <see cref="pszIcon"/> as the name of the icon resource to load and use as the small icon in the title bar of the property sheet dialog box.
-        /// <see cref="PSH_USEPAGELANG"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEICONID"/> (0x00000004)
+        /// </term>
+        /// <term>
+        /// Uses <see cref="pszIcon"/> as the name of the icon resource to load
+        /// and use as the small icon in the title bar of the property sheet dialog box.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEPAGELANG"/> (0x00200000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
         /// Specifies that the language for the property sheet will be taken from the first page's resource.
         /// That page must be specified by resource identifier.
-        /// <see cref="PSH_USEPSTARTPAGE"/>:
-        /// Uses the <see cref="pStartPage"/> member instead of the <see cref="nStartPage"/> member
-        /// when displaying the initial page of the property sheet.
-        /// <see cref="PSH_WATERMARK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_USEPSTARTPAGE"/> (0x00000040)
+        /// </term>
+        /// <term>
+        /// Uses the pStartPage member instead of the <see cref="nStartPage"/> member when displaying the initial page of the property sheet.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WATERMARK"/> (0x00008000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
         /// Specifies that a watermark bitmap will be used with a Wizard97 wizard on pages that have the <see cref="PSP_HIDEHEADER"/> style.
         /// You must also set the <see cref="PSH_WIZARD97"/> flag.
-        /// The watermark bitmap is obtained from the pszbmWatermark member, unless <see cref="PSH_USEHBMWATERMARK"/> is set.
+        /// The watermark bitmap is obtained from the <see cref="pszbmWatermark"/> member, unless <see cref="PSH_USEHBMWATERMARK"/> is set.
         /// In that case, the header bitmap is obtained from the <see cref="hbmWatermark"/> member.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_WIZARD"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WIZARD"/> (0x00000020)
+        /// </term>
+        /// <term>
         /// Creates a wizard property sheet.
         /// When using <see cref="PSH_AEROWIZARD"/>, you must also set this flag.
-        /// <see cref="PSH_WIZARD97"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WIZARD97"/> (0x01000000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
-        /// Creates a Wizard97-style property sheet, which supports bitmaps in the header of interior pages and on the left side of exterior pages.
+        /// Creates a Wizard97-style property sheet,
+        /// which supports bitmaps in the header of interior pages and on the left side of exterior pages.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_WIZARDCONTEXTHELP"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WIZARDCONTEXTHELP"/> (0x00001000)
+        /// </term>
+        /// <term>
         /// Adds a context-sensitive Help button ("?"), which is usually absent from the caption bar of a wizard.
         /// This flag is not valid for regular property sheets.
-        /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_WIZARDHASFINISH"/>:
+        /// This flag is not supported in conjunction with PSH_AEROWIZARD.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WIZARDHASFINISH"/> (0x00000010)
+        /// </term>
+        /// <term>
         /// Always displays the Finish button on the wizard.
         /// You must also set either <see cref="PSH_WIZARD"/>, <see cref="PSH_WIZARD97"/>, or <see cref="PSH_AEROWIZARD"/>.
-        /// <see cref="PSH_WIZARD_LITE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PSH_WIZARD_LITE"/> (0x00400000)
+        /// </term>
+        /// <term>
         /// Version 5.80.
         /// Uses the Wizard-lite style.
-        /// This style is similar in appearance to <see cref="PSH_WIZARD97"/>, but it is implemented much like <see cref="PSH_WIZARD"/>.
+        /// This style is similar in appearance to <see cref="PSH_WIZARD97"/>,
+        /// but it is implemented much like <see cref="PSH_WIZARD"/>.
         /// There are few restrictions on how the pages are formatted.
-        /// For instance, there are no enforced borders, and the <see cref="PSH_WIZARD_LITE"/> style does not paint the watermark
-        /// and header bitmaps for you the way Wizard97 does.
+        /// For instance, there are no enforced borders,
+        /// and the <see cref="PSH_WIZARD_LITE"/> style does not paint the watermark and header bitmaps for you the way Wizard97 does.
         /// This flag is not supported in conjunction with <see cref="PSH_AEROWIZARD"/>.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public PROPSHEETHEADERFlags dwFlags;
 

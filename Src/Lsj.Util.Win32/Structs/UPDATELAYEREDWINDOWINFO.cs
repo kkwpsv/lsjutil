@@ -26,11 +26,15 @@ namespace Lsj.Util.Win32.Structs
         public DWORD cbSize;
 
         /// <summary>
+        /// <para>
         /// A handle to a DC for the screen.
-        /// This handle is obtained by specifying NULL in this member when calling <see cref="UpdateLayeredWindowIndirect"/>.
+        /// This handle is obtained by specifying <see cref="NULL"/> in this member when calling <see cref="UpdateLayeredWindowIndirect"/>.
         /// The handle is used for palette color matching when the window contents are updated.
         /// If <see cref="hdcDst"/> is <see cref="NULL"/>, the default palette is used.
-        /// If <see cref="hdcSrc"/> is <see cref="NULL"/>, hdcDst must be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If <see cref="hdcSrc"/> is <see cref="NULL"/>, <see cref="hdcDst"/> must be <see cref="NULL"/>.
+        /// </para>
         /// </summary>
         public HDC hdcDst;
 
@@ -72,25 +76,83 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr pblend;
 
         /// <summary>
+        /// <para>
         /// This parameter can be one of the following values.
-        /// <see cref="ULW_ALPHA"/>:
-        /// Use <see cref="pblend"/> as the blend function.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ULW_ALPHA"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use pblend as the blend function.
         /// If the display mode is 256 colors or less, the effect of this value is the same as the effect of <see cref="ULW_OPAQUE"/>.
-        /// <see cref="ULW_COLORKEY"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ULW_COLORKEY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
         /// Use <see cref="crKey"/> as the transparency color.
-        /// <see cref="ULW_OPAQUE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ULW_OPAQUE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
         /// Draw an opaque layered window.
-        /// <see cref="ULW_EX_NORESIZE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ULW_EX_NORESIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
         /// Force the <see cref="UpdateLayeredWindowIndirect"/> function to fail
-        /// if the current window size does not match the size specified in the <see cref="psize"/>. 
+        /// if the current window size does not match the size specified in the <see cref="psize"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// <para>
         /// If <see cref="hdcSrc"/> is <see cref="NULL"/>, <see cref="dwFlags"/> should be zero.
+        /// </para>
         /// </summary>
         public UpdateLayeredWindowFlags dwFlags;
 
         /// <summary>
         /// The area to be updated.
         /// This parameter can be <see cref="NULL"/>.
-        /// If it is non-NULL, only the area in this rectangle is updated from the source DC.
+        /// If it is non-<see cref="NULL"/>, only the area in this rectangle is updated from the source DC.
         /// </summary>
         public IntPtr prcDirty;
     }

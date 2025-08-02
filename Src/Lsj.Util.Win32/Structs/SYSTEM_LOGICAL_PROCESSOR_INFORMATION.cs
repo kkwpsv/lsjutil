@@ -21,28 +21,101 @@ namespace Lsj.Util.Win32.Structs
     public struct SYSTEM_LOGICAL_PROCESSOR_INFORMATION
     {
         /// <summary>
+        /// <para>
         /// The processor mask identifying the processors described by this structure.
         /// A processor mask is a bit vector in which each set bit represents an active processor in the relationship.
         /// At least one bit will be set.
+        /// </para>
+        /// <para>
         /// On a system with more than 64 processors, the processor mask identifies processors in a single processor group.
+        /// </para>
         /// </summary>
         public ULONG_PTR ProcessorMask;
 
         /// <summary>
+        /// <para>
         /// The relationship between the processors identified by the value of the <see cref="ProcessorMask"/> member.
         /// This member can be one of the following <see cref="LOGICAL_PROCESSOR_RELATIONSHIP"/> values.
-        /// <see cref="RelationCache"/>:
-        /// The specified logical processors share a cache.The Cache member contains additional information.
-        /// Windows Server 2003:  This value is not supported until Windows Server 2003 with SP1 and Windows XP Professional x64 Edition.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RelationCache"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified logical processors share a cache. The <see cref="Cache"/> member contains additional information.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003:This value is not supported until Windows Server 2003 with SP1 and Windows XP Professional x64 Edition.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
         /// <see cref="RelationNumaNode"/>
-        /// The specified logical processors are part of the same NUMA node.The NumaNode member contains additional information.
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified logical processors are part of the same NUMA node.
+        /// The <see cref="NumaNode"/> member contains additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
         /// <see cref="RelationProcessorCore"/>
-        /// The specified logical processors share a single processor core.The ProcessorCore member contains additional information.
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified logical processors share a single processor core.
+        /// The <see cref="ProcessorCore"/> member contains additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
         /// <see cref="RelationProcessorPackage"/>
-        /// The specified logical processors share a physical package. There is no additional information available.
-        /// Windows Server 2003 and Windows XP Professional x64 Edition:
-        /// This value is not supported until Windows Server 2003 with SP1 and Windows XP with SP3.
-        /// Future versions of Windows may support additional values for the Relationship member.
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified logical processors share a physical package.
+        /// There is no additional information available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP Professional x64 Edition:
+        /// This value is not supported until Windows Server 2003 with SP1 and Windows XP with SP3.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// Future versions of Windows may support additional values for the <see cref="Relationship"/> member.
+        /// </para>
         /// </summary>
         public LOGICAL_PROCESSOR_RELATIONSHIP Relationship;
 
@@ -71,13 +144,19 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
+        /// <para>
         /// A <see cref="CACHE_DESCRIPTOR"/> structure that identifies the characteristics of a particular cache.
         /// There is one record returned for each cache reported.
         /// Some or all caches may not be reported, depending on the mechanism used by the processor to identify its caches.
         /// Therefore, do not assume the absence of any particular caches.
         /// Caches are not necessarily shared among logical processors.
+        /// </para>
+        /// <para>
         /// This structure contains valid data only if the <see cref="Relationship"/> member is <see cref="RelationCache"/>.
-        /// Windows Server 2003:  This member is not supported until Windows Server 2003 with SP1 and Windows XP Professional x64 Edition.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003: This member is not supported until Windows Server 2003 with SP1 and Windows XP Professional x64 Edition.
+        /// </para>
         /// </summary>
         public CACHE_DESCRIPTOR Cache
         {
@@ -133,13 +212,18 @@ namespace Lsj.Util.Win32.Structs
         public struct SYSTEM_LOGICAL_PROCESSOR_INFORMATION_ProcessorCore
         {
             /// <summary>
-            /// If the value of this member is 1, the logical processors identified by the value of the <see cref="ProcessorMask"/> member
-            /// share functional units, as in Hyperthreading or SMT.
+            /// <para>
+            /// If the value of this member is 1, the logical processors identified
+            /// by the value of the <see cref="ProcessorMask"/> member share functional units, as in Hyperthreading or SMT.
             /// Otherwise, the identified logical processors do not share functional units.
-            /// Windows Server 2003 and Windows XP Professional x64 Edition:
+            /// </para>
+            /// <para>
+            /// Windows Server 2003 and Windows XP Professional x64 Edition:
             /// This member is also 1 for cores that share a physical package.
-            /// Therefore, to determine whether the processor supports multiple cores or hyperthreading on systems prior to Windows Vista,
-            /// use the CPUID instruction.
+            /// Therefore, to determine whether the processor supports multiple cores or hyperthreading
+            /// on systems prior to Windows Vista, use the CPUID instruction.
+            /// </para>
+            /// 
             /// </summary>
             public BYTE Flags;
         }

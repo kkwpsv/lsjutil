@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.Structs
     public struct STATDATA
     {
         /// <summary>
-        /// The FORMATETC structure for the data of interest to the advise sink.
+        /// The <see cref="FORMATETC"/> structure for the data of interest to the advise sink.
         /// The advise sink receives notification of changes to the data specified by this <see cref="FORMATETC"/> structure.
         /// </summary>
         public FORMATETC formatetc;
@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The pointer for the <see cref="IAdviseSink"/> interface that will receive change notifications.
         /// </summary>
-        public IAdviseSink pAdvSink;
+        public P<IAdviseSink> pAdvSink;
 
         /// <summary>
         /// The token that uniquely identifies the advisory connection.

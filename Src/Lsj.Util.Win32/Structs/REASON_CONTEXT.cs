@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
@@ -29,11 +28,47 @@ namespace Lsj.Util.Win32.Structs
         public ULONG Version;
 
         /// <summary>
-        /// The format of the reason for the power request. This parameter can be one of the following values:
-        /// <see cref="POWER_REQUEST_CONTEXT_DETAILED_STRING"/>:
-        /// The <see cref="REASON_CONTEXT_Reason.Detailed"/> structure identifies a localizable string resource that describes the reason for the power request.
-        /// <see cref="POWER_REQUEST_CONTEXT_SIMPLE_STRING"/>:
-        /// The <see cref="SimpleReasonString"/> parameter contains a simple, non-localizable string that describes the reason for the power request.
+        /// <para>
+        /// The format of the reason for the power request.
+        /// This parameter can be one of the following values:
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="POWER_REQUEST_CONTEXT_DETAILED_STRING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <see cref="REASON_CONTEXT_Detailed"/> structure identifies a localizable string resource that describes the reason for the power request.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="POWER_REQUEST_CONTEXT_SIMPLE_STRING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <see cref="REASON_CONTEXT_Reason.SimpleReasonString"/> parameter contains a simple,
+        /// non-localizable string that describes the reason for the power request.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public DWORD Flags;
 

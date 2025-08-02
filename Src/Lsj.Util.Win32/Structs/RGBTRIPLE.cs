@@ -9,6 +9,9 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BITMAPCOREINFO.bmciColors"/> member of the <see cref="BITMAPCOREINFO"/> structure
     /// consists of an array of <see cref="RGBTRIPLE"/> structures.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rgbtriple"/>
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct RGBTRIPLE

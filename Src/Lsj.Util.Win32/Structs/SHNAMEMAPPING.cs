@@ -13,6 +13,16 @@ namespace Lsj.Util.Win32.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-shnamemappingw"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// There are two versions of this structure, an ANSI version (SHFILEOPSTRUCTA) and a Unicode version (SHFILEOPSTRUCTW).
+    /// The Unicode version is identical to the ANSI version, except that wide character strings (<see cref="LPCWSTR"/>) are used
+    /// in place of ANSI character strings (<see cref="LPCSTR"/>).
+    /// On Windows 98 and earlier, only the ANSI version is supported.
+    /// On Microsoft Windows NT 4.0 and later, both the ANSI and Unicode versions of this structure are supported.
+    /// SHNAMEMAPPINGA and SHNAMEMAPPINGW should never be used directly;
+    /// the appropriate structure is redefined as <see cref="SHNAMEMAPPING"/> by the precompiler
+    /// depending on whether the application is compiled for ANSI or Unicode.
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHNAMEMAPPING
     {

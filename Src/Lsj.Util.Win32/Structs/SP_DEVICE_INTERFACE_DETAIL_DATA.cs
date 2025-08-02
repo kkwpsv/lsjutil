@@ -14,13 +14,17 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// An <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> structure identifies the path for a device interface in a device information set.
-    /// SetupDiXxx functions that take an <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> structure as a parameter verify
-    /// that the <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> member of the supplied structure is equal to the size, in bytes, of the structure.
-    /// If the <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> member is not set correctly for an input parameter,
+    /// </para>
+    /// <para>
+    /// SetupDiXxx functions that take an <see cref="SP_DEVICE_INTERFACE_DETAIL_DATA"/> structure
+    /// as a parameter verify that the <see cref="cbSize"/> member of the supplied structure is equal to the size, in bytes, of the structure.
+    /// If the <see cref="cbSize"/> member is not set correctly for an input parameter,
     /// the function will fail and set an error code of <see cref="ERROR_INVALID_PARAMETER"/>.
     /// If the <see cref="cbSize"/> member is not set correctly for an output parameter,
     /// the function will fail and set an error code of <see cref="ERROR_INVALID_USER_BUFFER"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SP_DEVICE_INTERFACE_DETAIL_DATA
@@ -35,6 +39,6 @@ namespace Lsj.Util.Win32.Structs
         /// A NULL-terminated string that contains the device interface path.
         /// This path can be passed to Win32 functions such as <see cref="CreateFile"/>.
         /// </summary>
-        public WCHAR DevicePath;
+        public AnySizeArray<WCHAR> DevicePath;
     }
 }

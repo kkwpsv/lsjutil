@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="POLYTEXT"/> structure describes how the <see cref="PolyTextOut"/> function should draw a string of text.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-glyphset"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-polytextw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -40,11 +40,36 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lpstr;
 
         /// <summary>
-        /// Specifies whether the string is to be opaque or clipped
-        /// and whether the string is accompanied by an array of character-width values.
+        /// <para>
+        /// Specifies whether the string is to be opaque or clipped and whether the string is accompanied by an array of character-width values.
         /// This member can be one or more of the following values.
-        /// <see cref="ETO_OPAQUE"/>: The rectangle for each string is to be opaqued with the current background color.
-        /// <see cref="ETO_CLIPPED"/>: Each string is to be clipped to its specified rectangle.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ETO_OPAQUE"/>
+        /// </term>
+        /// <term>
+        /// The rectangle for each string is to be opaqued with the current background color.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ETO_CLIPPED"/>
+        /// </term>
+        /// <term>
+        /// Each string is to be clipped to its specified rectangle.
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public ExtTextOutFlags uiFlags;
 
@@ -58,6 +83,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to an array containing the width value for each character in the string.
         /// </summary>
-        public IntPtr pdx;
+        public P<int> pdx;
     }
 }

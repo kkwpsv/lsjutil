@@ -10,8 +10,10 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// <see cref="VARIANTARG"/> describes arguments passed within <see cref="DISPPARAMS"/>,
     /// and <see cref="VARIANT"/> to specify variant data that cannot be passed by reference.
-    /// When a variant refers to another variant by using the <code>VT_VARIANT | VT_BYREF</code> vartype,
-    /// the variant being referred to cannot also be of type <code>VT_VARIANT | VT_BYREF</code>.
+    /// </para>
+    /// <para>
+    /// When a variant refers to another variant by using the <c>VT_VARIANT | VT_BYREF</c> vartype,
+    /// the variant being referred to cannot also be of type <c>VT_VARIANT | VT_BYREF</c>.
     /// <see cref="VARIANT"/>s can be passed by value, even if <see cref="VARIANTARG"/>s cannot.
     /// </para>
     /// <para>
@@ -108,9 +110,13 @@ namespace Lsj.Util.Win32.Structs
         public CY cyVal;
 
         /// <summary>
-        /// A date and time value.
-        /// Dates are represented as double-precision numbers, where midnight, January 1, 1900 is 2.0, January 2, 1900 is 3.0, and so on.
+        /// <para>
+        /// A date and time value. Dates are represented as double-precision numbers,
+        /// where midnight, January 1, 1900 is 2.0, January 2, 1900 is 3.0, and so on.
+        /// </para>
+        /// <para>
         /// The date can be converted to and from an MS-DOS representation using <see cref="VariantTimeToDosDateTime"/>.
+        /// </para>
         /// </summary>
         [FieldOffset(8)]
         public DATE date;

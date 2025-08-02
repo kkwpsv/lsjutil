@@ -7,6 +7,8 @@ namespace Lsj.Util.Win32.Structs
     /// <summary>
     /// <para>
     /// Specifies attributes for a user-mode scheduling (UMS) worker thread.
+    /// </para>
+    /// <para>
     /// This structure is used with the <see cref="UpdateProcThreadAttribute"/> function.
     /// </para>
     /// <para>

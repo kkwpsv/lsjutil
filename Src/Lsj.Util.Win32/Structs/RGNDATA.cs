@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -25,6 +26,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies an arbitrary-size buffer that contains the <see cref="RECT"/> structures that make up the region.
         /// </summary>
-        public byte Buffer;
+        public AnySizeArray<byte> Buffer;
     }
 }
