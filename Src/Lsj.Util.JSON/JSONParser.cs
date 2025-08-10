@@ -276,7 +276,7 @@ namespace Lsj.Util.JSON
                         }
                         else if (length - index >= 5)
                         {
-                            if (*(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 3) == 'e')
+                            if (*(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')
                             {
                                 index += 4;
                                 if (processer is IBoolProcesser boolProcesser)
