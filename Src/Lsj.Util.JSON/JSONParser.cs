@@ -482,6 +482,10 @@ namespace Lsj.Util.JSON
                 {
                     processer = new DictionaryProcesser(this, type);
                 }
+                else if (type.IsArray)
+                {
+                    processer = new ArrayProcesser(this, type);
+                }
                 else if (type.IsList())
                 {
                     processer = new ListProcesser(this, type);
