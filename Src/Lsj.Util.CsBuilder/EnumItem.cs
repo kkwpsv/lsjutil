@@ -46,7 +46,7 @@ namespace Lsj.Util.CsBuilder
             {
                 sb.Append($" = {Value}");
             }
-            sb.AppendLine(",");
+            sb.Append(",");
             return sb.ToString();
         }
     }

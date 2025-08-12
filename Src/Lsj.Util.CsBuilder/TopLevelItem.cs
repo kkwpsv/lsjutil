@@ -41,6 +41,14 @@ namespace Lsj.Util.CsBuilder
         }
 
         /// <summary>
+        /// Inherits
+        /// </summary>
+        public List<string> Inherits
+        {
+            get;
+        } = new List<string>();
+
+        /// <summary>
         /// Attributes
         /// </summary>
         public List<Attribute> Attributes
@@ -59,14 +67,24 @@ namespace Lsj.Util.CsBuilder
             }
 
             sb.Append(' ', level * 4);
-            sb.AppendLine($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {Keyword} {Name}");
+            sb.Append($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {Keyword} {Name}");
+            if (Inherits.Count != 0)
+            {
+                sb.Append($" : {string.Join(", ", Inherits)}");
+            }
+            sb.AppendLine();
             sb.Append(' ', level * 4);
             sb.AppendLine("{");
 
             level++;
-            foreach (var child in Children)
+            var children = Children.ToArray();
+            for (int i = 0; i < children.Length; i++)
             {
-                sb.AppendLine(child.ToString(level));
+                sb.AppendLine(children[i].ToString(level));
+                if (i != children.Length - 1)
+                {
+                    sb.AppendLine();
+                }
             }
             level--;
 
