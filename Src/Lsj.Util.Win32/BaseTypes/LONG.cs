@@ -55,5 +55,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator LONG(int val) => new LONG { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator uint(LONG val) => (uint)val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator LONG(uint val) => new LONG { _value = (int)val };
     }
 }
