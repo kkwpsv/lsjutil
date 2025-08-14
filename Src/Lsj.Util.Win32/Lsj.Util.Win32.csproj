@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Lsj.Util.IL" Version="1.0.6" />
+    <PackageReference Include="Lsj.Util.IL" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />

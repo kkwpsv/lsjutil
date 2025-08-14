@@ -183,6 +183,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IGraphicsCaptureSession = "814e42a9-f70f-4ad7-939b-fddcc6eb880d";
 
         /// <summary>
+        /// IID_IGraphicsCaptureSession2
+        /// </summary>
+        public static readonly IID IID_IGraphicsCaptureSession2 = "2c39ae40-7d2e-5044-804e-8b6799d4cf9e";
+
+        /// <summary>
+        /// IID_IGraphicsCaptureSession3
+        /// </summary>
+        public static readonly IID IID_IGraphicsCaptureSession3 = "f2cdd966-22ae-5ea1-9596-3a289344c3be";
+
+        /// <summary>
         /// IID_IInputPane
         /// </summary>
         public static readonly IID IID_IInputPane = "640ada70-06f3-4c87-a678-9829c9127c28";

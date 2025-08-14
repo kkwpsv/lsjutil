@@ -3,8 +3,8 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.Enums.CLSCTX;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.COM
 {
@@ -31,13 +31,13 @@ namespace Lsj.Util.Win32.Extensions.COM
         }
 
         /// <summary>
-        ///  Create COM object instance with <see cref="CLSCTX_ALL"/>
+        /// Create COM object instance with <see cref="CLSCTX_ALL"/>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="clsid"></param>
         /// <param name="iid"></param>
         /// <returns></returns>
-        public static P<T> CreateInstance<T>(CLSID clsid, IID iid) where T : struct => CreateInstance<T>(clsid, iid, CLSCTX.CLSCTX_ALL);
+        public static P<T> CreateInstance<T>(CLSID clsid, IID iid) where T : struct => CreateInstance<T>(clsid, iid, CLSCTX_ALL);
 
         /// <summary>
         /// Create COM object instance
@@ -69,22 +69,73 @@ namespace Lsj.Util.Win32.Extensions.COM
         public static P<IUnknown> AsIUnknown<T>(this P<T> from) where T : struct => from.AsP<IUnknown>();
 
         /// <summary>
-        /// To Interface with <see cref="Lsj.Util.Win32.ComInterfaces.IUnknown.QueryInterface"/>
+        /// To Interface with <see cref="IUnknown.QueryInterface"/>
         /// </summary>
         /// <typeparam name="TTo"></typeparam>
         /// <param name="iUnknown"></param>
         /// <param name="toIID"></param>
+        /// <param name="release"></param>
+        /// <param name="releaseOnFailed"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static P<TTo> ToInterface<TTo>(this P<IUnknown> iUnknown, IID toIID) where TTo : struct
+        public static P<TTo> ToInterface<TTo>(this P<IUnknown> iUnknown, IID toIID, bool release = false, bool releaseOnFailed = false) where TTo : struct
         {
             if (iUnknown.Value.QueryInterface(toIID, out var ppvObject))
             {
+                if (release)
+                {
+                    iUnknown.Value.Release();
+                }
                 return (P<TTo>)ppvObject;
             }
             else
             {
+                if (releaseOnFailed)
+                {
+                    iUnknown.Value.Release();
+                }
                 throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// To Interface with <see cref="IUnknown.QueryInterface"/>, return null if not implement
+        /// </summary>
+        /// <typeparam name="TTo"></typeparam>
+        /// <param name="iUnknown"></param>
+        /// <param name="toIID"></param>
+        /// <param name="release"></param>
+        /// <param name="releaseOnFailed"></param>
+        /// <returns></returns>
+        public static P<TTo>? ToInterfaceOrNull<TTo>(this P<IUnknown> iUnknown, IID toIID, bool release = false, bool releaseOnFailed = false) where TTo : struct
+        {
+            if (iUnknown.Value.QueryInterface(toIID, out var ppvObject))
+            {
+                if (release)
+                {
+                    iUnknown.Value.Release();
+                }
+                return (P<TTo>)ppvObject;
+            }
+            else
+            {
+                if (releaseOnFailed)
+                {
+                    iUnknown.Value.Release();
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Throw exception if hResult is not succeed
+        /// </summary>
+        /// <param name="hResult"></param>
+        public static void ThrowExceptionIfNotSucceed(this HRESULT hResult)
+        {
+            if (!hResult.Succeed)
+            {
+                throw Marshal.GetExceptionForHR(hResult)!;
             }
         }
     }

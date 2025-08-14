@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Extensions.Gdi;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Extensions.NativeUI
 {
     /// <summary>
-    /// Window Extensions
+    /// Window extensions
     /// </summary>
     public static class WindowExtensions
     {
@@ -110,6 +111,7 @@ namespace Lsj.Util.Win32.Extensions.NativeUI
         /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
         /// </param>
         /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        [Obsolete("Using GdiScreenCapturer")]
         public static HBITMAP GetWindowScreenshot(HWND hwnd) => GetWindowScreenshot(hwnd, SRCCOPY);
 
         /// <summary>
@@ -119,6 +121,7 @@ namespace Lsj.Util.Win32.Extensions.NativeUI
         /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
         /// </param>
         /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        [Obsolete("Using GdiScreenCapturer")]
         public static HBITMAP GetWindowScreenshotWithCaptureBlt(HWND hwnd) => GetWindowScreenshot(hwnd, SRCCOPY | CAPTUREBLT);
 
         /// <summary>
@@ -131,54 +134,8 @@ namespace Lsj.Util.Win32.Extensions.NativeUI
         /// The rasterCodes for <see cref="BitBlt"/>
         /// </param>
         /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
-        public static HBITMAP GetWindowScreenshot(HWND hwnd, RasterCodes rasterCodes)
-        {
-            HDC windowDC = NULL;
-            HDC destDC = NULL;
-            HBITMAP destBitmap = NULL;
-
-            try
-            {
-                windowDC = GetWindowDC(hwnd);
-                if (windowDC == NULL)
-                {
-                    throw new Win32Exception();
-                }
-
-                if (!GetWindowRect(hwnd == NULL ? GetDesktopWindow() : hwnd, out var rect))
-                {
-                    throw new Win32Exception();
-                }
-                var width = rect.right - rect.left;
-                var height = rect.bottom - rect.top;
-
-                destDC = CreateCompatibleDC(windowDC);
-                if (destDC == NULL)
-                {
-                    throw new Win32Exception();
-                }
-
-                destBitmap = CreateCompatibleBitmap(windowDC, width, height);
-                if (destBitmap == NULL)
-                {
-                    throw new Win32Exception();
-                }
-
-                SelectObject(destDC, destBitmap);
-
-                if (!BitBlt(destDC, 0, 0, width, height, windowDC, 0, 0, rasterCodes))
-                {
-                    throw new Win32Exception();
-                }
-
-            }
-            finally
-            {
-                ReleaseDC(hwnd, windowDC);
-                DeleteDC(destDC);
-            }
-            return destBitmap;
-        }
+        [Obsolete("Using GdiScreenCapturer")]
+        public static HBITMAP GetWindowScreenshot(HWND hwnd, RasterCodes rasterCodes) => new GdiScreenCapturer().CaptureWindow(hwnd, rasterCodes: rasterCodes);
 
         /// <summary>
         /// Get Foreground Window Screenshot (Use GDI.)
@@ -188,6 +145,7 @@ namespace Lsj.Util.Win32.Extensions.NativeUI
         /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
         /// </param>
         /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        [Obsolete("Using GdiScreenCapturer")]
         public static HBITMAP GetForegroundWindowScreenshot(HWND hwnd)
         {
             HDC desktopDC = NULL;
