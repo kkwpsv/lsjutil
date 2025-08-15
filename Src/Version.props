@@ -2,17 +2,17 @@
   <PropertyGroup>
     <LsjUtilVersionPrefix>8.0.0</LsjUtilVersionPrefix>
     <LsjUtilAspNetCoreVersionPrefix>8.0.1</LsjUtilAspNetCoreVersionPrefix>
-    <LsjUtilCsBuilderVersionPrefix>8.0.0</LsjUtilCsBuilderVersionPrefix>
+    <LsjUtilCsBuilderVersionPrefix>8.1.0</LsjUtilCsBuilderVersionPrefix>
     <LsjUtilDataVersionPrefix>8.0.0</LsjUtilDataVersionPrefix>
     <LsjUtilDynamicVersionPrefix>8.0.0</LsjUtilDynamicVersionPrefix>
     <LsjUtilHtmlBuilderVersionPrefix>8.0.1</LsjUtilHtmlBuilderVersionPrefix>
-    <LsjUtilJSONVersionPrefix>8.0.0</LsjUtilJSONVersionPrefix>
+    <LsjUtilJSONVersionPrefix>8.1.0</LsjUtilJSONVersionPrefix>
     <LsjUtilNetVersionPrefix>8.0.0</LsjUtilNetVersionPrefix>
     <LsjUtilNetWebVersionPrefix>8.0.0</LsjUtilNetWebVersionPrefix>
     <LsjUtilProtobufVersionPrefix>8.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>8.0.0</LsjUtilSQLBuilderVersionPrefix>
     <LsjUtilWin32VersionPrefix>9.0.0</LsjUtilWin32VersionPrefix>
-    <LsjUtilWin32ExtensionsVersionPrefix>8.0.0</LsjUtilWin32ExtensionsVersionPrefix>
+    <LsjUtilWin32ExtensionsVersionPrefix>9.0.0</LsjUtilWin32ExtensionsVersionPrefix>
     <LsjUtilWin32NativeUIVersionPrefix>8.1.0</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>8.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>8.0.0</LsjUtilWPFVersionPrefix>
