@@ -122,7 +122,7 @@ namespace Lsj.Util.HtmlBuilder
                                 if (start != current)//中间是否有内容
                                 {
                                     var str = StringHelper.ReadStringFromCharPoint(start, current - start);
-                                    str = str.Replace("\r", "").Replace("\n", "").Trim();//去除换行及空白
+                                    str = str.Replace("\r", "").Replace("\n", "");//去除换行
                                     if (str.Length > 0)
                                     {
                                         node.Add(new HtmlRawNode(str));
@@ -267,6 +267,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Dl();
                 case "dt":
                     return new Dt();
+                case "dd":
+                    return new Dd();
                 case "br":
                     return new Br();
                 case "ul":
