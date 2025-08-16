@@ -49,103 +49,152 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3D11_FEATURE_D3D10_X_HARDWARE_OPTIONS,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.1 feature options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.1.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS,
 
         /// <summary>
+        /// <para>
         /// Supports specific adapter architecture.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_ARCHITECTURE_INFO"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_ARCHITECTURE_INFO"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.1.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_ARCHITECTURE_INFO,
 
         /// <summary>
-        /// Supports Direct3D 9 feature options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_OPTIONS"/>.
+        /// <para>
+        /// Supports Direct3D 9 feature options.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_OPTIONS"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.1.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D9_OPTIONS,
 
         /// <summary>
+        /// <para>
         /// Supports minimum precision of shaders.
-        /// For more info about HLSL minimum precision, see using HLSL minimum precision.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_SHADER_MIN_PRECISION_SUPPORT"/>.
+        /// For more info about HLSL minimum precision, see using HLSL minimum precision.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_SHADER_MIN_PRECISION_SUPPORT"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.1.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_SHADER_MIN_PRECISION_SUPPORT,
 
         /// <summary>
-        /// Supports Direct3D 9 shadowing feature.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_SHADOW_SUPPORT"/>.
+        /// <para>
+        /// Supports Direct3D 9 shadowing feature.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_SHADOW_SUPPORT"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.1.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D9_SHADOW_SUPPORT,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.2 feature options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS1"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS1"/>.
+        /// </para>
+        /// <para>
+        /// Direct3D 11:
+        /// This value is not supported until Direct3D 11.2.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS1,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.2 instancing options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_SIMPLE_INSTANCING_SUPPORT"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_SIMPLE_INSTANCING_SUPPORT"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.2.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D9_SIMPLE_INSTANCING_SUPPORT,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.2 marker options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_MARKER_SUPPORT"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_MARKER_SUPPORT"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.2.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_MARKER_SUPPORT,
 
         /// <summary>
-        /// Supports Direct3D 9 feature options, which includes the Direct3D 9 shadowing feature and instancing support.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_OPTIONS1"/>.
+        /// <para>
+        /// Supports Direct3D 9 feature options, which includes the Direct3D 9 shadowing feature and instancing support.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D9_OPTIONS1"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.2.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D9_OPTIONS1,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.3 conservative rasterization feature options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS2"/>.
-        /// Direct3D 11:
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS2"/>.
+        /// </para>
+        /// <para>
+        /// Direct3D 11: 
         /// This value is not supported until Direct3D 11.3.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS2,
 
         /// <summary>
+        /// <para>
         /// Supports Direct3D 11.4 conservative rasterization feature options.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS3"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS3"/>.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
         /// This value is not supported until Direct3D 11.4.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS3,
 
         /// <summary>
         /// Supports GPU virtual addresses.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT"/>.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT"/>.
         /// </summary>
         D3D11_FEATURE_GPU_VIRTUAL_ADDRESS_SUPPORT,
 
         /// <summary>
+        /// <para>
         /// Supports a single boolean for NV12 shared textures.
-        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS4"/>.
-        /// Direct3D 11:
-        /// This value is not supported until Direct3D 11.4.
+        /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS4"/>.
+        /// </para>
+        /// <para>
+        /// Direct3D 11:  This value is not supported until Direct3D 11.4.
+        /// </para>
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS4,
 
@@ -155,7 +204,8 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3D11_FEATURE_SHADER_CACHE,
 
         /// <summary>
-        /// Supports a <see cref="D3D11_SHARED_RESOURCE_TIER"/> to indicate the level of support for shared resources in the current graphics driver.
+        /// Supports a <see cref="D3D11_SHARED_RESOURCE_TIER"/> to indicate
+        /// the level of support for shared resources in the current graphics driver.
         /// Refer to <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS5"/>.
         /// </summary>
         D3D11_FEATURE_D3D11_OPTIONS5,
@@ -164,5 +214,10 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// Supports displayable surfaces, described in <see cref="D3D11_FEATURE_DATA_DISPLAYABLE"/>.
         /// </summary>
         D3D11_FEATURE_DISPLAYABLE,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        D3D11_FEATURE_D3D11_OPTIONS6,
     }
 }

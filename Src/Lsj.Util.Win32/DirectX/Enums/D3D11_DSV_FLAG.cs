@@ -11,9 +11,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This enumeration is used by <see cref="D3D11_DEPTH_STENCIL_VIEW_DESC"/>.
-    /// Limiting a depth-stencil buffer to read-only access allows more than one depth-stencil view to be bound to the pipeline simultaneously,
-    /// since it is not possible to have a read/write conflicts between separate views.
+    /// <para>
+    /// This enumeration is used by <see cref="D3D11_DEPTH_STENCIL_VIEW_DESC"/>.
+    /// </para>
+    /// <para>
+    /// Limiting a depth-stencil buffer to read-only access allows more than one depth-stencil view
+    /// to be bound to the pipeline simultaneously, since it is not possible to have a read/write conflicts between separate views.
+    /// </para>
     /// </remarks>
     public enum D3D11_DSV_FLAG
     {

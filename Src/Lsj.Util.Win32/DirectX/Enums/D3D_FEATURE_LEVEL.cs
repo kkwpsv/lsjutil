@@ -9,8 +9,13 @@
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// For an overview of the capabilities of each feature level, see Direct3D feature levels.
-    /// For information about limitations creating non-hardware-type devices on certain feature levels, see Limitations creating WARP and reference devices.
+    /// </para>
+    /// <para>
+    /// For information about limitations creating non-hardware-type devices on certain feature levels,
+    /// see Limitations creating WARP and reference devices.
+    /// </para>
     /// </remarks>
     public enum D3D_FEATURE_LEVEL
     {

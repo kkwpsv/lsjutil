@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
     public enum D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG
     {
         /// <summary>
-        /// You use this flag if your application will only call methods of Direct3D 11 and Direct3D 10 interfaces from a single thread.
-        /// By default, Direct3D 11 and Direct3D 10 are thread-safe.
+        /// <para>
+        /// You use this flag if your application will only call methods of Direct3D 11 and Direct3D 10 interfaces from a single thread.
+        /// By default, Direct3D 11 and Direct3D 10 are thread-safe.
+        /// </para>
+        /// <para>
         /// By using this flag, you can increase performance.
         /// However, if you use this flag and your application calls methods from multiple threads, undefined behavior might result.
+        /// </para>
         /// </summary>
         D3D11_1_CREATE_DEVICE_CONTEXT_STATE_SINGLETHREADED = 0x1,
     }

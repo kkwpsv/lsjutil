@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using static System.Net.WebRequestMethods;
 
 namespace Lsj.Util.Win32.DirectX.BaseTypes
 {
@@ -12,10 +11,45 @@ namespace Lsj.Util.Win32.DirectX.BaseTypes
     /// </para>
     /// </summary>
     /// <remarks>
-    /// A four byte value that typically represents the alpha, red, green, and blue components of a color. It can also represent luminance and brightness.
+    /// <para>
+    /// A four byte value that typically represents the alpha, red, green, and blue components of a color.
+    /// It can also represent luminance and brightness.
+    /// </para>
+    /// <para>
     /// You can set the <see cref="D3DCOLOR"/> type using one of the following macros.
-    /// <see cref="D3DCOLOR_ARGB"/>, <see cref="D3DCOLOR_AYUV"/>, <see cref="D3DCOLOR_COLORVALUE"/>,
-    /// <see cref="D3DCOLOR_RGBA"/>, <see cref="D3DCOLOR_XRGB"/>, <see cref="D3DCOLOR_XYUV"/>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_ARGB"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_AYUV"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_COLORVALUE"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_RGBA"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_XRGB"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DCOLOR_XYUV"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct D3DCOLOR
@@ -95,7 +129,9 @@ namespace Lsj.Util.Win32.DirectX.BaseTypes
         /// Returns the <see cref="D3DCOLOR"/> value that corresponds to the supplied ARGB values.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An RGB color can be reduced to 16 bits per pixel by conversion to luminance and color differences with the following equations:
+        /// </para>
         /// <code>
         /// y (luminance) = 0.299*red + 0.587*green + 0.114*blue
         /// u = blue - luminance
@@ -211,7 +247,9 @@ namespace Lsj.Util.Win32.DirectX.BaseTypes
         /// Returns the <see cref="D3DCOLOR"/> value that corresponds to the supplied (y, u, v) values.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An RGB color can be reduced to 16 bits per pixel by conversion to luminance and color differences with the following equations:
+        /// </para>
         /// <code>
         /// y (luminance) = 0.299*red + 0.587*green + 0.114*blue
         /// u = blue - luminance
