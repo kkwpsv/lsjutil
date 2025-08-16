@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="GradientFill"/> Modes
+    /// <see cref="GradientFill"/> modes
     /// </summary>
     public enum GradientFillModes : uint
     {

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_UILIMIT;
+using static Lsj.Util.Win32.Enums.JobObjectUILimitClasses;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -147,6 +147,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_UILIMIT UIRestrictionsClass;
+        public JobObjectUILimitClasses UIRestrictionsClass;
     }
 }

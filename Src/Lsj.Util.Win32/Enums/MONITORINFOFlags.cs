@@ -3,14 +3,9 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>>
-    /// <see cref="MONITORINFOEX"/> flags.
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-monitorinfo"/>
-    /// </para>
+    /// <see cref="MONITORINFO"/> Flags
     /// </summary>
-    public enum MONITORINFOFlags
+    public enum MonitorInfoFlags
     {
         /// <summary>
         /// This is the primary display monitor.

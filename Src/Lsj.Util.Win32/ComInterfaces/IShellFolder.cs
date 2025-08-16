@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.SFGAOF;
-using static Lsj.Util.Win32.Enums.SHCIDS;
+using static Lsj.Util.Win32.Enums.SFGAO;
+using static Lsj.Util.Win32.Enums.ShellCompareIDsFlags;
 using static Lsj.Util.Win32.Enums.SHGDNF;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.Shell32;
@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="pdwAttributes">
         /// The value used to query for file attributes.
         /// If not used, it should be set to 0.
-        /// To query for one or more attributes, initialize this parameter with the <see cref="SFGAOF"/> flags that represent the attributes of interest.
+        /// To query for one or more attributes, initialize this parameter with the <see cref="SFGAO"/> flags that represent the attributes of interest.
         /// On return, those attributes that are true and were requested will be set.
         /// </param>
         /// <returns>
@@ -144,12 +144,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method is similar to the <see cref="IParseDisplayName.ParseDisplayName"/> method.
         /// </remarks>
         public HRESULT ParseDisplayName([In] HWND hwnd, [In] in IBindCtx pbc, [In] string pszDisplayName, [In][Out] ref ULONG pchEaten,
-            [Out] out IntPtr ppidl, [In][Out] ref SFGAOF pdwAttributes)
+            [Out] out IntPtr ppidl, [In][Out] ref SFGAO pdwAttributes)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pszDisplayNamePtr = pszDisplayName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IBindCtx, char*, ref ULONG, out IntPtr, ref SFGAOF, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IBindCtx, char*, ref ULONG, out IntPtr, ref SFGAO, HRESULT>)_vTable[3])
                     (thisPtr, hwnd, pbc, pszDisplayNamePtr, ref pchEaten, out ppidl, ref pdwAttributes);
             }
         }
@@ -421,7 +421,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Each <see cref="ITEMIDLIST"/> structure must contain exactly one <see cref="SHITEMID"/> structure followed by a terminating zero.
         /// </param>
         /// <param name="rgfInOut">
-        /// Pointer to a single ULONG value that, on entry, contains the bitwise <see cref="SFGAOF"/> attributes that the calling application is requesting.
+        /// Pointer to a single ULONG value that, on entry, contains the bitwise <see cref="SFGAO"/> attributes that the calling application is requesting.
         /// On exit, this value contains the requested attributes that are common to all of the specified items.
         /// </param>
         /// <returns>
@@ -446,11 +446,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="SFGAO_NONENUMERATED"/> attribute indicates an item that is not returned by the enumerator created 
         /// by the <see cref="EnumObjects"/> method.
         /// </remarks>
-        public HRESULT GetAttributesOf([In] UINT cidl, [In] IntPtr apidl, [In][Out] ref SFGAOF rgfInOut)
+        public HRESULT GetAttributesOf([In] UINT cidl, [In] IntPtr apidl, [In][Out] ref SFGAO rgfInOut)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, ref SFGAOF, HRESULT>)_vTable[9])(thisPtr, cidl, apidl, ref rgfInOut);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, ref SFGAO, HRESULT>)_vTable[9])(thisPtr, cidl, apidl, ref rgfInOut);
             }
         }
 

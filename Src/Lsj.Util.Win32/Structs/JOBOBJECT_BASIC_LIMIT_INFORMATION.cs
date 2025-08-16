@@ -2,9 +2,9 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ErrorModes;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -383,7 +383,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_LIMIT LimitFlags;
+        public JobObjectLimitFlags LimitFlags;
 
         /// <summary>
         /// <para>

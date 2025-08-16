@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A set of flags that specify which members of this structure contain data to be set or which members are being requested.
         /// </summary>
-        public BUTTON_SPLITINFOMaskFlags mask;
+        public SplitButtonInfoMaskFlags mask;
 
         /// <summary>
         /// A handle to the image list.

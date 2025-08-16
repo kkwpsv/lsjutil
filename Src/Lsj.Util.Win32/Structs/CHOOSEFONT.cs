@@ -5,8 +5,8 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Enums.CharacterSets;
-using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
-using static Lsj.Util.Win32.Enums.FontTypesWord;
+using static Lsj.Util.Win32.Enums.FontDialogFlags;
+using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
@@ -383,7 +383,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CHOOSEFONTFlags Flags;
+        public FontDialogFlags Flags;
 
         /// <summary>
         /// If the <see cref="CF_EFFECTS"/> flag is set, <see cref="rgbColors"/> specifies the initial text color.
@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public FontTypesWord nFontType;
+        public FontTypes nFontType;
 
         private short __MISSING_ALIGNMENT__;
 

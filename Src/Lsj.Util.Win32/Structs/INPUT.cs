@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
-using static Lsj.Util.Win32.Enums.KeyEventFlags;
+using static Lsj.Util.Win32.Enums.KEYEVENTF;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs

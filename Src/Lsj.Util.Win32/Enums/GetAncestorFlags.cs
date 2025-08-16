@@ -3,27 +3,22 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="GetAncestor"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getancestor"/>
-    /// </para>
+    /// <see cref="GetAncestor"/> flags
     /// </summary>
     public enum GetAncestorFlags : uint
     {
         /// <summary>
-        /// Retrieves the parent window. This does not include the owner, as it does with the <see cref="GetParent"/> function.
+        /// GA_PARENT
         /// </summary>
         GA_PARENT = 1,
 
         /// <summary>
-        /// Retrieves the root window by walking the chain of parent windows.
+        /// GA_ROOT
         /// </summary>
         GA_ROOT = 2,
 
         /// <summary>
-        /// Retrieves the owned root window by walking the chain of parent and owner windows returned by <see cref="GetParent"/>.
+        /// GA_ROOTOWNER
         /// </summary>
         GA_ROOTOWNER = 3,
     }

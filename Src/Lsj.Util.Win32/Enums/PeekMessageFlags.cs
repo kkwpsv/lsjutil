@@ -4,49 +4,43 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="PeekMessage"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-peekmessagew"/>
-    /// </para>
+    /// <see cref="PeekMessage"/> flags
     /// </summary>
     [Flags]
     public enum PeekMessageFlags : uint
     {
         /// <summary>
-        /// Messages are not removed from the queue after processing by <see cref="PeekMessage"/>.
+        /// PM_NOREMOVE
         /// </summary>
         PM_NOREMOVE = 0x0000,
 
         /// <summary>
-        /// Messages are removed from the queue after processing by <see cref="PeekMessage"/>.
+        /// PM_REMOVE
         /// </summary>
         PM_REMOVE = 0x0001,
 
         /// <summary>
-        /// Prevents the system from releasing any thread that is waiting for the caller to go idle (see <see cref="WaitForInputIdle"/>).
-        /// Combine this value with either <see cref="PM_NOREMOVE"/> or <see cref="PM_REMOVE"/>.
+        /// PM_NOYIELD
         /// </summary>
         PM_NOYIELD = 0x0002,
 
         /// <summary>
-        /// Process mouse and keyboard messages.
+        /// PM_QS_INPUT
         /// </summary>
         PM_QS_INPUT = QueueStatus.QS_INPUT << 16,
 
         /// <summary>
-        /// Process paint messages.
+        /// PM_QS_PAINT
         /// </summary>
         PM_QS_PAINT = QueueStatus.QS_PAINT << 16,
 
         /// <summary>
-        /// Process all posted messages, including timers and hotkeys.
+        /// PM_QS_POSTMESSAGE
         /// </summary>
         PM_QS_POSTMESSAGE = (QueueStatus.QS_POSTMESSAGE | QueueStatus.QS_HOTKEY | QueueStatus.QS_TIMER) << 16,
 
         /// <summary>
-        /// Process all sent messages.
+        /// PM_QS_SENDMESSAGE
         /// </summary>
         PM_QS_SENDMESSAGE = QueueStatus.QS_SENDMESSAGE << 16,
     }

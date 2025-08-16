@@ -1,6 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 
 namespace Lsj.Util.Win32.Enums
 {

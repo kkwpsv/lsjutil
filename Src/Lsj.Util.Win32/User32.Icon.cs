@@ -6,14 +6,14 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.DrawingFlags;
+using static Lsj.Util.Win32.Enums.DrawIconFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.SystemColors;
-using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.StandardCursors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIconFromResourceEx([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
-            [In] int cxDesired, [In] int cyDesired, [In] LoadImageFlags Flags);
+            [In] int cxDesired, [In] int cyDesired, [In] LoadResourceFlags Flags);
 
         /// <summary>
         /// <para>
@@ -375,7 +375,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIconEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawIconEx([In] HDC hdc, [In] int xLeft, [In] int yTop, [In] HICON hIcon, [In] int cxWidth, [In] int cyWidth,
-            [In] UINT istepIfAniCur, [In] HBRUSH hbrFlickerFreeDraw, [In] DrawingFlags diFlags);
+            [In] UINT istepIfAniCur, [In] HBRUSH hbrFlickerFreeDraw, [In] DrawIconFlags diFlags);
 
         /// <summary>
         /// <para>
@@ -583,7 +583,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
         public static extern int LookupIconIdFromDirectoryEx([In] IntPtr presbits, [In] BOOL fIcon, [In] int cxDesired,
-            [In] int cyDesired, [In] LoadImageFlags Flags);
+            [In] int cyDesired, [In] LoadResourceFlags Flags);
 
         /// <summary>
         /// <para>
@@ -647,6 +647,6 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is not intended for general use. It may be altered or unavailable in subsequent versions of Windows.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT PrivateExtractIcons([In] LPCWSTR szFileName, [In] int nIconIndex, [In] int cxIcon, [In] int cyIcon,
-            [Out] HICON[] phicon, [Out] out UINT piconid, [In] UINT nIcons, [In] LoadImageFlags flags);
+            [Out] HICON[] phicon, [Out] out UINT piconid, [In] UINT nIcons, [In] LoadResourceFlags flags);
     }
 }

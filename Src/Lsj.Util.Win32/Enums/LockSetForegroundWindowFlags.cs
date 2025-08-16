@@ -3,22 +3,17 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="LockSetForegroundWindow"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-locksetforegroundwindow"/>
-    /// </para>
+    /// <see cref="LockSetForegroundWindow"/> flags
     /// </summary>
     public enum LockSetForegroundWindowFlags : uint
     {
         /// <summary>
-        /// Disables calls to <see cref="SetForegroundWindow"/>.
+        /// LSFW_LOCK
         /// </summary>
         LSFW_LOCK = 1,
 
         /// <summary>
-        /// Enables calls to <see cref="SetForegroundWindow"/>.
+        /// LSFW_UNLOCK
         /// </summary>
         LSFW_UNLOCK = 2,
     }

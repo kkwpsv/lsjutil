@@ -16,16 +16,32 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// If the <see cref="STGFMT"/> value, specified to the <see cref="StgCreateStorageEx"/> or <see cref="StgOpenStorageEx"/> function,
     /// is <see cref="STGFMT_FILE"/>, the riid parameter must be the header-defined value for <see cref="IID_IPropertySetStorage"/>.
     /// It is not possible to get an <see cref="IStorage"/> interface for noncompound files.
     /// Similarly, if the <see cref="STGFMT_ANY"/> flag is specified to <see cref="StgOpenStorageEx"/>,
     /// and the file is not a compound file, the riid parameter must be <see cref="IID_IPropertySetStorage"/>.
+    /// </para>
+    /// <para>
     /// Note
-    /// The <see cref="STGM"/> Constants values <see cref="STGM_CONVERT"/>, <see cref="STGM_DELETEONRELEASE"/>, <see cref="STGM_PRIORITY"/>,
-    /// <see cref="STGM_SIMPLE"/>, and <see cref="STGM_TRANSACTED"/> cannot currently be used in the following situations.
+    /// </para>
+    /// <para>
+    /// The <see cref="STGM"/> Constants values <see cref="STGM_CONVERT"/>, <see cref="STGM_DELETEONRELEASE"/>,
+    /// <see cref="STGM_PRIORITY"/>, <see cref="STGM_SIMPLE"/>, and <see cref="STGM_TRANSACTED"/> cannot currently be used in the following situations.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// In combination with the <see cref="STGFMT_FILE"/> flag.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// In combination with the <see cref="STGFMT_ANY"/> flag if the file is not a compound file.
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum STGFMT : uint
     {

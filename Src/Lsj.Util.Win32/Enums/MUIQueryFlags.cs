@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// MUIFlags
+    /// MUI query flags
     /// </summary>
     public enum MUIQueryFlags : uint
     {

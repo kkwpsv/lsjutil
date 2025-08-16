@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Search Path Modes
+    /// Search path modes
     /// </summary>
     public enum SearchPathModes : uint
     {

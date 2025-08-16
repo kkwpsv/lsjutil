@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="CreateDIBitmap"/> Flags
+    /// <see cref="CreateDIBitmap"/> flags
     /// </summary>
     public enum CreateDIBitmapFlags : uint
     {

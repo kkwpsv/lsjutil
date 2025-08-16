@@ -9,21 +9,21 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
-using static Lsj.Util.Win32.Enums.FamilyFont;
+using static Lsj.Util.Win32.Enums.FontFamilies;
 using static Lsj.Util.Win32.Enums.FontQualities;
-using static Lsj.Util.Win32.Enums.FontResourceFlags;
-using static Lsj.Util.Win32.Enums.FontTypes;
+using static Lsj.Util.Win32.Enums.AddFontResourceExFlags;
+using static Lsj.Util.Win32.Enums.EnumFontTypes;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GetGlyphOutlineFormats;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.OutPrecisions;
-using static Lsj.Util.Win32.Enums.PitchFont;
-using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
+using static Lsj.Util.Win32.Enums.FontPitches;
+using static Lsj.Util.Win32.Enums.TrueTypeFontFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
-using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
+using static Lsj.Util.Win32.Enums.TextMetricPitchAndFamilyFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -78,7 +78,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ENUMLOGFONTEX"/> structure includes the localized name of the script (character set) and
         /// the <see cref="NEWTEXTMETRICEX"/> structure includes a font-coverage signature.
         /// </remarks>
-        public delegate int Fontenumproc([In] IntPtr lpelfe, [In] IntPtr lpntme, [In] FontTypes FontType, [In] IntPtr lParam);
+        public delegate int Fontenumproc([In] IntPtr lpelfe, [In] IntPtr lpntme, [In] EnumFontTypes FontType, [In] IntPtr lParam);
 
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// After restarting the system, the font will no longer be loaded and can be changed.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] FontResourceFlags fl, [In] PVOID res);
+        public static extern int AddFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] AddFontResourceExFlags fl, [In] PVOID res);
 
         /// <summary>
         /// <para>
@@ -875,7 +875,7 @@ namespace Lsj.Util.Win32
         /// The return value, when masked with <see cref="FLI_MASK"/>, can be passed directly to the <see cref="GetCharacterPlacement"/> function.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontLanguageInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern GetCharacterPlacementFlags GetFontLanguageInfo([In] HDC hdc);
+        public static extern DWORD GetFontLanguageInfo([In] HDC hdc);
 
         /// <summary>
         /// <para>

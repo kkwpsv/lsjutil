@@ -9,9 +9,9 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
-using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
-using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
-using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
+using static Lsj.Util.Win32.Enums.ProcessCreationChildProcessPolicies;
+using static Lsj.Util.Win32.Enums.ProcessCreationDesktopAppPolices;
+using static Lsj.Util.Win32.Enums.ProcessCreationMitigationPolicies;
 using static Lsj.Util.Win32.Enums.PROCESS_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
@@ -249,7 +249,7 @@ namespace Lsj.Util.Win32
         /// Handles in <see cref="STARTUPINFO"/> or <see cref="STARTUPINFOEX"/> must be closed with CloseHandle when they are no longer needed.
         /// Important  The caller is responsible for ensuring that the standard handle fields in <see cref="STARTUPINFO"/> contain valid handle values.
         /// These fields are copied unchanged to the child process without validation,
-        /// even when the dwFlags member specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>.
+        /// even when the dwFlags member specifies <see cref="StartupInfoFlags.STARTF_USESTDHANDLES"/>.
         /// Incorrect values can cause the child process to misbehave or crash.
         /// Use the Application Verifier runtime verification tool to detect invalid handles.
         /// </param>

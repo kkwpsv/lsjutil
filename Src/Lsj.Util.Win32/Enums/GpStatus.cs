@@ -8,6 +8,14 @@
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/gdiplustypes/ne-gdiplustypes-status"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// If you construct a GDI+ object and then immediately call the GetLastStatus method of that object,
+    /// you can determine whether the constructor succeeded or failed.
+    /// In such cases, GetLastStatus might return <see cref="OutOfMemory"/>
+    /// even though there was plenty of memory available to create the object.
+    /// Several GDI+ constructors set the status to <see cref="OutOfMemory"/>
+    /// when they fail regardless of the reason for failure.
+    /// </remarks>
     public enum GpStatus
     {
         /// <summary>

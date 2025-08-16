@@ -7,12 +7,12 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ButtonControlMessages;
-using static Lsj.Util.Win32.Enums.ButtonStates;
+using static Lsj.Util.Win32.Enums.ButtonCheckStates;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.ComboBoxStyles;
-using static Lsj.Util.Win32.Enums.DlgDirListFlags;
+using static Lsj.Util.Win32.Enums.DialogDirectoryListFlags;
 using static Lsj.Util.Win32.Enums.EnableScrollBarFlags;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
@@ -20,7 +20,7 @@ using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.ScrollBarCommands;
 using static Lsj.Util.Win32.Enums.ScrollBarConstants;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
-using static Lsj.Util.Win32.Enums.SCROLLINFOFlags;
+using static Lsj.Util.Win32.Enums.ScrollInfoFlags;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CheckDlgButton"/> function sends a <see cref="BM_SETCHECK"/> message to the specified button control in the specified dialog box.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckDlgButton", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckDlgButton([In] HWND hDlg, [In] int nIDButton, [In] ButtonStates uCheck);
+        public static extern BOOL CheckDlgButton([In] HWND hDlg, [In] int nIDButton, [In] ButtonCheckStates uCheck);
 
         /// <summary>
         /// <para>
@@ -182,7 +182,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirList([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDListBox,
-            [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
+            [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
 
         /// <summary>
         /// <para>
@@ -275,7 +275,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirListComboBox([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDComboBox,
-             [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
+             [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
 
         /// <summary>
         /// <para>

@@ -31,10 +31,14 @@ namespace Lsj.Util.Win32.Enums
         POINTER_FLAG_NEW = 0x00000001,
 
         /// <summary>
+        /// <para>
         /// Indicates that this pointer continues to exist.
         /// When this flag is not set, it indicates the pointer has left detection range.
+        /// </para>
+        /// <para>
         /// This flag is typically not set only when a hovering pointer leaves detection range (<see cref="POINTER_FLAG_UPDATE"/> is set)
         /// or when a pointer in contact with a window surface leaves detection range (<see cref="POINTER_FLAG_UP"/> is set).
+        /// </para>
         /// </summary>
         POINTER_FLAG_INRANGE = 0x00000002,
 
@@ -45,55 +49,99 @@ namespace Lsj.Util.Win32.Enums
         POINTER_FLAG_INCONTACT = 0x00000004,
 
         /// <summary>
+        /// <para>
         /// Indicates a primary action, analogous to a left mouse button down.
+        /// </para>
+        /// <para>
         /// A touch pointer has this flag set when it is in contact with the digitizer surface.
+        /// </para>
+        /// <para>
         /// A pen pointer has this flag set when it is in contact with the digitizer surface with no buttons pressed.
+        /// </para>
+        /// <para>
         /// A mouse pointer has this flag set when the left mouse button is down.
+        /// </para>
         /// </summary>
         POINTER_FLAG_FIRSTBUTTON = 0x00000010,
 
         /// <summary>
+        /// <para>
         /// Indicates a secondary action, analogous to a right mouse button down.
+        /// </para>
+        /// <para>
         /// A touch pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A pen pointer has this flag set when it is in contact with the digitizer surface with the pen barrel button pressed.
+        /// </para>
+        /// <para>
         /// A mouse pointer has this flag set when the right mouse button is down.
+        /// </para>
         /// </summary>
         POINTER_FLAG_SECONDBUTTON = 0x00000020,
 
         /// <summary>
+        /// <para>
         /// Analogous to a mouse wheel button down.
+        /// </para>
+        /// <para>
         /// A touch pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A pen pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A mouse pointer has this flag set when the mouse wheel button is down.
+        /// </para>
         /// </summary>
         POINTER_FLAG_THIRDBUTTON = 0x00000040,
 
         /// <summary>
+        /// <para>
         /// Analogous to a first extended mouse (XButton1) button down.
+        /// </para>
+        /// <para>
         /// A touch pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A pen pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A mouse pointer has this flag set when the first extended mouse (XBUTTON1) button is down.
+        /// </para>
         /// </summary>
         POINTER_FLAG_FOURTHBUTTON = 0x00000080,
 
         /// <summary>
+        /// <para>
         /// Analogous to a second extended mouse (XButton2) button down.
+        /// </para>
+        /// <para>
         /// A touch pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A pen pointer does not use this flag.
+        /// </para>
+        /// <para>
         /// A mouse pointer has this flag set when the second extended mouse (XBUTTON2) button is down.
+        /// </para>
         /// </summary>
         POINTER_FLAG_FIFTHBUTTON = 0x00000100,
 
         /// <summary>
+        /// <para>
         /// Indicates that this pointer has been designated as the primary pointer.
         /// A primary pointer is a single pointer that can perform actions beyond those available to non-primary pointers.
         /// For example, when a primary pointer makes contact with a window s surface,
         /// it may provide the window an opportunity to activate by sending it a <see cref="WM_POINTERACTIVATE"/> message.
+        /// </para>
+        /// <para>
         /// The primary pointer is identified from all current user interactions on the system (mouse, touch, pen, and so on).
         /// As such, the primary pointer might not be associated with your app.
         /// The first contact in a multi-touch interaction is set as the primary pointer.
         /// Once a primary pointer is identified, all contacts must be lifted before a new contact can be identified as a primary pointer.
         /// For apps that don't process pointer input, only the primary pointer's events are promoted to mouse events.
+        /// </para>
         /// </summary>
         POINTER_FLAG_PRIMARY = 0x00002000,
 

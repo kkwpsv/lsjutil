@@ -22,7 +22,7 @@ using static Lsj.Util.Win32.Enums.LGRPIDFlags;
 using static Lsj.Util.Win32.Enums.LocaleEnumFlags;
 using static Lsj.Util.Win32.Enums.MUIFlags;
 using static Lsj.Util.Win32.Enums.MUIQueryFlags;
-using static Lsj.Util.Win32.Enums.StringFlags;
+using static Lsj.Util.Win32.Enums.CompareStringFlags;
 using static Lsj.Util.Win32.Enums.SYSGEOTYPE;
 using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -59,6 +55,6 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The device is in laptop mode, and auto-rotation is temporarily disabled as a result.
         /// </summary>
-        AR_LAPTOP = 0x80
+        AR_LAPTOP = 0x80,
     }
 }

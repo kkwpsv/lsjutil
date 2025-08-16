@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// By combining the <see cref="NTSTATUS"/> into a single 32-bit numbering space, the following <see cref="NTSTATUS"/> values are defined.
+    /// By combining the NTSTATUS into a single 32-bit numbering space, the following <see cref="NTSTATUS"/> values are defined.
     /// Most values also have a defined default message that can be used to map the value to a human-readable text message.
     /// When this is done, the <see cref="NTSTATUS"/> value is also known as a message identifier.
+    /// </para>
+    /// <para>
     /// This document provides the common usage details of the <see cref="NTSTATUS"/> values;
     /// individual protocol specifications provide expanded or modified definitions when needed.
-    /// In the following descriptions, a percentage sign that is followed by one or more alphanumeric characters (for example, "%1" or "%hs") indicates
-    /// a variable that is replaced by text at the time the value is returned.
+    /// </para>
+    /// <para>
+    /// In the following descriptions, a percentage sign that is followed by one or more alphanumeric characters
+    /// (for example, "%1" or "%hs") indicates a variable that is replaced by text at the time the value is returned.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55"/>
@@ -96,7 +98,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_MORE_ENTRIES = 0x00000105,
 
         /// <summary>
-        /// Indicates not all privileges or groups that are referenced are assigned to the caller. This allows, for example, all privileges to be disabled without having to know exactly which privileges are assigned.
+        /// Indicates not all privileges or groups that are referenced are assigned to the caller.
+        /// This allows, for example, all privileges to be disabled without having to know exactly which privileges are assigned.
         /// </summary>
         STATUS_NOT_ALL_ASSIGNED = 0x00000106,
 
@@ -116,7 +119,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_VOLUME_MOUNTED = 0x00000109,
 
         /// <summary>
-        /// This success level status indicates that the transaction state already exists for the registry subtree but that a transaction commit was previously aborted. The commit has now been completed.
+        /// This success level status indicates that the transaction state already exists for the registry subtree
+        /// but that a transaction commit was previously aborted.
+        /// The commit has now been completed.
         /// </summary>
         STATUS_RXACT_COMMITTED = 0x0000010A,
 
@@ -126,17 +131,21 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NOTIFY_CLEANUP = 0x0000010B,
 
         /// <summary>
-        /// Indicates that a notify change request is being completed and that the information is not being returned in the caller's buffer. The caller now needs to enumerate the files to find the changes.
+        /// Indicates that a notify change request is being completed and that the information is not being returned in the caller's buffer.
+        /// The caller now needs to enumerate the files to find the changes.
         /// </summary>
         STATUS_NOTIFY_ENUM_DIR = 0x0000010C,
 
         /// <summary>
-        /// {No Quotas} No system quota limits are specifically set for this account.
+        /// {No Quotas}
+        /// No system quota limits are specifically set for this account.
         /// </summary>
         STATUS_NO_QUOTAS_FOR_ACCOUNT = 0x0000010D,
 
         /// <summary>
-        /// {Connect Failure on Primary Transport} An attempt was made to connect to the remote server %hs on the primary transport, but the connection failed. The computer WAS able to connect on a secondary transport.
+        /// {Connect Failure on Primary Transport}
+        /// An attempt was made to connect to the remote server %hs on the primary transport, but the connection failed.
+        /// The computer WAS able to connect on a secondary transport.
         /// </summary>
         STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED = 0x0000010E,
 
@@ -216,7 +225,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PROCESS_IN_JOB = 0x00000124,
 
         /// <summary>
-        /// {Volume Shadow Copy Service} The system is now ready for hibernation.
+        /// {Volume Shadow Copy Service}
+        /// The system is now ready for hibernation.
         /// </summary>
         STATUS_VOLSNAP_HIBERNATE_READY = 0x00000125,
 
@@ -286,28 +296,36 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SHARE_UNAVAILABLE = 0xC0000480,
 
         /// <summary>
+        /// <para>
         /// A threadpool worker thread entered a callback at thread affinity %p and exited at affinity %p.
+        /// </para>
+        /// <para>
         /// This is unexpected, indicating that the callback missed restoring the priority.
+        /// </para>
         /// </summary>
         STATUS_CALLBACK_RETURNED_THREAD_AFFINITY = 0xC0000721,
 
         /// <summary>
-        /// {Object Exists} An attempt was made to create an object but the object name already exists.
+        /// {Object Exists}
+        /// An attempt was made to create an object but the object name already exists.
         /// </summary>
         STATUS_OBJECT_NAME_EXISTS = 0x40000000,
 
         /// <summary>
-        /// {Thread Suspended} A thread termination occurred while the thread was suspended. The thread resumed, and termination proceeded.
+        /// {Thread Suspended}
+        /// A thread termination occurred while the thread was suspended. The thread resumed, and termination proceeded.
         /// </summary>
         STATUS_THREAD_WAS_SUSPENDED = 0x40000001,
 
         /// <summary>
-        /// {Working Set Range Error} An attempt was made to set the working set minimum or maximum to values that are outside the allowable range.
+        /// {Working Set Range Error}
+        /// An attempt was made to set the working set minimum or maximum to values that are outside the allowable range.
         /// </summary>
         STATUS_WORKING_SET_LIMIT_RANGE = 0x40000002,
 
         /// <summary>
-        /// {Image Relocated} An image file could not be mapped at the address that is specified in the image file. Local fixes must be performed on this image.
+        /// {Image Relocated}
+        /// An image file could not be mapped at the address that is specified in the image file. Local fixes must be performed on this image.
         /// </summary>
         STATUS_IMAGE_NOT_AT_BASE = 0x40000003,
 
@@ -317,77 +335,106 @@ namespace Lsj.Util.Win32.Enums
         STATUS_RXACT_STATE_CREATED = 0x40000004,
 
         /// <summary>
-        /// {Segment Load} A virtual DOS machine (VDM) is loading, unloading, or moving an MS-DOS or Win16 program segment image. An exception is raised so that a debugger can load, unload, or track symbols and breakpoints within these 16-bit segments.
+        /// {Segment Load}
+        /// A virtual DOS machine (VDM) is loading, unloading, or moving an MS-DOS or Win16 program segment image.
+        /// An exception is raised so that a debugger can load, unload, or track symbols and breakpoints within these 16-bit segments.
         /// </summary>
         STATUS_SEGMENT_NOTIFICATION = 0x40000005,
 
         /// <summary>
-        /// {Local Session Key} A user session key was requested for a local remote procedure call (RPC) connection. The session key that is returned is a constant value and not unique to this connection.
+        /// {Local Session Key}
+        /// A user session key was requested for a local remote procedure call (RPC) connection.
+        /// The session key that is returned is a constant value and not unique to this connection.
         /// </summary>
         STATUS_LOCAL_USER_SESSION_KEY = 0x40000006,
 
         /// <summary>
-        /// {Invalid Current Directory} The process cannot switch to the startup current directory %hs. Select OK to set the current directory to %hs, or select CANCEL to exit.
+        /// {Invalid Current Directory}
+        /// The process cannot switch to the startup current directory %hs.
+        /// Select OK to set the current directory to %hs, or select CANCEL to exit.
         /// </summary>
         STATUS_BAD_CURRENT_DIRECTORY = 0x40000007,
 
         /// <summary>
-        /// {Serial IOCTL Complete} A serial I/O operation was completed by another write to a serial port. (The IOCTL_SERIAL_XOFF_COUNTER reached zero.)
+        /// {Serial IOCTL Complete}
+        /// A serial I/O operation was completed by another write to a serial port.
+        /// (The IOCTL_SERIAL_XOFF_COUNTER reached zero.)
         /// </summary>
         STATUS_SERIAL_MORE_WRITES = 0x40000008,
 
         /// <summary>
-        /// {Registry Recovery} One of the files that contains the system registry data had to be recovered by using a log or alternate copy. The recovery was successful.
+        /// {Registry Recovery}
+        /// One of the files that contains the system registry data had to be recovered by using a log or alternate copy.
+        /// The recovery was successful.
         /// </summary>
         STATUS_REGISTRY_RECOVERED = 0x40000009,
 
         /// <summary>
-        /// {Redundant Read} To satisfy a read request, the Windows NT operating system fault-tolerant file system successfully read the requested data from a redundant copy. This was done because the file system encountered a failure on a member of the fault-tolerant volume but was unable to reassign the failing area of the device.
+        /// {Redundant Read}
+        /// To satisfy a read request, the Windows NT operating system fault-tolerant file system successfully read the requested data from a redundant copy.
+        /// This was done because the file system encountered a failure on a member of the fault-tolerant volume
+        /// but was unable to reassign the failing area of the device.
         /// </summary>
         STATUS_FT_READ_RECOVERY_FROM_BACKUP = 0x4000000A,
 
         /// <summary>
-        /// {Redundant Write} To satisfy a write request, the Windows NT fault-tolerant file system successfully wrote a redundant copy of the information. This was done because the file system encountered a failure on a member of the fault-tolerant volume but was unable to reassign the failing area of the device.
+        /// {Redundant Write}
+        /// To satisfy a write request, the Windows NT fault-tolerant file system successfully wrote a redundant copy of the information.
+        /// This was done because the file system encountered a failure on a member of the fault-tolerant volume
+        /// but was unable to reassign the failing area of the device.
         /// </summary>
         STATUS_FT_WRITE_RECOVERY = 0x4000000B,
 
         /// <summary>
-        /// {Serial IOCTL Timeout} A serial I/O operation completed because the time-out period expired. (The IOCTL_SERIAL_XOFF_COUNTER had not reached zero.)
+        /// {Serial IOCTL Timeout}
+        /// A serial I/O operation completed because the time-out period expired.
+        /// (The IOCTL_SERIAL_XOFF_COUNTER had not reached zero.)
         /// </summary>
         STATUS_SERIAL_COUNTER_TIMEOUT = 0x4000000C,
 
         /// <summary>
-        /// {Password Too Complex} The Windows password is too complex to be converted to a LAN Manager password. The LAN Manager password that returned is a NULL string.
+        /// {Password Too Complex}
+        /// The Windows password is too complex to be converted to a LAN Manager password.
+        /// The LAN Manager password that returned is a NULL string.
         /// </summary>
         STATUS_NULL_LM_PASSWORD = 0x4000000D,
 
         /// <summary>
-        /// {Machine Type Mismatch} The image file %hs is valid but is for a machine type other than the current machine. Select OK to continue, or CANCEL to fail the DLL load.
+        /// {Machine Type Mismatch}
+        /// The image file %hs is valid but is for a machine type other than the current machine.
+        /// Select OK to continue, or CANCEL to fail the DLL load.
         /// </summary>
         STATUS_IMAGE_MACHINE_TYPE_MISMATCH = 0x4000000E,
 
         /// <summary>
-        /// {Partial Data Received} The network transport returned partial data to its client. The remaining data will be sent later.
+        /// {Partial Data Received}
+        /// The network transport returned partial data to its client.
+        /// The remaining data will be sent later.
         /// </summary>
         STATUS_RECEIVE_PARTIAL = 0x4000000F,
 
         /// <summary>
-        /// {Expedited Data Received} The network transport returned data to its client that was marked as expedited by the remote system.
+        /// {Expedited Data Received}
+        /// The network transport returned data to its client that was marked as expedited by the remote system.
         /// </summary>
         STATUS_RECEIVE_EXPEDITED = 0x40000010,
 
         /// <summary>
-        /// {Partial Expedited Data Received} The network transport returned partial data to its client and this data was marked as expedited by the remote system. The remaining data will be sent later.
+        /// {Partial Expedited Data Received}
+        /// The network transport returned partial data to its client and this data was marked as expedited by the remote system.
+        /// The remaining data will be sent later.
         /// </summary>
         STATUS_RECEIVE_PARTIAL_EXPEDITED = 0x40000011,
 
         /// <summary>
-        /// {TDI Event Done} The TDI indication has completed successfully.
+        /// {TDI Event Done}
+        /// The TDI indication has completed successfully.
         /// </summary>
         STATUS_EVENT_DONE = 0x40000012,
 
         /// <summary>
-        /// {TDI Event Pending} The TDI indication has entered the pending state.
+        /// {TDI Event Pending}
+        /// The TDI indication has entered the pending state.
         /// </summary>
         STATUS_EVENT_PENDING = 0x40000013,
 
@@ -397,7 +444,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CHECKING_FILE_SYSTEM = 0x40000014,
 
         /// <summary>
-        /// {Fatal Application Exit} %hs
+        /// {Fatal Application Exit}
+        /// %hs
         /// </summary>
         STATUS_FATAL_APP_EXIT = 0x40000015,
 
@@ -407,7 +455,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PREDEFINED_HANDLE = 0x40000016,
 
         /// <summary>
-        /// {Page Unlocked} The page protection of a locked page was changed to 'No Access' and the page was unlocked from memory and from the process.
+        /// {Page Unlocked}
+        /// The page protection of a locked page was changed to 'No Access' and the page was unlocked from memory and from the process.
         /// </summary>
         STATUS_WAS_UNLOCKED = 0x40000017,
 
@@ -417,7 +466,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SERVICE_NOTIFICATION = 0x40000018,
 
         /// <summary>
-        /// {Page Locked} One of the pages to lock was already locked.
+        /// {Page Locked}
+        /// One of the pages to lock was already locked.
         /// </summary>
         STATUS_WAS_LOCKED = 0x40000019,
 
@@ -467,7 +517,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_WX86_EXCEPTION_CHAIN = 0x40000022,
 
         /// <summary>
-        /// {Machine Type Mismatch} The image file %hs is valid but is for a machine type other than the current machine.
+        /// {Machine Type Mismatch}
+        /// The image file %hs is valid but is for a machine type other than the current machine.
         /// </summary>
         STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE = 0x40000023,
 
@@ -497,7 +548,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_WX86_CREATEWX86TIB = 0x40000028,
 
         /// <summary>
-        /// The CPUs in this multiprocessor system are not all the same revision level. To use all processors, the operating system restricts itself to the features of the least capable processor in the system. If problems occur with this system, contact the CPU manufacturer to see if this mix of processors is supported.
+        /// The CPUs in this multiprocessor system are not all the same revision level.
+        /// To use all processors, the operating system restricts itself to the features of the least capable processor in the system.
+        /// If problems occur with this system, contact the CPU manufacturer to see if this mix of processors is supported.
         /// </summary>
         STATUS_MP_PROCESSOR_MISMATCH = 0x40000029,
 
@@ -517,7 +570,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FIRMWARE_UPDATED = 0x4000002C,
 
         /// <summary>
-        /// A device driver is leaking locked I/O pages and is causing system degradation. The system has automatically enabled the tracking code to try and catch the culprit.
+        /// A device driver is leaking locked I/O pages and is causing system degradation.
+        /// The system has automatically enabled the tracking code to try and catch the culprit.
         /// </summary>
         STATUS_DRIVERS_LEAKING_LOCKED_PAGES = 0x4000002D,
 
@@ -532,7 +586,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SYSTEM_POWERSTATE_TRANSITION = 0x4000002F,
 
         /// <summary>
-        /// The receive operation was successful. Check the ALPC completion list for the received message.
+        /// The receive operation was successful.
+        /// Check the ALPC completion list for the received message.
         /// </summary>
         STATUS_ALPC_CHECK_COMPLETION_LIST = 0x40000030,
 
@@ -652,13 +707,21 @@ namespace Lsj.Util.Win32.Enums
         STATUS_LOG_NO_RESTART = 0x401A000C,
 
         /// <summary>
-        /// {Display Driver Recovered From Failure} The %hs display driver has detected a failure and recovered from it. Some graphical operations might have failed. The next time you restart the machine, a dialog box appears, giving you an opportunity to upload data about this failure to Microsoft.
+        /// {Display Driver Recovered From Failure}
+        /// The %hs display driver has detected a failure and recovered from it.
+        /// Some graphical operations might have failed.
+        /// The next time you restart the machine, a dialog box appears, giving you an opportunity to upload data about this failure to Microsoft.
         /// </summary>
         STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST = 0x401B00EC,
 
         /// <summary>
-        /// The specified buffer is not big enough to contain the entire requested dataset. Partial data is populated up to the size of the buffer.
+        /// <para>
+        /// The specified buffer is not big enough to contain the entire requested dataset.
+        /// Partial data is populated up to the size of the buffer.
+        /// </para>
+        /// <para>
         /// The caller needs to provide a buffer of the size as specified in the partially populated buffer's content (interface specific).
+        /// </para>
         /// </summary>
         STATUS_GRAPHICS_PARTIAL_DATA_POPULATED = 0x401E000A,
 
@@ -718,52 +781,64 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NDIS_INDICATION_REQUIRED = 0x40230001,
 
         /// <summary>
-        /// {EXCEPTION} Guard Page Exception A page of memory that marks the end of a data structure, such as a stack or an array, has been accessed.
+        /// {EXCEPTION}
+        /// Guard Page Exception A page of memory that marks the end of a data structure, such as a stack or an array, has been accessed.
         /// </summary>
         STATUS_GUARD_PAGE_VIOLATION = 0x80000001,
 
         /// <summary>
-        /// {EXCEPTION} Alignment Fault A data type misalignment was detected in a load or store instruction.
+        /// {EXCEPTION}
+        /// Alignment Fault A data type misalignment was detected in a load or store instruction.
         /// </summary>
         STATUS_DATATYPE_MISALIGNMENT = 0x80000002,
 
         /// <summary>
-        /// {EXCEPTION} Breakpoint A breakpoint has been reached.
+        /// {EXCEPTION}
+        /// Breakpoint A breakpoint has been reached.
         /// </summary>
         STATUS_BREAKPOINT = 0x80000003,
 
         /// <summary>
-        /// {EXCEPTION} Single Step A single step or trace operation has just been completed.
+        /// {EXCEPTION}
+        /// Single Step A single step or trace operation has just been completed.
         /// </summary>
         STATUS_SINGLE_STEP = 0x80000004,
 
         /// <summary>
-        /// {Buffer Overflow} The data was too large to fit into the specified buffer.
+        /// {Buffer Overflow}
+        /// The data was too large to fit into the specified buffer.
         /// </summary>
         STATUS_BUFFER_OVERFLOW = 0x80000005,
 
         /// <summary>
-        /// {No More Files} No more files were found which match the file specification.
+        /// {No More Files}
+        /// No more files were found which match the file specification.
         /// </summary>
         STATUS_NO_MORE_FILES = 0x80000006,
 
         /// <summary>
-        /// {Kernel Debugger Awakened} The system debugger was awakened by an interrupt.
+        /// {Kernel Debugger Awakened}
+        /// The system debugger was awakened by an interrupt.
         /// </summary>
         STATUS_WAKE_SYSTEM_DEBUGGER = 0x80000007,
 
         /// <summary>
-        /// {Handles Closed} Handles to objects have been automatically closed because of the requested operation.
+        /// {Handles Closed}
+        /// Handles to objects have been automatically closed because of the requested operation.
         /// </summary>
         STATUS_HANDLES_CLOSED = 0x8000000A,
 
         /// <summary>
-        /// {Non-Inheritable ACL} An access control list (ACL) contains no components that can be inherited.
+        /// {Non-Inheritable ACL}
+        /// An access control list (ACL) contains no components that can be inherited.
         /// </summary>
         STATUS_NO_INHERITANCE = 0x8000000B,
 
         /// <summary>
-        /// {GUID Substitution} During the translation of a globally unique identifier (GUID) to a Windows security ID (SID), no administratively defined GUID prefix was found. A substitute prefix was used, which will not compromise system security. However, this might provide a more restrictive access than intended.
+        /// {GUID Substitution}
+        /// During the translation of a globally unique identifier (GUID) to a Windows security ID (SID), no administratively defined GUID prefix was found.
+        /// A substitute prefix was used, which will not compromise system security.
+        /// However, this might provide a more restrictive access than intended.
         /// </summary>
         STATUS_GUID_SUBSTITUTION_MADE = 0x8000000C,
 
@@ -773,82 +848,100 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PARTIAL_COPY = 0x8000000D,
 
         /// <summary>
-        /// {Out of Paper} The printer is out of paper.
+        /// {Out of Paper}
+        /// The printer is out of paper.
         /// </summary>
         STATUS_DEVICE_PAPER_EMPTY = 0x8000000E,
 
         /// <summary>
-        /// {Device Power Is Off} The printer power has been turned off.
+        /// {Device Power Is Off}
+        /// The printer power has been turned off.
         /// </summary>
         STATUS_DEVICE_POWERED_OFF = 0x8000000F,
 
         /// <summary>
-        /// {Device Offline} The printer has been taken offline.
+        /// {Device Offline}
+        /// The printer has been taken offline.
         /// </summary>
         STATUS_DEVICE_OFF_LINE = 0x80000010,
 
         /// <summary>
-        /// {Device Busy} The device is currently busy.
+        /// {Device Busy}
+        /// The device is currently busy.
         /// </summary>
         STATUS_DEVICE_BUSY = 0x80000011,
 
         /// <summary>
-        /// {No More EAs} No more extended attributes (EAs) were found for the file.
+        /// {No More EAs}
+        /// No more extended attributes (EAs) were found for the file.
         /// </summary>
         STATUS_NO_MORE_EAS = 0x80000012,
 
         /// <summary>
-        /// {Illegal EA} The specified extended attribute (EA) name contains at least one illegal character.
+        /// {Illegal EA}
+        /// The specified extended attribute (EA) name contains at least one illegal character.
         /// </summary>
         STATUS_INVALID_EA_NAME = 0x80000013,
 
         /// <summary>
-        /// {Inconsistent EA List} The extended attribute (EA) list is inconsistent.
+        /// {Inconsistent EA List}
+        /// The extended attribute (EA) list is inconsistent.
         /// </summary>
         STATUS_EA_LIST_INCONSISTENT = 0x80000014,
 
         /// <summary>
-        /// {Invalid EA Flag} An invalid extended attribute (EA) flag was set.
+        /// {Invalid EA Flag}
+        /// An invalid extended attribute (EA) flag was set.
         /// </summary>
         STATUS_INVALID_EA_FLAG = 0x80000015,
 
         /// <summary>
-        /// {Verifying Disk} The media has changed and a verify operation is in progress; therefore, no reads or writes can be performed to the device, except those that are used in the verify operation.
+        /// {Verifying Disk}
+        /// The media has changed and a verify operation is in progress; therefore, no reads or writes can be performed to the device,
+        /// except those that are used in the verify operation.
         /// </summary>
         STATUS_VERIFY_REQUIRED = 0x80000016,
 
         /// <summary>
-        /// {Too Much Information} The specified access control list (ACL) contained more information than was expected.
+        /// {Too Much Information}
+        /// The specified access control list (ACL) contained more information than was expected.
         /// </summary>
         STATUS_EXTRANEOUS_INFORMATION = 0x80000017,
 
         /// <summary>
-        /// This warning level status indicates that the transaction state already exists for the registry subtree, but that a transaction commit was previously aborted. The commit has NOT been completed but has not been rolled back either; therefore, it can still be committed, if needed.
+        /// This warning level status indicates that the transaction state already exists for the registry subtree,
+        /// but that a transaction commit was previously aborted.
+        /// The commit has NOT been completed but has not been rolled back either; therefore, it can still be committed, if needed.
         /// </summary>
         STATUS_RXACT_COMMIT_NECESSARY = 0x80000018,
 
         /// <summary>
-        /// {No More Entries} No more entries are available from an enumeration operation.
+        /// {No More Entries}
+        /// No more entries are available from an enumeration operation.
         /// </summary>
         STATUS_NO_MORE_ENTRIES = 0x8000001A,
 
         /// <summary>
-        /// {Filemark Found} A filemark was detected.
+        /// {Filemark Found}
+        /// A filemark was detected.
         /// </summary>
         STATUS_FILEMARK_DETECTED = 0x8000001B,
 
         /// <summary>
-        /// {Media Changed} The media has changed.
+        /// {Media Changed}
+        /// The media has changed.
         /// </summary>
         STATUS_MEDIA_CHANGED = 0x8000001C,
 
         /// <summary>
-        /// {I/O Bus Reset} An I/O bus reset was detected.
+        /// {I/O Bus Reset}
+        /// An I/O bus reset was detected.
         /// </summary>
         STATUS_BUS_RESET = 0x8000001D,
 
         /// <summary>
-        /// {End of Media} The end of the media was encountered.
+        /// {End of Media}
+        /// The end of the media was encountered.
         /// </summary>
         STATUS_END_OF_MEDIA = 0x8000001E,
 
@@ -858,7 +951,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_BEGINNING_OF_MEDIA = 0x8000001F,
 
         /// <summary>
-        /// {Media Changed} The media might have changed.
+        /// {Media Changed}
+        /// The media might have changed.
         /// </summary>
         STATUS_MEDIA_CHECK = 0x80000020,
 
@@ -908,17 +1002,21 @@ namespace Lsj.Util.Win32.Enums
         STATUS_UNWIND_CONSOLIDATE = 0x80000029,
 
         /// <summary>
-        /// {Registry Hive Recovered} The registry hive (file): %hs was corrupted and it has been recovered. Some data might have been lost.
+        /// {Registry Hive Recovered}
+        /// The registry hive (file): %hs was corrupted and it has been recovered. Some data might have been lost.
         /// </summary>
         STATUS_REGISTRY_HIVE_RECOVERED = 0x8000002A,
 
         /// <summary>
-        /// The application is attempting to run executable code from the module %hs. This might be insecure. An alternative, %hs, is available. Should the application use the secure module %hs?
+        /// The application is attempting to run executable code from the module %hs. This might be insecure.
+        /// An alternative, %hs, is available. Should the application use the secure module %hs?
         /// </summary>
         STATUS_DLL_MIGHT_BE_INSECURE = 0x8000002B,
 
         /// <summary>
-        /// The application is loading executable code from the module %hs. This is secure but might be incompatible with previous releases of the operating system. An alternative, %hs, is available. Should the application use the secure module %hs?
+        /// The application is loading executable code from the module %hs.
+        /// This is secure but might be incompatible with previous releases of the operating system.
+        /// An alternative, %hs, is available. Should the application use the secure module %hs?
         /// </summary>
         STATUS_DLL_MIGHT_BE_INCOMPATIBLE = 0x8000002C,
 
@@ -938,7 +1036,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DEVICE_DOOR_OPEN = 0x80000289,
 
         /// <summary>
-        /// Windows discovered a corruption in the file %hs. This file has now been repaired. Check if any data in the file was lost because of the corruption.
+        /// Windows discovered a corruption in the file %hs. This file has now been repaired.
+        /// Check if any data in the file was lost because of the corruption.
         /// </summary>
         STATUS_DATA_LOST_REPAIR = 0x80000803,
 
@@ -998,12 +1097,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET = 0x80190042,
 
         /// <summary>
-        /// {Display Driver Stopped Responding and recovered} The %hs display driver has stopped working normally. The recovery had been performed.
+        /// {Display Driver Stopped Responding and recovered}
+        /// The %hs display driver has stopped working normally. The recovery had been performed.
         /// </summary>
         STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED = 0x801B00EB,
 
         /// <summary>
-        /// {Buffer too small} The buffer is too small to contain the entry. No information has been written to the buffer.
+        /// {Buffer too small}
+        /// The buffer is too small to contain the entry. No information has been written to the buffer.
         /// </summary>
         STATUS_FLT_BUFFER_TOO_SMALL = 0x801C0001,
 
@@ -1018,17 +1119,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FVE_TRANSIENT_STATE = 0x80210002,
 
         /// <summary>
-        /// {Operation Failed} The requested operation was unsuccessful.
+        /// {Operation Failed}
+        /// The requested operation was unsuccessful.
         /// </summary>
         STATUS_UNSUCCESSFUL = 0xC0000001,
 
         /// <summary>
-        /// {Not Implemented} The requested operation is not implemented.
+        /// {Not Implemented}
+        /// The requested operation is not implemented.
         /// </summary>
         STATUS_NOT_IMPLEMENTED = 0xC0000002,
 
         /// <summary>
-        /// {Invalid Parameter} The specified information class is not a valid information class for the specified object.
+        /// {Invalid Parameter}
+        /// The specified information class is not a valid information class for the specified object.
         /// </summary>
         STATUS_INVALID_INFO_CLASS = 0xC0000003,
 
@@ -1043,7 +1147,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_ACCESS_VIOLATION = 0xC0000005,
 
         /// <summary>
-        /// The instruction at 0x%08lx referenced memory at 0x%08lx. The required data was not placed into memory because of an I/O error status of 0x%08lx.
+        /// The instruction at 0x%08lx referenced memory at 0x%08lx.
+        /// The required data was not placed into memory because of an I/O error status of 0x%08lx.
         /// </summary>
         STATUS_IN_PAGE_ERROR = 0xC0000006,
 
@@ -1073,7 +1178,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_CID = 0xC000000B,
 
         /// <summary>
-        /// An attempt was made to cancel or set a timer that has an associated APC and the specified thread is not the thread that originally set the timer with an associated APC routine.
+        /// An attempt was made to cancel or set a timer that has an associated APC
+        /// and the specified thread is not the thread that originally set the timer with an associated APC routine.
         /// </summary>
         STATUS_TIMER_NOT_CANCELED = 0xC000000C,
 
@@ -1088,7 +1194,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NO_SUCH_DEVICE = 0xC000000E,
 
         /// <summary>
-        /// {File Not Found} The file %hs does not exist.
+        /// {File Not Found}
+        /// The file %hs does not exist.
         /// </summary>
         STATUS_NO_SUCH_FILE = 0xC000000F,
 
@@ -1098,42 +1205,50 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_DEVICE_REQUEST = 0xC0000010,
 
         /// <summary>
-        /// The end-of-file marker has been reached. There is no valid data in the file beyond this marker.
+        /// The end-of-file marker has been reached.
+        /// There is no valid data in the file beyond this marker.
         /// </summary>
         STATUS_END_OF_FILE = 0xC0000011,
 
         /// <summary>
-        /// {Wrong Volume} The wrong volume is in the drive. Insert volume %hs into drive %hs.
+        /// {Wrong Volume}
+        /// The wrong volume is in the drive. Insert volume %hs into drive %hs.
         /// </summary>
         STATUS_WRONG_VOLUME = 0xC0000012,
 
         /// <summary>
-        /// {No Disk} There is no disk in the drive. Insert a disk into drive %hs.
+        /// {No Disk}
+        /// There is no disk in the drive. Insert a disk into drive %hs.
         /// </summary>
         STATUS_NO_MEDIA_IN_DEVICE = 0xC0000013,
 
         /// <summary>
-        /// {Unknown Disk Format} The disk in drive %hs is not formatted properly. Check the disk, and reformat it, if needed.
+        /// {Unknown Disk Format}
+        /// The disk in drive %hs is not formatted properly. Check the disk, and reformat it, if needed.
         /// </summary>
         STATUS_UNRECOGNIZED_MEDIA = 0xC0000014,
 
         /// <summary>
-        /// {Sector Not Found} The specified sector does not exist.
+        /// {Sector Not Found}
+        /// The specified sector does not exist.
         /// </summary>
         STATUS_NONEXISTENT_SECTOR = 0xC0000015,
 
         /// <summary>
-        /// {Still Busy} The specified I/O request packet (IRP) cannot be disposed of because the I/O operation is not complete.
+        /// {Still Busy}
+        /// The specified I/O request packet (IRP) cannot be disposed of because the I/O operation is not complete.
         /// </summary>
         STATUS_MORE_PROCESSING_REQUIRED = 0xC0000016,
 
         /// <summary>
-        /// {Not Enough Quota} Not enough virtual memory or paging file quota is available to complete the specified operation.
+        /// {Not Enough Quota}
+        /// Not enough virtual memory or paging file quota is available to complete the specified operation.
         /// </summary>
         STATUS_NO_MEMORY = 0xC0000017,
 
         /// <summary>
-        /// {Conflicting Address Range} The specified address range conflicts with the address space.
+        /// {Conflicting Address Range}
+        /// The specified address range conflicts with the address space.
         /// </summary>
         STATUS_CONFLICTING_ADDRESSES = 0xC0000018,
 
@@ -1158,47 +1273,56 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_SYSTEM_SERVICE = 0xC000001C,
 
         /// <summary>
-        /// {EXCEPTION} Illegal Instruction An attempt was made to execute an illegal instruction.
+        /// {EXCEPTION}
+        /// Illegal Instruction An attempt was made to execute an illegal instruction.
         /// </summary>
         STATUS_ILLEGAL_INSTRUCTION = 0xC000001D,
 
         /// <summary>
-        /// {Invalid Lock Sequence} An attempt was made to execute an invalid lock sequence.
+        /// {Invalid Lock Sequence}
+        /// An attempt was made to execute an invalid lock sequence.
         /// </summary>
         STATUS_INVALID_LOCK_SEQUENCE = 0xC000001E,
 
         /// <summary>
-        /// {Invalid Mapping} An attempt was made to create a view for a section that is bigger than the section.
+        /// {Invalid Mapping}
+        /// An attempt was made to create a view for a section that is bigger than the section.
         /// </summary>
         STATUS_INVALID_VIEW_SIZE = 0xC000001F,
 
         /// <summary>
-        /// {Bad File} The attributes of the specified mapping file for a section of memory cannot be read.
+        /// {Bad File}
+        /// The attributes of the specified mapping file for a section of memory cannot be read.
         /// </summary>
         STATUS_INVALID_FILE_FOR_SECTION = 0xC0000020,
 
         /// <summary>
-        /// {Already Committed} The specified address range is already committed.
+        /// {Already Committed}
+        /// The specified address range is already committed.
         /// </summary>
         STATUS_ALREADY_COMMITTED = 0xC0000021,
 
         /// <summary>
-        /// {Access Denied} A process has requested access to an object but has not been granted those access rights.
+        /// {Access Denied}
+        /// A process has requested access to an object but has not been granted those access rights.
         /// </summary>
         STATUS_ACCESS_DENIED = 0xC0000022,
 
         /// <summary>
-        /// {Buffer Too Small} The buffer is too small to contain the entry. No information has been written to the buffer.
+        /// {Buffer Too Small}
+        /// The buffer is too small to contain the entry. No information has been written to the buffer.
         /// </summary>
         STATUS_BUFFER_TOO_SMALL = 0xC0000023,
 
         /// <summary>
-        /// {Wrong Type} There is a mismatch between the type of object that is required by the requested operation and the type of object that is specified in the request.
+        /// {Wrong Type}
+        /// There is a mismatch between the type of object that is required by the requested operation and the type of object that is specified in the request.
         /// </summary>
         STATUS_OBJECT_TYPE_MISMATCH = 0xC0000024,
 
         /// <summary>
-        /// {EXCEPTION} Cannot Continue Windows cannot continue from this exception.
+        /// {EXCEPTION}
+        /// Cannot Continue Windows cannot continue from this exception.
         /// </summary>
         STATUS_NONCONTINUABLE_EXCEPTION = 0xC0000025,
 
@@ -1263,7 +1387,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_QUOTA_LOWER = 0xC0000031,
 
         /// <summary>
-        /// {Corrupt Disk} The file system structure on the disk is corrupt and unusable. Run the Chkdsk utility on the volume %hs.
+        /// {Corrupt Disk}
+        /// The file system structure on the disk is corrupt and unusable. Run the Chkdsk utility on the volume %hs.
         /// </summary>
         STATUS_DISK_CORRUPT_ERROR = 0xC0000032,
 
@@ -1298,7 +1423,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_OBJECT_PATH_INVALID = 0xC0000039,
 
         /// <summary>
-        /// {Path Not Found} The path %hs does not exist.
+        /// {Path Not Found}
+        /// The path %hs does not exist.
         /// </summary>
         STATUS_OBJECT_PATH_NOT_FOUND = 0xC000003A,
 
@@ -1308,27 +1434,32 @@ namespace Lsj.Util.Win32.Enums
         STATUS_OBJECT_PATH_SYNTAX_BAD = 0xC000003B,
 
         /// <summary>
-        /// {Data Overrun} A data overrun error occurred.
+        /// {Data Overrun}
+        /// A data overrun error occurred.
         /// </summary>
         STATUS_DATA_OVERRUN = 0xC000003C,
 
         /// <summary>
-        /// {Data Late} A data late error occurred.
+        /// {Data Late}
+        /// A data late error occurred.
         /// </summary>
         STATUS_DATA_LATE_ERROR = 0xC000003D,
 
         /// <summary>
-        /// {Data Error} An error occurred in reading or writing data.
+        /// {Data Error}
+        /// An error occurred in reading or writing data.
         /// </summary>
         STATUS_DATA_ERROR = 0xC000003E,
 
         /// <summary>
-        /// {Bad CRC} A cyclic redundancy check (CRC) checksum error occurred.
+        /// {Bad CRC}
+        /// A cyclic redundancy check (CRC) checksum error occurred.
         /// </summary>
         STATUS_CRC_ERROR = 0xC000003F,
 
         /// <summary>
-        /// {Section Too Large} The specified section is too big to map the file.
+        /// {Section Too Large}
+        /// The specified section is too big to map the file.
         /// </summary>
         STATUS_SECTION_TOO_BIG = 0xC0000040,
 
@@ -1368,7 +1499,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SEMAPHORE_LIMIT_EXCEEDED = 0xC0000047,
 
         /// <summary>
-        /// An attempt was made to set the DebugPort or ExceptionPort of a process, but a port already exists in the process, or an attempt was made to set the CompletionPort of a file but a port was already set in the file, or an attempt was made to set the associated completion port of an ALPC port but it is already set.
+        /// An attempt was made to set the DebugPort or ExceptionPort of a process, but a port already exists in the process,
+        /// or an attempt was made to set the CompletionPort of a file but a port was already set in the file,
+        /// or an attempt was made to set the associated completion port of an ALPC port but it is already set.
         /// </summary>
         STATUS_PORT_ALREADY_SET = 0xC0000048,
 
@@ -1448,7 +1581,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTL_FILE_NOT_SUPPORTED = 0xC0000057,
 
         /// <summary>
-        /// Indicates a revision number that was encountered or specified is not one that is known by the service. It might be a more recent revision than the service is aware of.
+        /// Indicates a revision number that was encountered or specified is not one that is known by the service.
+        /// It might be a more recent revision than the service is aware of.
         /// </summary>
         STATUS_UNKNOWN_REVISION = 0xC0000058,
 
@@ -1533,7 +1667,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_MEMBER_NOT_IN_GROUP = 0xC0000068,
 
         /// <summary>
-        /// Indicates the requested operation would disable or delete the last remaining administration account. This is not allowed to prevent creating a situation in which the system cannot be administrated.
+        /// Indicates the requested operation would disable or delete the last remaining administration account.
+        /// This is not allowed to prevent creating a situation in which the system cannot be administrated.
         /// </summary>
         STATUS_LAST_ADMIN = 0xC0000069,
 
@@ -1543,12 +1678,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_WRONG_PASSWORD = 0xC000006A,
 
         /// <summary>
-        /// When trying to update a password, this return status indicates that the value provided for the new password contains values that are not allowed in passwords.
+        /// When trying to update a password, this return status indicates
+        /// that the value provided for the new password contains values that are not allowed in passwords.
         /// </summary>
         STATUS_ILL_FORMED_PASSWORD = 0xC000006B,
 
         /// <summary>
-        /// When trying to update a password, this status indicates that some password update rule has been violated. For example, the password might not meet length criteria.
+        /// When trying to update a password, this status indicates that some password update rule has been violated.
+        /// For example, the password might not meet length criteria.
         /// </summary>
         STATUS_PASSWORD_RESTRICTION = 0xC000006C,
 
@@ -1558,7 +1695,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_LOGON_FAILURE = 0xC000006D,
 
         /// <summary>
-        /// Indicates a referenced user name and authentication information are valid, but some user account restriction has prevented successful authentication (such as time-of-day restrictions).
+        /// Indicates a referenced user name and authentication information are valid,
+        /// but some user account restriction has prevented successful authentication (such as time-of-day restrictions).
         /// </summary>
         STATUS_ACCOUNT_RESTRICTION = 0xC000006E,
 
@@ -1623,17 +1761,22 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PROCEDURE_NOT_FOUND = 0xC000007A,
 
         /// <summary>
-        /// {Bad Image} %hs is either not designed to run on Windows or it contains an error. Try installing the program again using the original installation media or contact your system administrator or the software vendor for support.
+        /// {Bad Image}
+        /// %hs is either not designed to run on Windows or it contains an error.
+        /// Try installing the program again using the original installation media or contact your system administrator or the software vendor for support.
         /// </summary>
         STATUS_INVALID_IMAGE_FORMAT = 0xC000007B,
 
         /// <summary>
-        /// An attempt was made to reference a token that does not exist. This is typically done by referencing the token that is associated with a thread when the thread is not impersonating a client.
+        /// An attempt was made to reference a token that does not exist.
+        /// This is typically done by referencing the token that is associated with a thread when the thread is not impersonating a client.
         /// </summary>
         STATUS_NO_TOKEN = 0xC000007C,
 
         /// <summary>
-        /// Indicates that an attempt to build either an inherited ACL or ACE was not successful. This can be caused by a number of things. One of the more probable causes is the replacement of a CreatorId with a SID that did not fit into the ACE or ACL.
+        /// Indicates that an attempt to build either an inherited ACL or ACE was not successful.
+        /// This can be caused by a number of things.
+        /// One of the more probable causes is the replacement of a CreatorId with a SID that did not fit into the ACE or ACL.
         /// </summary>
         STATUS_BAD_INHERITANCE_ACL = 0xC000007D,
 
@@ -1708,57 +1851,68 @@ namespace Lsj.Util.Win32.Enums
         STATUS_RESOURCE_NAME_NOT_FOUND = 0xC000008B,
 
         /// <summary>
-        /// {EXCEPTION} Array bounds exceeded.
+        /// {EXCEPTION}
+        /// Array bounds exceeded.
         /// </summary>
         STATUS_ARRAY_BOUNDS_EXCEEDED = 0xC000008C,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point denormal operand.
+        /// {EXCEPTION}
+        /// Floating-point denormal operand.
         /// </summary>
         STATUS_FLOAT_DENORMAL_OPERAND = 0xC000008D,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point division by zero.
+        /// {EXCEPTION}
+        /// Floating-point division by zero.
         /// </summary>
         STATUS_FLOAT_DIVIDE_BY_ZERO = 0xC000008E,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point inexact result.
+        /// {EXCEPTION}
+        /// Floating-point inexact result.
         /// </summary>
         STATUS_FLOAT_INEXACT_RESULT = 0xC000008F,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point invalid operation.
+        /// {EXCEPTION}
+        /// Floating-point invalid operation.
         /// </summary>
         STATUS_FLOAT_INVALID_OPERATION = 0xC0000090,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point overflow.
+        /// {EXCEPTION}
+        /// Floating-point overflow.
         /// </summary>
         STATUS_FLOAT_OVERFLOW = 0xC0000091,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point stack check.
+        /// {EXCEPTION}
+        /// Floating-point stack check.
         /// </summary>
         STATUS_FLOAT_STACK_CHECK = 0xC0000092,
 
         /// <summary>
-        /// {EXCEPTION} Floating-point underflow.
+        /// {EXCEPTION}
+        /// Floating-point underflow.
         /// </summary>
         STATUS_FLOAT_UNDERFLOW = 0xC0000093,
 
         /// <summary>
-        /// {EXCEPTION} Integer division by zero.
+        /// {EXCEPTION}
+        /// Integer division by zero.
         /// </summary>
         STATUS_INTEGER_DIVIDE_BY_ZERO = 0xC0000094,
 
         /// <summary>
-        /// {EXCEPTION} Integer overflow.
+        /// {EXCEPTION}
+        /// Integer overflow.
         /// </summary>
         STATUS_INTEGER_OVERFLOW = 0xC0000095,
 
         /// <summary>
-        /// {EXCEPTION} Privileged instruction.
+        /// {EXCEPTION}
+        /// Privileged instruction.
         /// </summary>
         STATUS_PRIVILEGED_INSTRUCTION = 0xC0000096,
 
@@ -1773,7 +1927,11 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_INVALID = 0xC0000098,
 
         /// <summary>
-        /// When a block of memory is allotted for future updates, such as the memory allocated to hold discretionary access control and primary group information, successive updates might exceed the amount of memory originally allotted. Because a quota might already have been charged to several processes that have handles to the object, it is not reasonable to alter the size of the allocated memory. Instead, a request that requires more memory than has been allotted must fail and the STATUS_ALLOTTED_SPACE_EXCEEDED error returned.
+        /// When a block of memory is allotted for future updates, such as the memory allocated
+        /// to hold discretionary access control and primary group information, successive updates might exceed the amount of memory originally allotted.
+        /// Because a quota might already have been charged to several processes that have handles to the object,
+        /// it is not reasonable to alter the size of the allocated memory.
+        /// Instead, a request that requires more memory than has been allotted must fail and the <see cref="STATUS_ALLOTTED_SPACE_EXCEEDED"/> error returned.
         /// </summary>
         STATUS_ALLOTTED_SPACE_EXCEEDED = 0xC0000099,
 
@@ -1813,12 +1971,16 @@ namespace Lsj.Util.Win32.Enums
         STATUS_WORKING_SET_QUOTA = 0xC00000A1,
 
         /// <summary>
-        /// {Write Protect Error} The disk cannot be written to because it is write-protected. Remove the write protection from the volume %hs in drive %hs.
+        /// {Write Protect Error}
+        /// The disk cannot be written to because it is write-protected.
+        /// Remove the write protection from the volume %hs in drive %hs.
         /// </summary>
         STATUS_MEDIA_WRITE_PROTECTED = 0xC00000A2,
 
         /// <summary>
-        /// {Drive Not Ready} The drive is not ready for use; its door might be open. Check drive %hs and make sure that a disk is inserted and that the drive door is closed.
+        /// {Drive Not Ready}
+        /// The drive is not ready for use; its door might be open.
+        /// Check drive %hs and make sure that a disk is inserted and that the drive door is closed.
         /// </summary>
         STATUS_DEVICE_NOT_READY = 0xC00000A3,
 
@@ -1828,7 +1990,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_GROUP_ATTRIBUTES = 0xC00000A4,
 
         /// <summary>
-        /// A specified impersonation level is invalid. Also used to indicate that a required impersonation level was not provided.
+        /// A specified impersonation level is invalid.
+        /// Also used to indicate that a required impersonation level was not provided.
         /// </summary>
         STATUS_BAD_IMPERSONATION_LEVEL = 0xC00000A5,
 
@@ -1908,7 +2071,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_READ_MODE = 0xC00000B4,
 
         /// <summary>
-        /// {Device Timeout} The specified I/O operation on %hs was not completed before the time-out period expired.
+        /// {Device Timeout}
+        /// The specified I/O operation on %hs was not completed before the time-out period expired.
         /// </summary>
         STATUS_IO_TIMEOUT = 0xC00000B5,
 
@@ -2018,12 +2182,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NETWORK_ACCESS_DENIED = 0xC00000CA,
 
         /// <summary>
-        /// {Incorrect Network Resource Type} The specified device type (LPT, for example) conflicts with the actual device type on the remote resource.
+        /// {Incorrect Network Resource Type}
+        /// The specified device type (LPT, for example) conflicts with the actual device type on the remote resource.
         /// </summary>
         STATUS_BAD_DEVICE_TYPE = 0xC00000CB,
 
         /// <summary>
-        /// {Network Name Not Found} The specified share name cannot be found on the remote server.
+        /// {Network Name Not Found}
+        /// The specified share name cannot be found on the remote server.
         /// </summary>
         STATUS_BAD_NETWORK_NAME = 0xC00000CC,
 
@@ -2063,7 +2229,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PROFILING_AT_LIMIT = 0xC00000D3,
 
         /// <summary>
-        /// {Incorrect Volume} The destination file of a rename request is located on a different device than the source of the rename request.
+        /// {Incorrect Volume}
+        /// The destination file of a rename request is located on a different device than the source of the rename request.
         /// </summary>
         STATUS_NOT_SAME_DEVICE = 0xC00000D4,
 
@@ -2073,7 +2240,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_RENAMED = 0xC00000D5,
 
         /// <summary>
-        /// {Network Request Timeout} The session with a remote server has been disconnected because the time-out interval for a request has expired.
+        /// {Network Request Timeout}
+        /// The session with a remote server has been disconnected because the time-out interval for a request has expired.
         /// </summary>
         STATUS_VIRTUAL_CIRCUIT_CLOSED = 0xC00000D6,
 
@@ -2163,32 +2331,42 @@ namespace Lsj.Util.Win32.Enums
         STATUS_BAD_DESCRIPTOR_FORMAT = 0xC00000E7,
 
         /// <summary>
-        /// An access to a user buffer failed at an expected point in time. This code is defined because the caller does not want to accept STATUS_ACCESS_VIOLATION in its filter.
+        /// An access to a user buffer failed at an expected point in time.
+        /// This code is defined because the caller does not want to accept <see cref="STATUS_ACCESS_VIOLATION"/> in its filter.
         /// </summary>
         STATUS_INVALID_USER_BUFFER = 0xC00000E8,
 
         /// <summary>
-        /// If an I/O error that is not defined in the standard FsRtl filter is returned, it is converted to the following error, which is guaranteed to be in the filter. In this case, information is lost; however, the filter correctly handles the exception.
+        /// If an I/O error that is not defined in the standard FsRtl filter is returned,
+        /// it is converted to the following error, which is guaranteed to be in the filter.
+        /// In this case, information is lost; however, the filter correctly handles the exception.
         /// </summary>
         STATUS_UNEXPECTED_IO_ERROR = 0xC00000E9,
 
         /// <summary>
-        /// If an MM error that is not defined in the standard FsRtl filter is returned, it is converted to one of the following errors, which are guaranteed to be in the filter. In this case, information is lost; however, the filter correctly handles the exception.
+        /// If an MM error that is not defined in the standard FsRtl filter is returned,
+        /// it is converted to one of the following errors, which are guaranteed to be in the filter.
+        /// In this case, information is lost; however, the filter correctly handles the exception.
         /// </summary>
         STATUS_UNEXPECTED_MM_CREATE_ERR = 0xC00000EA,
 
         /// <summary>
-        /// If an MM error that is not defined in the standard FsRtl filter is returned, it is converted to one of the following errors, which are guaranteed to be in the filter. In this case, information is lost; however, the filter correctly handles the exception.
+        /// If an MM error that is not defined in the standard FsRtl filter is returned,
+        /// it is converted to one of the following errors, which are guaranteed to be in the filter.
+        /// In this case, information is lost; however, the filter correctly handles the exception.
         /// </summary>
         STATUS_UNEXPECTED_MM_MAP_ERROR = 0xC00000EB,
 
         /// <summary>
-        /// If an MM error that is not defined in the standard FsRtl filter is returned, it is converted to one of the following errors, which are guaranteed to be in the filter. In this case, information is lost; however, the filter correctly handles the exception.
+        /// If an MM error that is not defined in the standard FsRtl filter is returned,
+        /// it is converted to one of the following errors, which are guaranteed to be in the filter.
+        /// In this case, information is lost; however, the filter correctly handles the exception.
         /// </summary>
         STATUS_UNEXPECTED_MM_EXTEND_ERR = 0xC00000EC,
 
         /// <summary>
-        /// The requested action is restricted for use by logon processes only. The calling process has not registered as a logon process.
+        /// The requested action is restricted for use by logon processes only.
+        /// The calling process has not registered as a logon process.
         /// </summary>
         STATUS_NOT_LOGON_PROCESS = 0xC00000ED,
 
@@ -2293,7 +2471,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DIRECTORY_NOT_EMPTY = 0xC0000101,
 
         /// <summary>
-        /// {Corrupt File} The file or directory %hs is corrupt and unreadable. Run the Chkdsk utility.
+        /// {Corrupt File}
+        /// The file or directory %hs is corrupt and unreadable. Run the Chkdsk utility.
         /// </summary>
         STATUS_FILE_CORRUPT_ERROR = 0xC0000102,
 
@@ -2308,7 +2487,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_BAD_LOGON_SESSION_STATE = 0xC0000104,
 
         /// <summary>
-        /// An internal LSA error has occurred. An authentication package has requested the creation of a logon session but the ID of an already existing logon session has been specified.
+        /// An internal LSA error has occurred.
+        /// An authentication package has requested the creation of a logon session but the ID of an already existing logon session has been specified.
         /// </summary>
         STATUS_LOGON_SESSION_COLLISION = 0xC0000105,
 
@@ -2318,12 +2498,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NAME_TOO_LONG = 0xC0000106,
 
         /// <summary>
-        /// The user attempted to force close the files on a redirected drive, but there were opened files on the drive, and the user did not specify a sufficient level of force.
+        /// The user attempted to force close the files on a redirected drive,
+        /// but there were opened files on the drive, and the user did not specify a sufficient level of force.
         /// </summary>
         STATUS_FILES_OPEN = 0xC0000107,
 
         /// <summary>
-        /// The user attempted to force close the files on a redirected drive, but there were opened directories on the drive, and the user did not specify a sufficient level of force.
+        /// The user attempted to force close the files on a redirected drive,
+        /// but there were opened directories on the drive, and the user did not specify a sufficient level of force.
         /// </summary>
         STATUS_CONNECTION_IN_USE = 0xC0000108,
 
@@ -2343,7 +2525,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_LOGON_TYPE = 0xC000010B,
 
         /// <summary>
-        /// Indicates that an attempt was made to assign protection to a file system file or directory and one of the SIDs in the security descriptor could not be translated into a GUID that could be stored by the file system. This causes the protection attempt to fail, which might cause a file creation attempt to fail.
+        /// Indicates that an attempt was made to assign protection to a file system file or directory
+        /// and one of the SIDs in the security descriptor could not be translated into a GUID that could be stored by the file system.
+        /// This causes the protection attempt to fail, which might cause a file creation attempt to fail.
         /// </summary>
         STATUS_NO_GUID_TRANSLATION = 0xC000010C,
 
@@ -2383,12 +2567,16 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_IMAGE_NE_FORMAT = 0xC000011B,
 
         /// <summary>
-        /// Indicates that the transaction state of a registry subtree is incompatible with the requested operation. For example, a request has been made to start a new transaction with one already in progress, or a request has been made to apply a transaction when one is not currently in progress.
+        /// Indicates that the transaction state of a registry subtree is incompatible with the requested operation.
+        /// For example, a request has been made to start a new transaction with one already in progress,
+        /// or a request has been made to apply a transaction when one is not currently in progress.
         /// </summary>
         STATUS_RXACT_INVALID_STATE = 0xC000011C,
 
         /// <summary>
-        /// Indicates an error has occurred during a registry transaction commit. The database has been left in an unknown, but probably inconsistent, state. The state of the registry transaction is left as COMMITTING.
+        /// Indicates an error has occurred during a registry transaction commit.
+        /// The database has been left in an unknown, but probably inconsistent, state.
+        /// The state of the registry transaction is left as COMMITTING.
         /// </summary>
         STATUS_RXACT_COMMIT_FAILURE = 0xC000011D,
 
@@ -2398,7 +2586,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_MAPPED_FILE_SIZE_ZERO = 0xC000011E,
 
         /// <summary>
-        /// Too many files are opened on a remote server. This error should only be returned by the Windows redirector on a remote drive.
+        /// Too many files are opened on a remote server.
+        /// This error should only be returned by the Windows redirector on a remote drive.
         /// </summary>
         STATUS_TOO_MANY_OPENED_FILES = 0xC000011F,
 
@@ -2418,12 +2607,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_COMPUTER_NAME = 0xC0000122,
 
         /// <summary>
-        /// An I/O request other than close was performed on a file after it was deleted, which can only happen to a request that did not complete before the last handle was closed via NtClose.
+        /// An I/O request other than close was performed on a file after it was deleted,
+        /// which can only happen to a request that did not complete before the last handle was closed via NtClose.
         /// </summary>
         STATUS_FILE_DELETED = 0xC0000123,
 
         /// <summary>
-        /// Indicates an operation that is incompatible with built-in accounts has been attempted on a built-in (special) SAM account. For example, built-in accounts cannot be deleted.
+        /// Indicates an operation that is incompatible with built-in accounts has been attempted on a built-in (special) SAM account.
+        /// For example, built-in accounts cannot be deleted.
         /// </summary>
         STATUS_SPECIAL_ACCOUNT = 0xC0000124,
 
@@ -2448,7 +2639,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_CLOSED = 0xC0000128,
 
         /// <summary>
-        /// Indicates a process has too many threads to perform the requested action. For example, assignment of a primary token can be performed only when a process has zero or one threads.
+        /// Indicates a process has too many threads to perform the requested action.
+        /// For example, assignment of a primary token can be performed only when a process has zero or one threads.
         /// </summary>
         STATUS_TOO_MANY_THREADS = 0xC0000129,
 
@@ -2458,7 +2650,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_THREAD_NOT_IN_PROCESS = 0xC000012A,
 
         /// <summary>
-        /// An attempt was made to establish a token for use as a primary token but the token is already in use. A token can only be the primary token of one process at a time.
+        /// An attempt was made to establish a token for use as a primary token but the token is already in use.
+        /// A token can only be the primary token of one process at a time.
         /// </summary>
         STATUS_TOKEN_ALREADY_IN_USE = 0xC000012B,
 
@@ -2468,7 +2661,10 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PAGEFILE_QUOTA_EXCEEDED = 0xC000012C,
 
         /// <summary>
-        /// {Out of Virtual Memory} Your system is low on virtual memory. To ensure that Windows runs correctly, increase the size of your virtual memory paging file. For more information, see Help.
+        /// {Out of Virtual Memory}
+        /// Your system is low on virtual memory.
+        /// To ensure that Windows runs correctly, increase the size of your virtual memory paging file.
+        /// For more information, see Help.
         /// </summary>
         STATUS_COMMITMENT_LIMIT = 0xC000012D,
 
@@ -2503,62 +2699,80 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TIME_DIFFERENCE_AT_DC = 0xC0000133,
 
         /// <summary>
-        /// On applicable Windows Server releases, the SAM database is significantly out of synchronization with the copy on the domain controller. A complete synchronization is required.
+        /// On applicable Windows Server releases, the SAM database is significantly out of synchronization with the copy on the domain controller.
+        /// A complete synchronization is required.
         /// </summary>
         STATUS_SYNCHRONIZATION_REQUIRED = 0xC0000134,
 
         /// <summary>
-        /// {Unable To Locate Component} This application has failed to start because %hs was not found. Reinstalling the application might fix this problem.
+        /// {Unable To Locate Component}
+        /// This application has failed to start because %hs was not found.
+        /// Reinstalling the application might fix this problem.
         /// </summary>
         STATUS_DLL_NOT_FOUND = 0xC0000135,
 
         /// <summary>
-        /// The NtCreateFile API failed. This error should never be returned to an application; it is a place holder for the Windows LAN Manager Redirector to use in its internal error-mapping routines.
+        /// The NtCreateFile API failed.
+        /// This error should never be returned to an application;
+        /// it is a place holder for the Windows LAN Manager Redirector to use in its internal error-mapping routines.
         /// </summary>
         STATUS_OPEN_FAILED = 0xC0000136,
 
         /// <summary>
-        /// {Privilege Failed} The I/O permissions for the process could not be changed.
+        /// {Privilege Failed}
+        /// The I/O permissions for the process could not be changed.
         /// </summary>
         STATUS_IO_PRIVILEGE_FAILED = 0xC0000137,
 
         /// <summary>
-        /// {Ordinal Not Found} The ordinal %ld could not be located in the dynamic link library %hs.
+        /// {Ordinal Not Found}
+        /// The ordinal %ld could not be located in the dynamic link library %hs.
         /// </summary>
         STATUS_ORDINAL_NOT_FOUND = 0xC0000138,
 
         /// <summary>
-        /// {Entry Point Not Found} The procedure entry point %hs could not be located in the dynamic link library %hs.
+        /// {Entry Point Not Found}
+        /// The procedure entry point %hs could not be located in the dynamic link library %hs.
         /// </summary>
         STATUS_ENTRYPOINT_NOT_FOUND = 0xC0000139,
 
         /// <summary>
-        /// {Application Exit by CTRL+C} The application terminated as a result of a CTRL+C.
+        /// {Application Exit by CTRL+C}
+        /// The application terminated as a result of a CTRL+C.
         /// </summary>
         STATUS_CONTROL_C_EXIT = 0xC000013A,
 
         /// <summary>
-        /// {Virtual Circuit Closed} The network transport on your computer has closed a network connection. There might or might not be I/O requests outstanding.
+        /// {Virtual Circuit Closed}
+        /// The network transport on your computer has closed a network connection.
+        /// There might or might not be I/O requests outstanding.
         /// </summary>
         STATUS_LOCAL_DISCONNECT = 0xC000013B,
 
         /// <summary>
-        /// {Virtual Circuit Closed} The network transport on a remote computer has closed a network connection. There might or might not be I/O requests outstanding.
+        /// {Virtual Circuit Closed}
+        /// The network transport on a remote computer has closed a network connection.
+        /// There might or might not be I/O requests outstanding.
         /// </summary>
         STATUS_REMOTE_DISCONNECT = 0xC000013C,
 
         /// <summary>
-        /// {Insufficient Resources on Remote Computer} The remote computer has insufficient resources to complete the network request. For example, the remote computer might not have enough available memory to carry out the request at this time.
+        /// {Insufficient Resources on Remote Computer}
+        /// The remote computer has insufficient resources to complete the network request.
+        /// For example, the remote computer might not have enough available memory to carry out the request at this time.
         /// </summary>
         STATUS_REMOTE_RESOURCES = 0xC000013D,
 
         /// <summary>
-        /// {Virtual Circuit Closed} An existing connection (virtual circuit) has been broken at the remote computer. There is probably something wrong with the network software protocol or the network hardware on the remote computer.
+        /// {Virtual Circuit Closed}
+        /// An existing connection (virtual circuit) has been broken at the remote computer.
+        /// There is probably something wrong with the network software protocol or the network hardware on the remote computer.
         /// </summary>
         STATUS_LINK_FAILED = 0xC000013E,
 
         /// <summary>
-        /// {Virtual Circuit Closed} The network transport on your computer has closed a network connection because it had to wait too long for a response from the remote computer.
+        /// {Virtual Circuit Closed}
+        /// The network transport on your computer has closed a network connection because it had to wait too long for a response from the remote computer.
         /// </summary>
         STATUS_LINK_TIMEOUT = 0xC000013F,
 
@@ -2573,47 +2787,56 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_ADDRESS = 0xC0000141,
 
         /// <summary>
-        /// {DLL Initialization Failed} Initialization of the dynamic link library %hs failed. The process is terminating abnormally.
+        /// {DLL Initialization Failed}
+        /// Initialization of the dynamic link library %hs failed. The process is terminating abnormally.
         /// </summary>
         STATUS_DLL_INIT_FAILED = 0xC0000142,
 
         /// <summary>
-        /// {Missing System File} The required system file %hs is bad or missing.
+        /// {Missing System File}
+        /// The required system file %hs is bad or missing.
         /// </summary>
         STATUS_MISSING_SYSTEMFILE = 0xC0000143,
 
         /// <summary>
-        /// {Application Error} The exception %s (0x%08lx) occurred in the application at location 0x%08lx.
+        /// {Application Error}
+        /// The exception %s (0x%08lx) occurred in the application at location 0x%08lx.
         /// </summary>
         STATUS_UNHANDLED_EXCEPTION = 0xC0000144,
 
         /// <summary>
-        /// {Application Error} The application failed to initialize properly (0x%lx). Click OK to terminate the application.
+        /// {Application Error}
+        /// The application failed to initialize properly (0x%lx). Click OK to terminate the application.
         /// </summary>
         STATUS_APP_INIT_FAILURE = 0xC0000145,
 
         /// <summary>
-        /// {Unable to Create Paging File} The creation of the paging file %hs failed (%lx). The requested size was %ld.
+        /// {Unable to Create Paging File}
+        /// The creation of the paging file %hs failed (%lx). The requested size was %ld.
         /// </summary>
         STATUS_PAGEFILE_CREATE_FAILED = 0xC0000146,
 
         /// <summary>
-        /// {No Paging File Specified} No paging file was specified in the system configuration.
+        /// {No Paging File Specified}
+        /// No paging file was specified in the system configuration.
         /// </summary>
         STATUS_NO_PAGEFILE = 0xC0000147,
 
         /// <summary>
-        /// {Incorrect System Call Level} An invalid level was passed into the specified system call.
+        /// {Incorrect System Call Level}
+        /// An invalid level was passed into the specified system call.
         /// </summary>
         STATUS_INVALID_LEVEL = 0xC0000148,
 
         /// <summary>
-        /// {Incorrect Password to LAN Manager Server} You specified an incorrect password to a LAN Manager 2.x or MS-NET server.
+        /// {Incorrect Password to LAN Manager Server}
+        /// You specified an incorrect password to a LAN Manager 2.x or MS-NET server.
         /// </summary>
         STATUS_WRONG_PASSWORD_CORE = 0xC0000149,
 
         /// <summary>
-        /// {EXCEPTION} A real-mode application issued a floating-point instruction and floating-point hardware is not present.
+        /// {EXCEPTION}
+        /// A real-mode application issued a floating-point instruction and floating-point hardware is not present.
         /// </summary>
         STATUS_ILLEGAL_FLOAT_CONTEXT = 0xC000014A,
 
@@ -2623,22 +2846,28 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PIPE_BROKEN = 0xC000014B,
 
         /// <summary>
-        /// {The Registry Is Corrupt} The structure of one of the files that contains registry data is corrupt; the image of the file in memory is corrupt; or the file could not be recovered because the alternate copy or log was absent or corrupt.
+        /// {The Registry Is Corrupt}
+        /// The structure of one of the files that contains registry data is corrupt;
+        /// the image of the file in memory is corrupt;
+        /// or the file could not be recovered because the alternate copy or log was absent or corrupt.
         /// </summary>
         STATUS_REGISTRY_CORRUPT = 0xC000014C,
 
         /// <summary>
-        /// An I/O operation initiated by the Registry failed and cannot be recovered. The registry could not read in, write out, or flush one of the files that contain the system's image of the registry.
+        /// An I/O operation initiated by the Registry failed and cannot be recovered.
+        /// The registry could not read in, write out, or flush one of the files that contain the system's image of the registry.
         /// </summary>
         STATUS_REGISTRY_IO_FAILED = 0xC000014D,
 
         /// <summary>
-        /// An event pair synchronization operation was performed using the thread-specific client/server event pair object, but no event pair object was associated with the thread.
+        /// An event pair synchronization operation was performed using the thread-specific client/server event pair object,
+        /// but no event pair object was associated with the thread.
         /// </summary>
         STATUS_NO_EVENT_PAIR = 0xC000014E,
 
         /// <summary>
-        /// The volume does not contain a recognized file system. Be sure that all required file system drivers are loaded and that the volume is not corrupt.
+        /// The volume does not contain a recognized file system.
+        /// Be sure that all required file system drivers are loaded and that the volume is not corrupt.
         /// </summary>
         STATUS_UNRECOGNIZED_VOLUME = 0xC000014F,
 
@@ -2668,17 +2897,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_ALIAS_EXISTS = 0xC0000154,
 
         /// <summary>
-        /// A requested type of logon (for example, interactive, network, and service) is not granted by the local security policy of the target system. Ask the system administrator to grant the necessary form of logon.
+        /// A requested type of logon (for example, interactive, network, and service) is not granted by the local security policy of the target system.
+        /// Ask the system administrator to grant the necessary form of logon.
         /// </summary>
         STATUS_LOGON_NOT_GRANTED = 0xC0000155,
 
         /// <summary>
-        /// The maximum number of secrets that can be stored in a single system was exceeded. The length and number of secrets is limited to satisfy U.S. State Department export restrictions.
+        /// The maximum number of secrets that can be stored in a single system was exceeded.
+        /// The length and number of secrets is limited to satisfy U.S. State Department export restrictions.
         /// </summary>
         STATUS_TOO_MANY_SECRETS = 0xC0000156,
 
         /// <summary>
-        /// The length of a secret exceeds the maximum allowable length. The length and number of secrets is limited to satisfy U.S. State Department export restrictions.
+        /// The length of a secret exceeds the maximum allowable length.
+        /// The length and number of secrets is limited to satisfy U.S. State Department export restrictions.
         /// </summary>
         STATUS_SECRET_TOO_LONG = 0xC0000157,
 
@@ -2693,22 +2925,27 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FULLSCREEN_MODE = 0xC0000159,
 
         /// <summary>
-        /// During a logon attempt, the user's security context accumulated too many security IDs. This is a very unusual situation. Remove the user from some global or local groups to reduce the number of security IDs to incorporate into the security context.
+        /// During a logon attempt, the user's security context accumulated too many security IDs.
+        /// This is a very unusual situation. Remove the user from some global or local groups
+        /// to reduce the number of security IDs to incorporate into the security context.
         /// </summary>
         STATUS_TOO_MANY_CONTEXT_IDS = 0xC000015A,
 
         /// <summary>
-        /// A user has requested a type of logon (for example, interactive or network) that has not been granted. An administrator has control over who can logon interactively and through the network.
+        /// A user has requested a type of logon (for example, interactive or network) that has not been granted.
+        /// An administrator has control over who can logon interactively and through the network.
         /// </summary>
         STATUS_LOGON_TYPE_NOT_GRANTED = 0xC000015B,
 
         /// <summary>
-        /// The system has attempted to load or restore a file into the registry, and the specified file is not in the format of a registry file.
+        /// The system has attempted to load or restore a file into the registry,
+        /// and the specified file is not in the format of a registry file.
         /// </summary>
         STATUS_NOT_REGISTRY_FILE = 0xC000015C,
 
         /// <summary>
-        /// An attempt was made to change a user password in the security account manager without providing the necessary Windows cross-encrypted password.
+        /// An attempt was made to change a user password in the security account manager
+        /// without providing the necessary Windows cross-encrypted password.
         /// </summary>
         STATUS_NT_CROSS_ENCRYPTION_REQUIRED = 0xC000015D,
 
@@ -2718,7 +2955,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DOMAIN_CTRLR_CONFIG_ERROR = 0xC000015E,
 
         /// <summary>
-        /// An attempt was made to explicitly access the secondary copy of information via a device control to the fault tolerance driver and the secondary copy is not present in the system.
+        /// An attempt was made to explicitly access the secondary copy of information
+        /// via a device control to the fault tolerance driver and the secondary copy is not present in the system.
         /// </summary>
         STATUS_FT_MISSING_MEMBER = 0xC000015F,
 
@@ -2728,7 +2966,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_ILL_FORMED_SERVICE_ENTRY = 0xC0000160,
 
         /// <summary>
-        /// An illegal character was encountered. For a multibyte character set, this includes a lead byte without a succeeding trail byte. For the Unicode character set this includes the characters 0xFFFF and 0xFFFE.
+        /// An illegal character was encountered.
+        /// For a multibyte character set, this includes a lead byte without a succeeding trail byte.
+        /// For the Unicode character set this includes the characters 0xFFFF and 0xFFFE.
         /// </summary>
         STATUS_ILLEGAL_CHARACTER = 0xC0000161,
 
@@ -2748,47 +2988,57 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FLOPPY_VOLUME = 0xC0000164,
 
         /// <summary>
-        /// {Floppy Disk Error} While accessing a floppy disk, an ID address mark was not found.
+        /// {Floppy Disk Error}
+        /// While accessing a floppy disk, an ID address mark was not found.
         /// </summary>
         STATUS_FLOPPY_ID_MARK_NOT_FOUND = 0xC0000165,
 
         /// <summary>
-        /// {Floppy Disk Error} While accessing a floppy disk, the track address from the sector ID field was found to be different from the track address that is maintained by the controller.
+        /// {Floppy Disk Error}
+        /// While accessing a floppy disk, the track address from the sector ID field was found to be different from the track address that is maintained by the controller.
         /// </summary>
         STATUS_FLOPPY_WRONG_CYLINDER = 0xC0000166,
 
         /// <summary>
-        /// {Floppy Disk Error} The floppy disk controller reported an error that is not recognized by the floppy disk driver.
+        /// {Floppy Disk Error}
+        /// The floppy disk controller reported an error that is not recognized by the floppy disk driver.
         /// </summary>
         STATUS_FLOPPY_UNKNOWN_ERROR = 0xC0000167,
 
         /// <summary>
-        /// {Floppy Disk Error} While accessing a floppy-disk, the controller returned inconsistent results via its registers.
+        /// {Floppy Disk Error}
+        /// While accessing a floppy-disk, the controller returned inconsistent results via its registers.
         /// </summary>
         STATUS_FLOPPY_BAD_REGISTERS = 0xC0000168,
 
         /// <summary>
-        /// {Hard Disk Error} While accessing the hard disk, a recalibrate operation failed, even after retries.
+        /// {Hard Disk Error}
+        /// While accessing the hard disk, a recalibrate operation failed, even after retries.
         /// </summary>
         STATUS_DISK_RECALIBRATE_FAILED = 0xC0000169,
 
         /// <summary>
-        /// {Hard Disk Error} While accessing the hard disk, a disk operation failed even after retries.
+        /// {Hard Disk Error}
+        /// While accessing the hard disk, a disk operation failed even after retries.
         /// </summary>
         STATUS_DISK_OPERATION_FAILED = 0xC000016A,
 
         /// <summary>
-        /// {Hard Disk Error} While accessing the hard disk, a disk controller reset was needed, but even that failed.
+        /// {Hard Disk Error}
+        /// While accessing the hard disk, a disk controller reset was needed, but even that failed.
         /// </summary>
         STATUS_DISK_RESET_FAILED = 0xC000016B,
 
         /// <summary>
-        /// An attempt was made to open a device that was sharing an interrupt request (IRQ) with other devices. At least one other device that uses that IRQ was already opened. Two concurrent opens of devices that share an IRQ and only work via interrupts is not supported for the particular bus type that the devices use.
+        /// An attempt was made to open a device that was sharing an interrupt request (IRQ) with other devices.
+        /// At least one other device that uses that IRQ was already opened.
+        /// Two concurrent opens of devices that share an IRQ and only work via interrupts is not supported for the particular bus type that the devices use.
         /// </summary>
         STATUS_SHARED_IRQ_BUSY = 0xC000016C,
 
         /// <summary>
-        /// {FT Orphaning} A disk that is part of a fault-tolerant volume can no longer be accessed.
+        /// {FT Orphaning}
+        /// A disk that is part of a fault-tolerant volume can no longer be accessed.
         /// </summary>
         STATUS_FT_ORPHANING = 0xC000016D,
 
@@ -2828,7 +3078,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_EOM_OVERFLOW = 0xC0000177,
 
         /// <summary>
-        /// {No Media} There is no media in the drive. Insert media into drive %hs.
+        /// {No Media}
+        /// There is no media in the drive. Insert media into drive %hs.
         /// </summary>
         STATUS_NO_MEDIA = 0xC0000178,
 
@@ -2963,12 +3214,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_ACCOUNT_EXPIRED = 0xC0000193,
 
         /// <summary>
-        /// {EXCEPTION} Possible deadlock condition.
+        /// {EXCEPTION}
+        /// Possible deadlock condition.
         /// </summary>
         STATUS_POSSIBLE_DEADLOCK = 0xC0000194,
 
         /// <summary>
-        /// Multiple connections to a server or shared resource by the same user, using more than one user name, are not allowed. Disconnect all previous connections to the server or shared resource and try again.
+        /// Multiple connections to a server or shared resource by the same user, using more than one user name, are not allowed.
+        /// Disconnect all previous connections to the server or shared resource and try again.
         /// </summary>
         STATUS_NETWORK_CREDENTIAL_CONFLICT = 0xC0000195,
 
@@ -3023,7 +3276,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME = 0xC000019F,
 
         /// <summary>
-        /// The security stream for the given volume is in an inconsistent state. Please run CHKDSK on the volume.
+        /// The security stream for the given volume is in an inconsistent state.
+        /// Please run CHKDSK on the volume.
         /// </summary>
         STATUS_SECURITY_STREAM_IS_INCONSISTENT = 0xC00001A0,
 
@@ -3163,27 +3417,35 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NOT_CLIENT_SESSION = 0xC0000217,
 
         /// <summary>
-        /// {Registry File Failure} The registry cannot load the hive (file): %hs or its log or alternate. It is corrupt, absent, or not writable.
+        /// {Registry File Failure}
+        /// The registry cannot load the hive (file): %hs or its log or alternate.
+        /// It is corrupt, absent, or not writable.
         /// </summary>
         STATUS_CANNOT_LOAD_REGISTRY_FILE = 0xC0000218,
 
         /// <summary>
-        /// {Unexpected Failure in DebugActiveProcess} An unexpected failure occurred while processing a DebugActiveProcess API request. Choosing OK will terminate the process, and choosing Cancel will ignore the error.
+        /// {Unexpected Failure in DebugActiveProcess}
+        /// An unexpected failure occurred while processing a DebugActiveProcess API request.
+        /// Choosing OK will terminate the process, and choosing Cancel will ignore the error.
         /// </summary>
         STATUS_DEBUG_ATTACH_FAILED = 0xC0000219,
 
         /// <summary>
-        /// {Fatal System Error} The %hs system process terminated unexpectedly with a status of 0x%08x (0x%08x 0x%08x). The system has been shut down.
+        /// {Fatal System Error}
+        /// The %hs system process terminated unexpectedly with a status of 0x%08x (0x%08x 0x%08x).
+        /// The system has been shut down.
         /// </summary>
         STATUS_SYSTEM_PROCESS_TERMINATED = 0xC000021A,
 
         /// <summary>
-        /// {Data Not Accepted} The TDI client could not handle the data received during an indication.
+        /// {Data Not Accepted}
+        /// The TDI client could not handle the data received during an indication.
         /// </summary>
         STATUS_DATA_NOT_ACCEPTED = 0xC000021B,
 
         /// <summary>
-        /// {Unable to Retrieve Browser Server List} The list of servers for this workgroup is not currently available.
+        /// {Unable to Retrieve Browser Server List}
+        /// The list of servers for this workgroup is not currently available.
         /// </summary>
         STATUS_NO_BROWSER_SERVERS_FOUND = 0xC000021C,
 
@@ -3193,32 +3455,42 @@ namespace Lsj.Util.Win32.Enums
         STATUS_VDM_HARD_ERROR = 0xC000021D,
 
         /// <summary>
-        /// {Cancel Timeout} The driver %hs failed to complete a canceled I/O request in the allotted time.
+        /// {Cancel Timeout}
+        /// The driver %hs failed to complete a canceled I/O request in the allotted time.
         /// </summary>
         STATUS_DRIVER_CANCEL_TIMEOUT = 0xC000021E,
 
         /// <summary>
-        /// {Reply Message Mismatch} An attempt was made to reply to an LPC message, but the thread specified by the client ID in the message was not waiting on that message.
+        /// {Reply Message Mismatch}
+        /// An attempt was made to reply to an LPC message,
+        /// but the thread specified by the client ID in the message was not waiting on that message.
         /// </summary>
         STATUS_REPLY_MESSAGE_MISMATCH = 0xC000021F,
 
         /// <summary>
-        /// {Mapped View Alignment Incorrect} An attempt was made to map a view of a file, but either the specified base address or the offset into the file were not aligned on the proper allocation granularity.
+        /// {Mapped View Alignment Incorrect}
+        /// An attempt was made to map a view of a file,
+        /// but either the specified base address or the offset into the file were not aligned on the proper allocation granularity.
         /// </summary>
         STATUS_MAPPED_ALIGNMENT = 0xC0000220,
 
         /// <summary>
-        /// {Bad Image Checksum} The image %hs is possibly corrupt. The header checksum does not match the computed checksum.
+        /// {Bad Image Checksum}
+        /// The image %hs is possibly corrupt.
+        /// The header checksum does not match the computed checksum.
         /// </summary>
         STATUS_IMAGE_CHECKSUM_MISMATCH = 0xC0000221,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs. The data has been lost. This error might be caused by a failure of your computer hardware or network connection. Try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs. The data has been lost.
+        /// This error might be caused by a failure of your computer hardware or network connection. Try to save this file elsewhere.
         /// </summary>
         STATUS_LOST_WRITEBEHIND_DATA = 0xC0000222,
 
         /// <summary>
-        /// The parameters passed to the server in the client/server shared memory window were invalid. Too much data might have been put in the shared memory window.
+        /// The parameters passed to the server in the client/server shared memory window were invalid.
+        /// Too much data might have been put in the shared memory window.
         /// </summary>
         STATUS_CLIENT_SERVER_PARAMETERS_INVALID = 0xC0000223,
 
@@ -3263,7 +3535,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_OBJECTID_EXISTS = 0xC000022B,
 
         /// <summary>
-        /// Internal OFS status codes indicating how an allocation operation is handled. Either it is retried after the containing oNode is moved or the extent stream is converted to a large stream.
+        /// Internal OFS status codes indicating how an allocation operation is handled.
+        /// Either it is retried after the containing oNode is moved or the extent stream is converted to a large stream.
         /// </summary>
         STATUS_CONVERT_TO_LARGE = 0xC000022C,
 
@@ -3273,7 +3546,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_RETRY = 0xC000022D,
 
         /// <summary>
-        /// The attempt to find the object found an object on the volume that matches by ID; however, it is out of the scope of the handle that is used for the operation.
+        /// The attempt to find the object found an object on the volume that matches by ID;
+        /// however, it is out of the scope of the handle that is used for the operation.
         /// </summary>
         STATUS_FOUND_OUT_OF_SCOPE = 0xC000022E,
 
@@ -3383,7 +3657,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_USER_MAPPED_FILE = 0xC0000243,
 
         /// <summary>
-        /// {Audit Failed} An attempt to generate a security audit failed.
+        /// {Audit Failed}
+        /// An attempt to generate a security audit failed.
         /// </summary>
         STATUS_AUDIT_FAILED = 0xC0000244,
 
@@ -3408,7 +3683,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_LOGIN_WKSTA_RESTRICTION = 0xC0000248,
 
         /// <summary>
-        /// {UP/MP Image Mismatch} The image %hs has been modified for use on a uniprocessor system, but you are running it on a multiprocessor machine. Reinstall the image file.
+        /// {UP/MP Image Mismatch}
+        /// The image %hs has been modified for use on a uniprocessor system,
+        /// but you are running it on a multiprocessor machine. Reinstall the image file.
         /// </summary>
         STATUS_IMAGE_MP_UP_MISMATCH = 0xC0000249,
 
@@ -3418,12 +3695,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INSUFFICIENT_LOGON_INFO = 0xC0000250,
 
         /// <summary>
-        /// {Invalid DLL Entrypoint} The dynamic link library %hs is not written correctly. The stack pointer has been left in an inconsistent state. The entry point should be declared as WINAPI or STDCALL. Select YES to fail the DLL load. Select NO to continue execution. Selecting NO might cause the application to operate incorrectly.
+        /// {Invalid DLL Entrypoint}
+        /// The dynamic link library %hs is not written correctly.
+        /// The stack pointer has been left in an inconsistent state.
+        /// The entry point should be declared as WINAPI or STDCALL.
+        /// Select YES to fail the DLL load. Select NO to continue execution.
+        /// Selecting NO might cause the application to operate incorrectly.
         /// </summary>
         STATUS_BAD_DLL_ENTRYPOINT = 0xC0000251,
 
         /// <summary>
-        /// {Invalid Service Callback Entrypoint} The %hs service is not written correctly. The stack pointer has been left in an inconsistent state. The callback entry point should be declared as WINAPI or STDCALL. Selecting OK will cause the service to continue operation. However, the service process might operate incorrectly.
+        /// {Invalid Service Callback Entrypoint}
+        /// The %hs service is not written correctly. The stack pointer has been left in an inconsistent state.
+        /// The callback entry point should be declared as WINAPI or STDCALL.
+        /// Selecting OK will cause the service to continue operation. However, the service process might operate incorrectly.
         /// </summary>
         STATUS_BAD_SERVICE_ENTRYPOINT = 0xC0000252,
 
@@ -3443,7 +3728,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_IP_ADDRESS_CONFLICT2 = 0xC0000255,
 
         /// <summary>
-        /// {Low On Registry Space} The system has reached the maximum size that is allowed for the system part of the registry. Additional storage requests will be ignored.
+        /// {Low On Registry Space}
+        /// The system has reached the maximum size that is allowed for the system part of the registry.
+        /// Additional storage requests will be ignored.
         /// </summary>
         STATUS_REGISTRY_QUOTA_LIMIT = 0xC0000256,
 
@@ -3458,7 +3745,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NO_CALLBACK_ACTIVE = 0xC0000258,
 
         /// <summary>
-        /// The service being accessed is licensed for a particular number of connections. No more connections can be made to the service at this time because the service has already accepted the maximum number of connections.
+        /// The service being accessed is licensed for a particular number of connections.
+        /// No more connections can be made to the service at this time because the service has already accepted the maximum number of connections.
         /// </summary>
         STATUS_LICENSE_QUOTA_EXCEEDED = 0xC0000259,
 
@@ -3468,12 +3756,15 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PWD_TOO_SHORT = 0xC000025A,
 
         /// <summary>
-        /// The policy of your user account does not allow you to change passwords too frequently. This is done to prevent users from changing back to a familiar, but potentially discovered, password. If you feel your password has been compromised, contact your administrator immediately to have a new one assigned.
+        /// The policy of your user account does not allow you to change passwords too frequently.
+        /// This is done to prevent users from changing back to a familiar, but potentially discovered, password.
+        /// If you feel your password has been compromised, contact your administrator immediately to have a new one assigned.
         /// </summary>
         STATUS_PWD_TOO_RECENT = 0xC000025B,
 
         /// <summary>
-        /// You have attempted to change your password to one that you have used in the past. The policy of your user account does not allow this. Select a password that you have not previously used.
+        /// You have attempted to change your password to one that you have used in the past.
+        /// The policy of your user account does not allow this. Select a password that you have not previously used.
         /// </summary>
         STATUS_PWD_HISTORY_CONFLICT = 0xC000025C,
 
@@ -3498,17 +3789,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_INVALID_PLUGPLAY_DEVICE_PATH = 0xC0000261,
 
         /// <summary>
-        /// {Driver Entry Point Not Found} The %hs device driver could not locate the ordinal %ld in driver %hs.
+        /// {Driver Entry Point Not Found}
+        /// The %hs device driver could not locate the ordinal %ld in driver %hs.
         /// </summary>
         STATUS_DRIVER_ORDINAL_NOT_FOUND = 0xC0000262,
 
         /// <summary>
-        /// {Driver Entry Point Not Found} The %hs device driver could not locate the entry point %hs in driver %hs.
+        /// {Driver Entry Point Not Found}
+        /// The %hs device driver could not locate the entry point %hs in driver %hs.
         /// </summary>
         STATUS_DRIVER_ENTRYPOINT_NOT_FOUND = 0xC0000263,
 
         /// <summary>
-        /// {Application Error} The application attempted to release a resource it did not own. Click OK to terminate the application.
+        /// {Application Error}
+        /// The application attempted to release a resource it did not own. Click OK to terminate the application.
         /// </summary>
         STATUS_RESOURCE_NOT_OWNED = 0xC0000264,
 
@@ -3528,27 +3822,36 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_IS_OFFLINE = 0xC0000267,
 
         /// <summary>
-        /// {Windows Evaluation Notification} The evaluation period for this installation of Windows has expired. This system will shutdown in 1 hour. To restore access to this installation of Windows, upgrade this installation by using a licensed distribution of this product.
+        /// {Windows Evaluation Notification}
+        /// The evaluation period for this installation of Windows has expired. This system will shutdown in 1 hour.
+        /// To restore access to this installation of Windows, upgrade this installation by using a licensed distribution of this product.
         /// </summary>
         STATUS_EVALUATION_EXPIRATION = 0xC0000268,
 
         /// <summary>
-        /// {Illegal System DLL Relocation} The system DLL %hs was relocated in memory. The application will not run properly. The relocation occurred because the DLL %hs occupied an address range that is reserved for Windows system DLLs. The vendor supplying the DLL should be contacted for a new DLL.
+        /// {Illegal System DLL Relocation}
+        /// The system DLL %hs was relocated in memory. The application will not run properly.
+        /// The relocation occurred because the DLL %hs occupied an address range that is reserved for Windows system DLLs.
+        /// The vendor supplying the DLL should be contacted for a new DLL.
         /// </summary>
         STATUS_ILLEGAL_DLL_RELOCATION = 0xC0000269,
 
         /// <summary>
-        /// {License Violation} The system has detected tampering with your registered product type. This is a violation of your software license. Tampering with the product type is not permitted.
+        /// {License Violation}
+        /// The system has detected tampering with your registered product type.
+        /// This is a violation of your software license. Tampering with the product type is not permitted.
         /// </summary>
         STATUS_LICENSE_VIOLATION = 0xC000026A,
 
         /// <summary>
-        /// {DLL Initialization Failed} The application failed to initialize because the window station is shutting down.
+        /// {DLL Initialization Failed}
+        /// The application failed to initialize because the window station is shutting down.
         /// </summary>
         STATUS_DLL_INIT_FAILED_LOGOFF = 0xC000026B,
 
         /// <summary>
-        /// {Unable to Load Device Driver} %hs device driver could not be loaded. Error Status was 0x%x.
+        /// {Unable to Load Device Driver}
+        /// %hs device driver could not be loaded. Error Status was 0x%x.
         /// </summary>
         STATUS_DRIVER_UNABLE_TO_LOAD = 0xC000026C,
 
@@ -3858,12 +4161,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CANT_ENABLE_DENY_ONLY = 0xC00002B3,
 
         /// <summary>
-        /// {EXCEPTION} Multiple floating-point faults.
+        /// {EXCEPTION}
+        /// Multiple floating-point faults.
         /// </summary>
         STATUS_FLOAT_MULTIPLE_FAULTS = 0xC00002B4,
 
         /// <summary>
-        /// {EXCEPTION} Multiple floating-point traps.
+        /// {EXCEPTION}
+        /// Multiple floating-point traps.
         /// </summary>
         STATUS_FLOAT_MULTIPLE_TRAPS = 0xC00002B5,
 
@@ -3893,7 +4198,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DS_ADMIN_LIMIT_EXCEEDED = 0xC00002C1,
 
         /// <summary>
-        /// {System Standby Failed} The driver %hs does not support standby mode. Updating this driver allows the system to go to standby mode.
+        /// {System Standby Failed}
+        /// The driver %hs does not support standby mode. Updating this driver allows the system to go to standby mode.
         /// </summary>
         STATUS_DRIVER_FAILED_SLEEP = 0xC00002C2,
 
@@ -3908,7 +4214,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CORRUPT_SYSTEM_FILE = 0xC00002C4,
 
         /// <summary>
-        /// {EXCEPTION} Alignment Error A data type misalignment error was detected in a load or store instruction.
+        /// {EXCEPTION}
+        /// Alignment Error A data type misalignment error was detected in a load or store instruction.
         /// </summary>
         STATUS_DATATYPE_MISALIGNMENT_ERROR = 0xC00002C5,
 
@@ -3923,12 +4230,15 @@ namespace Lsj.Util.Win32.Enums
         STATUS_WMI_SET_FAILURE = 0xC00002C7,
 
         /// <summary>
-        /// {Virtual Memory Minimum Too Low} Your system is low on virtual memory. Windows is increasing the size of your virtual memory paging file. During this process, memory requests for some applications might be denied. For more information, see Help.
+        /// {Virtual Memory Minimum Too Low}
+        /// Your system is low on virtual memory. Windows is increasing the size of your virtual memory paging file.
+        /// During this process, memory requests for some applications might be denied. For more information, see Help.
         /// </summary>
         STATUS_COMMITMENT_MINIMUM = 0xC00002C8,
 
         /// <summary>
-        /// {EXCEPTION} Register NaT consumption faults. A NaT value is consumed on a non-speculative instruction.
+        /// {EXCEPTION}
+        /// Register NaT consumption faults. A NaT value is consumed on a non-speculative instruction.
         /// </summary>
         STATUS_REG_NAT_CONSUMPTION = 0xC00002C9,
 
@@ -3938,7 +4248,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSPORT_FULL = 0xC00002CA,
 
         /// <summary>
-        /// Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x. Click OK to shut down this system and restart in Directory Services Restore Mode. Check the event log for more detailed information.
+        /// Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x.
+        /// Click OK to shut down this system and restart in Directory Services Restore Mode.
+        /// Check the event log for more detailed information.
         /// </summary>
         STATUS_DS_SAM_INIT_FAILURE = 0xC00002CB,
 
@@ -3968,7 +4280,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DS_CANT_MOD_PRIMARYGROUPID = 0xC00002D0,
 
         /// <summary>
-        /// {Fatal System Error} The system image %s is not properly signed. The file has been replaced with the signed file. The system has been shut down.
+        /// {Fatal System Error}
+        /// The system image %s is not properly signed.
+        /// The file has been replaced with the signed file. The system has been shut down.
         /// </summary>
         STATUS_SYSTEM_IMAGE_BAD_SIGNATURE = 0xC00002D1,
 
@@ -4053,12 +4367,16 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DS_CANT_START = 0xC00002E1,
 
         /// <summary>
-        /// The directory service could not start because of the following error: %hs Error Status: 0x%x. Click OK to shut down this system and restart in Directory Services Restore Mode. Check the event log for more detailed information.
+        /// The directory service could not start because of the following error: %hs Error Status: 0x%x.
+        /// Click OK to shut down this system and restart in Directory Services Restore Mode.
+        /// Check the event log for more detailed information.
         /// </summary>
         STATUS_DS_INIT_FAILURE = 0xC00002E2,
 
         /// <summary>
-        /// The Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x. Click OK to shut down this system and restart in Safe Mode. Check the event log for more detailed information.
+        /// The Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x.
+        /// Click OK to shut down this system and restart in Safe Mode.
+        /// Check the event log for more detailed information.
         /// </summary>
         STATUS_SAM_INIT_FAILURE = 0xC00002E3,
 
@@ -4078,7 +4396,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS = 0xC00002E6,
 
         /// <summary>
-        /// Your computer could not be joined to the domain. You have exceeded the maximum number of computer accounts you are allowed to create in this domain. Contact your system administrator to have this limit reset or increased.
+        /// Your computer could not be joined to the domain.
+        /// You have exceeded the maximum number of computer accounts you are allowed to create in this domain.
+        /// Contact your system administrator to have this limit reset or increased.
         /// </summary>
         STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED = 0xC00002E7,
 
@@ -4098,17 +4418,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SYSTEM_SHUTDOWN = 0xC00002EB,
 
         /// <summary>
-        /// Directory Services could not start because of the following error: %hs Error Status: 0x%x. Click OK to shut down the system. You can use the recovery console to diagnose the system further.
+        /// Directory Services could not start because of the following error: %hs Error Status: 0x%x.
+        /// Click OK to shut down the system. You can use the recovery console to diagnose the system further.
         /// </summary>
         STATUS_DS_INIT_FAILURE_CONSOLE = 0xC00002EC,
 
         /// <summary>
-        /// Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x. Click OK to shut down the system. You can use the recovery console to diagnose the system further.
+        /// Security Accounts Manager initialization failed because of the following error: %hs Error Status: 0x%x.
+        /// Click OK to shut down the system. You can use the recovery console to diagnose the system further.
         /// </summary>
         STATUS_DS_SAM_INIT_FAILURE_CONSOLE = 0xC00002ED,
 
         /// <summary>
-        /// A security context was deleted before the context was completed. This is considered a logon failure.
+        /// A security context was deleted before the context was completed.
+        /// This is considered a logon failure.
         /// </summary>
         STATUS_UNFINISHED_CONTEXT_DELETED = 0xC00002EE,
 
@@ -4163,7 +4486,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_NO_PA_DATA = 0xC00002F8,
 
         /// <summary>
-        /// The client certificate does not contain a valid UPN, or does not match the client name in the logon request. Contact your administrator.
+        /// The client certificate does not contain a valid UPN, or does not match the client name in the logon request.
+        /// Contact your administrator.
         /// </summary>
         STATUS_PKINIT_NAME_MISMATCH = 0xC00002F9,
 
@@ -4258,7 +4582,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CSS_RESETS_EXHAUSTED = 0xC000030B,
 
         /// <summary>
-        /// The Kerberos protocol encountered an error while validating the KDC certificate during smart card logon. There is more information in the system event log.
+        /// The Kerberos protocol encountered an error while validating the KDC certificate during smart card logon.
+        /// There is more information in the system event log.
         /// </summary>
         STATUS_PKINIT_FAILURE = 0xC0000320,
 
@@ -4378,12 +4703,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FAILED_DRIVER_ENTRY = 0xC0000365,
 
         /// <summary>
-        /// The device encountered an error while applying power or reading the device configuration. This might be caused by a failure of your hardware or by a poor connection.
+        /// The device encountered an error while applying power or reading the device configuration.
+        /// This might be caused by a failure of your hardware or by a poor connection.
         /// </summary>
         STATUS_DEVICE_ENUMERATION_ERROR = 0xC0000366,
 
         /// <summary>
-        /// The create operation failed because the name contained at least one mount point that resolves to a volume to which the specified device object is not attached.
+        /// The create operation failed because the name contained at least one mount point
+        /// that resolves to a volume to which the specified device object is not attached.
         /// </summary>
         STATUS_MOUNT_POINT_NOT_RESOLVED = 0xC0000368,
 
@@ -4483,22 +4810,26 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SMARTCARD_IO_ERROR = 0xC0000387,
 
         /// <summary>
-        /// The system detected a possible attempt to compromise security. Ensure that you can contact the server that authenticated you.
+        /// The system detected a possible attempt to compromise security.
+        /// Ensure that you can contact the server that authenticated you.
         /// </summary>
         STATUS_DOWNGRADE_DETECTED = 0xC0000388,
 
         /// <summary>
-        /// The smart card certificate used for authentication has been revoked. Contact your system administrator. There might be additional information in the event log.
+        /// The smart card certificate used for authentication has been revoked. Contact your system administrator.
+        /// There might be additional information in the event log.
         /// </summary>
         STATUS_SMARTCARD_CERT_REVOKED = 0xC0000389,
 
         /// <summary>
-        /// An untrusted certificate authority was detected while processing the smart card certificate that is used for authentication. Contact your system administrator.
+        /// An untrusted certificate authority was detected while processing the smart card certificate that is used for authentication.
+        /// Contact your system administrator.
         /// </summary>
         STATUS_ISSUING_CA_UNTRUSTED = 0xC000038A,
 
         /// <summary>
-        /// The revocation status of the smart card certificate that is used for authentication could not be determined. Contact your system administrator.
+        /// The revocation status of the smart card certificate that is used for authentication could not be determined.
+        /// Contact your system administrator.
         /// </summary>
         STATUS_REVOCATION_OFFLINE_C = 0xC000038B,
 
@@ -4553,7 +4884,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DS_GROUP_CONVERSION_ERROR = 0xC0000406,
 
         /// <summary>
-        /// {Volume Shadow Copy Service} Wait while the Volume Shadow Copy Service prepares volume %hs for hibernation.
+        /// {Volume Shadow Copy Service}
+        /// Wait while the Volume Shadow Copy Service prepares volume %hs for hibernation.
         /// </summary>
         STATUS_VOLSNAP_PREPARE_HIBERNATE = 0xC0000407,
 
@@ -4563,37 +4895,45 @@ namespace Lsj.Util.Win32.Enums
         STATUS_USER2USER_REQUIRED = 0xC0000408,
 
         /// <summary>
-        /// The system detected an overrun of a stack-based buffer in this application. This overrun could potentially allow a malicious user to gain control of this application.
+        /// The system detected an overrun of a stack-based buffer in this application.
+        /// This overrun could potentially allow a malicious user to gain control of this application.
         /// </summary>
         STATUS_STACK_BUFFER_OVERRUN = 0xC0000409,
 
         /// <summary>
-        /// The Kerberos subsystem encountered an error. A service for user protocol request was made against a domain controller which does not support service for user.
+        /// The Kerberos subsystem encountered an error.
+        /// A service for user protocol request was made against a domain controller which does not support service for user.
         /// </summary>
         STATUS_NO_S4U_PROT_SUPPORT = 0xC000040A,
 
         /// <summary>
-        /// An attempt was made by this server to make a Kerberos constrained delegation request for a target that is outside the server realm. This action is not supported and the resulting error indicates a misconfiguration on the allowed-to-delegate-to list for this server. Contact your administrator.
+        /// An attempt was made by this server to make a Kerberos constrained delegation request for a target that is outside the server realm.
+        /// This action is not supported and the resulting error indicates a misconfiguration on the allowed-to-delegate-to list for this server.
+        /// Contact your administrator.
         /// </summary>
         STATUS_CROSSREALM_DELEGATION_FAILURE = 0xC000040B,
 
         /// <summary>
-        /// The revocation status of the domain controller certificate used for smart card authentication could not be determined. There is additional information in the system event log. Contact your system administrator.
+        /// The revocation status of the domain controller certificate used for smart card authentication could not be determined.
+        /// There is additional information in the system event log. Contact your system administrator.
         /// </summary>
         STATUS_REVOCATION_OFFLINE_KDC = 0xC000040C,
 
         /// <summary>
-        /// An untrusted certificate authority was detected while processing the domain controller certificate used for authentication. There is additional information in the system event log. Contact your system administrator.
+        /// An untrusted certificate authority was detected while processing the domain controller certificate used for authentication.
+        /// There is additional information in the system event log. Contact your system administrator.
         /// </summary>
         STATUS_ISSUING_CA_UNTRUSTED_KDC = 0xC000040D,
 
         /// <summary>
-        /// The domain controller certificate used for smart card logon has expired. Contact your system administrator with the contents of your system event log.
+        /// The domain controller certificate used for smart card logon has expired.
+        /// Contact your system administrator with the contents of your system event log.
         /// </summary>
         STATUS_KDC_CERT_EXPIRED = 0xC000040E,
 
         /// <summary>
-        /// The domain controller certificate used for smart card logon has been revoked. Contact your system administrator with the contents of your system event log.
+        /// The domain controller certificate used for smart card logon has been revoked.
+        /// Contact your system administrator with the contents of your system event log.
         /// </summary>
         STATUS_KDC_CERT_REVOKED = 0xC000040F,
 
@@ -4603,7 +4943,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PARAMETER_QUOTA_EXCEEDED = 0xC0000410,
 
         /// <summary>
-        /// The system has failed to hibernate (The error code is %hs). Hibernation will be disabled until the system is restarted.
+        /// The system has failed to hibernate (The error code is %hs).
+        /// Hibernation will be disabled until the system is restarted.
         /// </summary>
         STATUS_HIBERNATION_FAILURE = 0xC0000411,
 
@@ -4613,22 +4954,28 @@ namespace Lsj.Util.Win32.Enums
         STATUS_DELAY_LOAD_FAILED = 0xC0000412,
 
         /// <summary>
-        /// Logon Failure: The machine you are logging onto is protected by an authentication firewall. The specified account is not allowed to authenticate to the machine.
+        /// Logon Failure: The machine you are logging onto is protected by an authentication firewall.
+        /// The specified account is not allowed to authenticate to the machine.
         /// </summary>
         STATUS_AUTHENTICATION_FIREWALL_FAILED = 0xC0000413,
 
         /// <summary>
-        /// %hs is a 16-bit application. You do not have permissions to execute 16-bit applications. Check your permissions with your system administrator.
+        /// %hs is a 16-bit application. You do not have permissions to execute 16-bit applications.
+        /// Check your permissions with your system administrator.
         /// </summary>
         STATUS_VDM_DISALLOWED = 0xC0000414,
 
         /// <summary>
-        /// {Display Driver Stopped Responding} The %hs display driver has stopped working normally. Save your work and reboot the system to restore full display functionality. The next time you reboot the machine a dialog will be displayed giving you a chance to report this failure to Microsoft.
+        /// {Display Driver Stopped Responding}
+        /// The %hs display driver has stopped working normally.
+        /// Save your work and reboot the system to restore full display functionality.
+        /// The next time you reboot the machine a dialog will be displayed giving you a chance to report this failure to Microsoft.
         /// </summary>
         STATUS_HUNG_DISPLAY_DRIVER_THREAD = 0xC0000415,
 
         /// <summary>
-        /// The Desktop heap encountered an error while allocating session memory. There is more information in the system event log.
+        /// The Desktop heap encountered an error while allocating session memory.
+        /// There is more information in the system event log.
         /// </summary>
         STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE = 0xC0000416,
 
@@ -4678,7 +5025,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CALLBACK_POP_STACK = 0xC0000423,
 
         /// <summary>
-        /// %2 has been blocked from loading due to incompatibility with this system. Contact your software vendor for a compatible version of the driver.
+        /// %2 has been blocked from loading due to incompatibility with this system.
+        /// Contact your software vendor for a compatible version of the driver.
         /// </summary>
         STATUS_INCOMPATIBLE_DRIVER_BLOCKED = 0xC0000424,
 
@@ -4698,7 +5046,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_SYSTEM_LIMITATION = 0xC0000427,
 
         /// <summary>
-        /// The hash for image %hs cannot be found in the system catalogs. The image is likely corrupt or the victim of tampering.
+        /// The hash for image %hs cannot be found in the system catalogs. 
+        /// The image is likely corrupt or the victim of tampering.
         /// </summary>
         STATUS_INVALID_IMAGE_HASH = 0xC0000428,
 
@@ -4808,7 +5157,7 @@ namespace Lsj.Util.Win32.Enums
         STATUS_RESTART_BOOT_APPLICATION = 0xC0000453,
 
         /// <summary>
-        /// Insufficient NVRAM resources exist to complete the API.  A reboot might be required.
+        /// Insufficient NVRAM resources exist to complete the API. A reboot might be required.
         /// </summary>
         STATUS_INSUFFICIENT_NVRAM_RESOURCES = 0xC0000454,
 
@@ -4858,12 +5207,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CALLBACK_BYPASS = 0xC0000503,
 
         /// <summary>
-        /// A fail fast exception occurred. Exception handlers will not be invoked and the process will be terminated immediately.
+        /// A fail fast exception occurred.
+        /// Exception handlers will not be invoked and the process will be terminated immediately.
         /// </summary>
         STATUS_FAIL_FAST_EXCEPTION = 0xC0000602,
 
         /// <summary>
-        /// Windows cannot verify the digital signature for this file. The signing certificate for this file has been revoked.
+        /// Windows cannot verify the digital signature for this file.
+        /// The signing certificate for this file has been revoked.
         /// </summary>
         STATUS_IMAGE_CERT_REVOKED = 0xC0000603,
 
@@ -4948,12 +5299,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_THREADPOOL_RELEASED_DURING_OPERATION = 0xC000070F,
 
         /// <summary>
-        /// A thread pool worker thread is impersonating a client, after a callback to 0x%p(0x%p). This is unexpected, indicating that the callback is missing a call to revert the impersonation.
+        /// A thread pool worker thread is impersonating a client, after a callback to 0x%p(0x%p).
+        /// This is unexpected, indicating that the callback is missing a call to revert the impersonation.
         /// </summary>
         STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING = 0xC0000710,
 
         /// <summary>
-        /// A thread pool worker thread is impersonating a client, after executing an APC. This is unexpected, indicating that the APC is missing a call to revert the impersonation.
+        /// A thread pool worker thread is impersonating a client, after executing an APC.
+        /// This is unexpected, indicating that the APC is missing a call to revert the impersonation.
         /// </summary>
         STATUS_APC_RETURNED_WHILE_IMPERSONATING = 0xC0000711,
 
@@ -5088,7 +5441,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FILE_TOO_LARGE = 0xC0000904,
 
         /// <summary>
-        /// Access Denied. Before opening files in this location, you must first browse to the e.g. site and select the option to log on automatically.
+        /// Access Denied.
+        /// Before opening files in this location, you must first browse to the e.g. site and select the option to log on automatically.
         /// </summary>
         STATUS_FORMS_AUTH_REQUIRED = 0xC0000905,
 
@@ -5098,7 +5452,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_VIRUS_INFECTED = 0xC0000906,
 
         /// <summary>
-        /// This file contains a virus and cannot be opened. Due to the nature of this virus, the file has been removed from this location.
+        /// This file contains a virus and cannot be opened.
+        /// Due to the nature of this virus, the file has been removed from this location.
         /// </summary>
         STATUS_VIRUS_DELETED = 0xC0000907,
 
@@ -5108,7 +5463,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_BAD_MCFG_TABLE = 0xC0000908,
 
         /// <summary>
-        /// The operation did not complete successfully because it would cause an oplock to be broken. The caller has requested that existing oplocks not be broken.
+        /// The operation did not complete successfully because it would cause an oplock to be broken.
+        /// The caller has requested that existing oplocks not be broken.
         /// </summary>
         STATUS_CANNOT_BREAK_OPLOCK = 0xC0000909,
 
@@ -5148,17 +5504,23 @@ namespace Lsj.Util.Win32.Enums
         STATUS_PROTOCOL_NOT_SUPPORTED = 0xC000A013,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error might be caused by network connectivity issues. Try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error might be caused by network connectivity issues. Try to save this file elsewhere.
         /// </summary>
         STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED = 0xC000A080,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error was returned by the server on which the file exists. Try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error was returned by the server on which the file exists. Try to save this file elsewhere.
         /// </summary>
         STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR = 0xC000A081,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error might be caused if the device has been removed or the media is write-protected.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error might be caused if the device has been removed or the media is write-protected.
         /// </summary>
         STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR = 0xC000A082,
 
@@ -5213,20 +5575,60 @@ namespace Lsj.Util.Win32.Enums
         STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED = 0xC000A2A2,
 
         /// <summary>
+        /// <para>
         /// Offload read operations cannot be performed on:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Compressed files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Sparse files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Encrypted files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// File system metadata files
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED = 0xC000A2A3,
 
         /// <summary>
-        /// Offload write operations cannot be performed on:
+        /// <para>
+        /// Offload read operations cannot be performed on:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Compressed files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Sparse files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Encrypted files
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// File system metadata files
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED = 0xC000A2A4,
 
@@ -5776,7 +6178,8 @@ namespace Lsj.Util.Win32.Enums
         RPC_NT_PIPE_EMPTY = 0xC0030061,
 
         /// <summary>
-        /// A device is missing in the system BIOS MPS table. This device will not be used. Contact your system vendor for a system BIOS update.
+        /// A device is missing in the system BIOS MPS table.
+        /// This device will not be used. Contact your system vendor for a system BIOS update.
         /// </summary>
         STATUS_PNP_BAD_MPS_TABLE = 0xC0040035,
 
@@ -5836,12 +6239,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_INVALID_MODEMNAME = 0xC00A0009,
 
         /// <summary>
-        /// The modem did not accept the command sent to it. Verify that the configured modem name matches the attached modem.
+        /// The modem did not accept the command sent to it.
+        /// Verify that the configured modem name matches the attached modem.
         /// </summary>
         STATUS_CTX_RESPONSE_ERROR = 0xC00A000A,
 
         /// <summary>
-        /// The modem did not respond to the command sent to it. Verify that the modem cable is properly attached and the modem is turned on.
+        /// The modem did not respond to the command sent to it.
+        /// Verify that the modem cable is properly attached and the modem is turned on.
         /// </summary>
         STATUS_CTX_MODEM_RESPONSE_TIMEOUT = 0xC00A000B,
 
@@ -5851,7 +6256,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_MODEM_RESPONSE_NO_CARRIER = 0xC00A000C,
 
         /// <summary>
-        /// A dial tone was not detected within the required time. Verify that the phone cable is properly attached and functional.
+        /// A dial tone was not detected within the required time.
+        /// Verify that the phone cable is properly attached and functional.
         /// </summary>
         STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE = 0xC00A000D,
 
@@ -5871,7 +6277,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_TD_ERROR = 0xC00A0010,
 
         /// <summary>
-        /// The client you are using is not licensed to use this system. Your logon request is denied.
+        /// The client you are using is not licensed to use this system.
+        /// Your logon request is denied.
         /// </summary>
         STATUS_CTX_LICENSE_CLIENT_INVALID = 0xC00A0012,
 
@@ -5896,7 +6303,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_WINSTATION_NAME_COLLISION = 0xC00A0016,
 
         /// <summary>
-        /// The requested operation cannot be completed because the terminal connection is currently processing a connect, disconnect, reset, or delete operation.
+        /// The requested operation cannot be completed
+        /// because the terminal connection is currently processing a connect, disconnect, reset, or delete operation.
         /// </summary>
         STATUS_CTX_WINSTATION_BUSY = 0xC00A0017,
 
@@ -5906,12 +6314,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_BAD_VIDEO_MODE = 0xC00A0018,
 
         /// <summary>
-        /// The application attempted to enable DOS graphics mode. DOS graphics mode is not supported.
+        /// The application attempted to enable DOS graphics mode.
+        /// DOS graphics mode is not supported.
         /// </summary>
         STATUS_CTX_GRAPHICS_INVALID = 0xC00A0022,
 
         /// <summary>
-        /// The requested operation can be performed only on the system console. This is most often the result of a driver or system DLL requiring direct console access.
+        /// The requested operation can be performed only on the system console.
+        /// This is most often the result of a driver or system DLL requiring direct console access.
         /// </summary>
         STATUS_CTX_NOT_CONSOLE = 0xC00A0024,
 
@@ -5951,7 +6361,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CTX_WD_NOT_FOUND = 0xC00A002F,
 
         /// <summary>
-        /// The requested session cannot be controlled remotely. You cannot control your own session, a session that is trying to control your session, a session that has no user logged on, or other sessions from the console.
+        /// The requested session cannot be controlled remotely.
+        /// You cannot control your own session, a session that is trying to control your session, a session that has no user logged on, or other sessions from the console.
         /// </summary>
         STATUS_CTX_SHADOW_INVALID = 0xC00A0030,
 
@@ -5966,17 +6377,24 @@ namespace Lsj.Util.Win32.Enums
         STATUS_RDP_PROTOCOL_ERROR = 0xC00A0032,
 
         /// <summary>
-        /// Your request to connect to this terminal server has been rejected. Your terminal server client license number has not been entered for this copy of the terminal client. Contact your system administrator for help in entering a valid, unique license number for this terminal server client. Click OK to continue.
+        /// Your request to connect to this terminal server has been rejected.
+        /// Your terminal server client license number has not been entered for this copy of the terminal client.
+        /// Contact your system administrator for help in entering a valid, unique license number for this terminal server client.
+        /// Click OK to continue.
         /// </summary>
         STATUS_CTX_CLIENT_LICENSE_NOT_SET = 0xC00A0033,
 
         /// <summary>
-        /// Your request to connect to this terminal server has been rejected. Your terminal server client license number is currently being used by another user. Contact your system administrator to obtain a new copy of the terminal server client with a valid, unique license number. Click OK to continue.
+        /// Your request to connect to this terminal server has been rejected.
+        /// Your terminal server client license number is currently being used by another user.
+        /// Contact your system administrator to obtain a new copy of the terminal server client with a valid, unique license number.
+        /// Click OK to continue.
         /// </summary>
         STATUS_CTX_CLIENT_LICENSE_IN_USE = 0xC00A0034,
 
         /// <summary>
-        /// The remote control of the console was terminated because the display mode was changed. Changing the display mode in a remote control session is not supported.
+        /// The remote control of the console was terminated because the display mode was changed.
+        /// Changing the display mode in a remote control session is not supported.
         /// </summary>
         STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE = 0xC00A0035,
 
@@ -6401,7 +6819,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE = 0xC0150018,
 
         /// <summary>
-        /// The identity string is malformed. This might be due to a trailing comma, more than two unnamed attributes, a missing attribute name, or a missing attribute value.
+        /// The identity string is malformed.
+        /// This might be due to a trailing comma, more than two unnamed attributes,
+        /// a missing attribute name, or a missing attribute value.
         /// </summary>
         STATUS_SXS_IDENTITY_PARSE_ERROR = 0xC0150019,
 
@@ -6491,7 +6911,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSACTION_NOT_ACTIVE = 0xC0190003,
 
         /// <summary>
-        /// The transaction manager was unable to be successfully initialized. Transacted operations are not supported.
+        /// The transaction manager was unable to be successfully initialized.
+        /// Transacted operations are not supported.
         /// </summary>
         STATUS_TM_INITIALIZATION_FAILED = 0xC0190004,
 
@@ -6546,7 +6967,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CRM_PROTOCOL_NOT_FOUND = 0xC0190011,
 
         /// <summary>
-        /// The transaction object already has a superior enlistment, and the caller attempted an operation that would have created a new superior. Only a single superior enlistment is allowed.
+        /// The transaction object already has a superior enlistment,
+        /// and the caller attempted an operation that would have created a new superior.
+        /// Only a single superior enlistment is allowed.
         /// </summary>
         STATUS_TRANSACTION_SUPERIOR_EXISTS = 0xC0190012,
 
@@ -6556,7 +6979,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSACTION_REQUEST_NOT_VALID = 0xC0190013,
 
         /// <summary>
-        /// The caller has called a response API, but the response is not expected because the transaction manager did not issue the corresponding request to the caller.
+        /// The caller has called a response API, but the response is not expected
+        /// because the transaction manager did not issue the corresponding request to the caller.
         /// </summary>
         STATUS_TRANSACTION_NOT_REQUESTED = 0xC0190014,
 
@@ -6581,7 +7005,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CURRENT_TRANSACTION_NOT_VALID = 0xC0190018,
 
         /// <summary>
-        /// An attempt to create space in the transactional resource manager's log failed. The failure status has been recorded in the event log.
+        /// An attempt to create space in the transactional resource manager's log failed.
+        /// The failure status has been recorded in the event log.
         /// </summary>
         STATUS_LOG_GROWTH_FAILED = 0xC0190019,
 
@@ -6596,7 +7021,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_STREAM_MINIVERSION_NOT_FOUND = 0xC0190022,
 
         /// <summary>
-        /// The specified file miniversion was found but has been invalidated. The most likely cause is a transaction savepoint rollback.
+        /// The specified file miniversion was found but has been invalidated.
+        /// The most likely cause is a transaction savepoint rollback.
         /// </summary>
         STATUS_STREAM_MINIVERSION_NOT_VALID = 0xC0190023,
 
@@ -6616,7 +7042,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS = 0xC0190026,
 
         /// <summary>
-        /// The handle has been invalidated by a transaction. The most likely cause is the presence of memory mapping on a file or an open handle when the transaction ended or rolled back to savepoint.
+        /// The handle has been invalidated by a transaction.
+        /// The most likely cause is the presence of memory mapping on a file or an open handle
+        /// when the transaction ended or rolled back to savepoint.
         /// </summary>
         STATUS_HANDLE_NO_LONGER_VALID = 0xC0190028,
 
@@ -6726,7 +7154,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION = 0xC0190049,
 
         /// <summary>
-        /// The call to create a transaction manager object failed because the Tm Identity that is stored in the log file does not match the Tm Identity that was passed in as an argument.
+        /// The call to create a transaction manager object failed
+        /// because the Tm Identity that is stored in the log file does not match the Tm Identity that was passed in as an argument.
         /// </summary>
         STATUS_TM_IDENTITY_MISMATCH = 0xC019004A,
 
@@ -6741,7 +7170,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_CANNOT_ACCEPT_TRANSACTED_WORK = 0xC019004C,
 
         /// <summary>
-        /// The transactional resource manager had too many transactions outstanding that could not be aborted. The transactional resource manager has been shut down.
+        /// The transactional resource manager had too many transactions outstanding that could not be aborted.
+        /// The transactional resource manager has been shut down.
         /// </summary>
         STATUS_CANNOT_ABORT_TRANSACTIONS = 0xC019004D,
 
@@ -6771,12 +7201,15 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSACTIONMANAGER_NOT_ONLINE = 0xC0190052,
 
         /// <summary>
-        /// The specified transaction manager was unable to create the objects contained in its log file in the Ob namespace. Therefore, the transaction manager was unable to recover.
+        /// The specified transaction manager was unable to create the objects contained in its log file in the Ob namespace.
+        /// Therefore, the transaction manager was unable to recover.
         /// </summary>
         STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION = 0xC0190053,
 
         /// <summary>
-        /// The call to create a superior enlistment on this transaction object could not be completed because the transaction object specified for the enlistment is a subordinate branch of the transaction. Only the root of the transaction can be enlisted as a superior.
+        /// The call to create a superior enlistment on this transaction object could not be completed
+        /// because the transaction object specified for the enlistment is a subordinate branch of the transaction.
+        /// Only the root of the transaction can be enlisted as a superior.
         /// </summary>
         STATUS_TRANSACTION_NOT_ROOT = 0xC0190054,
 
@@ -6791,12 +7224,15 @@ namespace Lsj.Util.Win32.Enums
         STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION = 0xC0190056,
 
         /// <summary>
-        /// The specified operation could not be performed on this superior enlistment because the enlistment was not created with the corresponding completion response in the NotificationMask.
+        /// The specified operation could not be performed on this superior enlistment
+        /// because the enlistment was not created with the corresponding completion response in the NotificationMask.
         /// </summary>
         STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED = 0xC0190057,
 
         /// <summary>
-        /// The specified operation could not be performed because the record to be logged was too long. This can occur because either there are too many enlistments on this transaction or the combined RecoveryInformation being logged on behalf of those enlistments is too long.
+        /// The specified operation could not be performed because the record to be logged was too long.
+        /// This can occur because either there are too many enlistments on this transaction
+        /// or the combined RecoveryInformation being logged on behalf of those enlistments is too long.
         /// </summary>
         STATUS_TRANSACTION_RECORD_TOO_LONG = 0xC0190058,
 
@@ -6816,7 +7252,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_TRANSACTION_INTEGRITY_VIOLATED = 0xC019005B,
 
         /// <summary>
-        /// The handle is no longer properly associated with its transaction.  It might have been opened in a transactional resource manager that was subsequently forced to restart.  Please close the handle and open a new one.
+        /// The handle is no longer properly associated with its transaction.
+        /// It might have been opened in a transactional resource manager that was subsequently forced to restart.
+        /// Please close the handle and open a new one.
         /// </summary>
         STATUS_EXPIRED_HANDLE = 0xC0190060,
 
@@ -7061,7 +7499,10 @@ namespace Lsj.Util.Win32.Enums
         STATUS_LOG_PINNED_RESERVATION = 0xC01A0030,
 
         /// <summary>
-        /// {Display Driver Stopped Responding} The %hs display driver has stopped working normally. Save your work and reboot the system to restore full display functionality. The next time you reboot the computer, a dialog box will allow you to upload data about this failure to Microsoft.
+        /// {Display Driver Stopped Responding}
+        /// The %hs display driver has stopped working normally.
+        /// Save your work and reboot the system to restore full display functionality.
+        /// The next time you reboot the computer, a dialog box will allow you to upload data about this failure to Microsoft.
         /// </summary>
         STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD = 0xC01B00EA,
 
@@ -7081,7 +7522,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST = 0xC01C0003,
 
         /// <summary>
-        /// This is an internal error code used by the filter manager to determine if a fast I/O operation should be forced down the input/output request packet (IRP) path. Minifilters should never return this value.
+        /// This is an internal error code used by the filter manager to determine
+        /// if a fast I/O operation should be forced down the input/output request packet (IRP) path.
+        /// Minifilters should never return this value.
         /// </summary>
         STATUS_FLT_DISALLOW_FAST_IO = 0xC01C0004,
 
@@ -7096,7 +7539,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FLT_NOT_SAFE_TO_POST_OPERATION = 0xC01C0006,
 
         /// <summary>
-        /// The Filter Manager was not initialized when a filter tried to register. Make sure that the Filter Manager is loaded as a driver.
+        /// The Filter Manager was not initialized when a filter tried to register.
+        /// Make sure that the Filter Manager is loaded as a driver.
         /// </summary>
         STATUS_FLT_NOT_INITIALIZED = 0xC01C0007,
 
@@ -7106,17 +7550,20 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FLT_FILTER_NOT_READY = 0xC01C0008,
 
         /// <summary>
-        /// The filter must clean up any operation-specific context at this time because it is being removed from the system before the operation is completed by the lower drivers.
+        /// The filter must clean up any operation-specific context at this time
+        /// because it is being removed from the system before the operation is completed by the lower drivers.
         /// </summary>
         STATUS_FLT_POST_OPERATION_CLEANUP = 0xC01C0009,
 
         /// <summary>
-        /// The Filter Manager had an internal error from which it cannot recover; therefore, the operation has failed. This is usually the result of a filter returning an invalid value from a pre-operation callback.
+        /// The Filter Manager had an internal error from which it cannot recover; therefore, the operation has failed.
+        /// This is usually the result of a filter returning an invalid value from a pre-operation callback.
         /// </summary>
         STATUS_FLT_INTERNAL_ERROR = 0xC01C000A,
 
         /// <summary>
-        /// The object specified for this action is in the process of being deleted; therefore, the action requested cannot be completed at this time.
+        /// The object specified for this action is in the process of being deleted;
+        /// therefore, the action requested cannot be completed at this time.
         /// </summary>
         STATUS_FLT_DELETING_OBJECT = 0xC01C000B,
 
@@ -7556,7 +8003,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE = 0xC01E0322,
 
         /// <summary>
-        /// The miniport does not have a recommendation regarding the request to provide a functional VidPN given the current display adapter configuration.
+        /// The miniport does not have a recommendation regarding the request
+        /// to provide a functional VidPN given the current display adapter configuration.
         /// </summary>
         STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN = 0xC01E0323,
 
@@ -7931,7 +8379,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED = 0xC01E0508,
 
         /// <summary>
-        /// The function failed because an invalid pointer parameter was passed to it. A pointer parameter is invalid if it is null, is not correctly aligned, or it points to an invalid address or a kernel mode address.
+        /// The function failed because an invalid pointer parameter was passed to it.
+        /// A pointer parameter is invalid if it is null, is not correctly aligned,
+        /// or it points to an invalid address or a kernel mode address.
         /// </summary>
         STATUS_GRAPHICS_OPM_INVALID_POINTER = 0xC01E050A,
 
@@ -7991,41 +8441,56 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA = 0xC01E0515,
 
         /// <summary>
-        /// DxgkDdiOPMGetInformation() cannot return the version of the SRM being used because the application never successfully passed an SRM to the protected output.
+        /// DxgkDdiOPMGetInformation() cannot return the version of the SRM being used
+        /// because the application never successfully passed an SRM to the protected output.
         /// </summary>
         STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET = 0xC01E0516,
 
         /// <summary>
-        /// DxgkDdiOPMConfigureProtectedOutput() cannot enable the specified output protection technology because the output's screen resolution is too high.
+        /// DxgkDdiOPMConfigureProtectedOutput() cannot enable the specified output protection technology
+        /// because the output's screen resolution is too high.
         /// </summary>
         STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH = 0xC01E0517,
 
         /// <summary>
-        /// DxgkDdiOPMConfigureProtectedOutput() cannot enable HDCP because other physical outputs are using the display adapter's HDCP hardware.
+        /// DxgkDdiOPMConfigureProtectedOutput() cannot enable HDCP
+        /// because other physical outputs are using the display adapter's HDCP hardware.
         /// </summary>
         STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE = 0xC01E0518,
 
         /// <summary>
-        /// The operating system asynchronously destroyed this OPM-protected output because the operating system state changed. This error typically occurs because the monitor PDO associated with this protected output was removed or stopped, the protected output's session became a nonconsole session, or the protected output's desktop became inactive.
+        /// The operating system asynchronously destroyed this OPM-protected output because the operating system state changed.
+        /// This error typically occurs because the monitor PDO associated with this protected output was removed or stopped,
+        /// the protected output's session became a nonconsole session, or the protected output's desktop became inactive.
         /// </summary>
         STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS = 0xC01E051A,
 
         /// <summary>
-        /// OPM functions cannot be called when a session is changing its type. Three types of sessions currently exist: console, disconnected, and remote (RDP or ICA).
+        /// OPM functions cannot be called when a session is changing its type.
+        /// Three types of sessions currently exist: console, disconnected, and remote (RDP or ICA).
         /// </summary>
         STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS = 0xC01E051B,
 
         /// <summary>
-        /// The DxgkDdiOPMGetCOPPCompatibleInformation, DxgkDdiOPMGetInformation, or DxgkDdiOPMConfigureProtectedOutput function failed. This error is returned only if a protected output has OPM semantics.
+        /// <para>
+        /// The DxgkDdiOPMGetCOPPCompatibleInformation, DxgkDdiOPMGetInformation, or DxgkDdiOPMConfigureProtectedOutput function failed.
+        /// This error is returned only if a protected output has OPM semantics.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMGetCOPPCompatibleInformation always returns this error if a protected output has OPM semantics.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMGetInformation returns this error code if the caller requested COPP-specific information.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMConfigureProtectedOutput returns this error when the caller tries to use a COPP-specific command.
+        /// </para>
         /// </summary>
         STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS = 0xC01E051C,
 
-
         /// <summary>
-        /// The DxgkDdiOPMGetInformation and DxgkDdiOPMGetCOPPCompatibleInformation functions return this error code if the passed-in sequence number is not the expected sequence number or the passed-in OMAC value is invalid.
+        /// The DxgkDdiOPMGetInformation and DxgkDdiOPMGetCOPPCompatibleInformation functions
+        /// return this error code if the passed-in sequence number is not the expected sequence number or the passed-in OMAC value is invalid.
         /// </summary>
         STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST = 0xC01E051D,
 
@@ -8035,20 +8500,33 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR = 0xC01E051E,
 
         /// <summary>
-        /// The DxgkDdiOPMGetCOPPCompatibleInformation, DxgkDdiOPMGetInformation, or DxgkDdiOPMConfigureProtectedOutput function failed. This error is returned only if a protected output has COPP semantics.
+        /// <para>
+        /// The DxgkDdiOPMGetCOPPCompatibleInformation, DxgkDdiOPMGetInformation, or DxgkDdiOPMConfigureProtectedOutput function failed.
+        /// This error is returned only if a protected output has COPP semantics.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMGetCOPPCompatibleInformation returns this error code if the caller requested OPM-specific information.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMGetInformation always returns this error if a protected output has COPP semantics.
+        /// </para>
+        /// <para>
         /// DxgkDdiOPMConfigureProtectedOutput returns this error when the caller tries to use an OPM-specific command.
+        /// </para>
         /// </summary>
         STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS = 0xC01E051F,
 
         /// <summary>
-        /// The DxgkDdiOPMGetCOPPCompatibleInformation and DxgkDdiOPMConfigureProtectedOutput functions return this error if the display driver does not support the DXGKMDT_OPM_GET_ACP_AND_CGMSA_SIGNALING and DXGKMDT_OPM_SET_ACP_AND_CGMSA_SIGNALING GUIDs.
+        /// <para>
+        /// The DxgkDdiOPMGetCOPPCompatibleInformation and DxgkDdiOPMConfigureProtectedOutput functions return this error
+        /// if the display driver does not support the DXGKMDT_OPM_GET_ACP_AND_CGMSA_SIGNALING and DXGKMDT_OPM_SET_ACP_AND_CGMSA_SIGNALING GUIDs.
+        /// </para>
         /// </summary>
         STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED = 0xC01E0520,
 
         /// <summary>
-        /// The DxgkDdiOPMConfigureProtectedOutput function returns this error code if the passed-in sequence number is not the expected sequence number or the passed-in OMAC value is invalid.
+        /// The DxgkDdiOPMConfigureProtectedOutput function returns this error code
+        /// if the passed-in sequence number is not the expected sequence number or the passed-in OMAC value is invalid.
         /// </summary>
         STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST = 0xC01E0521,
 
@@ -8083,12 +8561,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_DDCCI_INVALID_DATA = 0xC01E0585,
 
         /// <summary>
-        /// A function call failed because a monitor returned an invalid timing status byte when the operating system used the DDC/CI get timing report and timing message command to get a timing report from a monitor.
+        /// A function call failed because a monitor returned an invalid timing status byte
+        /// when the operating system used the DDC/CI get timing report and timing message command to get a timing report from a monitor.
         /// </summary>
         STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE = 0xC01E0586,
 
         /// <summary>
-        /// A monitor returned a DDC/CI capabilities string that did not comply with the ACCESS.bus 3.0, DDC/CI 1.1, or MCCS 2 Revision 1 specification.
+        /// A monitor returned a DDC/CI capabilities string that did not comply
+        /// with the ACCESS.bus 3.0, DDC/CI 1.1, or MCCS 2 Revision 1 specification.
         /// </summary>
         STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING = 0xC01E0587,
 
@@ -8108,7 +8588,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH = 0xC01E058A,
 
         /// <summary>
-        /// This error occurred because the value in a DDC/CI message's checksum field did not match the message's computed checksum value. This error implies that the data was corrupted while it was being transmitted from a monitor to a computer.
+        /// This error occurred because the value in a DDC/CI message's checksum field did not match the message's computed checksum value.
+        /// This error implies that the data was corrupted while it was being transmitted from a monitor to a computer.
         /// </summary>
         STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM = 0xC01E058B,
 
@@ -8118,12 +8599,15 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE = 0xC01E058C,
 
         /// <summary>
-        /// The operating system asynchronously destroyed the monitor that corresponds to this handle because the operating system's state changed. This error typically occurs because the monitor PDO associated with this handle was removed or stopped, or a display mode change occurred. A display mode change occurs when Windows sends a WM_DISPLAYCHANGE message to applications.
+        /// The operating system asynchronously destroyed the monitor that corresponds to this handle because the operating system's state changed.
+        /// This error typically occurs because the monitor PDO associated with this handle was removed or stopped, or a display mode change occurred.
+        /// A display mode change occurs when Windows sends a <see cref="WM_DISPLAYCHANGE"/> message to applications.
         /// </summary>
         STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS = 0xC01E058D,
 
         /// <summary>
-        /// This function can be used only if a program is running in the local console session. It cannot be used if a program is running on a remote desktop session or on a terminal server session.
+        /// This function can be used only if a program is running in the local console session.
+        /// It cannot be used if a program is running on a remote desktop session or on a terminal server session.
         /// </summary>
         STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED = 0xC01E05E0,
 
@@ -8138,12 +8622,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP = 0xC01E05E2,
 
         /// <summary>
-        /// This function does not support GDI mirroring display devices because GDI mirroring display devices do not have any physical monitors associated with them.
+        /// This function does not support GDI mirroring display devices
+        /// because GDI mirroring display devices do not have any physical monitors associated with them.
         /// </summary>
         STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED = 0xC01E05E3,
 
         /// <summary>
-        /// The function failed because an invalid pointer parameter was passed to it. A pointer parameter is invalid if it is null, is not correctly aligned, or points to an invalid address or to a kernel mode address.
+        /// The function failed because an invalid pointer parameter was passed to it.
+        /// A pointer parameter is invalid if it is null, is not correctly aligned, or points to an invalid address or to a kernel mode address.
         /// </summary>
         STATUS_GRAPHICS_INVALID_POINTER = 0xC01E05E4,
 
@@ -8163,7 +8649,9 @@ namespace Lsj.Util.Win32.Enums
         STATUS_GRAPHICS_INTERNAL_ERROR = 0xC01E05E7,
 
         /// <summary>
-        /// The function failed because the current session is changing its type. This function cannot be called when the current session is changing its type. Three types of sessions currently exist: console, disconnected, and remote (RDP or ICA).
+        /// The function failed because the current session is changing its type.
+        /// This function cannot be called when the current session is changing its type.
+        /// Three types of sessions currently exist: console, disconnected, and remote (RDP or ICA).
         /// </summary>
         STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS = 0xC01E05E8,
 
@@ -8358,7 +8846,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED = 0xC0210027,
 
         /// <summary>
-        /// Bitlocker Drive Encryption failed to recover from aborted conversion. This could be due to either all conversion logs being corrupted or the media being write-protected.
+        /// Bitlocker Drive Encryption failed to recover from aborted conversion.
+        /// This could be due to either all conversion logs being corrupted or the media being write-protected.
         /// </summary>
         STATUS_FVE_CONV_RECOVERY_FAILED = 0xC0210028,
 
@@ -8973,7 +9462,8 @@ namespace Lsj.Util.Win32.Enums
         STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED = 0xC0368005,
 
         /// <summary>
-        /// IPsec Dos Protection failed to create per internal IP ratelimit queue because there is already maximum number of queues allowed by policy.
+        /// IPsec Dos Protection failed to create per internal IP ratelimit queue
+        /// because there is already maximum number of queues allowed by policy.
         /// </summary>
         STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES = 0xC0368006,
 
@@ -8998,12 +9488,14 @@ namespace Lsj.Util.Win32.Enums
         STATUS_VIRTDISK_NOT_VIRTUAL_DISK = 0xC03A0015,
 
         /// <summary>
-        /// The chain of virtual hard disks is inaccessible. The process has not been granted access rights to the parent virtual hard disk for the differencing disk.
+        /// The chain of virtual hard disks is inaccessible.
+        /// The process has not been granted access rights to the parent virtual hard disk for the differencing disk.
         /// </summary>
         STATUS_VHD_PARENT_VHD_ACCESS_DENIED = 0xC03A0016,
 
         /// <summary>
-        /// The chain of virtual hard disks is corrupted. There is a mismatch in the virtual sizes of the parent virtual hard disk and differencing disk.
+        /// The chain of virtual hard disks is corrupted.
+        /// There is a mismatch in the virtual sizes of the parent virtual hard disk and differencing disk.
         /// </summary>
         STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH = 0xC03A0017,
 
@@ -9016,5 +9508,15 @@ namespace Lsj.Util.Win32.Enums
         /// The chain of virtual hard disks is inaccessible. There was an error opening a virtual hard disk further up the chain.
         /// </summary>
         STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT = 0xC03A0019,
+
+        /// <summary>
+        /// Returned in response to a client negotiate request when the server does not support any of the hash algorithms in the request.
+        /// </summary>
+        STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP = 0xC05D0000,
+
+        /// <summary>
+        /// The current cluster functional level does not support this SMB dialect.
+        /// </summary>
+        STATUS_SMB_BAD_CLUSTER_DIALECT = 0xC05D0001,
     }
 }

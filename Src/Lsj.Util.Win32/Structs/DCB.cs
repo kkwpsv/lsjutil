@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CBR;
 using static Lsj.Util.Win32.Enums.DTR_CONTROL;
-using static Lsj.Util.Win32.Enums.PARITY;
-using static Lsj.Util.Win32.Enums.RTS_CONTROL;
-using static Lsj.Util.Win32.Enums.STOPBIT;
+using static Lsj.Util.Win32.Enums.ParitySchemes;
+using static Lsj.Util.Win32.Enums.RTSFlowControls;
+using static Lsj.Util.Win32.Enums.StopBits;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -616,7 +616,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PARITY Parity;
+        public ParitySchemes Parity;
 
         /// <summary>
         /// <para>

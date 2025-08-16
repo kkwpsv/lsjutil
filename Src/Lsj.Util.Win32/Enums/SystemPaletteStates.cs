@@ -1,13 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// System Palette States
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse"/>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse"/>
-    /// </para>
+    /// System palette states
     /// </summary>
     public enum SystemPaletteStates : uint
     {

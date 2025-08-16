@@ -3,37 +3,32 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="DrawFrameControl"/> Types
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawframecontrol"/>
-    /// </para>
+    /// <see cref="DrawFrameControl"/> types
     /// </summary>
     public enum DrawFrameControlTypes : uint
     {
         /// <summary>
-        /// Standard button
+        /// DFC_BUTTON
         /// </summary>
         DFC_BUTTON = 4,
 
         /// <summary>
-        /// Title bar
+        /// DFC_CAPTION
         /// </summary>
         DFC_CAPTION = 1,
 
         /// <summary>
-        /// Menu bar
+        /// DFC_MENU
         /// </summary>
         DFC_MENU = 2,
 
         /// <summary>
-        /// Popup menu item.
+        /// DFC_POPUPMENU
         /// </summary>
         DFC_POPUPMENU = 5,
 
         /// <summary>
-        /// Scroll bar
+        /// DFC_SCROLL
         /// </summary>
         DFC_SCROLL = 3,
     }

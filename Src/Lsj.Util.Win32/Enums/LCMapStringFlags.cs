@@ -1,7 +1,9 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Kernel32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// LCMapString Flags
+    /// <see cref="LCMapString"/> Flags
     /// </summary>
     public enum LCMapStringFlags : uint
     {

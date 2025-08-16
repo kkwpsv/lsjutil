@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Mouse Event Flags
+    /// Mouse event flags
     /// </summary>
     public enum MouseEventFlags : uint
     {

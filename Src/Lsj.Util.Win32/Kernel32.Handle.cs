@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.DuplicateHandleOptions;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
-using static Lsj.Util.Win32.Enums.HandleInformationFlags;
+using static Lsj.Util.Win32.Enums.HANDLE_FLAG;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
@@ -258,7 +258,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetHandleInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetHandleInformation([In] HANDLE hObject, [Out] out HandleInformationFlags lpdwFlags);
+        public static extern BOOL GetHandleInformation([In] HANDLE hObject, [Out] out HANDLE_FLAG lpdwFlags);
 
         /// <summary>
         /// <para>
@@ -285,6 +285,6 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetHandleInformation([In] HANDLE hObject, [In] HandleInformationFlags dwMask, [In] HandleInformationFlags dwFlags);
+        public static extern BOOL SetHandleInformation([In] HANDLE hObject, [In] HANDLE_FLAG dwMask, [In] HANDLE_FLAG dwFlags);
     }
 }

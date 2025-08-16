@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Raster Ops
+    /// Raster ops
     /// </summary>
     public enum RasterOps
     {

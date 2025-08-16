@@ -1,16 +1,46 @@
-﻿using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
+﻿using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Access Rights for Access-Token Objects
-    /// The following are valid access rights for access-token objects:
+    /// An application cannot change the access control list of an object unless the application has the rights to do so. 
+    /// These rights are controlled by a security descriptor in the access token for the object.
+    /// For more information about security, see Access Control Model.
+    /// </para>
+    /// <para>
+    /// To get or set the security descriptor for an access token,
+    /// call the <see cref="GetKernelObjectSecurity"/> and <see cref="SetKernelObjectSecurity"/> functions.
+    /// </para>
+    /// <para>
+    /// When you call the <see cref="OpenProcessToken"/> or <see cref="OpenThreadToken"/> function to get a handle to an access token,
+    /// the system checks the requested access rights against the DACL in the token's security descriptor.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// The <see cref="DELETE"/>, <see cref="READ_CONTROL"/>, <see cref="WRITE_DAC"/>, and <see cref="WRITE_OWNER"/> standard access rights.
-    /// Access tokens do not support the SYNCHRONIZE standard access right.
+    /// Access tokens do not support the <see cref="SYNCHRONIZE"/> standard access right.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// The <see cref="ACCESS_SYSTEM_SECURITY"/> right to get or set the SACL in the object's security descriptor.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// The specific access rights for access tokens, which are listed in the following table.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The following are valid access rights for access-token objects:
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/secauthz/access-rights-for-access-token-objects"/>
     /// </para>
     /// </summary>
     public enum TokenAccessRights : uint

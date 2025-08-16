@@ -16,13 +16,70 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// For illustrations of the principal button styles such as <see cref="BS_CHECKBOX"/> and <see cref="BS_GROUPBOX"/>, see Button Types.
+    /// </para>
+    /// <para>
     /// The appearance of text or an icon or both on a button control depends on the <see cref="BS_ICON"/> and <see cref="BS_BITMAP"/> styles,
     /// and whether the <see cref="BM_SETIMAGE"/> message is sent. The possible results are as follows.
-    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: Yes. <see cref="BM_SETIMAGE"/> called: Yes. Result: Show icon only.
-    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: No. <see cref="BM_SETIMAGE"/> called: Yes. Result: Show icon and text.
-    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: Yes. <see cref="BM_SETIMAGE"/> called: No. Result: Show text only.
-    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: No. <see cref="BM_SETIMAGE"/> called: No. Result: Show text only.
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set?
+    /// </term>
+    /// <term>
+    /// <see cref="BM_SETIMAGE"/> called?
+    /// </term>
+    /// <term>
+    /// Result
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// Yes
+    /// </term>
+    /// <term>
+    /// Yes
+    /// </term>
+    /// <term>
+    /// Show icon only.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// No
+    /// </term>
+    /// <term>
+    /// Yes
+    /// </term>
+    /// <term>
+    /// Show icon and text.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Yes
+    /// </term>
+    /// <term>
+    /// No
+    /// </term>
+    /// <term>
+    /// Show text only.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// No
+    /// </term>
+    /// <term>
+    /// No
+    /// </term>
+    /// <term>
+    /// Show text only
+    /// </term>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum ButtonStyles
     {

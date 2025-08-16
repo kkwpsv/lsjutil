@@ -1,47 +1,42 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Device Technologies
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
-    /// </para>
+    /// Device technologies
     /// </summary>
     public enum DeviceTechnologies : uint
     {
         /// <summary>
-        /// Vector plotter
+        /// DT_PLOTTER
         /// </summary>
         DT_PLOTTER = 0,
 
         /// <summary>
-        /// Raster display
+        /// DT_RASDISPLAY
         /// </summary>
         DT_RASDISPLAY = 1,
 
         /// <summary>
-        /// Raster printer
+        /// DT_RASPRINTER
         /// </summary>
         DT_RASPRINTER = 2,
 
         /// <summary>
-        /// Raster camera
+        /// DT_RASCAMERA
         /// </summary>
         DT_RASCAMERA = 3,
 
         /// <summary>
-        /// Character stream
+        /// DT_CHARSTREAM
         /// </summary>
         DT_CHARSTREAM = 4,
 
         /// <summary>
-        /// Metafile
+        /// DT_METAFILE
         /// </summary>
         DT_METAFILE = 5,
 
         /// <summary>
-        /// Display file
+        /// DT_DISPFILE
         /// </summary>
         DT_DISPFILE = 6,
     }

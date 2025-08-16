@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.GUITHREADINFOFlags;
+using static Lsj.Util.Win32.Enums.GUIThreadStates;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public GUITHREADINFOFlags flags;
+        public GUIThreadStates flags;
 
         /// <summary>
         /// A handle to the active window within the thread.

@@ -1,5 +1,5 @@
 ﻿using System;
-using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
+using static Lsj.Util.Win32.Enums.OpenFileDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums

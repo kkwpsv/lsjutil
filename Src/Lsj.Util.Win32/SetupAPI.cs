@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CM_DEVCAP;
-using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
+using static Lsj.Util.Win32.Enums.SetupDeviceRegistryProperties;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SetupDiGetClassDevsFlags;
 using static Lsj.Util.Win32.Enums.SetupDiOpenDeviceInfoFlags;
@@ -448,7 +448,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceRegistryPropertyW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceRegistryProperty([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
-            [In] DeviceRegistryPropertyCodes Property, [Out] out RegistryValueTypes PropertyRegDataType, [In] IntPtr PropertyBuffer,
+            [In] SetupDeviceRegistryProperties Property, [Out] out RegistryValueTypes PropertyRegDataType, [In] IntPtr PropertyBuffer,
             [In] DWORD PropertyBufferSize, [Out] out DWORD RequiredSize);
 
         /// <summary>

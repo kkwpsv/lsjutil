@@ -1,16 +1,13 @@
 ﻿using Lsj.Util.Win32.Structs;
+using System;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="PROPSHEETPAGE"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/pss-propsheetpage"/>
-    /// </para>
+    /// <see cref="PROPSHEETPAGE"/> flags
     /// </summary>
-    public enum PROPSHEETPAGEFlags : uint
+    [Flags]
+    public enum PropSheetPageFlags : uint
     {
         /// <summary>
         /// PSP_DEFAULT

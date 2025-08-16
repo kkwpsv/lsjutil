@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CommErrors;
-using static Lsj.Util.Win32.Enums.CommEvents;
+using static Lsj.Util.Win32.Enums.CommunicationErrorTypes;
+using static Lsj.Util.Win32.Enums.CommunicationEventTypes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// with the current status of the communications device specified by the <paramref name="hFile"/> parameter.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClearCommError", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ClearCommError([In] HANDLE hFile, [Out] CommErrors lpErrors, [Out] out COMSTAT lpStat);
+        public static extern BOOL ClearCommError([In] HANDLE hFile, [Out] CommunicationErrorTypes lpErrors, [Out] out COMSTAT lpStat);
 
         /// <summary>
         /// <para>
@@ -865,6 +865,6 @@ namespace Lsj.Util.Win32
         /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitCommEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WaitCommEvent([In] HANDLE hFile, [Out] out CommEvents lpEvtMask, [In] in OVERLAPPED lpOverlapped);
+        public static extern BOOL WaitCommEvent([In] HANDLE hFile, [Out] out CommunicationEventTypes lpEvtMask, [In] in OVERLAPPED lpOverlapped);
     }
 }

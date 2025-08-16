@@ -11,6 +11,9 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ne-wingdi-displayconfig_scaling"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// For more information about scaling, see Scaling the Desktop Image.
+    /// </remarks>
     public enum DISPLAYCONFIG_SCALING
     {
         /// <summary>

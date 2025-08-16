@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Disp Invoke Flags
+    /// Disp invoke flags
     /// </summary>
     public enum DispInvokeFlags : ushort
     {

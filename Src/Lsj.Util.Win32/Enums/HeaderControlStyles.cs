@@ -41,8 +41,14 @@ namespace Lsj.Util.Win32.Enums
         HDS_FILTERBAR = 0x0100,
 
         /// <summary>
-        /// Version 6.0 and later.
-        /// Causes the header control to be drawn flat when the operating system is running in classic mode.
+        /// <para>
+        /// Version 6.0 and later. Causes the header control to be drawn flat when the operating system is running in classic mode.
+        /// </para>
+        /// <para>
+        /// Note: Comctl32.dll version 6 is not redistributable but it is included in Windows.
+        /// To use Comctl32.dll version 6, specify it in a manifest.
+        /// For more information on manifests, see Enabling Visual Styles.
+        /// </para>
         /// </summary>
         HDS_FLAT = 0x0200,
 

@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// LogonTypes
+    /// Logon types
     /// </summary>
     public enum LogonTypes : uint
     {

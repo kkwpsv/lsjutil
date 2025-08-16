@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectExForDpi", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectExForDpi([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu,
-            [In] WindowStylesEx dwExStyle, [In] UINT dpi);
+            [In] ExtendedWindowStyles dwExStyle, [In] UINT dpi);
 
         /// <summary>
         /// <para>
@@ -332,7 +332,7 @@ namespace Lsj.Util.Win32
         /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetricsForDpi", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetSystemMetricsForDpi([In] SystemMetric nIndex, [In] UINT dpi);
+        public static extern int GetSystemMetricsForDpi([In] SystemMetricIndexes nIndex, [In] UINT dpi);
 
         /// <summary>
         /// <para>

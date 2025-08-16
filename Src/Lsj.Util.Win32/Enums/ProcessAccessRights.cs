@@ -12,6 +12,9 @@ namespace Lsj.Util.Win32.Enums
     /// The following table lists the standard access rights used by all objects.
     /// <see cref="DELETE"/>, <see cref="READ_CONTROL"/>, <see cref="SYNCHRONIZE"/>, <see cref="WRITE_DAC"/>, <see cref="WRITE_OWNER"/>
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights"/>
+    /// </para>
     /// </summary>
     public enum ProcessAccessRights : uint
     {

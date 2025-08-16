@@ -1,37 +1,32 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// File Type
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfiletype"/>
-    /// </para>
+    /// File types
     /// </summary>
     public enum FileTypes : uint
     {
         /// <summary>
-        /// The specified file is a character file, typically an LPT device or a console.
+        /// FILE_TYPE_CHAR
         /// </summary>
         FILE_TYPE_CHAR = 0x0002,
 
         /// <summary>
-        /// The specified file is a disk file.
+        /// FILE_TYPE_DISK
         /// </summary>
         FILE_TYPE_DISK = 0x0001,
 
         /// <summary>
-        /// The specified file is a socket, a named pipe, or an anonymous pipe.
+        /// FILE_TYPE_PIPE
         /// </summary>
         FILE_TYPE_PIPE = 0x0003,
 
         /// <summary>
-        /// Unused.
+        /// FILE_TYPE_REMOTE
         /// </summary>
         FILE_TYPE_REMOTE = 0x8000,
 
         /// <summary>
-        /// Either the type of the specified file is unknown, or the function failed.
+        /// FILE_TYPE_UNKNOWN
         /// </summary>
         FILE_TYPE_UNKNOWN = 0x0000,
     }

@@ -1,42 +1,37 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Hatch Styles
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createhatchbrush"/>
-    /// </para>
+    /// Hatch styles
     /// </summary>
     public enum HatchStyles
     {
         /// <summary>
-        /// Horizontal hatch
+        /// HS_HORIZONTAL
         /// </summary>
         HS_HORIZONTAL = 0,
 
         /// <summary>
-        /// Vertical hatch
+        /// HS_VERTICAL
         /// </summary>
         HS_VERTICAL = 1,
 
         /// <summary>
-        /// 45-degree downward left-to-right hatch
+        /// HS_FDIAGONAL
         /// </summary>
         HS_FDIAGONAL = 2,
 
         /// <summary>
-        /// 45-degree upward left-to-right hatch
+        /// HS_BDIAGONAL
         /// </summary>
         HS_BDIAGONAL = 3,
 
         /// <summary>
-        /// Horizontal and vertical crosshatch
+        /// HS_CROSS
         /// </summary>
         HS_CROSS = 4,
 
         /// <summary>
-        /// 45-degree crosshatch
+        /// HS_DIAGCROSS
         /// </summary>
         HS_DIAGCROSS = 5,
     }

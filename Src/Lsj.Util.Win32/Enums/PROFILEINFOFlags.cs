@@ -5,7 +5,7 @@ namespace Lsj.Util.Win32.Enums
     /// <summary>
     /// <see cref="PROFILEINFO"/> Flags
     /// </summary>
-    public enum PROFILEINFOFlags : uint
+    public enum ProfileInfoFlags : uint
     {
         /// <summary>
         /// PI_NOUI

@@ -45,7 +45,7 @@
         /// Typically, the string is the name of the header file that provides symbolic names.
         /// The resource compiler parses the string but otherwise ignores the value.
         /// For example,
-        /// 1 DLGINCLUDE "MyFile.h"
+        /// <c>1 DLGINCLUDE "MyFile.h"</c>
         /// </summary>
         RT_DLGINCLUDE = 17,
 

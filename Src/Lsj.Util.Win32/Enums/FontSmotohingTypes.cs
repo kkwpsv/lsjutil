@@ -1,9 +1,9 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Font Smoothing Types
+    /// Font smoothing types
     /// </summary>
-    public enum FontSmotohingTypes
+    public enum FontSmoothingTypes
     {
         /// <summary>
         /// FE_FONTSMOOTHINGSTANDARD

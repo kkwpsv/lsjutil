@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32.Structs
         /// but applications that use dialog box templates can use it to create other types of windows.
         /// For a list of values, see Extended Window Styles.
         /// </summary>
-        public WindowStylesEx dwExtendedStyle;
+        public ExtendedWindowStyles dwExtendedStyle;
 
         /// <summary>
         /// The x-coordinate, in dialog box units, of the upper-left corner of the control.

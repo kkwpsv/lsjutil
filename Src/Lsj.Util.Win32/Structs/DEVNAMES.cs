@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comdlg32;
-using static Lsj.Util.Win32.Enums.DEVNAMESFlags;
+using static Lsj.Util.Win32.Enums.DeviceNamesFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -49,6 +49,6 @@ namespace Lsj.Util.Win32.Structs
         /// If a specific printer is selected, the flag is not used. All other flags in this member are reserved for internal
         /// use by the dialog box procedure for the Print property sheet or Print dialog box.
         /// </summary>
-        public DEVNAMESFlags wDefault;
+        public DeviceNamesFlags wDefault;
     }
 }

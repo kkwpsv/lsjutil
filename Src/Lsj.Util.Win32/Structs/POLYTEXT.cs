@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -71,7 +71,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public ExtTextOutFlags uiFlags;
+        public ExtTextOutOptions uiFlags;
 
         /// <summary>
         /// A rectangle structure that contains the dimensions of the opaquing or clipping rectangle.

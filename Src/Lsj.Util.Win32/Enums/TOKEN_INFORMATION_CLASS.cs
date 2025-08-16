@@ -7,9 +7,13 @@ namespace Lsj.Util.Win32.Enums
 #pragma warning disable CS1574
     /// <summary>
     /// <para>
-    /// The <see cref="TOKEN_INFORMATION_CLASS"/> enumeration contains values that specify the type of information
-    /// being assigned to or retrieved from an access token.
+    /// The <see cref="TOKEN_INFORMATION_CLASS"/> enumeration contains values
+    /// that specify the type of information being assigned to or retrieved from an access token.
+    /// </para>
+    /// <para>
     /// The <see cref="GetTokenInformation"/> function uses these values to indicate the type of token information to retrieve.
+    /// </para>
+    /// <para>
     /// The <see cref="SetTokenInformation"/> function uses these values to set the token information.
     /// </para>
     /// <para>
@@ -75,13 +79,24 @@ namespace Lsj.Util.Win32.Enums
         TokenRestrictedSids,
 
         /// <summary>
-        /// The buffer receives a DWORD value that indicates the Terminal Services session identifier that is associated with the token.
+        /// <para>
+        /// The buffer receives a <see cref="DWORD"/> value that indicates the Terminal Services session identifier that is associated with the token.
+        /// </para>
+        /// <para>
         /// If the token is associated with the terminal server client session, the session identifier is nonzero.
-        /// Windows Server 2003 and Windows XP:  If the token is associated with the terminal server console session, the session identifier is zero.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// If the token is associated with the terminal server console session, the session identifier is zero.
+        /// </para>
+        /// <para>
         /// In a non-Terminal Services environment, the session identifier is zero.
+        /// </para>
+        /// <para>
         /// If <see cref="TokenSessionId"/> is set with <see cref="SetTokenInformation"/>,
         /// the application must have the Act As Part Of the Operating System privilege,
         /// and the application must be enabled to set the session ID in a token.
+        /// </para>
         /// </summary>
         TokenSessionId,
 
@@ -107,13 +122,19 @@ namespace Lsj.Util.Win32.Enums
         TokenAuditPolicy,
 
         /// <summary>
+        /// <para>
         /// The buffer receives a <see cref="TOKEN_ORIGIN"/> value.
-        /// If the token resulted from a logon that used explicit credentials, such as passing a name, domain,
-        /// and password to the <see cref="LogonUser"/> function,
+        /// </para>
+        /// <para>
+        /// If the token resulted from a logon that used explicit credentials,
+        /// such as passing a name, domain, and password to the <see cref="LogonUser"/> function,
         /// then the <see cref="TOKEN_ORIGIN"/> structure will contain the ID of the logon session that created it.
-        /// If the token resulted from network authentication, such as a call to <see cref="AcceptSecurityContext"/> or
-        /// a call to <see cref="LogonUser"/> with dwLogonType set to <see cref="LOGON32_LOGON_NETWORK"/>
+        /// </para>
+        /// <para>
+        /// If the token resulted from network authentication, such as a call to <see cref="AcceptSecurityContext"/>
+        /// or a call to <see cref="LogonUser"/> with <see cref="dwLogonType"/> set to <see cref="LOGON32_LOGON_NETWORK"/>
         /// or <see cref="LOGON32_LOGON_NETWORK_CLEARTEXT"/>, then this value will be zero.
+        /// </para>
         /// </summary>
         TokenOrigin,
 
@@ -143,12 +164,12 @@ namespace Lsj.Util.Win32.Enums
         TokenAccessInformation,
 
         /// <summary>
-        /// The buffer receives a DWORD value that is nonzero if virtualization is allowed for the token.
+        /// The buffer receives a <see cref="DWORD"/> value that is nonzero if virtualization is allowed for the token.
         /// </summary>
         TokenVirtualizationAllowed,
 
         /// <summary>
-        /// The buffer receives a DWORD value that is nonzero if virtualization is enabled for the token.
+        /// The buffer receives a <see cref="DWORD"/> value that is nonzero if virtualization is enabled for the token.
         /// </summary>
         TokenVirtualizationEnabled,
 
@@ -158,7 +179,7 @@ namespace Lsj.Util.Win32.Enums
         TokenIntegrityLevel,
 
         /// <summary>
-        /// The buffer receives a DWORD value that is nonzero if the token has the UIAccess flag set.
+        /// The buffer receives a <see cref="DWORD"/> value that is nonzero if the token has the UIAccess flag set.
         /// </summary>
         TokenUIAccess,
 
@@ -173,7 +194,7 @@ namespace Lsj.Util.Win32.Enums
         TokenLogonSid,
 
         /// <summary>
-        /// The buffer receives a DWORD value that is nonzero if the token is an app container token.
+        /// The buffer receives a <see cref="DWORD"/> value that is nonzero if the token is an app container token.
         /// Any callers who check the <see cref="TokenIsAppContainer"/> and have it return 0 should also verify that
         /// the caller token is not an identify level impersonation token.
         /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
@@ -193,7 +214,7 @@ namespace Lsj.Util.Win32.Enums
         TokenAppContainerSid,
 
         /// <summary>
-        /// The buffer receives a DWORD value that includes the app container number for the token.
+        /// The buffer receives a <see cref="DWORD"/> value that includes the app container number for the token.
         /// For tokens that are not app container tokens, this value is zero.
         /// </summary>
         TokenAppContainerNumber,
@@ -264,7 +285,18 @@ namespace Lsj.Util.Win32.Enums
         TokenChildProcessFlags,
 
         /// <summary>
-        /// 
+        /// <para>
+        /// Refers to a Least Privileged AppContainer (LPAC).
+        /// An LPAC is effectively an AppContainer that's disregarded by the <see cref="ALL_APPLICATION_PACKAGES"/> SID.
+        /// For info about what an AppContainer is, see AppContainer for legacy apps.
+        /// </para>
+        /// <para>
+        /// Many resources across Windows are ACL'd with <see cref="ALL_APPLICATION_PACKAGES"/>, as described in DoNotAddAllApplicationPackagesToRestrictions.
+        /// In scenarios where you want a process running with no rights to any resources except what you explicitly grant
+        /// (for example, a web browser sandboxing a child worker process),
+        /// an AppContaoiner has too much access to the system because of <see cref="ALL_APPLICATION_PACKAGES"/>.
+        /// That's where an LPAC comes in. You can create an LPAC only imperatively via APIs; not declaratively via .
+        /// </para>
         /// </summary>
         TokenIsLessPrivilegedAppContainer,
 
@@ -277,6 +309,11 @@ namespace Lsj.Util.Win32.Enums
         /// 
         /// </summary>
         TokenOriginatingProcessTrustLevel,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        TokenLearningMode,
 
         /// <summary>
         /// The maximum value for this enumeration.

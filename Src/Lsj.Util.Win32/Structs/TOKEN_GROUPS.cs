@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Enums.GroupAttributes;
+using static Lsj.Util.Win32.Enums.SidAttributes;
 
 namespace Lsj.Util.Win32.Structs
 {

@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Win32.Structs;
-using static Lsj.Util.Win32.Enums.COMBOBOXEXITEMFlags;
+using static Lsj.Util.Win32.Enums.ComboxBoxExItemFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums

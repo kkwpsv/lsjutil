@@ -1,23 +1,38 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Font Types
+    /// Font types
     /// </summary>
-    public enum FontTypes : uint
+    public enum FontTypes : ushort
     {
         /// <summary>
-        /// RASTER_FONTTYPE
+        /// BOLD_FONTTYPE
         /// </summary>
-        RASTER_FONTTYPE = 0x0001,
+        BOLD_FONTTYPE = 0x0100,
 
         /// <summary>
-        /// DEVICE_FONTTYPE
+        /// ITALIC_FONTTYPE
         /// </summary>
-        DEVICE_FONTTYPE = 0x0002,
+        ITALIC_FONTTYPE = 0x0200,
 
         /// <summary>
-        /// TRUETYPE_FONTTYPE
+        /// PRINTER_FONTTYPE
         /// </summary>
-        TRUETYPE_FONTTYPE = 0x0004,
+        PRINTER_FONTTYPE = 0x4000,
+
+        /// <summary>
+        /// REGULAR_FONTTYPE
+        /// </summary>
+        REGULAR_FONTTYPE = 0x0400,
+
+        /// <summary>
+        /// SCREEN_FONTTYPE
+        /// </summary>
+        SCREEN_FONTTYPE = 0x2000,
+
+        /// <summary>
+        /// SIMULATED_FONTTYPE
+        /// </summary>
+        SIMULATED_FONTTYPE = 0x8000,
     }
 }

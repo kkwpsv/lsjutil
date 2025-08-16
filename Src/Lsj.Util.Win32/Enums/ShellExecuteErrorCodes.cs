@@ -1,9 +1,7 @@
-﻿using static Lsj.Util.Win32.Shell32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="ShellExecute"/> and <see cref="ShellExecuteEx"/> Error Codes
+    /// Shell execute error codes
     /// </summary>
     public enum ShellExecuteErrorCodes
     {

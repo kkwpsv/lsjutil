@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Registry Key Dispositions
+    /// Registry key dispositions
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw"/>

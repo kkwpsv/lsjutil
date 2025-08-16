@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HWND;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BorderFlags;
-using static Lsj.Util.Win32.Enums.BorderStyles;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.DrawEdgeBorderTypes;
+using static Lsj.Util.Win32.Enums.DrawEdgeTypes;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.DrawFrameControlStates;
 using static Lsj.Util.Win32.Enums.DrawFrameControlTypes;
 using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
@@ -25,7 +25,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TextAlignments;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEdge", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawEdge([In] HDC hdc, [In] in RECT qrc, [In] BorderStyles edge, [In] BorderFlags grfFlags);
+        public static extern BOOL DrawEdge([In] HDC hdc, [In] in RECT qrc, [In] DrawEdgeTypes edge, [In] DrawEdgeBorderTypes grfFlags);
 
         /// <summary>
         /// <para>

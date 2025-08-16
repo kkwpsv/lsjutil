@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.MONITORINFOFlags;
+using static Lsj.Util.Win32.Enums.MonitorInfoFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -73,6 +73,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MONITORINFOFlags dwFlags;
+        public MonitorInfoFlags dwFlags;
     }
 }

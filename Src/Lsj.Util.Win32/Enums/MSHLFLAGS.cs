@@ -23,28 +23,36 @@ namespace Lsj.Util.Win32.Enums
         MSHLFLAGS_NORMAL = 0,
 
         /// <summary>
+        /// <para>
         /// The marshaling is occurring because the data packet is to be stored in a globally accessible table
         /// from which it can be unmarshaled one or more times, or not at all.
         /// The presence of the data packet in the table counts as a strong reference to the interface being marshaled,
         /// meaning that it is sufficient to keep the object alive.
-        /// When the data packet is removed from the table, the table implementer
-        /// must call the <see cref="CoReleaseMarshalData"/> function on the data packet.
+        /// When the data packet is removed from the table,
+        /// the table implementer must call the <see cref="CoReleaseMarshalData"/> function on the data packet.
+        /// </para>
+        /// <para>
         /// <see cref="MSHLFLAGS_TABLESTRONG"/> is used by the <see cref="RegisterDragDrop"/> function when registering a window as a drop target.
         /// This keeps the window registered as a drop target no matter how many times the end user drags across the window.
         /// The <see cref="RevokeDragDrop"/> function calls <see cref="CoReleaseMarshalData"/>.
+        /// </para>
         /// </summary>
         MSHLFLAGS_TABLESTRONG = 1,
 
         /// <summary>
+        /// <para>
         /// The marshaling is occurring because the data packet is to be stored in a globally accessible table
         /// from which it can be unmarshaled one or more times, or not at all.
         /// However, the presence of the data packet in the table acts as a weak reference to the interface being marshaled,
         /// meaning that it is not sufficient to keep the object alive.
-        /// When the data packet is removed from the table, the table implementer
-        /// must call the <see cref="CoReleaseMarshalData"/> function on the data packet.
+        /// When the data packet is removed from the table,
+        /// the table implementer must call the <see cref="CoReleaseMarshalData"/> function on the data packet.
+        /// </para>
+        /// <para>
         /// <see cref="MSHLFLAGS_TABLEWEAK"/> is typically used when registering an object in the running object table (ROT).
         /// This prevents the object's entry in the ROT from keeping the object alive in the absence of any other connections.
         /// See <see cref="IRunningObjectTable.Register"/> for more information.
+        /// </para>
         /// </summary>
         MSHLFLAGS_TABLEWEAK = 2,
 

@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Image Types
+    /// Image types
     /// </summary>
     public enum ImageTypes : uint
     {

@@ -14,7 +14,7 @@ using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -161,12 +161,12 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private WindowStylesEx GetWindowStylesEx()
+        private ExtendedWindowStyles GetWindowStylesEx()
         {
             var result = GetWindowLong(_handle, GWL_EXSTYLE);
             if (result != NULL)
             {
-                return (WindowStylesEx)((IntPtr)result).SafeToUInt32();
+                return (ExtendedWindowStyles)((IntPtr)result).SafeToUInt32();
             }
             else
             {
@@ -175,7 +175,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private void SetWindowStylesEx(WindowStylesEx value)
+        private void SetWindowStylesEx(ExtendedWindowStyles value)
         {
             var oldStyleEx = GetWindowStylesEx();
             if ((oldStyleEx & WS_EX_TOPMOST) != 0 && (value & WS_EX_TOPMOST) == 0)
@@ -193,12 +193,12 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private ClassStyles GetClassStyles()
+        private WindowClassStyles GetClassStyles()
         {
             var result = GetClassLong(_handle, GCL_STYLE);
             if (result != NULL)
             {
-                return (ClassStyles)result.SafeToUInt32();
+                return (WindowClassStyles)result.SafeToUInt32();
             }
             else
             {
@@ -207,7 +207,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private void SetClassStyles(ClassStyles value)
+        private void SetClassStyles(WindowClassStyles value)
         {
             SetLastError(ERROR_SUCCESS);
             if (SetClassLong(_handle, GCL_STYLE, (uint)value) == NULL)

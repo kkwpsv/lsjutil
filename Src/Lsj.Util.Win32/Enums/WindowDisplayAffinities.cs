@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Window Display Affinities
+    /// Window display affinities
     /// </summary>
     public enum WindowDisplayAffinities : uint
     {

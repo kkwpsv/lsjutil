@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;
+using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Structs
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.Structs
         /// for <see cref="SHBrowseForFolder"/> to recognize flags added in later releases.
         /// See Shell and Common Controls Versions for more information.
         /// </summary>
-        public BROWSEINFOFlags ulFlags;
+        public BrowseForFolderDialogOptionFlags ulFlags;
 
         /// <summary>
         /// Pointer to an application-defined function that the dialog box calls when an event occurs.

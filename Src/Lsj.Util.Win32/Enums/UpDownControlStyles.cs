@@ -6,7 +6,7 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// UpDown Styles
+    /// This section lists the styles used when creating up-down controls.
     /// </para>
     /// <para>
     /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/up-down-control-styles"/>

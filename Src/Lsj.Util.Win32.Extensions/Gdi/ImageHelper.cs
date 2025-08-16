@@ -41,8 +41,8 @@ namespace Lsj.Util.Win32.Extensions.Gdi
                     bitmapInfo.bmiHeader.biHeight = -height;
                     bitmapInfo.bmiHeader.biPlanes = 1;
                     bitmapInfo.bmiHeader.biBitCount = 32;
-                    bitmapInfo.bmiHeader.biCompression = Compression.BI_RGB;
-                    if (Gdi32.GetDIBits(dc, hBitmap, 0, (uint)height, dataPtr, bitmapInfo, (uint)DIBColorTableIdentifiers.DIB_RGB_COLORS) == height)
+                    bitmapInfo.bmiHeader.biCompression = BitmapCompressions.BI_RGB;
+                    if (Gdi32.GetDIBits(dc, hBitmap, 0, (uint)height, dataPtr, bitmapInfo, (uint)DIBColorTableUsages.DIB_RGB_COLORS) == height)
                     {
                         Gdi32.DeleteDC(dc);
                         return data;
@@ -116,7 +116,7 @@ namespace Lsj.Util.Win32.Extensions.Gdi
                 biHeight = -(int)height,
                 biPlanes = 1,
                 biBitCount = 32,
-                biCompression = Compression.BI_RGB,
+                biCompression = BitmapCompressions.BI_RGB,
                 biSizeImage = 0,
                 biXPelsPerMeter = 0,
                 biYPelsPerMeter = 0,

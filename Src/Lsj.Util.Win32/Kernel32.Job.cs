@@ -5,10 +5,10 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_SECURITY;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
+using static Lsj.Util.Win32.Enums.JobObjectSecurityLimitFlags;
 using static Lsj.Util.Win32.Enums.JobAccessRights;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -325,7 +325,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryInformationJobObject", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL QueryInformationJobObject([In] HANDLE hJob, [In] JOBOBJECTINFOCLASS JobObjectInformationClass,
+        public static extern BOOL QueryInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength, [Out] out DWORD lpReturnLength);
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetInformationJobObject", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetInformationJobObject([In] HANDLE hJob, [In] JOBOBJECTINFOCLASS JobObjectInformationClass,
+        public static extern BOOL SetInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength);
 
         /// <summary>

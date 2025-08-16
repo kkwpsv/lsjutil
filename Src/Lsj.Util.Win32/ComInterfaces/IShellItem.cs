@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
-using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Enums.SFGAO;
 using static Lsj.Util.Win32.GUIDs.BHIDs;
 using static Lsj.Util.Win32.Ole32;
 
@@ -144,23 +144,23 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </summary>
         /// <param name="sfgaoMask">
         /// Specifies the attributes to retrieve.
-        /// One or more of the <see cref="SFGAOF"/> values.
+        /// One or more of the <see cref="SFGAO"/> values.
         /// Use a bitwise OR operator to determine the attributes to retrieve.
         /// </param>
         /// <param name="psfgaoAttribs">
         /// A pointer to a value that, when this method returns successfully, contains the requested attributes.
-        /// One or more of the <see cref="SFGAOF"/> values.
+        /// One or more of the <see cref="SFGAO"/> values.
         /// Only those attributes specified by sfgaoMask are returned; other attribute values are undefined.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if the attributes returned exactly match those requested in <paramref name="sfgaoMask"/>,
         /// <see cref="S_FALSE"/> if the attributes do not exactly match, or a standard COM error value otherwise.
         /// </returns>
-        public HRESULT GetAttributes([In] SFGAOF sfgaoMask, [Out] out SFGAOF psfgaoAttribs)
+        public HRESULT GetAttributes([In] SFGAO sfgaoMask, [Out] out SFGAO psfgaoAttribs)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, SFGAOF, out SFGAOF, HRESULT>)_vTable[6])(thisPtr, sfgaoMask, out psfgaoAttribs);
+                return ((delegate* unmanaged[Stdcall]<void*, SFGAO, out SFGAO, HRESULT>)_vTable[6])(thisPtr, sfgaoMask, out psfgaoAttribs);
             }
         }
 

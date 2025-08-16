@@ -1,10 +1,16 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.BaseTypes;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// The ADS_RIGHTS_ENUM enumeration specifies access rights assigned to an Active Directory object.
+    /// The <see cref="ADS_RIGHTS_ENUM"/> enumeration specifies access rights assigned to an Active Directory object.
     /// The IADsAccessControlEntry.AccessMask property contains a combination of these values for an Active Directory object.
+    /// </para>
+    /// <para>
     /// For more information and a list of possible access right values for file or file share objects, see File Security and Access Rights.
+    /// </para>
+    /// <para>
     /// For more information and a list of possible access right values for registry objects, see Registry Key Security and Access Rights.
     /// </para>
     /// <para>
@@ -12,21 +18,38 @@
     /// </para>
     /// </summary>
     /// <remarks>
-    /// To assign access rights to an object, set the AccessMask field of an access-control entry (ACE) to a combination of the constants defined in this enumeration.
-    /// In addition to the AccessMask field, an ACE can have other fields, including ACEType, ACEFlags, ObjectType, InheritedObjectType, Flags, and Trustee.
+    /// <para>
+    /// To assign access rights to an object, set the AccessMask field of an access-control entry (ACE)
+    /// to a combination of the constants defined in this enumeration.
+    /// In addition to the AccessMask field, an ACE can have other fields,
+    /// including ACEType, ACEFlags, ObjectType, InheritedObjectType, Flags, and Trustee.
     /// The <see cref="IADsAccessControlEntry"/> interface provides property methods to obtain and modify these fields.
-    /// The ObjectType field specifies a GUID that identifies the property set, property, extended right, or type of child object to which the ACE applies.
-    /// The InheritedObjectType field specifies a GUID that identifies the type of child object that can inherit the ACE.
+    /// </para>
+    /// <para>
+    /// The ObjectType field specifies a <see cref="GUID"/> that identifies the property set,
+    /// property, extended right, or type of child object to which the ACE applies.
+    /// The InheritedObjectType field specifies a <see cref="GUID"/> that identifies the type of child object that can inherit the ACE.
     /// The Trustee field identifies the security principal to whom the ACE allows or denies the specified access rights.
-    /// For more information about ACEType, ACEFlags, and Flags, see ADS_ACETYPE_ENUM, ADS_ACEFLAG_ENUM.
+    /// </para>
+    /// <para>
+    /// For more information about ACEType, ACEFlags, and Flags, see <see cref="ADS_ACETYPE_ENUM"/>, <see cref="ADS_ACEFLAG_ENUM"/>.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// Because VBScript cannot read data from a type library, VBScript applications do not recognize the symbolic constants as defined above.
     /// Instead, use the numerical constants to set the appropriate flags in your VBScript application.
-    /// To use the symbolic constants as a good programming practice, write explicit declarations of such constants, as done here, in your VBScript applications.
-    /// The specific access rights granted by the four generic rights enumerations (ADS_RIGHT_GENERIC_xxx) is dependent on the specific ADSI service provider being accessed.
+    /// To use the symbolic constants as a good programming practice,
+    /// write explicit declarations of such constants, as done here, in your VBScript applications.
+    /// </para>
+    /// <para>
+    /// The specific access rights granted by the four generic rights enumerations (ADS_RIGHT_GENERIC_xxx)
+    /// is dependent on the specific ADSI service provider being accessed.
     /// For Active Directory, these generic rights are defined in the Ntdsapi.h header file
     /// as <see cref="DS_GENERIC_READ"/>, <see cref="DS_GENERIC_WRITE"/>, <see cref="DS_GENERIC_EXECUTE"/>, and <see cref="DS_GENERIC_ALL"/>.
     /// For more information about how to use the Access Right and Access Masks, see Access Control.
+    /// </para>
     /// </remarks>
     public enum ADS_RIGHTS_ENUM
     {

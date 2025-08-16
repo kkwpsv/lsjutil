@@ -3,9 +3,9 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="MENUITEMINFO"/> Masks
+    /// <see cref="MENUITEMINFO"/> masks
     /// </summary>
-    public enum MENUITEMINFOMasks : uint
+    public enum MenuItemInfoMasks : uint
     {
         /// <summary>
         /// MIIM_STATE

@@ -1,24 +1,21 @@
-﻿using static Lsj.Util.Win32.Kernel32;
+﻿using System;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="LockFileEx"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex"/>
-    /// </para>
+    /// <see cref="LockFileEx"/> flags
     /// </summary>
+    [Flags]
     public enum LockFileExFlags : uint
     {
         /// <summary>
-        /// The function requests an exclusive lock. Otherwise, it requests a shared lock.
+        /// LOCKFILE_EXCLUSIVE_LOCK
         /// </summary>
         LOCKFILE_EXCLUSIVE_LOCK = 0x00000002,
 
         /// <summary>
-        /// The function returns immediately if it is unable to acquire the requested lock. Otherwise, it waits.
+        /// LOCKFILE_FAIL_IMMEDIATELY
         /// </summary>
         LOCKFILE_FAIL_IMMEDIATELY = 0x00000001,
     }

@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
-using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
+using static Lsj.Util.Win32.Enums.AuthenticationServiceConstants;
+using static Lsj.Util.Win32.Enums.AuthenticationLevelConstants;
+using static Lsj.Util.Win32.Enums.AuthorizationConstants;
+using static Lsj.Util.Win32.Enums.ImpersonationLevelConstants;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.Structs
     /// </summary>
     /// <remarks>
     /// <para>
-    /// If <see cref="pAuthInfo"/> in <see cref="COSERVERINFO"/> is set to <see cref="NULL"/>,
+    /// If <see cref="COSERVERINFO.pAuthInfo"/> in <see cref="COSERVERINFO"/> is set to <see cref="NULL"/>,
     /// Snego will be used to negotiate an authentication service that will work between the client and server.
     /// However, a non-<see cref="NULL"/><see cref="COAUTHINFO"/> structure can be specified 
     /// for <see cref="COSERVERINFO.pAuthInfo"/> to meet any one of the following needs:
@@ -72,14 +72,14 @@ namespace Lsj.Util.Win32.Structs
         /// Use <see cref="RPC_C_AUTHN_NONE"/> if no authentication is required.
         /// <see cref="RPC_C_AUTHN_WINNT"/> is the default and <see cref="RPC_C_AUTHN_GSS_KERBEROS"/> is also supported.
         /// </summary>
-        public RPC_C_AUTHN dwAuthnSvc;
+        public AuthenticationServiceConstants dwAuthnSvc;
 
         /// <summary>
         /// The authorization service to be used.
         /// For a list of values, see Authorization Constants.
         /// To use the NT authentication service, specify <see cref="RPC_C_AUTHZ_NONE"/>.
         /// </summary>
-        public RPC_C_AUTHZ dwAuthzSvc;
+        public AuthorizationConstants dwAuthzSvc;
 
         /// <summary>
         /// The server principal name to use with the authentication service.
@@ -97,14 +97,14 @@ namespace Lsj.Util.Win32.Structs
         /// In previous versions of Windows, <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/> was always used for the security level unless another level was explicitly specified.
         /// </para>
         /// </summary>
-        public RPC_C_AUTHN_LEVEL dwAuthnLevel;
+        public AuthenticationLevelConstants dwAuthnLevel;
 
         /// <summary>
         /// The impersonation level to be used.
         /// For a list of values, see Impersonation Level Constants.
         /// This value must be <see cref="RPC_C_IMP_LEVEL_IMPERSONATE"/> or above.
         /// </summary>
-        public RPC_C_IMP_LEVEL dwImpersonationLevel;
+        public ImpersonationLevelConstants dwImpersonationLevel;
 
         /// <summary>
         /// A pointer to a <see cref="COAUTHIDENTITY"/> structure that establishes a nondefault client identity.

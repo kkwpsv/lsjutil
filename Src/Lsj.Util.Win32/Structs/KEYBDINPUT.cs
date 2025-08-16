@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
-using static Lsj.Util.Win32.Enums.KeyEventFlags;
+using static Lsj.Util.Win32.Enums.KEYEVENTF;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32.Structs
         /// This flag can only be combined with the <see cref="KEYEVENTF_KEYUP"/> flag.
         /// For more information, see the Remarks section.
         /// </summary>
-        public KeyEventFlags dwFlags;
+        public KEYEVENTF dwFlags;
 
         /// <summary>
         /// The time stamp for the event, in milliseconds.

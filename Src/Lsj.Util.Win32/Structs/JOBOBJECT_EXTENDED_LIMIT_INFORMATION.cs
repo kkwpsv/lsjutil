@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs

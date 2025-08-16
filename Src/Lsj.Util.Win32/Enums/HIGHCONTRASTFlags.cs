@@ -1,52 +1,42 @@
-﻿using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="HIGHCONTRAST"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-highcontrastw"/>
-    /// </para>
+    /// High contrast flags
     /// </summary>
-    public enum HIGHCONTRASTFlags : uint
+    public enum HighContrastFlags : uint
     {
         /// <summary>
-        /// The high contrast feature is on.
+        /// HCF_HIGHCONTRASTON
         /// </summary>
         HCF_HIGHCONTRASTON = 0x00000001,
 
         /// <summary>
-        /// The high contrast feature is available.
+        /// HCF_AVAILABLE
         /// </summary>
         HCF_AVAILABLE = 0x00000002,
 
         /// <summary>
-        /// The user can turn the high contrast feature on and off by simultaneously pressing the left ALT, left SHIFT, and PRINT SCREEN keys.
+        /// HCF_HOTKEYACTIVE
         /// </summary>
         HCF_HOTKEYACTIVE = 0x00000004,
 
         /// <summary>
-        /// A confirmation dialog appears when the high contrast feature is activated by using the hot key.
+        /// HCF_CONFIRMHOTKEY
         /// </summary>
         HCF_CONFIRMHOTKEY = 0x00000008,
 
         /// <summary>
-        /// A siren is played when the user turns the high contrast feature on or off by using the hot key.
+        /// HCF_HOTKEYSOUND
         /// </summary>
         HCF_HOTKEYSOUND = 0x00000010,
 
         /// <summary>
-        /// A visual indicator is displayed when the high contrast feature is on. This value is not currently used and is ignored.
+        /// HCF_INDICATOR
         /// </summary>
         HCF_INDICATOR = 0x00000020,
 
         /// <summary>
-        /// The hot key associated with the high contrast feature can be enabled. An application can retrieve this value, but cannot set it.
+        /// HCF_HOTKEYAVAILABLE
         /// </summary>
         HCF_HOTKEYAVAILABLE = 0x00000040,
     }

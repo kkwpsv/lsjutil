@@ -9,12 +9,16 @@ namespace Lsj.Util.Win32.Enums
     /// 32-bit values that identify categories of accessible objects within a window.
     /// Microsoft Active Accessibility servers and Microsoft UI Automation providers use the object identifiers
     /// to determine the object to which a <see cref="WM_GETOBJECT"/> message request refers.
+    /// </para>
+    /// <para>
     /// Clients receive these values in their WinEventProc callback function and use them to identify parts of a window.
     /// Servers use these values to identify the corresponding parts of a window when calling <see cref="NotifyWinEvent"/>
     /// or when responding to the <see cref="WM_GETOBJECT"/> message.
+    /// </para>
+    /// <para>
     /// Servers can define custom object IDs to identify other categories of objects within their applications.
-    /// Custom object IDs must be assigned positive values because Microsoft Active Accessibility reserves zero
-    /// and all negative values for the following standard object identifiers.
+    /// Custom object IDs must be assigned positive values
+    /// because Microsoft Active Accessibility reserves zero and all negative values for the following standard object identifiers.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winauto/object-identifiers"/>

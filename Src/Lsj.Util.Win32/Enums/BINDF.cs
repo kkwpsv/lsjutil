@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 
 namespace Lsj.Util.Win32.Enums
@@ -12,10 +13,18 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// These values are passed to the Urlmon.dll from the client application's implementation of the <see cref="IBindStatusCallback.GetBindInfo"/> method.
-    /// Note The gopher protocol is turned off by default in Microsoft Internet Explorer 6 for Windows XP Service Pack 2 (SP2).
+    /// </para>
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// </para>
+    /// The gopher protocol is turned off by default in Microsoft Internet Explorer 6 for Windows XP Service Pack 2 (SP2).
     /// The protocol has been removed from WinInet in Windows Internet Explorer 7.
     /// </remarks>
+    [Flags]
     public enum BINDF
     {
         /// <summary>
@@ -31,12 +40,20 @@ namespace Lsj.Util.Win32.Enums
         BINDF_ASYNCHRONOUS = 0x00000001,
 
         /// <summary>
+        /// <para>
         /// Value that indicates that the client application calling the <see cref="IMoniker.BindToStorage"/> method
         /// specifies that the storage objects and stream objects returned from the <see cref="IBindStatusCallback.OnDataAvailable"/> method
         /// return <see cref="E_PENDING"/> when the objects reference data that is not yet available through the <see cref="IStream.Read"/> method,
         /// instead of blocking until the data becomes available.
         /// This flag applies only to <see cref="BINDF_ASYNCHRONOUS"/> operations.
-        /// Note: Asynchronous stream objects return <see cref="E_PENDING"/> while data is still downloading and return <see cref="S_FALSE"/> for the end of the file.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Asynchronous stream objects return <see cref="E_PENDING"/>
+        /// while data is still downloading and return <see cref="S_FALSE"/> for the end of the file.
+        /// </para>
         /// </summary>
         BINDF_ASYNCSTORAGE = 0x00000002,
 
@@ -80,15 +97,22 @@ namespace Lsj.Util.Win32.Enums
         BINDF_PULLDATA = 0x00000080,
 
         /// <summary>
+        /// <para>
         /// Value that indicates that security problems related to bad certificates and redirects between HTTP and HTTPS servers should be ignored.
         /// For URL monikers, this flag corresponds to the following WinInet flags: <see cref="INTERNET_FLAG_IGNORE_CERT_CN_INVALID"/>,
         /// <see cref="INTERNET_FLAG_IGNORE_CERT_DATE_INVALID"/>, <see cref="INTERNET_FLAG_IGNORE_REDIRECT_TO_HTTP"/>, and <see cref="INTERNET_FLAG_IGNORE_REDIRECT_TO_HTTPS"/>.
-        /// Security Warning: Using this value incorrectly can compromise the security of your application.
+        /// </para>
+        /// <para>
+        /// Security Warning:
+        /// </para>
+        /// <para>
+        /// Using this value incorrectly can compromise the security of your application.
         /// If you implement the <see cref="IBindStatusCallback.GetBindInfo"/> method to ignore security problems with certificates and redirection,
         /// users may be susceptible to unwanted information disclosure.
         /// You should not implement <see cref="IBindStatusCallback.GetBindInfo"/> with a return value of <see cref="BINDF_IGNORESECURITYPROBLEM"/>
         /// because it prevents Internet Explorer from notifying users of security concerns.
         /// For more information, see Security Considerations: URL Monikers.
+        /// </para>
         /// </summary>
         BINDF_IGNORESECURITYPROBLEM = 0x00000100,
 

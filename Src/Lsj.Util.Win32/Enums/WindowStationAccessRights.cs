@@ -5,10 +5,25 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Window Station Access Rights
-    /// The valid access rights for window station objects include the standard access rights and some object-specific access rights.
+    /// Security enables you to control access to window station objects.
+    /// For more information about security, see Access-Control Model.
+    /// </para>
+    /// <para>
+    /// You can specify a security descriptor for a window station object when you call the <see cref="CreateWindowStation"/> function.
+    /// If you specify NULL, the window station gets a default security descriptor.
+    /// The ACLs in the default security descriptor for a window station come from the primary or impersonation token of the creator.
+    /// </para>
+    /// <para>
+    /// To get or set the security descriptor of a window station object,
+    /// call the <see cref="GetSecurityInfo"/> and <see cref="SetSecurityInfo"/> functions.
+    /// </para>
+    /// <para>
+    /// When you call the <see cref="OpenWindowStation"/> function,
+    /// the system checks the requested access rights against the object's security descriptor.
+    /// </para>
+    /// <para>
+    /// The valid access rights for window station objects include the standard access rights and some object-specific access rights.
     /// The following table lists the standard access rights used by all objects.
-    /// <see cref="DELETE"/>, <see cref="READ_CONTROL"/>, <see cref="SYNCHRONIZE"/>, <see cref="WRITE_DAC"/>, <see cref="WRITE_OWNER"/>
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winstation/window-station-security-and-access-rights"/>
@@ -54,7 +69,8 @@ namespace Lsj.Util.Win32.Enums
         WINSTA_EXITWINDOWS = 0x0040,
 
         /// <summary>
-        /// Required to read the attributes of a window station object. This attribute includes color settings and other global window station properties.
+        /// Required to read the attributes of a window station object.
+        /// This attribute includes color settings and other global window station properties.
         /// </summary>
         WINSTA_READATTRIBUTES = 0x0002,
 

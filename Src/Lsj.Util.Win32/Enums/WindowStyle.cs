@@ -5,10 +5,10 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>Window Styles</para>
     /// <para>
-    /// The following styles can be specified wherever a window style is required.
-    /// After the control has been created, these styles cannot be modified, except as noted.</para>
+    /// This topic provides a list of the various styles that can be applied to a window
+    /// (after the window has been created, these styles cannot be modified, except as noted).
+    /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winmsg/window-styles"/>
     /// </para>
@@ -59,19 +59,24 @@ namespace Lsj.Util.Win32.Enums
         WS_DISABLED = 0x8000000,
 
         /// <summary>
-        /// The window has a border of a style typically used with dialog boxes. A window with this style cannot have a title bar.
+        /// The window has a border of a style typically used with dialog boxes.
+        /// A window with this style cannot have a title bar.
         /// </summary>
         WS_DLGFRAME = 0x400000,
 
         /// <summary>
+        /// <para>
         /// The window is the first control of a group of controls.
         /// The group consists of this first control and all controls defined after it,
-        /// up to the next control with the <see cref="EnableWindow"/> style.
-        /// The first control in each group usually has the <see cref="WS_TABSTOP"/> style so that the user can move from group to group.
-        /// The user can subsequently change the keyboard focus from one control in the group to the next control in the group
-        /// by using the direction keys.
-        /// You can turn this style on and off to change dialog box navigation.
-        /// To change this style after a window has been created, use the <see cref="SetWindowLong"/> function.
+        /// up to the next control with the <see cref="WS_GROUP"/> style.
+        /// The first control in each group usually has the <see cref="WS_TABSTOP"/> style so that the user can move from group to group.
+        /// The user can subsequently change the keyboard focus from one control
+        /// in the group to the next control in the group by using the direction keys.
+        /// </para>
+        /// <para>
+        /// You can turn this style on and off to change dialog box navigation. 
+        /// To change this style after a window has been created, use the <see cref="SetWindowLong"/> function.
+        /// </para>
         /// </summary>
         WS_GROUP = 0x20000,
 
@@ -92,7 +97,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The window has a maximize button.
-        /// Cannot be combined with the <see cref="WindowStylesEx.WS_EX_CONTEXTHELP"/> style.
+        /// Cannot be combined with the <see cref="ExtendedWindowStyles.WS_EX_CONTEXTHELP"/> style.
         /// The <see cref="WS_SYSMENU"/> style must also be specified.
         /// </summary> 
         WS_MAXIMIZEBOX = 0x10000,
@@ -103,7 +108,7 @@ namespace Lsj.Util.Win32.Enums
         WS_MINIMIZE = 0x20000000,
 
         /// <summary>
-        /// The window has a minimize button. Cannot be combined with the <see cref="WindowStylesEx.WS_EX_CONTEXTHELP"/> style.
+        /// The window has a minimize button. Cannot be combined with the <see cref="ExtendedWindowStyles.WS_EX_CONTEXTHELP"/> style.
         /// The <see cref="WS_SYSMENU"/> style must also be specified.
         /// </summary>
         WS_MINIMIZEBOX = 0x20000,
@@ -140,12 +145,16 @@ namespace Lsj.Util.Win32.Enums
         WS_SYSMENU = 0x80000,
 
         /// <summary>
+        /// <para>
         /// The window is a control that can receive the keyboard focus when the user presses the TAB key.
-        /// Pressing the TAB key changes the keyboard focus to the next control with the <see cref="WS_TABSTOP"/> style.  
+        /// Pressing the TAB key changes the keyboard focus to the next control with the <see cref="WS_TABSTOP"/> style.
+        /// </para>
+        /// <para>
         /// You can turn this style on and off to change dialog box navigation.
-        /// To change this style after a window has been created, use the <see cref="SetWindowLong"/> function.
+        /// To change this style after a window has been created, use the <see cref="SetWindowLong"/> function.
         /// For user-created windows and modeless dialogs to work with tab stops,
-        /// alter the message loop to call the <see cref="IsDialogMessage"/> function.
+        /// alter the message loop to call the <see cref="IsDialogMessage"/> function.
+        /// </para>
         /// </summary>
         WS_TABSTOP = 0x10000,
 
@@ -174,6 +183,6 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The window has a vertical scroll bar.
         /// </summary>
-        WS_VSCROLL = 0x200000
+        WS_VSCROLL = 0x200000,
     }
 }

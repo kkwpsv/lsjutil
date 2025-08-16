@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Processor Types
+    /// Processor types
     /// </summary>
     public enum ProcessorTypes : uint
     {

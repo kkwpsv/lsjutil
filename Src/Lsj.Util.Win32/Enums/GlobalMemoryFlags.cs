@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Global Memory Flags
+    /// Global memory flags
     /// </summary>
     [Flags]
     public enum GlobalMemoryFlags

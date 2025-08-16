@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
-using static Lsj.Util.Win32.Enums.CtrlEventFlags;
+using static Lsj.Util.Win32.Enums.ControlSignalTypes;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
-using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
+using static Lsj.Util.Win32.Enums.StartupInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -117,7 +117,7 @@ namespace Lsj.Util.Win32
         /// Note that a third-party library or DLL can install a console control handler for your application.
         /// If it does, this handler overrides the default handler, and can cause the application to exit when the user logs off.
         /// </remarks>
-        public delegate BOOL Phandlerroutine([In] CtrlEvents dwCtrlType);
+        public delegate BOOL Phandlerroutine([In] ControlSignalTypes dwCtrlType);
 
 
         /// <summary>
@@ -536,7 +536,7 @@ namespace Lsj.Util.Win32
         /// CTRL+BREAK signals always cause the handler functions to be called.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GenerateConsoleCtrlEvent([In] CtrlEventFlags dwCtrlEvent, [In] DWORD dwProcessGroupId);
+        public static extern BOOL GenerateConsoleCtrlEvent([In] ControlSignalTypes dwCtrlEvent, [In] DWORD dwProcessGroupId);
 
         /// <summary>
         /// <para>

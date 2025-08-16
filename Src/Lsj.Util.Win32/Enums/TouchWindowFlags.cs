@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Touch Window Flags
+    /// Touch window flags
     /// </summary>
     public enum TouchWindowFlags : uint
     {

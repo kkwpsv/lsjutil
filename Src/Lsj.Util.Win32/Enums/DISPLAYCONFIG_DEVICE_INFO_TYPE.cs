@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="DISPLAYCONFIG_DEVICE_INFO_TYPE"/> enumeration specifies the type of display device info
     /// to configure or obtain through the <see cref="DisplayConfigSetDeviceInfo"/> or <see cref="DisplayConfigGetDeviceInfo"/> function.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ne-wingdi-displayconfig_device_info_type"/>
+    /// </para>
     /// </summary>
     public enum DISPLAYCONFIG_DEVICE_INFO_TYPE
     {
@@ -48,10 +51,14 @@ namespace Lsj.Util.Win32.Enums
         DISPLAYCONFIG_DEVICE_INFO_SET_TARGET_PERSISTENCE = 5,
 
         /// <summary>
+        /// <para>
         /// Specifies how to set the base output technology for a given target ID.
         /// If the <see cref="DisplayConfigGetDeviceInfo"/> function is successful,
         /// <see cref="DisplayConfigGetDeviceInfo"/> returns base output technology info in the <see cref="DISPLAYCONFIG_TARGET_BASE_TYPE"/> structure.
-        /// Supported by WDDM 1.3 and later user-mode display drivers running on Windows 8.1 and later.
+        /// </para>
+        /// <para>
+        /// Supported by WDDM 1.3 and later user-mode display drivers running on Windows 8.1 and later.
+        /// </para>
         /// </summary>
         DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_BASE_TYPE = 6,
 
@@ -83,9 +90,14 @@ namespace Lsj.Util.Win32.Enums
         DISPLAYCONFIG_DEVICE_INFO_SET_ADVANCED_COLOR_STATE = 10,
 
         /// <summary>
+        /// <para>
         /// Specifies the current SDR white level for an HDR monitor.
         /// If the <see cref="DisplayConfigGetDeviceInfo"/> function is successful,
         /// <see cref="DisplayConfigGetDeviceInfo"/> return SDR white level info in the <see cref="DISPLAYCONFIG_SDR_WHITE_LEVEL"/> structure.
+        /// </para>
+        /// <para>
+        /// Supported starting in Windows 10 Fall Creators Update (Version 1709).
+        /// </para>
         /// </summary>
         DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL = 11,
 

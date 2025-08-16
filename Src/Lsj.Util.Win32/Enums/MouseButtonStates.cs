@@ -1,37 +1,32 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Mouse Button States
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/console/mouse-event-record-str"/>
-    /// </para>
+    /// Mouse button states
     /// </summary>
     public enum MouseButtonStates : uint
     {
         /// <summary>
-        /// The leftmost mouse button.
+        /// FROM_LEFT_1ST_BUTTON_PRESSED
         /// </summary>
         FROM_LEFT_1ST_BUTTON_PRESSED = 0x0001,
 
         /// <summary>
-        /// The rightmost mouse button.
+        /// RIGHTMOST_BUTTON_PRESSED
         /// </summary>
         RIGHTMOST_BUTTON_PRESSED = 0x0002,
 
         /// <summary>
-        /// The second button from the left.
+        /// FROM_LEFT_2ND_BUTTON_PRESSED
         /// </summary>
         FROM_LEFT_2ND_BUTTON_PRESSED = 0x0004,
 
         /// <summary>
-        /// The third button from the left.
+        /// FROM_LEFT_3RD_BUTTON_PRESSED
         /// </summary>
         FROM_LEFT_3RD_BUTTON_PRESSED = 0x0008,
 
         /// <summary>
-        /// The fourth button from the left.
+        /// FROM_LEFT_4TH_BUTTON_PRESSED
         /// </summary>
         FROM_LEFT_4TH_BUTTON_PRESSED = 0x0010,
     }

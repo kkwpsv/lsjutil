@@ -1,71 +1,45 @@
-﻿using System;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="GetWindowLong"/> Indexes.
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowlongw"/>
-    /// </para>
+    /// <see cref="GetWindowLong"/> indexes
     /// </summary>
     public enum GetWindowLongIndexes
     {
         /// <summary>
-        /// Retrieves the extended window styles.
+        /// GWL_EXSTYLE
         /// </summary>
         GWL_EXSTYLE = -20,
 
         /// <summary>
-        /// Retrieves a handle to the application instance.
+        /// GWL_HINSTANCE
         /// </summary>
         GWL_HINSTANCE = -6,
 
         /// <summary>
-        /// Retrieves a handle to the parent window, if any.
+        /// GWL_HWNDPARENT
         /// </summary>
         GWL_HWNDPARENT = -8,
 
         /// <summary>
-        /// Retrieves the identifier of the window.
+        /// GWL_ID
         /// </summary>
         GWL_ID = -12,
 
         /// <summary>
-        /// Retrieves the window styles.
+        /// GWL_STYLE
         /// </summary>
         GWL_STYLE = -16,
 
         /// <summary>
-        /// Retrieves the user data associated with the window. This data is intended for use by the application that created the window.
-        /// Its value is initially zero.
+        /// GWL_USERDATA
         /// </summary>
         GWL_USERDATA = -21,
 
         /// <summary>
-        /// Retrieves the address of the window procedure, or a handle representing the address of the window procedure. 
-        /// You must use the <see cref="CallWindowProc"/> function to call the window procedure.
+        /// GWL_WNDPROC
         /// </summary>
         GWL_WNDPROC = -4,
-
-        /// <summary>
-        /// Retrieves the return value of a message processed in the dialog box procedure.
-        /// </summary>
-        DWL_MSGRESULT = 0,
-
-        /// <summary>
-        /// USE <see cref="DWLP_DLGPROC"/> FOR BOTH 32BIT AND 64BIT!
-        /// Retrieves the address of the dialog box procedure, or a handle representing the address of the dialog box procedure.
-        /// You must use the <see cref="CallWindowProc"/> function to call the dialog box procedure.
-        /// </summary>
-        DWL_DLGPROC = 4,
-
-        /// <summary>
-        /// USE <see cref="DWLP_USER"/> FOR BOTH 32BIT AND 64BIT!
-        /// Retrieves extra information private to the application, such as handles or pointers.
-        /// </summary>
-        DWL_USER = 8,
     }
 }

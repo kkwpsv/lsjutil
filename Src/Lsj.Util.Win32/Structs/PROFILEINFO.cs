@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
-using static Lsj.Util.Win32.Enums.PROFILEINFOFlags;
+using static Lsj.Util.Win32.Enums.ProfileInfoFlags;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Userenv;
 
@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32.Structs
         /// Not supported.
         /// </para>
         /// </summary>
-        public PROFILEINFOFlags dwFlags;
+        public ProfileInfoFlags dwFlags;
 
         /// <summary>
         /// A pointer to the name of the user.

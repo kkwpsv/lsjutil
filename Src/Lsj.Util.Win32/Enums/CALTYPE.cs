@@ -5,7 +5,9 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Calendar Type Information
+    /// This topic describes the calendar type information (<see cref="CALTYPE"/> data type) used in the <see cref="EnumCalendarInfo"/>,
+    /// <see cref="EnumCalendarInfoEx"/>, <see cref="EnumCalendarInfoExEx"/>, <see cref="GetCalendarInfo"/>, and <see cref="GetCalendarInfoEx"/> functions.
+    /// Some of these values are also used by the <see cref="SetCalendarInfo"/> function.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/calendar-type-information"/>

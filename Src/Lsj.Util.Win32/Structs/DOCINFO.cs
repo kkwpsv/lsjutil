@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.DOCINFOFlags;
+using static Lsj.Util.Win32.Enums.DocInfoFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -73,6 +73,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public DOCINFOFlags fwType;
+        public DocInfoFlags fwType;
     }
 }

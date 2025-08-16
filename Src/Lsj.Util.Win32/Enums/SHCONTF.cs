@@ -1,7 +1,7 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -15,16 +15,20 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// By setting the <see cref="SHCONTF_INIT_ON_FIRST_NEXT"/> flag, the calling application suggests 
+    /// <para>
+    /// By setting the <see cref="SHCONTF_INIT_ON_FIRST_NEXT"/> flag, the calling application suggests
     /// that the <see cref="IShellFolder.EnumObjects"/> method can expedite the enumeration process by returning an uninitialized enumeration object.
     /// Initialization can be deferred until the enumeration process starts.
     /// If initializing the enumeration object is a lengthy process, the method implementation should immediately return an uninitialized object.
     /// Defer initialization until the first time the <see cref="IEnumIDList.Next"/> method is called.
     /// If initialization requires user input, the method implementation should use hwnd as the parent window for the user interface.
-    /// For an explanation of what to do when hwnd is set to <see cref="IntPtr.Zero"/>, see the <see cref="IShellFolder.EnumObjects"/> reference.
-    /// The name of this enumeration was changed to <see cref="SHCONTF"/> in Windows Vista.
-    /// Earlier, it was named <see cref="SHCONTF"/>.
-    /// The name <see cref="SHCONTF"/> is still defined through a typedef statement, however, so it can continue to be used by legacy code.
+    /// For an explanation of what to do when hwnd is set to <see cref="NULL"/>, see the <see cref="IShellFolder.EnumObjects"/> reference.
+    /// </para>
+    /// <para>
+    /// The name of this enumeration was changed to _SHCONTF in Windows Vista.
+    /// Earlier, it was named tagSHCONTF.
+    /// For compatibility with legacy code, the name <see cref="SHCONTF"/> is defined through a typedef statement to be a synonym for <see cref="DWORD"/>.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum SHCONTF

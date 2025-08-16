@@ -12,6 +12,9 @@ namespace Lsj.Util.Win32.Enums
     /// The values specified in an object server's CLSID\MiscStatus entry in the registration database are based on the <see cref="OLEMISC"/> enumeration.
     /// These constants are also used in the <see cref="OBJECTDESCRIPTOR.dwStatus"/> member of the <see cref="OBJECTDESCRIPTOR"/> structure.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleidl/ne-oleidl-olemisc"/>
+    /// </para>
     /// </summary>
     public enum OLEMISC : uint
     {

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.COMPOSITIONFORMStyles;
+using static Lsj.Util.Win32.Enums.CompositionWindowPositionStyles;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -70,7 +70,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public COMPOSITIONFORMStyles dwStyle;
+        public CompositionWindowPositionStyles dwStyle;
 
         /// <summary>
         /// A <see cref="POINT"/> structure containing the coordinates of the upper left corner of the composition window.

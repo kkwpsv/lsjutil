@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+﻿using System;
+using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.ComboBoxExMessages;
 
 namespace Lsj.Util.Win32.Enums
@@ -14,6 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// <remarks>
     /// You set and retrieve the combobox extended styles by using <see cref="CBEM_SETEXTENDEDSTYLE"/> and <see cref="CBEM_GETEXTENDEDSTYLE"/> messages.
     /// </remarks>
+    [Flags]
     public enum ComboBoxExStyles : uint
     {
         /// <summary>

@@ -1,11 +1,8 @@
-﻿using Lsj.Util.Win32.Structs;
-using static Lsj.Util.Win32.Enums.WindowMessages;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Month Calendar Styles
+    /// The following style constants are used when creating month calendar controls.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/month-calendar-control-styles"/>
@@ -15,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     {
         /// <summary>
         /// Version 4.70.
-        /// The month calendar sends MCN_GETDAYSTATE notifications to request information about which days should be displayed in bold.
+        /// The month calendar sends <see cref="MCN_GETDAYSTATE"/> notifications to request information about which days should be displayed in bold.
         /// </summary>
         MCS_DAYSTATE = 0x0001,
 

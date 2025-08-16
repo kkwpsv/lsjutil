@@ -4,33 +4,28 @@ using static Lsj.Util.Win32.Kernel32;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="GetTimeFormat"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatex"/>
-    /// </para>
+    /// <see cref="GetTimeFormat"/> flags
     /// </summary>
     [Flags]
     public enum GetTimeFormatFlags : uint
     {
         /// <summary>
-        /// Do not use minutes or seconds.
+        /// TIME_NOMINUTESORSECONDS
         /// </summary>
         TIME_NOMINUTESORSECONDS = 0x00000001,
 
         /// <summary>
-        /// Do not use seconds.
+        /// TIME_NOSECONDS
         /// </summary>
         TIME_NOSECONDS = 0x00000002,
 
         /// <summary>
-        /// Do not use a time marker.
+        /// TIME_NOTIMEMARKER
         /// </summary>
         TIME_NOTIMEMARKER = 0x00000004,
 
         /// <summary>
-        /// Always use a 24-hour time format.
+        /// TIME_FORCE24HOURFORMAT
         /// </summary>
         TIME_FORCE24HOURFORMAT = 0x00000008,
     }

@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// MoveFile Flags
+    /// Move file flags
     /// </summary>
     [Flags]
     public enum MoveFileFlags : uint

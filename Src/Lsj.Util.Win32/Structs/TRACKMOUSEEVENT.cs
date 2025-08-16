@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
-using static Lsj.Util.Win32.Enums.TRACKMOUSEEVENTFlags;
+using static Lsj.Util.Win32.Enums.TrackMouseEventFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
@@ -134,7 +134,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public TRACKMOUSEEVENTFlags dwFlags;
+        public TrackMouseEventFlags dwFlags;
 
         /// <summary>
         /// A handle to the window to track.

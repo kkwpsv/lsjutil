@@ -3,7 +3,7 @@ using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
+using static Lsj.Util.Win32.Enums.AuthenticationLevelConstants;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums
@@ -18,7 +18,8 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// When the <see cref="EOAC_APPID"/> flag is set, <see cref="CoInitializeSecurity"/> looks for the authentication level under the AppID.
+    /// <para>
+    /// When the EOAC_APPID flag is set, <see cref="CoInitializeSecurity"/> looks for the authentication level under the AppID.
     /// If the authentication level is not found, it looks for the default authentication level.
     /// If the default authentication level is not found, it generates a default authentication level of connect.
     /// If the authentication level is not <see cref="RPC_C_AUTHN_LEVEL_NONE"/>,
@@ -26,13 +27,19 @@ namespace Lsj.Util.Win32.Enums
     /// If not found, it looks for the default access permission value.
     /// If not found, it generates a default access permission.
     /// All the other security settings are determined the same way as for a legacy application.
-    /// If the AppID is <see cref="NULL"/>, CoInitializeSecurity looks up the application .exe name in the registry and uses the AppID stored there.
+    /// </para>
+    /// <para>
+    /// If the AppID is NULL, <see cref="CoInitializeSecurity"/> looks up the application .exe name in the registry and uses the AppID stored there.
     /// If the AppID does not exist, the machine defaults are used.
-    /// The <see cref="IClientSecurity.SetBlanket"/> method and <see cref="CoSetProxyBlanket"/> function return an error
-    /// if any of the following flags are set in the capabilities parameter: <see cref="EOAC_SECURE_REFS"/>, <see cref="EOAC_ACCESS_CONTROL"/>,
-    /// <see cref="EOAC_APPID"/>, <see cref="EOAC_DYNAMIC"/>, <see cref="EOAC_REQUIRE_FULLSIC"/>,
-    /// <see cref="EOAC_DISABLE_AAA"/>, or <see cref="EOAC_NO_CUSTOM_MARSHAL"/>.
+    /// </para>
+    /// <para>
+    /// The <see cref="IClientSecurity.SetBlanket"/> method and <see cref="CoSetProxyBlanket"/> function
+    /// return an error if any of the following flags are set in the capabilities parameter:
+    /// <see cref="EOAC_SECURE_REFS"/>, <see cref="EOAC_ACCESS_CONTROL"/>, <see cref="EOAC_APPID"/>, <see cref="EOAC_DYNAMIC"/>,
+    /// <see cref="EOAC_REQUIRE_FULLSIC"/>, <see cref="EOAC_DISABLE_AAA"/>, or <see cref="EOAC_NO_CUSTOM_MARSHAL"/>.
+    /// </para>
     /// </remarks>
+    [Flags]
     public enum EOLE_AUTHENTICATION_CAPABILITIES
     {
         /// <summary>
@@ -48,25 +55,33 @@ namespace Lsj.Util.Win32.Enums
         EOAC_MUTUAL_AUTH = 0x1,
 
         /// <summary>
+        /// <para>
         /// Sets static cloaking.
         /// When this flag is set, DCOM uses the thread token (if present) when determining the client's identity.
         /// However, the client's identity is determined on the first call on each proxy (if <see cref="IClientSecurity.SetBlanket"/> is not called)
         /// and each time <see cref="CoSetProxyBlanket"/> is called on the proxy.
-        /// For more information about static cloaking, see Cloaking.
-        /// <see cref="CoInitializeSecurity"/> and <see cref="IClientSecurity.SetBlanket"/> return errors if both cloaking flags are set
-        /// or if either flag is set when Schannel is the authentication service.
+        /// For more information about static cloaking, see <see cref="Cloaking"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="CoInitializeSecurity"/> and <see cref="IClientSecurity.SetBlanket"/> return errors
+        /// if both cloaking flags are set or if either flag is set when Schannel is the authentication service.
+        /// </para>
         /// </summary>
         EOAC_STATIC_CLOAKING = 0x20,
 
         /// <summary>
+        /// <para>
         /// Sets dynamic cloaking.
         /// When this flag is set, DCOM uses the thread token (if present) when determining the client's identity.
-        /// On each call to a proxy, the current thread token is examined to determine whether the client's identity has changed
-        /// (incurring an additional performance cost) and the client is authenticated again only if necessary.
+        /// On each call to a proxy, the current thread token is examined to determine
+        /// whether the client's identity has changed (incurring an additional performance cost) and the client is authenticated again only if necessary.
         /// Dynamic cloaking can be set by clients only.
         /// For more information about dynamic cloaking, see Cloaking.
-        /// <see cref="CoInitializeSecurity"/> and <see cref="IClientSecurity.SetBlanket"/> return errors if both cloaking flags are set
-        /// or if either flag is set when Schannel is the authentication service.
+        /// </para>
+        /// <para>
+        /// <see cref="CoInitializeSecurity"/> and <see cref="IClientSecurity.SetBlanket"/> return errors
+        /// if both cloaking flags are set or if either flag is set when Schannel is the authentication service.
+        /// </para>
         /// </summary>
         EOAC_DYNAMIC_CLOAKING = 0x40,
 
@@ -90,31 +105,43 @@ namespace Lsj.Util.Win32.Enums
         EOAC_DEFAULT = 0x800,
 
         /// <summary>
+        /// <para>
         /// Authenticates distributed reference count calls to prevent malicious users from releasing objects that are still being used.
         /// If this flag is set, which can be done only in a call to <see cref="CoInitializeSecurity"/> by the client,
         /// the authentication level (in dwAuthnLevel) cannot be set to none.
+        /// </para>
+        /// <para>
         /// The server always authenticates Release calls.
         /// Setting this flag prevents an authenticated client from releasing the objects of another authenticated client.
         /// It is recommended that clients always set this flag,
         /// although performance is affected because of the overhead associated with the extra security.
+        /// </para>
         /// </summary>
         EOAC_SECURE_REFS = 0x2,
 
         /// <summary>
-        /// Indicates that the pSecDesc parameter to <see cref="CoInitializeSecurity"/> is a pointer to
-        /// an <see cref="IAccessControl"/> interface on an access control object.
-        /// When DCOM makes security checks, it calls <see cref="IAccessControl.IsAccessAllowed"/>. This flag is set only by the server.
+        /// <para>
+        /// Indicates that the pSecDesc parameter to <see cref="CoInitializeSecurity"/>
+        /// is a pointer to an <see cref="IAccessControl"/> interface on an access control object.
+        /// When DCOM makes security checks, it calls <see cref="IAccessControl.IsAccessAllowed"/>.
+        /// This flag is set only by the server.
+        /// </para>
+        /// <para>
         /// <see cref="CoInitializeSecurity"/> returns an error if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set.
+        /// </para>
         /// </summary>
         EOAC_ACCESS_CONTROL = 0x4,
 
         /// <summary>
+        /// <para>
         /// Indicates that the pSecDesc parameter to <see cref="CoInitializeSecurity"/> is a pointer to a GUID that is an AppID.
         /// The <see cref="CoInitializeSecurity"/> function looks up the AppID in the registry and reads the security settings from there.
         /// If this flag is set, all other parameters to <see cref="CoInitializeSecurity"/> are ignored and must be zero.
-        /// Only the server can set this flag.
-        /// For more information about this capability flag, see the Remarks section below.
+        /// Only the server can set this flag. For more information about this capability flag, see the Remarks section below.
+        /// </para>
+        /// <para>
         /// <see cref="CoInitializeSecurity"/> returns an error if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set.
+        /// </para>
         /// </summary>
         EOAC_APPID = 0x8,
 
@@ -136,13 +163,17 @@ namespace Lsj.Util.Win32.Enums
         EOAC_AUTO_IMPERSONATE = 0x400,
 
         /// <summary>
+        /// <para>
         /// Causes any activation where a server process would be launched
         /// under the caller's identity (activate-as-activator) to fail with <see cref="E_ACCESSDENIED"/>.
         /// This value, which can be specified only in a call to <see cref="CoInitializeSecurity"/> by the client,
         /// allows an application that runs under a privileged account (such as LocalSystem)
         /// to help prevent its identity from being used to launch untrusted components.
+        /// </para>
+        /// <para>
         /// An activation call that uses <see cref="CLSCTX_ENABLE_AAA"/> of the <see cref="CLSCTX"/> enumeration
         /// will allow activate-as-activator activations for that call.
+        /// </para>
         /// </summary>
         EOAC_DISABLE_AAA = 0x1000,
 

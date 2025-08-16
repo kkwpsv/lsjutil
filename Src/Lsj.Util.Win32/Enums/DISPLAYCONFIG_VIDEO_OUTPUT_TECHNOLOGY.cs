@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// The <see cref="DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY"/>umeration specifies the target's connector type.
+    /// The <see cref="DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY"/> enumeration specifies the target's connector type.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ne-wingdi-displayconfig_video_output_technology"/>
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Values with "embedded" in their names indicate that the graphics adapter's video output device connects internally to the display device.
     /// In those cases, the <see cref="DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INTERNAL"/> value is redundant.
     /// The caller should ignore <see cref="DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INTERNAL"/> and just process the embedded values,
     /// <see cref="DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DISPLAYPORT_EMBEDDED"/> and <see cref="DISPLAYCONFIG_OUTPUT_TECHNOLOGY_UDI_EMBEDDED"/>.
+    /// </para>
+    /// <para>
     /// An embedded display port or UDI is also known as an integrated display port or UDI.
+    /// </para>
     /// </remarks>
     public enum DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY
     {

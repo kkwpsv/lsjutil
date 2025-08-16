@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Acl Revisions
+    /// Acl revisions
     /// </summary>
     public enum AclRevisions : byte
     {

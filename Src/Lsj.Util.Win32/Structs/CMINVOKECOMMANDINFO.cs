@@ -5,7 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CMDSTR;
-using static Lsj.Util.Win32.Enums.CMINVOKECOMMANDINFOMasks;
+using static Lsj.Util.Win32.Enums.CMIC_MASK;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
 
@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32.Structs
         /// This flag allows <see cref="ShellExecuteEx"/> to bypass zone checking put into place by <see cref="IAttachmentExecute"/>.
         /// </para>
 
-        public CMINVOKECOMMANDINFOMasks fMask;
+        public CMIC_MASK fMask;
 
         /// <summary>
         /// A handle to the window that is the owner of the shortcut menu.

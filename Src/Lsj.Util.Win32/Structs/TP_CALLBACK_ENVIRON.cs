@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// CallbackPriority
         /// </summary>
-        public TP_CALLBACK_PRIORITY CallbackPriority;
+        public ThreadPoolCallbackPriorities CallbackPriority;
 
         /// <summary>
         /// Size

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
-using static Lsj.Util.Win32.Enums.CopyFileFlags;
+using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_TYPE;
+using static Lsj.Util.Win32.Enums.COPY_FILE;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
@@ -21,14 +22,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Cancel the copy operation.
-        /// The <see cref="CopyFile2"/> function will fail, return <code>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</code>
+        /// The <see cref="CopyFile2"/> function will fail, return <c>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</c>
         /// and any partially copied fragments will be deleted.
         /// </summary>
         COPYFILE2_PROGRESS_CANCEL,
 
         /// <summary>
         /// Stop the copy operation.
-        /// The <see cref="CopyFile2"/> function will fail, return <code>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</code>
+        /// The <see cref="CopyFile2"/> function will fail, return <c>HRESULT_FROM_WIN32(ERROR_REQUEST_ABORTED)</c>
         /// and any partially copied fragments will be left intact.
         /// The operation can be restarted using the <see cref="COPY_FILE_RESUME_FROM_PAUSE"/> flag only if <see cref="COPY_FILE_RESTARTABLE"/> was set
         /// in the <see cref="COPYFILE2_EXTENDED_PARAMETERS.dwCopyFlags"/> member of the <see cref="COPYFILE2_EXTENDED_PARAMETERS"/> structure
@@ -43,10 +44,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Pause the copy operation.
-        /// In most cases the <see cref="CopyFile2"/> function will fail and return <code>HRESULT_FROM_WIN32(ERROR_REQUEST_PAUSED)</code>
+        /// In most cases the <see cref="CopyFile2"/> function will fail and return <c>HRESULT_FROM_WIN32(ERROR_REQUEST_PAUSED)</c>
         /// and any partially copied fragments will be left intact (except for the header written that is used to resume the copy operation later.)
         /// In case the copy operation was complete at the time the pause request is processed
         /// the <see cref="CopyFile2"/> call will complete successfully and no resume header will be written.
+        /// After this value is processed one more callback will be made to the CopyFile2ProgressRoutine with the message
+        /// specifying a <see cref="COPYFILE2_CALLBACK_STREAM_FINISHED"/> (4) value
+        /// in the <see cref="COPYFILE2_MESSAGE.Type"/> member of the <see cref="COPYFILE2_MESSAGE"/> structure.
+        /// After the callback has returned <see cref="CopyFile2"/> will fail with <c>HRESULT_FROM_WIN32(ERROR_REQUEST_PAUSED)</c>.
         /// </summary>
         COPYFILE2_PROGRESS_PAUSE,
     }

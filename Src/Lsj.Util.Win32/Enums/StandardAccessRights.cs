@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Standard Access Rights
     /// Each type of securable object has a set of access rights that correspond to operations specific to that type of object.
     /// In addition to these object-specific access rights, there is a set of standard access rights that correspond
     /// to operations common to most types of securable objects.

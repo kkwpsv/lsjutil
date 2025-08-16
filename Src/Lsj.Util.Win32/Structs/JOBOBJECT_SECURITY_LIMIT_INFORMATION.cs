@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_SECURITY;
+using static Lsj.Util.Win32.Enums.JobObjectSecurityLimitFlags;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_SECURITY SecurityLimitFlags;
+        public JobObjectSecurityLimitFlags SecurityLimitFlags;
 
         /// <summary>
         /// <para>

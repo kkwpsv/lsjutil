@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.ACCESSTIMEOUTFlags;
+using static Lsj.Util.Win32.Enums.ATF;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public ACCESSTIMEOUTFlags dwFlags;
+        public ATF dwFlags;
 
         /// <summary>
         /// Specifies the time-out period, in milliseconds.

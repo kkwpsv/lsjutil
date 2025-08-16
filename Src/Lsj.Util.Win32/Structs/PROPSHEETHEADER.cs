@@ -5,8 +5,8 @@ using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comctl32;
-using static Lsj.Util.Win32.Enums.PROPSHEETHEADERFlags;
-using static Lsj.Util.Win32.Enums.PROPSHEETPAGEFlags;
+using static Lsj.Util.Win32.Enums.PropSheetHeaderFlags;
+using static Lsj.Util.Win32.Enums.PropSheetPageFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -353,7 +353,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PROPSHEETHEADERFlags dwFlags;
+        public PropSheetHeaderFlags dwFlags;
 
         /// <summary>
         /// Handle to the property sheet's owner window.

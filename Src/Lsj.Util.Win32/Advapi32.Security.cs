@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ACE_TYPE;
+using static Lsj.Util.Win32.Enums.AceTypes;
 using static Lsj.Util.Win32.Enums.AceFlags;
 using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.AUDIT_EVENT_TYPE;
@@ -16,7 +16,7 @@ using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
-using static Lsj.Util.Win32.Enums.SEF;
+using static Lsj.Util.Win32.Enums.SecurityAutoInheritFlags;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -1468,7 +1468,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePrivateObjectSecurityEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreatePrivateObjectSecurityEx([In] PSECURITY_DESCRIPTOR ParentDescriptor, [In] PSECURITY_DESCRIPTOR CreatorDescriptor,
-            [Out] PSECURITY_DESCRIPTOR NewDescriptor, [In] in GUID ObjectType, [In] BOOL IsDirectoryObject, [In] SEF AutoInheritFlags,
+            [Out] PSECURITY_DESCRIPTOR NewDescriptor, [In] in GUID ObjectType, [In] BOOL IsDirectoryObject, [In] SecurityAutoInheritFlags AutoInheritFlags,
             [In] HANDLE Token, [In] in GENERIC_MAPPING GenericMapping);
 
         /// <summary>

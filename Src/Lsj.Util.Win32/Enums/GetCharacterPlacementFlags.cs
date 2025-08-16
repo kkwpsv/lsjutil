@@ -1,8 +1,12 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+using static Lsj.Util.Win32.Gdi32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// GetCharacterPlacement Flags
+    /// <see cref="GetCharacterPlacement"/> Flags
     /// </summary>
+    [Flags]
     public enum GetCharacterPlacementFlags : uint
     {
         /// <summary>

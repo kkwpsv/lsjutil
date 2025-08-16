@@ -1,6 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
@@ -12,14 +12,15 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Extended Window Styles
+    /// The following are the extended window styles,
+    /// these can be used along with the CreateWindowExA/<see cref="CreateWindowEx"/> functions.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/winmsg/extended-window-styles"/>
     /// </para>
     /// </summary>
     [Flags]
-    public enum WindowStylesEx : uint
+    public enum ExtendedWindowStyles : uint
     {
         /// <summary>
         /// The window accepts drag-drop files.
@@ -37,21 +38,31 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_CLIENTEDGE = 0x00000200,
 
         /// <summary>
-        /// Specifies a window that paints all descendants in bottom-to-top painting order using double-buffering.
-        /// This cannot be used if the window has a class style of either <see cref="CS_OWNDC"/> or <see cref="CS_CLASSDC"/>.
-        /// Windows 2000: This style is not supported.
+        /// <para>
+        /// Paints all descendants of a window in bottom-to-top painting order using double-buffering.
+        /// Bottom-to-top painting order allows a descendent window to have translucency (alpha) and transparency (color-key) effects,
+        /// but only if the descendent window also has the <see cref="WS_EX_TRANSPARENT"/> bit set.
+        /// Double-buffering allows the window and its descendents to be painted without flicker.
+        /// This cannot be used if the window has a class style of <see cref="CS_OWNDC"/>, <see cref="CS_CLASSDC"/>, or <see cref="CS_PARENTDC"/>.
+        /// </para>
+        /// <para>
+        /// Windows 2000: This style is not supported.
+        /// </para>
         /// </summary>
         WS_EX_COMPOSITED = 0x02000000,
 
         /// <summary>
-        /// The title bar of the window includes a question mark. When the user clicks the question mark, 
-        /// the cursor changes to a question mark with a pointer. If the user then clicks a child window,
-        /// the child receives a <see cref="WM_HELP"/> message.
+        /// <para>
+        /// The title bar of the window includes a question mark.
+        /// When the user clicks the question mark, the cursor changes to a question mark with a pointer.
+        /// If the user then clicks a child window, the child receives a <see cref="WM_HELP"/> message.
         /// The child window should pass the message to the parent window procedure,
-        /// which should call the <see cref="WinHelp"/> function using the <see cref="HELP_WM_HELP"/> command.
+        /// which should call the <see cref="WinHelp"/> function using the <see cref="HELP_WM_HELP"/> command.
         /// The Help application displays a pop-up window that typically contains help for the child window.
-        /// <see cref="WS_EX_CONTEXTHELP"/> cannot be used with
-        /// the <see cref="WS_MAXIMIZEBOX"/> or <see cref="WS_MINIMIZEBOX"/> styles.
+        /// </para>
+        /// <para>
+        /// <see cref="WS_EX_CONTEXTHELP"/> cannot be used with the <see cref="WS_MAXIMIZEBOX"/> or <see cref="WS_MINIMIZEBOX"/> styles.
+        /// </para>
         /// </summary>
         WS_EX_CONTEXTHELP = 0x00000400,
 
@@ -69,11 +80,14 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_DLGMODALFRAME = 0x00000001,
 
         /// <summary>
-        /// The window is a layered window.
-        /// This style cannot be used if the window has a class style of either <see cref="CS_OWNDC"/> 
-        /// or <see cref="CS_CLASSDC"/>.
-        /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
-        /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
+        /// <para>
+        /// The window is a layered window.
+        /// This style cannot be used if the window has a class style of either <see cref="CS_OWNDC"/> or <see cref="CS_CLASSDC"/>.
+        /// </para>
+        /// <para>
+        /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
+        /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
+        /// </para>
         /// </summary>
         WS_EX_LAYERED = 0x00080000,
 
@@ -105,12 +119,20 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_MDICHILD = 0x00000040,
 
         /// <summary>
+        /// <para>
         /// A top-level window created with this style does not become the foreground window when the user clicks it.
         /// The system does not bring this window to the foreground when the user minimizes or closes the foreground window.
+        /// </para>
+        /// <para>
         /// The window should not be activated through programmatic access or via keyboard navigation by accessible technology, such as Narrator.
-        /// To activate the window, use the SetActiveWindow or SetForegroundWindow function.
+        /// </para>
+        /// <para>
+        /// To activate the window, use the <see cref="SetActiveWindow"/> or <see cref="SetForegroundWindow"/> function.
+        /// </para>
+        /// <para>
         /// The window does not appear on the taskbar by default.
-        /// To force the window to appear on the taskbar, use the <see cref="WS_EX_APPWINDOW"/> style.
+        /// To force the window to appear on the taskbar, use the <see cref="WS_EX_APPWINDOW"/> style.
+        /// </para>
         /// </summary>
         WS_EX_NOACTIVATE = 0x08000000,
 
@@ -142,13 +164,17 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_PALETTEWINDOW = WS_EX_WINDOWEDGE | WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
 
         /// <summary>
-        /// The window has generic "right-aligned" properties. This depends on the window class.
-        /// This style has an effect only if the shell language is Hebrew, Arabic, or another language that supports reading-order alignment;
-        /// otherwise, the style is ignored.
-        /// Using the <see cref="WS_EX_RIGHT"/> style for static or edit controls has the same effect
-        /// as using the <see cref="SS_RIGHT"/> or <see cref="ES_RIGHT"/> style, respectively. 
-        /// Using this style with button controls has the same effect as using <see cref="BS_RIGHT"/>
-        /// and <see cref="BS_RIGHTBUTTON"/> styles.
+        /// <para>
+        /// The window has generic "right-aligned" properties.
+        /// This depends on the window class.
+        /// This style has an effect only if the shell language is Hebrew, Arabic,
+        /// or another language that supports reading-order alignment; otherwise, the style is ignored.
+        /// </para>
+        /// <para>
+        /// Using the <see cref="WS_EX_RIGHT"/> style for static or edit controls has the same effect
+        /// as using the <see cref="SS_RIGHT"/> or <see cref="ES_RIGHT"/> style, respectively.
+        /// Using this style with button controls has the same effect as using <see cref="BS_RIGHT"/> and <see cref="BS_RIGHTBUTTON"/> styles.
+        /// </para>
         /// </summary>
         WS_EX_RIGHT = 0x00001000,
 
@@ -184,15 +210,19 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_TOPMOST = 0x00000008,
 
         /// <summary>
+        /// <para>
         /// The window should not be painted until siblings beneath the window (that were created by the same thread) have been painted.
         /// The window appears transparent because the bits of underlying sibling windows have already been painted.
-        /// To achieve transparency without these restrictions, use the <see cref="SetWindowRgn"/> function.
+        /// </para>
+        /// <para>
+        /// To achieve transparency without these restrictions, use the <see cref="SetWindowRgn"/> function.
+        /// </para>
         /// </summary>
         WS_EX_TRANSPARENT = 0x00000020,
 
         /// <summary>
         /// The window has a border with a raised edge.
         /// </summary>
-        WS_EX_WINDOWEDGE = 0x00000100
+        WS_EX_WINDOWEDGE = 0x00000100,
     }
 }

@@ -3,114 +3,102 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// System Commands
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/menurc/wm-syscommand"/>
-    /// </para>
+    /// System commands
     /// </summary>
     public enum SystemCommands
     {
         /// <summary>
-        /// Closes the window.
+        /// SC_CLOSE
         /// </summary>
         SC_CLOSE = 0xF060,
 
         /// <summary>
-        /// Changes the cursor to a question mark with a pointer.
-        /// If the user then clicks a control in the dialog box, the control receives a <see cref="WM_HELP"/> message.
+        /// SC_CONTEXTHELP
         /// </summary>
         SC_CONTEXTHELP = 0xF180,
 
         /// <summary>
-        /// Selects the default item; the user double-clicked the window menu.
+        /// SC_DEFAULT
         /// </summary>
         SC_DEFAULT = 0xF160,
 
         /// <summary>
-        /// Activates the window associated with the application-specified hot key.
-        /// The lParam parameter identifies the window to activate.
+        /// SC_HOTKEY
         /// </summary>
         SC_HOTKEY = 0xF150,
 
         /// <summary>
-        /// Scrolls horizontally.
+        /// SC_HSCROLL
         /// </summary>
         SC_HSCROLL = 0xF080,
 
         /// <summary>
-        /// Indicates whether the screen saver is secure.
+        /// SCF_ISSECURE
         /// </summary>
         SCF_ISSECURE = 0x00000001,
 
         /// <summary>
-        /// Retrieves the window menu as a result of a keystroke. For more information, see the Remarks section.
+        /// SC_KEYMENU
         /// </summary>
         SC_KEYMENU = 0xF100,
 
         /// <summary>
-        /// Maximizes the window.
+        /// SC_MAXIMIZE
         /// </summary>
         SC_MAXIMIZE = 0xF030,
 
         /// <summary>
-        /// Minimizes the window.
+        /// SC_MINIMIZE
         /// </summary>
         SC_MINIMIZE = 0xF020,
 
         /// <summary>
-        /// Sets the state of the display.
-        /// This command supports devices that have power-saving features, such as a battery-powered personal computer.
-        /// The lParam parameter can have the following values:
-        /// -1 (the display is powering on)
-        /// 1 (the display is going to low power)
-        /// 2 (the display is being shut off)
+        /// SC_MONITORPOWER
         /// </summary>
         SC_MONITORPOWER = 0xF170,
 
         /// <summary>
-        /// Retrieves the window menu as a result of a mouse click.
+        /// SC_MOUSEMENU
         /// </summary>
         SC_MOUSEMENU = 0xF090,
 
         /// <summary>
-        /// Moves the window.
+        /// SC_MOVE
         /// </summary>
         SC_MOVE = 0xF010,
 
         /// <summary>
-        /// Moves to the next window.
+        /// SC_NEXTWINDOW
         /// </summary>
         SC_NEXTWINDOW = 0xF040,
 
         /// <summary>
-        /// Moves to the previous window.
+        /// SC_PREVWINDOW
         /// </summary>
         SC_PREVWINDOW = 0xF050,
 
         /// <summary>
-        /// Restores the window to its normal position and size.
+        /// SC_RESTORE
         /// </summary>
         SC_RESTORE = 0xF120,
 
         /// <summary>
-        /// Executes the screen saver application specified in the [boot] section of the System.ini file.
+        /// SC_SCREENSAVE
         /// </summary>
         SC_SCREENSAVE = 0xF140,
 
         /// <summary>
-        /// Sizes the window.
+        /// SC_SIZE
         /// </summary>
         SC_SIZE = 0xF000,
 
         /// <summary>
-        /// Activates the Start menu.
+        /// SC_TASKLIST
         /// </summary>
         SC_TASKLIST = 0xF130,
 
         /// <summary>
-        /// Scrolls vertically.
+        /// SC_VSCROLL
         /// </summary>
         SC_VSCROLL = 0xF070,
     }

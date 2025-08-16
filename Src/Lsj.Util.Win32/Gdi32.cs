@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.BoundsRectAccumulationFlags;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
-using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.EscapeFunctions;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.ICMModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
@@ -22,7 +22,7 @@ using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowMessages;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
-        public static extern int Escape([In] HDC hdc, [In] GDIEscapes iEscape, [In] int cjIn, [In] IntPtr pvIn, [In] LPVOID pvOut);
+        public static extern int Escape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjIn, [In] IntPtr pvIn, [In] LPVOID pvOut);
 
         /// <summary>
         /// <para>
@@ -596,7 +596,7 @@ namespace Lsj.Util.Win32
         /// therefore applications must ensure that EMF recording is turned off for those jobs using the escape.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtEscape", ExactSpelling = true, SetLastError = true)]
-        public static extern int ExtEscape([In] HDC hdc, [In] GDIEscapes iEscape, [In] int cjInput, [In] IntPtr lpInData, [In] int cjOutput, [In] IntPtr lpOutData);
+        public static extern int ExtEscape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjInput, [In] IntPtr lpInData, [In] int cjOutput, [In] IntPtr lpOutData);
 
         /// <summary>
         /// <para>
@@ -734,7 +734,7 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetBoundsRect([In] HDC hdc, [Out] out RECT lprect, [In] BoundsAccumulationFlags flags);
+        public static extern UINT GetBoundsRect([In] HDC hdc, [Out] out RECT lprect, [In] BoundsRectAccumulationFlags flags);
 
         /// <summary>
         /// <para>
@@ -1714,7 +1714,7 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BoundsAccumulationFlags SetBoundsRect([In] HDC hdc, [In] in RECT lprect, [In] BoundsAccumulationFlags flags);
+        public static extern BoundsRectAccumulationFlags SetBoundsRect([In] HDC hdc, [In] in RECT lprect, [In] BoundsRectAccumulationFlags flags);
 
         /// <summary>
         /// <para>

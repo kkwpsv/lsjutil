@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -14,16 +15,21 @@ namespace Lsj.Util.Win32.Enums
     public enum FINDEX_INFO_LEVELS
     {
         /// <summary>
-        /// The FindFirstFileEx function retrieves a standard set of attribute information.
+        /// The <see cref="FindFirstFileEx"/> function retrieves a standard set of attribute information.
         /// The data is returned in a <see cref="WIN32_FIND_DATA"/> structure.
         /// </summary>
         FindExInfoStandard,
 
         /// <summary>
+        /// <para>
         /// The <see cref="FindFirstFileEx"/> function does not query the short file name, improving overall enumeration speed.
-        /// The data is returned in a <see cref="WIN32_FIND_DATA"/> structure, and the cAlternateFileName member is always a NULL string.
-        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported until Windows Server 2008 R2 and Windows 7.
+        /// The data is returned in a <see cref="WIN32_FIND_DATA"/> structure,
+        /// and the <see cref="WIN32_FIND_DATA.cAlternateFileName"/> member is always a <see cref="NULL"/> string.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported until Windows Server 2008 R2 and Windows 7.
+        /// </para>
         /// </summary>
         FindExInfoBasic,
 

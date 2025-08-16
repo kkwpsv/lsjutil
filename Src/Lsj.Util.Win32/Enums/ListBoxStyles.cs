@@ -9,7 +9,6 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// List Box Styles
     /// To create a list box by using the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function, use the LISTBOX class,
     /// appropriate window style constants, and the following style constants to define the list box.
     /// After the control has been created, these styles cannot be modified, except as noted.
@@ -42,24 +41,35 @@ namespace Lsj.Util.Win32.Enums
         LBS_EXTENDEDSEL = 0x0800,
 
         /// <summary>
+        /// <para>
         /// Specifies that a list box contains items consisting of strings.
-        /// The list box maintains the memory and addresses for the strings so that the application can use the <see cref="LB_GETTEXT"/> message
-        /// to retrieve the text for a particular item.
+        /// The list box maintains the memory and addresses for the strings
+        /// so that the application can use the <see cref="LB_GETTEXT"/> message to retrieve the text for a particular item.
         /// By default, all list boxes except owner-drawn list boxes have this style.
         /// You can create an owner-drawn list box either with or without this style.
-        /// For owner-drawn list boxes without this style, the <see cref="LB_GETTEXT"/> message retrieves the value associated with an item (the item data).
+        /// </para>
+        /// <para>
+        /// For owner-drawn list boxes without this style,
+        /// the <see cref="LB_GETTEXT"/> message retrieves the value associated with an item (the item data).
+        /// </para>
         /// </summary>
         LBS_HASSTRINGS = 0x0040,
 
         /// <summary>
+        /// <para>
         /// Specifies a multi-column list box that is scrolled horizontally.
         /// The list box automatically calculates the width of the columns,
         /// or an application can set the width by using the <see cref="LB_SETCOLUMNWIDTH"/> message.
         /// If a list box has the <see cref="LBS_OWNERDRAWFIXED"/> style,
         /// an application can set the width when the list box sends the <see cref="WM_MEASUREITEM"/> message.
+        /// </para>
+        /// <para>
         /// A list box with the <see cref="LBS_MULTICOLUMN"/> style cannot scroll vertically it ignores any <see cref="WM_VSCROLL"/> messages it receives.
+        /// </para>
+        /// <para>
         /// The <see cref="LBS_MULTICOLUMN"/> and <see cref="LBS_OWNERDRAWVARIABLE"/> styles cannot be combined.
         /// If both are specified, <see cref="LBS_OWNERDRAWVARIABLE"/> is ignored.
+        /// </para>
         /// </summary>
         LBS_MULTICOLUMN = 0x0200,
 
@@ -81,6 +91,23 @@ namespace Lsj.Util.Win32.Enums
         /// specifies the line number of the item to be drawn.
         /// A no-data list box does not send a <see cref="WM_DELETEITEM"/> message.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Specifies a no-data list box.
+        /// Specify this style when the count of items in the list box will exceed one thousand.
+        /// A no-data list box must also have the <see cref="LBS_OWNERDRAWFIXED"/> style,
+        /// but must not have the <see cref="LBS_SORT"/> or <see cref="LBS_HASSTRINGS"/> style.
+        /// </para>
+        /// <para>
+        /// A no-data list box resembles an owner-drawn list box except that it contains no string or bitmap data for an item.
+        /// Commands to add, insert, or delete an item always ignore any specified item data;
+        /// requests to find a string within the list box always fail.
+        /// The system sends the <see cref="WM_DRAWITEM"/> message to the owner window when an item must be drawn.
+        /// The <see cref="DRAWITEMSTRUCT.itemID"/> member of the <see cref="DRAWITEMSTRUCT"/> structure
+        /// passed with the <see cref="WM_DRAWITEM"/> message specifies the line number of the item to be drawn.
+        /// A no-data list box does not send a <see cref="WM_DELETEITEM"/> message.
+        /// </para>
+        /// </remarks>
         LBS_NODATA = 0x2000,
 
         /// <summary>
@@ -121,6 +148,19 @@ namespace Lsj.Util.Win32.Enums
         /// This style causes the <see cref="LBS_NOINTEGRALHEIGHT"/> style to be enabled.
         /// This style is ignored if the <see cref="LBS_MULTICOLUMN"/> style is specified.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Specifies that the owner of the list box is responsible for drawing its contents and that the items in the list box are variable in height.
+        /// The owner window receives a <see cref="WM_MEASUREITEM"/> message for each item
+        /// in the box when the list box is created and a <see cref="WM_DRAWITEM"/> message when a visual aspect of the list box has changed.
+        /// </para>
+        /// <para>
+        /// This style causes the <see cref="LBS_NOINTEGRALHEIGHT"/> style to be enabled.
+        /// </para>
+        /// <para>
+        /// This style is ignored if the <see cref="LBS_MULTICOLUMN"/> style is specified.
+        /// </para>
+        /// </remarks>
         LBS_OWNERDRAWVARIABLE = 0x0020,
 
         /// <summary>

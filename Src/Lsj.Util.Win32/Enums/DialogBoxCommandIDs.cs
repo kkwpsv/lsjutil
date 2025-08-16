@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Dialog Box Command IDs
+    /// Dialog box command IDs
     /// </summary>
     public enum DialogBoxCommandIDs
     {

@@ -10,9 +10,6 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-kf_category"/>
     /// </para>
     /// </summary>
-    /// <remarks>
-    /// Note: The user profile root folder (<see cref="FOLDERID_Profile"/>) does not support redirection.
-    /// </remarks>
     public enum KF_CATEGORY : uint
     {
         /// <summary>
@@ -36,9 +33,17 @@ namespace Lsj.Util.Win32.Enums
         KF_CATEGORY_COMMON = 3,
 
         /// <summary>
+        /// <para>
         /// Per-user folders are those stored under each user's profile and accessible only by that user.
-        /// For example, %USERPROFILE%\Pictures.
+        /// For example, <c>%USERPROFILE%\Pictures</c>.
         /// This category of folder usually supports many features including aliasing, redirection and customization.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The user profile root folder (<see cref="FOLDERID_Profile"/>) does not support redirection.
+        /// </para>
         /// </summary>
         KF_CATEGORY_PERUSER = 4
     }

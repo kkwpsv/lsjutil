@@ -15,6 +15,10 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// Do not rely on the <see cref="VK_LWIN"/> (0x5B) + <see cref="VK_F17"/> (0x80) keys to permanently switch a setting.
+    /// At shutdown, the system uses these keys to reset various settings, which could include those set by your app.
+    /// </remarks>
     public enum VirtualKeyCodes : ushort
     {
         /// <summary>

@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Local Memory Flags
+    /// Local memory flags
     /// </summary>
     [Flags]
     public enum LocalMemoryFlags

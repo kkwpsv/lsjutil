@@ -14,10 +14,10 @@ using static Lsj.Util.Win32.Enums.CType1Flags;
 using static Lsj.Util.Win32.Enums.CType2Flags;
 using static Lsj.Util.Win32.Enums.CType3Flags;
 using static Lsj.Util.Win32.Enums.FindStringFlags;
-using static Lsj.Util.Win32.Enums.LocaleIndependentMappingFlags;
-using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
+using static Lsj.Util.Win32.Enums.StringMappingTransformationFlags;
+using static Lsj.Util.Win32.Enums.WideCharConversionTypes;
 using static Lsj.Util.Win32.Enums.NORM_FORM;
-using static Lsj.Util.Win32.Enums.StringFlags;
+using static Lsj.Util.Win32.Enums.CompareStringFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -138,7 +138,7 @@ namespace Lsj.Util.Win32
         /// Before Windows 8, both versions were declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareString([In] LCID Locale, [In] StringFlags dwCmpFlags, [In] LPCWSTR lpString1,
+        public static extern CompareStringResults CompareString([In] LCID Locale, [In] CompareStringFlags dwCmpFlags, [In] LPCWSTR lpString1,
             [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2);
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Lsj.Util.Win32
         /// Use <see cref="GetNLSVersionEx"/> to discover if the sort version has changed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] StringFlags dwCmpFlags,
+        public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] CompareStringFlags dwCmpFlags,
             [In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
             [In] LPVOID lpReserved, [In] LPARAM lParam);
 
@@ -490,7 +490,7 @@ namespace Lsj.Util.Win32
         /// use Unicode normalization forms KC, C, and D (through the <see cref="NormalizeString"/> function) to do the mappings.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FoldStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int FoldString([In] LocaleIndependentMappingFlags dwMapFlags, [In] LPCWSTR lpSrcStr,
+        public static extern int FoldString([In] StringMappingTransformationFlags dwMapFlags, [In] LPCWSTR lpSrcStr,
             [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
 
         /// <summary>
@@ -1089,7 +1089,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MultiByteToWideChar"/> is declared in Stringapiset.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
-        public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpMultiByteStr,
+        public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MultiByteConversionTypes dwFlags, [In] IntPtr lpMultiByteStr,
             [In] int cbMultiByte, [In] IntPtr lpWideCharStr, [In] int cchWideChar);
 
         /// <summary>
@@ -1350,7 +1350,7 @@ namespace Lsj.Util.Win32
         /// As mentioned earlier, it is more reliable to design your application to save and store such data as Unicode.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WideCharToMultiByte", ExactSpelling = true, SetLastError = true)]
-        public static extern int WideCharToMultiByte([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpWideCharStr, [In] int cchWideChar,
+        public static extern int WideCharToMultiByte([In] CodePages CodePage, [In] WideCharConversionTypes dwFlags, [In] IntPtr lpWideCharStr, [In] int cchWideChar,
             [In] IntPtr lpMultiByteStr, [In] int cbMultiByte, [In] LPCCH lpDefaultChar, [Out] out BOOL lpUsedDefaultChar);
     }
 }

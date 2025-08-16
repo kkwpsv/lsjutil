@@ -11,7 +11,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CtrlEvents;
+using static Lsj.Util.Win32.Enums.ControlSignalTypes;
 using static Lsj.Util.Win32.Enums.EventConstants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
@@ -370,7 +370,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is 0. <see cref="GetLastError"/> does not provide extended error information.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetSystemMetrics([In] SystemMetric smIndex);
+        public static extern int GetSystemMetrics([In] SystemMetricIndexes smIndex);
 
         /// <summary>
         /// <para>

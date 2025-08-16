@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_CPU_RATE_CONTROL;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectCpuRateControlSchedulingPolicies;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -139,7 +139,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(0)]
-        public JOB_OBJECT_CPU_RATE_CONTROL ControlFlags;
+        public JobObjectCpuRateControlSchedulingPolicies ControlFlags;
 
         /// <summary>
         /// <para>

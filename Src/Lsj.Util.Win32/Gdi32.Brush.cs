@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
 using static Lsj.Util.Win32.Enums.HatchStyles;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrush([In] HGLOBAL h, [In] DIBColorTableIdentifiers iUsage);
+        public static extern HBRUSH CreateDIBPatternBrush([In] HGLOBAL h, [In] DIBColorTableUsages iUsage);
 
         /// <summary>
         /// <para>
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableIdentifiers iUsage);
+        public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableUsages iUsage);
 
         /// <summary>
         /// <para>

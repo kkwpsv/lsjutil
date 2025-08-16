@@ -15,21 +15,31 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <see cref="TYPEFLAG_FAPPOBJECT"/> can be used on type descriptions with TypeKind = <see cref="TKIND_COCLASS"/>,
     /// and indicates that the type description specifies an Application object.
+    /// </para>
+    /// <para>
     /// Members of the Application object are globally accessible.
-    /// The <see cref="ITypeComp.Bind"/> method of the <see cref="ITypeComp"/> instance associated with the library binds to the members of an Application object,
-    /// just as it does for type descriptions that have TypeKind = <see cref="TKIND_MODULE"/>.
+    /// The <see cref="ITypeComp.Bind"/> method of the <see cref="ITypeComp"/> instance associated with the library
+    /// binds to the members of an Application object, just as it does for type descriptions that have TypeKind = <see cref="TKIND_MODULE"/>.
+    /// </para>
+    /// <para>
     /// The type description implicitly defines a global variable with the same name and type described by the type description.
-    /// This variable is also globally accessible.
-    /// When Bind is passed the name of an Application object, a <see cref="VARDESC"/> is returned, which describes the implicit variable.
-    /// The ID of the implicitly created variable is always <see cref="ID_DEFAULTINST"/>.
+    /// This variable is also globally accessible. 
+    /// When <see cref="ITypeComp.Bind"/> is passed the name of an Application object, a <see cref="VARDESC"/> is returned, which describes the implicit variable.
+    /// The ID of the implicitly created variable is always ID_DEFAULTINST.
+    /// </para>
+    /// <para>
     /// The <see cref="ITypeInfo.CreateInstance"/> function of an Application object type description is called,
     /// and then it uses <see cref="GetActiveObject"/> to retrieve the Application object.
     /// If <see cref="GetActiveObject"/> fails because the application is not running,
     /// then <see cref="ITypeInfo.CreateInstance"/> calls <see cref="CoCreateInstance"/>, which should start the application.
+    /// </para>
+    /// <para>
     /// When <see cref="TYPEFLAG_FCANCREATE"/> is set, <see cref="ITypeInfo.CreateInstance"/> can create an instance of this type.
     /// This is true only for component object classes for which a globally unique identifier (GUID) has been specified.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum TYPEFLAGS

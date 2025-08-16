@@ -3,9 +3,9 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="TEXTMETRIC"/> PitchAndFamily Flags
+    /// <see cref="TEXTMETRIC"/> Pitch and family flags
     /// </summary>
-    public enum TEXTMETRICPitchAndFamilyFlags : byte
+    public enum TextMetricPitchAndFamilyFlags : byte
     {
         /// <summary>
         /// TMPF_FIXED_PITCH

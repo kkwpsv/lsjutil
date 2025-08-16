@@ -1,11 +1,11 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE_INTERVAL;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -306,6 +306,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_LIMIT LimitFlags;
+        public JobObjectLimitFlags LimitFlags;
     }
 }

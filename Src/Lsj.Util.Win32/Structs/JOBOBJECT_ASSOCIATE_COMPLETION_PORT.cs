@@ -1,9 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_END_OF_JOB;
+using static Lsj.Util.Win32.Enums.JobObjectEndOfJobTimeActions;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Kernel32;
 

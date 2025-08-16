@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.Enums.CLIPFORMAT;
+using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {

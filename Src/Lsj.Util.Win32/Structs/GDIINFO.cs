@@ -3,9 +3,9 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DeviceTechnologies;
-using static Lsj.Util.Win32.Enums.HTFlags;
-using static Lsj.Util.Win32.Enums.HTOutputFormats;
-using static Lsj.Util.Win32.Enums.HTPatternSizes;
+using static Lsj.Util.Win32.Enums.HT_FLAG;
+using static Lsj.Util.Win32.Enums.HT_FORMAT;
+using static Lsj.Util.Win32.Enums.HT_PATSIZE;
 using static Lsj.Util.Win32.Enums.PenStyles;
 using static Lsj.Util.Win32.Enums.PhysicalPixelCharacteristicsFlags;
 using static Lsj.Util.Win32.Enums.PrimaryOrders;
@@ -504,7 +504,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="HT_PATSIZE_DEFAULT"/>
         /// </para>
         /// </summary>
-        public HTPatternSizes ulHTPatternSize;
+        public HT_PATSIZE ulHTPatternSize;
 
         /// <summary>
         /// <para>
@@ -536,7 +536,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="HT_FORMAT_32BPP"/>
         /// </para>
         /// </summary>
-        public HTOutputFormats ulHTOutputFormat;
+        public HT_FORMAT ulHTOutputFormat;
 
         /// <summary>
         /// <para>
@@ -702,7 +702,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HTFlags flHTFlags;
+        public HT_FLAG flHTFlags;
 
         /// <summary>
         /// <para>

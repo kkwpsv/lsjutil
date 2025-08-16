@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// ScrollBarConstants
+    /// Scroll bar constants
     /// </summary>
     public enum ScrollBarConstants : uint
     {

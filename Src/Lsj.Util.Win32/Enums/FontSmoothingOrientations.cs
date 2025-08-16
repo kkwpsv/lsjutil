@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Font Smothing Orientations
+    /// Font smoothing orientations
     /// </summary>
     public enum FontSmoothingOrientations
     {

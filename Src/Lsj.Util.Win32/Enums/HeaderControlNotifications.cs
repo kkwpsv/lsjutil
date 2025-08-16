@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.HeaderControlItemFormats;
 using static Lsj.Util.Win32.Enums.HeaderControlMessages;
 using static Lsj.Util.Win32.Enums.HeaderControlStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
@@ -7,13 +9,12 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Header Control Notifications
+    /// Header control notifications
     /// </para>
     /// <para>
     /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/bumper-header-control-reference-notifications"/>
     /// </para>
     /// </summary>
-    [Flags]
     public enum HeaderControlNotifications : uint
     {
         /// <summary>
@@ -31,6 +32,11 @@ namespace Lsj.Util.Win32.Enums
         /// This notification code is sent only by header controls that are set to the <see cref="HDS_DRAGDROP"/> style. 
         /// This notification code is sent in the form of a <see cref="WM_NOTIFY"/> message.
         /// </summary>
+        /// <remarks>
+        /// A header control defaults to automatically managing drag-and-drop reordering.
+        /// Returning TRUE to indicate external (manual) drag-and-drop management
+        /// allows the owner of the control to provide custom services as part of the drag-and-drop process.
+        /// </remarks>
         HDN_BEGINDRAG = HDN_FIRST - 10,
 
         /// <summary>
@@ -56,6 +62,16 @@ namespace Lsj.Util.Win32.Enums
         /// Sent by a header control to its parent when the drop-down arrow on the header control is clicked.
         /// This notification code is sent in the form of a <see cref="WM_NOTIFY"/> message.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The example in the Syntax section shows how the notification receiver
+        /// casts <see cref="LPARAM"/> to retrieve the <see cref="NMHEADER"/> structure.
+        /// <see cref="WPARAM"/> contains the ID of the control that sends this message.
+        /// </para>
+        /// <para>
+        /// This message is sent only if style <see cref="HDF_SPLITBUTTON"/> is set on the header item.
+        /// </para>
+        /// </remarks>
         HDN_DROPDOWN = HDN_FIRST - 18,
 
         /// <summary>
@@ -63,6 +79,10 @@ namespace Lsj.Util.Win32.Enums
         /// This notification code is sent as a <see cref="WM_NOTIFY"/> message.
         /// Only header controls that are set to the <see cref="HDS_DRAGDROP"/> style send this notification code.
         /// </summary>
+        /// <remarks>
+        /// If the owner is performing external (manual) drag-and-drop management, it must return <see cref="FALSE"/>.
+        /// The owner then must reorder header items manually by sending <see cref="HDM_SETITEM"/> or <see cref="HDM_SETORDERARRAY"/>.
+        /// </remarks>
         HDN_ENDDRAG = HDN_FIRST - 11,
 
         /// <summary>
@@ -93,6 +113,11 @@ namespace Lsj.Util.Win32.Enums
         /// Sent to the owner of a header control when the control needs information about a callback header item.
         /// This notification code is sent as a <see cref="WM_NOTIFY"/> message.
         /// </summary>
+        /// <remarks>
+        /// Fill the appropriate members of the structure to return the requested information to the header control.
+        /// If your message handler sets the mask member of the <see cref="NMHDDISPINFO"/> structure to <see cref="HDI_DI_SETITEM"/>,
+        /// the header control stores the information and will not request it again.
+        /// </remarks>
         HDN_GETDISPINFO = HDN_FIRST - 29,
 
         /// <summary>
@@ -111,6 +136,9 @@ namespace Lsj.Util.Win32.Enums
         /// Notifies a header control's parent window that the user clicked the control.
         /// This notification code is sent in the form of a <see cref="WM_NOTIFY"/> message.
         /// </summary>
+        /// <remarks>
+        /// A header control sends this notification code after the user releases the left mouse button.
+        /// </remarks>
         HDN_ITEMCLICK = HDN_FIRST - 22,
 
         /// <summary>
@@ -136,12 +164,21 @@ namespace Lsj.Util.Win32.Enums
         /// Sent by a header control to its parent when the header's overflow button is clicked.
         /// This notification code is sent in the form of an <see cref="WM_NOTIFY"/> message.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The notification receiver casts <see cref="LPARAM"/> to retrieve the <see cref="NMHEADER"/> structure.
+        /// <see cref="WPARAM"/> contains the ID of the control that sends the notification.
+        /// </para>
+        /// <para>
+        /// This message is sent only when style <see cref="HDS_OVERFLOW"/> is set on the header control.
+        /// </para>
+        /// </remarks>
         HDN_OVERFLOWCLICK = HDN_FIRST - 19,
 
         /// <summary>
         /// Notifies a header control's parent window that the user is dragging a divider in the header control.
         /// This notification code is sent in the form of a <see cref="WM_NOTIFY"/> message.
         /// </summary>
-        HDN_TRACKW = HDN_FIRST - 28,
+        HDN_TRACK = HDN_FIRST - 28,
     }
 }

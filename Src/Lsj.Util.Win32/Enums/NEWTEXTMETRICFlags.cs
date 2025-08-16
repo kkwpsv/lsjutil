@@ -3,9 +3,9 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="NEWTEXTMETRIC"/> Flags
+    /// <see cref="NEWTEXTMETRIC"/> flags
     /// </summary>
-    public enum NEWTEXTMETRICFlags : uint
+    public enum NewTextMetricFlags : uint
     {
         /// <summary>
         /// NTM_REGULAR

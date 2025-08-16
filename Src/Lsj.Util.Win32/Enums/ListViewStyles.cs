@@ -5,26 +5,34 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// List View Styles
+    /// The following window styles are specific to list-view controls.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/list-view-window-styles"/>
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// For the <see cref="LVS_SORTASCENDING"/> and <see cref="LVS_SORTDESCENDING"/> styles,
     /// item indexes are sorted based on item text in ascending or descending order, respectively.
     /// Because the <see cref="LVS_LIST"/> and <see cref="LVS_REPORT"/> views display items in the same order as their indexes,
     /// the results of sorting are immediately visible to the user.
     /// The <see cref="LVS_ICON"/> and <see cref="LVS_SMALLICON"/> views do not use item indexes to determine the position of icons.
     /// With those views, the results of sorting are not visible to the user.
-    /// You can use the <see cref="LVS_TYPEMASK"/> mask to isolate the window styles that correspond to the current view:
-    /// <see cref="LVS_ICON"/>, <see cref="LVS_LIST"/>, <see cref="LVS_REPORT"/>, and <see cref="LVS_SMALLICON"/>.
-    /// You can use the <see cref="LVS_ALIGNMASK"/> mask to isolate the window styles that specify the alignment of items:
-    /// <see cref="LVS_ALIGNLEFT"/> and <see cref="LVS_ALIGNTOP"/>.
+    /// </para>
+    /// <para>
+    /// You can use the <see cref="LVS_TYPEMASK"/> mask to isolate the window styles
+    /// that correspond to the current view: <see cref="LVS_ICON"/>, <see cref="LVS_LIST"/>, <see cref="LVS_REPORT"/>, and <see cref="LVS_SMALLICON"/>.
+    /// </para>
+    /// <para>
+    /// You can use the <see cref="LVS_ALIGNMASK"/> mask to isolate the window styles
+    /// that specify the alignment of items: <see cref="LVS_ALIGNLEFT"/> and <see cref="LVS_ALIGNTOP"/>.
+    /// </para>
+    /// <para>
     /// You can use the <see cref="LVS_TYPESTYLEMASK"/> mask to isolate the window styles
-    /// that control item alignment (<see cref="LVS_ALIGNLEFT"/> and <see cref="LVS_ALIGNTOP"/>) and
-    /// those that control header appearance and behavior (<see cref="LVS_NOCOLUMNHEADER"/> and <see cref="LVS_NOSORTHEADER"/>).
+    /// that control item alignment (<see cref="LVS_ALIGNLEFT"/> and <see cref="LVS_ALIGNTOP"/>)
+    /// and those that control header appearance and behavior (<see cref="LVS_NOCOLUMNHEADER"/> and <see cref="LVS_NOSORTHEADER"/>).
+    /// </para>
     /// </remarks>
     public enum ListViewStyles : uint
     {

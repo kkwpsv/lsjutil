@@ -15,7 +15,7 @@ using static Lsj.Util.Win32.BaseTypes.UINT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
-using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;
+using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FILEOP_FLAGS;
@@ -23,14 +23,14 @@ using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
 using static Lsj.Util.Win32.Enums.KF_CATEGORY;
 using static Lsj.Util.Win32.Enums.KNOWN_FOLDER_FLAG;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
-using static Lsj.Util.Win32.Enums.SHCNE;
-using static Lsj.Util.Win32.Enums.SHCNF;
+using static Lsj.Util.Win32.Enums.ShellChangeNotifyEvents;
+using static Lsj.Util.Win32.Enums.ShellChangeNotifyFlags;
 using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
-using static Lsj.Util.Win32.Enums.SHGetFileInfoFlags;
-using static Lsj.Util.Win32.Enums.SHGFP_TYPE;
+using static Lsj.Util.Win32.Enums.ShellGetFileInfoFlags;
+using static Lsj.Util.Win32.Enums.ShellGetFolderPathTypes;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
@@ -964,7 +964,7 @@ namespace Lsj.Util.Win32
         /// The strings pointed to by <paramref name="dwItem1"/> and <paramref name="dwItem2"/> can be either ANSI or Unicode.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHChangeNotify", ExactSpelling = true, SetLastError = true)]
-        public static extern void SHChangeNotify([In] SHCNE wEventId, [In] SHCNF uFlags, [In] LPCVOID dwItem1, [In] LPCVOID dwItem2);
+        public static extern void SHChangeNotify([In] ShellChangeNotifyEvents wEventId, [In] ShellChangeNotifyFlags uFlags, [In] LPCVOID dwItem1, [In] LPCVOID dwItem2);
 
         /// <summary>
         /// <para>
@@ -1595,7 +1595,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD_PTR SHGetFileInfo([MarshalAs(UnmanagedType.LPWStr)][In] string pszPath, [In] FileAttributes dwFileAttributes,
-            [In][Out] ref SHFILEINFO psfi, [In] UINT cbFileInfo, [In] SHGetFileInfoFlags uFlags);
+            [In][Out] ref SHFILEINFO psfi, [In] UINT cbFileInfo, [In] ShellGetFileInfoFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -1787,7 +1787,7 @@ namespace Lsj.Util.Win32
             "New applications should use the known folder system rather than the older CSIDL system," +
             "which is supported only for backward compatibility.")]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] SHGFP_TYPE dwFlags, [In] IntPtr pszPath);
+        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] IntPtr pszPath);
 
         /// <summary>
         /// <para>
@@ -2045,7 +2045,7 @@ namespace Lsj.Util.Win32
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] SHGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
+        public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] ShellGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
 
         /// <summary>
         /// <para>

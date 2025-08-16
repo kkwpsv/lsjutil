@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Crypt32;
-using static Lsj.Util.Win32.Enums.CertEncodingTypes;
+using static Lsj.Util.Win32.Enums.CertificateAndMessageEncodingTypes;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CertEncodingTypes dwCertEncodingType;
+        public CertificateAndMessageEncodingTypes dwCertEncodingType;
 
         /// <summary>
         /// A pointer to a buffer that contains the encoded certificate.

@@ -11,11 +11,15 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Values of this enumeration are used to define the <see cref="FORMATETC.dwAspect"/> member of the <see cref="FORMATETC"/> structure.
     /// Only one <see cref="DVASPECT"/> value can be used to specify a single presentation aspect in a <see cref="FORMATETC"/> structure.
     /// The <see cref="FORMATETC"/> structure is used in many OLE functions and interface methods that require information on data presentation.
+    /// </para>
+    /// <para>
     /// The default value of MiscStatus is used if a subkey corresponding to the specified <see cref="DVASPECT"/> is not found.
     /// To set an OLE control, specify DVASPECT==1. This will cause the following to occur in the registry:
+    /// </para>
     /// <code>
     /// HKEY_CLASSES_ROOT\CLSID\ . . .
     /// MiscStatus = 1

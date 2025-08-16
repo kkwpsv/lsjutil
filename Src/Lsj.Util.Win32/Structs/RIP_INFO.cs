@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.SetLastErrorExTypes;
+using static Lsj.Util.Win32.Enums.SystemErrorLevels;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -84,6 +84,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public SetLastErrorExTypes dwType;
+        public SystemErrorLevels dwType;
     }
 }

@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.BitmapCompressions;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -227,7 +227,7 @@ namespace Lsj.Util.Win32.Structs
         /// Use the subtype GUID in the <see cref="AM_MEDIA_TYPE"/> structure to determine the specific RGB type.
         /// </para>
         /// </summary>
-        public Compression biCompression;
+        public BitmapCompressions biCompression;
 
         /// <summary>
         /// Specifies the size, in bytes, of the image.

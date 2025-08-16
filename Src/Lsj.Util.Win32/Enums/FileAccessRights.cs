@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// File Access Rights Constants
-    /// The valid access rights for files and directories include the <see cref="StandardAccessRights.DELETE"/>,
-    /// <see cref="StandardAccessRights.READ_CONTROL"/>, <see cref="StandardAccessRights.WRITE_DAC"/>,
-    /// <see cref="StandardAccessRights.WRITE_OWNER"/>, and <see cref="StandardAccessRights.SYNCHRONIZE"/> standard access rights.
+    /// The valid access rights for files and directories include the <see cref="DELETE"/>, <see cref="READ_CONTROL"/>,
+    /// <see cref="WRITE_DAC"/>, <see cref="WRITE_OWNER"/>, and <see cref="SYNCHRONIZE"/> standard access rights.
     /// The following table lists the access rights that are specific to files and directories.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/fileio/file-access-rights-constants"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum FileAccessRights : uint
     {
         /// <summary>
@@ -31,7 +29,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// All possible access rights for a file.
         /// </summary>
-        FILE_ALL_ACCESS = StandardAccessRights.STANDARD_RIGHTS_REQUIRED | StandardAccessRights.SYNCHRONIZE | 0x1FF,
+        FILE_ALL_ACCESS = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0x1FF,
 
         /// <summary>
         /// For a file object, the right to append data to the file.
@@ -102,24 +100,24 @@ namespace Lsj.Util.Win32.Enums
         FILE_WRITE_EA = 0x0010,
 
         /// <summary>
-        /// Includes <see cref="StandardAccessRights.READ_CONTROL"/>, which is the right to read the information in the file or directory object's security descriptor.
+        /// Includes <see cref="READ_CONTROL"/>, which is the right to read the information in the file or directory object's security descriptor.
         /// This does not include the information in the SACL.
         /// </summary>
-        STANDARD_RIGHTS_READ = StandardAccessRights.READ_CONTROL,
+        STANDARD_RIGHTS_READ = READ_CONTROL,
 
         /// <summary>
         /// Same as <see cref="STANDARD_RIGHTS_READ"/>.
         /// </summary>
-        STANDARD_RIGHTS_WRITE = StandardAccessRights.READ_CONTROL,
+        STANDARD_RIGHTS_WRITE = READ_CONTROL,
 
         /// <summary>
         /// FILE_GENERIC_READ
         /// </summary>
-        FILE_GENERIC_READ = STANDARD_RIGHTS_READ | FILE_READ_DATA | FILE_READ_ATTRIBUTES | FILE_READ_EA | StandardAccessRights.SYNCHRONIZE,
+        FILE_GENERIC_READ = STANDARD_RIGHTS_READ | FILE_READ_DATA | FILE_READ_ATTRIBUTES | FILE_READ_EA | SYNCHRONIZE,
 
         /// <summary>
         /// FILE_GENERIC_WRITE
         /// </summary>
-        FILE_GENERIC_WRITE = STANDARD_RIGHTS_WRITE | FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES | FILE_WRITE_EA | FILE_APPEND_DATA | StandardAccessRights.SYNCHRONIZE,
+        FILE_GENERIC_WRITE = STANDARD_RIGHTS_WRITE | FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES | FILE_WRITE_EA | FILE_APPEND_DATA | SYNCHRONIZE,
     }
 }

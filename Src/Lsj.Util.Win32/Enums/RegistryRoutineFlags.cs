@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Registry Routine Flags
+    /// Registry routine flags
     /// </summary>
     public enum RegistryRoutineFlags : uint
     {

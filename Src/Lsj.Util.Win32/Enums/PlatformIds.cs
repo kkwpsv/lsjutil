@@ -1,31 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// PlatformIds
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/metadata/osinfo-structure"/>
-    /// </para>
+    /// Platform Ids
     /// </summary>
     public enum PlatformIds : uint
     {
         /// <summary>
-        /// Microsoft Windows 3.1
+        /// VER_PLATFORM_WIN32s
         /// </summary>
         VER_PLATFORM_WIN32s = 0,
 
         /// <summary>
-        /// Windows 95, Windows 98, or operating systems descended from them
+        /// VER_PLATFORM_WIN32_WINDOWS
         /// </summary>
         VER_PLATFORM_WIN32_WINDOWS = 1,
 
         /// <summary>
-        /// Windows NT or operating systems descended from it
+        /// VER_PLATFORM_WIN32_NT
         /// </summary>
         VER_PLATFORM_WIN32_NT = 2,
     }

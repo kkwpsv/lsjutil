@@ -8,7 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
 using static Lsj.Util.Win32.Enums.GCPCLASS;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32
         /// To use the alpDx values in <paramref name="lpDx"/>, you must first process them.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ExtTextOut([In] IntPtr hdc, [In] int x, [In] int y, [In] ExtTextOutFlags options,
+        public static extern BOOL ExtTextOut([In] IntPtr hdc, [In] int x, [In] int y, [In] ExtTextOutOptions options,
             [In] in RECT lprect, [In] LPCWSTR lpString, [In] uint c, [In] IntPtr lpDx);
 
         /// <summary>

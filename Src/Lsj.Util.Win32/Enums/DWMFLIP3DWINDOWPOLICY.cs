@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Enums
         DWMFLIP3D_EXCLUDEABOVE,
 
         /// <summary>
-        /// 	The maximum recognized DWMFLIP3DWINDOWPOLICY value, used for validation purposes.
+        /// The maximum recognized DWMFLIP3DWINDOWPOLICY value, used for validation purposes.
         /// </summary>
         DWMFLIP3D_LAST
     }

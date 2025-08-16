@@ -1,25 +1,17 @@
-﻿using static Lsj.Util.Win32.Kernel32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Thread Creation Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread"/>
-    /// </para>
+    /// Thread creation flags
     /// </summary>
     public enum ThreadCreationFlags : uint
     {
         /// <summary>
-        /// The thread is created in a suspended state, and does not run until the <see cref="ResumeThread"/> function is called.
+        /// CREATE_SUSPENDED
         /// </summary>
         CREATE_SUSPENDED = 0x00000004,
 
         /// <summary>
-        /// The dwStackSize parameter specifies the initial reserve size of the stack.
-        /// If this flag is not specified, dwStackSize specifies the commit size.
+        /// STACK_SIZE_PARAM_IS_A_RESERVATION
         /// </summary>
         STACK_SIZE_PARAM_IS_A_RESERVATION = 0x00010000,
     }

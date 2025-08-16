@@ -1,43 +1,40 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Processor Architectures
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info"/>
-    /// </para>
+    /// Processor architectures
     /// </summary>
     public enum ProcessorArchitectures : ushort
     {
         /// <summary>
-        /// x64 (AMD or Intel)
+        /// PROCESSOR_ARCHITECTURE_AMD64
         /// </summary>
         PROCESSOR_ARCHITECTURE_AMD64 = 9,
 
         /// <summary>
-        /// ARM
+        /// PROCESSOR_ARCHITECTURE_ARM
         /// </summary>
         PROCESSOR_ARCHITECTURE_ARM = 5,
 
         /// <summary>
-        /// ARM64
+        /// PROCESSOR_ARCHITECTURE_ARM64
         /// </summary>
         PROCESSOR_ARCHITECTURE_ARM64 = 12,
 
         /// <summary>
-        /// Intel Itanium-based
+        /// PROCESSOR_ARCHITECTURE_IA64
         /// </summary>
         PROCESSOR_ARCHITECTURE_IA64 = 6,
 
         /// <summary>
-        /// x86
+        /// PROCESSOR_ARCHITECTURE_INTEL
         /// </summary>
         PROCESSOR_ARCHITECTURE_INTEL = 0,
 
         /// <summary>
-        /// Unknown architecture.
+        /// PROCESSOR_ARCHITECTURE_UNKNOWN
         /// </summary>
         PROCESSOR_ARCHITECTURE_UNKNOWN = 0xffff,
+
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

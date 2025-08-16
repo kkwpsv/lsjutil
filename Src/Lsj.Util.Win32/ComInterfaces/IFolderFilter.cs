@@ -1,5 +1,5 @@
 ﻿using System;
-using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;
+using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.ComInterfaces

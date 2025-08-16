@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Exception Flags
+    /// Exception flags
     /// </summary>
     [Flags]
     public enum ExceptionFlags : uint

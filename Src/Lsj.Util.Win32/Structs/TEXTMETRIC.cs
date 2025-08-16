@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.CharacterSets;
-using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
+using static Lsj.Util.Win32.Enums.TextMetricPitchAndFamilyFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32.Structs
         /// For information about font families, see the description of the <see cref="LOGFONT"/> structure.
         /// </para>
         /// </summary>
-        public TEXTMETRICPitchAndFamilyFlags tmPitchAndFamily;
+        public TextMetricPitchAndFamilyFlags tmPitchAndFamily;
 
         /// <summary>
         /// <para>

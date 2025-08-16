@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.NEWTEXTMETRICFlags;
+using static Lsj.Util.Win32.Enums.NewTextMetricFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -284,7 +284,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public NEWTEXTMETRICFlags ntmFlags;
+        public NewTextMetricFlags ntmFlags;
 
         /// <summary>
         /// The size of the em square for the font.

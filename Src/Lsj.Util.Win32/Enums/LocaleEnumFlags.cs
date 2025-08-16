@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// LocaleEnumFlags
+    /// Locale enum flags
     /// </summary>
     [Flags]
     public enum LocaleEnumFlags : uint

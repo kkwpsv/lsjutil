@@ -9,6 +9,14 @@ namespace Lsj.Util.Win32.Enums
     /// The following window styles are specific to toolbars. They are combined with other window styles when the toolbar is created.
     /// </para>
     /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// For Common Controls version 6.00, if a visual style is being used with the toolbar,
+    /// buttons are always transparent regardless of the style setting.
+    /// Otherwise, transparency behavior is normal as indicated by the use of the <see cref="TBSTYLE_FLAT"/> or <see cref="TBSTYLE_TRANSPARENT"/> style.
+    /// </para>
+    /// <para>
     /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/toolbar-control-and-button-styles"/>
     /// </para>
     /// </summary>
@@ -106,14 +114,19 @@ namespace Lsj.Util.Win32.Enums
         BTNS_CHECKGROUP = BTNS_GROUP | BTNS_CHECK,
 
         /// <summary>
-        /// Version 5.80.
-        /// Creates a drop-down style button that can display a list when the button is clicked. 
-        /// Instead of the <see cref="WM_COMMAND"/> message used for normal buttons, drop-down buttons send a <see cref="TBN_DROPDOWN"/> notification code.
+        /// <para>
+        /// Version 5.80. Creates a drop-down style button that can display a list when the button is clicked.
+        /// Instead of the <see cref="WM_COMMAND"/> message used for normal buttons,
+        /// drop-down buttons send a <see cref="TBN_DROPDOWN"/> notification code.
         /// An application can then have the notification handler display a list of options.
         /// Use the equivalent style flag, <see cref="TBSTYLE_DROPDOWN"/>, for version 4.72 and earlier.
-        /// If the toolbar has the <see cref="TBSTYLE_EX_DRAWDDARROWS"/> extended style, drop-down buttons will have a drop-down arrow displayed in a separate section to their right.
-        /// If the arrow is clicked, a <see cref="TBN_DROPDOWN"/> notification code will be sent.
+        /// </para>
+        /// <para>
+        /// If the toolbar has the <see cref="TBSTYLE_EX_DRAWDDARROWS"/> extended style,
+        /// drop-down buttons will have a drop-down arrow displayed in a separate section to their right.
+        /// If the arrow is clicked, a TBN_DROPDOWN notification code will be sent.
         /// If the associated button is clicked, a <see cref="WM_COMMAND"/> message will be sent.
+        /// </para>
         /// </summary>
         BTNS_DROPDOWN = 0x0008,
 

@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.ControlKeyStates;
+using static Lsj.Util.Win32.Enums.ConsoleControlKeyStates;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -125,6 +125,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public ControlKeyStates dwControlKeyState;
+        public ConsoleControlKeyStates dwControlKeyState;
     }
 }

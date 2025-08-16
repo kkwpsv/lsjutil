@@ -13,9 +13,12 @@ namespace Lsj.Util.Win32.Enums
     public enum SYSGEOTYPE
     {
         /// <summary>
-        /// The geographical location identifier (GEOID) of a nation.
-        /// This value is stored in a long integer.
-        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// <para>
+        /// The geographical location identifier (GEOID) of a nation. This value is stored in a long integer.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// </para>
         /// </summary>
         GEO_NATION = 0x0001,
 
@@ -44,15 +47,23 @@ namespace Lsj.Util.Win32.Enums
         GEO_ISO3 = 0x0005,
 
         /// <summary>
-        /// The name for a string, compliant with RFC 4646 (starting with Windows Vista),
+        /// <para>
+        /// The name for a string, compliant with RFC 4646 (starting with Windows Vista),
         /// that is derived from the <see cref="GetGeoInfo"/> parameters language and GeoId.
-        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// </para>
         /// </summary>
         GEO_RFC1766 = 0x0006,
 
         /// <summary>
+        /// <para>
         /// A locale identifier derived using <see cref="GetGeoInfo"/>.
-        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, version 1709: This value is not supported for the <see cref="GetGeoInfoEx"/> function, and should not be used.
+        /// </para>
         /// </summary>
         GEO_LCID = 0x0007,
 
@@ -114,11 +125,15 @@ namespace Lsj.Util.Win32.Enums
         GEO_CURRENCYSYMBOL = 0x0010,
 
         /// <summary>
-        /// Starting with Windows 10, version 1709:
+        /// <para>
+        /// Starting with Windows 10, version 1709:
         /// The two-letter International Organization for Standardization (ISO) 3166-1 code or numeric United Nations (UN) Series M,
         /// Number 49 (M.49) code for the geographic region.
+        /// </para>
+        /// <para>
         /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
         /// For information about numeric UN M.49 codes, see Standard country or area codes for statistical use (M49).
+        /// </para>
         /// </summary>
         GEO_NAME = 0x0011,
 

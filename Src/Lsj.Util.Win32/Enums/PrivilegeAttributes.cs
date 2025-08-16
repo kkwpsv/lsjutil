@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// PrivilegeAttributes
+    /// Privilege attributes
     /// </summary>
     public enum PrivilegeAttributes : uint
     {

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_END_OF_JOB;
+using static Lsj.Util.Win32.Enums.JobObjectEndOfJobTimeActions;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -83,6 +83,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_END_OF_JOB EndOfJobTimeAction;
+        public JobObjectEndOfJobTimeActions EndOfJobTimeAction;
     }
 }

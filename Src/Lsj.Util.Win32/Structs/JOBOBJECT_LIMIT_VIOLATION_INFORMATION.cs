@@ -1,11 +1,11 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE_INTERVAL;
-using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_LIMIT LimitFlags;
+        public JobObjectLimitFlags LimitFlags;
 
         /// <summary>
         /// <para>
@@ -211,10 +211,10 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOB_OBJECT_LIMIT ViolationLimitFlags;
+        public JobObjectLimitFlags ViolationLimitFlags;
 
         /// <summary>
-        /// If the <see cref="ViolationLimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_JOB_READ_BYTES"/>,
+        /// If the <see cref="ViolationLimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_READ_BYTES"/>,
         /// this member contains the total I/O read bytes for all processes in the job at the time the notification was sent.
         /// </summary>
         public DWORD64 IoReadBytes;
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32.Structs
         public DWORD64 IoReadBytesLimit;
 
         /// <summary>
-        /// If the <see cref="ViolationLimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_JOB_WRITE_BYTES"/>,
+        /// If the <see cref="ViolationLimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_WRITE_BYTES"/>,
         /// this member contains the total I/O write bytes for all processes in the job at the time the notification was sent.
         /// </summary>
         public DWORD64 IoWriteBytes;

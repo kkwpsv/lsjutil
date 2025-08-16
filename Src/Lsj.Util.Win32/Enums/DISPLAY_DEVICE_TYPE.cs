@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
     /// Indicates whether the device is a primary or immersive type of display.
+    /// </para>
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// The functions that use these enumeration values are no longer supported as of Windows 8.1.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellscalingapi/ne-shellscalingapi-display_device_type"/>

@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 

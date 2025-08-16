@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// LCID Flags
+    /// LCID flags
     /// </summary>
     [Flags]
     public enum LCIDFlags : uint

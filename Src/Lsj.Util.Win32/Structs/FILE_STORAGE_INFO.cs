@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
-using static Lsj.Util.Win32.Enums.StorageInfoFlags;
+using static Lsj.Util.Win32.Enums.FileStorageInfoFlags;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public StorageInfoFlags Flags;
+        public FileStorageInfoFlags Flags;
 
         /// <summary>
         /// Logical sector offset within the first physical sector where the first logical sector is placed, in bytes.

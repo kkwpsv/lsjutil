@@ -9,7 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.PipeModes;
 using static Lsj.Util.Win32.Enums.PipeOpenModes;

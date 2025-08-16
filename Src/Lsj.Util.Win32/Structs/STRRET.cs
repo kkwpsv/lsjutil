@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.STRRET_TYPE;
+using static Lsj.Util.Win32.Enums.StringReturnedTypes;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(0)]
-        public STRRET_TYPE uType;
+        public StringReturnedTypes uType;
 
         /// <summary>
         /// A pointer to the string.

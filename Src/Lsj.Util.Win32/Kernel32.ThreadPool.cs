@@ -10,8 +10,8 @@ using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
-using static Lsj.Util.Win32.Enums.TP_CALLBACK_PRIORITY;
+using static Lsj.Util.Win32.Enums.WorkThreadFlags;
+using static Lsj.Util.Win32.Enums.ThreadPoolCallbackPriorities;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
@@ -772,7 +772,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateTimerQueueTimer([Out] out HANDLE phNewTimer, [In] HANDLE TimerQueue, [In] WAITORTIMERCALLBACK Callback,
-            [In] PVOID DueTime, [In] DWORD Period, [In] ThreadPoolFlags Flags, [In] ULONG Parameter);
+            [In] PVOID DueTime, [In] DWORD Period, [In] WorkThreadFlags Flags, [In] ULONG Parameter);
 
         /// <summary>
         /// <para>

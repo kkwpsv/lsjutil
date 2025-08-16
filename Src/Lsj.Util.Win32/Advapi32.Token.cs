@@ -7,7 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
-using static Lsj.Util.Win32.Enums.GroupAttributes;
+using static Lsj.Util.Win32.Enums.SidAttributes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;

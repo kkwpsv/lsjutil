@@ -121,6 +121,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The extended window style for the new window. For a list of possible values, see Extended Window Styles.
         /// </summary>
-        public WindowStylesEx dwExStyle;
+        public ExtendedWindowStyles dwExStyle;
     }
 }

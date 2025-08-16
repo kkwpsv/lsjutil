@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
-using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Enums.SFGAO;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -11,30 +11,46 @@ namespace Lsj.Util.Win32.Enums
     /// to specify the type of file or folder names used by those methods.
     /// </para>
     /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// Prior to Windows 7, these values were packaged as the SHGNO enumeration.
+    /// </para>
+    /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-_shgdnf"/>
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="SHGDNF"/> type is defined in Shobjidl.h as shown here.
+    /// <para>
+    /// The <see cref="SHGDNF"/> type is defined in Shobjidl.h as shown here. 
+    /// </para>
     /// <code>
     /// typedef DWORD SHGDNF;
     /// </code>
+    /// <para>
     /// This enumeration consists of two groups of values.
-    /// The first group—SHGDN_NORMAL and SHGDN_INFOLDER—specifies the name's type.
-    /// The second group—SHGDN_FOREDITING, SHGDN_FORADDRESSBAR, and SHGDN_FORPARSING—consists of modifiers to the first group
-    /// that specify name retrieval options.
-    /// If <see cref="SHGDN_FORPARSING"/> is set and <see cref="SHGDN_INFOLDER"/> is not set,
+    /// The first group—<see cref="SHGDN_NORMAL"/> and <see cref="SHGDN_INFOLDER"/>—specifies the name's type.
+    /// The second group—<see cref="SHGDN_FOREDITING"/>, <see cref="SHGDN_FORADDRESSBAR"/>, and <see cref="SHGDN_FORPARSING"/>—consists of modifiers
+    /// to the first group that specify name retrieval options.
+    /// </para>
+    /// <para>
+    /// If SHGDN_FORPARSING is set and <see cref="SHGDN_INFOLDER"/> is not set,
     /// <see cref="IShellFolder.GetDisplayNameOf"/> can accept a PIDL that contains more than an <see cref="SHITEMID"/> structure.
     /// Otherwise, only a single-level PIDL can be passed.
+    /// </para>
+    /// <para>
     /// Note While the parsing name returned by file system objects is the object's fully qualified path,
     /// virtual folders might use something quite different.
     /// For example, some virtual folders use a GUID as the parsing name and return a string of the form "::{GUID}".
-    /// To check whether the object is part of the file system, call <see cref="IShellFolder.GetAttributesOf"/>
-    /// and see if the <see cref="SFGAO_FILESYSTEM"/> flag is set.
+    /// To check whether the object is part of the file system,
+    /// call <see cref="IShellFolder.GetAttributesOf"/> and see if the <see cref="SFGAO_FILESYSTEM"/> flag is set.
     /// Developers who implement <see cref="IShellFolder.GetDisplayNameOf"/> are encouraged to return parse names
     /// that are as close to the display names as possible, because the end user often needs to type or edit these names.
+    /// </para>
+    /// <para>
     /// The numeric value of <see cref="SHGDN_NORMAL"/> is zero, so you cannot test for the presence of this bit.
     /// Consider <see cref="SHGDN_NORMAL"/> a default setting that is used if no other flag in that group is set.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum SHGDNF

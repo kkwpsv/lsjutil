@@ -39,6 +39,6 @@
         /// <summary>
         /// 
         /// </summary>
-        MSHCTX_RESERVED1 = 5
+        MSHCTX_CONTAINER = 5
     }
 }

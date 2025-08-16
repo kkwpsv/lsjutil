@@ -87,13 +87,19 @@ namespace Lsj.Util.Win32.Enums
         /// You can send this message explicitly or use the <see cref="DateTime_SetFormat"/> macro.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// It is acceptable to include extra characters within the format string to produce a more rich display.
         /// However, any nonformat characters must be enclosed within single quotes.
         /// For example, the format string "'Today is: 'hh':'m':'s ddddMMMdd', 'yyy"
         /// would produce output like "Today is: 04:22:31 Tuesday Mar 23, 1996".
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// A DTP control tracks locale changes when it is using the default format string.
         /// If you set a custom format string, it will not be updated in response to locale changes.
+        /// </para>
         /// </remarks>
         DTM_SETFORMAT = 0x1050,
 

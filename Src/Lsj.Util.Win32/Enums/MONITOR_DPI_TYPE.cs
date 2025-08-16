@@ -36,7 +36,7 @@
         MDT_RAW_DPI = 2,
 
         /// <summary>
-        /// The default DPI setting for a monitor is MDT_EFFECTIVE_DPI.
+        /// The default DPI setting for a monitor is <see cref="MDT_EFFECTIVE_DPI"/>.
         /// </summary>
         MDT_DEFAULT = MDT_EFFECTIVE_DPI
     }

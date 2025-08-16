@@ -11,7 +11,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.RIDEV;
+using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
 
 namespace Lsj.Util.Win32
 {

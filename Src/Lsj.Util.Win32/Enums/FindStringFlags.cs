@@ -1,9 +1,7 @@
-﻿using static Lsj.Util.Win32.Kernel32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Find String Flags
+    /// Find string flags
     /// </summary>
     public enum FindStringFlags : uint
     {

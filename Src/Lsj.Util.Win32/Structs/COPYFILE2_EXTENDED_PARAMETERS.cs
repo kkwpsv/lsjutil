@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CopyFileFlags;
+using static Lsj.Util.Win32.Enums.COPY_FILE;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CopyFileFlags dwCopyFlags;
+        public COPY_FILE dwCopyFlags;
 
         /// <summary>
         /// If this flag is set to <see cref="TRUE"/> during the copy operation then the copy operation is canceled.

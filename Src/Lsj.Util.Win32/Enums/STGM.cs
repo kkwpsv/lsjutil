@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Ole32;
 
@@ -7,18 +8,33 @@ namespace Lsj.Util.Win32.Enums
     /// <summary>
     /// <para>
     /// The <see cref="STGM"/> constants are flags that indicate conditions for creating and deleting the object and access modes for the object.
-    /// The <see cref="STGM"/> constants are included in the <see cref="IStorage"/>, <see cref="IStream"/>, and <see cref="IPropertySetStorage"/> interfaces
-    /// and in the <see cref="StgCreateDocfile"/>, <see cref="StgCreateStorageEx"/>, <see cref="StgCreateDocfileOnILockBytes"/>,
+    /// The <see cref="STGM"/> constants are included in the <see cref="IStorage"/>, <see cref="IStream"/>,
+    /// and <see cref="IPropertySetStorage"/> interfaces and in the <see cref="StgCreateDocfile"/>,
+    /// <see cref="StgCreateStorageEx"/>, <see cref="StgCreateDocfileOnILockBytes"/>,
     /// <see cref="StgOpenStorage"/>, and <see cref="StgOpenStorageEx"/> functions.
-    /// These elements are often combined using an OR operator. They are interpreted in groups as listed in the following table.
+    /// </para>
+    /// <para>
+    /// These elements are often combined using an OR operator.
+    /// They are interpreted in groups as listed in the following table.
     /// It is not valid to use more than one element from a single group.
-    /// Use a flag from the creation group when creating an object, such as with <see cref="StgCreateStorageEx"/> or <see cref="IStorage.CreateStream"/>.
+    /// </para>
+    /// <para>
+    /// Use a flag from the creation group when creating an object,
+    /// such as with <see cref="StgCreateStorageEx"/> or <see cref="IStorage.CreateStream"/>.
+    /// </para>
+    /// <para>
     /// For more information about transactioning, see the Remarks section.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/stg/stgm-constants"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// You can combine these flags, but you can only choose one flag from each group of related flags.
+    /// Typically one flag from each of the access and sharing groups must be specified for all functions and methods which use these constants.
+    /// Flags from other groups are optional.
+    /// </remarks>
+    [Flags]
     public enum STGM : uint
     {
         /// <summary>
@@ -89,13 +105,33 @@ namespace Lsj.Util.Win32.Enums
         STGM_PRIORITY = 0x00040000,
 
         /// <summary>
+        /// <para>
         /// Indicates that an existing storage object or stream should be removed before the new object replaces it.
         /// A new object is created when this flag is specified only if the existing object has been successfully removed.
+        /// </para>
+        /// <para>
         /// This flag is used when attempting to create:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// A storage object on a disk, but a file of that name exists.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// An object inside a storage object, but an object with the specified name exists.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// A byte array object, but one with the specified name exists.
-        /// This flag cannot be used with open operations, such as <see cref="StgOpenStorageEx"/> or <see cref="IStorage.OpenStorage"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// This flag cannot be used with open operations, such as <see cref="StgOpenStorageEx"/> or <see cref="IStorage.OpenStream"/>.
+        /// </para>
         /// </summary>
         STGM_CREATE = 0x00001000,
 

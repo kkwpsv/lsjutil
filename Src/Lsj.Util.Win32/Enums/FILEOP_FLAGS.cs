@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// FILEOP_FLAGS
     /// </summary>
+    [Flags]
     public enum FILEOP_FLAGS : ushort
     {
         /// <summary>

@@ -7,7 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
-using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
+using static Lsj.Util.Win32.Enums.StartupInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Shell32;
 

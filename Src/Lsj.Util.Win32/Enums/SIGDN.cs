@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
-using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Enums.SFGAO;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Enums
@@ -13,9 +13,32 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Different forms of an item's name can be retrieved through the item's properties, including those listed here.
     /// Note that not all properties are present on all items, so only those appropriate to the item will appear.
-    /// PKEY_FileName, PKEY_ItemFolderNameDisplay, PKEY_ItemFolderPathDisplay, PKEY_ItemFolderPathDisplayNarrow
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="PKEY_FileName"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="PKEY_ItemFolderNameDisplay"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="PKEY_ItemFolderPathDisplay"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="PKEY_ItemFolderPathDisplayNarrow"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum SIGDN
     {

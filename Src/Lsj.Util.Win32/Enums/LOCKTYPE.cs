@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="LOCKTYPE"/> enumeration values indicate the type of locking requested for the specified range of bytes.
     /// The values are used in the <see cref="ILockBytes.LockRegion"/> and <see cref="IStream.LockRegion"/> methods.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objidl/ne-objidl-locktype"/>
+    /// </para>
     /// </summary>
     public enum LOCKTYPE
     {

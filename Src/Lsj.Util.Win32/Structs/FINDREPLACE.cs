@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
+using static Lsj.Util.Win32.Enums.FindReplaceDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -309,7 +309,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public FINDREPLACEFlags Flags;
+        public FindReplaceDialogFlags Flags;
 
         /// <summary>
         /// The search string that the user typed in the Find What edit control.

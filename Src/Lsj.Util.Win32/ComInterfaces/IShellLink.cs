@@ -3,16 +3,14 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.SLGP_FLAGS;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.Enums.HOTKEYF;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
+using static Lsj.Util.Win32.Enums.ShellLinkGetPathFlags;
+using static Lsj.Util.Win32.Enums.ShellLinkResolveFlags;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.SLR_FLAGS;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -67,11 +65,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the operation is successful but no path is retrieved, it returns <see cref="S_FALSE"/> and <paramref name="pszFile"/> will be empty.
         /// Otherwise, it returns one of the standard <see cref="HRESULT"/> error values.
         /// </returns>
-        public HRESULT GetPath([In] IntPtr pszFile, [In] int cch, [In][Out] ref WIN32_FIND_DATA pfd, [In] SLGP_FLAGS fFlags)
+        public HRESULT GetPath([In] IntPtr pszFile, [In] int cch, [In][Out] ref WIN32_FIND_DATA pfd, [In] ShellLinkGetPathFlags fFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, ref WIN32_FIND_DATA, SLGP_FLAGS, HRESULT>)_vTable[3])(thisPtr, pszFile, cch, ref pfd, fFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, ref WIN32_FIND_DATA, ShellLinkGetPathFlags, HRESULT>)_vTable[3])(thisPtr, pszFile, cch, ref pfd, fFlags);
             }
         }
 
@@ -542,11 +540,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If both approaches fail, the system will display a dialog box prompting the user for a location.
         /// To suppress the dialog box, set the <see cref="SLR_NO_UI"/> flag.
         /// </remarks>
-        public HRESULT Resolve([In] HWND hwnd, [In] SLR_FLAGS fFlags)
+        public HRESULT Resolve([In] HWND hwnd, [In] ShellLinkResolveFlags fFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, SLR_FLAGS, HRESULT>)_vTable[19])(thisPtr, hwnd, fFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, ShellLinkResolveFlags, HRESULT>)_vTable[19])(thisPtr, hwnd, fFlags);
             }
         }
 

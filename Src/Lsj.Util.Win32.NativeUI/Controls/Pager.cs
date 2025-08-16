@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="height"></param>
         /// <param name="style"></param>
         /// <param name="parentWindow"></param>
-        public Pager(string text, int x, int y, int width, int height, PagerStyles style, HWND parentWindow) : base("SysPager", text, x, y, width, height, (uint)style, parentWindow)
+        public Pager(string text, int x, int y, int width, int height, PagerControlStyles style, HWND parentWindow) : base("SysPager", text, x, y, width, height, (uint)style, parentWindow)
         {
 
         }

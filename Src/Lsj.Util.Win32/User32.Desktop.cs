@@ -9,7 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
-using static Lsj.Util.Win32.Enums.GetUserObjectInformationIndexes;
+using static Lsj.Util.Win32.Enums.UserObjectInformationIndexes;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
@@ -412,7 +412,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetUserObjectInformation([In] IntPtr hObj, [In] GetUserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
+        public static extern BOOL GetUserObjectInformation([In] IntPtr hObj, [In] UserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
             [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
 
         /// <summary>

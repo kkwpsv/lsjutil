@@ -1,118 +1,110 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
     /// BAUD
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-commprop"/>
-    /// </para>
     /// </summary>
+    [Flags]
     public enum BAUD : uint
     {
         /// <summary>
-        /// 75 bps
+        /// BAUD_075
         /// </summary>
         BAUD_075 = 0x00000001,
 
         /// <summary>
-        /// 110 bps
+        /// BAUD_110
         /// </summary>
         BAUD_110 = 0x00000002,
 
         /// <summary>
-        /// 134.5 bps
+        /// BAUD_134_5
         /// </summary>
         BAUD_134_5 = 0x00000004,
 
         /// <summary>
-        /// 150 bps
+        /// BAUD_150
         /// </summary>
         BAUD_150 = 0x00000008,
 
         /// <summary>
-        /// 300 bps
+        /// BAUD_300
         /// </summary>
         BAUD_300 = 0x00000010,
 
         /// <summary>
-        /// 600 bps
+        /// BAUD_600
         /// </summary>
         BAUD_600 = 0x00000020,
 
         /// <summary>
-        /// 1200 bps
+        /// BAUD_1200
         /// </summary>
         BAUD_1200 = 0x00000040,
 
         /// <summary>
-        /// 1800 bps
+        /// BAUD_1800
         /// </summary>
         BAUD_1800 = 0x00000080,
 
         /// <summary>
-        /// 2400 bps
+        /// BAUD_2400
         /// </summary>
         BAUD_2400 = 0x00000100,
 
         /// <summary>
-        /// 4800 bps
+        /// BAUD_4800
         /// </summary>
         BAUD_4800 = 0x00000200,
 
         /// <summary>
-        /// 7200 bps
+        /// BAUD_7200
         /// </summary>
         BAUD_7200 = 0x00000400,
 
         /// <summary>
-        /// 9600 bps
+        /// BAUD_9600
         /// </summary>
         BAUD_9600 = 0x00000800,
 
         /// <summary>
-        /// 14400 bps
+        /// BAUD_14400
         /// </summary>
         BAUD_14400 = 0x00001000,
 
         /// <summary>
-        /// 19200 bps
+        /// BAUD_19200
         /// </summary>
         BAUD_19200 = 0x00002000,
 
         /// <summary>
-        /// 38400 bps
+        /// BAUD_38400
         /// </summary>
         BAUD_38400 = 0x00004000,
 
         /// <summary>
-        /// 56K bps
+        /// BAUD_56K
         /// </summary>
         BAUD_56K = 0x00008000,
 
         /// <summary>
-        /// 128K bps
+        /// BAUD_128K
         /// </summary>
         BAUD_128K = 0x00010000,
 
         /// <summary>
-        /// 115200 bps
+        /// BAUD_115200
         /// </summary>
         BAUD_115200 = 0x00020000,
 
         /// <summary>
-        /// 57600 bps
+        /// BAUD_57600
         /// </summary>
         BAUD_57600 = 0x00040000,
 
         /// <summary>
-        /// Programmable baud rate.
+        /// BAUD_USER
         /// </summary>
         BAUD_USER = 0x10000000,
     }

@@ -7,10 +7,10 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CSIDL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
+using static Lsj.Util.Win32.Enums.CommonDialogExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.CommonDialogBoxNotifications;
 using static Lsj.Util.Win32.Enums.ListBoxStyles;
-using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
+using static Lsj.Util.Win32.Enums.OpenFileDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
@@ -724,7 +724,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public OPENFILENAMEFlags Flags;
+        public OpenFileDialogFlags Flags;
 
         /// <summary>
         /// The zero-based offset, in characters, from the beginning of the path to the file name in the string pointed to by <see cref="lpstrFile"/>.

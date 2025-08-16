@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Font Weights
+    /// Font weights
     /// </summary>
     public enum FontWeights
     {

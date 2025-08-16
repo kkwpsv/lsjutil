@@ -130,70 +130,97 @@ namespace Lsj.Util.Win32.Enums
         FileRemoteProtocolInfo,
 
         /// <summary>
+        /// <para>
         /// Files in the specified directory should be retrieved.
-        /// Used for directory handles.
-        /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
-        /// See FILE_FULL_DIR_INFO.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// Used for directory handles. Use only when calling <see cref="GetFileInformationByHandleEx"/>.
+        /// See <see cref="FILE_FULL_DIR_INFO"/>.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileFullDirectoryInfo,
 
         /// <summary>
+        /// <para>
         /// Identical to <see cref="FileFullDirectoryInfo"/>, but forces the enumeration operation to start again from the beginning.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_FULL_DIR_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileFullDirectoryRestartInfo,
 
         /// <summary>
+        /// <para>
         /// File storage information should be retrieved.
         /// Use for any handles.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_STORAGE_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileStorageInfo,
 
         /// <summary>
+        /// <para>
         /// File alignment information should be retrieved.
         /// Use for any handles.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_ALIGNMENT_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileAlignmentInfo,
 
         /// <summary>
+        /// <para>
         /// File information should be retrieved.
         /// Use for any handles.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_ID_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileIdInfo,
 
         /// <summary>
+        /// <para>
         /// Files in the specified directory should be retrieved.
         /// Used for directory handles.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_ID_EXTD_DIR_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileIdExtdDirectoryInfo,
 
         /// <summary>
-        /// dentical to FileIdExtdDirectoryInfo, but forces the enumeration operation to start again from the beginning.
+        /// <para>
+        /// Identical to <see cref="FileIdExtdDirectoryInfo"/>, but forces the enumeration operation to start again from the beginning.
         /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
         /// See <see cref="FILE_ID_EXTD_DIR_INFO"/>.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
-        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported before Windows 8 and Windows Server 2012
+        /// </para>
         /// </summary>
         FileIdExtdDirectoryRestartInfo,
 
@@ -218,7 +245,8 @@ namespace Lsj.Util.Win32.Enums
         FileNormalizedNameInfo,
 
         /// <summary>
-        /// 
+        /// This value is used for validation.
+        /// Supported values are less than this value.
         /// </summary>
         MaximumFileInfoByHandleClass
     }

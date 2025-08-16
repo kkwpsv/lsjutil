@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.RIDEV;
+using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
 
 namespace Lsj.Util.Win32.Structs
 {

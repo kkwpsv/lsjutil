@@ -1,14 +1,7 @@
-﻿using static Lsj.Util.Win32.User32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="MonitorFromWindow"/> flags.
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-monitorfromwindow"/>
-    /// </para>
+    /// Monitor default flags
     /// </summary>
     public enum MonitorDefaultFlags
     {

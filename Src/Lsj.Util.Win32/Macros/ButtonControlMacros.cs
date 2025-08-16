@@ -32,8 +32,8 @@ namespace Lsj.Util.Win32.Macros
         /// <param name="hwndCtl"></param>
         /// <returns></returns>
         /// <remarks>If the button has a style other than those listed, the return value is zero.</remarks>
-        public static ButtonStates Button_GetCheck(IntPtr hwndCtl) =>
-            (ButtonStates)(IntPtr)SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+        public static ButtonCheckStates Button_GetCheck(IntPtr hwndCtl) =>
+            (ButtonCheckStates)(IntPtr)SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
 
         /// <summary>
         /// Gets the size of the button that best fits the text and image, if an image list is present.
@@ -192,9 +192,9 @@ namespace Lsj.Util.Win32.Macros
         /// <param name="hwndCtl"> A handle to the button control.</param>
         /// <param name="check">
         /// The check state. This parameter can be one of the following values.
-        /// <see cref="ButtonStates.BST_CHECKED"/>, <see cref="ButtonStates.BST_INDETERMINATE"/> and <see cref="ButtonStates.BST_UNCHECKED"/>.
+        /// <see cref="ButtonCheckStates.BST_CHECKED"/>, <see cref="ButtonCheckStates.BST_INDETERMINATE"/> and <see cref="ButtonCheckStates.BST_UNCHECKED"/>.
         /// </param>
-        public static void Button_SetCheck(IntPtr hwndCtl, ButtonStates check) =>
+        public static void Button_SetCheck(IntPtr hwndCtl, ButtonCheckStates check) =>
             SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETCHECK, (UIntPtr)check, IntPtr.Zero);
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32.Macros
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="fDropDown">
-        /// <see langword="true"/> for state of <see cref="ButtonStates.BST_DROPDOWNPUSHED"/>, or <see langword="false"/> otherwise.
+        /// <see langword="true"/> for state of <see cref="ButtonCheckStates.BST_DROPDOWNPUSHED"/>, or <see langword="false"/> otherwise.
         /// </param>
         /// <returns></returns>
         public static bool Button_SetDropDownState(IntPtr hwnd, bool fDropDown) =>

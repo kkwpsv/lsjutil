@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
@@ -554,7 +554,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public FileFlags dwFileFlags;
+        public FILE_FLAG dwFileFlags;
 
         /// <summary>
         /// <para>

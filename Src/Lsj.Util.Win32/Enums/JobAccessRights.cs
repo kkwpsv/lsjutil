@@ -1,4 +1,4 @@
-﻿using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
+﻿using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 

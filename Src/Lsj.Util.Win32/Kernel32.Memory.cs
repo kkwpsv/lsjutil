@@ -13,7 +13,7 @@ using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
 using static Lsj.Util.Win32.Enums.MEM_EXTENDED_PARAMETER_TYPE;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
-using static Lsj.Util.Win32.Enums.MemoryTypes;
+using static Lsj.Util.Win32.Enums.MemoryPageTypes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessHeapFlags;

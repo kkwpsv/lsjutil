@@ -15,9 +15,9 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_ACTION;
 using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_TYPE;
-using static Lsj.Util.Win32.Enums.CopyFileFlags;
+using static Lsj.Util.Win32.Enums.COPY_FILE;
 using static Lsj.Util.Win32.Enums.DefineDosDeviceFlags;
-using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
+using static Lsj.Util.Win32.Enums.SetupDeviceRegistryProperties;
 using static Lsj.Util.Win32.Enums.DriveTypes;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
@@ -25,7 +25,7 @@ using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.FileNotifyFilters;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
@@ -36,10 +36,10 @@ using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.GetFinalPathNameByHandleFlags;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.LockFileExFlags;
-using static Lsj.Util.Win32.Enums.LPPROGRESS_ROUTINECallbackReasons;
-using static Lsj.Util.Win32.Enums.LPPROGRESS_ROUTINEResults;
+using static Lsj.Util.Win32.Enums.CopyProgressRoutineCallbackReasons;
+using static Lsj.Util.Win32.Enums.CopyProgressRoutineResults;
 using static Lsj.Util.Win32.Enums.MoveFileFlags;
-using static Lsj.Util.Win32.Enums.MoveMethods;
+using static Lsj.Util.Win32.Enums.MoveFilePointerMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.ReplaceFileFlags;
 using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
@@ -135,8 +135,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application can use this information to display a progress bar that shows the total number of bytes copied as a percent of the total file size.
         /// </remarks>
-        public delegate LPPROGRESS_ROUTINEResults LpprogressRoutine([In] LARGE_INTEGER TotalFileSize, [In] LARGE_INTEGER TotalBytesTransferred, [In] LARGE_INTEGER StreamSize,
-            [In] LARGE_INTEGER StreamBytesTransferred, [In] DWORD dwStreamNumber, [In] LPPROGRESS_ROUTINECallbackReasons dwCallbackReason, [In] HANDLE hSourceFile,
+        public delegate CopyProgressRoutineResults LpprogressRoutine([In] LARGE_INTEGER TotalFileSize, [In] LARGE_INTEGER TotalBytesTransferred, [In] LARGE_INTEGER StreamSize,
+            [In] LARGE_INTEGER StreamBytesTransferred, [In] DWORD dwStreamNumber, [In] CopyProgressRoutineCallbackReasons dwCallbackReason, [In] HANDLE hSourceFile,
             [In] HANDLE hDestinationFile, [In] LPVOID lpData);
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags);
+            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] COPY_FILE dwCopyFlags);
 
         /// <summary>
         /// <para>
@@ -4695,7 +4695,7 @@ namespace Lsj.Util.Win32
         /// To do this, specify a move method of <see cref="FILE_CURRENT"/> and a distance of zero.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointer", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SetFilePointer([In] HANDLE hFile, [In] LONG lDistanceToMove, [In][Out] ref LONG lpDistanceToMoveHigh, [In] MoveMethods dwMoveMethod);
+        public static extern DWORD SetFilePointer([In] HANDLE hFile, [In] LONG lDistanceToMove, [In][Out] ref LONG lpDistanceToMoveHigh, [In] MoveFilePointerMethods dwMoveMethod);
 
         /// <summary>
         /// <para>
@@ -4767,7 +4767,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFilePointerEx([In] HANDLE hFile, [In] LARGE_INTEGER liDistanceToMove, [Out] out LARGE_INTEGER lpNewFilePointer,
-            [In] MoveMethods dwMoveMethod);
+            [In] MoveFilePointerMethods dwMoveMethod);
 
         /// <summary>
         /// <para>

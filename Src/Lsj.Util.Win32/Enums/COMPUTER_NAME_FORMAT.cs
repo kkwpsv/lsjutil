@@ -30,10 +30,14 @@ namespace Lsj.Util.Win32.Enums
         ComputerNameDnsDomain,
 
         /// <summary>
+        /// <para>
         /// The fully qualified DNS name that uniquely identifies the local computer or the cluster associated with the local computer.
+        /// </para>
+        /// <para>
         /// This name is a combination of the DNS host name and the DNS domain name, using the form HostName.DomainName.
         /// For example, if the DNS host name is "corporate-mail-server" and the DNS domain name is "microsoft.com",
         /// the fully qualified DNS name is "corporate-mail-server.microsoft.com".
+        /// </para>
         /// </summary>
         ComputerNameDnsFullyQualified,
 

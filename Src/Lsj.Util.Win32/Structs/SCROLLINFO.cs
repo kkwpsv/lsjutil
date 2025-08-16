@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ScrollBarCommands;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
-using static Lsj.Util.Win32.Enums.SCROLLINFOFlags;
+using static Lsj.Util.Win32.Enums.ScrollInfoFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -92,7 +92,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public SCROLLINFOFlags fMask;
+        public ScrollInfoFlags fMask;
 
         /// <summary>
         /// Specifies the minimum scrolling position.

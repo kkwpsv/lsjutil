@@ -3,73 +3,68 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// CType 2 Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/stringapiset/nf-stringapiset-getstringtypew"/>
-    /// </para>
+    /// C type 2 flags
     /// </summary>
     [Flags]
     public enum CType2Flags : ushort
     {
         /// <summary>
-        /// Left to right
+        /// C2_LEFTTORIGHT
         /// </summary>
         C2_LEFTTORIGHT = 0x0001,
 
         /// <summary>
-        /// Right to left
+        /// C2_RIGHTTOLEFT
         /// </summary>
         C2_RIGHTTOLEFT = 0x0002,
 
         /// <summary>
-        /// European number, European digit
+        /// C2_EUROPENUMBER
         /// </summary>
         C2_EUROPENUMBER = 0x0003,
 
         /// <summary>
-        /// European numeric separator
+        /// C2_EUROPESEPARATOR
         /// </summary>
         C2_EUROPESEPARATOR = 0x0004,
 
         /// <summary>
-        /// European numeric terminator
+        /// C2_EUROPETERMINATOR
         /// </summary>
         C2_EUROPETERMINATOR = 0x0005,
 
         /// <summary>
-        /// Arabic number
+        /// C2_ARABICNUMBER
         /// </summary>
         C2_ARABICNUMBER = 0x0006,
 
         /// <summary>
-        /// Common numeric separator
+        /// C2_COMMONSEPARATOR
         /// </summary>
         C2_COMMONSEPARATOR = 0x0007,
 
         /// <summary>
-        /// Block separator
+        /// C2_BLOCKSEPARATOR
         /// </summary>
         C2_BLOCKSEPARATOR = 0x0008,
 
         /// <summary>
-        /// Segment separator
+        /// C2_SEGMENTSEPARATOR
         /// </summary>
         C2_SEGMENTSEPARATOR = 0x0009,
 
         /// <summary>
-        /// White space
+        /// C2_WHITESPACE
         /// </summary>
         C2_WHITESPACE = 0x000A,
 
         /// <summary>
-        /// Other neutrals
+        /// C2_OTHERNEUTRAL
         /// </summary>
         C2_OTHERNEUTRAL = 0x000B,
 
         /// <summary>
-        /// No implicit directionality (for example, control codes)
+        /// C2_NOTAPPLICABLE
         /// </summary>
         C2_NOTAPPLICABLE = 0x0000,
     }

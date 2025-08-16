@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Window Styles Ex
         /// </summary>
-        public WindowStylesEx WindowStylesEx
+        public ExtendedWindowStyles WindowStylesEx
         {
             get => GetWindowStylesEx();
             set => SetWindowStylesEx(value);
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Class Styles
         /// </summary>
-        public ClassStyles ClassStyles
+        public WindowClassStyles ClassStyles
         {
             get => GetClassStyles();
             set => SetClassStyles(value);

@@ -3,37 +3,32 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
     /// <see cref="CombineRgn"/> Modes
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-combinergn"/>
-    /// </para>
     /// </summary>
     public enum CombineRgnModes
     {
         /// <summary>
-        /// Creates the intersection of the two combined regions.
+        /// RGN_AND
         /// </summary>
         RGN_AND = 1,
 
         /// <summary>
-        /// Creates the union of two combined regions.
+        /// RGN_OR
         /// </summary>
         RGN_OR = 2,
 
         /// <summary>
-        /// Creates the union of two combined regions except for any overlapping areas.
+        /// RGN_XOR
         /// </summary>
         RGN_XOR = 3,
 
         /// <summary>
-        /// Combines the parts of hrgnSrc1 that are not part of hrgnSrc2.
+        /// RGN_DIFF
         /// </summary>
         RGN_DIFF = 4,
 
         /// <summary>
-        /// Creates a copy of the region identified by hrgnSrc1.
+        /// RGN_COPY
         /// </summary>
         RGN_COPY = 5,
     }

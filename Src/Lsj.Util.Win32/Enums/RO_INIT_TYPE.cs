@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Combase;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -9,7 +11,7 @@
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Pass the <see cref="RO_INIT_TYPE"/> enumeration to the RoInitialize function to initialize a thread in the Windows Runtime.
+    /// Pass the <see cref="RO_INIT_TYPE"/> enumeration to the <see cref="RoInitialize"/> function to initialize a thread in the Windows Runtime.
     /// </remarks>
     public enum RO_INIT_TYPE
     {

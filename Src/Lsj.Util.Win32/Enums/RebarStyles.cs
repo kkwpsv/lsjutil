@@ -1,10 +1,8 @@
-﻿using static Lsj.Util.Win32.User32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Rebar Styles
+    /// Rebar controls support a variety of control styles in addition to standard window styles.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/rebar-control-styles"/>

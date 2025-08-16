@@ -1,6 +1,4 @@
-﻿using static Lsj.Util.Win32.Dwmapi;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>

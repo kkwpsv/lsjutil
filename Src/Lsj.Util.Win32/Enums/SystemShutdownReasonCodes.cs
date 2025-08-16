@@ -6,7 +6,15 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// The shutdown reason codes are used by the <see cref="ExitWindowsEx"/> and <see cref="InitiateSystemShutdownEx"/> functions in the dwReason parameter.
+    /// The shutdown reason codes are used by the <see cref="ExitWindowsEx"/>
+    /// and <see cref="InitiateSystemShutdownEx"/> functions in the dwReason parameter.
+    /// </para>
+    /// <para>
+    /// A maximum of <see cref="MAX_NUM_REASONS"/> reason codes will be processed by the system.
+    /// <see cref="MAX_NUM_REASONS"/> is defined in reason.h.
+    /// </para>
+    /// <para>
+    /// The following are the major reason flags. They indicate the general issue type.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/shutdown/system-shutdown-reason-codes"/>
@@ -191,20 +199,28 @@ namespace Lsj.Util.Win32.Enums
         SHTDN_REASON_MINOR_WMI = 0x00000015,
 
         /// <summary>
+        /// <para>
         /// The reason code is defined by the user.
         /// For more information, see Defining a Custom Reason Code.
+        /// </para>
+        /// <para>
         /// If this flag is not present, the reason code is defined by the system.
+        /// </para>
         /// </summary>
         SHTDN_REASON_FLAG_USER_DEFINED = 0x40000000,
 
         /// <summary>
-        /// The shutdown was planned. The system generates a System State Data (SSD) file.
+        /// <para>
+        /// The shutdown was planned.
+        /// The system generates a System State Data (SSD) file.
         /// This file contains system state information such as the processes, threads, memory usage, and configuration.
-        /// If this flag is not present, the shutdown was unplanned.
-        /// Notification and reporting options are controlled by a set of policies.
+        /// </para>
+        /// <para>
+        /// If this flag is not present, the shutdown was unplanned. Notification and reporting options are controlled by a set of policies.
         /// For example, after logging in, the system displays a dialog box reporting the unplanned shutdown if the policy has been enabled.
         /// An SSD file is created only if the SSD policy is enabled on the system.
         /// The administrator can use Windows Error Reporting to send the SSD data to a central location, or to Microsoft.
+        /// </para>
         /// </summary>
         SHTDN_REASON_FLAG_PLANNED = 0x80000000,
     }

@@ -28,9 +28,9 @@ namespace Lsj.Util.Win32.Structs
     public struct WNDCLASS
     {
         /// <summary>
-        /// The class style(s). This member can be any combination of the <see cref="ClassStyles"/>.
+        /// The class style(s). This member can be any combination of the <see cref="WindowClassStyles"/>.
         /// </summary>
-        public ClassStyles style;
+        public WindowClassStyles style;
 
         /// <summary>
         /// A pointer to the window procedure. You must use the <see cref="CallWindowProc"/> function to call the window procedure.

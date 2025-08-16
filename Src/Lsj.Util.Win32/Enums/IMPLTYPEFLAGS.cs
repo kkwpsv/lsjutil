@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// IMPLTYPEFLAGS
+    /// <para>
+    /// Specifies implementation type flags.
+    /// </para>
     /// </summary>
     [Flags]
     public enum IMPLTYPEFLAGS
     {
         /// <summary>
-        /// IMPLTYPEFLAG_FDEFAULT
+        /// The interface or dispinterface represents the default for the source or sink.
         /// </summary>
         IMPLTYPEFLAG_FDEFAULT = 0x1,
 
         /// <summary>
-        /// IMPLTYPEFLAG_FSOURCE
+        /// This member of a coclass is called rather than implemented.
         /// </summary>
         IMPLTYPEFLAG_FSOURCE = 0x2,
 
         /// <summary>
-        /// IMPLTYPEFLAG_FRESTRICTED
+        /// The member should not be displayed or programmable by users.
         /// </summary>
         IMPLTYPEFLAG_FRESTRICTED = 0x4,
 
         /// <summary>
-        /// IMPLTYPEFLAG_FDEFAULTVTABLE
+        /// Sinks receive events through the VTBL.
         /// </summary>
         IMPLTYPEFLAG_FDEFAULTVTABLE = 0x8,
     }

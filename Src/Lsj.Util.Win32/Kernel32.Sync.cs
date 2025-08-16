@@ -14,7 +14,7 @@ using static Lsj.Util.Win32.Enums.SynchronizationBarrierFlags;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
-using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
+using static Lsj.Util.Win32.Enums.WorkThreadFlags;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
 
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function can create a synchronization object and return it in the lpContext parameter.
         /// </remarks>
-        public delegate BOOL PinitOnceFn([In][Out] ref INIT_ONCE InitOnce, [In] PVOID Parameter, [Out] out PVOID Context);
+        public delegate BOOL PinitOnceFn([In][Out] ref Structs.INIT_ONCE InitOnce, [In] PVOID Parameter, [Out] out PVOID Context);
 
         /// <summary>
         /// <para>
@@ -564,7 +564,7 @@ namespace Lsj.Util.Win32
         /// Only use the one-time initialization functions to manage one-time initialization objects.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceBeginInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceBeginInitialize([In][Out] ref INIT_ONCE lpInitOnce, [In] InitOnceFlags dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
+        public static extern BOOL InitOnceBeginInitialize([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] InitOnceFlags dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -601,7 +601,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceComplete", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceComplete([In][Out] ref INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [In] LPVOID lpContext);
+        public static extern BOOL InitOnceComplete([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [In] LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -638,7 +638,7 @@ namespace Lsj.Util.Win32
         /// Other threads that specify the same one-time initialization structure block until the callback finishes.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceExecuteOnce", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceExecuteOnce([In][Out] ref INIT_ONCE lpInitOnce, [In] PINIT_ONCE_FN InitFn, [In] PVOID Parameter, [Out] out LPVOID lpContext);
+        public static extern BOOL InitOnceExecuteOnce([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] PINIT_ONCE_FN InitFn, [In] PVOID Parameter, [Out] out LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -659,7 +659,7 @@ namespace Lsj.Util.Win32
         /// Only use the one-time initialization functions to manage one-time initialization objects.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern void InitOnceInitialize([Out] out INIT_ONCE InitOnce);
+        public static extern void InitOnceInitialize([Out] out Structs.INIT_ONCE InitOnce);
 
         /// <summary>
         /// <para>
@@ -1416,7 +1416,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterWaitForSingleObject([Out] out HANDLE phNewWaitObject, [In] HANDLE hObject, [In] WAITORTIMERCALLBACK Callback,
-            [In] PVOID Context, [In] ULONG dwMilliseconds, [In] ThreadPoolFlags dwFlags);
+            [In] PVOID Context, [In] ULONG dwMilliseconds, [In] WorkThreadFlags dwFlags);
 
         /// <summary>
         /// <para>

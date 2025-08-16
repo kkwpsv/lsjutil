@@ -3,7 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CharacterTypeFlags;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
 using static Lsj.Util.Win32.Enums.GCPCLASS;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Gdi32;

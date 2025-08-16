@@ -1,15 +1,32 @@
 ﻿using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Thread Access Rights
+    /// Microsoft Windows enables you to control access to thread objects. For more information about security, see Access-Control Model.
+    /// </para>
+    /// <para>
+    /// You can specify a security descriptor for a thread when you call the <see cref="CreateProcess"/>,
+    /// <see cref="CreateProcessAsUser"/>, <see cref="CreateProcessWithLogonW"/>, <see cref="CreateThread"/>, or <see cref="CreateRemoteThread"/> function.
+    /// If you specify <see cref="NULL"/>, the thread gets a default security descriptor.
+    /// The ACLs in the default security descriptor for a thread come from the primary or impersonation token of the creator.
+    /// </para>
+    /// <para>
+    /// To retrieve a thread's security descriptor, call the <see cref="GetSecurityInfo"/> function.
+    /// To change a thread's security descriptor, call the <see cref="SetSecurityInfo"/> function.
+    /// </para>
+    /// <para>
+    /// The handle returned by the <see cref="CreateThread"/> function has <see cref="THREAD_ALL_ACCESS"/> access to the thread object.
+    /// When you call the <see cref="GetCurrentThread"/> function, the system returns a pseudohandle with the maximum access
+    /// that the thread's security descriptor allows the caller.
+    /// </para>
+    /// <para>
     /// The valid access rights for thread objects include the standard access rights and some thread-specific access rights.
     /// The following table lists the standard access rights used by all objects.
-    /// <see cref="DELETE "/>, <see cref="READ_CONTROL"/>, <see cref="SYNCHRONIZE"/>, <see cref="WRITE_DAC"/>, <see cref="WRITE_OWNER"/>
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/procthread/thread-security-and-access-rights"/>

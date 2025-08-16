@@ -1,9 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Section Attributes
-    /// </para>
+    /// Section attributes
     /// </summary>
     public enum SectionAttributes : uint
     {

@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Region Flags
+    /// Region flags
     /// </summary>
     public enum RegionFlags
     {
@@ -11,22 +11,22 @@
         ERROR = 0,
 
         /// <summary>
-        /// Region is empty.
+        /// NULLREGION
         /// </summary>
         NULLREGION = 1,
 
         /// <summary>
-        /// Region consists of a single rectangle.
+        /// SIMPLEREGION
         /// </summary>
         SIMPLEREGION = 2,
 
         /// <summary>
-        /// Region consists of more than one rectangle.
+        /// COMPLEXREGION
         /// </summary>
         COMPLEXREGION = 3,
 
         /// <summary>
-        /// ERROR
+        /// RGN_ERROR
         /// </summary>
         RGN_ERROR = ERROR,
     }

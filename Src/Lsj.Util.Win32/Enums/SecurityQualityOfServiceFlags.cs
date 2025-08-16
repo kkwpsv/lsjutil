@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Security Quality Of Service Flags
+    /// Security quality of service flags
     /// </summary>
     public enum SecurityQualityOfServiceFlags : uint
     {

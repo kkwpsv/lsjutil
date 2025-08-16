@@ -7,7 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
+using static Lsj.Util.Win32.Enums.PrintDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Structs
@@ -533,7 +533,7 @@ namespace Lsj.Util.Win32.Structs
         /// consider the value as 1, and use the returned hDC to avoid printing duplicate copies.
         /// </para>
         /// </summary>
-        public PRINTDLGFlags Flags;
+        public PrintDialogFlags Flags;
 
         /// <summary>
         /// <para>

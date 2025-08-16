@@ -4,10 +4,15 @@ using Lsj.Util.Win32.Structs;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// The <see cref="STATFLAG"/> enumeration values indicate whether the method should try to return a name
     /// in the <see cref="STATSTG.pwcsName"/> member of the <see cref="STATSTG"/> structure.
     /// The values are used in the <see cref="ILockBytes.Stat"/>, <see cref="IStorage.Stat"/>,
     /// and <see cref="IStream.Stat"/> methods to save memory when the <see cref="STATSTG.pwcsName"/> member is not required.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ne-wtypes-statflag"/>
+    /// </para>
     /// </summary>
     public enum STATFLAG
     {

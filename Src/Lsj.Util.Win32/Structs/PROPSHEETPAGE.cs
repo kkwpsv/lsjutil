@@ -3,8 +3,8 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comctl32;
-using static Lsj.Util.Win32.Enums.PROPSHEETHEADERFlags;
-using static Lsj.Util.Win32.Enums.PROPSHEETPAGEFlags;
+using static Lsj.Util.Win32.Enums.PropSheetHeaderFlags;
+using static Lsj.Util.Win32.Enums.PropSheetPageFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PROPSHEETPAGEFlags dwFlags;
+        public PropSheetPageFlags dwFlags;
 
         /// <summary>
         /// Handle to the instance from which to load an icon or string resource.

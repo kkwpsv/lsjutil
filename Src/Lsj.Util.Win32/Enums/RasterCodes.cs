@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Raster Codes
+    /// Raster codes
     /// </summary>
     [Flags]
     public enum RasterCodes : uint

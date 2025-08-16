@@ -37,101 +37,163 @@ namespace Lsj.Util.Win32.Enums
         BCN_HOTITEMCHANGE = BCN_FIRST + 0x0001,
 
         /// <summary>
+        /// <para>
         /// Sent when the user clicks a button.
+        /// </para>
+        /// <para>
         /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
         /// </summary>
         BN_CLICKED = 0,
 
         /// <summary>
+        /// <para>
         /// Sent when the user double-clicks a button.
-        /// This notification code is sent automatically for <see cref="BS_USERBUTTON"/>, <see cref="BS_RADIOBUTTON"/>,
-        /// and <see cref="BS_OWNERDRAW"/> buttons.
+        /// This notification code is sent automatically for <see cref="BS_USERBUTTON"/>,
+        /// <see cref="BS_RADIOBUTTON"/>, and <see cref="BS_OWNERDRAW"/> buttons.
         /// Other button types send <see cref="BN_DBLCLK"/> only if they have the <see cref="BS_NOTIFY"/> style.
+        /// </para>
+        /// <para>
         /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
         /// </summary>
         BN_DBLCLK = BN_DOUBLECLICKED,
 
         /// <summary>
+        /// <para>
         /// Sent when a button is disabled.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_DISABLE = 4,
 
         /// <summary>
+        /// <para>
         /// Sent when the user double-clicks a button.
-        /// This notification code is sent automatically for <see cref="BS_USERBUTTON"/>, <see cref="BS_RADIOBUTTON"/>,
-        /// and <see cref="BS_OWNERDRAW"/> buttons.
+        /// This notification code is sent automatically for <see cref="BS_USERBUTTON"/>,
+        /// <see cref="BS_RADIOBUTTON"/>, and <see cref="BS_OWNERDRAW"/> buttons.
         /// Other button types send <see cref="BN_DOUBLECLICKED"/> only if they have the <see cref="BS_NOTIFY"/> style.
+        /// </para>
+        /// <para>
         /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
         /// </summary>
         BN_DOUBLECLICKED = 5,
 
         /// <summary>
+        /// <para>
         /// Sent when the user selects a button.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_HILITE = 2,
 
         /// <summary>
+        /// <para>
         /// Sent when a button loses the keyboard focus.
         /// The button must have the <see cref="BS_NOTIFY"/> style to send this notification code.
+        /// </para>
+        /// <para>
         /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
         /// </summary>
         BN_KILLFOCUS = 7,
 
         /// <summary>
+        /// <para>
         /// Sent when a button should be painted.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_PAINT = 1,
 
         /// <summary>
+        /// <para>
         /// Sent when the push state of a button is set to pushed.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_PUSHED = BN_HILITE,
 
         /// <summary>
+        /// <para>
         /// Sent when a button receives the keyboard focus.
         /// The button must have the <see cref="BS_NOTIFY"/> style to send this notification code.
+        /// </para>
+        /// <para>
         /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
         /// </summary>
         BN_SETFOCUS = 6,
 
         /// <summary>
+        /// <para>
         /// Sent when the highlight should be removed from a button.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_UNHILITE = 3,
 
         /// <summary>
+        /// <para>
         /// Sent when the push state of a button is set to unpushed.
-        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
-        /// </summary>
-        /// <remarks>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This notification code is provided only for compatibility with 16-bit versions of Windows earlier than version 3.0.
         /// Applications should use the <see cref="BS_OWNERDRAW"/> button style and the <see cref="DRAWITEMSTRUCT"/> structure for this task.
-        /// </remarks>
+        /// </para>
+        /// <para>
+        /// The parent window of the button receives this notification code through the <see cref="WM_COMMAND"/> message.
+        /// </para>
+        /// </summary>
         BN_UNPUSHED = BN_UNHILITE,
     }
 }

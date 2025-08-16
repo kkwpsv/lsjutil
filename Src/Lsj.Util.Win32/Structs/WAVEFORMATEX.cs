@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.WAVE_FORMAT;
+using static Lsj.Util.Win32.Enums.WaveFormats;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
         /// When this structure is included in a <see cref="WAVEFORMATEXTENSIBLE"/> structure,
         /// this value must be <see cref="WAVE_FORMAT_EXTENSIBLE"/>.
         /// </summary>
-        public WAVE_FORMAT wFormatTag;
+        public WaveFormats wFormatTag;
 
         /// <summary>
         /// Number of channels in the waveform-audio data. Monaural data uses one channel and stereo data uses two channels.

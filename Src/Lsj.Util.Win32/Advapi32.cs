@@ -8,7 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
-using static Lsj.Util.Win32.Enums.LoginProviders;
+using static Lsj.Util.Win32.Enums.LOGON32_PROVIDER;
 using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
@@ -241,7 +241,7 @@ namespace Lsj.Util.Win32
         /// with <see cref="CloseHandle"/> when they are no longer needed.
         /// Important  The caller is responsible for ensuring that the standard handle fields in <see cref="STARTUPINFO"/> contain valid handle values.
         /// These fields are copied unchanged to the child process without validation,
-        /// even when the dwFlags member specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>.
+        /// even when the dwFlags member specifies <see cref="StartupInfoFlags.STARTF_USESTDHANDLES"/>.
         /// Incorrect values can cause the child process to misbehave or crash.
         /// Use the Application Verifier runtime verification tool to detect invalid handles.
         /// </param>
@@ -479,7 +479,7 @@ namespace Lsj.Util.Win32
         /// Windows XP:  <see cref="CreateProcessWithLogonW"/> adds permission for the specified user account to the inherited window station and desktop.
         /// Handles in <see cref="STARTUPINFO"/> must be closed with <see cref="CloseHandle"/> when they are no longer needed.
         /// If the <see cref="STARTUPINFO.dwFlags"/> member of the <see cref="STARTUPINFO"/> structure
-        /// specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>, 
+        /// specifies <see cref="StartupInfoFlags.STARTF_USESTDHANDLES"/>, 
         /// the standard handle fields are copied unchanged to the child process without validation.
         /// The caller is responsible for ensuring that these fields contain valid handle values.
         /// Incorrect values can cause the child process to misbehave or crash.
@@ -703,7 +703,7 @@ namespace Lsj.Util.Win32
         /// Windows XP:  <see cref="CreateProcessWithLogonW"/> adds permission for the specified user account to the inherited window station and desktop.
         /// Handles in <see cref="STARTUPINFO"/> must be closed with <see cref="CloseHandle"/> when they are no longer needed.
         /// If the <see cref="STARTUPINFO.dwFlags"/> member of the <see cref="STARTUPINFO"/> structure
-        /// specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>, 
+        /// specifies <see cref="StartupInfoFlags.STARTF_USESTDHANDLES"/>, 
         /// the standard handle fields are copied unchanged to the child process without validation.
         /// The caller is responsible for ensuring that these fields contain valid handle values.
         /// Incorrect values can cause the child process to misbehave or crash.
@@ -1277,7 +1277,7 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In] string lpszUsername,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDomain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPassword,
-            [In] LogonTypes dwLogonType, [In] LoginProviders dwLogonProvider, [Out] out HANDLE phToken);
+            [In] LogonTypes dwLogonType, [In] LOGON32_PROVIDER dwLogonProvider, [Out] out HANDLE phToken);
 
         /// <summary>
         /// <para>

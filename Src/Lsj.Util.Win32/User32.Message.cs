@@ -12,8 +12,8 @@ using static Lsj.Util.Win32.Enums.BroadcastSystemMessageFlags;
 using static Lsj.Util.Win32.Enums.BroadcastSystemMessageRecipients;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.InSendMessageExResults;
-using static Lsj.Util.Win32.Enums.MessageFilterFlags;
-using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
+using static Lsj.Util.Win32.Enums.MessageFilterActions;
+using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExTypes;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
@@ -361,7 +361,7 @@ namespace Lsj.Util.Win32
             "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
             "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ChangeWindowMessageFilter([In] WindowMessages message, [In] MessageFilterFlags dwFlag);
+        public static extern BOOL ChangeWindowMessageFilter([In] WindowMessages message, [In] MessageFilterActions dwFlag);
 
         /// <summary>
         /// <para>
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32
             "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChangeWindowMessageFilterEx([In] HWND hwnd, [In] WindowMessages message,
-            [In] MessageFilterFlags action, [In][Out] ref CHANGEFILTERSTRUCT pChangeFilterStruct);
+            [In] MessageFilterActions action, [In][Out] ref CHANGEFILTERSTRUCT pChangeFilterStruct);
 
         /// <summary>
         /// <para>
@@ -885,7 +885,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult MsgWaitForMultipleObjectsEx([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In] HANDLE[] pHandles,
-            [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask, [In] MsgWaitForMultipleObjectsExFlags dwFlags);
+            [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask, [In] MsgWaitForMultipleObjectsExTypes dwFlags);
 
         /// <summary>
         /// <para>

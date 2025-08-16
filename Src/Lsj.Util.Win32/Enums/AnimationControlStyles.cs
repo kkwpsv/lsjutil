@@ -1,5 +1,6 @@
-﻿using static Lsj.Util.Win32.Enums.WindowStyles;
+﻿using System;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Enums
@@ -12,6 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/animation-control-styles"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum AnimationControlStyles : uint
     {
         /// <summary>

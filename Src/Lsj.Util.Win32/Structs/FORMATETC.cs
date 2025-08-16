@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DVASPECT;
-using static Lsj.Util.Win32.Enums.CLIPFORMAT;
+using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CLIPFORMAT cfFormat;
+        public StandardClipboardFormats cfFormat;
 
         /// <summary>
         /// A pointer to a <see cref="DVTARGETDEVICE"/> structure containing information about the target device for which the data is being composed.

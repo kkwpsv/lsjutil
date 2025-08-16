@@ -3,8 +3,9 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.MenuFlags;
-using static Lsj.Util.Win32.Enums.MENUITEMINFOMasks;
+using static Lsj.Util.Win32.Enums.MenuItemInfoMasks;
+using static Lsj.Util.Win32.Enums.MenuItemStates;
+using static Lsj.Util.Win32.Enums.MenuItemTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
@@ -173,7 +174,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MENUITEMINFOMasks fMask;
+        public MenuItemInfoMasks fMask;
 
         /// <summary>
         /// <para>
@@ -328,7 +329,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MenuFlags fType;
+        public MenuItemTypes fType;
 
         /// <summary>
         /// <para>
@@ -458,7 +459,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MenuFlags fState;
+        public MenuItemStates fState;
 
         /// <summary>
         /// An application-defined value that identifies the menu item.

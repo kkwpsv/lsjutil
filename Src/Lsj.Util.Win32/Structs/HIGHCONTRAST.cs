@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.HIGHCONTRASTFlags;
+using static Lsj.Util.Win32.Enums.HighContrastFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
@@ -192,7 +192,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HIGHCONTRASTFlags dwFlags;
+        public HighContrastFlags dwFlags;
 
         /// <summary>
         /// Points to a string that contains the name of the color scheme that will be set to the default scheme.

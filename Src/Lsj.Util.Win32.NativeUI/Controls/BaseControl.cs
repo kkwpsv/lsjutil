@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="styleEx"></param>
         /// <param name="hMenu"></param>
         protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, HWND parentWindow, uint styleEx = 0, HMENU hMenu = default)
-            : base(className, Kernel32.GetModuleHandle(NULL), text, x, y, width, height, (WindowStyles)style, (WindowStylesEx)styleEx, parentWindow, hMenu)
+            : base(className, Kernel32.GetModuleHandle(NULL), text, x, y, width, height, (WindowStyles)style, (ExtendedWindowStyles)styleEx, parentWindow, hMenu)
         {
 
         }

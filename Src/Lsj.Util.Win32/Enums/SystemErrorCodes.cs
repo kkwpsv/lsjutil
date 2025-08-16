@@ -4,7 +4,7 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// System Error Codes
+    /// System error codes
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes"/>
@@ -1284,7 +1284,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_WX86_ERROR = 0x21C,
 
         /// <summary>
-        /// An attempt was made to cancel or set a timer that has an associated APC and the subject thread is not the thread that originally set the timer with an associated APC routine.
+        /// An attempt was made to cancel or set a timer that has an associated APC
+        /// and the subject thread is not the thread that originally set the timer with an associated APC routine.
         /// </summary>
         ERROR_TIMER_NOT_CANCELED = 0x21D,
 
@@ -1359,17 +1360,23 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANT_TERMINATE_SELF = 0x22B,
 
         /// <summary>
-        /// If an MM error is returned which is not defined in the standard FsRtl filter, it is converted to one of the following errors which is guaranteed to be in the filter. In this case information is lost, however, the filter correctly handles the exception.
+        /// If an MM error is returned which is not defined in the standard FsRtl filter,
+        /// it is converted to one of the following errors which is guaranteed to be in the filter.
+        /// In this case information is lost, however, the filter correctly handles the exception.
         /// </summary>
         ERROR_UNEXPECTED_MM_CREATE_ERR = 0x22C,
 
         /// <summary>
-        /// If an MM error is returned which is not defined in the standard FsRtl filter, it is converted to one of the following errors which is guaranteed to be in the filter. In this case information is lost, however, the filter correctly handles the exception.
+        /// If an MM error is returned which is not defined in the standard FsRtl filter,
+        /// it is converted to one of the following errors which is guaranteed to be in the filter.
+        /// In this case information is lost, however, the filter correctly handles the exception.
         /// </summary>
         ERROR_UNEXPECTED_MM_MAP_ERROR = 0x22D,
 
         /// <summary>
-        /// If an MM error is returned which is not defined in the standard FsRtl filter, it is converted to one of the following errors which is guaranteed to be in the filter. In this case information is lost, however, the filter correctly handles the exception.
+        /// If an MM error is returned which is not defined in the standard FsRtl filter,
+        /// it is converted to one of the following errors which is guaranteed to be in the filter.
+        /// In this case information is lost, however, the filter correctly handles the exception.
         /// </summary>
         ERROR_UNEXPECTED_MM_EXTEND_ERR = 0x22E,
 
@@ -1379,7 +1386,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_BAD_FUNCTION_TABLE = 0x22F,
 
         /// <summary>
-        /// Indicates that an attempt was made to assign protection to a file system file or directory and one of the SIDs in the security descriptor could not be translated into a GUID that could be stored by the file system. This causes the protection attempt to fail, which may cause a file creation attempt to fail.
+        /// Indicates that an attempt was made to assign protection to a file system file or directory
+        /// and one of the SIDs in the security descriptor could not be translated into a GUID that could be stored by the file system.
+        /// This causes the protection attempt to fail, which may cause a file creation attempt to fail.
         /// </summary>
         ERROR_NO_GUID_TRANSLATION = 0x230,
 
@@ -1399,7 +1408,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INVALID_LDT_DESCRIPTOR = 0x234,
 
         /// <summary>
-        /// Indicates a process has too many threads to perform the requested action. For example, assignment of a primary token may only be performed when a process has zero or one threads.
+        /// Indicates a process has too many threads to perform the requested action.
+        /// For example, assignment of a primary token may only be performed when a process has zero or one threads.
         /// </summary>
         ERROR_TOO_MANY_THREADS = 0x235,
 
@@ -1419,62 +1429,76 @@ namespace Lsj.Util.Win32.Enums
         ERROR_LOGON_SERVER_CONFLICT = 0x238,
 
         /// <summary>
-        /// The SAM database on a Windows Server is significantly out of synchronization with the copy on the Domain Controller. A complete synchronization is required.
+        /// The SAM database on a Windows Server is significantly out of synchronization with the copy on the Domain Controller.
+        /// A complete synchronization is required.
         /// </summary>
         ERROR_SYNCHRONIZATION_REQUIRED = 0x239,
 
         /// <summary>
-        /// The NtCreateFile API failed. This error should never be returned to an application, it is a place holder for the Windows Lan Manager Redirector to use in its internal error mapping routines.
+        /// The NtCreateFile API failed.
+        /// This error should never be returned to an application,
+        /// it is a place holder for the Windows Lan Manager Redirector to use in its internal error mapping routines.
         /// </summary>
         ERROR_NET_OPEN_FAILED = 0x23A,
 
         /// <summary>
-        /// {Privilege Failed} The I/O permissions for the process could not be changed.
+        /// {Privilege Failed}
+        /// The I/O permissions for the process could not be changed.
         /// </summary>
         ERROR_IO_PRIVILEGE_FAILED = 0x23B,
 
         /// <summary>
-        /// {Application Exit by CTRL+C} The application terminated as a result of a CTRL+C.
+        /// {Application Exit by CTRL+C}
+        /// The application terminated as a result of a CTRL+C.
         /// </summary>
         ERROR_CONTROL_C_EXIT = 0x23C,
 
         /// <summary>
-        /// {Missing System File} The required system file %hs is bad or missing.
+        /// {Missing System File}
+        /// The required system file %hs is bad or missing.
         /// </summary>
         ERROR_MISSING_SYSTEMFILE = 0x23D,
 
         /// <summary>
-        /// {Application Error} The exception %s (0x%08lx) occurred in the application at location 0x%08lx.
+        /// {Application Error}
+        /// The exception %s (0x%08lx) occurred in the application at location 0x%08lx.
         /// </summary>
         ERROR_UNHANDLED_EXCEPTION = 0x23E,
 
         /// <summary>
-        /// {Application Error} The application was unable to start correctly (0x%lx). Click OK to close the application.
+        /// {Application Error}
+        /// The application was unable to start correctly (0x%lx). Click OK to close the application.
         /// </summary>
         ERROR_APP_INIT_FAILURE = 0x23F,
 
         /// <summary>
-        /// {Unable to Create Paging File} The creation of the paging file %hs failed (%lx). The requested size was %ld.
+        /// {Unable to Create Paging File}
+        /// The creation of the paging file %hs failed (%lx). The requested size was %ld.
         /// </summary>
         ERROR_PAGEFILE_CREATE_FAILED = 0x240,
 
         /// <summary>
-        /// Windows cannot verify the digital signature for this file. A recent hardware or software change might have installed a file that is signed incorrectly or damaged, or that might be malicious software from an unknown source.
+        /// Windows cannot verify the digital signature for this file.
+        /// A recent hardware or software change might have installed a file that is signed incorrectly or damaged,
+        /// or that might be malicious software from an unknown source.
         /// </summary>
         ERROR_INVALID_IMAGE_HASH = 0x241,
 
         /// <summary>
-        /// {No Paging File Specified} No paging file was specified in the system configuration.
+        /// {No Paging File Specified}
+        /// No paging file was specified in the system configuration.
         /// </summary>
         ERROR_NO_PAGEFILE = 0x242,
 
         /// <summary>
-        /// {EXCEPTION} A real-mode application issued a floating-point instruction and floating-point hardware is not present.
+        /// {EXCEPTION}
+        /// A real-mode application issued a floating-point instruction and floating-point hardware is not present.
         /// </summary>
         ERROR_ILLEGAL_FLOAT_CONTEXT = 0x243,
 
         /// <summary>
-        /// An event pair synchronization operation was performed using the thread specific client/server event pair object, but no event pair object was associated with the thread.
+        /// An event pair synchronization operation was performed using the thread specific client/server event pair object,
+        /// but no event pair object was associated with the thread.
         /// </summary>
         ERROR_NO_EVENT_PAIR = 0x244,
 
@@ -1484,7 +1508,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DOMAIN_CTRLR_CONFIG_ERROR = 0x245,
 
         /// <summary>
-        /// An illegal character was encountered. For a multi-byte character set this includes a lead byte without a succeeding trail byte. For the Unicode character set this includes the characters 0xFFFF and 0xFFFE.
+        /// An illegal character was encountered.
+        /// For a multi-byte character set this includes a lead byte without a succeeding trail byte.
+        /// For the Unicode character set this includes the characters 0xFFFF and 0xFFFE.
         /// </summary>
         ERROR_ILLEGAL_CHARACTER = 0x246,
 
@@ -1519,22 +1545,28 @@ namespace Lsj.Util.Win32.Enums
         ERROR_FS_DRIVER_REQUIRED = 0x24C,
 
         /// <summary>
-        /// {Registry File Failure} The registry cannot load the hive (file): %hs or its log or alternate. It is corrupt, absent, or not writable.
+        /// {Registry File Failure}
+        /// The registry cannot load the hive (file): %hs or its log or alternate. It is corrupt, absent, or not writable.
         /// </summary>
         ERROR_CANNOT_LOAD_REGISTRY_FILE = 0x24D,
 
         /// <summary>
-        /// {Unexpected Failure in DebugActiveProcess} An unexpected failure occurred while processing a DebugActiveProcess API request. You may choose OK to terminate the process, or Cancel to ignore the error.
+        /// {Unexpected Failure in <see cref="DebugActiveProcess"/>}
+        /// An unexpected failure occurred while processing a <see cref="DebugActiveProcess"/> API request.
+        /// You may choose OK to terminate the process, or Cancel to ignore the error.
         /// </summary>
         ERROR_DEBUG_ATTACH_FAILED = 0x24E,
 
         /// <summary>
-        /// {Fatal System Error} The %hs system process terminated unexpectedly with a status of 0x%08x (0x%08x 0x%08x). The system has been shut down.
+        /// {Fatal System Error}
+        /// The %hs system process terminated unexpectedly with a status of 0x%08x (0x%08x 0x%08x).
+        /// The system has been shut down.
         /// </summary>
         ERROR_SYSTEM_PROCESS_TERMINATED = 0x24F,
 
         /// <summary>
-        /// {Data Not Accepted} The TDI client could not handle the data received during an indication.
+        /// {Data Not Accepted}
+        /// The TDI client could not handle the data received during an indication.
         /// </summary>
         ERROR_DATA_NOT_ACCEPTED = 0x250,
 
@@ -1544,22 +1576,29 @@ namespace Lsj.Util.Win32.Enums
         ERROR_VDM_HARD_ERROR = 0x251,
 
         /// <summary>
-        /// {Cancel Timeout} The driver %hs failed to complete a cancelled I/O request in the allotted time.
+        /// {Cancel Timeout}
+        /// The driver %hs failed to complete a cancelled I/O request in the allotted time.
         /// </summary>
         ERROR_DRIVER_CANCEL_TIMEOUT = 0x252,
 
         /// <summary>
-        /// {Reply Message Mismatch} An attempt was made to reply to an LPC message, but the thread specified by the client ID in the message was not waiting on that message.
+        /// {Reply Message Mismatch}
+        /// An attempt was made to reply to an LPC message,
+        /// but the thread specified by the client ID in the message was not waiting on that message.
         /// </summary>
         ERROR_REPLY_MESSAGE_MISMATCH = 0x253,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs. The data has been lost. This error may be caused by a failure of your computer hardware or network connection. Please try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs.
+        /// The data has been lost. This error may be caused by a failure of your computer hardware or network connection.
+        /// Please try to save this file elsewhere.
         /// </summary>
         ERROR_LOST_WRITEBEHIND_DATA = 0x254,
 
         /// <summary>
-        /// The parameter(s) passed to the server in the client/server shared memory window were invalid. Too much data may have been put in the shared memory window.
+        /// The parameter(s) passed to the server in the client/server shared memory window were invalid.
+        /// Too much data may have been put in the shared memory window.
         /// </summary>
         ERROR_CLIENT_SERVER_PARAMETERS_INVALID = 0x255,
 
@@ -1574,12 +1613,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_STACK_OVERFLOW_READ = 0x257,
 
         /// <summary>
-        /// Internal OFS status codes indicating how an allocation operation is handled. Either it is retried after the containing onode is moved or the extent stream is converted to a large stream.
+        /// Internal OFS status codes indicating how an allocation operation is handled.
+        /// Either it is retried after the containing onode is moved or the extent stream is converted to a large stream.
         /// </summary>
         ERROR_CONVERT_TO_LARGE = 0x258,
 
         /// <summary>
-        /// The attempt to find the object found an object matching by ID on the volume but it is out of the scope of the handle used for the operation.
+        /// The attempt to find the object found an object matching by ID on the volume
+        /// but it is out of the scope of the handle used for the operation.
         /// </summary>
         ERROR_FOUND_OUT_OF_SCOPE = 0x259,
 
@@ -1604,7 +1645,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_BAD_COMPRESSION_BUFFER = 0x25D,
 
         /// <summary>
-        /// {Audit Failed} An attempt to generate a security audit failed.
+        /// {Audit Failed}
+        /// An attempt to generate a security audit failed.
         /// </summary>
         ERROR_AUDIT_FAILED = 0x25E,
 
@@ -1619,12 +1661,18 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INSUFFICIENT_LOGON_INFO = 0x260,
 
         /// <summary>
-        /// {Invalid DLL Entrypoint} The dynamic link library %hs is not written correctly. The stack pointer has been left in an inconsistent state. The entrypoint should be declared as WINAPI or STDCALL. Select YES to fail the DLL load. Select NO to continue execution. Selecting NO may cause the application to operate incorrectly.
+        /// {Invalid DLL Entrypoint}
+        /// The dynamic link library %hs is not written correctly.
+        /// The stack pointer has been left in an inconsistent state. The entrypoint should be declared as WINAPI or STDCALL.
+        /// Select YES to fail the DLL load. Select NO to continue execution. Selecting NO may cause the application to operate incorrectly.
         /// </summary>
         ERROR_BAD_DLL_ENTRYPOINT = 0x261,
 
         /// <summary>
-        /// {Invalid Service Callback Entrypoint} The %hs service is not written correctly. The stack pointer has been left in an inconsistent state. The callback entrypoint should be declared as WINAPI or STDCALL. Selecting OK will cause the service to continue operation. However, the service process may operate incorrectly.
+        /// {Invalid Service Callback Entrypoint}
+        /// The %hs service is not written correctly.
+        /// The stack pointer has been left in an inconsistent state. The callback entrypoint should be declared as WINAPI or STDCALL.
+        /// Selecting OK will cause the service to continue operation. However, the service process may operate incorrectly.
         /// </summary>
         ERROR_BAD_SERVICE_ENTRYPOINT = 0x262,
 
@@ -1639,7 +1687,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IP_ADDRESS_CONFLICT2 = 0x264,
 
         /// <summary>
-        /// {Low On Registry Space} The system has reached the maximum size allowed for the system part of the registry. Additional storage requests will be ignored.
+        /// {Low On Registry Space}
+        /// The system has reached the maximum size allowed for the system part of the registry.
+        /// Additional storage requests will be ignored.
         /// </summary>
         ERROR_REGISTRY_QUOTA_LIMIT = 0x265,
 
@@ -1654,12 +1704,15 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PWD_TOO_SHORT = 0x267,
 
         /// <summary>
-        /// The policy of your user account does not allow you to change passwords too frequently. This is done to prevent users from changing back to a familiar, but potentially discovered, password. If you feel your password has been compromised then please contact your administrator immediately to have a new one assigned.
+        /// The policy of your user account does not allow you to change passwords too frequently.
+        /// This is done to prevent users from changing back to a familiar, but potentially discovered, password.
+        /// If you feel your password has been compromised then please contact your administrator immediately to have a new one assigned.
         /// </summary>
         ERROR_PWD_TOO_RECENT = 0x268,
 
         /// <summary>
-        /// You have attempted to change your password to one that you have used in the past. The policy of your user account does not allow this. Please select a password that you have not previously used.
+        /// You have attempted to change your password to one that you have used in the past.
+        /// The policy of your user account does not allow this. Please select a password that you have not previously used.
         /// </summary>
         ERROR_PWD_HISTORY_CONFLICT = 0x269,
 
@@ -1684,17 +1737,24 @@ namespace Lsj.Util.Win32.Enums
         ERROR_QUOTA_LIST_INCONSISTENT = 0x26D,
 
         /// <summary>
-        /// {Windows Evaluation Notification} The evaluation period for this installation of Windows has expired. This system will shutdown in 1 hour. To restore access to this installation of Windows, please upgrade this installation using a licensed distribution of this product.
+        /// {Windows Evaluation Notification}
+        /// The evaluation period for this installation of Windows has expired.
+        /// This system will shutdown in 1 hour. To restore access to this installation of Windows,
+        /// please upgrade this installation using a licensed distribution of this product.
         /// </summary>
         ERROR_EVALUATION_EXPIRATION = 0x26E,
 
         /// <summary>
-        /// {Illegal System DLL Relocation} The system DLL %hs was relocated in memory. The application will not run properly. The relocation occurred because the DLL %hs occupied an address range reserved for Windows system DLLs. The vendor supplying the DLL should be contacted for a new DLL.
+        /// {Illegal System DLL Relocation}
+        /// The system DLL %hs was relocated in memory. The application will not run properly.
+        /// The relocation occurred because the DLL %hs occupied an address range reserved for Windows system DLLs.
+        /// The vendor supplying the DLL should be contacted for a new DLL.
         /// </summary>
         ERROR_ILLEGAL_DLL_RELOCATION = 0x26F,
 
         /// <summary>
-        /// {DLL Initialization Failed} The application failed to initialize because the window station is shutting down.
+        /// {DLL Initialization Failed}
+        /// The application failed to initialize because the window station is shutting down.
         /// </summary>
         ERROR_DLL_INIT_FAILED_LOGOFF = 0x270,
 
@@ -1724,12 +1784,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANT_ENABLE_DENY_ONLY = 0x275,
 
         /// <summary>
-        /// {EXCEPTION} Multiple floating point faults.
+        /// {EXCEPTION}
+        /// Multiple floating point faults.
         /// </summary>
         ERROR_FLOAT_MULTIPLE_FAULTS = 0x276,
 
         /// <summary>
-        /// {EXCEPTION} Multiple floating point traps.
+        /// {EXCEPTION}
+        /// Multiple floating point traps.
         /// </summary>
         ERROR_FLOAT_MULTIPLE_TRAPS = 0x277,
 
@@ -1739,7 +1801,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NOINTERFACE = 0x278,
 
         /// <summary>
-        /// {System Standby Failed} The driver %hs does not support standby mode. Updating this driver may allow the system to go to standby mode.
+        /// {System Standby Failed}
+        /// The driver %hs does not support standby mode.
+        /// Updating this driver may allow the system to go to standby mode.
         /// </summary>
         ERROR_DRIVER_FAILED_SLEEP = 0x279,
 
@@ -1749,7 +1813,11 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CORRUPT_SYSTEM_FILE = 0x27A,
 
         /// <summary>
-        /// {Virtual Memory Minimum Too Low} Your system is low on virtual memory. Windows is increasing the size of your virtual memory paging file. During this process, memory requests for some applications may be denied. For more information, see Help.
+        /// {Virtual Memory Minimum Too Low}
+        /// Your system is low on virtual memory.
+        /// Windows is increasing the size of your virtual memory paging file.
+        /// During this process, memory requests for some applications may be denied.
+        /// For more information, see Help.
         /// </summary>
         ERROR_COMMITMENT_MINIMUM = 0x27B,
 
@@ -1759,7 +1827,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PNP_RESTART_ENUMERATION = 0x27C,
 
         /// <summary>
-        /// {Fatal System Error} The system image %s is not properly signed. The file has been replaced with the signed file. The system has been shut down.
+        /// {Fatal System Error}
+        /// The system image %s is not properly signed.
+        /// The file has been replaced with the signed file. The system has been shut down.
         /// </summary>
         ERROR_SYSTEM_IMAGE_BAD_SIGNATURE = 0x27D,
 
@@ -1809,17 +1879,20 @@ namespace Lsj.Util.Win32.Enums
         ERROR_FAILED_DRIVER_ENTRY = 0x287,
 
         /// <summary>
-        /// The "%hs" encountered an error while applying power or reading the device configuration. This may be caused by a failure of your hardware or by a poor connection.
+        /// The "%hs" encountered an error while applying power or reading the device configuration. 
+        /// This may be caused by a failure of your hardware or by a poor connection.
         /// </summary>
         ERROR_DEVICE_ENUMERATION_ERROR = 0x288,
 
         /// <summary>
-        /// The create operation failed because the name contained at least one mount point which resolves to a volume to which the specified device object is not attached.
+        /// The create operation failed because the name contained at least one mount point
+        /// which resolves to a volume to which the specified device object is not attached.
         /// </summary>
         ERROR_MOUNT_POINT_NOT_RESOLVED = 0x289,
 
         /// <summary>
-        /// The device object parameter is either not a valid device object or is not attached to the volume specified by the file name.
+        /// The device object parameter is either not a valid device object
+        /// or is not attached to the volume specified by the file name.
         /// </summary>
         ERROR_INVALID_DEVICE_OBJECT_PARAMETER = 0x28A,
 
@@ -1844,7 +1917,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DRIVER_FAILED_PRIOR_UNLOAD = 0x28E,
 
         /// <summary>
-        /// {Volume Shadow Copy Service} Please wait while the Volume Shadow Copy Service prepares volume %hs for hibernation.
+        /// {Volume Shadow Copy Service
+        /// Please wait while the Volume Shadow Copy Service prepares volume %hs for hibernation.
         /// </summary>
         ERROR_VOLSNAP_PREPARE_HIBERNATE = 0x28F,
 
@@ -1879,7 +1953,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_WOW_ASSERTION = 0x29E,
 
         /// <summary>
-        /// A device is missing in the system BIOS MPS table. This device will not be used. Please contact your system vendor for system BIOS update.
+        /// A device is missing in the system BIOS MPS table. This device will not be used.
+        /// Please contact your system vendor for system BIOS update.
         /// </summary>
         ERROR_PNP_BAD_MPS_TABLE = 0x29F,
 
@@ -1899,32 +1974,42 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PNP_INVALID_ID = 0x2A2,
 
         /// <summary>
-        /// {Kernel Debugger Awakened} the system debugger was awakened by an interrupt.
+        /// {Kernel Debugger Awakened}
+        /// the system debugger was awakened by an interrupt.
         /// </summary>
         ERROR_WAKE_SYSTEM_DEBUGGER = 0x2A3,
 
         /// <summary>
-        /// {Handles Closed} Handles to objects have been automatically closed as a result of the requested operation.
+        /// {Handles Closed}
+        /// Handles to objects have been automatically closed as a result of the requested operation.
         /// </summary>
         ERROR_HANDLES_CLOSED = 0x2A4,
 
         /// <summary>
-        /// {Too Much Information} The specified access control list (ACL) contained more information than was expected.
+        /// {Too Much Information}
+        /// The specified access control list (ACL) contained more information than was expected.
         /// </summary>
         ERROR_EXTRANEOUS_INFORMATION = 0x2A5,
 
         /// <summary>
-        /// This warning level status indicates that the transaction state already exists for the registry sub-tree, but that a transaction commit was previously aborted. The commit has NOT been completed, but has not been rolled back either (so it may still be committed if desired).
+        /// This warning level status indicates that the transaction state already exists for the registry sub-tree,
+        /// but that a transaction commit was previously aborted.
+        /// The commit has NOT been completed, but has not been rolled back either (so it may still be committed if desired).
         /// </summary>
         ERROR_RXACT_COMMIT_NECESSARY = 0x2A6,
 
         /// <summary>
-        /// {Media Changed} The media may have changed.
+        /// {Media Changed}
+        /// The media may have changed.
         /// </summary>
         ERROR_MEDIA_CHECK = 0x2A7,
 
         /// <summary>
-        /// {GUID Substitution} During the translation of a global identifier (GUID) to a Windows security ID (SID), no administratively-defined GUID prefix was found. A substitute prefix was used, which will not compromise system security. However, this may provide a more restrictive access than intended.
+        /// {GUID Substitution}
+        /// During the translation of a global identifier (GUID) to a Windows security ID (SID),
+        /// no administratively-defined GUID prefix was found.
+        /// A substitute prefix was used, which will not compromise system security.
+        /// However, this may provide a more restrictive access than intended.
         /// </summary>
         ERROR_GUID_SUBSTITUTION_MADE = 0x2A8,
 
@@ -1949,17 +2034,23 @@ namespace Lsj.Util.Win32.Enums
         ERROR_UNWIND_CONSOLIDATE = 0x2AC,
 
         /// <summary>
-        /// {Registry Hive Recovered} Registry hive (file): %hs was corrupted and it has been recovered. Some data might have been lost.
+        /// {Registry Hive Recovered}
+        /// Registry hive (file): %hs was corrupted and it has been recovered. Some data might have been lost.
         /// </summary>
         ERROR_REGISTRY_HIVE_RECOVERED = 0x2AD,
 
         /// <summary>
-        /// The application is attempting to run executable code from the module %hs. This may be insecure. An alternative, %hs, is available. Should the application use the secure module %hs?
+        /// The application is attempting to run executable code from the module %hs.
+        /// This may be insecure.
+        /// An alternative, %hs, is available. Should the application use the secure module %hs?
         /// </summary>
         ERROR_DLL_MIGHT_BE_INSECURE = 0x2AE,
 
         /// <summary>
-        /// The application is loading executable code from the module %hs. This is secure, but may be incompatible with previous releases of the operating system. An alternative, %hs, is available. Should the application use the secure module %hs?
+        /// The application is loading executable code from the module %hs.
+        /// This is secure, but may be incompatible with previous releases of the operating system.
+        /// An alternative, %hs, is available.
+        /// Should the application use the secure module %hs?
         /// </summary>
         ERROR_DLL_MIGHT_BE_INCOMPATIBLE = 0x2AF,
 
@@ -2014,17 +2105,22 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DBG_COMMAND_EXCEPTION = 0x2B9,
 
         /// <summary>
-        /// {Object Exists} An attempt was made to create an object and the object name already existed.
+        /// {Object Exists}
+        /// An attempt was made to create an object and the object name already existed.
         /// </summary>
         ERROR_OBJECT_NAME_EXISTS = 0x2BA,
 
         /// <summary>
-        /// {Thread Suspended} A thread termination occurred while the thread was suspended. The thread was resumed, and termination proceeded.
+        /// {Thread Suspended}
+        /// A thread termination occurred while the thread was suspended.
+        /// The thread was resumed, and termination proceeded.
         /// </summary>
         ERROR_THREAD_WAS_SUSPENDED = 0x2BB,
 
         /// <summary>
-        /// {Image Relocated} An image file could not be mapped at the address specified in the image file. Local fixups must be performed on this image.
+        /// {Image Relocated}
+        /// An image file could not be mapped at the address specified in the image file.
+        /// Local fixups must be performed on this image.
         /// </summary>
         ERROR_IMAGE_NOT_AT_BASE = 0x2BC,
 
@@ -2034,52 +2130,70 @@ namespace Lsj.Util.Win32.Enums
         ERROR_RXACT_STATE_CREATED = 0x2BD,
 
         /// <summary>
-        /// {Segment Load} A virtual DOS machine (VDM) is loading, unloading, or moving an MS-DOS or Win16 program segment image. An exception is raised so a debugger can load, unload or track symbols and breakpoints within these 16-bit segments.
+        /// {Segment Load}
+        /// A virtual DOS machine (VDM) is loading, unloading, or moving an MS-DOS or Win16 program segment image.
+        /// An exception is raised so a debugger can load, unload or track symbols and breakpoints within these 16-bit segments.
         /// </summary>
         ERROR_SEGMENT_NOTIFICATION = 0x2BE,
 
         /// <summary>
-        /// {Invalid Current Directory} The process cannot switch to the startup current directory %hs. Select OK to set current directory to %hs, or select CANCEL to exit.
+        /// {Invalid Current Directory}
+        /// The process cannot switch to the startup current directory %hs.
+        /// Select OK to set current directory to %hs, or select CANCEL to exit.
         /// </summary>
         ERROR_BAD_CURRENT_DIRECTORY = 0x2BF,
 
         /// <summary>
-        /// {Redundant Read} To satisfy a read request, the NT fault-tolerant file system successfully read the requested data from a redundant copy. This was done because the file system encountered a failure on a member of the fault-tolerant volume, but was unable to reassign the failing area of the device.
+        /// {Redundant Read}
+        /// To satisfy a read request, the NT fault-tolerant file system successfully read the requested data from a redundant copy.
+        /// This was done because the file system encountered a failure on a member of the fault-tolerant volume,
+        /// but was unable to reassign the failing area of the device.
         /// </summary>
         ERROR_FT_READ_RECOVERY_FROM_BACKUP = 0x2C0,
 
         /// <summary>
-        /// {Redundant Write} To satisfy a write request, the NT fault-tolerant file system successfully wrote a redundant copy of the information. This was done because the file system encountered a failure on a member of the fault-tolerant volume, but was not able to reassign the failing area of the device.
+        /// {Redundant Write}
+        /// To satisfy a write request, the NT fault-tolerant file system successfully wrote a redundant copy of the information.
+        /// This was done because the file system encountered a failure on a member of the fault-tolerant volume,
+        /// but was not able to reassign the failing area of the device.
         /// </summary>
         ERROR_FT_WRITE_RECOVERY = 0x2C1,
 
         /// <summary>
-        /// {Machine Type Mismatch} The image file %hs is valid, but is for a machine type other than the current machine. Select OK to continue, or CANCEL to fail the DLL load.
+        /// {Machine Type Mismatch}
+        /// The image file %hs is valid, but is for a machine type other than the current machine.
+        /// Select OK to continue, or CANCEL to fail the DLL load.
         /// </summary>
         ERROR_IMAGE_MACHINE_TYPE_MISMATCH = 0x2C2,
 
         /// <summary>
-        /// {Partial Data Received} The network transport returned partial data to its client. The remaining data will be sent later.
+        /// {Partial Data Received}
+        /// The network transport returned partial data to its client. The remaining data will be sent later.
         /// </summary>
         ERROR_RECEIVE_PARTIAL = 0x2C3,
 
         /// <summary>
-        /// {Expedited Data Received} The network transport returned data to its client that was marked as expedited by the remote system.
+        /// {Expedited Data Received}
+        /// The network transport returned data to its client that was marked as expedited by the remote system.
         /// </summary>
         ERROR_RECEIVE_EXPEDITED = 0x2C4,
 
         /// <summary>
-        /// {Partial Expedited Data Received} The network transport returned partial data to its client and this data was marked as expedited by the remote system. The remaining data will be sent later.
+        /// {Partial Expedited Data Received}
+        /// The network transport returned partial data to its client and this data was marked as expedited by the remote system.
+        /// The remaining data will be sent later.
         /// </summary>
         ERROR_RECEIVE_PARTIAL_EXPEDITED = 0x2C5,
 
         /// <summary>
-        /// {TDI Event Done} The TDI indication has completed successfully.
+        /// {TDI Event Done}
+        /// The TDI indication has completed successfully.
         /// </summary>
         ERROR_EVENT_DONE = 0x2C6,
 
         /// <summary>
-        /// {TDI Event Pending} The TDI indication has entered the pending state.
+        /// {TDI Event Pending}
+        /// The TDI indication has entered the pending state.
         /// </summary>
         ERROR_EVENT_PENDING = 0x2C7,
 
@@ -2089,7 +2203,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CHECKING_FILE_SYSTEM = 0x2C8,
 
         /// <summary>
-        /// {Fatal Application Exit} %hs.
+        /// {Fatal Application Exit}
+        /// %hs.
         /// </summary>
         ERROR_FATAL_APP_EXIT = 0x2C9,
 
@@ -2099,7 +2214,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PREDEFINED_HANDLE = 0x2CA,
 
         /// <summary>
-        /// {Page Unlocked} The page protection of a locked page was changed to 'No Access' and the page was unlocked from memory and from the process.
+        /// {Page Unlocked}
+        /// The page protection of a locked page was changed to 'No Access' and the page was unlocked from memory and from the process.
         /// </summary>
         ERROR_WAS_UNLOCKED = 0x2CB,
 
@@ -2109,7 +2225,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SERVICE_NOTIFICATION = 0x2CC,
 
         /// <summary>
-        /// {Page Locked} One of the pages to lock was already locked.
+        /// {Page Locked}
+        /// One of the pages to lock was already locked.
         /// </summary>
         ERROR_WAS_LOCKED = 0x2CD,
 
@@ -2124,7 +2241,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_ALREADY_WIN32 = 0x2CF,
 
         /// <summary>
-        /// {Machine Type Mismatch} The image file %hs is valid, but is for a machine type other than the current machine.
+        /// {Machine Type Mismatch}
+        /// The image file %hs is valid, but is for a machine type other than the current machine.
         /// </summary>
         ERROR_IMAGE_MACHINE_TYPE_MISMATCH_EXE = 0x2D0,
 
@@ -2149,7 +2267,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CARDBUS_NOT_SUPPORTED = 0x2D4,
 
         /// <summary>
-        /// The CPUs in this multiprocessor system are not all the same revision level. To use all processors the operating system restricts itself to the features of the least capable processor in the system. Should problems occur with this system, contact the CPU manufacturer to see if this mix of processors is supported.
+        /// The CPUs in this multiprocessor system are not all the same revision level.
+        /// To use all processors the operating system restricts itself to the features of the least capable processor in the system.
+        /// Should problems occur with this system, contact the CPU manufacturer to see if this mix of processors is supported.
         /// </summary>
         ERROR_MP_PROCESSOR_MISMATCH = 0x2D5,
 
@@ -2169,7 +2289,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_FIRMWARE_UPDATED = 0x2D8,
 
         /// <summary>
-        /// A device driver is leaking locked I/O pages causing system degradation. The system has automatically enabled tracking code in order to try and catch the culprit.
+        /// A device driver is leaking locked I/O pages causing system degradation.
+        /// The system has automatically enabled tracking code in order to try and catch the culprit.
         /// </summary>
         ERROR_DRIVERS_LEAKING_LOCKED_PAGES = 0x2D9,
 
@@ -2244,7 +2365,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_VOLUME_MOUNTED = 0x2E7,
 
         /// <summary>
-        /// This success level status indicates that the transaction state already exists for the registry sub-tree, but that a transaction commit was previously aborted. The commit has now been completed.
+        /// This success level status indicates that the transaction state already exists for the registry sub-tree,
+        /// but that a transaction commit was previously aborted. The commit has now been completed.
         /// </summary>
         ERROR_RXACT_COMMITTED = 0x2E8,
 
@@ -2254,7 +2376,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NOTIFY_CLEANUP = 0x2E9,
 
         /// <summary>
-        /// {Connect Failure on Primary Transport} An attempt was made to connect to the remote server %hs on the primary transport, but the connection failed. The computer WAS able to connect on a secondary transport.
+        /// {Connect Failure on Primary Transport}
+        /// An attempt was made to connect to the remote server %hs on the primary transport,
+        /// but the connection failed. The computer WAS able to connect on a secondary transport.
         /// </summary>
         ERROR_PRIMARY_TRANSPORT_CONNECT_FAILED = 0x2EA,
 
@@ -2329,7 +2453,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PROCESS_IN_JOB = 0x2F8,
 
         /// <summary>
-        /// {Volume Shadow Copy Service} The system is now ready for hibernation.
+        /// {Volume Shadow Copy Service}
+        /// The system is now ready for hibernation.
         /// </summary>
         ERROR_VOLSNAP_HIBERNATE_READY = 0x2F9,
 
@@ -2429,7 +2554,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DISK_REPAIR_DISABLED = 0x30C,
 
         /// <summary>
-        /// The Desktop heap encountered an error while allocating session memory. There is more information in the system event log.
+        /// The Desktop heap encountered an error while allocating session memory.
+        /// There is more information in the system event log.
         /// </summary>
         ERROR_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE = 0x30D,
 
@@ -2464,17 +2590,23 @@ namespace Lsj.Util.Win32.Enums
         ERROR_ABANDON_HIBERFILE = 0x313,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error may be caused by network connectivity issues. Please try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error may be caused by network connectivity issues. Please try to save this file elsewhere.
         /// </summary>
         ERROR_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED = 0x314,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error was returned by the server on which the file exists. Please try to save this file elsewhere.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error was returned by the server on which the file exists. Please try to save this file elsewhere.
         /// </summary>
         ERROR_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR = 0x315,
 
         /// <summary>
-        /// {Delayed Write Failed} Windows was unable to save all the data for the file %hs; the data has been lost. This error may be caused if the device has been removed or the media is write-protected.
+        /// {Delayed Write Failed}
+        /// Windows was unable to save all the data for the file %hs; the data has been lost.
+        /// This error may be caused if the device has been removed or the media is write-protected.
         /// </summary>
         ERROR_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR = 0x316,
 
@@ -2484,7 +2616,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_BAD_MCFG_TABLE = 0x317,
 
         /// <summary>
-        /// The volume repair could not be performed while it is online. Please schedule to take the volume offline so that it can be repaired.
+        /// The volume repair could not be performed while it is online.
+        /// Please schedule to take the volume offline so that it can be repaired.
         /// </summary>
         ERROR_DISK_REPAIR_REDIRECTED = 0x318,
 
@@ -2499,7 +2632,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CORRUPT_LOG_OVERFULL = 0x31A,
 
         /// <summary>
-        /// One of the volume corruption logs is internally corrupted and needs to be recreated. The volume may contain undetected corruptions and must be scanned.
+        /// One of the volume corruption logs is internally corrupted and needs to be recreated.
+        /// The volume may contain undetected corruptions and must be scanned.
         /// </summary>
         ERROR_CORRUPT_LOG_CORRUPTED = 0x31B,
 
@@ -2509,7 +2643,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CORRUPT_LOG_UNAVAILABLE = 0x31C,
 
         /// <summary>
-        /// One of the volume corruption logs was deleted while still having corruption records in them. The volume contains detected corruptions and must be scanned.
+        /// One of the volume corruption logs was deleted while still having corruption records in them.
+        /// The volume contains detected corruptions and must be scanned.
         /// </summary>
         ERROR_CORRUPT_LOG_DELETED_FULL = 0x31D,
 
@@ -2519,7 +2654,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CORRUPT_LOG_CLEARED = 0x31E,
 
         /// <summary>
-        /// Orphaned files exist on the volume but could not be recovered because no more new names could be created in the recovery directory. Files must be moved from the recovery directory.
+        /// Orphaned files exist on the volume but could not be recovered because no more new names could be created in the recovery directory.
+        /// Files must be moved from the recovery directory.
         /// </summary>
         ERROR_ORPHAN_NAME_EXHAUSTED = 0x31F,
 
@@ -2534,7 +2670,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANNOT_GRANT_REQUESTED_OPLOCK = 0x321,
 
         /// <summary>
-        /// The operation did not complete successfully because it would cause an oplock to be broken. The caller has requested that existing oplocks not be broken.
+        /// The operation did not complete successfully because it would cause an oplock to be broken.
+        /// The caller has requested that existing oplocks not be broken.
         /// </summary>
         ERROR_CANNOT_BREAK_OPLOCK = 0x322,
 
@@ -2614,7 +2751,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INVALID_FLAGS = 0x3EC,
 
         /// <summary>
-        /// The volume does not contain a recognized file system. Please make sure that all required file system drivers are loaded and that the volume is not corrupted.
+        /// The volume does not contain a recognized file system.
+        /// Please make sure that all required file system drivers are loaded and that the volume is not corrupted.
         /// </summary>
         ERROR_UNRECOGNIZED_VOLUME = 0x3ED,
 
@@ -2659,22 +2797,27 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANTWRITE = 0x3F5,
 
         /// <summary>
-        /// One of the files in the registry database had to be recovered by use of a log or alternate copy. The recovery was successful.
+        /// One of the files in the registry database had to be recovered by use of a log or alternate copy.
+        /// The recovery was successful.
         /// </summary>
         ERROR_REGISTRY_RECOVERED = 0x3F6,
 
         /// <summary>
-        /// The registry is corrupted. The structure of one of the files containing registry data is corrupted, or the system's memory image of the file is corrupted, or the file could not be recovered because the alternate copy or log was absent or corrupted.
+        /// The registry is corrupted.
+        /// The structure of one of the files containing registry data is corrupted, or the system's memory image of the file is corrupted,
+        /// or the file could not be recovered because the alternate copy or log was absent or corrupted.
         /// </summary>
         ERROR_REGISTRY_CORRUPT = 0x3F7,
 
         /// <summary>
-        /// An I/O operation initiated by the registry failed unrecoverably. The registry could not read in, or write out, or flush, one of the files that contain the system's image of the registry.
+        /// An I/O operation initiated by the registry failed unrecoverably.
+        /// The registry could not read in, or write out, or flush, one of the files that contain the system's image of the registry.
         /// </summary>
         ERROR_REGISTRY_IO_FAILED = 0x3F8,
 
         /// <summary>
-        /// The system has attempted to load or restore a file into the registry, but the specified file is not in a registry file format.
+        /// The system has attempted to load or restore a file into the registry,
+        /// but the specified file is not in a registry file format.
         /// </summary>
         ERROR_NOT_REGISTRY_FILE = 0x3F9,
 
@@ -2699,7 +2842,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CHILD_MUST_BE_VOLATILE = 0x3FD,
 
         /// <summary>
-        /// A notify change request is being completed and the information is not being returned in the caller's buffer. The caller now needs to enumerate the files to find the changes.
+        /// A notify change request is being completed and the information is not being returned in the caller's buffer.
+        /// The caller now needs to enumerate the files to find the changes.
         /// </summary>
         ERROR_NOTIFY_ENUM_DIR = 0x3FE,
 
@@ -2854,7 +2998,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANNOT_DETECT_DRIVER_FAILURE = 0x438,
 
         /// <summary>
-        /// This service runs in the same process as the service control manager. Therefore, the service control manager cannot take action if this service's process terminates unexpectedly.
+        /// This service runs in the same process as the service control manager.
+        /// Therefore, the service control manager cannot take action if this service's process terminates unexpectedly.
         /// </summary>
         ERROR_CANNOT_DETECT_PROCESS_ABORT = 0x439,
 
@@ -2969,7 +3114,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SERIAL_NO_DEVICE = 0x45E,
 
         /// <summary>
-        /// Unable to open a device that was sharing an interrupt request (IRQ) with other devices. At least one other device that uses that IRQ was already opened.
+        /// Unable to open a device that was sharing an interrupt request (IRQ) with other devices.
+        /// At least one other device that uses that IRQ was already opened.
         /// </summary>
         ERROR_IRQ_BUSY = 0x45F,
 
@@ -3234,7 +3380,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DEVICE_ALREADY_REMEMBERED = 0x4B2,
 
         /// <summary>
-        /// The network path was either typed incorrectly, does not exist, or the network provider is not currently available. Please try retyping the path or contact your network administrator.
+        /// The network path was either typed incorrectly, does not exist, or the network provider is not currently available.
+        /// Please try retyping the path or contact your network administrator.
         /// </summary>
         ERROR_NO_NET_OR_BAD_PATH = 0x4B3,
 
@@ -3314,7 +3461,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INVALID_MESSAGEDEST = 0x4C2,
 
         /// <summary>
-        /// Multiple connections to a server or shared resource by the same user, using more than one user name, are not allowed. Disconnect all previous connections to the server or shared resource and try again.
+        /// Multiple connections to a server or shared resource by the same user, using more than one user name, are not allowed.
+        /// Disconnect all previous connections to the server or shared resource and try again.
         /// </summary>
         ERROR_SESSION_CREDENTIAL_CONFLICT = 0x4C3,
 
@@ -3444,7 +3592,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NOT_AUTHENTICATED = 0x4DC,
 
         /// <summary>
-        /// The operation being requested was not performed because the user has not logged on to the network. The specified service does not exist.
+        /// The operation being requested was not performed because the user has not logged on to the network.
+        /// The specified service does not exist.
         /// </summary>
         ERROR_NOT_LOGGED_ON = 0x4DD,
 
@@ -3534,7 +3683,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CSCSHARE_OFFLINE = 0x4EE,
 
         /// <summary>
-        /// The Kerberos protocol encountered an error while validating the KDC certificate during smartcard logon. There is more information in the system event log.
+        /// The Kerberos protocol encountered an error while validating the KDC certificate during smartcard logon.
+        /// There is more information in the system event log.
         /// </summary>
         ERROR_PKINIT_FAILURE = 0x4EF,
 
@@ -3599,7 +3749,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_ALREADY_THREAD = 0x501,
 
         /// <summary>
-        /// The system detected an overrun of a stack-based buffer in this application. This overrun could potentially allow a malicious user to gain control of this application.
+        /// The system detected an overrun of a stack-based buffer in this application.
+        /// This overrun could potentially allow a malicious user to gain control of this application.
         /// </summary>
         ERROR_STACK_BUFFER_OVERRUN = 0x502,
 
@@ -3619,7 +3770,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DELAY_LOAD_FAILED = 0x505,
 
         /// <summary>
-        /// %1 is a 16-bit application. You do not have permissions to execute 16-bit applications. Check your permissions with your system administrator.
+        /// %1 is a 16-bit application. You do not have permissions to execute 16-bit applications.
+        /// Check your permissions with your system administrator.
         /// </summary>
         ERROR_VDM_DISALLOWED = 0x506,
 
@@ -3639,11 +3791,15 @@ namespace Lsj.Util.Win32.Enums
         ERROR_BEYOND_VDL = 0x509,
 
         /// <summary>
+        /// <para>
         /// The service start failed since one or more services in the same process have an incompatible service SID type setting.
-        /// A service with restricted service SID type can only coexist in the same process with other services with a restricted SID type. 
+        /// A service with restricted service SID type can only coexist in the same process with other services with a restricted SID type.
         /// If the service SID type for this service was just configured, the hosting process must be restarted in order to start this service.
-        /// On Windows Server 2003 and Windows XP, an unrestricted service cannot coexist in the same process with other services.
+        /// </para>
+        /// <para>
+        /// On Windows Server 2003 and Windows XP, an unrestricted service cannot coexist in the same process with other services.
         /// The service with the unrestricted service SID type must be moved to an owned process in order to start this service.
+        /// </para>
         /// </summary>
         ERROR_INCOMPATIBLE_SERVICE_SID_TYPE = 0x50A,
 
@@ -3668,17 +3824,22 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SERVICE_NOTIFY_CLIENT_LAGGING = 0x50E,
 
         /// <summary>
-        /// The requested file operation failed because the storage quota was exceeded. To free up disk space, move files to a different location or delete unnecessary files. For more information, contact your system administrator.
+        /// The requested file operation failed because the storage quota was exceeded.
+        /// To free up disk space, move files to a different location or delete unnecessary files.
+        /// For more information, contact your system administrator.
         /// </summary>
         ERROR_DISK_QUOTA_EXCEEDED = 0x50F,
 
         /// <summary>
-        /// The requested file operation failed because the storage policy blocks that type of file. For more information, contact your system administrator.
+        /// The requested file operation failed because the storage policy blocks that type of file.
+        /// For more information, contact your system administrator.
         /// </summary>
         ERROR_CONTENT_BLOCKED = 0x510,
 
         /// <summary>
-        /// A privilege that the service requires to function properly does not exist in the service account configuration. You may use the Services Microsoft Management Console (MMC) snap-in (services.msc) and the Local Security Settings MMC snap-in (secpol.msc) to view the service configuration and the account configuration.
+        /// A privilege that the service requires to function properly does not exist in the service account configuration.
+        /// You may use the Services Microsoft Management Console (MMC) snap-in (services.msc)
+        /// and the Local Security Settings MMC snap-in (secpol.msc) to view the service configuration and the account configuration.
         /// </summary>
         ERROR_INCOMPATIBLE_SERVICE_PRIVILEGE = 0x511,
 
@@ -3713,7 +3874,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_LOCAL_USER_SESSION_KEY = 0x517,
 
         /// <summary>
-        /// The password is too complex to be converted to a LAN Manager password. The LAN Manager password returned is a NULL string.
+        /// The password is too complex to be converted to a LAN Manager password.
+        /// The LAN Manager password returned is a NULL string.
         /// </summary>
         ERROR_NULL_LM_PASSWORD = 0x518,
 
@@ -3793,7 +3955,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NO_SUCH_GROUP = 0x527,
 
         /// <summary>
-        /// Either the specified user account is already a member of the specified group, or the specified group cannot be deleted because it contains a member.
+        /// Either the specified user account is already a member of the specified group,
+        /// or the specified group cannot be deleted because it contains a member.
         /// </summary>
         ERROR_MEMBER_IN_GROUP = 0x528,
 
@@ -3813,12 +3976,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_WRONG_PASSWORD = 0x52B,
 
         /// <summary>
-        /// Unable to update the password. The value provided for the new password contains values that are not allowed in passwords.
+        /// Unable to update the password.
+        /// The value provided for the new password contains values that are not allowed in passwords.
         /// </summary>
         ERROR_ILL_FORMED_PASSWORD = 0x52C,
 
         /// <summary>
-        /// Unable to update the password. The value provided for the new password does not meet the length, complexity, or history requirements of the domain.
+        /// Unable to update the password.
+        /// The value provided for the new password does not meet the length, complexity, or history requirements of the domain.
         /// </summary>
         ERROR_PASSWORD_RESTRICTION = 0x52D,
 
@@ -3828,7 +3993,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_LOGON_FAILURE = 0x52E,
 
         /// <summary>
-        /// Account restrictions are preventing this user from signing in. For example: blank passwords aren't allowed, sign-in times are limited, or a policy restriction has been enforced.
+        /// Account restrictions are preventing this user from signing in.
+        /// For example: blank passwords aren't allowed, sign-in times are limited, or a policy restriction has been enforced.
         /// </summary>
         ERROR_ACCOUNT_RESTRICTION = 0x52F,
 
@@ -4163,7 +4329,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NO_USER_SESSION_KEY = 0x572,
 
         /// <summary>
-        /// The service being accessed is licensed for a particular number of connections. No more connections can be made to the service at this time because there are already as many connections as the service can accept.
+        /// The service being accessed is licensed for a particular number of connections.
+        /// No more connections can be made to the service at this time because there are already as many connections as the service can accept.
         /// </summary>
         ERROR_LICENSE_QUOTA_EXCEEDED = 0x573,
 
@@ -4583,7 +4750,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_THREAD_ALREADY_IN_TASK = 0x610,
 
         /// <summary>
-        /// The Windows Installer Service could not be accessed. This can occur if the Windows Installer is not correctly installed. Contact your support personnel for assistance.
+        /// The Windows Installer Service could not be accessed.
+        /// This can occur if the Windows Installer is not correctly installed.
+        /// Contact your support personnel for assistance.
         /// </summary>
         ERROR_INSTALL_SERVICE_FAILURE = 0x641,
 
@@ -4643,7 +4812,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INSTALL_SOURCE_ABSENT = 0x64C,
 
         /// <summary>
-        /// This installation package cannot be installed by the Windows Installer service. You must install a Windows service pack that contains a newer version of the Windows Installer service.
+        /// This installation package cannot be installed by the Windows Installer service.
+        /// You must install a Windows service pack that contains a newer version of the Windows Installer service.
         /// </summary>
         ERROR_INSTALL_PACKAGE_VERSION = 0x64D,
 
@@ -4668,17 +4838,21 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DEVICE_REMOVED = 0x651,
 
         /// <summary>
-        /// Another installation is already in progress. Complete that installation before proceeding with this install.
+        /// Another installation is already in progress.
+        /// Complete that installation before proceeding with this install.
         /// </summary>
         ERROR_INSTALL_ALREADY_RUNNING = 0x652,
 
         /// <summary>
-        /// This installation package could not be opened. Verify that the package exists and that you can access it, or contact the application vendor to verify that this is a valid Windows Installer package.
+        /// This installation package could not be opened.
+        /// Verify that the package exists and that you can access it,
+        /// or contact the application vendor to verify that this is a valid Windows Installer package.
         /// </summary>
         ERROR_INSTALL_PACKAGE_OPEN_FAILED = 0x653,
 
         /// <summary>
-        /// This installation package could not be opened. Contact the application vendor to verify that this is a valid Windows Installer package.
+        /// This installation package could not be opened.
+        /// Contact the application vendor to verify that this is a valid Windows Installer package.
         /// </summary>
         ERROR_INSTALL_PACKAGE_INVALID = 0x654,
 
@@ -4738,7 +4912,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CREATE_FAILED = 0x65F,
 
         /// <summary>
-        /// The Temp folder is on a drive that is full or is inaccessible. Free up space on the drive or verify that you have write permission on the Temp folder.
+        /// The Temp folder is on a drive that is full or is inaccessible.
+        /// Free up space on the drive or verify that you have write permission on the Temp folder.
         /// </summary>
         ERROR_INSTALL_TEMP_UNWRITABLE = 0x660,
 
@@ -4753,22 +4928,27 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INSTALL_NOTUSED = 0x662,
 
         /// <summary>
-        /// This update package could not be opened. Verify that the update package exists and that you can access it, or contact the application vendor to verify that this is a valid Windows Installer update package.
+        /// This update package could not be opened.
+        /// Verify that the update package exists and that you can access it,
+        /// or contact the application vendor to verify that this is a valid Windows Installer update package.
         /// </summary>
         ERROR_PATCH_PACKAGE_OPEN_FAILED = 0x663,
 
         /// <summary>
-        /// This update package could not be opened. Contact the application vendor to verify that this is a valid Windows Installer update package.
+        /// This update package could not be opened.
+        /// Contact the application vendor to verify that this is a valid Windows Installer update package.
         /// </summary>
         ERROR_PATCH_PACKAGE_INVALID = 0x664,
 
         /// <summary>
-        /// This update package cannot be processed by the Windows Installer service. You must install a Windows service pack that contains a newer version of the Windows Installer service.
+        /// This update package cannot be processed by the Windows Installer service.
+        /// You must install a Windows service pack that contains a newer version of the Windows Installer service.
         /// </summary>
         ERROR_PATCH_PACKAGE_UNSUPPORTED = 0x665,
 
         /// <summary>
-        /// Another version of this product is already installed. Installation of this version cannot continue. To configure or remove the existing version of this product, use Add/Remove Programs on the Control Panel.
+        /// Another version of this product is already installed. Installation of this version cannot continue.
+        /// To configure or remove the existing version of this product, use Add/Remove Programs on the Control Panel.
         /// </summary>
         ERROR_PRODUCT_VERSION = 0x666,
 
@@ -4778,7 +4958,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INVALID_COMMAND_LINE = 0x667,
 
         /// <summary>
-        /// Only administrators have permission to add, remove, or configure server software during a Terminal services remote session. If you want to install or configure software on the server, contact your network administrator.
+        /// Only administrators have permission to add, remove, or configure server software during a Terminal services remote session.
+        /// If you want to install or configure software on the server, contact your network administrator.
         /// </summary>
         ERROR_INSTALL_REMOTE_DISALLOWED = 0x668,
 
@@ -4788,7 +4969,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SUCCESS_REBOOT_INITIATED = 0x669,
 
         /// <summary>
-        /// The upgrade cannot be installed by the Windows Installer service because the program to be upgraded may be missing, or the upgrade may update a different version of the program. Verify that the program to be upgraded exists on your computer and that you have the correct upgrade.
+        /// The upgrade cannot be installed by the Windows Installer service
+        /// because the program to be upgraded may be missing, or the upgrade may update a different version of the program.
+        /// Verify that the program to be upgraded exists on your computer and that you have the correct upgrade.
         /// </summary>
         ERROR_PATCH_TARGET_NOT_FOUND = 0x66A,
 
@@ -4833,12 +5016,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_INVALID_PATCH_XML = 0x672,
 
         /// <summary>
-        /// Windows Installer does not permit updating of managed advertised products. At least one feature of the product must be installed before applying the update.
+        /// Windows Installer does not permit updating of managed advertised products.
+        /// At least one feature of the product must be installed before applying the update.
         /// </summary>
         ERROR_PATCH_MANAGED_ADVERTISED_PRODUCT = 0x673,
 
         /// <summary>
-        /// The Windows Installer service is not accessible in Safe Mode. Please try again when your computer is not in Safe Mode or you can use System Restore to return your machine to a previous good state.
+        /// The Windows Installer service is not accessible in Safe Mode.
+        /// Please try again when your computer is not in Safe Mode or you can use System Restore to return your machine to a previous good state.
         /// </summary>
         ERROR_INSTALL_SERVICE_SAFEBOOT = 0x674,
 
@@ -5693,7 +5878,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_USER_DELETE_TRUST_QUOTA_EXCEEDED = 0x78E,
 
         /// <summary>
-        /// The computer you are signing into is protected by an authentication firewall. The specified account is not allowed to authenticate to the computer.
+        /// The computer you are signing into is protected by an authentication firewall.
+        /// The specified account is not allowed to authenticate to the computer.
         /// </summary>
         ERROR_AUTHENTICATION_FIREWALL_FAILED = 0x78F,
 
@@ -5813,7 +5999,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_PROFILE_DOES_NOT_MATCH_DEVICE = 0x7E7,
 
         /// <summary>
-        /// The network connection was made successfully, but the user had to be prompted for a password other than the one originally specified.
+        /// The network connection was made successfully,
+        /// but the user had to be prompted for a password other than the one originally specified.
         /// </summary>
         ERROR_CONNECTED_OTHER_PASSWORD = 0x83C,
 
@@ -6093,7 +6280,8 @@ namespace Lsj.Util.Win32.Enums
         PEERDIST_ERROR_TRUST_FAILURE = 0xFE2,
 
         /// <summary>
-        /// The DHCP client has obtained an IP address that is already in use on the network. The local interface will be disabled until the DHCP client can obtain a new address.
+        /// The DHCP client has obtained an IP address that is already in use on the network.
+        /// The local interface will be disabled until the DHCP client can obtain a new address.
         /// </summary>
         ERROR_DHCP_ADDRESS_CONFLICT = 0x1004,
 
@@ -6383,7 +6571,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_VOLUME_CONTAINS_SYS_FILES = 0x10F1,
 
         /// <summary>
-        /// The media type cannot be removed from this library since at least one drive in the library reports it can support this media type.
+        /// The media type cannot be removed from this library
+        /// since at least one drive in the library reports it can support this media type.
         /// </summary>
         ERROR_INDIGENOUS_TYPE = 0x10F2,
 
@@ -6598,12 +6787,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_GROUP_NOT_ONLINE = 0x1396,
 
         /// <summary>
-        /// The operation failed because either the specified cluster node is not the owner of the resource, or the node is not a possible owner of the resource.
+        /// The operation failed because either the specified cluster node is not the owner of the resource,
+        /// or the node is not a possible owner of the resource.
         /// </summary>
         ERROR_HOST_NODE_NOT_RESOURCE_OWNER = 0x1397,
 
         /// <summary>
-        /// The operation failed because either the specified cluster node is not the owner of the group, or the node is not a possible owner of the group.
+        /// The operation failed because either the specified cluster node is not the owner of the group,
+        /// or the node is not a possible owner of the group.
         /// </summary>
         ERROR_HOST_NODE_NOT_GROUP_OWNER = 0x1398,
 
@@ -6848,17 +7039,20 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_NODE_ALREADY_MEMBER = 0x13C9,
 
         /// <summary>
-        /// The cluster network is the only one configured for internal cluster communication between two or more active cluster nodes. The internal communication capability cannot be removed from the network.
+        /// The cluster network is the only one configured for internal cluster communication between two or more active cluster nodes.
+        /// The internal communication capability cannot be removed from the network.
         /// </summary>
         ERROR_CLUSTER_LAST_INTERNAL_NETWORK = 0x13CA,
 
         /// <summary>
-        /// One or more cluster resources depend on the network to provide service to clients. The client access capability cannot be removed from the network.
+        /// One or more cluster resources depend on the network to provide service to clients.
+        /// The client access capability cannot be removed from the network.
         /// </summary>
         ERROR_CLUSTER_NETWORK_HAS_DEPENDENTS = 0x13CB,
 
         /// <summary>
-        /// This operation cannot be performed on the cluster resource as it the quorum resource. You may not bring the quorum resource offline or modify its possible owners list.
+        /// This operation cannot be performed on the cluster resource as it the quorum resource.
+        /// You may not bring the quorum resource offline or modify its possible owners list.
         /// </summary>
         ERROR_INVALID_OPERATION_ON_QUORUM = 0x13CC,
 
@@ -6913,12 +7107,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_RESOURCE_TYPE_NOT_FOUND = 0x13D6,
 
         /// <summary>
-        /// The specified node does not support a resource of this type. This may be due to version inconsistencies or due to the absence of the resource DLL on this node.
+        /// The specified node does not support a resource of this type.
+        /// This may be due to version inconsistencies or due to the absence of the resource DLL on this node.
         /// </summary>
         ERROR_CLUSTER_RESTYPE_NOT_SUPPORTED = 0x13D7,
 
         /// <summary>
-        /// The specified resource name is not supported by this resource DLL. This may be due to a bad (or changed) name supplied to the resource DLL.
+        /// The specified resource name is not supported by this resource DLL.
+        /// This may be due to a bad (or changed) name supplied to the resource DLL.
         /// </summary>
         ERROR_CLUSTER_RESNAME_NOT_FOUND = 0x13D8,
 
@@ -6928,17 +7124,20 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_NO_RPC_PACKAGES_REGISTERED = 0x13D9,
 
         /// <summary>
-        /// You cannot bring the group online because the owner of the group is not in the preferred list for the group. To change the owner node for the group, move the group.
+        /// You cannot bring the group online because the owner of the group is not in the preferred list for the group.
+        /// To change the owner node for the group, move the group.
         /// </summary>
         ERROR_CLUSTER_OWNER_NOT_IN_PREFLIST = 0x13DA,
 
         /// <summary>
-        /// The join operation failed because the cluster database sequence number has changed or is incompatible with the locker node. This may happen during a join operation if the cluster database was changing during the join.
+        /// The join operation failed because the cluster database sequence number has changed or is incompatible with the locker node.
+        /// This may happen during a join operation if the cluster database was changing during the join.
         /// </summary>
         ERROR_CLUSTER_DATABASE_SEQMISMATCH = 0x13DB,
 
         /// <summary>
-        /// The resource monitor will not allow the fail operation to be performed while the resource is in its current state. This may happen if the resource is in a pending state.
+        /// The resource monitor will not allow the fail operation to be performed while the resource is in its current state.
+        /// This may happen if the resource is in a pending state.
         /// </summary>
         ERROR_RESMON_INVALID_STATE = 0x13DC,
 
@@ -6998,7 +7197,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_PROPERTY_DATA_TYPE_MISMATCH = 0x1707,
 
         /// <summary>
-        /// The cluster node was evicted from the cluster successfully, but the node was not cleaned up. To determine what cleanup steps failed and how to recover, see the Failover Clustering application event log using Event Viewer.
+        /// The cluster node was evicted from the cluster successfully, but the node was not cleaned up.
+        /// To determine what cleanup steps failed and how to recover, see the Failover Clustering application event log using Event Viewer.
         /// </summary>
         ERROR_CLUSTER_EVICT_WITHOUT_CLEANUP = 0x1708,
 
@@ -7018,7 +7218,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_WRONG_OS_VERSION = 0x170B,
 
         /// <summary>
-        /// A cluster cannot be created with the specified cluster name because that cluster name is already in use. Specify a different name for the cluster.
+        /// A cluster cannot be created with the specified cluster name because that cluster name is already in use.
+        /// Specify a different name for the cluster.
         /// </summary>
         ERROR_CLUSTER_CANT_CREATE_DUP_CLUSTER_NAME = 0x170C,
 
@@ -7073,7 +7274,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_RESOURCE_CALL_TIMED_OUT = 0x1716,
 
         /// <summary>
-        /// The address is not valid for an IPv6 Address resource. A global IPv6 address is required, and it must match a cluster network. Compatibility addresses are not permitted.
+        /// The address is not valid for an IPv6 Address resource.
+        /// A global IPv6 address is required, and it must match a cluster network.
+        /// Compatibility addresses are not permitted.
         /// </summary>
         ERROR_INVALID_CLUSTER_IPV6_ADDRESS = 0x1717,
 
@@ -7108,7 +7311,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_INVALID_STRING_FORMAT = 0x171D,
 
         /// <summary>
-        /// An internal cluster error occurred. A cluster database transaction was attempted while a transaction was already in progress.
+        /// An internal cluster error occurred.
+        /// A cluster database transaction was attempted while a transaction was already in progress.
         /// </summary>
         ERROR_CLUSTER_DATABASE_TRANSACTION_IN_PROGRESS = 0x171E,
 
@@ -7153,7 +7357,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_INVALID_IPV6_NETWORK = 0x1726,
 
         /// <summary>
-        /// The cluster network is not valid for an IPv6 Tunnel resource. Check the configuration of the IP Address resource on which the IPv6 Tunnel resource depends.
+        /// The cluster network is not valid for an IPv6 Tunnel resource.
+        /// Check the configuration of the IP Address resource on which the IPv6 Tunnel resource depends.
         /// </summary>
         ERROR_CLUSTER_INVALID_IPV6_TUNNEL_NETWORK = 0x1727,
 
@@ -7213,7 +7418,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_FILE_SHARE_RESOURCE_CONFLICT = 0x1732,
 
         /// <summary>
-        /// Eviction of this node is invalid at this time. Due to quorum requirements node eviction will result in cluster shutdown. If it is the last node in the cluster, destroy cluster command should be used.
+        /// Eviction of this node is invalid at this time. Due to quorum requirements node eviction will result in cluster shutdown.
+        /// If it is the last node in the cluster, destroy cluster command should be used.
         /// </summary>
         ERROR_CLUSTER_EVICT_INVALID_REQUEST = 0x1733,
 
@@ -7253,7 +7459,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_INVALID_SECURITY_DESCRIPTOR = 0x173A,
 
         /// <summary>
-        /// There is one or more shared volumes resources configured in the cluster. Those resources must be moved to available storage in order for operation to succeed.
+        /// There is one or more shared volumes resources configured in the cluster.
+        /// Those resources must be moved to available storage in order for operation to succeed.
         /// </summary>
         ERROR_CLUSTER_SHARED_VOLUMES_IN_USE = 0x173B,
 
@@ -7288,7 +7495,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CLUSTER_RESOURCE_VETOED_MOVE_INCOMPATIBLE_NODES = 0x1741,
 
         /// <summary>
-        /// The request is invalid either because node weight cannot be changed while the cluster is in disk-only quorum mode, or because changing the node weight would violate the minimum cluster quorum requirements.
+        /// The request is invalid either because node weight cannot be changed while the cluster is in disk-only quorum mode,
+        /// or because changing the node weight would violate the minimum cluster quorum requirements.
         /// </summary>
         ERROR_CLUSTER_INVALID_NODE_WEIGHT = 0x1742,
 
@@ -7504,7 +7712,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NO_BROWSER_SERVERS_FOUND = 0x17E6,
 
         /// <summary>
-        /// The Task Scheduler service must be configured to run in the System account to function properly. Individual tasks may be configured to run in other accounts.
+        /// The Task Scheduler service must be configured to run in the System account to function properly.
+        /// Individual tasks may be configured to run in other accounts.
         /// </summary>
         SCHED_E_SERVICE_NOT_LOCALSYSTEM = 0x1838,
 
@@ -7784,7 +7993,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTION_ALREADY_COMMITTED = 0x1A31,
 
         /// <summary>
-        /// The Transaction Manager was unable to be successfully initialized. Transacted operations are not supported.
+        /// The Transaction Manager was unable to be successfully initialized.
+        /// Transacted operations are not supported.
         /// </summary>
         ERROR_TM_INITIALIZATION_FAILED = 0x1A32,
 
@@ -7799,7 +8009,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTION_NOT_JOINED = 0x1A34,
 
         /// <summary>
-        /// The Transaction object already has a superior enlistment, and the caller attempted an operation that would have created a new superior. Only a single superior enlistment is allow.
+        /// The Transaction object already has a superior enlistment,
+        /// and the caller attempted an operation that would have created a new superior.
+        /// Only a single superior enlistment is allow.
         /// </summary>
         ERROR_TRANSACTION_SUPERIOR_EXISTS = 0x1A35,
 
@@ -7849,17 +8061,23 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTIONMANAGER_NOT_FOUND = 0x1A3E,
 
         /// <summary>
-        /// The object specified could not be created or opened, because its associated TransactionManager is not online. The TransactionManager must be brought fully Online by calling RecoverTransactionManager to recover to the end of its LogFile before objects in its Transaction or ResourceManager namespaces can be opened. In addition, errors in writing records to its LogFile can cause a TransactionManager to go offline.
+        /// The object specified could not be created or opened, because its associated TransactionManager is not online.
+        /// The TransactionManager must be brought fully Online by calling RecoverTransactionManager
+        /// to recover to the end of its LogFile before objects in its Transaction or ResourceManager namespaces can be opened.
+        /// In addition, errors in writing records to its LogFile can cause a TransactionManager to go offline.
         /// </summary>
         ERROR_TRANSACTIONMANAGER_NOT_ONLINE = 0x1A3F,
 
         /// <summary>
-        /// The specified TransactionManager was unable to create the objects contained in its logfile in the Ob namespace. Therefore, the TransactionManager was unable to recover.
+        /// The specified TransactionManager was unable to create the objects contained in its logfile in the Ob namespace.
+        /// Therefore, the TransactionManager was unable to recover.
         /// </summary>
         ERROR_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION = 0x1A40,
 
         /// <summary>
-        /// The call to create a superior Enlistment on this Transaction object could not be completed, because the Transaction object specified for the enlistment is a subordinate branch of the Transaction. Only the root of the Transaction can be enlisted on as a superior.
+        /// The call to create a superior Enlistment on this Transaction object could not be completed,
+        /// because the Transaction object specified for the enlistment is a subordinate branch of the Transaction.
+        /// Only the root of the Transaction can be enlisted on as a superior.
         /// </summary>
         ERROR_TRANSACTION_NOT_ROOT = 0x1A41,
 
@@ -7869,12 +8087,15 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTION_OBJECT_EXPIRED = 0x1A42,
 
         /// <summary>
-        /// The specified operation could not be performed on this Superior enlistment, because the enlistment was not created with the corresponding completion response in the NotificationMask.
+        /// The specified operation could not be performed on this Superior enlistment,
+        /// because the enlistment was not created with the corresponding completion response in the NotificationMask.
         /// </summary>
         ERROR_TRANSACTION_RESPONSE_NOT_ENLISTED = 0x1A43,
 
         /// <summary>
-        /// The specified operation could not be performed, because the record that would be logged was too long. This can occur because of two conditions: either there are too many Enlistments on this Transaction, or the combined RecoveryInformation being logged on behalf of those Enlistments is too long.
+        /// The specified operation could not be performed, because the record that would be logged was too long.
+        /// This can occur because of two conditions: either there are too many Enlistments on this Transaction,
+        /// or the combined RecoveryInformation being logged on behalf of those Enlistments is too long.
         /// </summary>
         ERROR_TRANSACTION_RECORD_TOO_LONG = 0x1A44,
 
@@ -7894,12 +8115,16 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTIONMANAGER_IDENTITY_MISMATCH = 0x1A47,
 
         /// <summary>
-        /// This snapshot operation cannot continue because a transactional resource manager cannot be frozen in its current state. Please try again.
+        /// This snapshot operation cannot continue because a transactional resource manager cannot be frozen in its current state.
+        /// Please try again.
         /// </summary>
         ERROR_RM_CANNOT_BE_FROZEN_FOR_SNAPSHOT = 0x1A48,
 
         /// <summary>
-        /// The transaction cannot be enlisted on with the specified EnlistmentMask, because the transaction has already completed the PrePrepare phase. In order to ensure correctness, the ResourceManager must switch to a write- through mode and cease caching data within this transaction. Enlisting for only subsequent transaction phases may still succeed.
+        /// The transaction cannot be enlisted on with the specified EnlistmentMask,
+        /// because the transaction has already completed the PrePrepare phase.
+        /// In order to ensure correctness, the ResourceManager must switch to a write-through mode and cease caching data within this transaction.
+        /// Enlisting for only subsequent transaction phases may still succeed.
         /// </summary>
         ERROR_TRANSACTION_MUST_WRITETHROUGH = 0x1A49,
 
@@ -7909,7 +8134,10 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTION_NO_SUPERIOR = 0x1A4A,
 
         /// <summary>
-        /// The attempt to commit the Transaction completed, but it is possible that some portion of the transaction tree did not commit successfully due to heuristics. Therefore it is possible that some data modified in the transaction may not have committed, resulting in transactional inconsistency. If possible, check the consistency of the associated data.
+        /// The attempt to commit the Transaction completed,
+        /// but it is possible that some portion of the transaction tree did not commit successfully due to heuristics.
+        /// Therefore it is possible that some data modified in the transaction may not have committed, resulting in transactional inconsistency.
+        /// If possible, check the consistency of the associated data.
         /// </summary>
         ERROR_HEURISTIC_DAMAGE_POSSIBLE = 0x1A4B,
 
@@ -7932,14 +8160,6 @@ namespace Lsj.Util.Win32.Enums
         /// The specified directory does not contain a resource manager.
         /// </summary>
         ERROR_DIRECTORY_NOT_RM = 0x1A93,
-
-        /// <summary>
-        /// For <see cref="FindFirstStreamTransactedW"/>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw"/>
-        /// </para>
-        /// </summary>
-        ERROR_STATUS_NOT_IMPLEMENTED = 0x1A95,
 
         /// <summary>
         /// The remote server or share does not support transacted file operations.
@@ -7987,7 +8207,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_REMOTE_FILE_VERSION_MISMATCH = 0x1A9E,
 
         /// <summary>
-        /// The handle has been invalidated by a transaction. The most likely cause is the presence of memory mapping on a file or an open handle when the transaction ended or rolled back to savepoint.
+        /// The handle has been invalidated by a transaction.
+        /// The most likely cause is the presence of memory mapping on a file or an open handle when the transaction ended or rolled back to savepoint.
         /// </summary>
         ERROR_HANDLE_NO_LONGER_VALID = 0x1A9F,
 
@@ -8077,7 +8298,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TRANSACTIONAL_OPEN_NOT_ALLOWED = 0x1AB0,
 
         /// <summary>
-        /// An attempt to create space in the transactional resource manager's log failed. The failure status has been recorded in the event log.
+        /// An attempt to create space in the transactional resource manager's log failed.
+        /// The failure status has been recorded in the event log.
         /// </summary>
         ERROR_LOG_GROWTH_FAILED = 0x1AB1,
 
@@ -8137,7 +8359,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SPARSE_NOT_ALLOWED_IN_TRANSACTION = 0x1ABC,
 
         /// <summary>
-        /// The call to create a TransactionManager object failed because the Tm Identity stored in the logfile does not match the Tm Identity that was passed in as an argument.
+        /// The call to create a TransactionManager object failed
+        /// because the Tm Identity stored in the logfile does not match the Tm Identity that was passed in as an argument.
         /// </summary>
         ERROR_TM_IDENTITY_MISMATCH = 0x1ABD,
 
@@ -8152,7 +8375,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANNOT_ACCEPT_TRANSACTED_WORK = 0x1ABF,
 
         /// <summary>
-        /// The transactional resource manager had too many tranactions outstanding that could not be aborted. The transactional resource manger has been shut down.
+        /// The transactional resource manager had too many tranactions outstanding that could not be aborted.
+        /// The transactional resource manger has been shut down.
         /// </summary>
         ERROR_CANNOT_ABORT_TRANSACTIONS = 0x1AC0,
 
@@ -8182,7 +8406,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_OPERATION_NOT_SUPPORTED_IN_TRANSACTION = 0x1AC5,
 
         /// <summary>
-        /// The handle is no longer properly associated with its transaction. It may have been opened in a transactional resource manager that was subsequently forced to restart. Please close the handle and open a new one.
+        /// The handle is no longer properly associated with its transaction.
+        /// It may have been opened in a transactional resource manager that was subsequently forced to restart.
+        /// Please close the handle and open a new one.
         /// </summary>
         ERROR_EXPIRED_HANDLE = 0x1AC6,
 
@@ -8287,7 +8513,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_WINSTATION_ALREADY_EXISTS = 0x1B6F,
 
         /// <summary>
-        /// The task you are trying to do can't be completed because Remote Desktop Services is currently busy. Please try again in a few minutes. Other users should still be able to log on.
+        /// The task you are trying to do can't be completed because Remote Desktop Services is currently busy.
+        /// Please try again in a few minutes.
+        /// Other users should still be able to log on.
         /// </summary>
         ERROR_CTX_WINSTATION_BUSY = 0x1B70,
 
@@ -8307,7 +8535,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_LOGON_DISABLED = 0x1B7D,
 
         /// <summary>
-        /// The requested operation can be performed only on the system console. This is most often the result of a driver or system DLL requiring direct console access.
+        /// The requested operation can be performed only on the system console.
+        /// This is most often the result of a driver or system DLL requiring direct console access.
         /// </summary>
         ERROR_CTX_NOT_CONSOLE = 0x1B7E,
 
@@ -8342,7 +8571,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_INVALID_WD = 0x1B89,
 
         /// <summary>
-        /// The requested session cannot be controlled remotely. This may be because the session is disconnected or does not currently have a user logged on.
+        /// The requested session cannot be controlled remotely.
+        /// This may be because the session is disconnected or does not currently have a user logged on.
         /// </summary>
         ERROR_CTX_SHADOW_INVALID = 0x1B8A,
 
@@ -8352,17 +8582,22 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_SHADOW_DISABLED = 0x1B8B,
 
         /// <summary>
-        /// Your request to connect to this Terminal Server has been rejected. Your Terminal Server client license number is currently being used by another user. Please call your system administrator to obtain a unique license number.
+        /// Your request to connect to this Terminal Server has been rejected.
+        /// Your Terminal Server client license number is currently being used by another user.
+        /// Please call your system administrator to obtain a unique license number.
         /// </summary>
         ERROR_CTX_CLIENT_LICENSE_IN_USE = 0x1B8C,
 
         /// <summary>
-        /// Your request to connect to this Terminal Server has been rejected. Your Terminal Server client license number has not been entered for this copy of the Terminal Server client. Please contact your system administrator.
+        /// Your request to connect to this Terminal Server has been rejected.
+        /// Your Terminal Server client license number has not been entered for this copy of the Terminal Server client.
+        /// Please contact your system administrator.
         /// </summary>
         ERROR_CTX_CLIENT_LICENSE_NOT_SET = 0x1B8D,
 
         /// <summary>
-        /// The number of connections to this computer is limited and all connections are in use right now. Try connecting later or contact your system administrator.
+        /// The number of connections to this computer is limited and all connections are in use right now.
+        /// Try connecting later or contact your system administrator.
         /// </summary>
         ERROR_CTX_LICENSE_NOT_AVAILABLE = 0x1B8E,
 
@@ -8382,7 +8617,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_SHADOW_NOT_RUNNING = 0x1B91,
 
         /// <summary>
-        /// The remote control of the console was terminated because the display mode was changed. Changing the display mode in a remote control session is not supported.
+        /// The remote control of the console was terminated because the display mode was changed.
+        /// Changing the display mode in a remote control session is not supported.
         /// </summary>
         ERROR_CTX_SHADOW_ENDED_BY_MODE_CHANGE = 0x1B92,
 
@@ -8407,7 +8643,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CTX_SESSION_IN_USE = 0x1B96,
 
         /// <summary>
-        /// The user %s\\%s is already logged on to the console of this computer. You do not have permission to log in at this time. To resolve this issue, contact %s\\%s and have them log off.
+        /// The user %s\\%s is already logged on to the console of this computer. You do not have permission to log in at this time. 
+        /// To resolve this issue, contact %s\\%s and have them log off.
         /// </summary>
         ERROR_CTX_NO_FORCE_LOGOFF = 0x1B97,
 
@@ -8442,7 +8679,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_TS_INCOMPATIBLE_SESSIONS = 0x1B9D,
 
         /// <summary>
-        /// Windows can't connect to your session because a problem occurred in the Windows video subsystem. Try connecting again later, or contact the server administrator for assistance.
+        /// Windows can't connect to your session because a problem occurred in the Windows video subsystem.
+        /// Try connecting again later, or contact the server administrator for assistance.
         /// </summary>
         ERROR_TS_VIDEO_SUBSYSTEM_ERROR = 0x1B9E,
 
@@ -8477,42 +8715,50 @@ namespace Lsj.Util.Win32.Enums
         FRS_ERR_SERVICE_COMM = 0x1F46,
 
         /// <summary>
-        /// The file replication service cannot satisfy the request because the user has insufficient privileges. The event log may have more information.
+        /// The file replication service cannot satisfy the request because the user has insufficient privileges.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_INSUFFICIENT_PRIV = 0x1F47,
 
         /// <summary>
-        /// The file replication service cannot satisfy the request because authenticated RPC is not available. The event log may have more information.
+        /// The file replication service cannot satisfy the request because authenticated RPC is not available.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_AUTHENTICATION = 0x1F48,
 
         /// <summary>
-        /// The file replication service cannot satisfy the request because the user has insufficient privileges on the domain controller. The event log may have more information.
+        /// The file replication service cannot satisfy the request because the user has insufficient privileges on the domain controller.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_PARENT_INSUFFICIENT_PRIV = 0x1F49,
 
         /// <summary>
-        /// The file replication service cannot satisfy the request because authenticated RPC is not available on the domain controller. The event log may have more information.
+        /// The file replication service cannot satisfy the request because authenticated RPC is not available on the domain controller.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_PARENT_AUTHENTICATION = 0x1F4A,
 
         /// <summary>
-        /// The file replication service cannot communicate with the file replication service on the domain controller. The event log may have more information.
+        /// The file replication service cannot communicate with the file replication service on the domain controller.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_CHILD_TO_PARENT_COMM = 0x1F4B,
 
         /// <summary>
-        /// The file replication service on the domain controller cannot communicate with the file replication service on this computer. The event log may have more information.
+        /// The file replication service on the domain controller cannot communicate with the file replication service on this computer.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_PARENT_TO_CHILD_COMM = 0x1F4C,
 
         /// <summary>
-        /// The file replication service cannot populate the system volume because of an internal error. The event log may have more information.
+        /// The file replication service cannot populate the system volume because of an internal error.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_SYSVOL_POPULATE = 0x1F4D,
 
         /// <summary>
-        /// The file replication service cannot populate the system volume because of an internal timeout. The event log may have more information.
+        /// The file replication service cannot populate the system volume because of an internal timeout.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_SYSVOL_POPULATE_TIMEOUT = 0x1F4E,
 
@@ -8522,7 +8768,8 @@ namespace Lsj.Util.Win32.Enums
         FRS_ERR_SYSVOL_IS_BUSY = 0x1F4F,
 
         /// <summary>
-        /// The file replication service cannot stop replicating the system volume because of an internal error. The event log may have more information.
+        /// The file replication service cannot stop replicating the system volume because of an internal error.
+        /// The event log may have more information.
         /// </summary>
         FRS_ERR_SYSVOL_DEMOTE = 0x1F50,
 
@@ -8842,7 +9089,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_OFFSET_RANGE_ERROR = 0x2046,
 
         /// <summary>
-        /// The directory service detected the subsystem that allocates relative identifiers is disabled. This can occur as a protective mechanism when the system determines a significant portion of relative identifiers (RIDs) have been exhausted. Please see https://go.microsoft.com/fwlink/p/?linkid=228610 for recommended diagnostic steps and the procedure to re-enable account creation.
+        /// The directory service detected the subsystem that allocates relative identifiers is disabled.
+        /// This can occur as a protective mechanism when the system determines a significant portion of relative identifiers (RIDs) have been exhausted.
+        /// Please see https://go.microsoft.com/fwlink/p/?linkid=228610 for recommended diagnostic steps and the procedure to re-enable account creation.
         /// </summary>
         ERROR_DS_RIDMGR_DISABLED = 0x2047,
 
@@ -9367,7 +9616,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_CANT_RETRIEVE_DN = 0x20D5,
 
         /// <summary>
-        /// No superior reference has been configured for the directory service. The directory service is therefore unable to issue referrals to objects outside this forest.
+        /// No superior reference has been configured for the directory service.
+        /// The directory service is therefore unable to issue referrals to objects outside this forest.
         /// </summary>
         ERROR_DS_MISSING_SUPREF = 0x20D6,
 
@@ -9422,7 +9672,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_ATT_SCHEMA_REQ_SYNTAX = 0x20E0,
 
         /// <summary>
-        /// The global catalog verification failed. The global catalog is not available or does not support the operation. Some part of the directory is currently not available.
+        /// The global catalog verification failed. The global catalog is not available or does not support the operation.
+        /// Some part of the directory is currently not available.
         /// </summary>
         ERROR_DS_GCVERIFY_ERROR = 0x20E1,
 
@@ -9507,7 +9758,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_REFUSING_FSMO_ROLES = 0x20F1,
 
         /// <summary>
-        /// The directory service is missing mandatory configuration information, and is unable to determine the ownership of floating single-master operation roles.
+        /// The directory service is missing mandatory configuration information,
+        /// and is unable to determine the ownership of floating single-master operation roles.
         /// </summary>
         ERROR_DS_MISSING_FSMO_SETTINGS = 0x20F2,
 
@@ -9657,7 +9909,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DRA_SHUTDOWN = 0x210F,
 
         /// <summary>
-        /// Synchronization attempt failed because the destination DC is currently waiting to synchronize new partial attributes from source. This condition is normal if a recent schema change modified the partial attribute set. The destination partial attribute set is not a subset of source partial attribute set.
+        /// Synchronization attempt failed because the destination DC is currently waiting to synchronize new partial attributes from source.
+        /// This condition is normal if a recent schema change modified the partial attribute set.
+        /// The destination partial attribute set is not a subset of source partial attribute set.
         /// </summary>
         ERROR_DS_DRA_INCOMPATIBLE_PARTIAL_SET = 0x2110,
 
@@ -9667,12 +9921,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DRA_SOURCE_IS_PARTIAL_REPLICA = 0x2111,
 
         /// <summary>
-        /// The server specified for this replication operation was contacted, but that server was unable to contact an additional server needed to complete the operation.
+        /// The server specified for this replication operation was contacted,
+        /// but that server was unable to contact an additional server needed to complete the operation.
         /// </summary>
         ERROR_DS_DRA_EXTN_CONNECTION_FAILED = 0x2112,
 
         /// <summary>
-        /// The version of the directory service schema of the source forest is not compatible with the version of directory service on this computer.
+        /// The version of the directory service schema of the source forest
+        /// is not compatible with the version of directory service on this computer.
         /// </summary>
         ERROR_DS_INSTALL_SCHEMA_MISMATCH = 0x2113,
 
@@ -9752,22 +10008,26 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_BACKLINK_WITHOUT_LINK = 0x2122,
 
         /// <summary>
-        /// Source and destination of a cross-domain move do not agree on the object's epoch number. Either source or destination does not have the latest version of the object.
+        /// Source and destination of a cross-domain move do not agree on the object's epoch number.
+        /// Either source or destination does not have the latest version of the object.
         /// </summary>
         ERROR_DS_EPOCH_MISMATCH = 0x2123,
 
         /// <summary>
-        /// Source and destination of a cross-domain move do not agree on the object's current name. Either source or destination does not have the latest version of the object.
+        /// Source and destination of a cross-domain move do not agree on the object's current name.
+        /// Either source or destination does not have the latest version of the object.
         /// </summary>
         ERROR_DS_SRC_NAME_MISMATCH = 0x2124,
 
         /// <summary>
-        /// Source and destination for the cross-domain move operation are identical. Caller should use local move operation instead of cross-domain move operation.
+        /// Source and destination for the cross-domain move operation are identical.
+        /// Caller should use local move operation instead of cross-domain move operation.
         /// </summary>
         ERROR_DS_SRC_AND_DST_NC_IDENTICAL = 0x2125,
 
         /// <summary>
-        /// Source and destination for a cross-domain move are not in agreement on the naming contexts in the forest. Either source or destination does not have the latest version of the Partitions container.
+        /// Source and destination for a cross-domain move are not in agreement on the naming contexts in the forest.
+        /// Either source or destination does not have the latest version of the Partitions container.
         /// </summary>
         ERROR_DS_DST_NC_MISMATCH = 0x2126,
 
@@ -9777,12 +10037,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_NOT_AUTHORITIVE_FOR_DST_NC = 0x2127,
 
         /// <summary>
-        /// Source and destination of a cross-domain move do not agree on the identity of the source object. Either source or destination does not have the latest version of the source object.
+        /// Source and destination of a cross-domain move do not agree on the identity of the source object.
+        /// Either source or destination does not have the latest version of the source object.
         /// </summary>
         ERROR_DS_SRC_GUID_MISMATCH = 0x2128,
 
         /// <summary>
-        /// Object being moved across-domains is already known to be deleted by the destination server. The source server does not have the latest version of the source object.
+        /// Object being moved across-domains is already known to be deleted by the destination server.
+        /// The source server does not have the latest version of the source object.
         /// </summary>
         ERROR_DS_CANT_MOVE_DELETED_OBJECT = 0x2129,
 
@@ -9792,17 +10054,21 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_PDC_OPERATION_IN_PROGRESS = 0x212A,
 
         /// <summary>
-        /// A cross-domain move operation failed such that two versions of the moved object exist - one each in the source and destination domains. The destination object needs to be removed to restore the system to a consistent state.
+        /// A cross-domain move operation failed such that two versions of the moved object exist - one each in the source and destination domains.
+        /// The destination object needs to be removed to restore the system to a consistent state.
         /// </summary>
         ERROR_DS_CROSS_DOMAIN_CLEANUP_REQD = 0x212B,
 
         /// <summary>
-        /// This object may not be moved across domain boundaries either because cross-domain moves for this class are disallowed, or the object has some special characteristics, e.g.: trust account or restricted RID, which prevent its move.
+        /// This object may not be moved across domain boundaries either because cross-domain moves for this class are disallowed,
+        /// or the object has some special characteristics, e.g.: trust account or restricted RID, which prevent its move.
         /// </summary>
         ERROR_DS_ILLEGAL_XDOM_MOVE_OPERATION = 0x212C,
 
         /// <summary>
-        /// Can't move objects with memberships across domain boundaries as once moved, this would violate the membership conditions of the account group. Remove the object from any account group memberships and retry.
+        /// Can't move objects with memberships across domain boundaries as once moved,
+        /// this would violate the membership conditions of the account group.
+        /// Remove the object from any account group memberships and retry.
         /// </summary>
         ERROR_DS_CANT_WITH_ACCT_GROUP_MEMBERSHPS = 0x212D,
 
@@ -9812,7 +10078,10 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_NC_MUST_HAVE_NC_PARENT = 0x212E,
 
         /// <summary>
-        /// The directory cannot validate the proposed naming context name because it does not hold a replica of the naming context above the proposed naming context. Please ensure that the domain naming master role is held by a server that is configured as a global catalog server, and that the server is up to date with its replication partners. (Applies only to Windows 2000 Domain Naming masters.)
+        /// The directory cannot validate the proposed naming context name
+        /// because it does not hold a replica of the naming context above the proposed naming context.
+        /// Please ensure that the domain naming master role is held by a server that is configured as a global catalog server,
+        /// and that the server is up to date with its replication partners. (Applies only to Windows 2000 Domain Naming masters.)
         /// </summary>
         ERROR_DS_CR_IMPOSSIBLE_TO_VALIDATE = 0x212F,
 
@@ -9857,7 +10126,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_COULDNT_IDENTIFY_OBJECTS_FOR_TREE_DELETE = 0x2137,
 
         /// <summary>
-        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2. Please shutdown this system and reboot into Directory Services Restore Mode, check the event log for more detailed information.
+        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2.
+        /// Please shutdown this system and reboot into Directory Services Restore Mode, check the event log for more detailed information.
         /// </summary>
         ERROR_DS_SAM_INIT_FAILURE = 0x2138,
 
@@ -9877,7 +10147,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_ILLEGAL_BASE_SCHEMA_MOD = 0x213B,
 
         /// <summary>
-        /// Adding a new mandatory attribute to an existing class, deleting a mandatory attribute from an existing class, or adding an optional attribute to the special class Top that is not a backlink attribute (directly or through inheritance, for example, by adding or deleting an auxiliary class) is not allowed.
+        /// Adding a new mandatory attribute to an existing class, deleting a mandatory attribute from an existing class,
+        /// or adding an optional attribute to the special class Top that is not a backlink attribute
+        /// (directly or through inheritance, for example, by adding or deleting an auxiliary class) is not allowed.
         /// </summary>
         ERROR_DS_NONSAFE_SCHEMA_CHANGE = 0x213C,
 
@@ -9887,17 +10159,20 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_SCHEMA_UPDATE_DISALLOWED = 0x213D,
 
         /// <summary>
-        /// An object of this class cannot be created under the schema container. You can only create attribute-schema and class-schema objects under the schema container.
+        /// An object of this class cannot be created under the schema container.
+        /// You can only create attribute-schema and class-schema objects under the schema container.
         /// </summary>
         ERROR_DS_CANT_CREATE_UNDER_SCHEMA = 0x213E,
 
         /// <summary>
-        /// The replica/child install failed to get the objectVersion attribute on the schema container on the source DC. Either the attribute is missing on the schema container or the credentials supplied do not have permission to read it.
+        /// The replica/child install failed to get the objectVersion attribute on the schema container on the source DC.
+        /// Either the attribute is missing on the schema container or the credentials supplied do not have permission to read it.
         /// </summary>
         ERROR_DS_INSTALL_NO_SRC_SCH_VERSION = 0x213F,
 
         /// <summary>
-        /// The replica/child install failed to read the objectVersion attribute in the SCHEMA section of the file schema.ini in the system32 directory.
+        /// The replica/child install failed to read the objectVersion attribute
+        /// in the SCHEMA section of the file schema.ini in the system32 directory.
         /// </summary>
         ERROR_DS_INSTALL_NO_SCH_VERSION_IN_INIFILE = 0x2140,
 
@@ -9952,7 +10227,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_STRING_SD_CONVERSION_FAILED = 0x214A,
 
         /// <summary>
-        /// Only DSAs configured to be Global Catalog servers should be allowed to hold the Domain Naming Master FSMO role. (Applies only to Windows 2000 servers.)
+        /// Only DSAs configured to be Global Catalog servers should be allowed to hold the Domain Naming Master FSMO role.
+        /// (Applies only to Windows 2000 servers.)
         /// </summary>
         ERROR_DS_NAMING_MASTER_GC = 0x214B,
 
@@ -9962,7 +10238,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DNS_LOOKUP_FAILURE = 0x214C,
 
         /// <summary>
-        /// While processing a change to the DNS Host Name for an object, the Service Principal Name values could not be kept in sync.
+        /// While processing a change to the DNS Host Name for an object,
+        /// the Service Principal Name values could not be kept in sync.
         /// </summary>
         ERROR_DS_COULDNT_UPDATE_SPNS = 0x214D,
 
@@ -9977,7 +10254,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_KEY_NOT_UNIQUE = 0x214F,
 
         /// <summary>
-        /// The syntax of the linked attribute being added is incorrect. Forward links can only have syntax 2.5.5.1, 2.5.5.7, and 2.5.5.14, and backlinks can only have syntax 2.5.5.1.
+        /// The syntax of the linked attribute being added is incorrect.
+        /// Forward links can only have syntax 2.5.5.1, 2.5.5.7, and 2.5.5.14, and backlinks can only have syntax 2.5.5.1.
         /// </summary>
         ERROR_DS_WRONG_LINKED_ATT_SYNTAX = 0x2150,
 
@@ -10042,7 +10320,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_SRC_AND_DST_OBJECT_CLASS_MISMATCH = 0x215C,
 
         /// <summary>
-        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2. Click OK to shut down the system and reboot into Safe Mode. Check the event log for detailed information.
+        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2.
+        /// Click OK to shut down the system and reboot into Safe Mode. Check the event log for detailed information.
         /// </summary>
         ERROR_SAM_INIT_FAILURE = 0x215D,
 
@@ -10062,7 +10341,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DRA_EARLIER_SCHEMA_CONFLICT = 0x2160,
 
         /// <summary>
-        /// The replication update could not be applied because either the source or the destination has not yet received information regarding a recent cross-domain move operation.
+        /// The replication update could not be applied
+        /// because either the source or the destination has not yet received information regarding a recent cross-domain move operation.
         /// </summary>
         ERROR_DS_DRA_OBJ_NC_MISMATCH = 0x2161,
 
@@ -10122,7 +10402,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_UNICODEPWD_NOT_IN_QUOTES = 0x216C,
 
         /// <summary>
-        /// Your computer could not be joined to the domain. You have exceeded the maximum number of computer accounts you are allowed to create in this domain. Contact your system administrator to have this limit reset or increased.
+        /// Your computer could not be joined to the domain.
+        /// You have exceeded the maximum number of computer accounts you are allowed to create in this domain.
+        /// Contact your system administrator to have this limit reset or increased.
         /// </summary>
         ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED = 0x216D,
 
@@ -10137,37 +10419,47 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_SRC_DC_MUST_BE_SP4_OR_GREATER = 0x216F,
 
         /// <summary>
-        /// Critical Directory Service System objects cannot be deleted during tree delete operations. The tree delete may have been partially performed.
+        /// Critical Directory Service System objects cannot be deleted during tree delete operations.
+        /// The tree delete may have been partially performed.
         /// </summary>
         ERROR_DS_CANT_TREE_DELETE_CRITICAL_OBJ = 0x2170,
 
         /// <summary>
-        /// Directory Services could not start because of the following error: %1. Error Status: 0x%2. Please click OK to shutdown the system. You can use the recovery console to diagnose the system further.
+        /// Directory Services could not start because of the following error: %1. Error Status: 0x%2.
+        /// Please click OK to shutdown the system. You can use the recovery console to diagnose the system further.
         /// </summary>
         ERROR_DS_INIT_FAILURE_CONSOLE = 0x2171,
 
         /// <summary>
-        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2. Please click OK to shutdown the system. You can use the recovery console to diagnose the system further.
+        /// Security Accounts Manager initialization failed because of the following error: %1. Error Status: 0x%2.
+        /// Please click OK to shutdown the system. You can use the recovery console to diagnose the system further.
         /// </summary>
         ERROR_DS_SAM_INIT_FAILURE_CONSOLE = 0x2172,
 
         /// <summary>
-        /// The version of the operating system is incompatible with the current AD DS forest functional level or AD LDS Configuration Set functional level. You must upgrade to a new version of the operating system before this server can become an AD DS Domain Controller or add an AD LDS Instance in this AD DS Forest or AD LDS Configuration Set.
+        /// The version of the operating system is incompatible with the current AD DS forest functional level or AD LDS Configuration Set functional level.
+        /// You must upgrade to a new version of the operating system before this server can become an AD DS Domain Controller
+        /// or add an AD LDS Instance in this AD DS Forest or AD LDS Configuration Set.
         /// </summary>
         ERROR_DS_FOREST_VERSION_TOO_HIGH = 0x2173,
 
         /// <summary>
-        /// The version of the operating system installed is incompatible with the current domain functional level. You must upgrade to a new version of the operating system before this server can become a domain controller in this domain.
+        /// The version of the operating system installed is incompatible with the current domain functional level.
+        /// You must upgrade to a new version of the operating system before this server can become a domain controller in this domain.
         /// </summary>
         ERROR_DS_DOMAIN_VERSION_TOO_HIGH = 0x2174,
 
         /// <summary>
-        /// The version of the operating system installed on this server no longer supports the current AD DS Forest functional level or AD LDS Configuration Set functional level. You must raise the AD DS Forest functional level or AD LDS Configuration Set functional level before this server can become an AD DS Domain Controller or an AD LDS Instance in this Forest or Configuration Set.
+        /// The version of the operating system installed on this server no longer supports
+        /// the current AD DS Forest functional level or AD LDS Configuration Set functional level.
+        /// You must raise the AD DS Forest functional level or AD LDS Configuration Set functional level
+        /// before this server can become an AD DS Domain Controller or an AD LDS Instance in this Forest or Configuration Set.
         /// </summary>
         ERROR_DS_FOREST_VERSION_TOO_LOW = 0x2175,
 
         /// <summary>
-        /// The version of the operating system installed on this server no longer supports the current domain functional level. You must raise the domain functional level before this server can become a domain controller in this domain.
+        /// The version of the operating system installed on this server no longer supports the current domain functional level.
+        /// You must raise the domain functional level before this server can become a domain controller in this domain.
         /// </summary>
         ERROR_DS_DOMAIN_VERSION_TOO_LOW = 0x2176,
 
@@ -10177,12 +10469,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_INCOMPATIBLE_VERSION = 0x2177,
 
         /// <summary>
-        /// The functional level of the domain (or forest) cannot be raised to the requested value, because there exist one or more domain controllers in the domain (or forest) that are at a lower incompatible functional level.
+        /// The functional level of the domain (or forest) cannot be raised to the requested value,
+        /// because there exist one or more domain controllers in the domain (or forest) that are at a lower incompatible functional level.
         /// </summary>
         ERROR_DS_LOW_DSA_VERSION = 0x2178,
 
         /// <summary>
-        /// The forest functional level cannot be raised to the requested value since one or more domains are still in mixed domain mode. All domains in the forest must be in native mode, for you to raise the forest functional level.
+        /// The forest functional level cannot be raised to the requested value since one or more domains are still in mixed domain mode.
+        /// All domains in the forest must be in native mode, for you to raise the forest functional level.
         /// </summary>
         ERROR_DS_NO_BEHAVIOR_VERSION_IN_MIXEDDOMAIN = 0x2179,
 
@@ -10247,7 +10541,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_MODIFYDN_DISALLOWED_BY_FLAG = 0x2185,
 
         /// <summary>
-        /// This object is not allowed to change its grandparent container. Moves are not forbidden on this object, but are restricted to sibling containers.
+        /// This object is not allowed to change its grandparent container.
+        /// Moves are not forbidden on this object, but are restricted to sibling containers.
         /// </summary>
         ERROR_DS_MODIFYDN_WRONG_GRANDPARENT = 0x2186,
 
@@ -10262,12 +10557,16 @@ namespace Lsj.Util.Win32.Enums
         ERROR_NOT_SUPPORTED_ON_STANDARD_SERVER = 0x2188,
 
         /// <summary>
-        /// Could not access a partition of the directory service located on a remote server. Make sure at least one server is running for the partition in question.
+        /// Could not access a partition of the directory service located on a remote server.
+        /// Make sure at least one server is running for the partition in question.
         /// </summary>
         ERROR_DS_CANT_ACCESS_REMOTE_PART_OF_AD = 0x2189,
 
         /// <summary>
-        /// The directory cannot validate the proposed naming context (or partition) name because it does not hold a replica nor can it contact a replica of the naming context above the proposed naming context. Please ensure that the parent naming context is properly registered in DNS, and at least one replica of this naming context is reachable by the Domain Naming master.
+        /// The directory cannot validate the proposed naming context (or partition) name
+        /// because it does not hold a replica nor can it contact a replica of the naming context above the proposed naming context.
+        /// Please ensure that the parent naming context is properly registered in DNS,
+        /// and at least one replica of this naming context is reachable by the Domain Naming master.
         /// </summary>
         ERROR_DS_CR_IMPOSSIBLE_TO_VALIDATE_V2 = 0x218A,
 
@@ -10282,7 +10581,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_NOT_CLOSEST = 0x218C,
 
         /// <summary>
-        /// The DS cannot derive a service principal name (SPN) with which to mutually authenticate the target server because the corresponding server object in the local DS database has no serverReference attribute.
+        /// The DS cannot derive a service principal name (SPN) with which to mutually authenticate the target server
+        /// because the corresponding server object in the local DS database has no serverReference attribute.
         /// </summary>
         ERROR_DS_CANT_DERIVE_SPN_WITHOUT_SERVER_REF = 0x218D,
 
@@ -10302,7 +10602,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_NTDSCRIPT_PROCESS_ERROR = 0x2190,
 
         /// <summary>
-        /// The directory service cannot perform the requested operation because the servers involved are of different replication epochs (which is usually related to a domain rename that is in progress).
+        /// The directory service cannot perform the requested operation
+        /// because the servers involved are of different replication epochs
+        /// (which is usually related to a domain rename that is in progress).
         /// </summary>
         ERROR_DS_DIFFERENT_REPL_EPOCHS = 0x2191,
 
@@ -10342,7 +10644,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_INVALID_SCRIPT = 0x2198,
 
         /// <summary>
-        /// The remote create cross reference operation failed on the Domain Naming Master FSMO. The operation's error is in the extended data.
+        /// The remote create cross reference operation failed on the Domain Naming Master FSMO.
+        /// The operation's error is in the extended data.
         /// </summary>
         ERROR_DS_REMOTE_CROSSREF_OP_FAILED = 0x2199,
 
@@ -10352,7 +10655,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_CROSS_REF_BUSY = 0x219A,
 
         /// <summary>
-        /// The DS cannot derive a service principal name (SPN) with which to mutually authenticate the target server because the server's domain has been deleted from the forest.
+        /// The DS cannot derive a service principal name (SPN) with which to mutually authenticate the target server
+        /// because the server's domain has been deleted from the forest.
         /// </summary>
         ERROR_DS_CANT_DERIVE_SPN_FOR_DELETED_DOMAIN = 0x219B,
 
@@ -10367,7 +10671,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DUPLICATE_ID_FOUND = 0x219D,
 
         /// <summary>
-        /// Insufficient attributes were given to create an object. This object may not exist because it may have been deleted and already garbage collected.
+        /// Insufficient attributes were given to create an object.
+        /// This object may not exist because it may have been deleted and already garbage collected.
         /// </summary>
         ERROR_DS_INSUFFICIENT_ATTR_TO_CREATE_OBJECT = 0x219E,
 
@@ -10387,7 +10692,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_CANT_MOVE_APP_QUERY_GROUP = 0x21A1,
 
         /// <summary>
-        /// The FSMO role ownership could not be verified because its directory partition has not replicated successfully with at least one replication partner.
+        /// The FSMO role ownership could not be verified
+        /// because its directory partition has not replicated successfully with at least one replication partner.
         /// </summary>
         ERROR_DS_ROLE_NOT_VERIFIED = 0x21A2,
 
@@ -10402,12 +10708,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DOMAIN_RENAME_IN_PROGRESS = 0x21A4,
 
         /// <summary>
-        /// The directory service detected a child partition below the requested partition name. The partition hierarchy must be created in a top down method.
+        /// The directory service detected a child partition below the requested partition name. 
+        /// The partition hierarchy must be created in a top down method.
         /// </summary>
         ERROR_DS_EXISTING_AD_CHILD_NC = 0x21A5,
 
         /// <summary>
-        /// The directory service cannot replicate with this server because the time since the last replication with this server has exceeded the tombstone lifetime.
+        /// The directory service cannot replicate with this server
+        /// because the time since the last replication with this server has exceeded the tombstone lifetime.
         /// </summary>
         ERROR_DS_REPL_LIFETIME_EXCEEDED = 0x21A6,
 
@@ -10417,17 +10725,24 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DISALLOWED_IN_SYSTEM_CONTAINER = 0x21A7,
 
         /// <summary>
-        /// The LDAP servers network send queue has filled up because the client is not processing the results of its requests fast enough. No more requests will be processed until the client catches up. If the client does not catch up then it will be disconnected.
+        /// The LDAP servers network send queue has filled up
+        /// because the client is not processing the results of its requests fast enough.
+        /// No more requests will be processed until the client catches up.
+        /// If the client does not catch up then it will be disconnected.
         /// </summary>
         ERROR_DS_LDAP_SEND_QUEUE_FULL = 0x21A8,
 
         /// <summary>
-        /// The scheduled replication did not take place because the system was too busy to execute the request within the schedule window. The replication queue is overloaded. Consider reducing the number of partners or decreasing the scheduled replication frequency.
+        /// The scheduled replication did not take place
+        /// because the system was too busy to execute the request within the schedule window.
+        /// The replication queue is overloaded.
+        /// Consider reducing the number of partners or decreasing the scheduled replication frequency.
         /// </summary>
         ERROR_DS_DRA_OUT_SCHEDULE_WINDOW = 0x21A9,
 
         /// <summary>
-        /// At this time, it cannot be determined if the branch replication policy is available on the hub domain controller. Please retry at a later time to account for replication latencies.
+        /// At this time, it cannot be determined if the branch replication policy is available on the hub domain controller.
+        /// Please retry at a later time to account for replication latencies.
         /// </summary>
         ERROR_DS_POLICY_NOT_KNOWN = 0x21AA,
 
@@ -10537,7 +10852,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_DRA_RECYCLED_TARGET = 0x21BF,
 
         /// <summary>
-        /// The redirect operation failed because the target object is in a NC different from the domain NC of the current domain controller.
+        /// The redirect operation failed
+        /// because the target object is in a NC different from the domain NC of the current domain controller.
         /// </summary>
         ERROR_DS_DISALLOWED_NC_REDIRECT = 0x21C0,
 
@@ -10552,22 +10868,29 @@ namespace Lsj.Util.Win32.Enums
         ERROR_DS_HIGH_DSA_VERSION = 0x21C2,
 
         /// <summary>
-        /// The functional level of the AD LDS configuration set cannot be raised to the requested value, because there exist one or more ADLDS instances that are at a lower incompatible functional level.
+        /// The functional level of the AD LDS configuration set cannot be raised to the requested value,
+        /// because there exist one or more ADLDS instances that are at a lower incompatible functional level.
         /// </summary>
         ERROR_DS_LOW_ADLDS_FFL = 0x21C3,
 
         /// <summary>
-        /// The domain join cannot be completed because the SID of the domain you attempted to join was identical to the SID of this machine. This is a symptom of an improperly cloned operating system install. You should run sysprep on this machine in order to generate a new machine SID. Please see https://go.microsoft.com/fwlink/p/?linkid=168895 for more information.
+        /// The domain join cannot be completed because the SID of the domain you attempted to join was identical to the SID of this machine.
+        /// This is a symptom of an improperly cloned operating system install.
+        /// You should run sysprep on this machine in order to generate a new machine SID.
+        /// Please see https://go.microsoft.com/fwlink/p/?linkid=168895 for more information.
         /// </summary>
         ERROR_DOMAIN_SID_SAME_AS_LOCAL_WORKSTATION = 0x21C4,
 
         /// <summary>
-        /// The undelete operation failed because the Sam Account Name or Additional Sam Account Name of the object being undeleted conflicts with an existing live object.
+        /// The undelete operation failed because the Sam Account Name or Additional Sam Account Name of the object
+        /// being undeleted conflicts with an existing live object.
         /// </summary>
         ERROR_DS_UNDELETE_SAM_VALIDATION_FAILED = 0x21C5,
 
         /// <summary>
-        /// The system is not authoritative for the specified account and therefore cannot complete the operation. Please retry the operation using the provider associated with this account. If this is an online provider please use the provider's online site.
+        /// The system is not authoritative for the specified account and therefore cannot complete the operation.
+        /// Please retry the operation using the provider associated with this account.
+        /// If this is an online provider please use the provider's online site.
         /// </summary>
         ERROR_INCORRECT_ACCOUNT_TYPE = 0x21C6,
 
@@ -10653,7 +10976,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_NSEC3_INCOMPATIBLE_WITH_RSA_SHA1 = 0x238F,
 
         /// <summary>
-        /// The zone does not have enough signing keys. There must be at least one key signing key (KSK) and at least one zone signing key (ZSK).
+        /// The zone does not have enough signing keys.
+        /// There must be at least one key signing key (KSK) and at least one zone signing key (ZSK).
         /// </summary>
         DNS_ERROR_NOT_ENOUGH_SIGNING_KEY_DESCRIPTORS = 0x2390,
 
@@ -10668,17 +10992,20 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_INVALID_KEY_SIZE = 0x2392,
 
         /// <summary>
-        /// One or more of the signing keys for a zone are not accessible to the DNS server. Zone signing will not be operational until this error is resolved.
+        /// One or more of the signing keys for a zone are not accessible to the DNS server.
+        /// Zone signing will not be operational until this error is resolved.
         /// </summary>
         DNS_ERROR_SIGNING_KEY_NOT_ACCESSIBLE = 0x2393,
 
         /// <summary>
-        /// The specified key storage provider does not support DPAPI++ data protection. Zone signing will not be operational until this error is resolved.
+        /// The specified key storage provider does not support DPAPI++ data protection.
+        /// Zone signing will not be operational until this error is resolved.
         /// </summary>
         DNS_ERROR_KSP_DOES_NOT_SUPPORT_PROTECTION = 0x2394,
 
         /// <summary>
-        /// An unexpected DPAPI++ error was encountered. Zone signing will not be operational until this error is resolved.
+        /// An unexpected DPAPI++ error was encountered.
+        /// Zone signing will not be operational until this error is resolved.
         /// </summary>
         DNS_ERROR_UNEXPECTED_DATA_PROTECTION_ERROR = 0x2395,
 
@@ -10688,7 +11015,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_UNEXPECTED_CNG_ERROR = 0x2396,
 
         /// <summary>
-        /// The DNS server encountered a signing key with an unknown version. Zone signing will not be operational until this error is resolved.
+        /// The DNS server encountered a signing key with an unknown version.
+        /// Zone signing will not be operational until this error is resolved.
         /// </summary>
         DNS_ERROR_UNKNOWN_SIGNING_PARAMETER_VERSION = 0x2397,
 
@@ -10743,7 +11071,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_NOT_ALLOWED_ON_UNSIGNED_ZONE = 0x23A1,
 
         /// <summary>
-        /// This operation could not be completed because the DNS server listed as the current key master for this zone is down or misconfigured. Resolve the problem on the current key master for this zone or use another DNS server to seize the key master role.
+        /// This operation could not be completed because the DNS server listed as the current key master for this zone is down or misconfigured.
+        /// Resolve the problem on the current key master for this zone or use another DNS server to seize the key master role.
         /// </summary>
         DNS_ERROR_BAD_KEYMASTER = 0x23A2,
 
@@ -10758,7 +11087,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_INVALID_NSEC3_ITERATION_COUNT = 0x23A4,
 
         /// <summary>
-        /// This operation could not be completed because the DNS server has been configured with DNSSEC features disabled. Enable DNSSEC on the DNS server.
+        /// This operation could not be completed because the DNS server has been configured with DNSSEC features disabled.
+        /// Enable DNSSEC on the DNS server.
         /// </summary>
         DNS_ERROR_DNSSEC_IS_DISABLED = 0x23A5,
 
@@ -10768,7 +11098,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_INVALID_XML = 0x23A6,
 
         /// <summary>
-        /// This operation completed, but no trust anchors were added because all of the trust anchors received were either invalid, unsupported, expired, or would not become valid in less than 30 days.
+        /// This operation completed, but no trust anchors were added
+        /// because all of the trust anchors received were either invalid, unsupported, expired, or would not become valid in less than 30 days.
         /// </summary>
         DNS_ERROR_NO_VALID_TRUST_ANCHORS = 0x23A7,
 
@@ -10778,7 +11109,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_ROLLOVER_NOT_POKEABLE = 0x23A8,
 
         /// <summary>
-        /// Hash collision detected during NSEC3 signing. Specify a different user-provided salt, or use a randomly generated salt, and attempt to sign the zone again.
+        /// Hash collision detected during NSEC3 signing. Specify a different user-provided salt,
+        /// or use a randomly generated salt, and attempt to sign the zone again.
         /// </summary>
         DNS_ERROR_NSEC3_NAME_COLLISION = 0x23A9,
 
@@ -10923,7 +11255,8 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_DELEGATION_REQUIRED = 0x2563,
 
         /// <summary>
-        /// Name resolution policy table has been corrupted. DNS resolution will fail until it is fixed. Contact your network administrator.
+        /// Name resolution policy table has been corrupted.
+        /// DNS resolution will fail until it is fixed. Contact your network administrator.
         /// </summary>
         DNS_ERROR_INVALID_POLICY_TABLE = 0x2564,
 
@@ -11228,7 +11561,9 @@ namespace Lsj.Util.Win32.Enums
         DNS_ERROR_DP_NOT_AVAILABLE = 0x26B1,
 
         /// <summary>
-        /// The operation failed because the domain naming master FSMO role could not be reached. The domain controller holding the domain naming master FSMO role is down or unable to service the request or is not running Windows Server 2003 or later.
+        /// The operation failed because the domain naming master FSMO role could not be reached.
+        /// The domain controller holding the domain naming master FSMO role is down
+        /// or unable to service the request or is not running Windows Server 2003 or later.
         /// </summary>
         DNS_ERROR_DP_FSMO_ERROR = 0x26B2,
 
@@ -11288,7 +11623,8 @@ namespace Lsj.Util.Win32.Enums
         WSAEDESTADDRREQ = 0x2737,
 
         /// <summary>
-        /// A message sent on a datagram socket was larger than the internal message buffer or some other network limit, or the buffer used to receive a datagram into was smaller than the datagram itself.
+        /// A message sent on a datagram socket was larger than the internal message buffer or some other network limit,
+        /// or the buffer used to receive a datagram into was smaller than the datagram itself.
         /// </summary>
         WSAEMSGSIZE = 0x2738,
 
@@ -11373,7 +11709,8 @@ namespace Lsj.Util.Win32.Enums
         WSAEISCONN = 0x2748,
 
         /// <summary>
-        /// A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied.
+        /// A request to send or receive data was disallowed
+        /// because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied.
         /// </summary>
         WSAENOTCONN = 0x2749,
 
@@ -11388,7 +11725,8 @@ namespace Lsj.Util.Win32.Enums
         WSAETOOMANYREFS = 0x274B,
 
         /// <summary>
-        /// A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+        /// A connection attempt failed because the connected party did not properly respond after a period of time,
+        /// or established connection failed because connected host has failed to respond.
         /// </summary>
         WSAETIMEDOUT = 0x274C,
 
@@ -11528,7 +11866,8 @@ namespace Lsj.Util.Win32.Enums
         WSAHOST_NOT_FOUND = 0x2AF9,
 
         /// <summary>
-        /// This is usually a temporary error during hostname resolution and means that the local server did not receive a response from an authoritative server.
+        /// This is usually a temporary error during hostname resolution and means
+        /// that the local server did not receive a response from an authoritative server.
         /// </summary>
         WSATRY_AGAIN = 0x2AFA,
 
@@ -11848,7 +12187,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_TIMED_OUT = 0x35ED,
 
         /// <summary>
-        /// IKE failed to find valid machine certificate. Contact your Network Security Administrator about installing a valid certificate in the appropriate Certificate Store.
+        /// IKE failed to find valid machine certificate.
+        /// Contact your Network Security Administrator about installing a valid certificate in the appropriate Certificate Store.
         /// </summary>
         ERROR_IPSEC_IKE_NO_CERT = 0x35EE,
 
@@ -11918,7 +12258,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_INVALID_CERT_TYPE = 0x35FB,
 
         /// <summary>
-        /// IKE negotiation failed because the machine certificate used does not have a private key. IPsec certificates require a private key. Contact your Network Security administrator about replacing with a certificate that has a private key.
+        /// IKE negotiation failed because the machine certificate used does not have a private key.
+        /// IPsec certificates require a private key.
+        /// Contact your Network Security administrator about replacing with a certificate that has a private key.
         /// </summary>
         ERROR_IPSEC_IKE_NO_PRIVATE_KEY = 0x35FC,
 
@@ -12093,7 +12435,10 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_FAILQUERYSSP = 0x361E,
 
         /// <summary>
-        /// Failed to obtain Kerberos server credentials for ISAKMP/ERROR_IPSEC_IKE service. Kerberos authentication will not function. The most likely reason for this is lack of domain membership. This is normal if your computer is a member of a workgroup.
+        /// Failed to obtain Kerberos server credentials for ISAKMP/ERROR_IPSEC_IKE service.
+        /// Kerberos authentication will not function.
+        /// The most likely reason for this is lack of domain membership.
+        /// This is normal if your computer is a member of a workgroup.
         /// </summary>
         ERROR_IPSEC_IKE_SRVACQFAIL = 0x361F,
 
@@ -12103,7 +12448,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_SRVQUERYCRED = 0x3620,
 
         /// <summary>
-        /// Failed to obtain new SPI for the inbound SA from IPsec driver. The most common cause for this is that the driver does not have the correct filter. Check your policy to verify the filters.
+        /// Failed to obtain new SPI for the inbound SA from IPsec driver.
+        /// The most common cause for this is that the driver does not have the correct filter.
+        /// Check your policy to verify the filters.
         /// </summary>
         ERROR_IPSEC_IKE_GETSPIFAIL = 0x3621,
 
@@ -12118,7 +12465,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_OUT_OF_MEMORY = 0x3623,
 
         /// <summary>
-        /// Failed to add Security Association to IPsec Driver. The most common cause for this is if the IKE negotiation took too long to complete. If the problem persists, reduce the load on the faulting machine.
+        /// Failed to add Security Association to IPsec Driver.
+        /// The most common cause for this is if the IKE negotiation took too long to complete.
+        /// If the problem persists, reduce the load on the faulting machine.
         /// </summary>
         ERROR_IPSEC_IKE_ADD_UPDATE_KEY_FAILED = 0x3624,
 
@@ -12213,7 +12562,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_BENIGN_REINIT = 0x3636,
 
         /// <summary>
-        /// The lifetime value received in the Responder Lifetime Notify is below the Windows 2000 configured minimum value. Please fix the policy on the peer machine.
+        /// The lifetime value received in the Responder Lifetime Notify is below the Windows 2000 configured minimum value.
+        /// Please fix the policy on the peer machine.
         /// </summary>
         ERROR_IPSEC_IKE_INVALID_RESPONDER_LIFETIME_NOTIFY = 0x3637,
 
@@ -12358,7 +12708,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_IKE_AUTHORIZATION_FAILURE_WITH_OPTIONAL_RETRY = 0x3653,
 
         /// <summary>
-        /// SA establishment is not authorized because there is not a sufficiently strong PKINIT-based credential. This might be related to certificate-to-account mapping failure for the SA.
+        /// SA establishment is not authorized because there is not a sufficiently strong PKINIT-based credential.
+        /// This might be related to certificate-to-account mapping failure for the SA.
         /// </summary>
         ERROR_IPSEC_IKE_STRONG_CRED_AUTHORIZATION_AND_CERTMAP_FAILURE = 0x3654,
 
@@ -12448,7 +12799,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_IPSEC_DOSP_NOT_INSTALLED = 0x366B,
 
         /// <summary>
-        /// IPsec DoS Protection failed to create a per internal IP rate limit queue because the maximum number of queues allowed by policy has been reached.
+        /// IPsec DoS Protection failed to create a per internal IP rate limit queue
+        /// because the maximum number of queues allowed by policy has been reached.
         /// </summary>
         ERROR_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES = 0x366C,
 
@@ -12458,7 +12810,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SXS_SECTION_NOT_FOUND = 0x36B0,
 
         /// <summary>
-        /// The application has failed to start because its side-by-side configuration is incorrect. Please see the application event log or use the command-line sxstrace.exe tool for more detail.
+        /// The application has failed to start because its side-by-side configuration is incorrect.
+        /// Please see the application event log or use the command-line sxstrace.exe tool for more detail.
         /// </summary>
         ERROR_SXS_CANT_GEN_ACTCTX = 0x36B1,
 
@@ -12588,7 +12941,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SXS_DUPLICATE_PROGID = 0x36CA,
 
         /// <summary>
-        /// Two or more components referenced directly or indirectly by the application manifest are different versions of the same component which is not permitted.
+        /// Two or more components referenced directly or indirectly by the application manifest
+        /// are different versions of the same component which is not permitted.
         /// </summary>
         ERROR_SXS_DUPLICATE_ASSEMBLY_NAME = 0x36CB,
 
@@ -12918,12 +13272,15 @@ namespace Lsj.Util.Win32.Enums
         ERROR_SXS_IDENTITY_DUPLICATE_ATTRIBUTE = 0x370C,
 
         /// <summary>
-        /// The identity string is malformed. This may be due to a trailing comma, more than two unnamed attributes, missing attribute name or missing attribute value.
+        /// The identity string is malformed.
+        /// This may be due to a trailing comma, more than two unnamed attributes, missing attribute name or missing attribute value.
         /// </summary>
         ERROR_SXS_IDENTITY_PARSE_ERROR = 0x370D,
 
         /// <summary>
-        /// A string containing localized substitutable content was malformed. Either a dollar sign ($) was followed by something other than a left parenthesis or another dollar sign or an substitution's right parenthesis was not found.
+        /// A string containing localized substitutable content was malformed.
+        /// Either a dollar sign ($) was followed by something other than a left parenthesis or another dollar sign
+        /// or an substitution's right parenthesis was not found.
         /// </summary>
         ERROR_MALFORMED_SUBSTITUTION_STRING = 0x370E,
 
@@ -13048,7 +13405,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_MALFORMED_XML_TEXT = 0x3AA0,
 
         /// <summary>
-        /// The caller is trying to subscribe to a direct channel which is not allowed. The events for a direct channel go directly to a logfile and cannot be subscribed to.
+        /// The caller is trying to subscribe to a direct channel which is not allowed.
+        /// The events for a direct channel go directly to a logfile and cannot be subscribed to.
         /// </summary>
         ERROR_EVT_SUBSCRIPTION_TO_DIRECT_CHANNEL = 0x3AA1,
 
@@ -13058,7 +13416,9 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_CONFIGURATION_ERROR = 0x3AA2,
 
         /// <summary>
-        /// The query result is stale / invalid. This may be due to the log being cleared or rolling over after the query result was created. Users should handle this code by releasing the query result object and reissuing the query.
+        /// The query result is stale / invalid.
+        /// This may be due to the log being cleared or rolling over after the query result was created.
+        /// Users should handle this code by releasing the query result object and reissuing the query.
         /// </summary>
         ERROR_EVT_QUERY_RESULT_STALE = 0x3AA3,
 
@@ -13073,7 +13433,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_NON_VALIDATING_MSXML = 0x3AA5,
 
         /// <summary>
-        /// An expression can only be followed by a change of scope operation if it itself evaluates to a node set and is not already part of some other change of scope operation.
+        /// An expression can only be followed by a change of scope operation
+        /// if it itself evaluates to a node set and is not already part of some other change of scope operation.
         /// </summary>
         ERROR_EVT_FILTER_ALREADYSCOPED = 0x3AA6,
 
@@ -13083,12 +13444,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_FILTER_NOTELTSET = 0x3AA7,
 
         /// <summary>
-        /// Left hand side arguments to binary operators must be either attributes, nodes or variables and right hand side arguments must be constants.
+        /// Left hand side arguments to binary operators must be either attributes, nodes or variables
+        /// and right hand side arguments must be constants.
         /// </summary>
         ERROR_EVT_FILTER_INVARG = 0x3AA8,
 
         /// <summary>
-        /// A step operation must involve either a node test or, in the case of a predicate, an algebraic expression against which to test each node in the node set identified by the preceeding node set can be evaluated.
+        /// A step operation must involve either a node test or, in the case of a predicate,
+        /// an algebraic expression against which to test each node in the node set identified by the preceeding node set can be evaluated.
         /// </summary>
         ERROR_EVT_FILTER_INVTEST = 0x3AA9,
 
@@ -13113,17 +13476,20 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_FILTER_UNEXPECTEDTOKEN = 0x3AAD,
 
         /// <summary>
-        /// The requested operation cannot be performed over an enabled direct channel. The channel must first be disabled before performing the requested operation.
+        /// The requested operation cannot be performed over an enabled direct channel.
+        /// The channel must first be disabled before performing the requested operation.
         /// </summary>
         ERROR_EVT_INVALID_OPERATION_OVER_ENABLED_DIRECT_CHANNEL = 0x3AAE,
 
         /// <summary>
-        /// Channel property %1!s! contains invalid value. The value has invalid type, is outside of valid range, can't be updated or is not supported by this type of channel.
+        /// Channel property %1!s! contains invalid value.
+        /// The value has invalid type, is outside of valid range, can't be updated or is not supported by this type of channel.
         /// </summary>
         ERROR_EVT_INVALID_CHANNEL_PROPERTY_VALUE = 0x3AAF,
 
         /// <summary>
-        /// Publisher property %1!s! contains invalid value. The value has invalid type, is outside of valid range, can't be updated or is not supported by this type of publisher.
+        /// Publisher property %1!s! contains invalid value.
+        /// The value has invalid type, is outside of valid range, can't be updated or is not supported by this type of publisher.
         /// </summary>
         ERROR_EVT_INVALID_PUBLISHER_PROPERTY_VALUE = 0x3AB0,
 
@@ -13188,7 +13554,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EVT_CANNOT_OPEN_CHANNEL_OF_QUERY = 0x3ABC,
 
         /// <summary>
-        /// The publisher has been disabled and its resource is not available. This usually occurs when the publisher is in the process of being uninstalled or upgraded.
+        /// The publisher has been disabled and its resource is not available.
+        /// This usually occurs when the publisher is in the process of being uninstalled or upgraded.
         /// </summary>
         ERROR_EVT_PUBLISHER_DISABLED = 0x3ABD,
 
@@ -13203,12 +13570,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_EC_SUBSCRIPTION_CANNOT_ACTIVATE = 0x3AE8,
 
         /// <summary>
-        /// The log of the subscription is in disabled state, and can not be used to forward events to. The log must first be enabled before the subscription can be activated.
+        /// The log of the subscription is in disabled state, and can not be used to forward events to.
+        /// The log must first be enabled before the subscription can be activated.
         /// </summary>
         ERROR_EC_LOG_DISABLED = 0x3AE9,
 
         /// <summary>
-        /// When forwarding events from local machine to itself, the query of the subscription can't contain target log of the subscription.
+        /// When forwarding events from local machine to itself,
+        /// the query of the subscription can't contain target log of the subscription.
         /// </summary>
         ERROR_EC_CIRCULAR_FORWARDING = 0x3AEA,
 
@@ -13378,7 +13747,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_MRM_TOO_MANY_RESOURCES = 0x3B24,
 
         /// <summary>
-        /// The monitor returned a DDC/CI capabilities string that did not comply with the ACCESS.bus 3.0, DDC/CI 1.1 or MCCS 2 Revision 1 specification.
+        /// The monitor returned a DDC/CI capabilities string
+        /// that did not comply with the ACCESS.bus 3.0, DDC/CI 1.1 or MCCS 2 Revision 1 specification.
         /// </summary>
         ERROR_MCA_INVALID_CAPABILITIES_STRING = 0x3B60,
 
@@ -13393,12 +13763,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_MCA_MONITOR_VIOLATES_MCCS_SPECIFICATION = 0x3B62,
 
         /// <summary>
-        /// The MCCS version in a monitor's mccs_ver capability does not match the MCCS version the monitor reports when the VCP Version (0xDF) VCP code is used.
+        /// The MCCS version in a monitor's mccs_ver capability does not match the MCCS version
+        /// the monitor reports when the VCP Version (0xDF) VCP code is used.
         /// </summary>
         ERROR_MCA_MCCS_VERSION_MISMATCH = 0x3B63,
 
         /// <summary>
-        /// The Monitor Configuration API only works with monitors that support the MCCS 1.0 specification, MCCS 2.0 specification or the MCCS 2.0 Revision 1 specification.
+        /// The Monitor Configuration API only works with monitors
+        /// that support the MCCS 1.0 specification, MCCS 2.0 specification or the MCCS 2.0 Revision 1 specification.
         /// </summary>
         ERROR_MCA_UNSUPPORTED_MCCS_VERSION = 0x3B64,
 
@@ -13408,17 +13780,21 @@ namespace Lsj.Util.Win32.Enums
         ERROR_MCA_INTERNAL_ERROR = 0x3B65,
 
         /// <summary>
-        /// The monitor returned an invalid monitor technology type. CRT, Plasma and LCD (TFT) are examples of monitor technology types. This error implies that the monitor violated the MCCS 2.0 or MCCS 2.0 Revision 1 specification.
+        /// The monitor returned an invalid monitor technology type.
+        /// CRT, Plasma and LCD (TFT) are examples of monitor technology types.
+        /// This error implies that the monitor violated the MCCS 2.0 or MCCS 2.0 Revision 1 specification.
         /// </summary>
         ERROR_MCA_INVALID_TECHNOLOGY_TYPE_RETURNED = 0x3B66,
 
         /// <summary>
-        /// The caller of SetMonitorColorTemperature specified a color temperature that the current monitor did not support. This error implies that the monitor violated the MCCS 2.0 or MCCS 2.0 Revision 1 specification.
+        /// The caller of SetMonitorColorTemperature specified a color temperature that the current monitor did not support.
+        /// This error implies that the monitor violated the MCCS 2.0 or MCCS 2.0 Revision 1 specification.
         /// </summary>
         ERROR_MCA_UNSUPPORTED_COLOR_TEMPERATURE = 0x3B67,
 
         /// <summary>
-        /// The requested system device cannot be identified due to multiple indistinguishable devices potentially matching the identification criteria.
+        /// The requested system device cannot be identified
+        /// due to multiple indistinguishable devices potentially matching the identification criteria.
         /// </summary>
         ERROR_AMBIGUOUS_SYSTEM_DEVICE = 0x3B92,
 
@@ -13478,12 +13854,14 @@ namespace Lsj.Util.Win32.Enums
         ERROR_CANNOT_SWITCH_RUNLEVEL = 0x3C28,
 
         /// <summary>
-        /// The service has an invalid run level setting. The run level for a service must not be higher than the run level of its dependent services.
+        /// The service has an invalid run level setting.
+        /// The run level for a service must not be higher than the run level of its dependent services.
         /// </summary>
         ERROR_INVALID_RUNLEVEL_SETTING = 0x3C29,
 
         /// <summary>
-        /// The requested run level switch cannot be completed successfully since one or more services will not stop or restart within the specified timeout.
+        /// The requested run level switch cannot be completed successfully
+        /// since one or more services will not stop or restart within the specified timeout.
         /// </summary>
         ERROR_RUNLEVEL_SWITCH_TIMEOUT = 0x3C2A,
 
@@ -13563,7 +13941,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_REMOVE_FAILED = 0x3CFA,
 
         /// <summary>
-        /// The provided package is already installed, and reinstallation of the package was blocked. Check the AppXDeployment-Server event log for details.
+        /// The provided package is already installed, and reinstallation of the package was blocked.
+        /// Check the AppXDeployment-Server event log for details.
         /// </summary>
         ERROR_PACKAGE_ALREADY_EXISTS = 0x3CFB,
 
@@ -13608,7 +13987,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_RECOVERY_FILE_CORRUPT = 0x3D03,
 
         /// <summary>
-        /// The signature is invalid. To register in developer mode, AppxSignature.p7x and AppxBlockMap.xml must be valid or should not be present.
+        /// The signature is invalid.
+        /// To register in developer mode, AppxSignature.p7x and AppxBlockMap.xml must be valid or should not be present.
         /// </summary>
         ERROR_INVALID_STAGED_SIGNATURE = 0x3D04,
 
@@ -13638,7 +14018,8 @@ namespace Lsj.Util.Win32.Enums
         ERROR_RESILIENCY_FILE_CORRUPT = 0x3D09,
 
         /// <summary>
-        /// The package could not be installed because the Windows Firewall service is not running. Enable the Windows Firewall service and try again.
+        /// The package could not be installed because the Windows Firewall service is not running.
+        /// Enable the Windows Firewall service and try again.
         /// </summary>
         ERROR_INSTALL_FIREWALL_SERVICE_NOT_RUNNING = 0x3D0A,
 

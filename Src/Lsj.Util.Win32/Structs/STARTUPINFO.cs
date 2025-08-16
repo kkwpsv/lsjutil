@@ -6,10 +6,10 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleCharacterAttributes;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
-using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
+using static Lsj.Util.Win32.Enums.StartupInfoFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
@@ -445,7 +445,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public STARTUPINFOFlags dwFlags;
+        public StartupInfoFlags dwFlags;
 
         /// <summary>
         /// <para>

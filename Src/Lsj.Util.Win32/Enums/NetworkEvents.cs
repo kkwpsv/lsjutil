@@ -1,13 +1,11 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
     /// Network Events
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsaeventselect"/>
-    /// </para>
     /// </summary>
+    [Flags]
     public enum NetworkEvents : uint
     {
         /// <summary>

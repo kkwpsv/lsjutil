@@ -1,11 +1,17 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
-using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Enums.SFGAO;
+using static Lsj.Util.Win32.GUIDs.BHIDs;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// Defines the set of options available to an Open or Save dialog.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ne-shobjidl_core-_fileopendialogoptions"/>
+    /// </para>
     /// </summary>
     public enum FILEOPENDIALOGOPTIONS : uint
     {
@@ -75,7 +81,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// In the case of a sharing violation when an application is opening a file,
-        /// call the application back through <see cref="OnShareViolation"/> for guidance.
+        /// call the application back through <see cref="IFileDialogEvents.OnShareViolation"/> for guidance.
         /// This flag is overridden by <see cref="FOS_NOVALIDATE"/>.
         /// </summary>
         FOS_SHAREAWARE = 0x4000,
@@ -99,14 +105,19 @@ namespace Lsj.Util.Win32.Enums
         FOS_HIDEMRUPLACES = 0x20000,
 
         /// <summary>
+        /// <para>
         /// Hide items shown by default in the view's navigation pane.
         /// This flag is often used in conjunction with the <see cref="IFileDialog.AddPlace"/> method,
         /// to hide standard locations and replace them with custom locations.
-        /// Windows 7 and later.
-        /// Hide all of the standard namespace locations (such as Favorites, Libraries, Computer, and Network) shown in the navigation pane.
-        /// Windows Vista.
-        /// Hide the contents of the Favorite Links tree in the navigation pane.
+        /// </para>
+        /// <para>
+        /// Windows 7 and later. Hide all of the standard namespace locations
+        /// (such as Favorites, Libraries, Computer, and Network) shown in the navigation pane.
+        /// </para>
+        /// <para>
+        /// Windows Vista. Hide the contents of the Favorite Links tree in the navigation pane.
         /// Note that the category itself is still displayed, but shown as empty.
+        /// </para>
         /// </summary>
         FOS_HIDEPINNEDPLACES = 0x40000,
 
@@ -145,7 +156,7 @@ namespace Lsj.Util.Win32.Enums
         FOS_FORCEPREVIEWPANEON = 0x40000000,
 
         /// <summary>
-        /// Indicates that the caller is opening a file as a stream (BHID_Stream), so there is no need to download that file.
+        /// Indicates that the caller is opening a file as a stream (<see cref="BHID_Stream"/>), so there is no need to download that file.
         /// </summary>
         FOS_SUPPORTSTREAMABLEITEMS = 0x80000000,
     }

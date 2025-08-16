@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
-using static Lsj.Util.Win32.Enums.MemoryTypes;
+using static Lsj.Util.Win32.Enums.MemoryPageTypes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -198,6 +198,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MemoryTypes Type;
+        public MemoryPageTypes Type;
     }
 }

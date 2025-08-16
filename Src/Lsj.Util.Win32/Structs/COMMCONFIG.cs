@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.PST;
+using static Lsj.Util.Win32.Enums.CommunicationProviderTypes;
 
 namespace Lsj.Util.Win32.Structs
 {

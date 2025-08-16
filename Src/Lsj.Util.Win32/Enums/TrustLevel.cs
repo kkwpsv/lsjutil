@@ -9,8 +9,12 @@
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Classes can be activated depending on the trust level of the caller and the trust classification of the activatable class.
-    /// RegisteredTrustLevel is an alias for this enumeration.
+    /// </para>
+    /// <para>
+    /// <see cref="RegisteredTrustLevel"/> is an alias for this enumeration.
+    /// </para>
     /// </remarks>
     public enum TrustLevel
     {

@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used to create dialog boxes, but applications that use dialog box templates can use it to create other types of windows.
         /// For a list of values, see Extended Window Styles.
         /// </summary>
-        public WindowStylesEx dwExtendedStyle;
+        public ExtendedWindowStyles dwExtendedStyle;
 
         /// <summary>
         /// The number of items in the dialog box.

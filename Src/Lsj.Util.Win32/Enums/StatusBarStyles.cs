@@ -4,7 +4,7 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Status Bar Styles
+    /// This section lists the styles, in addition to standard window styles, supported by status bar controls.
     /// </para>
     /// <para>
     /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/status-bar-styles"/>

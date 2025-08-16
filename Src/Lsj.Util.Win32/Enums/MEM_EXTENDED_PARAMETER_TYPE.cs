@@ -1,6 +1,4 @@
-﻿using static Lsj.Util.Win32.Kernel32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -40,7 +38,8 @@ namespace Lsj.Util.Win32.Enums
         MemExtendedParameterUserPhysicalHandle,
 
         /// <summary>
-        /// 
+        /// This extended parameter type is used to specify additional flags
+        /// for new memory allocations created by <see cref="VirtualAlloc2"/> and <see cref="MapViewOfFile3"/>.
         /// </summary>
         MemExtendedParameterAttributeFlags,
 

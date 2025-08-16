@@ -14,7 +14,7 @@ using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessFeatures;
 using static Lsj.Util.Win32.Enums.ProductTypes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.Shlwapi;

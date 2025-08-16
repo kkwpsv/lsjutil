@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Enums
     /// <para>
     /// Controls aspects of the behavior of the <see cref="IOleObject.GetMoniker"/> and <see cref="IOleClientSite.GetMoniker"/> methods.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/oleidl/ne-oleidl-olegetmoniker"/>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// If the <see cref="OLEGETMONIKER_FORCEASSIGN"/> flag causes a container to create a moniker for the object,

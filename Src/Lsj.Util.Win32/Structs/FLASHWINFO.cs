@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.FLASHWINFOFlags;
+using static Lsj.Util.Win32.Enums.FlashWindowFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public FLASHWINFOFlags dwFlags;
+        public FlashWindowFlags dwFlags;
 
         /// <summary>
         /// The number of times to flash the window.

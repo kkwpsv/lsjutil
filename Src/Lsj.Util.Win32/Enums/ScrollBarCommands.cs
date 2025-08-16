@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Scroll Bar Commands
+    /// Scroll bar commands
     /// </summary>
     public enum ScrollBarCommands
     {

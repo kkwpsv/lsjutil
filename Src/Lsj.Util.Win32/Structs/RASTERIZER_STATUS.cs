@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
+using static Lsj.Util.Win32.Enums.TrueTypeFontFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
         /// Specifies whether at least one TrueType font is installed and whether TrueType is enabled.
         /// This value is <see cref="TT_AVAILABLE"/>, <see cref="TT_ENABLED"/>, or both if TrueType is on the system.
         /// </summary>
-        public RASTERIZER_STATUSFlags wFlags;
+        public TrueTypeFontFlags wFlags;
 
         /// <summary>
         /// The language in the system's Setup.inf file.

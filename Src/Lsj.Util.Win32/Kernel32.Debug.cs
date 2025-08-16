@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ContinueDebugEvent"/> closes the handles the debugger has to the process and to the thread.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ContinueDebugEvent([In] DWORD dwProcessId, [In] DWORD dwThreadId, [In] DebugContinueStatus dwContinueStatus);
+        public static extern BOOL ContinueDebugEvent([In] DWORD dwProcessId, [In] DWORD dwThreadId, [In] DebugEventContinueStatus dwContinueStatus);
 
         /// <summary>
         /// <para>

@@ -14,19 +14,34 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Before Windows 7, <see cref="SHARD_PIDL"/>, <see cref="SHARD_PATHA"/>, and <see cref="SHARD_PATHW"/> were
-    /// defined as individual constants, not as enumeration members.
+    /// <para>
+    /// Before Windows 7, <see cref="SHARD_PIDL"/>, <see cref="SHARD_PATHA"/>, and <see cref="SHARD_PATHW"/> were defined as individual constants,
+    /// not as enumeration members.
+    /// </para>
+    /// <para>
     /// When providing an <see cref="IShellLink"/> through either <see cref="SHARD_LINK"/> or <see cref="SHARD_APPIDINFOLINK"/>,
     /// the <see cref="IShellLink"/> instance must provide the following:
-    /// Either a PIDL (<see cref="IShellLink.SetIDList"/>) or the target path (<see cref="IShellLink.SetPath"/>
-    /// or <see cref="IShellLink.SetRelativePath"/>)
-    /// Command-line arguments(<see cref="IShellLink.SetArguments"/>)
-    /// Icon location(<see cref="IShellLink.SetIconLocation"/>)
-    /// The display name must be set through the item's System.Title (PKEY_Title) property.
-    /// The property can directly hold the display name or it can be an indirect string representation, 
-    /// such as "@shell32.dll,-1324", to use a stored string.
-    /// An indirect string enables the item name to be displayed in the user's selected language.
-    /// Optionally, the description field(<see cref="IShellLink.SetDescription"/>) can be set to provide a custom tooltip for the item in the Jump List.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// Either a PIDL (<see cref="IShellLink.SetIDList"/>) or the target path (<see cref="IShellLink.SetPath"/> or <see cref="IShellLink.SetRelativePath"/>)
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// Command-line arguments (<see cref="IShellLink.SetArguments"/>)
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// Icon location (<see cref="IShellLink.SetIconLocation"/>)
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// Optionally, the description field (<see cref="IShellLink.SetDescription"/>) can be set to provide a custom tooltip for the item in the Jump List.
+    /// </para>
     /// </remarks>
     public enum SHARD
     {

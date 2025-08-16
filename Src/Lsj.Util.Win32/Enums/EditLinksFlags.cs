@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Edit Links Flags
+    /// Edit links flags
     /// </summary>
+    [Flags]
     public enum EditLinksFlags : uint
     {
         /// <summary>

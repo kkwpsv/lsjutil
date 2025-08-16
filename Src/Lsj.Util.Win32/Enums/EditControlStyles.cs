@@ -45,23 +45,34 @@ namespace Lsj.Util.Win32.Enums
         ES_LOWERCASE = 0x0010,
 
         /// <summary>
+        /// <para>
         /// Designates a multiline edit control. The default is single-line edit control.
+        /// </para>
+        /// <para>
         /// When the multiline edit control is in a dialog box, the default response to pressing the ENTER key is to activate the default button.
         /// To use the ENTER key as a carriage return, use the <see cref="ES_WANTRETURN"/> style.
+        /// </para>
+        /// <para>
         /// When the multiline edit control is not in a dialog box and the <see cref="ES_AUTOVSCROLL"/> style is specified,
         /// the edit control shows as many lines as possible and scrolls vertically when the user presses the ENTER key.
         /// If you do not specify <see cref="ES_AUTOVSCROLL"/>, the edit control shows as many lines as possible and beeps
         /// if the user presses the ENTER key when no more lines can be displayed.
-        /// If you specify the <see cref="ES_AUTOHSCROLL"/> style, the multiline edit control automatically scrolls horizontally
-        /// when the caret goes past the right edge of the control.
+        /// </para>
+        /// <para>
+        /// If you specify the <see cref="ES_AUTOHSCROLL"/> style,
+        /// the multiline edit control automatically scrolls horizontally when the caret goes past the right edge of the control.
         /// To start a new line, the user must press the ENTER key.
         /// If you do not specify <see cref="ES_AUTOHSCROLL"/>, the control automatically wraps words to the beginning of the next line when necessary.
         /// A new line is also started if the user presses the ENTER key.
         /// The window size determines the position of the Wordwrap.
         /// If the window size changes, the Wordwrapping position changes and the text is redisplayed.
-        /// Multiline edit controls can have scroll bars. An edit control with scroll bars processes its own scroll bar messages.
-        /// Note that edit controls without scroll bars scroll as described in the previous paragraphs and process any scroll messages
-        /// sent by the parent window.
+        /// </para>
+        /// <para>
+        /// Multiline edit controls can have scroll bars.
+        /// An edit control with scroll bars processes its own scroll bar messages.
+        /// Note that edit controls without scroll bars scroll as described in the previous paragraphs
+        /// and process any scroll messages sent by the parent window.
+        /// </para>
         /// </summary>
         ES_MULTILINE = 0x0004,
 
@@ -74,36 +85,57 @@ namespace Lsj.Util.Win32.Enums
         ES_NOHIDESEL = 0x0100,
 
         /// <summary>
-        /// Allows only digits to be entered into the edit control. Note that, even with this set,
-        /// it is still possible to paste non-digits into the edit control.
-        /// To change this style after the control has been created, use SetWindowLong.
+        /// <para>
+        /// Allows only digits to be entered into the edit control.
+        /// Note that, even with this set, it is still possible to paste non-digits into the edit control.
+        /// </para>
+        /// <para>
+        /// To change this style after the control has been created, use <see cref="SetWindowLong"/>.
+        /// </para>
+        /// <para>
         /// To translate text that was entered into the edit control to an integer value, use the <see cref="GetDlgItemInt"/> function.
-        /// To set the text of the edit control to the string representation of a specified integer, use the <see cref="SetDlgItemInt"/> function.
+        /// To set the text of the edit control to the string representation of a specified integer,
+        /// use the <see cref="SetDlgItemInt"/> function.
+        /// </para>
         /// </summary>
         ES_NUMBER = 0x2000,
 
         /// <summary>
+        /// <para>
         /// Converts text entered in the edit control.
         /// The text is converted from the Windows character set to the OEM character set and then back to the Windows character set.
         /// This ensures proper character conversion when the application calls the <see cref="CharToOem"/> function
         /// to convert a Windows string in the edit control to OEM characters.
         /// This style is most useful for edit controls that contain file names that will be used on file systems that do not support Unicode.
-        /// To change this style after the control has been created, use SetWindowLong.
+        /// </para>
+        /// <para>
+        /// To change this style after the control has been created, use <see cref="SetWindowLong"/>.
+        /// </para>
         /// </summary>
         ES_OEMCONVERT = 0x0400,
 
         /// <summary>
+        /// <para>
         /// Displays an asterisk (*) for each character typed into the edit control.
         /// This style is valid only for single-line edit controls.
+        /// </para>
+        /// <para>
         /// To change the characters that is displayed, or set or clear this style, use the <see cref="EM_SETPASSWORDCHAR"/> message.
-        /// To use Comctl32.dll version 6, specify it in a manifest.
+        /// </para>
+        /// <para>
+        /// <see cref="Note:"/> To use Comctl32.dll version 6, specify it in a manifest.
         /// For more information on manifests, see Enabling Visual Styles.
+        /// </para>
         /// </summary>
         ES_PASSWORD = 0x0020,
 
         /// <summary>
+        /// <para>
         /// Prevents the user from typing or editing text in the edit control.
+        /// </para>
+        /// <para>
         /// To change this style after the control has been created, use the <see cref="EM_SETREADONLY"/> message.
+        /// </para>
         /// </summary>
         ES_READONLY = 0x0800,
 
@@ -113,8 +145,12 @@ namespace Lsj.Util.Win32.Enums
         ES_RIGHT = 0x0002,
 
         /// <summary>
+        /// <para>
         /// Converts all characters to uppercase as they are typed into the edit control.
+        /// </para>
+        /// <para>
         /// To change this style after the control has been created, use <see cref="SetWindowLong"/>.
+        /// </para>
         /// </summary>
         ES_UPPERCASE = 0x0008,
 

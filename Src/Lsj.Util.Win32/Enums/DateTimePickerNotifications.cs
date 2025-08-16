@@ -1,6 +1,7 @@
 ﻿using static Lsj.Util.Win32.Enums.DateTimePickerMessages;
 using static Lsj.Util.Win32.Enums.DateTimePickerStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Enums.MonthCalendarStyles;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -39,14 +40,18 @@ namespace Lsj.Util.Win32.Enums
         /// This notification code is sent in the form of a <see cref="WM_NOTIFY"/> message.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// One task that your notification handler may need to perform is to customize the dropdown month-calendar control.
         /// For instance, if you do not want "Go To Today," you need to set the control's <see cref="MCS_NOTODAY"/> style.
         /// To retrieve a handle to the month-calendar control, send the DTP control a <see cref="DTM_GETMONTHCAL"/> message.
         /// You can then use this handle and <see cref="SetWindowLong"/> to set the desired month-calendar style.
+        /// </para>
+        /// <para>
         /// DTP controls do not maintain a static child month calendar control.
         /// The DTP control creates a new month calendar control before sending this notification code.
         /// Additionally, the DTP control destroys the child control when it is not active (visible).
         /// So your application must not rely on a static window handle to the control's child month calendar.
+        /// </para>
         /// </remarks>
         DTN_DROPDOWN = -754,
 

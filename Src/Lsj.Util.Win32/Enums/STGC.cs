@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 
 namespace Lsj.Util.Win32.Enums
@@ -8,6 +9,9 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="STGC"/> enumeration constants specify the conditions for performing the commit operation
     /// in the <see cref="IStorage.Commit"/> and <see cref="IStream.Commit"/> methods.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ne-wtypes-stgc"/>
+    /// </para>
     /// </summary>
     /// <remarks>
     /// You can specify <see cref="STGC_DEFAULT"/> or some combination of <see cref="STGC_OVERWRITE"/>, <see cref="STGC_ONLYIFCURRENT"/>,
@@ -15,6 +19,7 @@ namespace Lsj.Util.Win32.Enums
     /// You can specify <see cref="STGC_CONSOLIDATE"/> with any other <see cref="STGC"/> flags.
     /// Typically, use <see cref="STGC_ONLYIFCURRENT"/> to protect the storage object in cases where more than one user can edit the object simultaneously.
     /// </remarks>
+    [Flags]
     public enum STGC
     {
         /// <summary>
@@ -24,19 +29,40 @@ namespace Lsj.Util.Win32.Enums
         STGC_DEFAULT = 0,
 
         /// <summary>
+        /// <para>
         /// The commit operation can overwrite existing data to reduce overall space requirements.
         /// This value is not recommended for typical usage because it is not as robust as the default value.
-        /// In this case, it is possible for the commit operation to fail after the old data is overwritten, but before the new data is completely committed.
+        /// In this case, it is possible for the commit operation to fail after the old data is overwritten,
+        /// but before the new data is completely committed.
         /// Then, neither the old version nor the new version of the storage object will be intact.
+        /// </para>
+        /// <para>
         /// You can use this value in the following cases:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The user is willing to risk losing the data.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The low-memory save sequence will be used to safely save the storage object to a smaller file.
-        /// A previous commit returned <see cref="STG_E_MEDIUMFULL"/>, but overwriting the existing data
-        /// would provide enough space to commit changes to the storage object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A previous commit returned <see cref="STG_E_MEDIUMFULL"/>,
+        /// but overwriting the existing data would provide enough space to commit changes to the storage object.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Be aware that the commit operation verifies that adequate space exists before any overwriting occurs.
         /// Thus, even with this value specified, if the commit operation fails due to space requirements, the old data is safe.
         /// It is possible, however, for data loss to occur with the <see cref="STGC_OVERWRITE"/> value specified
         /// if the commit operation fails for any reason other than lack of disk space.
+        /// </para>
         /// </summary>
         STGC_OVERWRITE = 1,
 
@@ -50,13 +76,17 @@ namespace Lsj.Util.Win32.Enums
         STGC_ONLYIFCURRENT = 2,
 
         /// <summary>
+        /// <para>
         /// Commits the changes to a write-behind disk cache, but does not save the cache to the disk.
         /// In a write-behind disk cache, the operation that writes to disk actually writes to a disk cache, thus increasing performance.
         /// The cache is eventually written to the disk, but usually not until after the write operation has already returned.
-        /// The performance increase comes at the expense of an increased risk of losing data
-        /// if a problem occurs before the cache is saved and the data in the cache is lost.
+        /// The performance increase comes at the expense of an increased risk of losing data if a problem occurs
+        /// before the cache is saved and the data in the cache is lost.
+        /// </para>
+        /// <para>
         /// If you do not specify this value, then committing changes to root-level storage objects is robust even if a disk cache is used.
         /// The two-phase commit process ensures that data is stored on the disk and not just to the disk cache.
+        /// </para>
         /// </summary>
         STGC_DANGEROUSLYCOMMITMERELYTODISKCACHE = 4,
 

@@ -1,42 +1,31 @@
 ﻿using System;
-using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="ScrollWindowEx"/> Flags.
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-scrollwindowex"/>
-    /// </para>
+    /// <see cref="ScrollWindowEx"/> flags.
     /// </summary>
     [Flags]
     public enum ScrollWindowExFlags
     {
         /// <summary>
-        /// Scrolls all child windows that intersect the rectangle pointed to by the prcScroll parameter.
-        /// The child windows are scrolled by the number of pixels specified by the dx and dy parameters.
-        /// The system sends a <see cref="WM_MOVE"/> message to all child windows that intersect the prcScroll rectangle, even if they do not move.
+        /// SW_SCROLLCHILDREN
         /// </summary>
         SW_SCROLLCHILDREN = 0x0001,
 
         /// <summary>
-        /// Invalidates the region identified by the hrgnUpdate parameter after scrolling.
+        /// SW_INVALIDATE
         /// </summary>
         SW_INVALIDATE = 0x0002,
 
         /// <summary>
-        /// Erases the newly invalidated region by sending a <see cref="WM_ERASEBKGND"/> message to the window
-        /// when specified with the <see cref="SW_INVALIDATE"/> flag.
+        /// SW_ERASE
         /// </summary>
         SW_ERASE = 0x0004,
 
         /// <summary>
-        /// Scrolls using smooth scrolling.
-        /// Use the <see cref="HIWORD"/> portion of the flags parameter to indicate how much time,
-        /// in milliseconds, the smooth-scrolling operation should take.
+        /// SW_SMOOTHSCROLL
         /// </summary>
         SW_SMOOTHSCROLL = 0x0010,
     }

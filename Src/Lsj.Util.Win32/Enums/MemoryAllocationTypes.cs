@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Memory Allocation Types
+    /// Memory allocation types
     /// </summary>
+    [Flags]
     public enum MemoryAllocationTypes : uint
     {
         /// <summary>

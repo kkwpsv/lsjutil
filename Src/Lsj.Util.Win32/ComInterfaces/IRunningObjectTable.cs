@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ROTFLAGS;
+using static Lsj.Util.Win32.Enums.RunningObjectTableFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
@@ -122,11 +122,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to ensure that the moniker is fully reduced before registration.
         /// If an object is known by more than one fully reduced moniker, it should be registered under all such monikers.
         /// </remarks>
-        public HRESULT Register([In] ROTFLAGS grfFlags, [In] in IUnknown punkObject, [In] in IMoniker pmkObjectName, [Out] out DWORD pdwRegister)
+        public HRESULT Register([In] RunningObjectTableFlags grfFlags, [In] in IUnknown punkObject, [In] in IMoniker pmkObjectName, [Out] out DWORD pdwRegister)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, ROTFLAGS, in IUnknown, in IMoniker, out DWORD, HRESULT>)_vTable[3])(thisPtr, grfFlags, punkObject, pmkObjectName, out pdwRegister);
+                return ((delegate* unmanaged[Stdcall]<void*, RunningObjectTableFlags, in IUnknown, in IMoniker, out DWORD, HRESULT>)_vTable[3])(thisPtr, grfFlags, punkObject, pmkObjectName, out pdwRegister);
             }
         }
 

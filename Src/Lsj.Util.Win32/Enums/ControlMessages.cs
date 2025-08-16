@@ -46,13 +46,17 @@
         /// This message is used to inform the control that you are expecting a behavior associated with a particular version.
         /// </summary>
         /// <remarks>
+        /// <para>
         /// In a few cases, a control may behave differently, depending on the version.
         /// This primarily applies to bugs that were fixed in later versions.
         /// The <see cref="CCM_SETVERSION"/> message enables you to inform the control which behavior is expected.
         /// You can determine which version you have specified by sending a <see cref="CCM_GETVERSION"/> message.
         /// For an example of how to use this message, see Custom Draw With List-View and Tree-View Controls.
-        /// If you have ComCtl32.dll version 6 installed, regardless of what value you set in wParam, the <see cref="CCM_SETVERSION"/> message returns version 6.
-        /// This message only sets the version number for the control to which it is sent.
+        /// </para>
+        /// <para>
+        /// If you have ComCtl32.dll version 6 installed, regardless of what value you set in wParam,
+        /// the <see cref="CCM_SETVERSION"/> message returns version 6.
+        /// </para>
         /// </remarks>
         CCM_SETVERSION = (CCM_FIRST + 0x7),
 

@@ -3,9 +3,9 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.HDITEMFilterType;
-using static Lsj.Util.Win32.Enums.HDITEMFormats;
-using static Lsj.Util.Win32.Enums.HDITEMMMasks;
+using static Lsj.Util.Win32.Enums.HeaderControlItemFilterTypes;
+using static Lsj.Util.Win32.Enums.HeaderControlItemFormats;
+using static Lsj.Util.Win32.Enums.HeaderControlItemMasks;
 using static Lsj.Util.Win32.Enums.HeaderControlMessages;
 using static Lsj.Util.Win32.Enums.HeaderControlNotifications;
 using static Lsj.Util.Win32.Enums.HeaderControlStyles;
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HDITEMMMasks mask;
+        public HeaderControlItemMasks mask;
 
         /// <summary>
         /// The width or height of the item.
@@ -347,7 +347,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HDITEMFormats fmt;
+        public HeaderControlItemFormats fmt;
 
         /// <summary>
         /// Application-defined item data.
@@ -418,7 +418,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HDITEMFilterType type;
+        public HeaderControlItemFilterTypes type;
 
         /// <summary>
         /// The address of an application-defined data item.

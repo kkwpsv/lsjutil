@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Enums.WindowMessages;
+﻿using System;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -12,6 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/controls/combo-box-styles"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum ComboBoxStyles : uint
     {
         /// <summary>

@@ -3,7 +3,7 @@
     /// <summary>
     /// <para>
     /// Indicates a spoofed device scale factor, as a percent.
-    /// Used by IApplicationDesignModeSettings::SetApplicationViewState and IApplicationDesignModeSettings::IsApplicationViewStateSupported
+    /// Used by <see cref="IApplicationDesignModeSettings.SetApplicationViewState"/> and <see cref="IApplicationDesignModeSettings.IsApplicationViewStateSupported"/>
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shtypes/ne-shtypes-device_scale_factor"/>

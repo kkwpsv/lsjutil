@@ -1,46 +1,41 @@
-﻿using static Lsj.Util.Win32.Kernel32;
+﻿using System;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="GetFinalPathNameByHandle"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew"/>
-    /// </para>
+    /// <see cref="GetFinalPathNameByHandle"/> flags
     /// </summary>
+    [Flags]
     public enum GetFinalPathNameByHandleFlags : uint
     {
         /// <summary>
-        /// Return the normalized drive name.
-        /// This is the default.
+        /// FILE_NAME_NORMALIZED
         /// </summary>
         FILE_NAME_NORMALIZED = 0x0,
 
         /// <summary>
-        /// Return the opened file name (not normalized).
+        /// FILE_NAME_OPENED
         /// </summary>
         FILE_NAME_OPENED = 0x8,
 
         /// <summary>
-        /// Return the path with the drive letter.
-        /// This is the default.
+        /// VOLUME_NAME_DOS
         /// </summary>
         VOLUME_NAME_DOS = 0x0,
 
         /// <summary>
-        /// Return the path with a volume GUID path instead of the drive name.
+        /// VOLUME_NAME_GUID
         /// </summary>
         VOLUME_NAME_GUID = 0x1,
 
         /// <summary>
-        /// Return the path with no drive information.
+        /// VOLUME_NAME_NONE
         /// </summary>
         VOLUME_NAME_NONE = 0x4,
 
         /// <summary>
-        /// Return the path with the volume device path.
+        /// VOLUME_NAME_NT
         /// </summary>
         VOLUME_NAME_NT = 0x2,
     }

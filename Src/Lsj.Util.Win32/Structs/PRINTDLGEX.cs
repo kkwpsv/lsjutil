@@ -9,9 +9,9 @@ using static Lsj.Util.Win32.Comctl32;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.DEVMODEFields;
-using static Lsj.Util.Win32.Enums.PrintDlgExResults;
-using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
+using static Lsj.Util.Win32.Enums.PrintDialogExResults;
+using static Lsj.Util.Win32.Enums.PrintDialogFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PRINTDLGFlags Flags;
+        public PrintDialogFlags Flags;
 
         /// <summary>
         /// 

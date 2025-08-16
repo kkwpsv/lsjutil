@@ -3,18 +3,12 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="PrintWindow"/> Flags
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-printwindow"/>
-    /// </para>
+    /// <see cref="PrintWindow"/> flags
     /// </summary>
     public enum PrintWindowFlags : uint
     {
         /// <summary>
-        /// Only the client area of the window is copied to hdcBlt.
-        /// By default, the entire window is copied. 
+        /// PW_CLIENTONLY
         /// </summary>
         PW_CLIENTONLY = 0x00000001,
     }

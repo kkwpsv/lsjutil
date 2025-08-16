@@ -29,13 +29,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Currently none.
         /// </summary>
-        public TOUCH_FLAGS touchFlags;
+        public TouchFlags touchFlags;
 
         /// <summary>
         /// Indicates which of the optional fields contain valid values.
         /// The member can be zero or any combination of the values from the Touch Mask constants.
         /// </summary>
-        public TOUCH_MASK touchMask;
+        public TouchMasks touchMask;
 
         /// <summary>
         /// The predicted screen coordinates of the contact area, in pixels.

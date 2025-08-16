@@ -7,17 +7,17 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CHOOSECOLORFlags;
-using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
-using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
+using static Lsj.Util.Win32.Enums.ColorDialogFlags;
+using static Lsj.Util.Win32.Enums.FontDialogFlags;
+using static Lsj.Util.Win32.Enums.CommonDialogExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.CommonDialogBoxNotifications;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
-using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
+using static Lsj.Util.Win32.Enums.FindReplaceDialogFlags;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
-using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
-using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
-using static Lsj.Util.Win32.Enums.PrintDlgExResults;
-using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
+using static Lsj.Util.Win32.Enums.OpenFileDialogFlags;
+using static Lsj.Util.Win32.Enums.PageSetupDialogFlags;
+using static Lsj.Util.Win32.Enums.PrintDialogExResults;
+using static Lsj.Util.Win32.Enums.PrintDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
@@ -543,7 +543,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FRERR_BUFFERLENGTHZERO"/>
         /// </returns>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommDlgExtendedError", ExactSpelling = true, SetLastError = true)]
-        public static extern CommDlgExtendedErrorCodes CommDlgExtendedError();
+        public static extern CommonDialogExtendedErrorCodes CommDlgExtendedError();
 
         /// <summary>
         /// <para>

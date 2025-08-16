@@ -20,21 +20,21 @@ using static Lsj.Util.Win32.Enums.HSHELL;
 using static Lsj.Util.Win32.Enums.LayeredWindowAttributes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
-using static Lsj.Util.Win32.Enums.MDITILEFlags;
+using static Lsj.Util.Win32.Enums.MDITILE;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
 using static Lsj.Util.Win32.Enums.SystemCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TrackPopupMenuFlags;
 using static Lsj.Util.Win32.Enums.WindowDisplayAffinities;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -326,7 +326,7 @@ namespace Lsj.Util.Win32
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AdjustWindowRectEx([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu, [In] WindowStylesEx dwExStyle);
+        public static extern BOOL AdjustWindowRectEx([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu, [In] ExtendedWindowStyles dwExStyle);
 
         /// <summary>
         /// <para>
@@ -641,7 +641,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="CascadeWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CascadeWindows", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITILEFlags wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
+        public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITILE wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>
         /// <para>
@@ -1077,7 +1077,7 @@ namespace Lsj.Util.Win32
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND CreateWindowEx([In] WindowStylesEx dwExStyle, [In] LPCWSTR lpClassName,
+        public static extern HWND CreateWindowEx([In] ExtendedWindowStyles dwExStyle, [In] LPCWSTR lpClassName,
             [In] LPCWSTR lpWindowName, [In] WindowStyles dwStyle, [In] int x, [In] int y, [In] int nWidth, [In] int nHeight,
             [In] HWND hWndParent, [In] HMENU hMenu, [In] HINSTANCE hInstance, [In] LPVOID lpParam);
 
@@ -3982,7 +3982,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="TileWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TileWindows", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITILEFlags wHow,
+        public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITILE wHow,
     [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>

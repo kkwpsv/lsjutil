@@ -1,76 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// The <see cref="OutPrecisions"/> enumeration defines values for output precision,
-    /// which is the requirement for the font mapper to match specific font parameters,
-    /// including height, width, character orientation, escapement, pitch, and font type.
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/28ebf288-63cf-4b64-9113-410a63cf792d"/>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-logfontw"/>
-    /// </para>
+    /// Out precisions
     /// </summary>
     public enum OutPrecisions : byte
     {
         /// <summary>
-        /// A value that specifies default behavior.
+        ///OUT_DEFAULT_PRECIS
         /// </summary>
         OUT_DEFAULT_PRECIS = 0x00000000,
 
         /// <summary>
-        /// A value that is returned when rasterized fonts are enumerated.
+        /// OUT_STRING_PRECIS
         /// </summary>
         OUT_STRING_PRECIS = 0x00000001,
 
         /// <summary>
-        /// A value that is returned when TrueType and other outline fonts, and vector fonts are enumerated.
+        /// OUT_STROKE_PRECIS
         /// </summary>
         OUT_STROKE_PRECIS = 0x00000003,
 
         /// <summary>
-        ///  A value that specifies the choice of a TrueType font when the system contains multiple fonts with the same name.
+        /// OUT_TT_PRECIS
         /// </summary>
         OUT_TT_PRECIS = 0x00000004,
 
         /// <summary>
-        /// A value that specifies the choice of a device font when the system contains multiple fonts with the same name.
+        /// OUT_DEVICE_PRECIS
         /// </summary>
         OUT_DEVICE_PRECIS = 0x00000005,
 
         /// <summary>
-        /// A value that specifies the choice of a rasterized font when the system contains multiple fonts with the same name.
+        /// OUT_RASTER_PRECIS
         /// </summary>
         OUT_RASTER_PRECIS = 0x00000006,
 
         /// <summary>
-        /// A value that specifies the requirement for only TrueType fonts.
-        /// If there are no TrueType fonts installed in the system, default behavior is specified.
+        /// OUT_TT_ONLY_PRECIS
         /// </summary>
         OUT_TT_ONLY_PRECIS = 0x00000007,
 
         /// <summary>
-        /// A value that specifies the requirement for TrueType and other outline fonts.
+        /// OUT_OUTLINE_PRECIS
         /// </summary>
         OUT_OUTLINE_PRECIS = 0x00000008,
 
         /// <summary>
-        /// A value that specifies a preference for TrueType and other outline fonts.
+        /// OUT_SCREEN_OUTLINE_PRECIS
         /// </summary>
         OUT_SCREEN_OUTLINE_PRECIS = 0x00000009,
 
         /// <summary>
-        /// A value that specifies a requirement for only PostScript fonts.
-        /// If there are no PostScript fonts installed in the system, default behavior is specified.
+        /// OUT_PS_ONLY_PRECIS
         /// </summary>
         OUT_PS_ONLY_PRECIS = 0x0000000A,
 
         /// <summary>
-        /// Not used.
+        /// OUT_CHARACTER_PRECIS
         /// </summary>
         OUT_CHARACTER_PRECIS = 0x00000002,
     }

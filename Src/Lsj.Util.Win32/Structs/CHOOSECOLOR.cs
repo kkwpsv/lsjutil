@@ -5,7 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CHOOSECOLORFlags;
+using static Lsj.Util.Win32.Enums.ColorDialogFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CHOOSECOLORFlags Flags;
+        public ColorDialogFlags Flags;
 
         /// <summary>
         /// Application-defined data that the system passes to the hook procedure identified by the <see cref="lpfnHook"/> member.

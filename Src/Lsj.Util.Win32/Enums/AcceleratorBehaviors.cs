@@ -1,42 +1,36 @@
 ﻿using Lsj.Util.Win32.Structs;
+using System;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// Accelerator Behaviors
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-accel"/>
-    /// </para>
+    /// <see cref="ACCEL"/> accelerator behaviors.
     /// </summary>
+    [Flags]
     public enum AcceleratorBehaviors : byte
     {
         /// <summary>
-        /// The ALT key must be held down when the accelerator key is pressed.
+        /// FALT
         /// </summary>
         FALT = 0x10,
 
         /// <summary>
-        /// The CTRL key must be held down when the accelerator key is pressed.
+        /// FCONTROL
         /// </summary>
         FCONTROL = 0x08,
 
         /// <summary>
-        /// No top-level menu item is highlighted when the accelerator is used.
-        /// If this flag is not specified, a top-level menu item will be highlighted, if possible, when the accelerator is used.
-        /// This attribute is obsolete and retained only for backward compatibility with resource files designed for 16-bit Windows.
+        /// FNOINVERT
         /// </summary>
         FNOINVERT = 0x02,
 
         /// <summary>
-        /// The SHIFT key must be held down when the accelerator key is pressed.
+        /// FSHIFT
         /// </summary>
         FSHIFT = 0x04,
 
         /// <summary>
-        /// The <see cref="ACCEL.key"/> member specifies a virtual-key code.
-        /// If this flag is not specified, key is assumed to specify a character code.
+        /// FVIRTKEY
         /// </summary>
         FVIRTKEY = 0x01,
     }

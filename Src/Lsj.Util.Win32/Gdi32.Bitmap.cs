@@ -7,10 +7,10 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.BaseTypes.HBITMAP;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.BitmapCompressions;
 using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
-using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
-using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
+using static Lsj.Util.Win32.Enums.EscapeFunctions;
 using static Lsj.Util.Win32.Enums.ICMModes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.RasterCapabilities;
@@ -435,7 +435,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableIdentifiers usage,
+        public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableUsages usage,
             [Out] out IntPtr ppvBits, [In] HANDLE hSection, [In] DWORD offset);
 
         /// <summary>

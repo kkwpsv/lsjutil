@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="ImmAssociateContextEx"/> Flags
+    /// <see cref="ImmAssociateContextEx"/> flags
     /// </summary>
     public enum ImmAssociateContextExFlags : uint
     {

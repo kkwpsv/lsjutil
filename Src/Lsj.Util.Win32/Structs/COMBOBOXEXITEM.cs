@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.COMBOBOXEXITEMFlags;
+using static Lsj.Util.Win32.Enums.ComboxBoxExItemFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxExNotifications;
 
 namespace Lsj.Util.Win32.Structs
@@ -92,7 +92,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public COMBOBOXEXITEMFlags mask;
+        public ComboxBoxExItemFlags mask;
 
         /// <summary>
         /// The zero-based index of the item.

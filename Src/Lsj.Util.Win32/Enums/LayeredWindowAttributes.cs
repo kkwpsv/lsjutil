@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Layered Window Attributes
+    /// Layered window attributes
     /// </summary>
     public enum LayeredWindowAttributes : uint
     {

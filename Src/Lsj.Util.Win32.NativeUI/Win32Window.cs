@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
-using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
+using static Lsj.Util.Win32.Enums.StandardCursors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -57,10 +57,10 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="stylesEx">window style ex</param>
         /// <param name="parentWindow">parent window</param>
         /// <param name="hMenu">window menu</param>
-        public Win32Window(string windowText, string? windowClassName = null, ClassStyles classStyles = ClassStyles.CS_DBLCLKS,
+        public Win32Window(string windowText, string? windowClassName = null, WindowClassStyles classStyles = WindowClassStyles.CS_DBLCLKS,
             WNDPROC windowProc = default, HINSTANCE hInstance = default, HICON hIcon = default, HCURSOR? hCursor = default,
             HBRUSH? hbrBackground = null, int x = CW_USEDEFAULT, int y = CW_USEDEFAULT, int width = CW_USEDEFAULT,
-            int height = CW_USEDEFAULT, WindowStyles style = WS_OVERLAPPEDWINDOW, WindowStylesEx stylesEx = WS_EX_OVERLAPPEDWINDOW,
+            int height = CW_USEDEFAULT, WindowStyles style = WS_OVERLAPPEDWINDOW, ExtendedWindowStyles stylesEx = WS_EX_OVERLAPPEDWINDOW,
             HWND parentWindow = default, HMENU hMenu = default)
         {
             _flags |= Win32WindowFlags.OwnWindow;
@@ -99,7 +99,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="hMenu"></param>
         public Win32Window(WNDCLASSEX windowClass, string windowText, int x = CW_USEDEFAULT, int y = CW_USEDEFAULT,
            int width = CW_USEDEFAULT, int height = CW_USEDEFAULT, WindowStyles style = WS_OVERLAPPEDWINDOW,
-           WindowStylesEx stylesEx = WS_EX_OVERLAPPEDWINDOW, HWND parentWindow = default, HMENU hMenu = default)
+           ExtendedWindowStyles stylesEx = WS_EX_OVERLAPPEDWINDOW, HWND parentWindow = default, HMENU hMenu = default)
             : this((nint)RegisterWindowClass(windowClass), windowClass.hInstance, windowText)
         {
             _flags |= Win32WindowFlags.RegisteredClass;
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="hMenu"></param>
         public Win32Window(LPCWSTR windowClass, HINSTANCE hInstance, string windowText, int x = CW_USEDEFAULT,
             int y = CW_USEDEFAULT, int width = CW_USEDEFAULT, int height = CW_USEDEFAULT, WindowStyles style = WS_OVERLAPPEDWINDOW,
-            WindowStylesEx stylesEx = WS_EX_OVERLAPPEDWINDOW, HWND parentWindow = default, HMENU hMenu = default)
+            ExtendedWindowStyles stylesEx = WS_EX_OVERLAPPEDWINDOW, HWND parentWindow = default, HMENU hMenu = default)
         {
             _flags |= Win32WindowFlags.OwnWindow;
             _windowClassName = windowClass;
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="hMenu"></param>
         protected virtual HWND CreateWindowImpl(LPCWSTR windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HMENU hMenu, HINSTANCE hInstance)
         {
-            var hWnd = CreateWindowEx((WindowStylesEx)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, hMenu, hInstance, NULL);
+            var hWnd = CreateWindowEx((ExtendedWindowStyles)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, hMenu, hInstance, NULL);
             if (hWnd == NULL)
             {
                 throw new Win32Exception();

@@ -7,22 +7,33 @@ namespace Lsj.Util.Win32.Enums
     /// <para>
     /// Identifies the dots per inch (dpi) setting for a thread, process, or window.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windef/ne-windef-dpi_awareness"/>
+    /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// In previous versions of Windows, DPI values were only set once for an entire application.
     /// For those apps, the <see cref="PROCESS_DPI_AWARENESS"/> type determined the type of DPI awareness for the entire application.
-    /// Currently, the DPI awareness is defined on an individual thread, window, or process level and is indicated by the <see cref="DPI_AWARENESS"/> type.
+    /// Currently, the DPI awareness is defined on an individual thread, window,
+    /// or process level and is indicated by the <see cref="DPI_AWARENESS"/> type.
     /// While the focus shifted from a process level to a thread level,
     /// the different kinds of DPI awareness are the same: unaware, system aware, and per monitor aware.
     /// For detailed descriptions and some examples of the different DPI kinds, see <see cref="PROCESS_DPI_AWARENESS"/>.
-    /// The old recommendation was to define the DPI awareness level in the application manifest
-    /// using the setting dpiAware as explained in <see cref="PROCESS_DPI_AWARENESS"/>.
-    /// Now that the DPI awareness is tied to threads and windows instead of an entire application, a new windows setting is added to the app manifest.
+    /// </para>
+    /// <para>
+    /// The old recommendation was to define the DPI awareness level
+    /// in the application manifest using the setting dpiAware as explained in <see cref="PROCESS_DPI_AWARENESS"/>.
+    /// Now that the DPI awareness is tied to threads and windows instead of an entire application,
+    /// a new windows setting is added to the app manifest.
     /// This setting is dpiAwareness and will override any dpiAware setting if both of them are present in the manifest.
-    /// While it is still recommended to use the manifest, you can now change the DPI awareness
-    /// while the app is running by using <see cref="SetThreadDpiAwarenessContext"/>.
+    /// While it is still recommended to use the manifest,
+    /// you can now change the DPI awareness while the app is running by using <see cref="SetThreadDpiAwarenessContext"/>.
+    /// </para>
+    /// <para>
     /// It is important to note that if your application has a <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/> window,
     /// you are responsible for keeping track of the DPI by responding to <see cref="WM_DPICHANGED"/> messages.
+    /// </para>
     /// </remarks>
     public enum DPI_AWARENESS
     {

@@ -6,11 +6,11 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.ComponentModel;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.ImageTypes;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
-using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.StandardCursors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="hbrBackground">window class hbrBackground, <see cref="COLOR_WINDOW"/> if <see href="NULL"/></param>
         /// <returns></returns>
         /// <exception cref="Win32Exception"></exception>
-        public static ATOM Register(LPWSTR className, ClassStyles classStyles = CS_DBLCLKS, WNDPROC windowProc = default,
+        public static ATOM Register(LPWSTR className, WindowClassStyles classStyles = CS_DBLCLKS, WNDPROC windowProc = default,
             HINSTANCE hInstance = default, HICON? hIcon = default, HCURSOR? hCursor = default, HBRUSH? hbrBackground = null)
         {
             var @class = new WNDCLASSEX

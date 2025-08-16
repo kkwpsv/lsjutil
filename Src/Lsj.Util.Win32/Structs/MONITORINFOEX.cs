@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.MONITORINFOFlags;
+using static Lsj.Util.Win32.Enums.MonitorInfoFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MONITORINFOFlags dwFlags;
+        public MonitorInfoFlags dwFlags;
 
         /// <summary>
         /// A string that specifies the device name of the monitor being used.

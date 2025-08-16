@@ -2,7 +2,6 @@
 using System;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
-using static Lsj.Util.Win32.Enums.FontSmotohingTypes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.GUIDs.PowerSettingGUIDs;
 using static Lsj.Util.Win32.Shcore;
@@ -488,7 +487,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Enables or disables the drop shadow effect.
         /// Set pvParam to <see langword="true"/> to enable the drop shadow effect or <see langword="false"/> to disable it.
-        /// You must also have <see cref="ClassStyles.CS_DROPSHADOW"/> in the window class style.
+        /// You must also have <see cref="WindowClassStyles.CS_DROPSHADOW"/> in the window class style.
         /// Windows 2000:  This parameter is not supported.
         /// </summary>
         SPI_SETDROPSHADOW = 0x1025,
@@ -577,7 +576,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sets or retrieves the width, in pixels, of an icon cell.
         /// The system uses this rectangle to arrange icons in large icon view.
         /// To set this value, set uiParam to the new value and set pvParam to <see cref="IntPtr.Zero"/>.
-        /// You cannot set this value to less than <see cref="SystemMetric.SM_CXICON"/>.
+        /// You cannot set this value to less than <see cref="SystemMetricIndexes.SM_CXICON"/>.
         /// To retrieve this value, pvParam must point to an integer that receives the current value.
         /// </summary>
         SPI_ICONHORIZONTALSPACING = 0x000D,
@@ -585,7 +584,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Sets or retrieves the height, in pixels, of an icon cell.
         ///To set this value, set uiParam to the new value and set pvParam to <see cref="IntPtr.Zero"/>.
-        ///You cannot set this value to less than <see cref="SystemMetric.SM_CYICON"/>.
+        ///You cannot set this value to less than <see cref="SystemMetricIndexes.SM_CYICON"/>.
         /// To retrieve this value, pvParam must point to an integer that receives the current value.
         /// </summary>
         SPI_ICONVERTICALSPACING = 0x0018,
@@ -833,7 +832,7 @@ namespace Lsj.Util.Win32.Enums
         /// The double-click rectangle is the rectangle within which the second click of a double-click must fall
         /// for it to be registered as a double-click.
         /// To retrieve the height of the double-click rectangle, call <see cref="GetSystemMetrics"/>
-        /// with the <see cref="SystemMetric.SM_CYDOUBLECLK"/> flag.
+        /// with the <see cref="SystemMetricIndexes.SM_CYDOUBLECLK"/> flag.
         /// </summary>
         SPI_SETDOUBLECLKHEIGHT = 0x001E,
 
@@ -842,7 +841,7 @@ namespace Lsj.Util.Win32.Enums
         ///The double-click rectangle is the rectangle within which the second click of a double-click must fall
         ///for it to be registered as a double-click.
         ///To retrieve the width of the double-click rectangle, call <see cref="GetSystemMetrics"/>
-        ///with the <see cref="SystemMetric.SM_CXDOUBLECLK"/> flag.
+        ///with the <see cref="SystemMetricIndexes.SM_CXDOUBLECLK"/> flag.
         /// </summary>
         SPI_SETDOUBLECLKWIDTH = 0x001D,
 
@@ -910,7 +909,7 @@ namespace Lsj.Util.Win32.Enums
         /// Swaps or restores the meaning of the left and right mouse buttons.
         /// The uiParam parameter specifies <see langword="true"/> to swap the meanings of the buttons,
         /// or <see langword="false"/> to restore their original meanings.
-        /// To retrieve the current setting, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetric.SM_SWAPBUTTON"/> flag.
+        /// To retrieve the current setting, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetricIndexes.SM_SWAPBUTTON"/> flag.
         /// </summary>
         SPI_SETMOUSEBUTTONSWAP = 0x0021,
 
@@ -1658,14 +1657,14 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Sets the height, in pixels, of the rectangle used to detect the start of a drag operation.
         /// Set uiParam to the new value.
-        /// To retrieve the drag height, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetric.SM_CYDRAG"/> flag.
+        /// To retrieve the drag height, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetricIndexes.SM_CYDRAG"/> flag.
         /// </summary>
         SPI_SETDRAGHEIGHT = 0x004D,
 
         /// <summary>
         /// Sets the width, in pixels, of the rectangle used to detect the start of a drag operation.
         /// Set uiParam to the new value.
-        /// To retrieve the drag width, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetric.SM_CXDRAG"/> flag.
+        /// To retrieve the drag width, call <see cref="GetSystemMetrics"/> with the <see cref="SystemMetricIndexes.SM_CXDRAG"/> flag.
         /// </summary>
         SPI_SETDRAGWIDTH = 0x004C,
 

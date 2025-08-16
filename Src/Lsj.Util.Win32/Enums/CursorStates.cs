@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// CursorStates
+    /// Cursor states
     /// </summary>
     public enum CursorStates : uint
     {

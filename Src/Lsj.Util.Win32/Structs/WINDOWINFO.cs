@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.Structs
         /// The extended window styles.
         /// For a table of extended window styles, see Extended Window Styles.
         /// </summary>
-        public WindowStylesEx dwExStyle;
+        public ExtendedWindowStyles dwExStyle;
 
         /// <summary>
         /// The window status.

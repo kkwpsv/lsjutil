@@ -1,11 +1,9 @@
-﻿using Lsj.Util.Win32.Structs;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="DOCINFO"/> Flags.
+    /// Doc info flags
     /// </summary>
-    public enum DOCINFOFlags : uint
+    public enum DocInfoFlags : uint
     {
         /// <summary>
         /// DI_APPBANDING

@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// RegistryOptions
+    /// Registry options
     /// </summary>
     [Flags]
     public enum RegistryOptions : uint

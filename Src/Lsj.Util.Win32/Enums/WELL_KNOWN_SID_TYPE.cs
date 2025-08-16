@@ -423,98 +423,174 @@ namespace Lsj.Util.Win32.Enums
         WinBuiltinCertSvcDComAccessGroup,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that matches the medium plus integrity label.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinMediumPlusLabelSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that matches a local logon group.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinLocalLogonSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that matches a console logon group.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinConsoleLogonSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that matches a certificate for the given organization.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinThisOrganizationCertificateSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that matches the application package authority.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinApplicationPackageAuthoritySid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID that applies to all app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinBuiltinAnyPackageSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID of Internet client capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityInternetClientSid,
 
         /// <summary>
         /// Indicates a SID of Internet client and server capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
         /// </summary>
         WinCapabilityInternetClientServerSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID of private network client and server capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityPrivateNetworkClientServerSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for pictures library capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityPicturesLibrarySid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for videos library capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityVideosLibrarySid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for music library capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityMusicLibrarySid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for documents library capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityDocumentsLibrarySid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for shared user certificates capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilitySharedUserCertificatesSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for Windows credentials capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityEnterpriseAuthenticationSid,
 
         /// <summary>
+        /// <para>
         /// Indicates a SID for removable storage capability for app containers.
-        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This value is not available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not available.
+        /// </para>
         /// </summary>
         WinCapabilityRemovableStorageSid,
 
@@ -641,6 +717,6 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// 
         /// </summary>
-        WinBuiltinDeviceOwnersSid
+        WinBuiltinDeviceOwnersSid,
     }
 }

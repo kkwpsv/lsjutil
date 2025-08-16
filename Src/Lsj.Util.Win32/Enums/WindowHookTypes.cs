@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Window Hook Types
+    /// Window hook types
     /// </summary>
     public enum WindowHookTypes
     {

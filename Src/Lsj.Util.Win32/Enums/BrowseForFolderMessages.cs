@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Browse For Folder Messages
+    /// Browse for folder messages
     /// </summary>
     public enum BrowseForFolderMessages : uint
     {

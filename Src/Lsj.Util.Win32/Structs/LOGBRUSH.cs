@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BrushStyles;
-using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HatchStyles;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;

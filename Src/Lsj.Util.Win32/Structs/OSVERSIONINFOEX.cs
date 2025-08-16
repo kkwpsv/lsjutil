@@ -5,7 +5,7 @@ using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.PlatformIds;
 using static Lsj.Util.Win32.Enums.SuiteMasks;
 using static Lsj.Util.Win32.Enums.NTProductTypes;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 

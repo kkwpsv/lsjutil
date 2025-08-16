@@ -5,7 +5,7 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// TreeView Control Styles
+    /// This section lists window styles used when creating tree-view controls.
     /// </para>
     /// <para>
     /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/tree-view-control-window-styles"/>
@@ -15,23 +15,31 @@ namespace Lsj.Util.Win32.Enums
     public enum TreeViewControlStyles : uint
     {
         /// <summary>
+        /// <para>
         /// Version 4.70.
         /// Enables check boxes for items in a tree-view control.
         /// A check box is displayed only if an image is associated with the item.
         /// When set to this style, the control effectively uses <see cref="DrawFrameControl"/> to create and set a state image list containing two images.
         /// State image 1 is the unchecked box and state image 2 is the checked box.
-        /// Setting the state image to zero removes the check box altogether.
+        /// Setting the state image to zero removes the check box altogether. 
         /// For more information, see Working with state image indexes.
-        /// Version 5.80.
-        /// Displays a check box even if no image is associated with the item.
+        /// </para>
+        /// <para>
+        /// Version 5.80. Displays a check box even if no image is associated with the item.
+        /// </para>
+        /// <para>
         /// Once a tree-view control is created with this style, the style cannot be removed.
         /// Instead, you must destroy the control and create a new one in its place.
         /// Destroying the tree-view control does not destroy the check box state image list.
-        /// You must destroy it explicitly. Get the handle to the state image list by sending the tree-view control a <see cref="TVM_GETIMAGELIST"/> message.
-        /// Then destroy the image list with ImageList_Destroy.
-        /// If you want to use this style, you must set the <see cref="TVS_CHECKBOXES"/> style with <see cref="SetWindowLong"/> after you create the treeview control,
-        /// and before you populate the tree.
+        /// You must destroy it explicitly.
+        /// Get the handle to the state image list by sending the tree-view control a <see cref="TVM_GETIMAGELIST"/> message.
+        /// Then destroy the image list with <see cref="ImageList_Destroy"/>.
+        /// </para>
+        /// <para>
+        /// If you want to use this style, you must set the <see cref="TVS_CHECKBOXES"/> style
+        /// with <see cref="SetWindowLong"/> after you create the treeview control, and before you populate the tree.
         /// Otherwise, the checkboxes might appear unchecked, depending on timing issues.
+        /// </para>
         /// </summary>
         TVS_CHECKBOXES = 0x0100,
 
@@ -119,13 +127,17 @@ namespace Lsj.Util.Win32.Enums
         TVS_SHOWSELALWAYS = 0x0020,
 
         /// <summary>
+        /// <para>
         /// Version 4.71.
         /// Causes the item being selected to expand and the item being unselected to collapse upon selection in the tree view.
         /// If the mouse is used to single-click the selected item and that item is closed, it will be expanded.
         /// If the user holds down the CTRL key while selecting an item, the item being unselected will not be collapsed.
+        /// </para>
+        /// <para>
         /// Version 5.80.
         /// Causes the item being selected to expand and the item being unselected to collapse upon selection in the tree view.
         /// If the user holds down the CTRL key while selecting an item, the item being unselected will not be collapsed.
+        /// </para>
         /// </summary>
         TVS_SINGLEEXPAND = 0x0400,
 

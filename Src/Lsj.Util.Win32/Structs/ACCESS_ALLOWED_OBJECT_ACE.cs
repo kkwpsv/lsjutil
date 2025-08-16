@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Enums.ACE_TYPE;
+using static Lsj.Util.Win32.Enums.AceTypes;
 using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.ADS_RIGHTS_ENUM;
 

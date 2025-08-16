@@ -8,7 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ADVF;
-using static Lsj.Util.Win32.Enums.CLIPFORMAT;
+using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.DVASPECT2;
 using static Lsj.Util.Win32.Enums.MappingModes;

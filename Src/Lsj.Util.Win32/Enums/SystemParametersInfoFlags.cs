@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="SystemParametersInfo"/> Flags
+    /// <see cref="SystemParametersInfo"/> flags
     /// </summary>
     public enum SystemParametersInfoFlags : uint
     {

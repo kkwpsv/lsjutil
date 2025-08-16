@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
-using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
+using static Lsj.Util.Win32.Enums.AuthenticationServiceConstants;
+using static Lsj.Util.Win32.Enums.AuthenticationLevelConstants;
+using static Lsj.Util.Win32.Enums.AuthorizationConstants;
+using static Lsj.Util.Win32.Enums.ImpersonationLevelConstants;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 

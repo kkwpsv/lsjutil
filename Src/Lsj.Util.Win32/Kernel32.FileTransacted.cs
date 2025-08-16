@@ -9,12 +9,12 @@ using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CopyFileFlags;
+using static Lsj.Util.Win32.Enums.COPY_FILE;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FILE_FLAG;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
@@ -22,12 +22,12 @@ using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
-using static Lsj.Util.Win32.Enums.LPPROGRESS_ROUTINEResults;
+using static Lsj.Util.Win32.Enums.CopyProgressRoutineResults;
 using static Lsj.Util.Win32.Enums.MoveFileFlags;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.TXFS_MINIVERSION;
+using static Lsj.Util.Win32.Enums.TransactionalNTFSMiniVersions;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFileTransacted([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags, [In] HANDLE hTransaction);
+            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] COPY_FILE dwCopyFlags, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -530,7 +530,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFileTransacted([In] LPCWSTR lpFileName, [In] FileAccessRights dwDesiredAccess, [In] FileShareModes dwShareMode,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition, [In] uint dwFlagsAndAttributes,
-            [In] HANDLE hTemplateFile, [In] HANDLE hTransaction, [Out] out TXFS_MINIVERSION pusMiniVersion, [In] PVOID lpExtendedParameter);
+            [In] HANDLE hTemplateFile, [In] HANDLE hTransaction, [Out] out TransactionalNTFSMiniVersions pusMiniVersion, [In] PVOID lpExtendedParameter);
 
         /// <summary>
         /// <para>

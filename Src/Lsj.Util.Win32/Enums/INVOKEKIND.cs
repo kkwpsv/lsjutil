@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// In C, value assignment is written as *pobj1 = *pobj2, while reference assignment is written as pobj1 = pobj2.
+    /// In C, value assignment is written as <c>*pobj1 = *pobj2</c>, while reference assignment is written as <c>pobj1 = pobj2</c>.
     /// Other languages have other syntactic conventions.
     /// A property or data member can support only a value assignment, a reference assignment, or both.
     /// The <see cref="INVOKEKIND"/> enumeration constants are the same constants

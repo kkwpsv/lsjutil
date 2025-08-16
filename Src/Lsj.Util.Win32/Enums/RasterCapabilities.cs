@@ -5,7 +5,7 @@ using System.Text;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Raster Capabilities
+    /// Raster capabilities
     /// </summary>
     [Flags]
     public enum RasterCapabilities : uint

@@ -14,7 +14,7 @@ using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.BaseTypes.LANGID;

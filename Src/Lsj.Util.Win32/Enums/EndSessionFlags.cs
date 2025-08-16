@@ -1,23 +1,25 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// EndSessionFlags
+    /// End session flags
     /// </summary>
+    [Flags]
     public enum EndSessionFlags : uint
     {
         /// <summary>
-        /// The application is using a file that must be replaced, the system is being serviced, or system resources are exhausted.
-        /// For more information, see Guidelines for Applications.
+        /// ENDSESSION_CLOSEAPP
         /// </summary>
         ENDSESSION_CLOSEAPP = 0x00000001,
 
         /// <summary>
-        /// The application is forced to shut down.
+        /// ENDSESSION_CRITICAL
         /// </summary>
         ENDSESSION_CRITICAL = 0x40000000,
 
         /// <summary>
-        /// The user is logging off. For more information, see Logging Off.
+        /// ENDSESSION_LOGOFF
         /// </summary>
         ENDSESSION_LOGOFF = 0x80000000,
     }

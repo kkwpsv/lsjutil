@@ -78,22 +78,22 @@ namespace Lsj.Util.Win32.Enums
         ProcessImageLoadPolicy,
 
         /// <summary>
-        /// 
+        /// The system call filter policy of the process.
         /// </summary>
         ProcessSystemCallFilterPolicy,
 
         /// <summary>
-        /// 
+        /// The payload restriction policy of the process.
         /// </summary>
         ProcessPayloadRestrictionPolicy,
 
         /// <summary>
-        /// 
+        /// The child process policy of the process.
         /// </summary>
         ProcessChildProcessPolicy,
 
         /// <summary>
-        /// 
+        /// The side channel isolation policy of the process.
         /// </summary>
         ProcessSideChannelIsolationPolicy,
 
@@ -103,12 +103,22 @@ namespace Lsj.Util.Win32.Enums
         ProcessUserShadowStackPolicy,
 
         /// <summary>
-        /// 
+        /// The RedirectionGuard policy of the process.
         /// </summary>
         ProcessRedirectionTrustPolicy,
 
         /// <summary>
-        /// 
+        /// The user pointer authentication policy of the process.
+        /// </summary>
+        ProcessUserPointerAuthPolicy,
+
+        /// <summary>
+        /// The Structured Exception Handling Overwrite Protection (SEHOP) policy of the process.
+        /// </summary>
+        ProcessSEHOPPolicy,
+
+        /// <summary>
+        /// Ends the enumeration.
         /// </summary>
         MaxProcessMitigationPolicy
     }

@@ -14,10 +14,14 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This enum is used with <see cref="SetDialogControlDpiChangeBehavior"/> in order
-    /// to override the default per-monitor DPI scaling behavior for a child window within a dialog.
+    /// <para>
+    /// This enum is used with <see cref="SetDialogControlDpiChangeBehavior"/> in order to
+    /// override the default per-monitor DPI scaling behavior for a child window within a dialog.
+    /// </para>
+    /// <para>
     /// These settings only apply to individual controls within dialogs.
     /// The dialog-wide per-monitor DPI scaling behavior of a dialog is controlled by <see cref="DIALOG_DPI_CHANGE_BEHAVIORS"/>.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS

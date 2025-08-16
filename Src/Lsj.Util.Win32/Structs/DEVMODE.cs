@@ -2,16 +2,16 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.DEVMODEBinConstants;
-using static Lsj.Util.Win32.Enums.DEVMODECollations;
-using static Lsj.Util.Win32.Enums.DEVMODEColors;
-using static Lsj.Util.Win32.Enums.DEVMODEDisplayOrientations;
-using static Lsj.Util.Win32.Enums.DEVMODEDuplexes;
-using static Lsj.Util.Win32.Enums.DEVMODEFields;
-using static Lsj.Util.Win32.Enums.DEVMODEFixedOutputs;
-using static Lsj.Util.Win32.Enums.DEVMODENups;
-using static Lsj.Util.Win32.Enums.DEVMODEOrientations;
-using static Lsj.Util.Win32.Enums.DEVMODEPrintQualities;
+using static Lsj.Util.Win32.Enums.DMBIN;
+using static Lsj.Util.Win32.Enums.DMCOLLATE;
+using static Lsj.Util.Win32.Enums.DMCOLOR;
+using static Lsj.Util.Win32.Enums.DMDO;
+using static Lsj.Util.Win32.Enums.DMDUP;
+using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
+using static Lsj.Util.Win32.Enums.DMDFO;
+using static Lsj.Util.Win32.Enums.DMNUP;
+using static Lsj.Util.Win32.Enums.DMORIENT;
+using static Lsj.Util.Win32.Enums.DMRES;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;
 
@@ -130,7 +130,7 @@ namespace Lsj.Util.Win32.Structs
         /// The DM_XXX flags are defined in wingdi.h.
         /// </summary>
         [FieldOffset(72)]
-        public DEVMODEFields dmFields;
+        public DeviceModeFieldFlags dmFields;
 
         /// <summary>
         /// <para>
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(76)]
-        public DEVMODEOrientations dmOrientation;
+        public DMORIENT dmOrientation;
 
         /// <summary>
         /// <para>
@@ -249,7 +249,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(90)]
-        public DEVMODEPrintQualities dmPrintQuality;
+        public DMRES dmPrintQuality;
 
         /// <summary>
         /// <para>
@@ -325,7 +325,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(84)]
-        public DEVMODEDisplayOrientations dmDisplayOrientation;
+        public DMDO dmDisplayOrientation;
 
         /// <summary>
         /// <para>
@@ -371,7 +371,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(88)]
-        public DEVMODEFixedOutputs dmDisplayFixedOutput;
+        public DMDFO dmDisplayFixedOutput;
 
         /// <summary>
         /// <para>
@@ -383,7 +383,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(92)]
-        public DEVMODEColors dmColor;
+        public DMCOLOR dmColor;
 
         /// <summary>
         /// <para>
@@ -413,7 +413,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(94)]
-        public DEVMODEDuplexes dmDuplex;
+        public DMDUP dmDuplex;
 
         /// <summary>
         /// <para>
@@ -460,7 +460,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(100)]
-        public DEVMODECollations dmCollate;
+        public DMCOLLATE dmCollate;
 
         /// <summary>
         /// <para>
@@ -595,7 +595,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(180)]
-        public DEVMODENups dmNup;
+        public DMNUP dmNup;
 
         /// <summary>
         /// <para>

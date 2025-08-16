@@ -3,12 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
-    /// <see cref="StretchBlt"/> Modes
-    /// </para>
-    /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setstretchbltmode"/>
-    /// </para>
+    /// <see cref="StretchBlt"/> modes
     /// </summary>
     public enum StretchBltModes
     {

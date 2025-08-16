@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Spooler Error Codes
+    /// Spooler error codes
     /// </summary>
     public enum SpoolerErrorCodes
     {

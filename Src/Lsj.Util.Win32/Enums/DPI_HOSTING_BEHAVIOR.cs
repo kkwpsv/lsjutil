@@ -12,18 +12,26 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// <see cref="DPI_HOSTING_BEHAVIOR"/> enables a mixed content hosting behavior, which allows parent windows created in the thread
-    /// to host child windows with a different <see cref="DPI_AWARENESS_CONTEXT"/> value.
+    /// <para>
+    /// <see cref="DPI_HOSTING_BEHAVIOR"/> enables a mixed content hosting behavior,
+    /// which allows parent windows created in the thread to host child windows with a different <see cref="DPI_AWARENESS_CONTEXT"/> value.
     /// This property only effects new windows created within this thread while the mixed hosting behavior is active.
     /// A parent window with this hosting behavior is able to host child windows with different <see cref="DPI_AWARENESS_CONTEXT"/> values,
     /// regardless of whether the child windows have mixed hosting behavior enabled.
+    /// </para>
+    /// <para>
     /// This hosting behavior does not allow for windows with per-monitor <see cref="DPI_AWARENESS_CONTEXT"/> values to be hosted
-    /// until windows with <see cref="DPI_AWARENESS_CONTEXT"/> values of system or unaware.
-    /// To avoid unexpected outcomes, a thread's <see cref="DPI_HOSTING_BEHAVIOR"/> should be changed to support mixed hosting behaviors
-    /// only when creating a new window which needs to support those behaviors.
+    /// by windows with <see cref="DPI_AWARENESS_CONTEXT"/> values of system or unaware.
+    /// </para>
+    /// <para>
+    /// To avoid unexpected outcomes, a thread's <see cref="DPI_HOSTING_BEHAVIOR"/> should be changed
+    /// to support mixed hosting behaviors only when creating a new window which needs to support those behaviors.
     /// Once that window is created, the hosting behavior should be switched back to its default value.
+    /// </para>
+    /// <para>
     /// Enabling mixed hosting behavior will not automatically adjust the thread's <see cref="DPI_AWARENESS_CONTEXT"/> to be compatible with legacy content.
     /// The thread's awareness context must still be manually changed before new windows are created to host such content.
+    /// </para>
     /// </remarks>
     public enum DPI_HOSTING_BEHAVIOR
     {

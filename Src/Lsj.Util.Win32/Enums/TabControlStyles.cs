@@ -5,18 +5,73 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Tab Control Styles
+    /// This section lists supported tab control styles.
     /// </para>
     /// <para>
-    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/syslink-control-styles"/>
+    /// <see href="https://learn.microsoft.com/en-us/windows/win32/controls/tab-control-styles"/>
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The following styles can be modified after the control is created.
-    /// <see cref="TCS_BOTTOM"/>, <see cref="TCS_BUTTONS"/>, <see cref="TCS_FIXEDWIDTH"/>,
-    /// <see cref="TCS_FLATBUTTONS"/>, <see cref="TCS_FORCEICONLEFT"/>, <see cref="TCS_FORCELABELLEFT"/>,
-    /// <see cref="TCS_MULTILINE"/>, <see cref="TCS_OWNERDRAWFIXED"/>, <see cref="TCS_RAGGEDRIGHT"/>,
-    /// <see cref="TCS_RIGHT"/>, <see cref="TCS_VERTICAL"/>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_BOTTOM"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_BUTTONS"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_FIXEDWIDTH"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_FLATBUTTONS"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_FORCEICONLEFT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_FORCELABELLEFT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_MULTILINE"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_OWNERDRAWFIXED"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_RAGGEDRIGHT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_RIGHT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="TCS_VERTICAL"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     [Flags]
     public enum TabControlStyles : uint

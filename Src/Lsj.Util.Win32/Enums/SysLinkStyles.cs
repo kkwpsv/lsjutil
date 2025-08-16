@@ -21,19 +21,19 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// When the link has keyboard focus and the user presses Enter, the keystroke is ignored by the control and passed to the host dialog box.
         /// </summary>
-        LWS_IGNORERETURN =   0x0002,
+        LWS_IGNORERETURN = 0x0002,
 
         /// <summary>
         /// Windows Vista.
         /// If the text contains an ampersand, it is treated as a literal character rather than the prefix to a shortcut key.
         /// </summary>
-        LWS_NOPREFIX =   0x0004,
+        LWS_NOPREFIX = 0x0004,
 
         /// <summary>
         /// Windows Vista.
         /// The link is displayed in the current visual style.
         /// </summary>
-        LWS_USEVISUALSTYLE =  0x0008,
+        LWS_USEVISUALSTYLE = 0x0008,
 
         /// <summary>
         /// Windows Vista.

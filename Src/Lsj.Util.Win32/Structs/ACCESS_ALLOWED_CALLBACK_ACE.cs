@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Authz;
-using static Lsj.Util.Win32.Enums.ACE_TYPE;
+using static Lsj.Util.Win32.Enums.AceTypes;
 
 namespace Lsj.Util.Win32.Structs
 {

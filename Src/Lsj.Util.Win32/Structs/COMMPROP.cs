@@ -3,10 +3,10 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BAUD;
 using static Lsj.Util.Win32.Enums.DATABITS;
-using static Lsj.Util.Win32.Enums.PCF;
-using static Lsj.Util.Win32.Enums.PST;
-using static Lsj.Util.Win32.Enums.SP;
-using static Lsj.Util.Win32.Enums.StopAndParityBits;
+using static Lsj.Util.Win32.Enums.CommunicationProviderCapabilitiesFlags;
+using static Lsj.Util.Win32.Enums.CommunicationProviderTypes;
+using static Lsj.Util.Win32.Enums.CommunicationProviderSettableParams;
+using static Lsj.Util.Win32.Enums.CommunicationProviderSettableStopBitAndParitySettings;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -563,7 +563,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PST dwProvSubType;
+        public CommunicationProviderTypes dwProvSubType;
 
         /// <summary>
         /// <para>
@@ -710,7 +710,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public PCF dwProvCapabilities;
+        public CommunicationProviderCapabilitiesFlags dwProvCapabilities;
 
         /// <summary>
         /// <para>
@@ -818,7 +818,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public SP dwSettableParams;
+        public CommunicationProviderSettableParams dwSettableParams;
 
         /// <summary>
         /// The baud rates that can be used.

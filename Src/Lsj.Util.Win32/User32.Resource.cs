@@ -6,14 +6,14 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.DrawingFlags;
+using static Lsj.Util.Win32.Enums.DrawIconFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.SystemColors;
-using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.StandardCursors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
-using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CopyImage([In] HANDLE h, [In] ImageTypes type, [In] int cx, [In] int cy, [In] LoadImageFlags flags);
+        public static extern HANDLE CopyImage([In] HANDLE h, [In] ImageTypes type, [In] int cx, [In] int cy, [In] LoadResourceFlags flags);
 
         /// <summary>
         /// <para>
@@ -212,6 +212,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadImageW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE LoadImage([In] HINSTANCE hInst, [In] StringHandle name, [In] ImageTypes type,
-            [In] int cx, [In] int cy, [In] LoadImageFlags fuLoad);
+            [In] int cx, [In] int cy, [In] LoadResourceFlags fuLoad);
     }
 }

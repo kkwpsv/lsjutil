@@ -6,10 +6,10 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ExtFloodFillFlags;
+using static Lsj.Util.Win32.Enums.ExtFloodFillTypes;
 using static Lsj.Util.Win32.Enums.GradientFillModes;
 using static Lsj.Util.Win32.Enums.PenStyles;
-using static Lsj.Util.Win32.Enums.PointTypes;
+using static Lsj.Util.Win32.Enums.PathVertexTypes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Msimg32;
 
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ExtFloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color, [In] ExtFloodFillFlags type);
+        public static extern BOOL ExtFloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color, [In] ExtFloodFillTypes type);
 
         /// <summary>
         /// <para>
@@ -730,7 +730,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPath", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] PointTypes[] aj, [In] int cpt);
+        public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] PathVertexTypes[] aj, [In] int cpt);
 
         /// <summary>
         /// <para>

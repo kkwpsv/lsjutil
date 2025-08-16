@@ -1,7 +1,7 @@
 ﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// Language Group Flags
+    /// LGRPID Flags
     /// </summary>
     public enum LGRPIDFlags : uint
     {

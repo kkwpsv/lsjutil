@@ -1,10 +1,10 @@
-﻿using static Lsj.Util.Win32.Enums.StandardAccessRights;
+﻿using System;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// Transaction Access Rights
     /// KTM defines the following transaction access masks to be used when opening a transaction.
     /// </para>
     /// <para>
@@ -15,6 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// It is recommended that resource managers, when enlisting in a transaction,
     /// specify <see cref="TRANSACTION_RESOURCE_MANAGER_RIGHTS"/> when opening a transaction.
     /// </remarks>
+    [Flags]
     public enum TransactionAccessRights : uint
     {
         /// <summary>

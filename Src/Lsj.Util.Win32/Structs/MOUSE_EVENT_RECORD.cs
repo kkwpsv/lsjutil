@@ -1,9 +1,9 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
-using static Lsj.Util.Win32.Enums.ControlKeyStates;
+using static Lsj.Util.Win32.Enums.ConsoleControlKeyStates;
 using static Lsj.Util.Win32.Enums.MouseButtonStates;
-using static Lsj.Util.Win32.Enums.MouseEventRecordFlags;
+using static Lsj.Util.Win32.Enums.MouseEventTypes;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -185,7 +185,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public ControlKeyStates dwControlKeyState;
+        public ConsoleControlKeyStates dwControlKeyState;
 
         /// <summary>
         /// <para>
@@ -248,6 +248,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MouseEventRecordFlags dwEventFlags;
+        public MouseEventTypes dwEventFlags;
     }
 }

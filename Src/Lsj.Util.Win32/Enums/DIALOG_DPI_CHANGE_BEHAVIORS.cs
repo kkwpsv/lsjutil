@@ -6,11 +6,15 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
+    /// <para>
     /// In Per Monitor v2 contexts, dialogs will automatically respond to DPI changes
     /// by resizing themselves and re-computing the positions of their child windows (here referred to as re-layouting).
     /// This enum works in conjunction with <see cref="SetDialogDpiChangeBehavior"/> in order to override the default DPI scaling behavior for dialogs.
+    /// </para>
+    /// <para>
     /// This does not affect DPI scaling behavior for the child windows of dialogs (beyond re-layouting),
     /// which is controlled by <see cref="DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS"/>.
+    /// </para>
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/ne-winuser-dialog_dpi_change_behaviors"/>
