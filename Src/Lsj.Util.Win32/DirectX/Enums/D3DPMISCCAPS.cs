@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.DirectX.Enums.D3DBLENDOP;
+﻿using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.DirectX.Enums.D3DBLENDOP;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCULL;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTURESTAGESTATETYPE;
@@ -14,6 +15,9 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dpmisccaps"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// These constants are used by the <see cref="D3DCAPS9.PrimitiveMiscCaps"/> member of <see cref="D3DCAPS9"/>.
+    /// </remarks>
     public enum D3DPMISCCAPS
     {
         /// <summary>
@@ -85,9 +89,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DPMISCCAPS_PERSTAGECONSTANT = 0x00008000,
 
         /// <summary>
+        /// <para>
         /// Device supports conversion to sRGB after blending.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DPMISCCAPS_POSTBLENDSRGBCONVERT = 0x00200000,
 

@@ -13,15 +13,49 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// In the preceding member descriptions, the RGBA values of the source and destination are indicated by the s and d subscripts.
+    /// </para>
+    /// <para>
     /// The values in this enumerated type are used by the following render states:
-    /// <see cref="D3DRS_DESTBLEND"/>, <see cref="D3DRS_SRCBLEND"/>, <see cref="D3DRS_DESTBLENDALPHA"/>, <see cref="D3DRS_SRCBLENDALPHA"/>
-    /// See <see cref="D3DRENDERSTATETYPE"/>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_DESTBLEND"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_SRCBLEND"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_DESTBLENDALPHA"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_SRCBLENDALPHA"/>
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// See <see cref="D3DRENDERSTATETYPE"/>
+    /// </para>
+    /// <para>
     /// Render Target Blending
+    /// </para>
+    /// <para>
     /// Direct3D 9Ex has improved text rendering capabilities. Rendering clear-type fonts would normally require two passes.
     /// To eliminate the second pass, a pixel shader can be used to output two colors, which we can call PSOutColor[0] and PSOutColor[1].
-    /// The first color would contain the standard 3 color components (RGB). The second color would contain 3 alpha components (one for each component of the first color).
+    /// The first color would contain the standard 3 color components (RGB).
+    /// The second color would contain 3 alpha components (one for each component of the first color).
+    /// </para>
+    /// <para>
     /// These new blending modes are only used for text rendering on the first render target.
+    /// </para>
     /// </remarks>
     public enum D3DBLEND
     {
@@ -110,17 +144,36 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DBLEND_INVBLENDFACTOR = 15,
 
         /// <summary>
-        /// Blend factor is (PSOutColor[1]r, PSOutColor[1]g, PSOutColor[1]b, not used). See Render Target Blending.
+        /// <para>
+        /// Blend factor is (PSOutColor[1], PSOutColor[1], PSOutColor[1], not used). See Render Target Blending.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// This flag is available in Direct3D 9Ex only.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DBLEND_SRCCOLOR2 = 16,
 
         /// <summary>
-        /// Blend factor is (1 - PSOutColor[1]r, 1 - PSOutColor[1]g, 1 - PSOutColor[1]b, not used)).
-        /// See Render Target Blending.
+        /// <para>
+        /// Blend factor is (1 - PSOutColor[1], 1 - PSOutColor[1], 1 - PSOutColor[1], not used)). See Render Target Blending.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// This flag is available in Direct3D 9Ex only.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DBLEND_INVSRCCOLOR2 = 17,
 

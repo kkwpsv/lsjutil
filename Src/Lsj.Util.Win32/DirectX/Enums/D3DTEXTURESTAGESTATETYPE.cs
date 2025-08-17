@@ -19,11 +19,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Members of this enumerated type are used with the <see cref="IDirect3DDevice9.GetTextureStageState"/>
-    /// and <see cref="IDirect3DDevice9.SetTextureStageState"/> methods to retrieve and set texture state values.
+    /// <para>
+    /// Members of this enumerated type are used with the <see cref="IDirect3DDevice9.GetTextureStageState"/>
+    /// and <see cref="IDirect3DDevice9.SetTextureStageState"/> methods to retrieve and set texture state values.
+    /// </para>
+    /// <para>
     /// The valid range of values for the <see cref="D3DTSS_BUMPENVMAT00"/>, <see cref="D3DTSS_BUMPENVMAT01"/>, <see cref="D3DTSS_BUMPENVMAT10"/>,
     /// and <see cref="D3DTSS_BUMPENVMAT11"/> bump-mapping matrix coefficients is greater than or equal to -8.0 and less than 8.0.
     /// This range, expressed in mathematical notation is (-8.0,8.0).
+    /// </para>
     /// </remarks>
     public enum D3DTEXTURESTAGESTATETYPE
     {
@@ -35,11 +39,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DTSS_COLOROP = 1,
 
         /// <summary>
-        /// Texture-stage state is the first color argument for the stage, identified by one of the <see cref="D3DTA"/>.
+        /// <para>
+        /// Texture-stage state is the first color argument for the stage, identified by one of the <see cref="D3DTA"/>.
         /// The default argument is <see cref="D3DTA_TEXTURE"/>.
+        /// </para>
+        /// <para>
         /// Specify <see cref="D3DTA_TEMP"/> to select a temporary register color for read or write.
         /// <see cref="D3DTA_TEMP"/> is supported if the <see cref="D3DPMISCCAPS_TSSARGTEMP"/> device capability is present.
         /// The default value for the register is (0.0, 0.0, 0.0, 0.0).
+        /// </para>
         /// </summary>
         D3DTSS_COLORARG1 = 2,
 
@@ -103,18 +111,28 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DTSS_BUMPENVMAT11 = 10,
 
         /// <summary>
+        /// <para>
         /// Index of the texture coordinate set to use with this texture stage.
         /// You can specify up to eight sets of texture coordinates per vertex.
-        /// If a vertex does not include a set of texture coordinates at the specified index, the system defaults to the u and v coordinates (0,0).
+        /// If a vertex does not include a set of texture coordinates at the specified index,
+        /// the system defaults to the u and v coordinates (0,0).
+        /// </para>
+        /// <para>
         /// When rendering using vertex shaders, each stage's texture coordinate index must be set to its default value.
         /// The default index for each stage is equal to the stage index.
         /// Set this state to the zero-based index of the coordinate set for each vertex that this texture stage uses.
+        /// </para>
+        /// <para>
         /// Additionally, applications can include, as logical OR with the index being set,
         /// one of the constants to request that Direct3D automatically generate the input texture coordinates for a texture transformation.
-        /// For a list of all the constants, see <see cref="D3DTSS_TCI"/>.
+        /// For a list of all the constants, see <see cref="D3DTSS_TCI"/>.
+        /// </para>
+        /// <para>
         /// With the exception of <see cref="D3DTSS_TCI_PASSTHRU"/>, which resolves to zero,
-        /// if any of the following values is included with the index being set, the system uses the index strictly to determine texture wrapping mode.
+        /// if any of the following values is included with the index being set,
+        /// the system uses the index strictly to determine texture wrapping mode.
         /// These flags are most useful when performing environment mapping.
+        /// </para>
         /// </summary>
         D3DTSS_TEXCOORDINDEX = 11,
 

@@ -15,23 +15,36 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// <see cref="D3DTEXTUREFILTERTYPE"/> is used by <see cref="IDirect3DDevice9.SetSamplerState"/> along
-    /// with <see cref="D3DSAMPLERSTATETYPE"/> to define texture filtering modes for a texture stage.
+    /// <para>
+    /// <see cref="D3DTEXTUREFILTERTYPE"/> is used by <see cref="IDirect3DDevice9.SetSamplerState"/>
+    /// along with <see cref="D3DSAMPLERSTATETYPE"/> to define texture filtering modes for a texture stage.
+    /// </para>
+    /// <para>
     /// To check if a format supports texture filter types other than <see cref="D3DTEXF_POINT"/> (which is always supported),
-    /// call <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_QUERY_FILTER"/>.
-    /// Set a texture stage's magnification filter by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
+    /// call <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_QUERY_FILTER"/>.
+    /// </para>
+    /// <para>
+    /// Set a texture stage's magnification filter by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
     /// with the <see cref="D3DSAMP_MAGFILTER"/> value as the second parameter and one member of this enumeration as the third parameter.
-    /// Set a texture stage's minification filter by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
+    /// </para>
+    /// <para>
+    /// Set a texture stage's minification filter by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
     /// with the <see cref="D3DSAMP_MINFILTER"/> value as the second parameter and one member of this enumeration as the third parameter.
-    /// Set the texture filter to use between-mipmap levels by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
+    /// </para>
+    /// <para>
+    /// Set the texture filter to use between-mipmap levels by calling <see cref="IDirect3DDevice9.SetSamplerState"/>
     /// with the <see cref="D3DSAMP_MIPFILTER"/> value as the second parameter and one member of this enumeration as the third parameter.
+    /// </para>
+    /// <para>
     /// Not all valid filtering modes for a device will apply to volume maps.
     /// In general, <see cref="D3DTEXF_POINT"/> and <see cref="D3DTEXF_LINEAR"/> magnification filters will be supported for volume maps.
     /// If <see cref="D3DPTEXTURECAPS_MIPVOLUMEMAP"/> is set, then the <see cref="D3DTEXF_POINT"/> mipmap filter
     /// and <see cref="D3DTEXF_POINT"/> and <see cref="D3DTEXF_LINEAR"/> minification filters will be supported for volume maps.
     /// The device may or may not support the <see cref="D3DTEXF_LINEAR"/> mipmap filter for volume maps.
     /// Devices that support anisotropic filtering for 2D maps do not necessarily support anisotropic filtering for volume maps.
-    /// However, applications that enable anisotropic filtering will receive the best available filtering (probably linear) if anisotropic filtering is not supported.
+    /// However, applications that enable anisotropic filtering will receive the best available filtering (probably linear)
+    /// if anisotropic filtering is not supported.
+    /// </para>
     /// </remarks>
     public enum D3DTEXTUREFILTERTYPE
     {
@@ -77,10 +90,23 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DTEXF_GAUSSIANQUAD = 7,
 
         /// <summary>
-        /// Convolution filter for monochrome textures. See <see cref="D3DFMT_A1"/>.
+        /// <para>
+        /// Convolution filter for monochrome textures.
+        /// See <see cref="D3DFMT_A1"/>.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// This flag is available in Direct3D 9Ex only.
-        /// Use with <see cref="D3DSAMP_MIPFILTER"/> is undefined.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// Use with <see cref="D3DSAMP_MIPFILTER"/> is undefined.
+        /// </para>
         /// </summary>
         D3DTEXF_CONVOLUTIONMONO = 8,
 

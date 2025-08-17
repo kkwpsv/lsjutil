@@ -12,9 +12,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// VVertex data is declared with an array of <see cref="D3DVERTEXELEMENT9"/> structures.
+    /// <para>
+    /// Vertex data is declared with an array of <see cref="D3DVERTEXELEMENT9"/> structures.
     /// Each element in the array contains a usage type.
-    /// For more information about vertex declarations, see Vertex Declaration (Direct3D 9).
+    /// </para>
+    /// <para>
+    /// For more information about vertex declarations, see Vertex Declaration (Direct3D 9).
+    /// </para>
     /// </remarks>
     public enum D3DDECLUSAGE : byte
     {

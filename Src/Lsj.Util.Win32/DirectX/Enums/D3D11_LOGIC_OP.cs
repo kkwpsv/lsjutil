@@ -3,7 +3,11 @@
     /// <summary>
     /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This enumeration is supported by the Direct3D 11.1 runtime, which is available on Windows 8 and later operating systems.
+    /// </para>
+    /// <para>
     /// Specifies logical operations to configure for a render target.
     /// </para>
     /// <para>

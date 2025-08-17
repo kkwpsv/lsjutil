@@ -12,13 +12,20 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// All methods of the <see cref="IDirect3D9"/> interface that take a <see cref="D3DDEVTYPE"/> device type will fail if <see cref="D3DDEVTYPE_NULLREF"/> is specified.
+    /// <para>
+    /// All methods of the <see cref="IDirect3D9"/> interface that take a <see cref="D3DDEVTYPE"/> device type will fail
+    /// if <see cref="D3DDEVTYPE_NULLREF"/> is specified.
     /// To use these methods, substitute <see cref="D3DDEVTYPE_REF"/> in the method call.
+    /// </para>
+    /// <para>
     /// A <see cref="D3DDEVTYPE_REF"/> device should be created in <see cref="D3DPOOL_SCRATCH"/> memory, unless vertex and index buffers are required.
     /// To support vertex and index buffers, create the device in <see cref="D3DPOOL_SYSTEMMEM"/> memory.
+    /// </para>
+    /// <para>
     /// If D3dref9.dll is installed, Direct3D will use the reference rasterizer to create a <see cref="D3DDEVTYPE_REF"/> device type,
     /// even if <see cref="D3DDEVTYPE_NULLREF"/> is specified.
     /// If D3dref9.dll is not available and <see cref="D3DDEVTYPE_NULLREF"/> is specified, Direct3D will neither render nor present the scene.
+    /// </para>
     /// </remarks>
     public enum D3DDEVTYPE
     {
@@ -35,8 +42,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DDEVTYPE_NULLREF = 4,
 
         /// <summary>
-        /// Direct3D features are implemented in software; however, the reference rasterizer does make use of special CPU instructions whenever it can.
+        /// <para>
+        /// Direct3D features are implemented in software;
+        /// however, the reference rasterizer does make use of special CPU instructions whenever it can.
+        /// </para>
+        /// <para>
         /// The reference device is installed by the Windows SDK 8.0 or later and is intended as an aid in debugging for development only.
+        /// </para>
         /// </summary>
         D3DDEVTYPE_REF = 2,
 

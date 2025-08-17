@@ -13,8 +13,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Members of this type are used with the <see cref="D3DRS_VERTEXBLEND"/> render state.
-    /// Geometry blending (multimatrix vertex blending) requires that your application use a vertex format that has blending (beta) weights for each vertex.
+    /// </para>
+    /// <para>
+    /// Geometry blending (multimatrix vertex blending) requires
+    /// that your application use a vertex format that has blending (beta) weights for each vertex.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum D3DVERTEXBLENDFLAGS : uint

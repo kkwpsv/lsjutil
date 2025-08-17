@@ -11,8 +11,12 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The values in this enumerated type are used by the <see cref="D3DRS_FOGTABLEMODE"/> and <see cref="D3DRS_FOGVERTEXMODE"/> render states.
+    /// </para>
+    /// <para>
     /// Fog can be considered a measure of visibility: the lower the fog value produced by a fog equation, the less visible an object is.
+    /// </para>
     /// </remarks>
     public enum D3DFOGMODE
     {
@@ -32,8 +36,12 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DFOG_EXP2 = 2,
 
         /// <summary>
+        /// <para>
         /// Fog effect intensifies linearly between the start and end points, according to the following formula.
+        /// </para>
+        /// <para>
         /// This is the only fog mode currently supported.
+        /// </para>
         /// </summary>
         D3DFOG_LINEAR = 3,
 

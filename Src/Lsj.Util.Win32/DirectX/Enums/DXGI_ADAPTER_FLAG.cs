@@ -30,10 +30,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
         DXGI_ADAPTER_FLAG_REMOTE = 1,
 
         /// <summary>
+        /// <para>
         /// Specifies a software adapter.
-        /// For more info about this flag, see new info in Windows 8 about enumerating adapters.
+        /// For more info about this flag, see new info in Windows 8 about enumerating adapters.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
-        /// This enumeration value is supported starting with Windows 8.
+        /// This enumeration value is supported starting with Windows 8.
+        /// </para>
         /// </summary>
         DXGI_ADAPTER_FLAG_SOFTWARE = 2,
 

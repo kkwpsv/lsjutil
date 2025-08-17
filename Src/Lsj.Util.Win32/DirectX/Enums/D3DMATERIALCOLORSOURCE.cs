@@ -11,9 +11,31 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// These flags are used to set the value of the following render states in the <see cref="D3DRENDERSTATETYPE"/> enumerated type.
-    /// <see cref="D3DRS_AMBIENTMATERIALSOURCE"/>, <see cref="D3DRS_DIFFUSEMATERIALSOURCE"/>,
-    /// <see cref="D3DRS_EMISSIVEMATERIALSOURCE"/>, <see cref="D3DRS_SPECULARMATERIALSOURCE"/>
+    /// <para>
+    /// These flags are used to set the value of the following render states in the <see cref="D3DRENDERSTATETYPE"/> enumerated type.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_AMBIENTMATERIALSOURCE"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_DIFFUSEMATERIALSOURCE"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_EMISSIVEMATERIALSOURCE"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_SPECULARMATERIALSOURCE"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum D3DMATERIALCOLORSOURCE : uint
     {

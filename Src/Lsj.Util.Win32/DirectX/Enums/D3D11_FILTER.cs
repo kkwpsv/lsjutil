@@ -16,24 +16,48 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </summary>
     /// <remarks>
     /// Note
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
     /// If you use different filter types for min versus mag filter, undefined behavior occurs in certain cases
     /// where the choice between whether magnification or minification happens is ambiguous.
     /// To prevent this undefined behavior, use filter modes that use similar filter operations for both min and mag
     /// (or use anisotropic filtering, which avoids the issue as well).
-    /// Note  If you use different filter types for min versus mag filter,
-    /// undefined behavior occurs in certain cases where the choice between whether magnification or minification happens is ambiguous.
-    /// To prevent this undefined behavior, use filter modes that use similar filter operations for both min and mag
-    /// (or use anisotropic filtering, which avoids the issue as well).
+    /// During texture sampling, one or more texels are read and combined (this is calling filtering) to produce a single value.
+    /// Point sampling reads a single texel while linear sampling reads two texels (endpoints) and linearly interpolates a third value between the endpoints.
+    /// </para>
+    /// <para>
     /// HLSL texture-sampling functions also support comparison filtering during texture sampling.
     /// Comparison filtering compares each sampled texel against a comparison value.
     /// The boolean result is blended the same way that normal texture filtering is blended.
-    /// HLSL texture-sampling functions also support comparison filtering during texture sampling.
-    /// Comparison filtering compares each sampled texel against a comparison value.
-    /// The boolean result is blended the same way that normal texture filtering is blended.
-    /// Texture Sampling Function       Texture Sampling Function with Comparison Filtering
-    /// sample                          samplecmp or samplecmplevelzero
+    /// </para>
+    /// <para>
+    /// You can use HLSL intrinsic texture-sampling functions that implement texture filtering only
+    /// or companion functions that use texture filtering with comparison filtering. 
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Texture Sampling Function
+    /// </term>
+    /// <term>
+    /// Texture Sampling Function with Comparison Filtering
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// sample
+    /// </term>
+    /// <term>
+    /// samplecmp or samplecmplevelzero
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// Comparison filters only work with textures that have the following DXGI formats:
     /// R32_FLOAT_X8X24_TYPELESS, R32_FLOAT, R24_UNORM_X8_TYPELESS, R16_UNORM.
+    /// </para>
     /// </remarks>
     public enum D3D11_FILTER
     {

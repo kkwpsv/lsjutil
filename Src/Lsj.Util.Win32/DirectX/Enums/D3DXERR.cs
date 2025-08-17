@@ -11,6 +11,20 @@
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dxerr"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The facility code _FACDD is used to generate error codes, as in the following macros.
+    /// </para>
+    /// <code>
+    /// #define _FACDD                  0x876
+    /// #define MAKE_DDHRESULT( code )  MAKE_HRESULT( 1, _FACDD, code )
+    /// enum _D3DXERR {
+    ///     D3DXERR_CANNOTMODIFYINDEXBUFFER = MAKE_DDHRESULT(2900),
+    ///     D3DXERR_INVALIDMESH             = MAKE_DDHRESULT(2901),
+    ///     ...
+    ///     };
+    /// </code>
+    /// </remarks>
     public enum D3DXERR : uint
     {
         /// <summary>

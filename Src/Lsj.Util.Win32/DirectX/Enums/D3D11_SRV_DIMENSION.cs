@@ -1,9 +1,4 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -16,9 +11,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// These flags are used by a shader-resource-view description (see <see cref="D3D11_SHADER_RESOURCE_VIEW_DESC"/>).
-    /// The <see cref="D3D11_SRV_DIMENSION"/> enumeration is type defined in the D3D11.h header file
-    /// as a <see cref="D3D_SRV_DIMENSION"/> enumeration, which is fully defined in the D3DCommon.h header file.
+    /// <para>
+    /// These flags are used by a shader-resource-view description (see <see cref="D3D11_SHADER_RESOURCE_VIEW_DESC"/>).
+    /// </para>
+    /// <para>
+    /// The <see cref="D3D11_SRV_DIMENSION"/> enumeration is type defined in the D3D11.h header file as a <see cref="D3D_SRV_DIMENSION"/> enumeration,
+    /// which is fully defined in the D3DCommon.h header file.
+    /// </para>
     /// </remarks>
     public enum D3D11_SRV_DIMENSION
     {

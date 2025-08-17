@@ -12,7 +12,9 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Each flag is defined as an unsigned integer.
+    /// </para>
     /// <code>
     /// #define DXGI_CPU_ACCESS_NONE    ( 0 )
     /// #define DXGI_CPU_ACCESS_DYNAMIC    ( 1 )
@@ -28,6 +30,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// #define DXGI_USAGE_UNORDERED_ACCESS         ( 1L &lt;&lt; (6 + 4) )
     /// typedef UINT DXGI_USAGE;
     /// </code>
+    /// <para>
     /// These flag options are used in a call to the <see cref="IDXGIFactory.CreateSwapChain"/>::, <see cref="IDXGIFactory2.CreateSwapChainForHwnd"/>,
     /// <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/>, or <see cref="IDXGIFactory2.CreateSwapChainForComposition"/> method
     /// to describe the surface usage and CPU access options for the back buffer of a swap chain.
@@ -37,7 +40,10 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// for some of the swap chain's back buffers on the application's behalf.
     /// You can call the <see cref="IDXGIResource.GetUsage"/> method to retrieve the usage of these back buffers.
     /// Swap chain's only support the <see cref="DXGI_CPU_ACCESS_NONE"/> value in the <see cref="DXGI_CPU_ACCESS_FIELD"/> part of <see cref="DXGI_USAGE"/>.
+    /// </para>
+    /// <para>
     /// These flag options are also used by the <see cref="IDXGIDevice.CreateSurface"/> method.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum DXGI_USAGE : uint

@@ -11,10 +11,29 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The first vertex of a triangle for flat shading mode is defined in the following manner.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// For a triangle list, the first vertex of the triangle i is i * 3.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// For a triangle strip, the first vertex of the triangle i is vertex i.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// For a triangle fan, the first vertex of the triangle i is vertex i + 1.
-    /// The members of this enumerated type define the vales for the <see cref="D3DRS_SHADEMODE"/> render state.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The members of this enumerated type define the vales for the D3DRS_SHADEMODE render state.
+    /// </para>
     /// </remarks>
     public enum D3DSHADEMODE
     {

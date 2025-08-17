@@ -9,17 +9,23 @@
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This enumeration controls the swizzle pattern of default textures and enable map support on default textures.
-    /// Callers must query <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS2"/> to ensure that each option is supported.
+    /// Callers must query <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS2"/> to ensure that each option is supported.
+    /// </para>
+    /// <para>
     /// The standard swizzle formats applies within each page-sized chunk, and pages are laid out in linear order with respect to one another.
     /// A 16-bit interleave pattern defines the conversion from pre-swizzled intra-page location to the post-swizzled location.
     /// To demonstrate, consider the 32bpp swizzle format above.
     /// This is represented by the following interleave masks, where bits on the left are most-significant.
+    /// </para>
     /// <code>
     /// UINT xBytesMask = 1010 1010 1000 1111
     /// UINT yMask = 0101 0101 0111 0000
     /// </code>
+    /// <para>
     /// To compute the swizzled address, the following code could be used (where the _pdep_u32 instruction is supported):
+    /// </para>
     /// <code>
     /// UINT swizzledOffset = resourceBaseOffset +
     ///                       _pdep_u32(xOffset, xBytesMask) + 

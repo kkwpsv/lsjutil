@@ -47,7 +47,8 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DDEVCAPS2_STREAMOFFSET = 0x00000001,
 
         /// <summary>
-        /// Multiple vertex elements can share the same offset in a stream if <see cref="D3DDEVCAPS2_VERTEXELEMENTSCANSHARESTREAMOFFSET"/> is set by the device
+        /// Multiple vertex elements can share the same offset in a stream
+        /// if <see cref="D3DDEVCAPS2_VERTEXELEMENTSCANSHARESTREAMOFFSET"/> is set by the device
         /// and the vertex declaration does not have an element with <see cref="D3DDECLUSAGE_POSITIONT"/> 0.
         /// </summary>
         D3DDEVCAPS2_VERTEXELEMENTSCANSHARESTREAMOFFSET = 0x00000040,

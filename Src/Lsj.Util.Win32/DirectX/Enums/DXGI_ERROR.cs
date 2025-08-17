@@ -13,17 +13,33 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// You may be interested only in whether the method succeeded or failed.
-    /// The best way to test whether an <see cref="HRESULT"/> value indicates success or failure is
+    /// The best way to test whether an <see cref="HRESULT"/> value indicates success or failure is
     /// to pass the value to the one of the following macros, defined in WinError.h:
-    /// The <see cref="SUCCEEDED"/> macro returns <see cref="TRUE"/> for a success code and <see cref="FALSE"/> for a failure code.
-    /// The <see cref="FAILED"/> macro returns <see cref="TRUE"/> for a failure code and <see cref="FALSE"/> for a success code.
-    /// The <see cref="HRESULT"/> value for each <see cref="DXGI_ERROR"/> value is determined from this macro that is defined in DXGItype.h:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// The <see cref="SUCCEEDED"/> macro returns <see cref="TRUE"/> for a success code and <see cref="FALSE"/> for a failure code.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// The <see cref="FAILED"/> macro returns <see cref="TRUE"/> for a failure code and <see cref="FALSE"/> for a success code.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The <see cref="HRESULT"/> value for each <see cref="DXGI_ERROR"/> value is determined from this macro that is defined in DXGItype.h:
+    /// </para>
     /// <code>
     /// #define _FACDXGI    0x87a
     /// #define MAKE_DXGI_HRESULT(code) MAKE_HRESULT(1, _FACDXGI, code)
     /// </code>
+    /// <para>
     /// For example, <see cref="DXGI_ERROR_INVALID_CALL"/> is defined as 0x887A0001:
+    /// </para>
     /// <code>
     /// #define DXGI_ERROR_INVALID_CALL                 MAKE_DXGI_HRESULT(1)
     /// </code>

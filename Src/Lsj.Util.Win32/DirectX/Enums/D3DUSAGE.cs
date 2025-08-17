@@ -16,35 +16,388 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Usage and Resource Combinations
-    /// Usages are either specified when a resource is created, or specified with <see cref="IDirect3D9.CheckDeviceType"/> to test the capability of an existing resource.
+    /// </para>
+    /// <para>
+    /// Usages are either specified when a resource is created,
+    /// or specified with <see cref="IDirect3D9.CheckDeviceType"/> to test the capability of an existing resource.
     /// The following table identifies which usages can be applied to which resource types.
-    /// Usage                                       Vertex buffer create    Index buffer create     Texture create      Cube texture create     Volume texture create       Surface create      Check device format
-    /// <see cref="D3DUSAGE_AUTOGENMIPMAP"/>                                                        x                   x                                                                       x
-    /// <see cref="D3DUSAGE_DEPTHSTENCIL"/>                                                         x                   x                                                   x                   x
-    /// <see cref="D3DUSAGE_DMAP"/>                                                                 x                                                                                           x
-    /// <see cref="D3DUSAGE_DONOTCLIP"/>            x                       x
-    /// <see cref="D3DUSAGE_DYNAMIC"/>              x                       x                       x                   x                       x                                               x
-    /// <see cref="D3DUSAGE_NONSECURE"/>            x                       x                       x                   x                       x                           x                   x
-    /// <see cref="D3DUSAGE_NPATCHES"/>             x                       x
-    /// <see cref="D3DUSAGE_POINTS"/>               x                       x
-    /// <see cref="D3DUSAGE_RTPATCHES"/>            x                       x
-    /// <see cref="D3DUSAGE_RENDERTARGET"/>                                                         x                   x                                                   x                   x
-    /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>   x                       x                       x                   x                       x                                               x
-    /// <see cref="D3DUSAGE_TEXTAPI"/>              x                                               x
-    /// <see cref="D3DUSAGE_WRITEONLY"/>            x                       x
-    /// Use <see cref="IDirect3D9.CheckDeviceFormat"/> to check hardware support for these usages.
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Usage
+    /// </term>
+    /// <term>
+    /// Vertex buffer create
+    /// </term>
+    /// <term>
+    /// Index buffer create
+    /// </term>
+    /// <term>
+    /// Texture create
+    /// </term>
+    /// <term>
+    /// Cube texture create
+    /// </term>
+    /// <term>
+    /// Volume texture create
+    /// </term>
+    /// <term>
+    /// Surface create
+    /// </term>
+    /// <term>
+    /// Check device format
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_AUTOGENMIPMAP"/>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_DEPTHSTENCIL"/>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_DMAP"/>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_DONOTCLIP"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_DYNAMIC"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yse
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_NONSECURE"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_NPATCHES"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_POINTS"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_RTPATCHES"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_RENDERTARGET"/>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_TEXTAPI"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DUSAGE_WRITEONLY"/>
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// yes
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// Use <see cref="IDirect3D9.CheckDeviceFormat"/> to check hardware support for these usages.
+    /// </para>
+    /// <para>
     /// Each of the resource creation methods is listed here.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateCubeTexture"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateIndexBuffer"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateOffscreenPlainSurface"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateRenderTarget"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateTexture"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateVertexBuffer"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="IDirect3DDevice9.CreateVolumeTexture"/>
-    /// The D3DXCreatexxx texturing functions also use some of these constant values for resource creation.
-    /// For more information about pool types and their restrictions with certain usages, see <see cref="D3DPOOL"/>.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The D3DXCreatexxx texturing functions also use some of these constant values for resource creation.
+    /// </para>
+    /// <para>
+    /// For more information about pool types and their restrictions with certain usages, see <see cref="D3DPOOL"/>.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum D3DUSAGE : uint
@@ -75,22 +428,31 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DUSAGE_DONOTCLIP = 0x00000020,
 
         /// <summary>
+        /// <para>
         /// Set to indicate that the vertex buffer requires dynamic memory use.
         /// This is useful for drivers because it enables them to decide where to place the buffer.
         /// In general, static vertex buffers are placed in video memory and dynamic vertex buffers are placed in AGP memory.
         /// Note that there is no separate static use.
-        /// If you do not specify <see cref="D3DUSAGE_DYNAMIC"/>, the vertex buffer is made static.
-        /// <see cref="D3DUSAGE_DYNAMIC"/> is strictly enforced through the <see cref="D3DLOCK_DISCARD"/> and <see cref="D3DLOCK_NOOVERWRITE"/> locking flags.
-        /// As a result, <see cref="D3DLOCK_DISCARD"/> and <see cref="D3DLOCK_NOOVERWRITE"/> are valid only
-        /// on vertex buffers created with <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// If you do not specify <see cref="D3DUSAGE_DYNAMIC"/>, the vertex buffer is made static.
+        /// <see cref="D3DUSAGE_DYNAMIC"/> is strictly enforced
+        /// through the <see cref="D3DLOCK_DISCARD"/> and <see cref="D3DLOCK_NOOVERWRITE"/> locking flags.
+        /// As a result, <see cref="D3DLOCK_DISCARD"/> and <see cref="D3DLOCK_NOOVERWRITE"/> are valid
+        /// only on vertex buffers created with <see cref="D3DUSAGE_DYNAMIC"/>.
         /// They are not valid flags on static vertex buffers.
-        /// For more information, see Managing Resources (Direct3D 9).
-        /// For more information about using dynamic vertex buffers, see Performance Optimizations(Direct3D 9).
-        /// <see cref="D3DUSAGE_DYNAMIC"/> and <see cref="D3DPOOL_MANAGED"/> are incompatible and should not be used together.
-        /// See <see cref="D3DPOOL"/>.
-        /// Textures can specify <see cref="D3DUSAGE_DYNAMIC"/>.
-        /// However, managed textures cannot use <see cref="D3DUSAGE_DYNAMIC"/>.
-        /// For more information about dynamic textures, see Using Dynamic Textures.
+        /// For more information, see Managing Resources (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// For more information about using dynamic vertex buffers, see Performance Optimizations (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// <see cref="D3DUSAGE_DYNAMIC"/> and <see cref="D3DPOOL_MANAGED"/> are incompatible and should not be used together.
+        /// See <see cref="D3DPOOL"/>.
+        /// </para>
+        /// <para>
+        /// Textures can specify <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// However, managed textures cannot use <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// For more information about dynamic textures, see Using Dynamic Textures.
+        /// </para>
         /// </summary>
         D3DUSAGE_DYNAMIC = 0x00000200,
 
@@ -123,27 +485,37 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DUSAGE_RTPATCHES = 0x00000080,
 
         /// <summary>
+        /// <para>
         /// If this flag is used, vertex processing is done in software.
         /// If this flag is not used, vertex processing is done in hardware.
-        /// The <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> flag can be set when mixed-mode or software vertex processing
-        /// (<see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/> / <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>) is enabled for that device.
-        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> must be set for buffers to be used with software vertex processing in mixed mode,
+        /// </para>
+        /// <para>
+        /// The <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> flag can be set when mixed-mode or software vertex processing
+        /// (<see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/> / <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>) is enabled for that device.
+        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> must be set for buffers to be used with software vertex processing in mixed mode,
         /// but it should not be set for the best possible performance
         /// when using hardware index processing in mixed mode (<see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>).
-        /// However, setting <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is the only option
+        /// However, setting <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is the only option
         /// when a single buffer is used with both hardware and software vertex processing.
-        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is allowed for mixed and software devices.
-        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is used with <see cref="IDirect3D9.CheckDeviceFormat"/> to find out
+        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is allowed for mixed and software devices.
+        /// </para>
+        /// <para>
+        /// <see cref="D3DUSAGE_SOFTWAREPROCESSING"/> is used with <see cref="IDirect3D9.CheckDeviceFormat"/> to find out
         /// if a particular texture format can be used as a vertex texture during software vertex processing.
-        /// If it can, the texture must be created in <see cref="D3DPOOL_SCRATCH"/>.
+        /// If it can, the texture must be created in <see cref="D3DPOOL_SCRATCH"/>.
+        /// </para>
         /// </summary>
         D3DUSAGE_SOFTWAREPROCESSING = 0x00000010,
 
         /// <summary>
-        /// This usage flag must be specified for vertex buffers and source surfaces, used in calls to <see cref="IDirect3DDevice9Ex.ComposeRects"/>.
-        /// T extures created with this usage flag cannot be used for texture filtering.
+        /// <para>
+        /// This usage flag must be specified for vertex buffers and source surfaces, used in calls to <see cref="IDirect3DDevice9Ex.ComposeRects"/>.
+        /// Textures created with this usage flag cannot be used for texture filtering.
         /// Vertex buffers, created with this usage flag, cannot be used as input stream sources.
-        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
+        /// <para>
+        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DUSAGE_TEXTAPI = 0x10000000,
 
@@ -163,16 +535,24 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DUSAGE_RESTRICTED_CONTENT = 0x00000800,
 
         /// <summary>
+        /// <para>
         /// Setting this flag indicates that access to the shared resource should be restricted.
-        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
+        /// <para>
+        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DUSAGE_RESTRICT_SHARED_RESOURCE = 0x00002000,
 
         /// <summary>
+        /// <para>
         /// Setting this flag indicates that the driver should restrict access to the shared resource.
         /// The caller must create an authenticated channel with the driver.
         /// The driver should then allow access to processes that attempt to open that shared resource.
-        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
+        /// <para>
+        /// Differences between Direct3D 9 and Direct3D 9Ex: This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DUSAGE_RESTRICT_SHARED_RESOURCE_DRIVER = 0x00001000,
     }

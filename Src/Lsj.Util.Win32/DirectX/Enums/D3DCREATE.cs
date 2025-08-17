@@ -46,34 +46,64 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCREATE_DISABLE_DRIVER_MANAGEMENT_EX = 0x00000400,
 
         /// <summary>
+        /// <para>
         /// Causes the runtime not register hotkeys for Printscreen, Ctrl-Printscreen and Alt-Printscreen to capture the desktop or window content.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DCREATE_DISABLE_PRINTSCREEN = 0x00008000,
 
         /// <summary>
+        /// <para>
         /// Restrict computation to the main application thread.
-        /// If the flag is not set, the runtime may perform software vertex processing and other computations
-        /// in worker thread to improve performance on multi-processor systems.
+        /// If the flag is not set, the runtime may perform software vertex processing
+        /// and other computations in worker thread to improve performance on multi-processor systems.
+        /// </para>
+        /// <para>
         /// Differences between Windows XP and Windows Vista:
+        /// </para>
+        /// <para>
         /// This flag is available on Windows Vista, Windows Server 2008, and Windows 7.
+        /// </para>
         /// </summary>
         D3DCREATE_DISABLE_PSGP_THREADING = 0x00002000,
 
         /// <summary>
+        /// <para>
         /// Enables the gathering of present statistics on the device.
-        /// Calls to <see cref="IDirect3DSwapChain9Ex.GetPresentStatistics"/> will return valid data.
+        /// Calls to <see cref="IDirect3DSwapChain9Ex.GetPresentStats"/> will return valid data.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DCREATE_ENABLE_PRESENTSTATS = 0x00004000,
 
         /// <summary>
+        /// <para>
         /// Set the precision for Direct3D floating-point calculations to the precision used by the calling thread.
         /// If you do not specify this flag, Direct3D defaults to single-precision round-to-nearest mode for two reasons:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Double-precision mode will reduce Direct3D performance.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Portions of Direct3D assume floating-point unit exceptions are masked; unmasking these exceptions may result in undefined behavior.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DCREATE_FPU_PRESERVE = 0x00000002,
 
@@ -90,12 +120,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCREATE_MIXED_VERTEXPROCESSING = 0x00000080,
 
         /// <summary>
+        /// <para>
         /// Specifies software vertex processing.
-        /// For Windows 10, version 1607 and later, use of this setting is not recommended.
+        /// For Windows 10, version 1607 and later, use of this setting is not recommended.
         /// Use <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
-        /// [!Note]
-        /// Unless hardware vertex processing is not available, the usage of software vertex processing is not recommended in Windows 10, version 1607 (and later versions)
+        /// </para>
+        /// <para>
+        /// Note:
+        /// </para>
+        /// <para>
+        /// Unless hardware vertex processing is not available,
+        /// the usage of software vertex processing is not recommended in Windows 10, version 1607 (and later versions)
         /// because the efficiency of software vertex processing was significantly reduced while improving the security of the implementation.
+        /// </para>
         /// </summary>
         D3DCREATE_SOFTWARE_VERTEXPROCESSING = 0x00000020,
 
@@ -109,9 +146,16 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCREATE_MULTITHREADED = 0x00000004,
 
         /// <summary>
+        /// <para>
         /// Indicates that Direct3D must not alter the focus window in any way.
-        /// [!Note]
-        /// If this flag is set, the application must fully support all focus management events, such as ALT+TAB and mouse click events.
+        /// </para>
+        /// <para>
+        /// Note:
+        /// </para>
+        /// <para>
+        /// If this flag is set, the application must fully support all focus management events,
+        /// such as ALT+TAB and mouse click events.
+        /// </para>
         /// </summary>
         D3DCREATE_NOWINDOWCHANGES = 0x00000800,
 
@@ -123,11 +167,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCREATE_PUREDEVICE = 0x00000010,
 
         /// <summary>
+        /// <para>
         /// Allows screensavers during a fullscreen application.
         /// Without this flag, Direct3D will disable screensavers for as long as the calling application is fullscreen.
         /// If the calling application is already a screensaver, this flag has no effect.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DCREATE_SCREENSAVER = 0x10000000,
     }

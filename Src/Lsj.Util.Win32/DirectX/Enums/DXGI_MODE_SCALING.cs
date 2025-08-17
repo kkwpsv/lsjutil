@@ -12,10 +12,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Selecting the CENTERED or STRETCHED modes can result in a mode change even if you specify the native resolution of the display in the <see cref="DXGI_MODE_DESC"/>.
     /// If you know the native resolution of the display and want to make sure that you do not initiate a mode change when transitioning a swap chain to full screen
     /// (either via ALT+ENTER or <see cref="IDXGISwapChain.SetFullscreenState"/>), you should use UNSPECIFIED.
+    /// </para>
+    /// <para>
     /// This enum is used by the <see cref="DXGI_MODE_DESC1"/> and <see cref="DXGI_SWAP_CHAIN_FULLSCREEN_DESC"/> structures.
+    /// </para>
     /// </remarks>
     public enum DXGI_MODE_SCALING
     {

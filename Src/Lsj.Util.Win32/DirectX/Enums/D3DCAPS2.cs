@@ -22,17 +22,25 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCAPS2_CANAUTOGENMIPMAP = 0x40000000,
 
         /// <summary>
-        /// The system has a calibrator installed that can automatically adjust the gamma ramp so that the result is identical on all systems that have a calibrator. 
-        /// To invoke the calibrator when setting new gamma levels, use the <see cref="D3DSGR_CALIBRATE"/> flag when calling <see cref="IDirect3DDevice9.SetGammaRamp"/>.
+        /// The system has a calibrator installed that can automatically adjust
+        /// the gamma ramp so that the result is identical on all systems that have a calibrator. 
+        /// To invoke the calibrator when setting new gamma levels,
+        /// use the <see cref="D3DSGR_CALIBRATE"/> flag when calling <see cref="IDirect3DDevice9.SetGammaRamp"/>.
         /// Calibrating gamma ramps incurs some processing overhead and should not be used frequently.
         /// </summary>
         D3DCAPS2_CANCALIBRATEGAMMA = 0x00100000,
 
         /// <summary>
+        /// <para>
         /// The device can create sharable resources.
-        /// Methods that create resources can set non-NULL values for their pSharedHandle parameters.
+        /// Methods that create resources can set non-NULL values for their pSharedHandle parameters.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DCAPS2_CANSHARERESOURCE = 0x80000000,
 

@@ -13,28 +13,115 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// In addition to enabling full-scene multisampling at <see cref="IDirect3DDevice9.Reset"/> time,
+    /// <para>
+    /// In addition to enabling full-scene multisampling at <see cref="IDirect3DDevice9.Reset"/> time,
     /// there will be render states that turn various aspects on and off at fine-grained levels.
+    /// </para>
+    /// <para>
     /// Multisampling is valid only on a swap chain that is being created or reset with the <see cref="D3DSWAPEFFECT_DISCARD"/> swap effect.
+    /// </para>
+    /// <para>
     /// The multisample antialiasing value can be set with the parameters (or sub-parameters) in the following methods.
-    /// Method                                                      Parameters                          Sub-parameters
-    /// <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>         MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3D9.CreateDevice"/>                       pPresentationParameters             MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>    pPresentationParameters             MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/>    MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9.CreateRenderTarget"/>           MultiSampleType and pQualityLevels
-    /// <see cref="IDirect3DDevice9.Reset"/>                        pPresentationParameters             MultiSampleType and pQualityLevels
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Method
+    /// </term>
+    /// <term>
+    /// Parameters
+    /// </term>
+    /// <term>
+    /// Sub-parameters
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3D9.CreateDevice"/>
+    /// </term>
+    /// <term>
+    /// pPresentationParameters
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>
+    /// </term>
+    /// <term>
+    /// pPresentationParameters
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/>
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3DDevice9.CreateRenderTarget"/>
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// <term>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="IDirect3DDevice9.Reset"/>
+    /// </term>
+    /// <term>
+    /// pPresentationParameters
+    /// </term>
+    /// <term>
+    /// MultiSampleType and pQualityLevels
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// It is not good practice to switch from one multisample type to another to raise the quality of the antialiasing.
-    /// <see cref="D3DMULTISAMPLE_NONE"/> enables swap effects other than discarding, locking, and so on.
-    /// Whether the display device supports maskable multisampling (more than one sample for a multiple-sample render-target format plus antialias support)
-    /// or just non-maskable multisampling (only antialias support), the driver for the device provides the number of quality levels
-    /// for the <see cref="D3DMULTISAMPLE_NONMASKABLE"/> multiple-sample type.
-    /// Applications that just use multisampling for antialiasing purposes only need to query
-    /// for the number of non-maskable multiple-sample quality levels that the driver supports.
-    /// The quality levels supported by the device can be obtained with the pQualityLevels parameter of <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+    /// </para>
+    /// <para>
+    /// D3DMULTISAMPLE_NONE enables swap effects other than discarding, locking, and so on.
+    /// </para>
+    /// <para>
+    /// Whether the display device supports maskable multisampling
+    /// (more than one sample for a multiple-sample render-target format plus antialias support)
+    /// or just non-maskable multisampling (only antialias support),
+    /// the driver for the device provides the number of quality levels for the <see cref="D3DMULTISAMPLE_NONMASKABLE"/> multiple-sample type.
+    /// Applications that just use multisampling for antialiasing purposes only need to query for
+    /// the number of non-maskable multiple-sample quality levels that the driver supports.
+    /// </para>
+    /// <para>
+    /// The quality levels supported by the device can be obtained 
+    /// with the pQualityLevels parameter of <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
     /// Quality levels used by the application are set with the MultiSampleQuality parameter
-    /// of <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/> and <see cref="IDirect3DDevice9.CreateRenderTarget"/>.
+    /// of <see cref="IDirect3DDevice9.CreateDepthStencilSurface"/> and <see cref="IDirect3DDevice9.CreateRenderTarget"/>.
+    /// </para>
+    /// <para>
     /// See <see cref="D3DRS_MULTISAMPLEMASK"/> for discussion of maskable multisampling.
+    /// </para>
     /// </remarks>
     public enum D3DMULTISAMPLE_TYPE
     {

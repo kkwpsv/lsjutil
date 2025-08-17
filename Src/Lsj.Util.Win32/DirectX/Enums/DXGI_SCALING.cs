@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
 using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 
@@ -13,11 +14,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The DXGI_SCALING_NONE value is supported only for flip presentation model swap chains
+    /// <para>
+    /// The <see cref="DXGI_SCALING_NONE"/> value is supported only for flip presentation model swap chains
     /// that you create with the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value.
     /// You pass these values in a call to <see cref="IDXGIFactory2.CreateSwapChainForHwnd"/>, <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/>,
     /// or <see cref="IDXGIFactory2.CreateSwapChainForComposition"/>.
+    /// </para>
+    /// <para>
     /// <see cref="DXGI_SCALING_ASPECT_RATIO_STRETCH"/> will prefer to use a horizontal fill, otherwise it will use a vertical fill, using the following logic.
+    /// </para>
     /// <code>
     /// float aspectRatio = backBufferWidth / float(backBufferHeight);
     /// 
@@ -44,8 +49,10 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// rect.right = std::min&lt;LONG&gt;(static_cast&lt;LONG&gt;(outputWidth), rect.right);
     /// rect.bottom = std::min&lt;LONG&gt;(static_cast&lt;LONG&gt;(outputHeight), rect.bottom);
     /// </code>
+    /// <para>
     /// Note that outputWidth and outputHeight are the pixel sizes of the presentation target size.
     /// In the case of CoreWindow, this requires converting the logicalWidth and logicalHeight values from DIPS to pixels using the window's DPI property.
+    /// </para>
     /// </remarks>
     public enum DXGI_SCALING
     {
@@ -56,21 +63,33 @@ namespace Lsj.Util.Win32.DirectX.Enums
         DXGI_SCALING_STRETCH = 0,
 
         /// <summary>
-        /// Directs DXGI to make the back-buffer contents appear without any scaling when the presentation target size is not equal to the back-buffer size.
+        /// <para>
+        /// Directs DXGI to make the back-buffer contents appear without any scaling
+        /// when the presentation target size is not equal to the back-buffer size.
         /// The top edges of the back buffer and presentation target are aligned together.
-        /// If the <see cref="WS_EX_LAYOUTRTL"/> style is associated with the HWND handle to the target output window,
+        /// If the <see cref="WS_EX_LAYOUTRTL"/> style is associated with the <see cref="HWND"/> handle to the target output window,
         /// the right edges of the back buffer and presentation target are aligned together; otherwise, the left edges are aligned together.
         /// All target area outside the back buffer is filled with window background color.
+        /// </para>
+        /// <para>
         /// This value specifies that all target areas outside the back buffer of a swap chain are filled with the background color
-        /// that you specify in a call to <see cref="IDXGISwapChain1.SetBackgroundColor"/>.
+        /// that you specify in a call to <see cref="IDXGISwapChain1.SetBackgroundColor"/>.
+        /// </para>
         /// </summary>
         DXGI_SCALING_NONE = 1,
 
         /// <summary>
-        /// Directs DXGI to make the back-buffer contents scale to fit the presentation target size, while preserving the aspect ratio of the back-buffer.
+        /// <para>
+        /// Directs DXGI to make the back-buffer contents scale to fit the presentation target size,
+        /// while preserving the aspect ratio of the back-buffer.
         /// If the scaled back-buffer does not fill the presentation area, it will be centered with black borders.
+        /// </para>
+        /// <para>
         /// This constant is supported on Windows Phone 8 and Windows 10.
+        /// </para>
+        /// <para>
         /// Note that with legacy Win32 window swapchains, this works the same as <see cref="DXGI_SCALING_STRETCH"/>.
+        /// </para>
         /// </summary>
         DXGI_SCALING_ASPECT_RATIO_STRETCH = 2
     }

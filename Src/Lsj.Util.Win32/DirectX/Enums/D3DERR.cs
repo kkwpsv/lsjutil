@@ -12,9 +12,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Errors are represented by negative values and cannot be combined.
-    /// Other return codes are contained in <see cref="S_PRESENT"/>.
+    /// </para>
+    /// <para>
+    /// Other return codes are contained in <see cref="S_PRESENT"/>.
+    /// </para>
+    /// <para>
     /// The facility code _FACD3D is used to generate error codes, as in the following macros.
+    /// </para>
     /// <code>
     /// // Direct3D Errors
     /// #define D3DERR_UNSUPPORTEDFACTORVALUE  MAKE_D3DHRESULT(2079)

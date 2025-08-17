@@ -14,12 +14,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The tessellator looks at the method to determine what data to calculate from the vertex data during tessellation.
-    /// Mesh data should use the default value. Patches can use any of the other implemented types.
-    /// Vertex data is declared with an array of <see cref="D3DVERTEXELEMENT9"/> structures.
+    /// Mesh data should use the default value.
+    /// Patches can use any of the other implemented types.
+    /// </para>
+    /// <para>
+    /// Vertex data is declared with an array of <see cref="D3DVERTEXELEMENT9"/> structures.
     /// Each element in the array contains a vertex declaration method.
+    /// </para>
+    /// <para>
     /// In addition to using <see cref="D3DDECLMETHOD_DEFAULT"/>,
     /// a normal mesh can use <see cref="D3DDECLMETHOD_LOOKUP"/> and <see cref="D3DDECLMETHOD_LOOKUPPRESAMPLED"/> methods when N-patches are enabled.
+    /// </para>
     /// </remarks>
     public enum D3DDECLMETHOD : byte
     {
@@ -32,29 +39,115 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DDECLMETHOD_DEFAULT = 0,
 
         /// <summary>
+        /// <para>
         /// Computes the tangent at a point on the rectangle or triangle patch in the U direction.
         /// The input type can be one of the following:
-        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>, <see cref="D3DDECLTYPE_FLOAT3"/>, <see cref="D3DDECLTYPE_FLOAT4"/>,
-        /// <see cref="D3DDECLTYPE_SHORT4"/>, <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT3"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_SHORT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// The output type is always <see cref="D3DDECLTYPE_FLOAT3"/>.
+        /// </para>
         /// </summary>
         D3DDECLMETHOD_PARTIALU = 1,
 
         /// <summary>
-        /// Computes the tangent at a point on the rectangle or triangle patch in the V direction.
-        /// The input type can be one of the following:
-        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>, <see cref="D3DDECLTYPE_FLOAT3"/>, <see cref="D3DDECLTYPE_FLOAT4"/>,
-        /// <see cref="D3DDECLTYPE_SHORT4"/>, <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// <para>
+        /// Computes the tangent at a point on the rectangle or triangle patch in the V direction. The input type can be one of the following:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT3"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_SHORT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// The output type is always <see cref="D3DDECLTYPE_FLOAT3"/>.
+        /// </para>
         /// </summary>
         D3DDECLMETHOD_PARTIALV = 2,
 
         /// <summary>
+        /// <para>
         /// Computes the normal at a point on the rectangle or triangle patch by taking the cross product of two tangents.
         /// The input type can be one of the following:
-        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>, <see cref="D3DDECLTYPE_FLOAT3"/>, <see cref="D3DDECLTYPE_FLOAT4"/>,
-        /// <see cref="D3DDECLTYPE_SHORT4"/>, <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_D3DCOLOR"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT3"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_SHORT4"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_UBYTE4"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// The output type is always <see cref="D3DDECLTYPE_FLOAT3"/>.
+        /// </para>
         /// </summary>
         D3DDECLMETHOD_CROSSUV = 3,
 
@@ -68,13 +161,33 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DDECLMETHOD_UV = 4,
 
         /// <summary>
+        /// <para>
         /// Look up a displacement map. The input type can be one of the following:
-        /// <see cref="D3DDECLTYPE_FLOAT2"/>, <see cref="D3DDECLTYPE_FLOAT3"/>, <see cref="D3DDECLTYPE_FLOAT4"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT2"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT3"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DDECLTYPE_FLOAT4"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Only the .x and .y components are used for the texture map lookup.
         /// The output type is always <see cref="D3DDECLTYPE_FLOAT1"/>.
         /// The device must support displacement mapping.
-        /// For more information about displacement mapping, see Displacement Mapping (Direct3D 9).
+        /// For more information about displacement mapping, see Displacement Mapping (Direct3D 9).
         /// This constant is supported only by the programmable pipeline on N-patch data, if N-patches are enabled.
+        /// </para>
         /// </summary>
         D3DDECLMETHOD_LOOKUP = 5,
 

@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
-using Lsj.Util.Win32.DirectX.Structs;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -12,8 +11,12 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This enum is used by <see cref="IDXGIAdapter3.QueryVideoMemoryInfo"/> and <see cref="IDXGIAdapter3.SetVideoMemoryReservation"/>.
+    /// </para>
+    /// <para>
     /// Refer to the remarks for <see cref="D3D12_MEMORY_POOL"/>.
+    /// </para>
     /// </remarks>
     public enum DXGI_MEMORY_SEGMENT_GROUP
     {

@@ -12,13 +12,39 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// As the following diagram shows, vertex and pixel state are both subsets of device state.
+    /// </para>
+    /// <para>
     /// There are only a few states that are considered both vertex and pixel state. These states are:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// Render state: <see cref="D3DRS_FOGDENSITY"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// Render state: <see cref="D3DRS_FOGSTART"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// Render state: <see cref="D3DRS_FOGEND"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// Texture state: <see cref="D3DTSS_TEXCOORDINDEX"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// Texture state: <see cref="D3DTSS_TEXTURETRANSFORMFLAGS"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum D3DSTATEBLOCKTYPE
     {

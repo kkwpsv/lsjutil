@@ -10,14 +10,47 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// <summary>
     /// <para>
     /// Texture argument constants are used as values for the following members of the <see cref="D3DTEXTURESTAGESTATETYPE"/> enumerated type:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_ALPHAARG0"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_ALPHAARG1"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_ALPHAARG2"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_COLORARG0"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_COLORARG1"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_COLORARG2"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// <see cref="D3DTSS_RESULTARG"/>
-    /// Set and retrieve texture arguments by calling the <see cref="IDirect3DDevice9.SetTextureStageState"/> and <see cref="IDirect3DDevice9.GetTextureStageState"/> methods.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// Set and retrieve texture arguments by calling the <see cref="IDirect3DDevice9.SetTextureStageState"/>
+    /// and <see cref="IDirect3DDevice9.GetTextureStageState"/> methods.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dta"/>

@@ -15,11 +15,33 @@ namespace Lsj.Util.Win32.DirectX.Enums
     public enum D3DCAPS3 : uint
     {
         /// <summary>
+        /// <para>
         /// Indicates that the device can respect the <see cref="D3DRS_ALPHABLENDENABLE"/> render state in full-screen mode
         /// while using the FLIP or DISCARD swap effect.
         /// This only applies when the <see cref="D3DRS_SRCBLEND"/> or <see cref="D3DRS_DESTBLEND"/> states are set to one of the following:
-        /// <see cref="D3DBLEND_DESTALPHA"/>, <see cref="D3DBLEND_INVDESTALPHA"/>,
-        /// <see cref="D3DBLEND_DESTCOLOR"/>, <see cref="D3DBLEND_INVDESTCOLOR"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DBLEND_DESTALPHA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DBLEND_INVDESTALPHA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DBLEND_DESTCOLOR"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DBLEND_INVDESTCOLOR"/>
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD = 0x00000020,
 
@@ -38,10 +60,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DCAPS3_COPY_TO_SYSTEMMEM = 0x00000200,
 
         /// <summary>
-        /// The display driver supports the DXVA-HD DDI.
-        /// For more information about DXVA-HD DDI, see Processing High-Definition Video.
+        /// <para>
+        /// The display driver supports the DXVA-HD DDI. For more information about DXVA-HD DDI, see Processing High-Definition Video.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DCAPS3_DXVAHD = 0x00000400,
 

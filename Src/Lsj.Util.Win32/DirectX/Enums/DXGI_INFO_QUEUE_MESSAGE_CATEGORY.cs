@@ -11,10 +11,18 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Use this enumeration when you call <see cref="IDXGIInfoQueue.GetMessage"/> to retrieve a message
-    /// and when you call <see cref="IDXGIInfoQueue.AddMessage"/> to add a message.
-    /// When you create an info queue filter, you can use these values to allow or deny any categories of messages
-    /// to pass through the storage and retrieval filters.
+    /// <para>
+    /// Use this enumeration when you call <see cref="IDXGIInfoQueue.GetMessage"/> to retrieve a message
+    /// and when you call <see cref="IDXGIInfoQueue.AddMessage"/> to add a message.
+    /// When you create an info queue filter, 
+    /// you can use these values to allow or deny any categories of messages to pass through the storage and retrieval filters.
+    /// </para>
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
     public enum DXGI_INFO_QUEUE_MESSAGE_CATEGORY
     {

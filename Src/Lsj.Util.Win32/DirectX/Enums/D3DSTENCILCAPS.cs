@@ -12,8 +12,12 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Stencil-buffer entries are integer values ranging from 0 through 2ⁿ - 1, where n is the bit depth of the stencil buffer.
-    /// These constants are used by the <see cref="D3DCAPS9.StencilCaps"/> member of <see cref="D3DCAPS9"/>.
+    /// </para>
+    /// <para>
+    /// These constants are used by the StencilCaps member of <see cref="D3DCAPS9"/>.
+    /// </para>
     /// </remarks>
     [Flags]
     public enum D3DSTENCILCAPS : uint

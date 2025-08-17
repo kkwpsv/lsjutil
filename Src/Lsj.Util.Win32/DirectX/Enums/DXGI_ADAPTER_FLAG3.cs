@@ -30,10 +30,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
         DXGI_ADAPTER_FLAG_REMOTE = 1,
 
         /// <summary>
+        /// <para>
         /// Specifies a software adapter.
-        /// For more info about this flag, see new info in Windows 8 about enumerating adapters.
+        /// For more info about this flag, see new info in Windows 8 about enumerating adapters.
+        /// </para>
+        /// <para>
         /// Direct3D 11:
-        /// This enumeration value is supported starting with Windows 8.
+        /// This enumeration value is supported starting with Windows 8.
+        /// </para>
         /// </summary>
         DXGI_ADAPTER_FLAG_SOFTWARE = 2,
 
@@ -50,12 +54,18 @@ namespace Lsj.Util.Win32.DirectX.Enums
         DXGI_ADAPTER_FLAG3_SUPPORT_MONITORED_FENCES = 8,
 
         /// <summary>
+        /// <para>
         /// Specifies that the adapter supports non-monitored fences.
-        /// These adapters support the <see cref="ID3D12Device.CreateFence"/> function together with the <see cref="D3D12_FENCE_FLAG_NON_MONITORED"/> flag.
+        /// These adapters support the <see cref="ID3D12Device.CreateFence"/> function together with the <see cref="D3D12_FENCE_FLAG_NON_MONITORED"/> flag.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For adapters that support both monitored and non-monitored fences, non-monitored fences are only supported
-        /// when created with the <see cref="D3D12_FENCE_FLAG_SHARED"/> and <see cref="D3D12_FENCE_FLAG_SHARED_CROSS_ADAPTER"/> flags.
+        /// when created with the <see cref="D3D12_FENCE_FLAG_SHARED"/> and <see cref="D3D12_FENCE_FLAG_SHARED_CROSS_ADAPTER"/> flags.
         /// Monitored fences should always be used by supporting adapters unless communicating with an adapter that only supports non-monitored fences.
+        /// </para>
         /// </summary>
         DXGI_ADAPTER_FLAG3_SUPPORT_NON_MONITORED_FENCES = 0x10,
 

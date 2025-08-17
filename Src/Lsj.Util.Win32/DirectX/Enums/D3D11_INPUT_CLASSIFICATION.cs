@@ -1,9 +1,4 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

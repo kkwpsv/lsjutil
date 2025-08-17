@@ -6,6 +6,9 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// <para>
     /// Specifies result flags for the <see cref="IDXGIDevice4.ReclaimResources1"/> method.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_5/ne-dxgi1_5-dxgi_reclaim_resource_results"/>
+    /// </para>
     /// </summary>
     public enum DXGI_RECLAIM_RESOURCE_RESULTS
     {

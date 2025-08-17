@@ -12,10 +12,14 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This enumeration is used in <see cref="IDirect3D9Ex.GetAdapterDisplayModeEx"/>,
-    /// <see cref="IDirect3DDevice9Ex.GetDisplayModeEx"/>, and <see cref="IDirect3DSwapChain9Ex.GetDisplayModeEx"/>.
-    /// Applications may choose to handle monitor rotation themselves by using the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/>,
+    /// <para>
+    /// This enumeration is used in <see cref="IDirect3D9Ex.GetAdapterDisplayModeEx"/>,
+    /// <see cref="IDirect3DDevice9Ex.GetDisplayModeEx"/>, and <see cref="IDirect3DSwapChain9Ex.GetDisplayModeEx"/>.
+    /// </para>
+    /// <para>
+    /// Applications may choose to handle monitor rotation themselves by using the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/>,
     /// in which case, the application will need to know how the monitor is rotated so that it may adjust its rendering accordingly.
+    /// </para>
     /// </remarks>
     public enum D3DDISPLAYROTATION
     {

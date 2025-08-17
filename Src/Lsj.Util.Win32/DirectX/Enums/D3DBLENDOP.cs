@@ -12,13 +12,72 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Source, Destination, and Result are defined as:
-    /// Term            Type    Description
-    /// Source          Input   Color of the source pixel before the operation.
-    /// Destination     Input   Color of the pixel in the destination buffer before the operation.
-    /// Result          Output  Returned value that is the blended color resulting from the operation.
+    /// </para>
+    /// <para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Term
+    /// </term>
+    /// <term>
+    /// Type
+    /// </term>
+    /// <term>
+    /// Description
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// Source
+    /// </term>
+    /// <term>
+    /// Input
+    /// </term>
+    /// <term>
+    /// Color of the source pixel before the operation.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Destination
+    /// </term>
+    /// <term>
+    /// Input
+    /// </term>
+    /// <term>
+    /// Color of the pixel in the destination buffer before the operation.
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Result
+    /// </term>
+    /// <term>
+    /// Output
+    /// </term>
+    /// <term>
+    /// Returned value that is the blended color resulting from the operation.
+    /// </term>
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
     /// This enumerated type defines values used by the following render states:
-    /// <see cref="D3DRS_BLENDOP"/> <see cref="D3DRS_BLENDOPALPHA"/>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_BLENDOP"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="D3DRS_BLENDOPALPHA"/>
+    /// </description>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum D3DBLENDOP
     {

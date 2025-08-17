@@ -11,11 +11,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Use this enumeration when you call <see cref="IDXGIInfoQueue.GetMessage"/> to retrieve a message
-    /// and when you call <see cref="IDXGIInfoQueue.AddMessage"/> to add a message.
+    /// <para>
+    /// Use this enumeration when you call <see cref="IDXGIInfoQueue.GetMessage"/> to retrieve a message
+    /// and when you call <see cref="IDXGIInfoQueue.AddMessage"/> to add a message.
     /// Also, use this enumeration with <see cref="IDXGIInfoQueue.AddApplicationMessage"/>.
+    /// </para>
+    /// <para>
     /// Note
-    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
+    /// <para>
+    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
     public enum DXGI_INFO_QUEUE_MESSAGE_SEVERITY
     {

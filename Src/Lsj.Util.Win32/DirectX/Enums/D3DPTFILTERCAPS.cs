@@ -18,10 +18,16 @@ namespace Lsj.Util.Win32.DirectX.Enums
     public enum D3DPTFILTERCAPS : uint
     {
         /// <summary>
+        /// <para>
         /// Device supports monochrome convolution filtering.
         /// This filter is represented by the <see cref="D3DTEXF_CONVOLUTIONMONO"/> member of the <see cref="D3DTEXTUREFILTERTYPE"/> enumerated type.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// This flag is available in Direct3D 9Ex only.
+        /// </para>
         /// </summary>
         D3DPTFILTERCAPS_CONVOLUTIONMONO = 0x00040000,
 

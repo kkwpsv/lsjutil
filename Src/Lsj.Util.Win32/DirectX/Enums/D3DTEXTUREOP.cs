@@ -13,11 +13,16 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The members of this type are used when setting color or alpha operations
-    /// by using the <see cref="D3DTSS_COLOROP"/> or <see cref="D3DTSS_ALPHAOP"/> values with the <see cref="IDirect3DDevice9.SetTextureStageState"/> method.
-    /// In the above formulas, SRGBA is the RGBA color produced by a texture operation, and Arg1, Arg2, and Arg3 represent the complete RGBA color of the texture arguments.
+    /// by using the <see cref="D3DTSS_COLOROP"/> or <see cref="D3DTSS_ALPHAOP"/> values with the <see cref="IDirect3DDevice9.SetTextureStageState"/> method.
+    /// </para>
+    /// <para>
+    /// In the above formulas, S is the RGBA color produced by a texture operation,
+    /// and Arg1, Arg2, and Arg3 represent the complete RGBA color of the texture arguments.
     /// Individual components of an argument are shown with subscripts.
-    /// For example, the alpha component for argument 1 would be shown as Arg1A.
+    /// For example, the alpha component for argument 1 would be shown as Arg1.
+    /// </para>
     /// </remarks>
     public enum D3DTEXTUREOP
     {
@@ -171,15 +176,21 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DTOP_BUMPENVMAPLUMINANCE = 23,
 
         /// <summary>
+        /// <para>
         /// Modulate the components of each argument as signed components, add their products;
         /// then replicate the sum to all color channels, including alpha.
         /// This operation is supported for color and alpha operations.
-        /// equation of the dot product 3 operation (s(rgba) = arg1(r) x arg2(r) + arg1(g) x arg2(g) + arg1(b) x arg2(b))
-        /// In DirectX 6 and DirectX 7, multitexture operations the above inputs are all shifted down by half (y = x - 0.5) before use to simulate signed data,
+        /// </para>
+        /// <para>
+        /// In DirectX 6 and DirectX 7, multitexture operations the above inputs are all shifted down
+        /// by half (y = x - 0.5) before use to simulate signed data,
         /// and the scalar result is automatically clamped to positive values and replicated to all three output channels.
         /// Also, note that as a color operation this does not updated the alpha it just updates the RGB components.
+        /// </para>
+        /// <para>
         /// However, in DirectX 8.1 shaders you can specify that the output be routed to the .rgb or the .a components or both (the default).
         /// You can also specify a separate scalar operation on the alpha channel.
+        /// </para>
         /// </summary>
         D3DTOP_DOTPRODUCT3 = 24,
 

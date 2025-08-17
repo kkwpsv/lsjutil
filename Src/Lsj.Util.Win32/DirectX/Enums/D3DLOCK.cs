@@ -47,11 +47,16 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DLOCK_NOOVERWRITE = 0x00001000,
 
         /// <summary>
+        /// <para>
         /// The default behavior of a video memory lock is to reserve a system-wide critical section,
         /// guaranteeing that no display mode changes will occur for the duration of the lock.
         /// This option causes the system-wide critical section not to be held for the duration of the lock.
+        /// </para>
+        /// <para>
         /// The lock operation is time consuming, but can enable the system to perform other duties, such as moving the mouse cursor.
-        /// This option is useful for long-duration locks, such as the lock of the back buffer for software rendering that would otherwise adversely affect system responsiveness.
+        /// This option is useful for long-duration locks,
+        /// such as the lock of the back buffer for software rendering that would otherwise adversely affect system responsiveness.
+        /// </para>
         /// </summary>
         D3DLOCK_NOSYSLOCK = 0x00000800,
 

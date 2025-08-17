@@ -11,14 +11,37 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The transform states in the range 256 through 511 are reserved to store up to 256 world matrices
     /// that can be indexed using the <see cref="D3DTS_WORLDMATRIX"/> and <see cref="D3DTS_WORLD"/> macros.
-    /// <see cref="D3DTS_WORLD"/>:
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Macros
+    /// </term>
+    /// <term>
+    /// Description
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DTS_WORLD"/>
+    /// </term>
+    /// <term>
     /// Equivalent to <code>D3DTS_WORLDMATRIX(0)</code>.
-    /// <see cref="D3DTS_WORLDMATRIX"/>(index):
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="D3DTS_WORLDMATRIX"/> (index)
+    /// </term>
+    /// <term>
     /// Identifies the transform matrix to set for the world matrix at index.
-    /// Multiple world matrices are used only for vertex blending.
-    /// Otherwise only <see cref="D3DTS_WORLD"/> is used.
+    /// Multiple world matrices are used only for vertex blending. Otherwise only <see cref="D3DTS_WORLD"/> is used.
+    /// </term>
+    /// </item>
+    /// </list>
     /// </remarks>
     public enum D3DTRANSFORMSTATETYPE
     {

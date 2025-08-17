@@ -93,9 +93,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DQUERYTYPE_CACHEUTILIZATION = 18,
 
         /// <summary>
-        /// Efficiency of memory allocation contained in a <see cref="D3DMEMORYPRESSURE"/> structure.
+        /// <para>
+        /// Efficiency of memory allocation contained in a <see cref="D3DMEMORYPRESSURE"/> structure.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="D3DQUERYTYPE_MEMORYPRESSURE"/> is only available in Direct3D9Ex running on Windows 7 (or more current operating system).
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DQUERYTYPE_MEMORYPRESSURE = 19
     }

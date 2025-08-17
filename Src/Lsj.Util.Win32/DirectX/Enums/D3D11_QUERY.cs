@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -12,6 +13,9 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_query"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// Create a query with <see cref="ID3D11Device.CreateQuery"/>.
+    /// </remarks>
     public enum D3D11_QUERY
     {
         /// <summary>

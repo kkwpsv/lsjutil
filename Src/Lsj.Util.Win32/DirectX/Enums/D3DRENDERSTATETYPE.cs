@@ -39,12 +39,30 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Render states       Texture sampler
-    /// ps_1_1 to ps_1_3    4 texture samplers
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Render states
+    /// </term>
+    /// <term>
+    /// Texture sampler
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// ps_1_1 to ps_1_3
+    /// </term>
+    /// <term>
+    /// 4 texture samplers
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// Direct3D defines the <see cref="D3DRENDERSTATE_WRAPBIAS"/> constant as a convenience for applications to enable or disable texture wrapping,
     /// based on the zero-based integer of a texture coordinate set (rather than explicitly using one of the D3DRS_WRAP n state values).
     /// Add the <see cref="D3DRENDERSTATE_WRAPBIAS"/> value to the zero-based index of a texture coordinate
-    /// set to calculate the D3DRS_WRAPn value that corresponds to that index, as shown in the following example.
+    /// set to calculate the D3DRS_WRAP n value that corresponds to that index, as shown in the following example.
+    /// </para>
     /// <code>
     /// // Enable U/V wrapping for textures that use the texture 
     /// // coordinate set at the index within the dwIndex variable
@@ -60,12 +78,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
     public enum D3DRENDERSTATETYPE
     {
         /// <summary>
-        /// Depth-buffering state as one member of the <see cref="D3DZBUFFERTYPE"/> enumerated type.
-        /// Set this state to <see cref="D3DZB_TRUE"/> to enable z-buffering,
-        /// <see cref="D3DZB_USEW"/> to enable w-buffering, or <see cref="D3DZB_FALSE"/> to disable depth buffering.
-        /// The default value for this render state is <see cref="D3DZB_TRUE"/> if a depth stencil was created
-        /// along with the swap chain by setting the <see cref="D3DPRESENT_PARAMETERS.EnableAutoDepthStencil"/> member
-        /// of the <see cref="D3DPRESENT_PARAMETERS"/> structure to <see cref="TRUE"/>, and <see cref="D3DZB_FALSE"/> otherwise.
+        /// <para>
+        /// Depth-buffering state as one member of the <see cref="D3DZBUFFERTYPE"/> enumerated type.
+        /// Set this state to <see cref="D3DZB_TRUE"/> to enable z-buffering, <see cref="D3DZB_USEW"/> to enable w-buffering,
+        /// or <see cref="D3DZB_FALSE"/> to disable depth buffering.
+        /// </para>
+        /// <para>
+        /// The default value for this render state is <see cref="D3DZB_TRUE"/>
+        /// if a depth stencil was created along with the swap chain
+        /// by setting the <see cref="D3DPRESENT_PARAMETERS.EnableAutoDepthStencil"/> member
+        /// of the <see cref="D3DPRESENT_PARAMETERS"/> structure to <see cref="TRUE"/>, and <see cref="D3DZB_FALSE"/> otherwise.
+        /// </para>
         /// </summary>
         D3DRS_ZENABLE = 7,
 
@@ -91,14 +114,20 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_ZWRITEENABLE = 14,
 
         /// <summary>
-        /// <see cref="TRUE"/> to enable per pixel alpha testing.
+        /// <para>
+        /// <see cref="TRUE"/> to enable per pixel alpha testing.
         /// If the test passes, the pixel is processed by the frame buffer.
         /// Otherwise, all frame-buffer processing is skipped for the pixel.
+        /// </para>
+        /// <para>
         /// The test is done by comparing the incoming alpha value with the reference alpha value,
         /// using the comparison function provided by the <see cref="D3DRS_ALPHAFUNC"/> render state.
         /// The reference alpha value is determined by the value set for <see cref="D3DRS_ALPHAREF"/>.
-        /// For more information, see Alpha Testing State (Direct3D 9).
-        /// The default value of this parameter is <see cref="FALSE"/>.
+        /// For more information, see Alpha Testing State (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// The default value of this parameter is <see cref="FALSE"/>.
+        /// </para>
         /// </summary>
         D3DRS_ALPHATESTENABLE = 15,
 
@@ -129,14 +158,22 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_CULLMODE = 22,
 
         /// <summary>
-        /// One member of the <see cref="D3DCMPFUNC"/> enumerated type.
+        /// <para>
+        /// One member of the <see cref="D3DCMPFUNC"/> enumerated type.
         /// The default value is <see cref="D3DCMP_LESSEQUAL"/>.
         /// This member enables an application to accept or reject a pixel, based on its distance from the camera.
+        /// </para>
+        /// <para>
         /// The depth value of the pixel is compared with the depth-buffer value.
         /// If the depth value of the pixel passes the comparison function, the pixel is written.
-        /// The depth value is written to the depth buffer only if the render state is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// The depth value is written to the depth buffer only if the render state is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
         /// Software rasterizers and many hardware accelerators work faster if the depth test fails,
         /// because there is no need to filter and modulate the texture if the pixel is not going to be rendered.
+        /// </para>
         /// </summary>
         D3DRS_ZFUNC = 23,
 
@@ -162,9 +199,12 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_DITHERENABLE = 26,
 
         /// <summary>
-        /// <see cref="TRUE"/> to enable alpha-blended transparency.
-        /// The default value is <see cref="FALSE"/>.
+        /// <para>
+        /// <see cref="TRUE"/> to enable alpha-blended transparency. The default value is <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
         /// The type of alpha blending is determined by the <see cref="D3DRS_SRCBLEND"/> and <see cref="D3DRS_DESTBLEND"/> render states.
+        /// </para>
         /// </summary>
         D3DRS_ALPHABLENDENABLE = 27,
 
@@ -176,13 +216,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGENABLE = 28,
 
         /// <summary>
-        /// <see cref="TRUE"/> to enable specular highlights.
-        /// The default value is <see cref="FALSE"/>.
+        /// <para>
+        /// <see cref="TRUE"/> to enable specular highlights. The default value is <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
         /// Specular highlights are calculated as though every vertex in the object being lit is at the object's origin.
         /// This gives the expected results as long as the object is modeled
         /// around the origin and the distance from the light to the object is relatively large.
         /// In other cases, the results as undefined.
-        /// When this member is set to <see cref="TRUE"/>, the specular color is added to the base color after the texture cascade but before alpha blending.
+        /// </para>
+        /// <para>
+        /// When this member is set to <see cref="TRUE"/>,
+        /// the specular color is added to the base color after the texture cascade but before alpha blending.
+        /// </para>
         /// </summary>
         D3DRS_SPECULARENABLE = 29,
 
@@ -202,15 +248,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGTABLEMODE = 35,
 
         /// <summary>
+        /// <para>
         /// Depth at which pixel or vertex fog effects begin for linear fog mode.
         /// The default value is 0.0f.
         /// Depth is specified in world space for vertex fog and either device space [0.0, 1.0] or world space for pixel fog.
-        /// For pixel fog, these values are in device space when the system uses z for fog calculations
-        /// and world-world space when the system is using eye-relative fog (w-fog).
-        /// For more information, see Fog Parameters (Direct3D 9) and Eye-Relative vs. Z-based Depth.
+        /// For pixel fog, these values are in device space when the system uses z for fog calculations and world-world space
+        /// when the system is using eye-relative fog (w-fog).
+        /// For more information, see Fog Parameters (Direct3D 9) and Eye-Relative vs. Z-based Depth.
+        /// </para>
+        /// <para>
         /// Values for this render state are floating-point values.
-        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
+        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// pDevice9->SetRenderState(D3DRS_FOGSTART, 
         ///                          *((DWORD*) (&amp;fFogStart)));
@@ -219,15 +269,19 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGSTART = 36,
 
         /// <summary>
+        /// <para>
         /// Depth at which pixel or vertex fog effects end for linear fog mode.
         /// The default value is 1.0f.
         /// Depth is specified in world space for vertex fog and either device space [0.0, 1.0] or world space for pixel fog.
-        /// For pixel fog, these values are in device space when the system uses z for fog calculations
-        /// and in world space when the system is using eye-relative fog (w-fog).
-        /// For more information, see Fog Parameters (Direct3D 9) and Eye-Relative vs. Z-based Depth.
+        /// For pixel fog, these values are in device space when the system uses z for fog calculations and in world space
+        /// when the system is using eye-relative fog (w-fog).
+        /// For more information, see Fog Parameters (Direct3D 9) and Eye-Relative vs. Z-based Depth.
+        /// </para>
+        /// <para>
         /// Values for this render state are floating-point values.
-        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
+        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_FOGEND, *((DWORD*) (&amp;fFogEnd)));
         /// </code>
@@ -235,12 +289,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGEND = 37,
 
         /// <summary>
+        /// <para>
         /// Fog density for pixel or vertex fog used in the exponential fog modes (<see cref="D3DFOG_EXP"/> and <see cref="D3DFOG_EXP2"/>).
         /// Valid density values range from 0.0 through 1.0.
-        /// The default value is 1.0. For more information, see Fog Parameters (Direct3D 9).
+        /// The default value is 1.0.
+        /// For more information, see Fog Parameters (Direct3D 9).
+        /// </para>
+        /// <para>
         /// Values for this render state are floating-point values.
-        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
+        /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_FOGDENSITY, *((DWORD*) (&amp;fFogDensity)));
         /// </code>
@@ -248,17 +307,25 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGDENSITY = 38,
 
         /// <summary>
-        /// TRUE to enable range-based vertex fog.
-        /// The default value is <see cref="FALSE"/>, in which case the system uses depth-based fog.
+        /// <para>
+        /// <see cref="TRUE"/> to enable range-based vertex fog.
+        /// The default value is <see cref="FALSE"/>, in which case the system uses depth-based fog.
         /// In range-based fog, the distance of an object from the viewer is used to compute fog effects,
         /// not the depth of the object (that is, the z-coordinate) in the scene.
         /// In range-based fog, all fog methods work as usual, except that they use range instead of depth in the computations.
+        /// </para>
+        /// <para>
         /// Range is the correct factor to use for fog computations,
         /// but depth is commonly used instead because range is time-consuming to compute and depth is generally already available.
         /// Using depth to calculate fog has the undesirable effect of having the fogginess of peripheral objects change
         /// as the viewer's eye moves - in this case, the depth changes and the range remains constant.
+        /// </para>
+        /// <para>
         /// Because no hardware currently supports per-pixel range-based fog, range correction is offered only for vertex fog.
-        /// For more information, see Vertex Fog (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// For more information, see Vertex Fog (Direct3D 9).
+        /// </para>
         /// </summary>
         D3DRS_RANGEFOGENABLE = 48,
 
@@ -291,13 +358,17 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_STENCILPASS = 55,
 
         /// <summary>
+        /// <para>
         /// Comparison function for the stencil test.
-        /// Values are from the <see cref="D3DCMPFUNC"/> enumerated type.
+        /// Values are from the <see cref="D3DCMPFUNC"/> enumerated type.
         /// The default value is <see cref="D3DCMP_ALWAYS"/>.
+        /// </para>
+        /// <para>
         /// The comparison function is used to compare the reference value to a stencil buffer entry.
-        /// This comparison applies only to the bits in the reference value and stencil buffer entry
-        /// that are set in the stencil mask (set by the <see cref="D3DRS_STENCILMASK"/> render state).
-        /// If <see cref="TRUE"/>, the stencil test passes.
+        /// This comparison applies only to the bits in the reference value
+        /// and stencil buffer entry that are set in the stencil mask (set by the <see cref="D3DRS_STENCILMASK"/> render state).
+        /// If <see cref="TRUE"/>, the stencil test passes.
+        /// </para>
         /// </summary>
         D3DRS_STENCILFUNC = 56,
 
@@ -400,12 +471,36 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_FOGVERTEXMODE = 140,
 
         /// <summary>
-        /// <see cref="TRUE"/> to enable per-vertex color or <see cref="FALSE"/> to disable it.
-        /// The default value is <see cref="TRUE"/>.
+        /// <para>
+        /// <see cref="TRUE"/> to enable per-vertex color or <see cref="FALSE"/> to disable it.
+        /// The default value is <see cref="TRUE"/>.
         /// Enabling per-vertex color allows the system to include the color defined for individual vertices in its lighting calculations.
+        /// </para>
+        /// <para>
         /// For more information, see the following render states:
-        /// <see cref="D3DRS_DIFFUSEMATERIALSOURCE"/>, <see cref="D3DRS_SPECULARMATERIALSOURCE"/>,
-        /// <see cref="D3DRS_AMBIENTMATERIALSOURCE"/>, <see cref="D3DRS_EMISSIVEMATERIALSOURCE"/>
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DRS_DIFFUSEMATERIALSOURCE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DRS_SPECULARMATERIALSOURCE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DRS_AMBIENTMATERIALSOURCE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DRS_EMISSIVEMATERIALSOURCE"/>
+        /// </description>
+        /// </item>
+        /// </list>
         /// </summary>
         D3DRS_COLORVERTEX = 141,
 
@@ -461,14 +556,18 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_VERTEXBLEND = 151,
 
         /// <summary>
+        /// <para>
         /// Enables or disables user-defined clipping planes.
         /// Valid values are any <see cref="DWORD"/> in which the status of each bit (set or not set)
-        /// toggles the activation state of a corresponding user-defined clipping plane.
+        /// toggles the activation state of a corresponding user-defined clipping plane. 
         /// The least significant bit (bit 0) controls the first clipping plane at index 0,
         /// and subsequent bits control the activation of clipping planes at higher indexes.
         /// If a bit is set, the system applies the appropriate clipping plane during scene rendering.
         /// The default value is 0.
-        /// The D3DCLIPPLANEn macros are defined to provide a convenient way to enable clipping planes.
+        /// </para>
+        /// <para>
+        /// The D3DCLIPPLANEn macros are defined to provide a convenient way to enable clipping planes.
+        /// </para>
         /// </summary>
         D3DRS_CLIPPLANEENABLE = 152,
 
@@ -478,6 +577,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_SOFTWAREVERTEXPROCESSING = 153,
 
         /// <summary>
+        /// <para>
         /// A float value that specifies the size to use for point size computation in cases where point size is not specified for each vertex.
         /// This value is not used when the vertex contains point size.
         /// This value is in screen space units if <see cref="D3DRS_POINTSCALEENABLE"/> is <see cref="FALSE"/>; otherwise this value is in world space units.
@@ -485,6 +585,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// If a driver returns 0 or 1, the default value is 64, which allows software point size emulation.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_POINTSIZE, *((DWORD*)&amp;pointSize));
         /// </code>
@@ -492,6 +593,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_POINTSIZE = 154,
 
         /// <summary>
+        /// <para>
         /// A float value that specifies the minimum size of point primitives.
         /// Point primitives are clamped to this size during rendering.
         /// Setting this to values smaller than 1.0 results in points dropping out when the point does not cover a pixel center
@@ -500,6 +602,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// The range for this value is greater than or equal to 0.0f.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_POINTSIZE_MIN, *((DWORD*)&amp;pointSizeMin));
         /// </code>
@@ -526,11 +629,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_POINTSCALEENABLE = 157,
 
         /// <summary>
+        /// <para>
         /// A float value that controls for distance-based size attenuation for point primitives.
         /// Active only when <see cref="D3DRS_POINTSCALEENABLE"/> is <see cref="TRUE"/>.
         /// The default value is 1.0f. The range for this value is greater than or equal to 0.0f.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_POINTSCALE_A, *((DWORD*)&amp;pointScaleA));
         /// </code>
@@ -538,11 +643,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_POINTSCALE_A = 158,
 
         /// <summary>
+        /// <para>
         /// A float value that controls for distance-based size attenuation for point primitives.
         /// Active only when <see cref="D3DRS_POINTSCALEENABLE"/> is <see cref="TRUE"/>.
         /// The default value is 0.0f. The range for this value is greater than or equal to 0.0f.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_POINTSCALE_B, *((DWORD*)&amp;pointScaleB));
         /// </code>
@@ -550,11 +657,13 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_POINTSCALE_B = 159,
 
         /// <summary>
+        /// <para>
         /// A float value that controls for distance-based size attenuation for point primitives.
         /// Active only when <see cref="D3DRS_POINTSCALEENABLE"/> is <see cref="TRUE"/>.
         /// The default value is 0.0f. The range for this value is greater than or equal to 0.0f.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts DWORD values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_POINTSCALE_C, *((DWORD*)&amp;pointScaleC));
         /// </code>
@@ -573,14 +682,21 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_MULTISAMPLEANTIALIAS = 161,
 
         /// <summary>
-        /// Each bit in this mask, starting at the least significant bit (LSB), controls modification of one of the samples in a multisample render target.
+        /// <para>
+        /// Each bit in this mask, starting at the least significant bit (LSB),
+        /// controls modification of one of the samples in a multisample render target.
         /// Thus, for an 8-sample render target, the low byte contains the eight write enables for each of the eight samples.
         /// This render state has no effect when rendering to a single sample buffer.
         /// The default value is 0xFFFFFFFF.
+        /// </para>
+        /// <para>
         /// This render state enables use of a multisample buffer as an accumulation buffer,
         /// doing multipass rendering of geometry where each pass updates a subset of samples.
+        /// </para>
+        /// <para>
         /// If there are n multisamples and k enabled samples, the resulting intensity of the rendered image should be k/n.
         /// Each component RGB of every pixel is factored by k/n.
+        /// </para>
         /// </summary>
         D3DRS_MULTISAMPLEMASK = 162,
 
@@ -592,23 +708,30 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_PATCHEDGESTYLE = 163,
 
         /// <summary>
+        /// <para>
         /// Set only for debugging the monitor.
-        /// Possible values are defined by the <see cref="D3DDEBUGMONITORTOKENS"/> enumerated type.
+        /// Possible values are defined by the <see cref="D3DDEBUGMONITORTOKENS"/> enumerated type.
         /// Note that if <see cref="D3DRS_DEBUGMONITORTOKEN"/> is set, the call is treated as passing a token to the debug monitor.
-        /// For example, if - after passing <see cref="D3DDMT_ENABLE"/> or <see cref="D3DDMT_DISABLE"/> to <see cref="D3DRS_DEBUGMONITORTOKEN"/>
-        /// - other token values are passed in, the state (enabled or disabled) of the debug monitor will still persist.
+        /// For example, if - after passing <see cref="D3DDMT_ENABLE"/> or <see cref="D3DDMT_DISABLE"/>
+        /// to <see cref="D3DRS_DEBUGMONITORTOKEN"/> - other token values are passed in,
+        /// the state (enabled or disabled) of the debug monitor will still persist.
+        /// </para>
+        /// <para>
         /// This state is only useful for debug builds.
         /// The debug monitor defaults to <see cref="D3DDMT_ENABLE"/>.
+        /// </para>
         /// </summary>
         D3DRS_DEBUGMONITORTOKEN = 165,
 
         /// <summary>
+        /// <para>
         /// A float value that specifies the maximum size to which point sprites will be clamped.
         /// The value must be less than or equal to the <see cref="D3DCAPS9.MaxPointSize"/> member of <see cref="D3DCAPS9"/>
         /// and greater than or equal to <see cref="D3DRS_POINTSIZE_MIN"/>.
         /// The default value is 64.0.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/>method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_PONTSIZE_MAX, *((DWORD*)&amp;pointSizeMax));
         /// </code>
@@ -627,23 +750,29 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_INDEXEDVERTEXBLENDENABLE = 167,
 
         /// <summary>
-        /// <see cref="UINT"/> value that enables a per-channel write for the render-target color buffer.
+        /// <para>
+        /// UINT value that enables a per-channel write for the render-target color buffer.
         /// A set bit results in the color channel being updated during 3D rendering.
         /// A clear bit results in the color channel being unaffected.
         /// This functionality is available if the <see cref="D3DPMISCCAPS_COLORWRITEENABLE"/> capabilities bit is set
-        /// in the <see cref="D3DCAPS9.PrimitiveMiscCaps"/> member of the <see cref="D3DCAPS9"/> structure for the device.
+        /// in the <see cref="D3DCAPS9.PrimitiveMiscCaps"/> member of the <see cref="D3DCAPS9"/> structure for the device.
         /// This render state does not affect the clear operation.
         /// The default value is 0x0000000F.
+        /// </para>
+        /// <para>
         /// Valid values for this render state can be any combination of the <see cref="D3DCOLORWRITEENABLE_ALPHA"/>,
         /// <see cref="D3DCOLORWRITEENABLE_BLUE"/>, <see cref="D3DCOLORWRITEENABLE_GREEN"/>, or <see cref="D3DCOLORWRITEENABLE_RED"/> flags.
+        /// </para>
         /// </summary>
         D3DRS_COLORWRITEENABLE = 168,
 
         /// <summary>
+        /// <para>
         /// A float value that controls the tween factor.
         /// The default value is 0.0f.
         /// Because the <see cref="IDirect3DDevice9.SetRenderState"/> method accepts <see cref="DWORD"/> values,
         /// your application must cast a variable that contains the value, as shown in the following code example.
+        /// </para>
         /// <code>
         /// m_pDevice9->SetRenderState(D3DRS_TWEENFACTOR, *((DWORD*)&amp;TweenFactor));
         /// </code>
@@ -651,11 +780,15 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_TWEENFACTOR = 170,
 
         /// <summary>
+        /// <para>
         /// Value used to select the arithmetic operation applied when the alpha blending render state,
-        /// <see cref="D3DRS_ALPHABLENDENABLE"/>, is set to <see cref="TRUE"/>.
-        /// Valid values are defined by the <see cref="D3DBLENDOP"/> enumerated type.
+        /// <see cref="D3DRS_ALPHABLENDENABLE"/>, is set to <see cref="TRUE"/>.
+        /// Valid values are defined by the <see cref="D3DBLENDOP"/> enumerated type.
         /// The default value is <see cref="D3DBLENDOP_ADD"/>.
+        /// </para>
+        /// <para>
         /// If the <see cref="D3DPMISCCAPS_BLENDOP"/> device capability is not supported, then <see cref="D3DBLENDOP_ADD"/> is performed.
+        /// </para>
         /// </summary>
         D3DRS_BLENDOP = 171,
 
@@ -680,17 +813,28 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_SCISSORTESTENABLE = 174,
 
         /// <summary>
-        /// Used to determine how much bias can be applied to co-planar primitives to reduce z-fighting. The default value is 0.
-        /// bias = (max * <see cref="D3DRS_SLOPESCALEDEPTHBIAS"/>) + <see cref="D3DRS_DEPTHBIAS"/>.
+        /// <para>
+        /// Used to determine how much bias can be applied to co-planar primitives to reduce z-fighting.
+        /// The default value is 0.
+        /// </para>
+        /// <para>
+        /// <c>bias = (max * D3DRS_SLOPESCALEDEPTHBIAS) + D3DRS_DEPTHBIAS.</c>
+        /// </para>
+        /// <para>
         /// where max is the maximum depth slope of the triangle being rendered.
+        /// </para>
         /// </summary>
         D3DRS_SLOPESCALEDEPTHBIAS = 175,
 
         /// <summary>
-        /// <see cref="TRUE"/> to enable line antialiasing, <see cref="FALSE"/> to disable line antialiasing.
-        /// The default value is <see cref="FALSE"/>.
+        /// <para>
+        /// <see cref="TRUE"/> to enable line antialiasing, <see cref="FALSE"/> to disable line antialiasing.
+        /// The default value is <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
         /// When rendering to a multisample render target, <see cref="D3DRS_ANTIALIASEDLINEENABLE"/> is ignored and all lines are rendered aliased.
-        /// Use <see cref="ID3DXLine"/> for antialiased line rendering in a multisample render target.
+        /// Use <see cref="ID3DXLine"/> for antialiased line rendering in a multisample render target.
+        /// </para>
         /// </summary>
         D3DRS_ANTIALIASEDLINEENABLE = 176,
 
@@ -744,14 +888,18 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_ENABLEADAPTIVETESSELLATION = 184,
 
         /// <summary>
-        /// <see cref="TRUE"/> enables two-sided stenciling, <see cref="FALSE"/> disables it.
-        /// The default value is <see cref="FALSE"/>.
+        /// <para>
+        /// <see cref="TRUE"/> enables two-sided stenciling, <see cref="FALSE"/> disables it.
+        /// The default value is <see cref="FALSE"/>.
         /// The application should set <see cref="D3DRS_CULLMODE"/> to <see cref="D3DCULL_NONE"/> to enable two-sided stencil mode.
         /// If the triangle winding order is clockwise, the D3DRS_STENCIL* operations will be used.
         /// If the winding order is counterclockwise, the D3DRS_CCW_STENCIL* operations will be used.
-        /// To see if two-sided stencil is supported, check the <see cref="D3DCAPS9.StencilCaps"/> member
-        /// of <see cref="D3DCAPS9"/> for <see cref="D3DSTENCILCAPS_TWOSIDED"/>.
-        /// See also <see cref="D3DSTENCILCAPS"/>.
+        /// </para>
+        /// <para>
+        /// To see if two-sided stencil is supported,
+        /// check the <see cref="D3DCAPS9.StencilCaps"/> member of <see cref="D3DCAPS9"/> for <see cref="D3DSTENCILCAPS_TWOSIDED"/>.
+        /// See also <see cref="D3DSTENCILCAPS"/>.
+        /// </para>
         /// </summary>
         D3DRS_TWOSIDEDSTENCILMODE = 185,
 
@@ -875,13 +1023,20 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_WRAP15 = 205,
 
         /// <summary>
-        /// <see cref="TRUE"/> enables the separate blend mode for the alpha channel.
-        /// The default value is <see cref="FALSE"/>.
-        /// When set to <see cref="FALSE"/>, the render-target blending factors
-        /// and operations applied to alpha are forced to be the same as those defined for color.
-        /// This mode is effectively hardwired to <see cref="FALSE"/> on implementations that don't set the cap <see cref="D3DPMISCCAPS_SEPARATEALPHABLEND"/>.
-        /// See <see cref="D3DPMISCCAPS"/>.
+        /// <para>
+        /// <see cref="TRUE"/> enables the separate blend mode for the alpha channel.
+        /// The default value is <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// When set to <see cref="FALSE"/>, the render-target blending factors and operations
+        /// applied to alpha are forced to be the same as those defined for color.
+        /// This mode is effectively hardwired to <see cref="FALSE"/> on implementations
+        /// that don't set the cap <see cref="D3DPMISCCAPS_SEPARATEALPHABLEND"/>.
+        /// See <see cref="D3DPMISCCAPS"/>.
+        /// </para>
+        /// <para>
         /// The type of separate alpha blending is determined by the <see cref="D3DRS_SRCBLENDALPHA"/> and <see cref="D3DRS_DESTBLENDALPHA"/> render states.
+        /// </para>
         /// </summary>
         D3DRS_SEPARATEALPHABLENDENABLE = 206,
 
@@ -900,11 +1055,18 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DRS_DESTBLENDALPHA = 208,
 
         /// <summary>
-        /// Value used to select the arithmetic operation applied to separate alpha blending
-        /// when the render state, <see cref="D3DRS_SEPARATEALPHABLENDENABLE"/>, is set to <see cref="TRUE"/>.
-        /// Valid values are defined by the <see cref="D3DBLENDOP"/> enumerated type. The default value is <see cref="D3DBLENDOP_ADD"/>.
+        /// <para>
+        /// Value used to select the arithmetic operation applied to separate alpha blending when the render state,
+        /// <see cref="D3DRS_SEPARATEALPHABLENDENABLE"/>, is set to <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// Valid values are defined by the <see cref="D3DBLENDOP"/> enumerated type.
+        /// The default value is <see cref="D3DBLENDOP_ADD"/>.
+        /// </para>
+        /// <para>
         /// If the <see cref="D3DPMISCCAPS_BLENDOP"/> device capability is not supported, then <see cref="D3DBLENDOP_ADD"/> is performed.
-        /// See <see cref="D3DPMISCCAPS"/>.
+        /// See <see cref="D3DPMISCCAPS"/>.
+        /// </para>
         /// </summary>
         D3DRS_BLENDOPALPHA = 209,
 

@@ -21,7 +21,8 @@ namespace Lsj.Util.Win32.DirectX.Enums
         D3DSCANLINEORDERING_PROGRESSIVE = 1,
 
         /// <summary>
-        /// The image is created using the interlaced method in which odd-numbered lines are drawn on odd-numbered passes and even lines are drawn on even-numbered passes.
+        /// The image is created using the interlaced method in which odd-numbered lines are drawn on odd-numbered passes
+        /// and even lines are drawn on even-numbered passes.
         /// </summary>
         D3DSCANLINEORDERING_INTERLACED = 2,
     }
