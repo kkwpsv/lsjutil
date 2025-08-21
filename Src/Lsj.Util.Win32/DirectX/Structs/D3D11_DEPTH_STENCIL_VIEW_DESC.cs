@@ -14,12 +14,43 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// These are valid formats for a depth-stencil view:
-    /// <see cref="DXGI_FORMAT_D16_UNORM"/>, <see cref="DXGI_FORMAT_D24_UNORM_S8_UINT"/>, <see cref="DXGI_FORMAT_D32_FLOAT"/>,
-    /// <see cref="DXGI_FORMAT_D32_FLOAT_S8X24_UINT"/>, <see cref="DXGI_FORMAT_UNKNOWN"/>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <see cref="DXGI_FORMAT_D16_UNORM"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="DXGI_FORMAT_D24_UNORM_S8_UINT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="DXGI_FORMAT_D32_FLOAT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="DXGI_FORMAT_D32_FLOAT_S8X24_UINT"/>
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <see cref="DXGI_FORMAT_UNKNOWN"/>
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
     /// A depth-stencil view cannot use a typeless format.
     /// If the format chosen is <see cref="DXGI_FORMAT_UNKNOWN"/>, then the format of the parent resource is used.
-    /// A depth-stencil-view description is needed when calling <see cref="ID3D11Device.CreateDepthStencilView"/>.
+    /// </para>
+    /// <para>
+    /// A depth-stencil-view description is needed when calling <see cref="ID3D11Device.CreateDepthStencilView"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct D3D11_DEPTH_STENCIL_VIEW_DESC

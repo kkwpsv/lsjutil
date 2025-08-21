@@ -57,11 +57,17 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT BitsPerColor;
 
         /// <summary>
+        /// <para>
         /// The current advanced color capabilities of the display attached to this output.
-        /// Specifically, whether its capable of reproducing color and luminance values outside of the sRGB color space.
-        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709"/> indicates that the display is limited to SDR/sRGB;
-        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020"/> indicates that the display supports advanced color capabilities.
+        /// Specifically, whether it's capable of reproducing color and luminance values outside of the sRGB color space.
+        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709"/> indicates that the display is limited to SDR/sRGB.
+        /// A value of <see cref="DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020"/> indicates that the display supports advanced color capabilities.
+        /// <see cref="DXGI_COLOR_SPACE_RGB_FULL_G10_NONE_P709"/> is currently not a color space that displays use;
+        /// it's simply an intermediary swap-chain color space.
+        /// </para>
+        /// <para>
         /// For detailed luminance and color capabilities, see additional members of this struct.
+        /// </para>
         /// </summary>
         public DXGI_COLOR_SPACE_TYPE ColorSpace;
 

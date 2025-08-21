@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// D3DPRIMCAPS
     /// </summary>
+    [Flags]
     public enum D3DPRIMCAPS
     {
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -12,14 +13,21 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// You can set the members of this structure to values outside the range of 0 through 1 to implement some unusual effects.
     /// Values greater than 1 produce strong lights that tend to wash out a scene.
     /// Negative values produce dark lights that actually remove light from a scene.
-    /// The DXGItype.h header type-defines <see cref="DXGI_RGBA"/> as an alias of <see cref="D3DCOLORVALUE"/>, as follows:
+    /// </para>
+    /// <para>
+    /// The DXGItype.h header type-defines <see cref="DXGI_RGBA"/> as an alias of <see cref="D3DCOLORVALUE"/>, as follows:
+    /// </para>
     /// <code>
     /// typedef D3DCOLORVALUE DXGI_RGBA;
     /// </code>
-    /// You can use <see cref="DXGI_RGBA"/> with <see cref="IDXGISwapChain1.SetBackgroundColor"/>, <see cref="IDXGISwapChain1.GetBackgroundColor"/>, and <see cref="DXGI_ALPHA_MODE"/>.
+    /// <para>
+    /// You can use <see cref="DXGI_RGBA"/> with <see cref="IDXGISwapChain1.SetBackgroundColor"/>,
+    /// <see cref="IDXGISwapChain1.GetBackgroundColor"/>, and <see cref="DXGI_ALPHA_MODE"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_RGBA

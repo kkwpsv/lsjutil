@@ -14,9 +14,14 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// To turn off specular highlights, set <see cref="D3DRS_SPECULARENABLE"/> to <see cref="FALSE"/>, using <see cref="D3DRENDERSTATETYPE"/>.
+    /// <para>
+    /// To turn off specular highlights,
+    /// set <see cref="D3DRS_SPECULARENABLE"/> to <see cref="FALSE"/>, using <see cref="D3DRENDERSTATETYPE"/>.
     /// This is the fastest option because no specular highlights will be calculated.
-    /// For more information about using the lighting engine to calculate specular lighting, see Specular Lighting (Direct3D 9).
+    /// </para>
+    /// <para>
+    /// For more information about using the lighting engine to calculate specular lighting, see Specular Lighting (Direct3D 9).
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3DMATERIAL9

@@ -27,9 +27,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT MostDetailedMip;
 
         /// <summary>
+        /// <para>
         /// The maximum number of mipmap levels for the view of the texture.
-        /// See the remarks in <see cref="D3D11_TEX1D_SRV"/>.
-        /// Set to -1 to indicate all the mipmap levels from <see cref="MostDetailedMip"/> on down to least detailed.
+        /// See the remarks in <see cref="D3D11_TEX1D_SRV"/>.
+        /// </para>
+        /// <para>
+        /// Set to -1 to indicate all the mipmap levels from <see cref="MostDetailedMip"/> on down to least detailed.
+        /// </para>
         /// </summary>
         public UINT MipLevels;
 

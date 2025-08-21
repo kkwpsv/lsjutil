@@ -17,20 +17,35 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used by the <see cref="IDXGIFactory2.CreateSwapChainForHwnd"/>, <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/>,
-    /// <see cref="IDXGIFactory2.CreateSwapChainForComposition"/>, <see cref="IDXGIFactoryMedia.CreateSwapChainForCompositionSurfaceHandle"/>,
-    /// and <see cref="IDXGIFactory2.GetDesc1"/> methods.
-    /// Note  You cannot cast a <see cref="DXGI_SWAP_CHAIN_DESC1"/> to a <see cref="DXGI_SWAP_CHAIN_DESC"/> and vice versa.
-    /// An application must explicitly use the <see cref="IDXGISwapChain1.GetDesc1"/> method to retrieve the newer version of the swap-chain description structure.
+    /// <para>
+    /// This structure is used by the <see cref="IDXGIFactory2.CreateSwapChainForHwnd"/>,
+    /// <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/>, <see cref="IDXGIFactory2.CreateSwapChainForComposition"/>,
+    /// <see cref="IDXGIFactoryMedia.CreateSwapChainForCompositionSurfaceHandle"/>, and <see cref="IDXGISwapChain1.GetDesc1"/> methods.
+    /// </para>
+    /// <para>
+    /// Note
+    /// </para>
+    /// <para>
+    /// You cannot cast a <see cref="DXGI_SWAP_CHAIN_DESC1"/> to a <see cref="DXGI_SWAP_CHAIN_DESC"/> and vice versa.
+    /// An application must explicitly use the <see cref="IDXGISwapChain1.GetDesc1"/> method
+    /// to retrieve the newer version of the swap-chain description structure.
+    /// </para>
+    /// <para>
     /// In full-screen mode, there is a dedicated front buffer; in windowed mode, the desktop is the front buffer.
-    /// For a flip-model swap chain (that is, a swap chain that has the <see cref="DXGI_SWAP_EFFECT_FLIP_DISCARD"/>
-    /// or <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value set in the <see cref="SwapEffect"/> member),
-    /// you must set the <see cref="Format"/> member to <see cref="DXGI_FORMAT_R16G16B16A16_FLOAT"/>,
-    /// <see cref="DXGI_FORMAT_B8G8R8A8_UNORM"/>, or <see cref="DXGI_FORMAT_R8G8B8A8_UNORM"/>;
-    /// you must set the <see cref="DXGI_SAMPLE_DESC.Count"/> member of the <see cref="DXGI_SAMPLE_DESC"/> structure
-    /// that the <see cref="SampleDesc"/> member specifies to one and the <see cref="DXGI_SAMPLE_DESC.Quality"/> member of <see cref="DXGI_SAMPLE_DESC"/> to zero
-    /// because multiple sample antialiasing (MSAA) is not supported; you must set the <see cref="BufferCount"/> member to from two to sixteen.
+    /// </para>
+    /// <para>
+    /// For a flip-model swap chain (that is, a swap chain that has the <see cref="DXGI_SWAP_EFFECT_FLIP_DISCARD"/>
+    /// or <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value set in the <see cref="SwapEffect"/> member),
+    /// you must set the <see cref="Format"/> member to <see cref="DXGI_FORMAT_R16G16B16A16_FLOAT"/>,
+    /// <see cref="DXGI_FORMAT_B8G8R8A8_UNORM"/>, <see cref="DXGI_FORMAT_R8G8B8A8_UNORM"/>,
+    /// or <see cref="DXGI_FORMAT_R10G10B10A2_UNORM"/>;
+    /// you must set the <see cref="DXGI_SAMPLE_DESC.Count"/> member of the <see cref="DXGI_SAMPLE_DESC"/> structure
+    /// that the <see cref="SampleDesc"/> member specifies to one and
+    /// the <see cref="DXGI_SAMPLE_DESC.Quality"/> member of <see cref="DXGI_SAMPLE_DESC"/> to zero
+    /// because multiple sample antialiasing (MSAA) is not supported;
+    /// you must set the <see cref="BufferCount"/> member to from two to sixteen.
     /// For more info about flip-model swap chain, see DXGI Flip Model.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_SWAP_CHAIN_DESC1

@@ -16,25 +16,46 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used by the <see cref="IDXGISwapChain1.Present1"/> method.
+    /// <para>
+    /// This structure is used by the <see cref="IDXGISwapChain1.Present1"/> method.
+    /// </para>
+    /// <para>
     /// The scroll rectangle and the list of dirty rectangles could overlap.
     /// In this situation, the dirty rectangles take priority.
     /// Applications can then have pieces of dynamic content on top of a scrolled area.
     /// For example, an application could scroll a page and play video at the same time.
-    /// Parts of the previous frame and content that the application renders are combined to produce the final frame that the operating system presents on the display screen.
+    /// </para>
+    /// <para>
+    /// The following diagram and coordinates illustrate this example.syntax
+    /// </para>
+    /// 
+    /// <para>
+    /// Parts of the previous frame and content that the application renders are combined
+    /// to produce the final frame that the operating system presents on the display screen.
     /// Most of the window is scrolled from the previous frame.
     /// The application must update the video frame with the new chunk of content that appears due to scrolling.
+    /// </para>
+    /// <para>
     /// The dashed rectangle shows the scroll rectangle in the current frame.
-    /// The scroll rectangle is specified by the <see cref="pScrollRect"/> member.
+    /// The scroll rectangle is specified by the pScrollRect member.
     /// The arrow shows the scroll offset.
-    /// The scroll offset is specified by the <see cref="pScrollOffset"/> member.
+    /// The scroll offset is specified by the <see cref="pScrollOffset"/> member.
     /// Filled rectangles show dirty rectangles that the application updated with new content.
-    /// The filled rectangles are specified by the <see cref="DirtyRectsCount"/> and <see cref="pDirtyRects"/> members.
-    /// The scroll rectangle and offset are not supported for the <see cref="DXGI_SWAP_EFFECT_DISCARD"/> or <see cref="DXGI_SWAP_EFFECT_SEQUENTIAL"/> present option.
+    /// The filled rectangles are specified by the <see cref="DirtyRectsCount"/> and <see cref="pDirtyRects"/> members.
+    /// </para>
+    /// <para>
+    /// The scroll rectangle and offset are not supported for the <see cref="DXGI_SWAP_EFFECT_DISCARD"/>
+    /// or <see cref="DXGI_SWAP_EFFECT_SEQUENTIAL"/> present option.
     /// Dirty rectangles and scroll rectangle are not supported for multisampled swap chains.
+    /// </para>
+    /// <para>
     /// The actual implementation of composition and necessary bitblts is different for the bitblt model and the flip model.
-    /// For more info about these models, see DXGI Flip Model.
-    /// For more info about the flip-model swap chain and optimizing presentation, see Enhancing presentation with the flip model, dirty rectangles, and scrolled areas.
+    /// For more info about these models, see DXGI Flip Model.
+    /// </para>
+    /// <para>
+    /// For more info about the flip-model swap chain and optimizing presentation,
+    /// see Enhancing presentation with the flip model, dirty rectangles, and scrolled areas.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_PRESENT_PARAMETERS
@@ -57,16 +78,24 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public IntPtr pDirtyRects;
 
         /// <summary>
+        /// <para>
         /// A pointer to the scrolled rectangle.
-        /// The scrolled rectangle is the rectangle of the previous frame from which the runtime bit-block transfers (bitblts) content.
-        /// The runtime also uses the scrolled rectangle to optimize presentation in terminal server and indirect display scenarios.
-        /// The scrolled rectangle also describes the destination rectangle, that is, the region on the current frame that is filled with scrolled content.
-        /// You can set this member to <see cref="NULL"/> to indicate that no content is scrolled from the previous frame.
+        /// The scrolled rectangle is the rectangle of the previous frame
+        /// from which the runtime bit-block transfers (bitblts) content.
+        /// The runtime also uses the scrolled rectangle to optimize presentation
+        /// in terminal server and indirect display scenarios.
+        /// </para>
+        /// <para>
+        /// The scrolled rectangle also describes the destination rectangle,
+        /// that is, the region on the current frame that is filled with scrolled content.
+        /// You can set this member to <see cref="NULL"/> to indicate that no content is scrolled from the previous frame.
+        /// </para>
         /// </summary>
         public IntPtr pScrollRect;
 
         /// <summary>
-        /// A pointer to the offset of the scrolled area that goes from the source rectangle (of previous frame) to the destination rectangle (of current frame).
+        /// A pointer to the offset of the scrolled area that goes from the source rectangle
+        /// (of previous frame) to the destination rectangle (of current frame).
         /// You can set this member to <see cref="NULL"/> to indicate no offset.
         /// </summary>
         public IntPtr pScrollOffset;

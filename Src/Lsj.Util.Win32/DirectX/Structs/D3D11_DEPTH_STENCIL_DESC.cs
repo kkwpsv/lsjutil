@@ -19,22 +19,141 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Pass a pointer to <see cref="D3D11_DEPTH_STENCIL_DESC"/> to
-    /// the <see cref="ID3D11Device.CreateDepthStencilState"/> method to create the depth-stencil state object.
+    /// <para>
+    /// Pass a pointer to <see cref="D3D11_DEPTH_STENCIL_DESC"/> to the <see cref="ID3D11Device.CreateDepthStencilState"/> method
+    /// to create the depth-stencil state object.
+    /// </para>
+    /// <para>
     /// Depth-stencil state controls how depth-stencil testing is performed by the output-merger stage.
-    /// The following table shows the default values of depth-stencil states.
-    /// State                                                           Default Value
-    /// <see cref="DepthEnable"/>                                       <see cref="TRUE"/>
-    /// <see cref="DepthWriteMask"/>                                    <see cref="D3D11_DEPTH_WRITE_MASK_ALL"/>
-    /// <see cref="DepthFunc"/>                                         <see cref="D3D11_COMPARISON_LESS"/>
-    /// <see cref="StencilEnable"/>                                     <see cref="FALSE"/>
-    /// <see cref="StencilReadMask"/>                                   <see cref="D3D11_DEFAULT_STENCIL_READ_MASK"/>
-    /// <see cref="StencilWriteMask"/>                                  <see cref="D3D11_DEFAULT_STENCIL_WRITE_MASK"/>
-    /// FrontFace.StencilFunc and BackFace.StencilFunc                  <see cref="D3D11_COMPARISON_ALWAYS"/>
-    /// FrontFace.StencilDepthFailOp and BackFace.StencilDepthFailOp    <see cref="D3D11_STENCIL_OP_KEEP"/>
-    /// FrontFace.StencilPassOp and BackFace.StencilPassOp              <see cref="D3D11_STENCIL_OP_KEEP"/>
-    /// FrontFace.StencilFailOp and BackFace.StencilFailOp              <see cref="D3D11_STENCIL_OP_KEEP"/>
+    /// </para>
+    /// <para>
+    /// The following table shows the default values of depth-stencil states. 
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// State
+    /// </term>
+    /// <term>
+    /// Default Value
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// DepthEnable
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// DepthWriteMask
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_DEPTH_WRITE_MASK_ALL"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// DepthFunc
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_COMPARISON_LESS"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// StencilEnable
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// StencilReadMask
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_DEFAULT_STENCIL_READ_MASK"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// StencilWriteMask
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_DEFAULT_STENCIL_WRITE_MASK"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <para>
+    /// FrontFace.StencilFunc
+    /// </para>
+    /// <para>
+    /// and
+    /// </para>
+    /// <para>
+    /// BackFace.StencilFunc
+    /// </para>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_COMPARISON_ALWAYS"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <para>
+    /// FrontFace.StencilDepthFailOp
+    /// </para>
+    /// <para>
+    /// and
+    /// </para>
+    /// <para>
+    /// BackFace.StencilDepthFailOp
+    /// </para>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_STENCIL_OP_KEEP"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <para>
+    /// FrontFace.StencilPassOp
+    /// </para>
+    /// <para>
+    /// and
+    /// </para>
+    /// <para>
+    /// BackFace.StencilPassOp
+    /// </para>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_STENCIL_OP_KEEP"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <para>
+    /// FrontFace.StencilFailOp
+    /// </para>
+    /// <para>
+    /// and
+    /// </para>
+    /// <para>
+    /// BackFace.StencilFailOp
+    /// </para>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_STENCIL_OP_KEEP"/>
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// The formats that support stenciling are <see cref="DXGI_FORMAT_D24_UNORM_S8_UINT"/> and <see cref="DXGI_FORMAT_D32_FLOAT_S8X24_UINT"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_DEPTH_STENCIL_DESC

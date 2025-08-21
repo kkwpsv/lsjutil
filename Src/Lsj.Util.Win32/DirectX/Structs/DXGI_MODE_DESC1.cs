@@ -15,9 +15,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// <see cref="DXGI_MODE_DESC1"/> is identical to <see cref="DXGI_MODE_DESC"/>
-    /// except that <see cref="DXGI_MODE_DESC1"/> includes the <see cref="Stereo"/> member.
-    /// This structure is used by the <see cref="IDXGIOutput1.GetDisplayModeList1"/> and <see cref="IDXGIOutput1.FindClosestMatchingMode1"/> methods.
+    /// <para>
+    /// <see cref="DXGI_MODE_DESC1"/> is identical to <see cref="DXGI_MODE_DESC"/>
+    /// except that <see cref="DXGI_MODE_DESC1"/> includes the <see cref="Stereo"/> member.
+    /// </para>
+    /// <para>
+    /// This structure is used by the <see cref="IDXGIOutput1.GetDisplayModeList1"/> and <see cref="IDXGIOutput1.FindClosestMatchingMode1"/> methods.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_MODE_DESC1

@@ -16,9 +16,15 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <see cref="IDXGIInfoQueue.GetMessage"/> returns a pointer to this structure.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_INFO_QUEUE_MESSAGE
@@ -49,7 +55,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public IntPtr pDescription;
 
         /// <summary>
-        /// The length of the message string at pDescription, in bytes.
+        /// The length of the message string at <see cref="pDescription"/>, in bytes.
         /// </summary>
         public SIZE_T DescriptionByteLength;
     }

@@ -59,11 +59,15 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public float Range;
 
         /// <summary>
+        /// <para>
         /// Decrease in illumination between a spotlight's inner cone (the angle specified by Theta)
         /// and the outer edge of the outer cone (the angle specified by Phi).
+        /// </para>
+        /// <para>
         /// The effect of falloff on the lighting is subtle.
         /// Furthermore, a small performance penalty is incurred by shaping the falloff curve.
         /// For these reasons, most developers set this value to 1.0.
+        /// </para>
         /// </summary>
         public float Falloff;
 

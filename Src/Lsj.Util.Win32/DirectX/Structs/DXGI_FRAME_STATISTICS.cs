@@ -15,27 +15,36 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// You initialize the <see cref="DXGI_FRAME_STATISTICS"/> structure with the <see cref="IDXGIOutput.GetFrameStatistics"/>
-    /// or <see cref="IDXGISwapChain.GetFrameStatistics"/> method.
-    /// You can only use <see cref="IDXGISwapChain.GetFrameStatistics"/> for swap chains that either use the flip presentation model or draw in full-screen mode.
-    /// You set the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value in the <see cref="DXGI_SWAP_CHAIN_DESC1.SwapEffect"/> member
-    /// of the <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure to specify that the swap chain uses the flip presentation model.
-    /// The values in the <see cref="PresentCount"/> and <see cref="PresentRefreshCount"/> members
-    /// indicate information about when a frame was presented on the display screen.
-    /// You can use these values to determine whether a glitch occurred.
-    /// The values in the <see cref="SyncRefreshCount"/> and <see cref="SyncQPCTime"/> members indicate timing information
-    /// that you can use for audio and video synchronization or very precise animation.
-    /// If the swap chain draws in full-screen mode, these values are based on when the computer booted.
-    /// If the swap chain draws in windowed mode, these values are based on when the swap chain is created.
+    /// <para>
+    /// You initialize the <see cref="DXGI_FRAME_STATISTICS"/> structure
+    /// with the <see cref="IDXGIOutput.GetFrameStatistics"/> or <see cref="IDXGISwapChain.GetFrameStatistics"/> method.
+    /// </para>
+    /// <para>
+    /// You can only use <see cref="IDXGISwapChain.GetFrameStatistics"/> for swap chains
+    /// that either use the flip presentation model or draw in full-screen mode.
+    /// You set the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value
+    /// in the <see cref="DXGI_SWAP_CHAIN_DESC1.SwapEffect"/> member of the <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure
+    /// to specify that the swap chain uses the flip presentation model.
+    /// </para>
+    /// <para>
+    /// The values in the <see cref="PresentCount"/> and <see cref="PresentRefreshCount"/> members indicate information about when a frame was presented on the display screen. You can use these values to determine whether a glitch occurred. The values in the <see cref="SyncRefreshCount"/> and <see cref="SyncQPCTime"/> members indicate timing information that you can use for audio and video synchronization or very precise animation. If the swap chain draws in full-screen mode, these values are based on when the computer booted. If the swap chain draws in windowed mode, these values are based on when the swap chain is created.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_FRAME_STATISTICS
     {
         /// <summary>
-        /// A value that represents the running total count of times that an image was presented to the monitor since the computer booted.
+        /// <para>
+        /// A value that represents the running total count of times
+        /// that an image was presented to the monitor since the computer booted.
+        /// </para>
+        /// <para>
         /// Note
-        /// The number of times that an image was presented to the monitor is not necessarily the same as the number of times
-        /// that you called <see cref="IDXGISwapChain.Present"/>:: or <see cref="IDXGISwapChain1.Present1"/>.
+        /// </para>
+        /// <para>
+        /// The number of times that an image was presented to the monitor is not necessarily
+        /// the same as the number of times that you called <see cref="IDXGISwapChain.Present"/> or <see cref="IDXGISwapChain1.Present1"/>.
+        /// </para>
         /// </summary>
         public UINT PresentCount;
 

@@ -16,21 +16,89 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// You specify an array of <see cref="D3D11_RENDER_TARGET_BLEND_DESC"/> structures
-    /// in the <see cref="D3D11_BLEND_DESC.RenderTarget"/> member of the <see cref="D3D11_BLEND_DESC"/> structure
-    /// to describe the blend states for render targets;
-    /// you can bind up to eight render targets to the output-merger stage at one time.
-    /// For info about how blending is done, see the output-merger stage.
+    /// <para>
+    /// You specify an array of <see cref="D3D11_RENDER_TARGET_BLEND_DESC"/> structures in the <see cref="RenderTarget"/> member of the <see cref="D3D11_BLEND_DESC"/> structure to describe the blend states for render targets; you can bind up to eight render targets to the output-merger stage at one time.
+    /// </para>
+    /// <para>
+    /// For info about how blending is done, see the output-merger stage.
+    /// </para>
+    /// <para>
     /// Here are the default values for blend state.
-    /// State                                   Default Value
-    /// <see cref="BlendEnable"/>	            <see cref="FALSE"/>
-    /// <see cref="SrcBlend"/>                  <see cref="D3D11_BLEND_ONE"/>
-    /// <see cref="DestBlend"/>                 <see cref="D3D11_BLEND_ZERO"/>
-    /// <see cref="BlendOp"/>	                <see cref="D3D11_BLEND_OP_ADD"/>
-    /// <see cref="SrcBlendAlpha"/>	            <see cref="D3D11_BLEND_ONE"/>
-    /// <see cref="DestBlendAlpha"/>	        <see cref="D3D11_BLEND_ZERO"/>
-    /// <see cref="BlendOpAlpha"/>	            <see cref="D3D11_BLEND_OP_ADD"/>
-    /// <see cref="RenderTargetWriteMask"/>	    <see cref="D3D11_COLOR_WRITE_ENABLE_ALL"/>
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// State
+    /// </term>
+    /// <term>
+    /// Default Value
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="BlendEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="SrcBlend"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_ONE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="DestBlend"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_ZERO"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="BlendOp"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_OP_ADD"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="SrcBlendAlpha"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_ONE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="DestBlendAlpha"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_ZERO"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="BlendOpAlpha"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_BLEND_OP_ADD"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="RenderTargetWriteMask"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_COLOR_WRITE_ENABLE_ALL"/>
+    /// </term>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_RENDER_TARGET_BLEND_DESC

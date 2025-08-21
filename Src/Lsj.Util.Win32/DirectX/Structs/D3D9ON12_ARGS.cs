@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System;
 using System.Runtime.InteropServices;
@@ -29,14 +30,14 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// If <see cref="NULL"/> is specified and <see cref="Enable9On12"/> is <see cref="TRUE"/>,
         /// this override applies to any adapter that doesn’t match another override in the list.
         /// </summary>
-        public IntPtr pD3D12Device;
+        public P<IUnknown> pD3D12Device;
 
         /// <summary>
         /// Optionally specify the Direct graphics command queue instance to use.
         /// If <see cref="NULL"/> and <see cref="Enable9On12"/> is <see cref="TRUE"/>, 9On12 will internally create the graphics queue.
         /// The second entry of this array is reserved.
         /// </summary>
-        public ByValIntPtrArrayStructForSize2 ppD3D12Queues;
+        public ByValPIUnknownArrayStructForSize2 ppD3D12Queues;
 
         /// <summary>
         /// Specifies the number of Queues in <see cref="ppD3D12Queues"/> array.

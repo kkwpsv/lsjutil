@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.Structs;
+using System;
 using static Lsj.Util.Win32.DirectX.Enums.D3DTEXTUREFILTERTYPE;
 
 namespace Lsj.Util.Win32.DirectX.Enums
@@ -15,6 +16,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// These constants are used by <see cref="D3DCAPS9.TextureFilterCaps"/>, <see cref="D3DCAPS9.CubeTextureFilterCaps"/>,
     /// <see cref="D3DCAPS9.VolumeTextureFilterCaps"/>, and <see cref="D3DCAPS9.VertexTextureFilterCaps"/> members of <see cref="D3DCAPS9"/>.
     /// </remarks>
+    [Flags]
     public enum D3DPTFILTERCAPS : uint
     {
         /// <summary>

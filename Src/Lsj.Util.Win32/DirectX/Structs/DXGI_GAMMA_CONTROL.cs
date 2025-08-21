@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -12,7 +13,12 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="DXGI_GAMMA_CONTROL"/> structure is used by the IDXGIOutput::SetGammaControl method.
+    /// <para>
+    /// The <see cref="DXGI_GAMMA_CONTROL"/> structure is used by the <see cref="IDXGIOutput.SetGammaControl"/> method.
+    /// </para>
+    /// <para>
+    /// For info about using gamma correction, see Using gamma correction.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_GAMMA_CONTROL

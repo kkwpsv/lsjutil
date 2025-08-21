@@ -17,14 +17,23 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used in a call to <see cref="ID3D11Device.CreateTexture2D"/>.
-    /// In addition to this structure, you can also use the CD3D11_TEXTURE2D_DESC derived structure,
+    /// <para>
+    /// This structure is used in a call to <see cref="ID3D11Device.CreateTexture2D"/>.
+    /// </para>
+    /// <para>
+    /// In addition to this structure, you can also use the CD3D11_TEXTURE2D_DESC derived structure,
     /// which is defined in D3D11.h and behaves like an inherited class, to help create a texture description.
+    /// </para>
+    /// <para>
     /// The device places some size restrictions (must be multiples of a minimum size) for a subsampled, block compressed, or bit-format resource.
-    /// The texture size range is determined by the feature level at which you create the device and not the Microsoft Direct3D interface version.
-    /// For example, if you use Microsoft Direct3D 10 hardware at feature level 10 (<see cref="D3D_FEATURE_LEVEL_10_0"/>)
-    /// and call <see cref="D3D11CreateDevice"/> to create an <see cref="ID3D11Device"/>,
+    /// </para>
+    /// <para>
+    /// The texture size range is determined by the feature level
+    /// at which you create the device and not the Microsoft Direct3D interface version.
+    /// For example, if you use Microsoft Direct3D 10 hardware at feature level 10 (<see cref="D3D_FEATURE_LEVEL_10_0"/>)
+    /// and call <see cref="D3D11CreateDevice"/> to create an <see cref="ID3D11Device"/>,
     /// you must constrain the maximum texture size to <see cref="D3D10_REQ_TEXTURE2D_U_OR_V_DIMENSION"/> (8192) when you create your 2D texture.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_TEXTURE2D_DESC

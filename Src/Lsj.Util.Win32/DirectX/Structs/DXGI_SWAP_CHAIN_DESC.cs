@@ -17,11 +17,20 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used by the <see cref="IDXGISwapChain.GetDesc"/> and <see cref="IDXGIFactory.CreateSwapChain"/> methods.
+    /// <para>
+    /// This structure is used by the <see cref="IDXGISwapChain.GetDesc"/> and <see cref="IDXGIFactory.CreateSwapChain"/> methods.
+    /// </para>
+    /// <para>
     /// In full-screen mode, there is a dedicated front buffer; in windowed mode, the desktop is the front buffer.
-    /// If you create a swap chain with one buffer, specifying <see cref="DXGI_SWAP_EFFECT_SEQUENTIAL"/> does not cause
-    /// the contents of the single buffer to be swapped with the front buffer.
-    /// For performance information about flipping swap-chain buffers in full-screen application, see Full-Screen Application Performance Hints.
+    /// </para>
+    /// <para>
+    /// If you create a swap chain with one buffer, specifying <see cref="DXGI_SWAP_EFFECT_SEQUENTIAL"/> does not
+    /// cause the contents of the single buffer to be swapped with the front buffer.
+    /// </para>
+    /// <para>
+    /// For performance information about flipping swap-chain buffers in full-screen application,
+    /// see Full-Screen Application Performance Hints.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_SWAP_CHAIN_DESC
@@ -56,15 +65,22 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public HWND OutputWindow;
 
         /// <summary>
+        /// <para>
         /// A Boolean value that specifies whether the output is in windowed mode.
-        /// <see cref="TRUE"/> if the output is in windowed mode; otherwise, <see cref="FALSE"/>.
-        /// We recommend that you create a windowed swap chain and allow the end user to change the swap chain
-        /// to full screen through <see cref="IDXGISwapChain.SetFullscreenState"/>;
+        /// <see cref="TRUE"/> if the output is in windowed mode; otherwise, <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// We recommend that you create a windowed swap chain and allow the end user
+        /// to change the swap chain to full screen through <see cref="IDXGISwapChain.SetFullscreenState"/>;
         /// that is, do not set this member to <see cref="FALSE"/> to force the swap chain to be full screen.
-        /// However, if you create the swap chain as full screen, also provide the end user with a list of supported display modes
-        /// through the <see cref="BufferDesc"/> member because a swap chain that is created with an unsupported display mode
+        /// However, if you create the swap chain as full screen,
+        /// also provide the end user with a list of supported display modes through the <see cref="BufferDesc"/> member
+        /// because a swap chain that is created with an unsupported display mode
         /// might cause the display to go black and prevent the end user from seeing anything.
-        /// For more information about choosing windowed verses full screen, see <see cref="IDXGIFactory.CreateSwapChain"/>.
+        /// </para>
+        /// <para>
+        /// For more information about choosing windowed verses full screen, see <see cref="IDXGIFactory.CreateSwapChain"/>.
+        /// </para>
         /// </summary>
         public BOOL Windowed;
 

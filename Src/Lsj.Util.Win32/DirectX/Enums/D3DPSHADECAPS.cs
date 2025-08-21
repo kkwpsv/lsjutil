@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// D3DPSHADECAPS
     /// </summary>
+    [Flags]
     public enum D3DPSHADECAPS
     {
         /// <summary>

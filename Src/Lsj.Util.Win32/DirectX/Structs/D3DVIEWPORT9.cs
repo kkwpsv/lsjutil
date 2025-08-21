@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.DirectX.Structs
@@ -12,14 +13,21 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The <see cref="X"/>, <see cref="Y"/>, <see cref="Width"/>, and <see cref="Height"/> members
     /// describe the position and dimensions of the viewport on the render-target surface.
-    /// Usually, applications render to the entire target surface; when rendering on a 640 x 480 surface,
-    /// these members should be 0, 0, 640, and 480, respectively.
-    /// The <see cref="MinZ"/> and <see cref="MaxZ"/> are typically set to 0.0 and 1.0 but can be set to other values to achieve specific effects.
+    /// Usually, applications render to the entire target surface;
+    /// when rendering on a 640 x 480 surface, these members should be 0, 0, 640, and 480, respectively.
+    /// The <see cref="MinZ"/> and <see cref="MaxZ"/> are typically set to 0.0 and 1.0
+    /// but can be set to other values to achieve specific effects.
     /// For example, you might set them both to 0.0 to force the system to render objects to the foreground of a scene,
     /// or both to 1.0 to force the objects into the background.
-    /// When the viewport parameters for a device change (because of a call to the SetViewport method), the driver builds a new transformation matrix.
+    /// </para>
+    /// <para>
+    /// When the viewport parameters for a device change
+    /// (because of a call to the <see cref="IDirect3DDevice9.SetViewport"/> method),
+    /// the driver builds a new transformation matrix.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3DVIEWPORT9

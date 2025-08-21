@@ -25,6 +25,11 @@ namespace Lsj.Util.Win32.DirectX
         public static readonly HRESULT D3D_OK = S_OK;
 
         /// <summary>
+        /// D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT
+        /// </summary>
+        public const uint D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT = 4096;
+
+        /// <summary>
         /// <para>
         /// Specifies the primary display adapter.
         /// </para>
