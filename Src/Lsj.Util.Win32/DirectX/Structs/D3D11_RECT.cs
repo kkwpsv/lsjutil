@@ -21,7 +21,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used for scissor rectangles by <see cref="ID3D11DeviceContext.RSGetScissorRects"/> and <see cref="ID3D11DeviceContext.RSSetScissorRects"/>.
+    /// This structure is used for scissor rectangles by <see cref="ID3D11DeviceContext.RSGetScissorRects"/>
+    /// and <see cref="ID3D11DeviceContext.RSSetScissorRects"/>.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_RECT

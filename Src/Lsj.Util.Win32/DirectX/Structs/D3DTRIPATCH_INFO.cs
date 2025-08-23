@@ -41,11 +41,48 @@ namespace Lsj.Util.Win32.DirectX.Structs
 
         /// <summary>
         /// Member of the <see cref="D3DDEGREETYPE"/> enumerated type, defining the degree type for the triangular high-order patch.
-        /// Value                               Number of vertices
-        /// <see cref="D3DDEGREE_CUBIC"/>       10
-        /// <see cref="D3DDEGREE_LINEAR"/>      3
-        /// <see cref="D3DDEGREE_QUADRATIC"/>   N/A
-        /// <see cref="D3DDEGREE_QUINTIC"/>     21
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Number of vertices
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DDEGREE_CUBIC"/>
+        /// </term>
+        /// <term>
+        /// 10
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DDEGREE_LINEAR"/>
+        /// </term>
+        /// <term>
+        /// 3
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DDEGREE_QUADRATIC"/>
+        /// </term>
+        /// <term>
+        /// N/A
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DDEGREE_QUINTIC"/>
+        /// </term>
+        /// <term>
+        /// 21
+        /// </term>
+        /// </item>
+        /// </list>
         /// N/A - Not available. Not supported.
         /// </summary>
         public D3DDEGREETYPE Degree;

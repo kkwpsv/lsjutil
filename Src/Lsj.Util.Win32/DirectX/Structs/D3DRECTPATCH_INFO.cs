@@ -14,14 +14,21 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The following diagram identifies the parameters that specify a rectangle patch.
+    /// </para>
+    /// <para>
     /// Each of the vertices in the vertex buffer is shown as a black dot.
     /// In this case, the vertex buffer has 20 vertices in it, 16 of which are in the rectangle patch.
     /// The stride is the number of vertices in the width of the vertex buffer, in this case five.
     /// The x offset to the first vertex is called the StartIndexVertexWidth and is in this case 1.
     /// The y offset to the first patch vertex is called the StartIndexVertexHeight and is in this case 0.
-    /// To render a stream of individual rectangular patches (non-mosaic), you should interpret your geometry as a long narrow (1 x N) rectangular patch.
-    /// The <see cref="D3DRECTPATCH_INFO"/> structure for such a strip (cubic Bézier) would be set up in the following manner.
+    /// </para>
+    /// <para>
+    /// To render a stream of individual rectangular patches (non-mosaic),
+    /// you should interpret your geometry as a long narrow (1 x N) rectangular patch.
+    /// The <see cref="D3DRECTPATCH_INFO"/> structure for such a strip (cubic Bézier) would be set up in the following manner.
+    /// </para>
     /// <code>
     /// D3DRECTPATCH_INFO RectInfo;
     /// 
@@ -65,11 +72,56 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT Stride;
 
         /// <summary>
-        /// Member of the <see cref="D3DBASISTYPE"/> enumerated type, defining the basis type for the rectangular high-order patch.
-        /// Value                               Order supported             Width and height
-        /// <see cref="D3DBASIS_BEZIER"/>       Linear, cubic, and quintic  Width = height = (DWORD)order + 1
-        /// <see cref="D3DBASIS_BSPLINE"/>      Linear, cubic, and quintic  Width = height > (DWORD)order
-        /// <see cref="D3DBASIS_INTERPOLATE"/>  Cubic                       Width = height > (DWORD) order
+        /// <para>
+        /// Member of the <see cref="D3DBASISTYPE"/> enumerated type,
+        /// defining the basis type for the rectangular high-order patch.
+        /// </para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Order supported
+        /// </term>
+        /// <term>
+        /// Width and height
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DBASIS_BEZIER"/>
+        /// </term>
+        /// <term>
+        /// Linear, cubic, and quintic
+        /// </term>
+        /// <term>
+        /// Width = height = (DWORD)order + 1
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DBASIS_BSPLINE"/>
+        /// </term>
+        /// <term>
+        /// Linear, cubic, and quintic
+        /// </term>
+        /// <term>
+        /// Width = height &gt; (DWORD)order
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DBASIS_INTERPOLATE"/>
+        /// </term>
+        /// <term>
+        /// Cubic
+        /// </term>
+        /// <term>
+        /// Width = height &gt; (DWORD)order
+        /// </term>
+        /// </item>
+        /// </list>
         /// </summary>
         public D3DBASISTYPE Basis;
 

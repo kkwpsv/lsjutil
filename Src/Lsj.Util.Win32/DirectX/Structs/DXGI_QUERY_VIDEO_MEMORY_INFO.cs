@@ -13,8 +13,12 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Use this structure with <see cref="IDXGIAdapter3.QueryVideoMemoryInfo"/>.
-    /// Refer to the remarks for <see cref="D3D12_MEMORY_POOL"/>.
+    /// <para>
+    /// Use this structure with <see cref="IDXGIAdapter3.QueryVideoMemoryInfo"/>.
+    /// </para>
+    /// <para>
+    /// Refer to the remarks for <see cref="D3D12_MEMORY_POOL"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_QUERY_VIDEO_MEMORY_INFO

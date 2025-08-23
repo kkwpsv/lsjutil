@@ -1,16 +1,20 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
-using System.IO;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
     /// <summary>
     /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This structure is supported by the Direct3D 11.1 runtime, which is available on Windows 8 and later operating systems.
+    /// </para>
+    /// <para>
     /// Describes rasterizer state.
     /// </para>
     /// <para>
@@ -18,37 +22,191 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Rasterizer state defines the behavior of the rasterizer stage.
-    /// To create a rasterizer-state object, call <see cref="ID3D11Device1.CreateRasterizerState1"/>.
-    /// To set rasterizer state, call <see cref="ID3D11DeviceContext.RSSetState"/>.
-    /// If you do not specify some rasterizer state, the Direct3D runtime uses the following default values for rasterizer state.
-    /// State	                                Default Value
-    /// <see cref="FillMode"/>                  Solid
-    /// <see cref="CullMode"/>                  Back
-    /// <see cref="FrontCounterClockwise"/>     <see cref="FALSE"/>
-    /// <see cref="DepthBias"/>                 0
-    /// <see cref="SlopeScaledDepthBias"/>      0.0f
-    /// <see cref="DepthBiasClamp"/>            0.0f
-    /// <see cref="DepthClipEnable"/>           <see cref="TRUE"/>
-    /// <see cref="ScissorEnable"/>             <see cref="FALSE"/>
-    /// <see cref="MultisampleEnable"/>         <see cref="FALSE"/>
-    /// <see cref="AntialiasedLineEnable"/>     <see cref="FALSE"/>
-    /// <see cref="ForcedSampleCount"/>         0
+    /// To create a rasterizer-state object, call <see cref="ID3D11Device1.CreateRasterizerState1"/>.
+    /// To set rasterizer state, call <see cref="ID3D11DeviceContext.RSSetState"/>.
+    /// </para>
+    /// <para>
+    /// If you do not specify some rasterizer state,
+    /// the Direct3D runtime uses the following default values for rasterizer state.
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// State
+    /// </term>
+    /// <term>
+    /// Default Value
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="FillMode"/>
+    /// </term>
+    /// <term>
+    /// Solid
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="CullMode"/>
+    /// </term>
+    /// <term>
+    /// Back
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="FrontCounterClockwise"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="DepthBias"/>
+    /// </term>
+    /// <term>
+    /// 0
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="SlopeScaledDepthBias"/>
+    /// </term>
+    /// <term>
+    /// 0.0f
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="DepthBiasClamp"/>
+    /// </term>
+    /// <term>
+    /// 0.0f
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="DepthClipEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="ScissorEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="MultisampleEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="AntialiasedLineEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="ForcedSampleCount"/>
+    /// </term>
+    /// <term>
+    /// 0
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
     /// Note
-    /// For feature levels 9.1, 9.2, 9.3, and 10.0, if you set <see cref="MultisampleEnable"/> to <see cref="FALSE"/>,
-    /// the runtime renders all points, lines, and triangles without anti-aliasing even for render targets with a sample count greater than 1.
-    /// For feature levels 10.1 and higher, the setting of <see cref="MultisampleEnable"/> has no effect on points
-    /// and triangles with regard to MSAA and impacts only the selection of the line-rendering algorithm as shown in this table:
-    /// Line-rendering algorithm	<see cref="MultisampleEnable"/>	    <see cref="AntialiasedLineEnable"/>
-    /// Aliased	                    <see cref="FALSE"/>	                <see cref="FALSE"/>
-    /// Alpha antialiased	        <see cref="FALSE"/>	                <see cref="TRUE"/>
-    /// Quadrilateral	            <see cref="TRUE"/>	                <see cref="FALSE"/>
-    /// Quadrilateral	            <see cref="TRUE"/>              	<see cref="TRUE"/>
-    /// The settings of the <see cref="MultisampleEnable"/> and <see cref="AntialiasedLineEnable"/> members
-    /// apply only to multisample antialiasing (MSAA) render targets (that is, render targets with sample counts greater than 1).
-    /// Because of the differences in feature-level behavior and as long as you aren’t performing any line drawing
+    /// </para>
+    /// <para>
+    /// For feature levels 9.1, 9.2, 9.3, and 10.0,
+    /// if you set <see cref="MultisampleEnable"/> to <see cref="FALSE"/>,
+    /// the runtime renders all points, lines, and triangles without anti-aliasing
+    /// even for render targets with a sample count greater than 1.
+    /// For feature levels 10.1 and higher,
+    /// the setting of <see cref="MultisampleEnable"/> has no effect on points and triangles
+    /// with regard to MSAA and impacts only the selection of the line-rendering algorithm as shown in this table:  
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// Line-rendering algorithm
+    /// </term>
+    /// <term>
+    /// <see cref="MultisampleEnable"/>
+    /// </term>
+    /// <term>
+    /// <see cref="AntialiasedLineEnable"/>
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// Aliased
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Alpha antialiased
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Quadrilateral
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// <term>
+    /// <see cref="FALSE"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Quadrilateral
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// <term>
+    /// <see cref="TRUE"/>
+    /// </term>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// The settings of the <see cref="MultisampleEnable"/> and <see cref="AntialiasedLineEnable"/> members
+    /// apply only to multisample antialiasing (MSAA) render targets
+    /// (that is, render targets with sample counts greater than 1).
+    /// Because of the differences in feature-level behavior and as long as you aren’t performing any line drawing
     /// or don’t mind that lines render as quadrilaterals,
-    /// we recommend that you always set <see cref="MultisampleEnable"/> to <see cref="TRUE"/> whenever you render on MSAA render targets.
+    /// we recommend that you always set <see cref="MultisampleEnable"/> to <see cref="TRUE"/>
+    /// whenever you render on MSAA render targets.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_RASTERIZER_DESC1
@@ -87,22 +245,28 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public FLOAT SlopeScaledDepthBias;
 
         /// <summary>
+        /// <para>
         /// Specifies whether to enable clipping based on distance.
+        /// </para>
+        /// <para>
         /// The hardware always performs x and y clipping of rasterized coordinates.
-        /// When <see cref="DepthClipEnable"/> is set to the default–<see cref="TRUE"/>,
+        /// When <see cref="DepthClipEnable"/> is set to the default–<see cref="TRUE"/>,
         /// the hardware also clips the z value (that is, the hardware performs the last step of the following algorithm).
+        /// </para>
         /// <code>
         /// 0 &lt; w
         /// -w &lt;= x &lt;= w (or arbitrarily wider range if implementation uses a guard band to reduce clipping burden)
         /// -w &lt;= y &lt;= w (or arbitrarily wider range if implementation uses a guard band to reduce clipping burden)
         /// 0 &lt;= z &lt;= w
         /// </code>
-        /// When you set <see cref="DepthClipEnable"/> to <see cref="FALSE"/>,
+        /// <para>
+        /// When you set <see cref="DepthClipEnable"/> to <see cref="FALSE"/>,
         /// the hardware skips the z clipping (that is, the last step in the preceding algorithm).
         /// However, the hardware still performs the "0 &lt; w" clipping.
         /// When z clipping is disabled, improper depth ordering at the pixel level might result.
         /// However, when z clipping is disabled, stencil shadow implementations are simplified.
         /// In other words, you can avoid complex special-case handling for geometry that goes beyond the back clipping plane.
+        /// </para>
         /// </summary>
         public BOOL DepthClipEnable;
 
@@ -127,20 +291,48 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public BOOL AntialiasedLineEnable;
 
         /// <summary>
+        /// <para>
         /// The sample count that is forced while UAV rendering or rasterizing.
-        /// Valid values are 0, 1, 2, 4, 8, and optionally 16.
-        /// 0 indicates that the sample count is not forced.
+        /// Valid values are 0, 1, 2, 4, 8, and optionally 16. 0 indicates that the sample count is not forced.
+        /// </para>
+        /// <para>
         /// Note
-        /// If you want to render with ForcedSampleCount set to 1 or greater, you must follow these guidelines:
+        /// </para>
+        /// <para>
+        /// If you want to render with <see cref="ForcedSampleCount"/> set to 1 or greater, you must follow these guidelines:
+        /// </para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Don't bind depth-stencil views.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Disable depth testing.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Ensure the shader doesn't output depth.
-        /// If you have any render-target views bound (<see cref="D3D11_BIND_RENDER_TARGET"/>) and <see cref="ForcedSampleCount"/> is greater than 1,
-        /// ensure that every render target has only a single sample.
-        /// Don't operate the shader at sample frequency.
-        /// Therefore, <see cref="ID3D11ShaderReflection.IsSampleFrequencyShader"/> returns <see cref="FALSE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If you have any render-target views bound (<see cref="D3D11_BIND_RENDER_TARGET"/>)
+        /// and <see cref="ForcedSampleCount"/> is greater than 1, ensure that every render target has only a single sample.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Don't operate the shader at sample frequency. Therefore, <see cref="ID3D11ShaderReflection.IsSampleFrequencyShader"/> returns <see cref="FALSE"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
         /// Otherwise, rendering behavior is undefined.
-        /// For info about how to configure depth-stencil, see Configuring Depth-Stencil Functionality.
+        /// For info about how to configure depth-stencil, see Configuring Depth-Stencil Functionality.
+        /// </para>
         /// </summary>
         public UINT ForcedSampleCount;
     }

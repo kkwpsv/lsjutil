@@ -12,10 +12,14 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// All stencil operations are specified as a <see cref="D3D11_STENCIL_OP"/>.
+    /// <para>
+    /// All stencil operations are specified as a <see cref="D3D11_STENCIL_OP"/>.
     /// The stencil operation can be set differently based on the outcome of the stencil test
-    /// (which is referred to as <see cref="StencilFunc"/> in the stencil test portion of depth-stencil testing.
-    /// This structure is a member of a depth-stencil description.
+    /// (which is referred to as <see cref="StencilFunc"/> in the stencil test portion of depth-stencil testing.
+    /// </para>
+    /// <para>
+    /// This structure is a member of a depth-stencil description.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_DEPTH_STENCILOP_DESC

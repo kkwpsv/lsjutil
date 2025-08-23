@@ -12,11 +12,15 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// <see cref="D3DBOX"/> includes the left, top, and front edges; however, the right, bottom, and back edges are not included.
+    /// <para>
+    /// <see cref="D3DBOX"/> includes the left, top, and front edges; however, the right, bottom, and back edges are not included.
     /// For example, a box that is 100 units wide and begins at 0 (thus, including the points up to and including 99)
-    /// would be expressed with a value of 0 for the Left member and a value of 100 for the <see cref="Right"/> member.
+    /// would be expressed with a value of 0 for the <see cref="Left"/> member and a value of 100 for the <see cref="Right"/> member.
     /// Note that a value of 99 is not used for the <see cref="Right"/> member.
-    /// The restrictions on side ordering observed for <see cref="D3DBOX"/> are left to right, top to bottom, and front to back.
+    /// </para>
+    /// <para>
+    /// The restrictions on side ordering observed for <see cref="D3DBOX"/> are left to right, top to bottom, and front to back.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3DBOX

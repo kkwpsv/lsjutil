@@ -2,7 +2,9 @@
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
+using static Lsj.Util.Win32.DirectX.Enums.D3D_FEATURE_LEVEL;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
+using static Lsj.Util.Win32.DirectX.D3D11;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 
 namespace Lsj.Util.Win32.DirectX.Structs
@@ -16,7 +18,20 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used in a call to <see cref="ID3D11Device.CreateTexture1D"/>.
+    /// <para>
+    /// This structure is used in a call to <see cref="ID3D11Device.CreateTexture1D"/>.
+    /// </para>
+    /// <para>
+    /// In addition to this structure, you can also use the CD3D11_TEXTURE1D_DESC derived structure,
+    /// which is defined in D3D11.h and behaves like an inherited class, to help create a texture description.
+    /// </para>
+    /// <para>
+    /// The texture size range is determined by the feature level
+    /// at which you create the device and not the Microsoft Direct3D interface version.
+    /// For example, if you use Microsoft Direct3D 10 hardware at feature level 10 (<see cref="D3D_FEATURE_LEVEL_10_0"/>)
+    /// and call <see cref="D3D11CreateDevice"/> to create an <see cref="ID3D11Device"/>,
+    /// you must constrain the maximum texture size to <see cref="D3D10_REQ_TEXTURE1D_U_DIMENSION"/> (8192) when you create your 1D texture.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_TEXTURE1D_DESC

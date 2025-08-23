@@ -14,16 +14,23 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// A view is a format-specific way to look at the data in a resource.
     /// The view determines what data to look at, and how it is cast when read.
-    /// When viewing a resource, the resource-view description must specify a typed format, that is compatible with the resource format.
+    /// </para>
+    /// <para>
+    /// When viewing a resource, the resource-view description must specify a typed format,
+    /// that is compatible with the resource format.
     /// So that means that you cannot create a resource-view description using any format with _TYPELESS in the name.
     /// You can however view a typeless resource by specifying a typed format for the view.
     /// For example, a <see cref="DXGI_FORMAT_R32G32B32_TYPELESS"/> resource can be viewed with one of these typed formats:
     /// <see cref="DXGI_FORMAT_R32G32B32_FLOAT"/>, <see cref="DXGI_FORMAT_R32G32B32_UINT"/>,
     /// and <see cref="DXGI_FORMAT_R32G32B32_SINT"/>, since these typed formats are compatible with the typeless resource.
-    /// Create a shader-resource-view description by calling <see cref="ID3D11Device.CreateShaderResourceView"/>.
-    /// To view a shader-resource-view description, call <see cref="ID3D11ShaderResourceView.GetDesc"/>.
+    /// </para>
+    /// <para>
+    /// Create a shader-resource-view description by calling <see cref="ID3D11Device.CreateShaderResourceView"/>.
+    /// To view a shader-resource-view description, call <see cref="ID3D11ShaderResourceView.GetDesc"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct D3D11_SHADER_RESOURCE_VIEW_DESC

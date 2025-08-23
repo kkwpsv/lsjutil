@@ -15,23 +15,39 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// A non-zero <see cref="LastMouseUpdateTime"/> indicates an update to either a mouse pointer position or a mouse pointer position and shape.
-    /// That is, the mouse pointer position is always valid for a non-zero <see cref="LastMouseUpdateTime"/>;
-    /// however, the application must check the value of the <see cref="PointerShapeBufferSize"/> member to determine whether the shape was updated too.
+    /// <para>
+    /// A non-zero <see cref="LastMouseUpdateTime"/> indicates an update to
+    /// either a mouse pointer position or a mouse pointer position and shape.
+    /// That is, the mouse pointer position is always valid for a non-zero <see cref="LastMouseUpdateTime"/>;
+    /// however, the application must check the value of the <see cref="PointerShapeBufferSize"/> member to determine whether the shape was updated too.
+    /// </para>
+    /// <para>
     /// If only the pointer was updated (that is, the desktop image was not updated),
-    /// the <see cref="AccumulatedFrames"/>, <see cref="TotalMetadataBufferSize"/>, and <see cref="LastPresentTime"/> members are set to zero.
-    /// An <see cref="AccumulatedFrames"/> value of one indicates that the application completed processing the last frame
-    /// before a new desktop image was presented.
-    /// If the <see cref="AccumulatedFrames"/> value is greater than one,
-    /// more desktop image updates have occurred while the application processed the last desktop update.
+    /// the <see cref="AccumulatedFrames"/>, <see cref="TotalMetadataBufferSize"/>,
+    /// and <see cref="LastPresentTime"/> members are set to zero.
+    /// </para>
+    /// <para>
+    /// An <see cref="AccumulatedFrames"/> value of one indicates that
+    /// the application completed processing the last frame before a new desktop image was presented.
+    /// If the <see cref="AccumulatedFrames"/> value is greater than one, more desktop image updates
+    /// have occurred while the application processed the last desktop update.
     /// In this situation, the operating system accumulated the update regions.
     /// For more information about desktop updates, see Desktop Update Data.
-    /// A non-zero <see cref="TotalMetadataBufferSize"/> indicates the total size of the buffers that are required to store all the desktop update metadata.
+    /// </para>
+    /// <para>
+    /// A non-zero <see cref="TotalMetadataBufferSize"/> indicates the total size of the buffers
+    /// that are required to store all the desktop update metadata.
     /// An application cannot determine the size of each type of metadata.
-    /// The application must call the <see cref="IDXGIOutputDuplication.GetFrameDirtyRects"/>, <see cref="IDXGIOutputDuplication.GetFrameMoveRects"/>,
-    /// or <see cref="IDXGIOutputDuplication.GetFramePointerShape"/> method to obtain information about each type of metadata.
+    /// The application must call the <see cref="IDXGIOutputDuplication.GetFrameDirtyRects"/>,
+    /// <see cref="IDXGIOutputDuplication.GetFrameMoveRects"/>, or <see cref="IDXGIOutputDuplication.GetFramePointerShape"/> method
+    /// to obtain information about each type of metadata.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// To correct visual effects, an application must process the move region data before it processes the dirty rectangles.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_OUTDUPL_FRAME_INFO

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -13,6 +14,32 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dadapter-identifier9"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The following pseudocode example illustrates the version format
+    /// encoded in the DriverVersion, DriverVersionLowPart, and DriverVersionHighPart members.
+    /// </para>
+    /// <code>
+    /// Product = HIWORD(DriverVersion.HighPart)
+    /// Version = LOWORD(DriverVersion.HighPart)
+    /// SubVersion = HIWORD(DriverVersion.LowPart)
+    /// Build = LOWORD(DriverVersion.LowPart)
+    /// </code>
+    /// <para>
+    /// See the Platform SDK for more information about the <see cref="HIWORD"/> macro,
+    /// the <see cref="LOWORD"/> macro, and the <see cref="LARGE_INTEGER"/> structure.
+    /// </para>
+    /// <para>
+    /// <see cref="MAX_DEVICE_IDENTIFIER_STRING"/> is a constant with the following definition.
+    /// </para>
+    /// <code>
+    /// #define MAX_DEVICE_IDENTIFIER_STRING        512
+    /// </code>
+    /// <para>
+    /// The VendorId, DeviceId, SubSysId, and Revision members can be used in tandem to identify particular chip sets.
+    /// However, use these members with caution.
+    /// </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3DADAPTER_IDENTIFIER9
     {
@@ -79,21 +106,88 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public GUID DeviceIdentifier;
 
         /// <summary>
+        /// <para>
         /// Used to determine the Windows Hardware Quality Labs (WHQL) validation level for this driver and device pair.
-        /// The DWORD is a packed date structure defining the date of the release of the most recent WHQL test passed by the driver.
+        /// The <see cref="DWORD"/> is a packed date structure
+        /// defining the date of the release of the most recent WHQL test passed by the driver.
         /// It is legal to perform &lt; and &gt; operations on this value.
         /// The following illustrates the date format.
-        /// Bits    Description
-        /// 31-16   The year, a decimal number from 1999 upwards.
-        /// 15-8    The month, a decimal number from 1 to 12.
-        /// 7-0     The day, a decimal number from 1 to 31.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Bits
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 31-16
+        /// </term>
+        /// <term>
+        /// The year, a decimal number from 1999 upwards.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 15-8
+        /// </term>
+        /// <term>
+        /// The month, a decimal number from 1 to 12.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 7-0
+        /// </term>
+        /// <term>
+        /// The day, a decimal number from 1 to 31.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following values are also used.
-        /// Value   Description
-        /// 0       Not certified.
-        /// 1       WHQL validated, but no date information is available.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Not certified.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// WHQL validated, but no date information is available.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
-        /// For Direct3D9Ex running on Windows Vista, Windows Server 2008, Windows 7, and Windows Server 2008 R2 (or more current operating system),
-        /// <see cref="IDirect3D9.GetAdapterIdentifier"/> returns 1 for the WHQL level without checking the status of the driver.
+        /// </para>
+        /// <para>
+        /// For Direct3D9Ex running on Windows Vista, Windows Server 2008,
+        /// Windows 7, and Windows Server 2008 R2 (or more current operating system),
+        /// <see cref="IDirect3D9.GetAdapterIdentifier"/> returns 1 for the WHQL level without checking the status of the driver.
+        /// </para>
         /// </summary>
         public DWORD WHQLLevel;
     }

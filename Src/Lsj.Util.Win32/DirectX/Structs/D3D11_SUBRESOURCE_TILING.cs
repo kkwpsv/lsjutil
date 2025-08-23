@@ -18,8 +18,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Each packed mipmap is individually reported as 0 for <see cref="WidthInTiles"/>, <see cref="HeightInTiles"/> and <see cref="DepthInTiles"/>.
-    /// The total number of tiles in subresources is <see cref="WidthInTiles"/>*<see cref="HeightInTiles"/>*<see cref="DepthInTiles"/>.
+    /// <para>
+    /// Each packed mipmap is individually reported as 0 for <see cref="WidthInTiles"/>,
+    /// <see cref="HeightInTiles"/> and <see cref="DepthInTiles"/>.
+    /// </para>
+    /// <para>
+    /// The total number of tiles in subresources is <see cref="WidthInTiles"/>*<see cref="HeightInTiles"/>*<see cref="DepthInTiles"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_SUBRESOURCE_TILING

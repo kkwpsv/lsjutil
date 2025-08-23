@@ -15,11 +15,16 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// An application draws the cursor shape with the top-left-hand corner drawn at the position
-    /// that the <see cref="DXGI_OUTDUPL_POINTER_POSITION.Position"/> member of the <see cref="DXGI_OUTDUPL_POINTER_POSITION"/> structure specifies;
+    /// that the <see cref="DXGI_OUTDUPL_POINTER_POSITION.Position"/> member
+    /// of the <see cref="DXGI_OUTDUPL_POINTER_POSITION"/> structure specifies;
     /// the application does not use the hot spot to draw the cursor shape.
-    /// An application calls the <see cref="IDXGIOutputDuplication.GetFramePointerShape"/> method to retrieve cursor shape information
-    /// in a <see cref="DXGI_OUTDUPL_POINTER_SHAPE_INFO"/> structure.
+    /// </para>
+    /// <para>
+    /// An application calls the <see cref="IDXGIOutputDuplication.GetFramePointerShape"/> method
+    /// to retrieve cursor shape information in a <see cref="DXGI_OUTDUPL_POINTER_SHAPE_INFO"/> structure.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_OUTDUPL_POINTER_SHAPE_INFO

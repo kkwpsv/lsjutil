@@ -17,19 +17,107 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// These are the default values for sampler state.
-    /// State                           Default Value
-    /// <see cref="Filter"/>            <see cref="D3D11_FILTER_MIN_MAG_MIP_LINEAR"/>
-    /// <see cref="AddressU"/>          <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
-    /// <see cref="AddressV"/>          <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
-    /// <see cref="AddressW"/>          <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
-    /// <see cref="MinLOD"/>    	    -3.402823466e+38F (-FLT_MAX)
-    /// <see cref="MaxLOD"/>            3.402823466e+38F (FLT_MAX)
-    /// <see cref="MipLODBias"/>        0.0f
-    /// <see cref="MaxAnisotropy"/>     1
-    /// <see cref="ComparisonFunc"/>    <see cref="D3D11_COMPARISON_NEVER"/>
-    /// <see cref="BorderColor"/>       float4(1.0f,1.0f,1.0f,1.0f)
-    /// Texture                         N/A
+    /// </para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>
+    /// State
+    /// </term>
+    /// <term>
+    /// Default Value
+    /// </term>
+    /// </listheader>
+    /// <item>
+    /// <term>
+    /// <see cref="Filter"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_FILTER_MIN_MAG_MIP_LINEAR"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="AddressU"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="AddressV"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="AddressW"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_TEXTURE_ADDRESS_CLAMP"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="MinLOD"/>
+    /// </term>
+    /// <term>
+    /// -3.402823466e+38F (-FLT_MAX)
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="MaxLOD"/>
+    /// </term>
+    /// <term>
+    /// 3.402823466e+38F (FLT_MAX)
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="MipLODBias"/>
+    /// </term>
+    /// <term>
+    /// 0.0f
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="MaxAnisotropy"/>
+    /// </term>
+    /// <term>
+    /// 1
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="ComparisonFunc"/>
+    /// </term>
+    /// <term>
+    /// <see cref="D3D11_COMPARISON_NEVER"/>
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// <see cref="BorderColor"/>
+    /// </term>
+    /// <term>
+    /// float4(1.0f,1.0f,1.0f,1.0f)
+    /// </term>
+    /// </item>
+    /// <item>
+    /// <term>
+    /// Texture
+    /// </term>
+    /// <term>
+    /// N/A
+    /// </term>
+    /// </item>
+    /// </list>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_SAMPLER_DESC

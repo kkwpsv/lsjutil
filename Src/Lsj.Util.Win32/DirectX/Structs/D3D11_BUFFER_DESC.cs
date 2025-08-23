@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
 
@@ -16,11 +17,18 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used by <see cref="ID3D11Device.CreateBuffer"/> to create buffer resources.
-    /// In addition to this structure, you can also use the CD3D11_BUFFER_DESC derived structure,
+    /// <para>
+    /// This structure is used by <see cref="ID3D11Device.CreateBuffer"/> to create buffer resources.
+    /// </para>
+    /// <para>
+    /// In addition to this structure, you can also use the CD3D11_BUFFER_DESC derived structure,
     /// which is defined in D3D11.h and behaves like an inherited class, to help create a buffer description.
-    /// If the bind flag is <see cref="D3D11_BIND_CONSTANT_BUFFER"/>, you must set the <see cref="ByteWidth"/> value in multiples of 16,
-    /// and less than or equal to <see cref="D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT"/>.
+    /// </para>
+    /// <para>
+    /// If the bind flag is <see cref="D3D11_BIND_CONSTANT_BUFFER"/>,
+    /// you must set the <see cref="ByteWidth"/> value in multiples of 16,
+    /// and less than or equal to <see cref="D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT"/>.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_BUFFER_DESC
@@ -56,11 +64,16 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public D3D11_RESOURCE_MISC_FLAG MiscFlags;
 
         /// <summary>
+        /// <para>
         /// The size of each element in the buffer structure (in bytes) when the buffer represents a structured buffer.
-        /// For more info about structured buffers, see Structured Buffer.
-        /// The size value in <see cref="StructureByteStride"/> must match the size of the format that you use for views of the buffer.
+        /// For more info about structured buffers, see Structured Buffer.
+        /// </para>
+        /// <para>
+        /// The size value in <see cref="StructureByteStride"/> must match the size of the format
+        /// that you use for views of the buffer.
         /// For example, if you use a shader resource view (SRV) to read a buffer in a pixel shader,
-        /// the SRV format size must match the size value in <see cref="StructureByteStride"/>.
+        /// the SRV format size must match the size value in <see cref="StructureByteStride"/>.
+        /// </para>
         /// </summary>
         public UINT StructureByteStride;
     }

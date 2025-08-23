@@ -14,7 +14,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used by <see cref="ID3D11Counter.GetDesc"/>, <see cref="ID3D11Device.CheckCounter"/> and <see cref="ID3D11Device.CreateCounter"/>.
+    /// This structure is used by <see cref="ID3D11Counter.GetDesc"/>,
+    /// <see cref="ID3D11Device.CheckCounter"/> and <see cref="ID3D11Device.CreateCounter"/>.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_COUNTER_DESC

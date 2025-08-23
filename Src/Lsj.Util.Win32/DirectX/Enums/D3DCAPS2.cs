@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using System;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DPOOL;
@@ -13,6 +14,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dcaps2"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum D3DCAPS2 : uint
     {
         /// <summary>

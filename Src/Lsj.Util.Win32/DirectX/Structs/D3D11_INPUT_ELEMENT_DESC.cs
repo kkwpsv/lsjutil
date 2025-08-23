@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// The semantic index for the element.
         /// A semantic index modifies a semantic, with an integer index number.
         /// A semantic index is only needed in a case where there is more than one element with the same semantic.
-        /// For example, a 4x4 matrix would have four components each with the semantic name <code>matrix</code>,
+        /// For example, a 4x4 matrix would have four components each with the semantic name <c>matrix</c>,
         /// however each of the four component would have different semantic indices (0, 1, 2, and 3).
         /// </summary>
         public UINT SemanticIndex;

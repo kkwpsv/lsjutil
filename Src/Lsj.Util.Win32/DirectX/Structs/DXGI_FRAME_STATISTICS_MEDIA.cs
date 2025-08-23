@@ -22,10 +22,17 @@ namespace Lsj.Util.Win32.DirectX.Structs
     public struct DXGI_FRAME_STATISTICS_MEDIA
     {
         /// <summary>
-        /// A value that represents the running total count of times that an image was presented to the monitor since the computer booted.
+        /// <para>
+        /// A value that represents the running total count of times
+        /// that an image was presented to the monitor since the computer booted.
+        /// </para>
+        /// <para>
         /// Note
-        /// The number of times that an image was presented to the monitor is not necessarily the same as the number of times
-        /// that you called <see cref="IDXGISwapChain.Present"/> or <see cref="IDXGISwapChain1.Present1"/>.
+        /// </para>
+        /// <para>
+        /// The number of times that an image was presented to the monitor is not necessarily
+        /// the same as the number of times that you called <see cref="IDXGISwapChain.Present"/> or <see cref="IDXGISwapChain1.Present1"/>.
+        /// </para>
         /// </summary>
         public UINT PresentCount;
 

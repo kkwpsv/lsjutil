@@ -1,11 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -22,7 +17,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     {
         /// <summary>
         /// The size of this structure.
-        /// This should always be set to sizeof(D3DDISPLAYMODEFILTER).
+        /// This should always be set to <c>sizeof(D3DDISPLAYMODEFILTER)</c>.
         /// </summary>
         public UINT Size;
 

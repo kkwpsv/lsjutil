@@ -3,6 +3,7 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
+using Lsj.Util.Win32.WindowsRuntimeInterfaces;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
@@ -21,18 +22,13 @@ namespace Lsj.Util.Win32.DirectX
     public static class D3D11
     {
         /// <summary>
-        /// D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT
-        /// </summary>
-        public const uint D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT = 4096;
-
-        /// <summary>
         /// D3D11_SDK_VERSION
         /// </summary>
         public static readonly DWORD D3D11_SDK_VERSION = 7;
 
         /// <summary>
         /// <para>
-        /// Creates an instance of IDirect3DDevice from an <see cref="IDXGIDevice"/>.
+        /// Creates an instance of <see cref="IDirect3DDevice"/> from an <see cref="IDXGIDevice"/>.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windows.graphics.directx.direct3d11.interop/nf-windows-graphics-directx-direct3d11-interop-createdirect3d11devicefromdxgidevice"/>

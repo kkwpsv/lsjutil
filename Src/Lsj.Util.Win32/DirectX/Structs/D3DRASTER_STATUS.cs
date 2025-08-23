@@ -22,11 +22,15 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public BOOL InVBlank;
 
         /// <summary>
-        /// If <see cref="InVBlank"/> is <see cref="FALSE"/>,
-        /// then this value is an integer roughly corresponding to the current scan line painted by the raster.
+        /// <para>
+        /// If InVBlank is <see cref="FALSE"/>, then this value is an integer
+        /// roughly corresponding to the current scan line painted by the raster.
         /// Scan lines are numbered in the same way as Direct3D surface coordinates:
         /// 0 is the top of the primary surface, extending to the value (height of the surface - 1) at the bottom of the display.
-        /// If <see cref="InVBlank"/> is <see cref="TRUE"/>, then this value is set to zero and can be ignored.
+        /// </para>
+        /// <para>
+        /// If InVBlank is <see cref="TRUE"/>, then this value is set to zero and can be ignored.
+        /// </para>
         /// </summary>
         public UINT ScanLine;
     }

@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.DirectX.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// D3DFVFCAPS
     /// </summary>
+    [Flags]
     public enum D3DFVFCAPS : uint
     {
         /// <summary>

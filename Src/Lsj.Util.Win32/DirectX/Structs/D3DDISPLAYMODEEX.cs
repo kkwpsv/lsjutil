@@ -14,7 +14,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is used in various methods to create and manage Direct3D 9Ex devices (<see cref="IDirect3DDevice9Ex"/>) and swapchains (<see cref="IDirect3DSwapChain9Ex"/>).
+    /// This structure is used in various methods to create and manage
+    /// Direct3D 9Ex devices (<see cref="IDirect3DDevice9Ex"/>) and swapchains (<see cref="IDirect3DSwapChain9Ex"/>).
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3DDISPLAYMODEEX

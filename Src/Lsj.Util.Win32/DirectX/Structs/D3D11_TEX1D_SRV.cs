@@ -13,11 +13,16 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is one member of a shader-resource-view description (see <see cref="D3D11_SHADER_RESOURCE_VIEW_DESC"/>)
-    /// As an example, assuming <see cref="MostDetailedMip"/> = 6 and <see cref="MipLevels"/> = 2, the view will have access to 2 mipmap levels,
-    /// 6 and 7, of the original texture for which <see cref="ID3D11Device.CreateShaderResourceView"/> creates the view.
-    /// In this situation, <see cref="MostDetailedMip"/> is greater than the <see cref="MipLevels"/> in the view.
-    /// However, <see cref="MostDetailedMip"/> is not greater than the <see cref="MipLevels"/> in the original resource.
+    /// <para>
+    /// This structure is one member of a shader-resource-view description (see <see cref="D3D11_SHADER_RESOURCE_VIEW_DESC"/>).
+    /// </para>
+    /// <para>
+    /// As an example, assuming <see cref="MostDetailedMip"/> = 6 and <see cref="MipLevels"/> = 2,
+    /// the view will have access to 2 mipmap levels, 6 and 7,
+    /// of the original texture for which <see cref="ID3D11Device.CreateShaderResourceView"/> creates the view.
+    /// In this situation, <see cref="MostDetailedMip"/> is greater than the <see cref="MipLevels"/> in the view.
+    /// However, <see cref="MostDetailedMip"/> is not greater than the <see cref="MipLevels"/> in the original resource.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct D3D11_TEX1D_SRV

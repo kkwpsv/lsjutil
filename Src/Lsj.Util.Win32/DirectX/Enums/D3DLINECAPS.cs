@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
     /// <summary>
     /// D3DLINECAPS
     /// </summary>
+    [Flags]
     public enum D3DLINECAPS : uint
     {
         /// <summary>

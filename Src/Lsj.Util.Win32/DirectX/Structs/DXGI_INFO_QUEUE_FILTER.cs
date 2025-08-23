@@ -1,10 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {
@@ -17,9 +12,15 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Use with an <see cref="IDXGIInfoQueue"/> interface.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_INFO_QUEUE_FILTER

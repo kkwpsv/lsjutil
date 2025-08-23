@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using System;
 using static Lsj.Util.Win32.DirectX.Enums.D3DBLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3DRENDERSTATETYPE;
 
@@ -12,6 +13,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dcaps3"/>
     /// </para>
     /// </summary>
+    [Flags]
     public enum D3DCAPS3 : uint
     {
         /// <summary>

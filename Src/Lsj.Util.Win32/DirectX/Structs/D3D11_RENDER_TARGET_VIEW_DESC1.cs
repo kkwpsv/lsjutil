@@ -14,11 +14,28 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// A render-target-view description is passed into <see cref="ID3D11Device3.CreateRenderTargetView1"/> to create a render target.
+    /// <para>
+    /// A render-target-view description is passed into <see cref="ID3D11Device3.CreateRenderTargetView1"/> to create a render target.
+    /// </para>
+    /// <para>
     /// A render-target-view cannot use the following formats:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
     /// Any typeless format.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
     /// DXGI_FORMAT_R32G32B32 if the view will be used to bind a buffer (vertex, index, constant, or stream-output).
-    /// If the format is set to <see cref="DXGI_FORMAT_UNKNOWN"/>, then the format of the resource that the view binds to the pipeline will be used.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// If the format is set to <see cref="DXGI_FORMAT_UNKNOWN"/>,
+    /// then the format of the resource that the view binds to the pipeline will be used.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct D3D11_RENDER_TARGET_VIEW_DESC1

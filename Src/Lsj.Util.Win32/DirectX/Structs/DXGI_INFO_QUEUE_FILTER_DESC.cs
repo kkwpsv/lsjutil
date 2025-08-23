@@ -14,8 +14,12 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This structure is a member of the <see cref="DXGI_INFO_QUEUE_FILTER"/> structure.
-    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// <para>
+    /// This structure is a member of the <see cref="DXGI_INFO_QUEUE_FILTER"/> structure.
+    /// </para>
+    /// <para>
+    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DXGI_INFO_QUEUE_FILTER_DESC
@@ -26,7 +30,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT NumCategories;
 
         /// <summary>
-        /// An array of <see cref="DXGI_INFO_QUEUE_MESSAGE_CATEGORY"/> enumeration values that describe the message categories to allow or deny.
+        /// An array of <see cref="DXGI_INFO_QUEUE_MESSAGE_CATEGORY"/> enumeration values
+        /// that describe the message categories to allow or deny.
         /// The array must have at least <see cref="NumCategories"/> number of elements.
         /// </summary>
         public P<DXGI_INFO_QUEUE_MESSAGE_CATEGORY> pCategoryList;
@@ -37,7 +42,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT NumSeverities;
 
         /// <summary>
-        /// An array of <see cref="DXGI_INFO_QUEUE_MESSAGE_SEVERITY"/> enumeration values that describe the message severity levels to allow or deny.
+        /// An array of <see cref="DXGI_INFO_QUEUE_MESSAGE_SEVERITY"/> enumeration values
+        /// that describe the message severity levels to allow or deny.
         /// The array must have at least <see cref="NumSeverities"/> number of elements.
         /// </summary>
         public P<DXGI_INFO_QUEUE_MESSAGE_SEVERITY> pSeverityList;
@@ -48,7 +54,8 @@ namespace Lsj.Util.Win32.DirectX.Structs
         public UINT NumIDs;
 
         /// <summary>
-        /// An array of integers that represent the message IDs to allow or deny. The array must have at least NumIDs number of elements.
+        /// An array of integers that represent the message IDs to allow or deny.
+        /// The array must have at least <see cref="NumIDs"/> number of elements.
         /// </summary>
         public P<DXGI_INFO_QUEUE_MESSAGE_ID> pIDList;
     }
