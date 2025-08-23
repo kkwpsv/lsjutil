@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             {
                 fixed (DXGI_FORMAT* pSupportedFormatsPtr = pSupportedFormats)
                 {
-                    return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, UINT, UINT, DXGI_FORMAT*, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[25])
+                    return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, UINT, UINT, DXGI_FORMAT*, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[26])
                         (thisPtr, pDevice, Flags, SupportedFormatsCount, pSupportedFormatsPtr, out ppOutputDuplication);
                 }
             }

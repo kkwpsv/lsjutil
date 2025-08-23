@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out DXGI_OUTPUT_DESC1, HRESULT>)_vTable[26])(thisPtr, out pDesc);
+                return ((delegate* unmanaged[Stdcall]<void*, out DXGI_OUTPUT_DESC1, HRESULT>)_vTable[27])(thisPtr, out pDesc);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out DXGI_HARDWARE_COMPOSITION_SUPPORT_FLAGS, HRESULT>)_vTable[27])(thisPtr, out pFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, out DXGI_HARDWARE_COMPOSITION_SUPPORT_FLAGS, HRESULT>)_vTable[28])(thisPtr, out pFlags);
             }
         }
     }

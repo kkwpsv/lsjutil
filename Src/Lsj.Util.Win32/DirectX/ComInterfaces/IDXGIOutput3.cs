@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, in IUnknown, out DXGI_OVERLAY_SUPPORT_FLAG, HRESULT>)_vTable[23])
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, in IUnknown, out DXGI_OVERLAY_SUPPORT_FLAG, HRESULT>)_vTable[24])
                     (thisPtr, EnumFormat, pConcernedDevice, out pFlags);
             }
         }

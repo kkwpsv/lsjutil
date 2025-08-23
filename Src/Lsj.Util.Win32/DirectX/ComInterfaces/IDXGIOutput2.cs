@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, BOOL>)_vTable[22])(thisPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL>)_vTable[23])(thisPtr);
             }
         }
     }

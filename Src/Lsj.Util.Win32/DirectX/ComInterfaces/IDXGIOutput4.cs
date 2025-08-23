@@ -46,7 +46,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, DXGI_COLOR_SPACE_TYPE, in IUnknown, out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG, HRESULT>)_vTable[24])
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, DXGI_COLOR_SPACE_TYPE,
+                    in IUnknown, out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG, HRESULT>)_vTable[25])
                     (thisPtr, Format, ColorSpace, pConcernedDevice, out pFlags);
             }
         }

@@ -204,7 +204,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDXGIResource, HRESULT>)_vTable[20])(thisPtr, pDestination);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDXGIResource, HRESULT>)_vTable[21])(thisPtr, pDestination);
             }
         }
 
@@ -257,7 +257,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[21])(thisPtr, pDevice, out ppOutputDuplication);
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[22])(thisPtr, pDevice, out ppOutputDuplication);
             }
         }
     }
