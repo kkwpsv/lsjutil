@@ -605,5 +605,37 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
             [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetThreadToken"/> function assigns an impersonation token to a thread.
+        /// The function can also cause a thread to stop using an impersonation token.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Thread">
+        /// A pointer to a handle to the thread to which the function assigns the impersonation token.
+        /// If <paramref name="Thread"/> is <see cref="NullRef{HANDLE}"/>, the function assigns the impersonation token to the calling thread.
+        /// </param>
+        /// <param name="Token">
+        /// A handle to the impersonation token to assign to the thread.
+        /// This handle must have been opened with <see cref="TOKEN_IMPERSONATE"/> access rights.
+        /// For more information, see Access Rights for Access-Token Objects.
+        /// If <paramref name="Token"/> is <see cref="NULL"/>, the function causes the thread to stop using an impersonation token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When using the <see cref="SetThreadToken"/> function to impersonate,
+        /// you must have the impersonate privileges and make sure that
+        /// the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
     }
 }

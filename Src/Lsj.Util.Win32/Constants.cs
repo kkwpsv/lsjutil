@@ -79,6 +79,11 @@ namespace Lsj.Util.Win32
         public const int MAX_PATH = 260;
 
         /// <summary>
+        /// MAX_SHUTDOWN_TIMEOUT
+        /// </summary>
+        public const int MAX_SHUTDOWN_TIMEOUT = 10 * 365 * 24 * 60 * 60;
+
+        /// <summary>
         /// MAXIMUM_PROCESSORS
         /// </summary>
         public const int MAXIMUM_PROCESSORS = 64;
