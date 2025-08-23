@@ -6,6 +6,7 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
+using Lsj.Util.Win32.Extensions.Direct3D11.D3D11;
 using Lsj.Util.Win32.WindowsRuntimeInterfaces;
 using System;
 using System.Threading.Tasks;
@@ -194,31 +195,6 @@ namespace Lsj.Util.Win32.Extensions.WindowsRuntime
         /// <param name="desc"></param>
         /// <returns></returns>
         public D3D11_MAPPED_SUBRESOURCE MapCaptureTexture(P<ID3D11Texture2D> texture, out D3D11_TEXTURE2D_DESC desc)
-        {
-            texture.Value.GetDesc(out desc);
-            desc.Usage = D3D11_USAGE.D3D11_USAGE_STAGING;
-            desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.D3D11_CPU_ACCESS_READ;
-            desc.BindFlags = 0;
-            desc.MiscFlags = 0;
-
-            var result = _d3d11Device.Value.CreateTexture2D(desc, null, out var cpuTexture);
-            result.ThrowExceptionIfNotSucceed();
-
-            try
-            {
-                _d3d11DeviceContext.Value.CopyResource(cpuTexture.As<ID3D11Resource>(), texture.As<ID3D11Resource>());
-                result = _d3d11DeviceContext.Value.Map(cpuTexture.As<ID3D11Resource>(), 0, D3D11_MAP.D3D11_MAP_READ, 0, out var mappedResource);
-                result.ThrowExceptionIfNotSucceed();
-
-                return mappedResource;
-            }
-            finally
-            {
-                if (cpuTexture != NULL)
-                {
-                    cpuTexture.AsIUnknown().Value.Release();
-                }
-            }
-        }
+            => Texture2DHelper.MapTexture(_d3d11Device, _d3d11DeviceContext, texture, out desc);
     }
 }

@@ -148,6 +148,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDXGIFactory1 = "770aae78-f26f-4dba-a829-253c83d1b387";
 
         /// <summary>
+        /// IID_IDXGIOutput1
+        /// </summary>
+        public static readonly IID IID_IDXGIOutput1 = "00cddea8-939b-4b83-a340-a685226666cc";
+
+        /// <summary>
         /// IID_IEnumIDList
         /// </summary>
         public static readonly IID IID_IEnumIDList = "000214F2-0000-0000-C000-000000000046";
