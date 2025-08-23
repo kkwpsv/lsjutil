@@ -3,9 +3,9 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DeviceTechnologies;
-using static Lsj.Util.Win32.Enums.HT_FLAG;
-using static Lsj.Util.Win32.Enums.HT_FORMAT;
-using static Lsj.Util.Win32.Enums.HT_PATSIZE;
+using static Lsj.Util.Win32.Enums.HalftoneFlags;
+using static Lsj.Util.Win32.Enums.HalftoneFormats;
+using static Lsj.Util.Win32.Enums.HalftonePatternSizes;
 using static Lsj.Util.Win32.Enums.PenStyles;
 using static Lsj.Util.Win32.Enums.PhysicalPixelCharacteristicsFlags;
 using static Lsj.Util.Win32.Enums.PrimaryOrders;
@@ -504,13 +504,13 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="HT_PATSIZE_DEFAULT"/>
         /// </para>
         /// </summary>
-        public HT_PATSIZE ulHTPatternSize;
+        public HalftonePatternSizes ulHTPatternSize;
 
         /// <summary>
         /// <para>
         /// Specifies the preferred output format for halftone.
         /// <see cref="HT_FORMAT_4BPP"/> uses only 8 full intensity colors
-        /// while <see cref="HT_FORMATP_IRGB"/> uses all the 16 colors including the half-intensity colors.
+        /// while <see cref="HT_FORMAT_4BPP_IRGB"/> uses all the 16 colors including the half-intensity colors.
         /// It is assumed that a 5 x 5 x 5 format (5 bits per color) is used for <see cref="HT_FORMAT_16BPP"/>.
         /// This member can be one of the following values:
         /// </para>
@@ -536,11 +536,13 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="HT_FORMAT_32BPP"/>
         /// </para>
         /// </summary>
-        public HT_FORMAT ulHTOutputFormat;
+        public HalftoneFormats ulHTOutputFormat;
 
         /// <summary>
         /// <para>
-        /// Specifies a combination of flags describing the device. These flags are needed for halftoning. This member can be a combination of the following values:
+        /// Specifies a combination of flags describing the device.
+        /// These flags are needed for halftoning.
+        /// This member can be a combination of the following values:
         /// </para>
         /// <list type="table">
         /// <listheader>
@@ -702,7 +704,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public HT_FLAG flHTFlags;
+        public HalftoneFlags flHTFlags;
 
         /// <summary>
         /// <para>

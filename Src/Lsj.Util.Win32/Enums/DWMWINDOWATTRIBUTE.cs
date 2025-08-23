@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Dwmapi;
-using static Lsj.Util.Win32.Enums.DWM_CLOAKED;
+using static Lsj.Util.Win32.Enums.DWMCloakReasons;
 
 namespace Lsj.Util.Win32.Enums
 {

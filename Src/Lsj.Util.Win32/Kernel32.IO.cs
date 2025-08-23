@@ -10,7 +10,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CommunicationErrorTypes;
 using static Lsj.Util.Win32.Enums.CommunicationEventTypes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FILE_FLAG;
+using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;

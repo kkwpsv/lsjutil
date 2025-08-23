@@ -8,7 +8,7 @@ using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
 using static Lsj.Util.Win32.Enums.OLEMISC;
-using static Lsj.Util.Win32.Enums.OLEVERB;
+using static Lsj.Util.Win32.Enums.OLEInvokeVerbs;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
@@ -382,7 +382,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The possible actions are enumerated for the object in <see cref="EnumVerbs"/>.
         /// </summary>
         /// <param name="iVerb">
-        /// Number assigned to the verb in the <see cref="OLEVERB"/> structure returned by <see cref="EnumVerbs"/>.
+        /// Number assigned to the verb in the <see cref="OLEInvokeVerbs"/> structure returned by <see cref="EnumVerbs"/>.
         /// </param>
         /// <param name="lpmsg">
         /// Pointer to the <see cref="MSG"/> structure describing the event (such as a double-click) that invoked the verb.
@@ -434,9 +434,9 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A "verb" is an action that an OLE object takes in response to a message from its container.
         /// An object's container, or a client linked to the object, normally calls <see cref="DoVerb"/> in response to some end-user action,
         /// such as double-clicking on the object.
-        /// The various actions that are available for a given object are enumerated in an <see cref="OLEVERB"/> structure,
+        /// The various actions that are available for a given object are enumerated in an <see cref="OLEInvokeVerbs"/> structure,
         /// which the container obtains by calling <see cref="EnumVerbs"/>.
-        /// <see cref="DoVerb"/> matches the value of <paramref name="iVerb"/> against the <see cref="OLEVERB.iVerb"/> member
+        /// <see cref="DoVerb"/> matches the value of <paramref name="iVerb"/> against the <see cref="OLEInvokeVerbs.iVerb"/> member
         /// of the structure to determine which verb to invoke.
         /// Through <see cref="EnumVerbs"/>, an object, rather than its container, determines which verbs (i.e., actions) it supports.
         /// OLE 2 defines seven verbs that are available, but not necessarily useful, to all objects.
@@ -500,7 +500,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The lindex parameter is a reserved parameter, and for reasons of consistency Microsoft recommends assigning a zero value
         /// to all reserved parameters.
         /// Notes to Implementers
-        /// In addition to the above verbs, an object can define in its <see cref="OLEVERB"/> structure additional verbs that are specific to itself.
+        /// In addition to the above verbs, an object can define in its <see cref="OLEInvokeVerbs"/> structure additional verbs that are specific to itself.
         /// Positive numbers designate these object-specific verbs.
         /// An object should treat any unknown positive verb number as if it were the primary verb
         /// and return <see cref="OLEOBJ_S_INVALIDVERB"/> to the calling function.
@@ -522,11 +522,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This ensures that the object's window will be visible to the user even if another process originally obscured it.
         /// For more information see <see cref="SetForegroundWindow"/> and <see cref="SetActiveWindow"/>.
         /// </remarks>
-        public HRESULT DoVerb([In] OLEVERB iVerb, [In] in MSG lpmsg, [In] in IOleClientSite pActiveSite, [In] LONG lindex, [In] HWND hwndParent, [In] in RECT lprcPosRect)
+        public HRESULT DoVerb([In] OLEInvokeVerbs iVerb, [In] in MSG lpmsg, [In] in IOleClientSite pActiveSite, [In] LONG lindex, [In] HWND hwndParent, [In] in RECT lprcPosRect)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLEVERB, in MSG, in IOleClientSite, LONG, HWND, in RECT, HRESULT>)_vTable[11])(thisPtr, iVerb, lpmsg, pActiveSite, lindex, hwndParent, lprcPosRect);
+                return ((delegate* unmanaged[Stdcall]<void*, OLEInvokeVerbs, in MSG, in IOleClientSite, LONG, HWND, in RECT, HRESULT>)_vTable[11])(thisPtr, iVerb, lpmsg, pActiveSite, lindex, hwndParent, lprcPosRect);
             }
         }
 

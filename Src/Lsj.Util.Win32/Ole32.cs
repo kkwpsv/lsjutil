@@ -15,7 +15,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
-using static Lsj.Util.Win32.Enums.FILE_FLAG;
+using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.MSHCTX;
 using static Lsj.Util.Win32.Enums.OLERENDER;
 using static Lsj.Util.Win32.Enums.REGCLS;

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.DuplicateHandleOptions;
-using static Lsj.Util.Win32.Enums.FILE_FLAG;
+using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.HANDLE_FLAG;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;

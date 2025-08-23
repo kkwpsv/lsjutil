@@ -2,9 +2,9 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
-using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
-using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE_INTERVAL;
+using static Lsj.Util.Win32.Enums.JobObjectMessageIdentifiers;
+using static Lsj.Util.Win32.Enums.JobObjectRateControlTolerances;
+using static Lsj.Util.Win32.Enums.JobObjectRateControlToleranceIntervals;
 using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -317,7 +317,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE RateControlTolerance;
+        public JobObjectRateControlTolerances RateControlTolerance;
 
         /// <summary>
         /// <para>
@@ -374,6 +374,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE_INTERVAL RateControlToleranceLimit;
+        public JobObjectRateControlToleranceIntervals RateControlToleranceLimit;
     }
 }

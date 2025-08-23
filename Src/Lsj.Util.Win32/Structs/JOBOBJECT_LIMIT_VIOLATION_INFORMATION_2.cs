@@ -2,8 +2,8 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
-using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
-using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
+using static Lsj.Util.Win32.Enums.JobObjectMessageIdentifiers;
+using static Lsj.Util.Win32.Enums.JobObjectRateControlTolerances;
 using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -441,7 +441,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(72)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE RateControlTolerance;
+        public JobObjectRateControlTolerances RateControlTolerance;
 
         /// <summary>
         /// <para>
@@ -500,7 +500,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(72)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE CpuRateControlTolerance;
+        public JobObjectRateControlTolerances CpuRateControlTolerance;
 
         /// <summary>
         /// <para>
@@ -558,7 +558,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(76)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE RateControlToleranceLimit;
+        public JobObjectRateControlTolerances RateControlToleranceLimit;
 
         /// <summary>
         /// <para>
@@ -616,7 +616,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(76)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE CpuRateControlToleranceLimit;
+        public JobObjectRateControlTolerances CpuRateControlToleranceLimit;
 
         /// <summary>
         /// If the <see cref="LimitFlags"/> member specifies <see cref="JOB_OBJECT_LIMIT_JOB_MEMORY_LOW"/>,
@@ -682,7 +682,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(88)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE IoRateControlTolerance;
+        public JobObjectRateControlTolerances IoRateControlTolerance;
 
         /// <summary>
         /// <para>
@@ -740,7 +740,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(92)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE IoRateControlToleranceLimit;
+        public JobObjectRateControlTolerances IoRateControlToleranceLimit;
 
         /// <summary>
         /// <para>
@@ -799,7 +799,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(96)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE NetRateControlTolerance;
+        public JobObjectRateControlTolerances NetRateControlTolerance;
 
         /// <summary>
         /// <para>
@@ -857,6 +857,6 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(100)]
-        public JOBOBJECT_RATE_CONTROL_TOLERANCE NetRateControlToleranceLimit;
+        public JobObjectRateControlTolerances NetRateControlToleranceLimit;
     }
 }

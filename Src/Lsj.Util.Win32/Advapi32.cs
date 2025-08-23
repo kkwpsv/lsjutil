@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
-using static Lsj.Util.Win32.Enums.LOGON32_PROVIDER;
+using static Lsj.Util.Win32.Enums.Logon32Providers;
 using static Lsj.Util.Win32.Enums.LogonTypes;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
@@ -1085,7 +1085,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LogonUser([In] LPCWSTR lpszUsername, [In] LPCWSTR lpszDomain, [In] LPCWSTR lpszPassword,
-            [In] LogonTypes dwLogonType, [In] LOGON32_PROVIDER dwLogonProvider, [Out] out HANDLE phToken);
+            [In] LogonTypes dwLogonType, [In] Logon32Providers dwLogonProvider, [Out] out HANDLE phToken);
 
         /// <summary>
         /// <para>

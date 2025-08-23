@@ -15,7 +15,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_ACTION;
 using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_TYPE;
-using static Lsj.Util.Win32.Enums.COPY_FILE;
+using static Lsj.Util.Win32.Enums.CopyFileFlags;
 using static Lsj.Util.Win32.Enums.DefineDosDeviceFlags;
 using static Lsj.Util.Win32.Enums.SetupDeviceRegistryProperties;
 using static Lsj.Util.Win32.Enums.DriveTypes;
@@ -25,7 +25,7 @@ using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
-using static Lsj.Util.Win32.Enums.FILE_FLAG;
+using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileNotifyFilters;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
@@ -415,7 +415,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] COPY_FILE dwCopyFlags);
+            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags);
 
         /// <summary>
         /// <para>

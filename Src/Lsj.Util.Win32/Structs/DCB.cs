@@ -2,8 +2,8 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.Enums.CBR;
-using static Lsj.Util.Win32.Enums.DTR_CONTROL;
+using static Lsj.Util.Win32.Enums.CommunicationBaudRates;
+using static Lsj.Util.Win32.Enums.DataTerminalReadyFlowControls;
 using static Lsj.Util.Win32.Enums.ParitySchemes;
 using static Lsj.Util.Win32.Enums.RTSFlowControls;
 using static Lsj.Util.Win32.Enums.StopBits;
@@ -243,7 +243,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public CBR BaudRate;
+        public CommunicationBaudRates BaudRate;
 
         private DWORD _bitFiled;
 
@@ -342,9 +342,9 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public DTR_CONTROL fDtrControl
+        public DataTerminalReadyFlowControls fDtrControl
         {
-            get => (DTR_CONTROL)((_bitFiled >> 4) & 3);
+            get => (DataTerminalReadyFlowControls)((_bitFiled >> 4) & 3);
             set => _bitFiled |= (((uint)value & 3) << 4);
         }
 

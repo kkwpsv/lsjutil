@@ -5,7 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.HOTKEYF;
+using static Lsj.Util.Win32.Enums.HotKeyFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.ShellLinkGetPathFlags;
 using static Lsj.Util.Win32.Enums.ShellLinkResolveFlags;

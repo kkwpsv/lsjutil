@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BitmapCompressions;
-using static Lsj.Util.Win32.Enums.LCS_GM;
+using static Lsj.Util.Win32.Enums.LogicalColorSpaceGamutMappings;
 using static Lsj.Util.Win32.Enums.LogicalColorSpaces;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Constants;
@@ -530,7 +530,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public LCS_GM bV5Intent;
+        public LogicalColorSpaceGamutMappings bV5Intent;
 
         /// <summary>
         /// The offset, in bytes, from the beginning of the <see cref="BITMAPV5HEADER"/> structure to the start of the profile data.

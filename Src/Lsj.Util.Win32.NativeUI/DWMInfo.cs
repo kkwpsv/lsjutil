@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <remarks>
         /// <see cref="DWMWA_CLOAKED"/>
         /// </remarks>
-        public DWM_CLOAKED Cloaked => GetCloaked();
+        public DWMCloakReasons Cloaked => GetCloaked();
 
         /// <summary>
         /// Is Freeze Representation

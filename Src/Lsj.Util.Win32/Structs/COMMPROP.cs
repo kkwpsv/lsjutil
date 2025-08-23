@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.BAUD;
+using static Lsj.Util.Win32.Enums.BaudRates;
 using static Lsj.Util.Win32.Enums.DATABITS;
 using static Lsj.Util.Win32.Enums.CommunicationProviderCapabilitiesFlags;
 using static Lsj.Util.Win32.Enums.CommunicationProviderTypes;
@@ -377,7 +377,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public BAUD dwMaxBaud;
+        public BaudRates dwMaxBaud;
 
         /// <summary>
         /// <para>
@@ -824,7 +824,7 @@ namespace Lsj.Util.Win32.Structs
         /// The baud rates that can be used.
         /// For values, see the <see cref="dwMaxBaud"/> member.
         /// </summary>
-        public BAUD dwSettableBaud;
+        public BaudRates dwSettableBaud;
 
         /// <summary>
         /// <para>

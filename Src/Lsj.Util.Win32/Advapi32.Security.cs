@@ -25,22 +25,6 @@ namespace Lsj.Util.Win32
     partial class Advapi32
     {
         /// <summary>
-        /// ACE_OBJECT_TYPE_PRESENT
-        /// </summary>
-        public const uint ACE_OBJECT_TYPE_PRESENT = 0x1;
-
-        /// <summary>
-        /// ACE_INHERITED_OBJECT_TYPE_PRESENT
-        /// </summary>
-        public const uint ACE_INHERITED_OBJECT_TYPE_PRESENT = 0x2;
-
-        /// <summary>
-        /// AUDIT_ALLOW_NO_PRIVILEGE
-        /// </summary>
-        public const uint AUDIT_ALLOW_NO_PRIVILEGE = 0x1;
-
-
-        /// <summary>
         /// <para>
         /// The <see cref="AccessCheck"/> function determines whether a security descriptor
         /// grants a specified set of access rights to the client identified by an access token.

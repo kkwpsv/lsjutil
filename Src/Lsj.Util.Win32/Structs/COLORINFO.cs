@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.HT_PATSIZE;
+using static Lsj.Util.Win32.Enums.HalftonePatternSizes;
 
 namespace Lsj.Util.Win32.Structs
 {

@@ -4,6 +4,8 @@ using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Enums.AceTypes;
 using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.ADS_RIGHTS_ENUM;
+using static Lsj.Util.Win32.Enums.AceMemberFlags;
+using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -114,7 +116,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </para>
         /// </summary>
-        public DWORD Flags;
+        public AceMemberFlags Flags;
 
         /// <summary>
         /// <para>

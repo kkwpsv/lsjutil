@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_PATH;
+using static Lsj.Util.Win32.Enums.DisplayConfigPathInfoFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -83,6 +83,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public DISPLAYCONFIG_PATH flags;
+        public DisplayConfigPathInfoFlags flags;
     }
 }

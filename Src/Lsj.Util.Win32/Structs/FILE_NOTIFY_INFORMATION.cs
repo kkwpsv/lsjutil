@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.FILE_ACTION;
+using static Lsj.Util.Win32.Enums.FileActions;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public FILE_ACTION Action;
+        public FileActions Action;
 
         /// <summary>
         /// The size of the file name portion of the record, in bytes. Note that this value does not include the terminating null character.

@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.MUI_FILETYPE;
+using static Lsj.Util.Win32.Enums.MUIFileTypes;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public MUI_FILETYPE dwFileType;
+        public MUIFileTypes dwFileType;
 
         /// <summary>
         /// Pointer to a 128-bit checksum for the file, if it is either an LN file or a language-specific resource file.

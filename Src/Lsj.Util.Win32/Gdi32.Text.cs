@@ -9,7 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
-using static Lsj.Util.Win32.Enums.GCPCLASS;
+using static Lsj.Util.Win32.Enums.GetCharacterPlacementCharacterClasses;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;

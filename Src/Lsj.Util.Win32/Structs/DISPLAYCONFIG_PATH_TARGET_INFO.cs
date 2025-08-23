@@ -2,9 +2,9 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_TARGET;
+using static Lsj.Util.Win32.Enums.DisplayConfigPathTargetInfoFlags;
 using static Lsj.Util.Win32.Enums.QueryDisplayConfigFlags;
-using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_PATH;
+using static Lsj.Util.Win32.Enums.DisplayConfigPathInfoFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -243,6 +243,6 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(44)]
-        public DISPLAYCONFIG_TARGET statusFlags;
+        public DisplayConfigPathTargetInfoFlags statusFlags;
     }
 }

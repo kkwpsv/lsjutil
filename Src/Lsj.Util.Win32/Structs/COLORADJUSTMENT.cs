@@ -1,9 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.ILLUMINANT;
+using static Lsj.Util.Win32.Enums.Illuminants;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Constants;
+using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -190,7 +191,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public WORD caIlluminantIndex;
+        public Illuminants caIlluminantIndex;
 
         /// <summary>
         /// Specifies the nth power gamma-correction value for the red primary of the source colors.

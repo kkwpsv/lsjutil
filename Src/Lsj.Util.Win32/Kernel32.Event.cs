@@ -5,7 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.CREATE_EVENT;
+using static Lsj.Util.Win32.Enums.CreateEventFlags;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateEventEx([In] in SECURITY_ATTRIBUTES lpEventAttributes, [In] LPCWSTR lpName,
-            [In] CREATE_EVENT dwFlags, [In] ACCESS_MASK dwDesiredAccess);
+            [In] CreateEventFlags dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>

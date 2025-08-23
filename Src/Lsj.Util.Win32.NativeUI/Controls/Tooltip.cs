@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Comctl32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
-using static Lsj.Util.Win32.Enums.INITCOMMONCONTROLSFlags;
+using static Lsj.Util.Win32.Enums.InitCommonControlsFlags;
 
 namespace Lsj.Util.Win32.NativeUI.Controls
 {

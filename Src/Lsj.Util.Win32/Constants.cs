@@ -24,9 +24,19 @@ namespace Lsj.Util.Win32
         public const byte AC_SRC_ALPHA = 1;
 
         /// <summary>
+        /// AUDIT_ALLOW_NO_PRIVILEGE
+        /// </summary>
+        public const uint AUDIT_ALLOW_NO_PRIVILEGE = 0x1;
+
+        /// <summary>
         /// CACHE_FULLY_ASSOCIATIVE
         /// </summary>
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
+
+        /// <summary>
+        /// GDICOMMENT_IDENTIFIER
+        /// </summary>
+        public const uint GDICOMMENT_IDENTIFIER = 0x43494447;
 
         /// <summary>
         /// HOVER_DEFAULT

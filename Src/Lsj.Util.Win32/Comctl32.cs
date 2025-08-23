@@ -4,7 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.INITCOMMONCONTROLSFlags;
+using static Lsj.Util.Win32.Enums.InitCommonControlsFlags;
 using static Lsj.Util.Win32.Enums.PropSheetHeaderFlags;
 using static Lsj.Util.Win32.Enums.PropSheetPageFlags;
 

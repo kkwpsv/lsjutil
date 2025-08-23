@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.ACTCTX_FLAG;
+using static Lsj.Util.Win32.Enums.ActiveContextFlags;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -153,7 +153,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public ACTCTX_FLAG dwFlags;
+        public ActiveContextFlags dwFlags;
 
         /// <summary>
         /// Null-terminated string specifying the path of the manifest file or PE image to be used to create the activation context.

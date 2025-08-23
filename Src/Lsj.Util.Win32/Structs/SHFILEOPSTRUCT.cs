@@ -6,7 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.FILEOP_FLAGS;
+using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Enums.ShellFileOperations;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
@@ -380,7 +380,7 @@ namespace Lsj.Util.Win32.Structs
         /// This flag partially overrides <see cref="FOF_NOCONFIRMATION"/>.
         /// </para>
         /// </summary>
-        public FILEOP_FLAGS fFlags;
+        public FileOperationFlags fFlags;
 
         /// <summary>
         /// When the function returns, this member contains <see cref="TRUE"/> if any file operations were aborted before they were completed;

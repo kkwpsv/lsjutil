@@ -2,16 +2,16 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.DMBIN;
-using static Lsj.Util.Win32.Enums.DMCOLLATE;
-using static Lsj.Util.Win32.Enums.DMCOLOR;
-using static Lsj.Util.Win32.Enums.DMDO;
-using static Lsj.Util.Win32.Enums.DMDUP;
+using static Lsj.Util.Win32.Enums.DeviceModeBinFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeCollateFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeColorFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeDisplayOrientationFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeDuplexFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
-using static Lsj.Util.Win32.Enums.DMDFO;
-using static Lsj.Util.Win32.Enums.DMNUP;
-using static Lsj.Util.Win32.Enums.DMORIENT;
-using static Lsj.Util.Win32.Enums.DMRES;
+using static Lsj.Util.Win32.Enums.DeviceModeDisplayFixedOutputFlags;
+using static Lsj.Util.Win32.Enums.DeviceModesNUps;
+using static Lsj.Util.Win32.Enums.DeviceModesOrientations;
+using static Lsj.Util.Win32.Enums.DeviceModesPrintQualities;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;
 
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(76)]
-        public DMORIENT dmOrientation;
+        public DeviceModesOrientations dmOrientation;
 
         /// <summary>
         /// <para>
@@ -221,7 +221,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(88)]
-        public short dmDefaultSource;
+        public DeviceModeBinFlags dmDefaultSource;
 
         /// <summary>
         /// <para>
@@ -249,7 +249,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(90)]
-        public DMRES dmPrintQuality;
+        public DeviceModesPrintQualities dmPrintQuality;
 
         /// <summary>
         /// <para>
@@ -325,7 +325,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(84)]
-        public DMDO dmDisplayOrientation;
+        public DeviceModeDisplayOrientationFlags dmDisplayOrientation;
 
         /// <summary>
         /// <para>
@@ -371,7 +371,7 @@ namespace Lsj.Util.Win32.Structs
         /// </list>
         /// </summary>
         [FieldOffset(88)]
-        public DMDFO dmDisplayFixedOutput;
+        public DeviceModeDisplayFixedOutputFlags dmDisplayFixedOutput;
 
         /// <summary>
         /// <para>
@@ -383,7 +383,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(92)]
-        public DMCOLOR dmColor;
+        public DeviceModeColorFlags dmColor;
 
         /// <summary>
         /// <para>
@@ -413,7 +413,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(94)]
-        public DMDUP dmDuplex;
+        public DeviceModeDuplexFlags dmDuplex;
 
         /// <summary>
         /// <para>
@@ -460,7 +460,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(100)]
-        public DMCOLLATE dmCollate;
+        public DeviceModeCollateFlags dmCollate;
 
         /// <summary>
         /// <para>
@@ -595,7 +595,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </summary>
         [FieldOffset(180)]
-        public DMNUP dmNup;
+        public DeviceModesNUps dmNup;
 
         /// <summary>
         /// <para>

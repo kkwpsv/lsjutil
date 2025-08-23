@@ -140,10 +140,10 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
-        private DWM_CLOAKED GetCloaked()
+        private DWMCloakReasons GetCloaked()
         {
-            DWM_CLOAKED result = default;
-            var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_CLOAKED, AsPointer(ref result), SizeOf<DWM_CLOAKED>());
+            DWMCloakReasons result = default;
+            var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_CLOAKED, AsPointer(ref result), SizeOf<DWMCloakReasons>());
             if (!hresult)
             {
                 _window.OnComException(hresult);

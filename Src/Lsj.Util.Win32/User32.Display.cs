@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ChangeDisplaySettingsFlags;
-using static Lsj.Util.Win32.Enums.DISP_CHANGE;
+using static Lsj.Util.Win32.Enums.DisplayChangeResults;
 using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
 using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
 using static Lsj.Util.Win32.Enums.EnumDisplayDevicesFlags;
@@ -152,7 +152,7 @@ namespace Lsj.Util.Win32
         /// When the display mode is changed dynamically, the <see cref="WM_DISPLAYCHANGE"/> message is sent to all running applications with the following message parameters.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsW", ExactSpelling = true, SetLastError = true)]
-        public static extern DISP_CHANGE ChangeDisplaySettings([In] in DEVMODE lpDevMode, [In] ChangeDisplaySettingsFlags dwFlags);
+        public static extern DisplayChangeResults ChangeDisplaySettings([In] in DEVMODE lpDevMode, [In] ChangeDisplaySettingsFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsExW", ExactSpelling = true, SetLastError = true)]
-        public static extern DISP_CHANGE ChangeDisplaySettingsEx([In] LPCWSTR lpszDeviceName, [In] in DEVMODE lpDevMode, [In] HWND hwnd,
+        public static extern DisplayChangeResults ChangeDisplaySettingsEx([In] LPCWSTR lpszDeviceName, [In] in DEVMODE lpDevMode, [In] HWND hwnd,
             [In] ChangeDisplaySettingsFlags dwFlags, [In] LPVOID lParam);
 
         /// <summary>

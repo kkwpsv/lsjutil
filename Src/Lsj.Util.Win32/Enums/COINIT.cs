@@ -1,4 +1,4 @@
-﻿using static Lsj.Util.Win32.Enums.COINITBASE;
+﻿using static Lsj.Util.Win32.Enums.ComInitializationFlagsBase;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
 

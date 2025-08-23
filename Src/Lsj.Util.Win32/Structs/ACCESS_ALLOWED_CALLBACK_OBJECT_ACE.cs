@@ -1,9 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Authz;
+using static Lsj.Util.Win32.Enums.AceMemberFlags;
 using static Lsj.Util.Win32.Enums.AceTypes;
-using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.ADS_RIGHTS_ENUM;
 
 namespace Lsj.Util.Win32.Structs
@@ -117,7 +116,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public DWORD Flags;
+        public AceMemberFlags Flags;
 
         /// <summary>
         /// <para>

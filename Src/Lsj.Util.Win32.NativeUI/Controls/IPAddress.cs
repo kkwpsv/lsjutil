@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Comctl32;
-using static Lsj.Util.Win32.Enums.INITCOMMONCONTROLSFlags;
+using static Lsj.Util.Win32.Enums.InitCommonControlsFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.NativeUI.Controls

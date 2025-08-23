@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.COPYFILE2_MESSAGE_TYPE;
-using static Lsj.Util.Win32.Enums.COPY_FILE;
+using static Lsj.Util.Win32.Enums.CopyFileFlags;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums

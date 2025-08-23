@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.OLEUPDATE;
-using static Lsj.Util.Win32.Enums.OLEVERB;
+using static Lsj.Util.Win32.Enums.OLEInvokeVerbs;
 using static Lsj.Util.Win32.Enums.USERCLASSTYPE;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.OleDlg;

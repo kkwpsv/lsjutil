@@ -35,6 +35,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A UINT that specifies the alignment to use.
         /// </summary>
-        public BUTTON_IMAGELIST_ALIGN uAlign;
+        public ButtonImageListAligns uAlign;
     }
 }

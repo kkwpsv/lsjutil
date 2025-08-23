@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.OLEUI;
+using static Lsj.Util.Win32.Enums.OLEUIResults;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
@@ -57,6 +57,6 @@ namespace Lsj.Util.Win32
         /// This value allows the application to test for standard messages in order to display error messages to the user.
         /// </returns>
         [DllImport("OleDlg.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUIEditLinksW", ExactSpelling = true, SetLastError = true)]
-        public static extern OLEUI OleUIEditLinks([In] in OLEUIEDITLINKS unnamedParam1);
+        public static extern OLEUIResults OleUIEditLinks([In] in OLEUIEDITLINKS unnamedParam1);
     }
 }

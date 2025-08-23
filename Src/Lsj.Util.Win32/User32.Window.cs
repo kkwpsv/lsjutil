@@ -16,11 +16,11 @@ using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.HitTestResults;
-using static Lsj.Util.Win32.Enums.HSHELL;
+using static Lsj.Util.Win32.Enums.ShellHookCodes;
 using static Lsj.Util.Win32.Enums.LayeredWindowAttributes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
-using static Lsj.Util.Win32.Enums.MDITILE;
+using static Lsj.Util.Win32.Enums.MDITileFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -641,7 +641,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="CascadeWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CascadeWindows", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITILE wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
+        public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITileFlags wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>
         /// <para>
@@ -3982,7 +3982,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="TileWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TileWindows", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITILE wHow,
+        public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITileFlags wHow,
     [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>

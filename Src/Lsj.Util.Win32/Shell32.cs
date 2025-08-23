@@ -18,7 +18,7 @@ using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.FileAttributes;
-using static Lsj.Util.Win32.Enums.FILEOP_FLAGS;
+using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
 using static Lsj.Util.Win32.Enums.KF_CATEGORY;
 using static Lsj.Util.Win32.Enums.KNOWN_FOLDER_FLAG;

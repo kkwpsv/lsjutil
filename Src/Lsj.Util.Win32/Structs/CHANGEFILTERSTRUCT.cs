@@ -2,7 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.MessageFilterActions;
-using static Lsj.Util.Win32.Enums.MSGFLTINFO;
+using static Lsj.Util.Win32.Enums.MessageFilterInfoStatus;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
@@ -227,6 +227,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// If the function succeeds, this field contains one of the following values.
         /// </summary>
-        public MSGFLTINFO ExtStatus;
+        public MessageFilterInfoStatus ExtStatus;
     }
 }
