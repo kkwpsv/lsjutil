@@ -92,9 +92,31 @@ namespace Lsj.Util.Win32.Extensions.Direct3D11
             result = output1.Value.DuplicateOutput(_d3d11Device.AsIUnknown().Value, out var outputDuplication);
             result.ThrowExceptionIfNotSucceed();
 
-            result = outputDuplication.Value.AcquireNextFrame(AcquireFrameTimeout.Milliseconds, out var frameInfo, out var desktopResource);
-            outputDuplication.AsIUnknown().Value.Release();
-            result.ThrowExceptionIfNotSucceed();
+            P<IDXGIResource> desktopResource;
+            try
+            {
+                while (true)
+                {
+                    result = outputDuplication.Value.AcquireNextFrame(AcquireFrameTimeout.Milliseconds, out var frameInfo, out desktopResource);
+
+                    result.ThrowExceptionIfNotSucceed();
+
+                    // If only the pointer was updated (that is, the desktop image was not updated),
+                    // the AccumulatedFrames, TotalMetadataBufferSize, and LastPresentTime members are set to zero.
+                    if (frameInfo.AccumulatedFrames > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        outputDuplication.Value.ReleaseFrame();
+                    }
+                }
+            }
+            finally
+            {
+                outputDuplication.AsIUnknown().Value.Release();
+            }
 
             var texture = desktopResource.AsIUnknown().ToInterface<ID3D11Texture2D>(IIDs.IID_ID3D11Texture2D, true, true);
 
