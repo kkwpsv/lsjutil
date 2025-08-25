@@ -6,6 +6,8 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
+using static Lsj.Util.Win32.DirectX.D3D11;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32.DirectX
 {
@@ -23,33 +25,70 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         /// <param name="riid">
-        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory"/> object referenced by the <paramref name="ppFactory"/> parameter.
+        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory"/> object
+        /// referenced by the <paramref name="ppFactory"/> parameter.
         /// </param>
         /// <param name="ppFactory"></param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; otherwise, returns one of the following <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
-        /// Use a DXGI factory to generate objects that enumerate adapters, create swap chains, and associate a window
-        /// with the alt+enter key sequence for toggling to and from the fullscreen display mode.
-        /// If the <see cref="CreateDXGIFactory"/> function succeeds, the reference count on the <see cref="IDXGIFactory"/> interface is incremented.
-        /// To avoid a memory leak, when you finish using the interface, call the <see cref="IUnknown.Release"/> method to release the interface.
+        /// <para>
+        /// Use a DXGI factory to generate objects that enumerate adapters, create swap chains,
+        /// and associate a window with the alt+enter key sequence for toggling to and from the fullscreen display mode.
+        /// </para>
+        /// <para>
+        /// If the <see cref="CreateDXGIFactory"/> function succeeds,
+        /// the reference count on the <see cref="IDXGIFactory"/> interface is incremented.
+        /// To avoid a memory leak, when you finish using the interface,
+        /// call the <see cref="IUnknown.Release"/> method to release the interface.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Do not mix the use of DXGI 1.0 (<see cref="IDXGIFactory"/>) and DXGI 1.1 (<see cref="IDXGIFactory1"/>) in an application.
-        /// Use <see cref="IDXGIFactory"/> or <see cref="IDXGIFactory1"/>, but not both in an application.
+        /// Use <see cref="IDXGIFactory"/> or <see cref="IDXGIFactory1"/>, but not both in an application.
+        /// </para>
+        /// <para>
+        /// Note  <see cref="CreateDXGIFactory"/> fails if your app's DllMain function calls it.
+        /// For more info about how DXGI responds from DllMain, see DXGI Responses from DLLMain.
+        /// </para>
+        /// <para>
         /// Note
-        /// <see cref="CreateDXGIFactory"/> fails if your app's DllMain function calls it.
-        /// For more info about how DXGI responds from DllMain, see DXGI Responses from DLLMain.
-        /// Note
-        /// Starting with Windows 8, all DXGI factories (regardless if they were
-        /// created with <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/>) enumerate adapters identically.
-        /// The enumeration order of adapters, which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1.EnumAdapters1"/>,
+        /// </para>
+        /// <para>
+        /// Starting with Windows 8, all DXGI factories
+        /// (regardless if they were created with <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/>)
+        /// enumerate adapters identically.
+        /// The enumeration order of adapters,
+        /// which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1.EnumAdapters1"/>,
         /// is as follows:
-        /// Adapter with the output on which the desktop primary is displayed. This adapter corresponds with an index of zero.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Adapter with the output on which the desktop primary is displayed.
+        /// This adapter corresponds with an index of zero.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Adapters with outputs.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Adapters without outputs.
-        /// The <see cref="CreateDXGIFactory"/> function does not exist for Windows Store apps.
-        /// Instead, Windows Store apps use the <see cref="CreateDXGIFactory1"/> function.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  The <see cref="CreateDXGIFactory"/> function does not exist for Windows Store apps.
+        ///  Instead, Windows Store apps use the <see cref="CreateDXGIFactory1"/> function.
+        /// </para>
         /// </remarks>
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory([In] in IID riid, [Out] out P<IDXGIFactory> ppFactory);
@@ -63,7 +102,8 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         /// <param name="riid">
-        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory1"/> object referenced by the ppFactory parameter.
+        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory1"/> object
+        /// referenced by the <paramref name="ppFactory"/> parameter.
         /// </param>
         /// <param name="ppFactory">
         /// Address of a pointer to an <see cref="IDXGIFactory1"/> object.
@@ -73,26 +113,65 @@ namespace Lsj.Util.Win32.DirectX
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
-        /// Use a DXGI 1.1 factory to generate objects that enumerate adapters, create swap chains, and associate a window
-        /// with the alt+enter key sequence for toggling to and from the full-screen display mode.
-        /// If the <see cref="CreateDXGIFactory1"/> function succeeds, the reference count on the <see cref="IDXGIFactory1"/> interface is incremented.
-        /// To avoid a memory leak, when you finish using the interface, call the <see cref="IUnknown.Release"/> method to release the interface.
-        /// This entry point is not supported by DXGI 1.0, which shipped in Windows Vista and Windows Server 2008.
-        /// DXGI 1.1 support is required, which is available on Windows 7, Windows Server 2008 R2,
-        /// and as an update to Windows Vista with Service Pack 2 (SP2) (KB 971644) and Windows Server 2008 (KB 971512).
+        /// <para>
+        /// Use a DXGI 1.1 factory to generate objects that enumerate adapters, create swap chains,
+        /// and associate a window with the alt+enter key sequence for toggling to and from the full-screen display mode.
+        /// </para>
+        /// <para>
+        /// If the <see cref="CreateDXGIFactory1"/> function succeeds,
+        /// the reference count on the <see cref="IDXGIFactory1"/> interface is incremented.
+        /// To avoid a memory leak, when you finish using the interface,
+        /// call the <see cref="IUnknown.Release"/> method to release the interface.
+        /// </para>
+        /// <para>
+        /// This entry point is not supported by DXGI 1.0, which shipped in Windows Vista and Windows Server 2008.
+        /// DXGI 1.1 support is required, which is available on Windows 7, Windows Server 2008 R2,
+        /// and as an update to Windows Vista with Service Pack 2 (SP2) (KB 971644) and Windows Server 2008 (KB 971512).
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Do not mix the use of DXGI 1.0 (<see cref="IDXGIFactory"/>) and DXGI 1.1 (<see cref="IDXGIFactory1"/>) in an application.
-        /// Use <see cref="IDXGIFactory"/> or <see cref="IDXGIFactory1"/>, but not both in an application.
-        /// Note  CreateDXGIFactory1 fails if your app's DllMain function calls it.
-        /// For more info about how DXGI responds from DllMain, see DXGI Responses from DLLMain.
+        /// Use <see cref="IDXGIFactory"/> or <see cref="IDXGIFactory1"/>, but not both in an application.
+        /// </para>
+        /// <para>
         /// Note
-        /// Starting with Windows 8, all DXGI factories (regardless if they were created
-        /// with <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/>) enumerate adapters identically.
-        /// The enumeration order of adapters, which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1.EnumAdapters1"/>,
+        /// </para>
+        /// <para>
+        /// <see cref="CreateDXGIFactory1"/> fails if your app's DllMain function calls it.
+        /// For more info about how DXGI responds from DllMain, see DXGI Responses from DLLMain.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Starting with Windows 8, all DXGI factories
+        /// (regardless if they were created with <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/>)
+        /// enumerate adapters identically.
+        /// The enumeration order of adapters,
+        /// which you retrieve with <see cref="IDXGIFactory.EnumAdapters"/> or <see cref="IDXGIFactory1.EnumAdapters1"/>,
         /// is as follows:
-        /// Adapter with the output on which the desktop primary is displayed.This adapter corresponds with an index of zero.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Adapter with the output on which the desktop primary is displayed. This adapter corresponds with an index of zero.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Adapters with outputs.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Adapters without outputs.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory1", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory1([In] in IID riid, [Out] out P<IDXGIFactory1> ppFactory);
@@ -100,9 +179,11 @@ namespace Lsj.Util.Win32.DirectX
         /// <summary>
         /// <para>
         /// Creates a DXGI 1.3 factory that you can use to generate other DXGI objects.
-        /// In Windows 8, any DXGI factory created while DXGIDebug.dll was present on the system would load and use it.
-        /// Starting in Windows 8.1, apps explicitly request that DXGIDebug.dll be loaded instead.
-        /// Use <see cref="CreateDXGIFactory2"/> and specify the <see cref="DXGI_CREATE_FACTORY_DEBUG"/> flag to request DXGIDebug.dll;
+        /// </para>
+        /// <para>
+        /// In Windows 8, any DXGI factory created while DXGIDebug.dll was present on the system would load and use it.
+        /// Starting in Windows 8.1, apps explicitly request that DXGIDebug.dll be loaded instead.
+        /// Use <see cref="CreateDXGIFactory2"/> and specify the <see cref="DXGI_CREATE_FACTORY_DEBUG"/> flag to request DXGIDebug.dll;
         /// the DLL will be loaded if it is present on the system.
         /// </para>
         /// <para>
@@ -110,15 +191,34 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </summary>
         /// <param name="Flags">
-        /// Valid values include the <see cref="DXGI_CREATE_FACTORY_DEBUG"/> (0x01) flag, and zero.
+        /// <para>
+        /// Valid values include the <see cref="DXGI_CREATE_FACTORY_DEBUG"/> (0x01) flag, and zero.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This flag will be set by the D3D runtime if:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The system creates an implicit factory during device creation.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The <see cref="D3D11_CREATE_DEVICE_DEBUG"/> flag is specified during device creation,
-        /// for example using <see cref="D3D11CreateDevice"/> (or the swapchain method, or the Direct3D 10 equivalents).
+        /// for example using <see cref="D3D11CreateDevice"/> (or the swapchain method, or the Direct3D 10 equivalents).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="riid">
-        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory2"/> object referenced by the ppFactory parameter.
+        /// The globally unique identifier (GUID) of the <see cref="IDXGIFactory2"/> object
+        /// referenced by the <paramref name="ppFactory"/> parameter.
         /// </param>
         /// <param name="ppFactory">
         /// Address of a pointer to an <see cref="IDXGIFactory2"/> object.
@@ -149,9 +249,15 @@ namespace Lsj.Util.Win32.DirectX
         /// For a full list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
-        /// This function is graphics API-agnostic, meaning that apps running on other APIs, such as OpenGL and Vulkan, would also apply.
+        /// <para>
+        /// This function is graphics API-agnostic, meaning that apps running on other APIs,
+        /// such as OpenGL and Vulkan, would also apply.
+        /// </para>
+        /// <para>
         /// This function should be called once per process and before any device creation.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, 17134)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDeclareAdapterRemovalSupport", ExactSpelling = true)]
         public static extern HRESULT DXGIDeclareAdapterRemovalSupport();
 
@@ -162,24 +268,34 @@ namespace Lsj.Util.Win32.DirectX
         /// to maintain a steady virtualized present rate and v-blank cadence from <see cref="IDXGIOutput.WaitForVBlank"/>.
         /// By disabling virtualization, these APIs will see the changing refresh rate.
         /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nf-dxgi1_6-dxgidisablevblankvirtualization"/>
+        /// </para>
         /// </summary>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
         /// For a full list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// By default, a DXGI swap chain is unable to observe the changing refresh rate
-        /// that's caused by the dynamic refresh rate (DRR) feature (see the blog post Dynamic refresh rate—Get the best of both worlds).
+        /// that's caused by the dynamic refresh rate (DRR) feature (see the blog post Dynamic refresh rate—Get the best of both worlds).
         /// Instead, a swap chain is virtualized to always see a fraction of the refresh rate—60Hz if the DRR mode is 120Hz.
-        /// <see cref="DXGIDisableVBlankVirtualization"/> disables that virtualization for the entire process.
+        /// <see cref="DXGIDisableVBlankVirtualization"/> disables that virtualization for the entire process.
         /// Your application will then see v-blank timings change as the system boosts between 60Hz and 120Hz,
         /// and frames will arrive at the corresponding times for each rate, with present statistics reflecting those changes.
-        /// You should call <see cref="DXGIDisableVBlankVirtualization"/> once per process,
-        /// before creating any swap chains or calling <see cref="IDXGIOutput.WaitForVBlank"/>.
+        /// </para>
+        /// <para>
+        /// You should call <see cref="DXGIDisableVBlankVirtualization"/> once per process,
+        /// before creating any swap chains or calling <see cref="IDXGIOutput.WaitForVBlank"/>.
         /// It can't be disabled for the lifetime of the process,
         /// so any changes in v-blank timing or statistics from DRR boosting will remain observable to the process.
-        /// You can find more information on how Dynamic Refresh Rate works in the Compositor clock topic.
+        /// </para>
+        /// <para>
+        /// You can find more information on how Dynamic Refresh Rate works in the Compositor clock topic.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, 22502)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDisableVBlankVirtualization", ExactSpelling = true)]
         public static extern HRESULT DXGIDisableVBlankVirtualization();
 
@@ -209,7 +325,8 @@ namespace Lsj.Util.Win32.DirectX
         /// The <see cref="DXGIGetDebugInterface1"/> function returns <see cref="E_NOINTERFACE"/> on systems
         /// without the Windows Software Development Kit (SDK) installed, because it's a development-time aid.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIGetDebugInterface1", ExactSpelling = true)]
-        public static extern HRESULT DXGIGetDebugInterface1([In] UINT Flags,[In]in IID riid,[Out]out IntPtr pDebug);
+        public static extern HRESULT DXGIGetDebugInterface1([In] UINT Flags, [In] in IID riid, [Out] out IntPtr pDebug);
     }
 }

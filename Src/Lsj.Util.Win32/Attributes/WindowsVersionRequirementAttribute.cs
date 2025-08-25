@@ -33,9 +33,19 @@ namespace Lsj.Util.Win32.Attributes
         Windows8 = 0x06_02_00_00,
 
         /// <summary>
+        /// Windows 8.1 (Windows NT 6.3)
+        /// </summary>
+        Windows8_1 = 0x06_03_00_00,
+
+        /// <summary>
         /// Windows 10 (Windows NT 10.0)
         /// </summary>
         Windows10 = 0x0A_00_00_00,
+
+        /// <summary>
+        /// Windows 11 (Windows NT 10.0)
+        /// </summary>
+        Windows11 = 0x0A_00_00_0B,
     }
 
     /// <summary>
@@ -68,10 +78,15 @@ namespace Lsj.Util.Win32.Attributes
                 case WindowsVersion.Windows8:
                     BuildNumber = 9200;
                     break;
+                case WindowsVersion.Windows8_1:
+                    BuildNumber = 9600;
+                    break;
                 case WindowsVersion.Windows10:
                     BuildNumber = 10240;
                     break;
-
+                case WindowsVersion.Windows11:
+                    BuildNumber = 22000;
+                    break;
             }
         }
 

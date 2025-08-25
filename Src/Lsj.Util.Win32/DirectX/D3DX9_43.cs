@@ -30,10 +30,13 @@ namespace Lsj.Util.Win32.DirectX
         /// See remarks.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if the version of D3DX you compiled against is the version you are running with; otherwise, <see cref="FALSE"/> is returned.
+        /// Returns <see cref="TRUE"/> if the version of D3DX you compiled against is the version you are running with;
+        /// otherwise, <see cref="FALSE"/> is returned.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Use this function during the initialization of your application like this:
+        /// </para>
         /// <code>
         /// HRESULT CD3DXMyApplication::Initialize(HINSTANCE hInstance, 
         ///     LPCSTR szWindowName, LPCSTR szClassName, UINT uWidth, UINT uHeight)
@@ -47,7 +50,9 @@ namespace Lsj.Util.Win32.DirectX
         ///     ...
         /// }
         /// </code>
+        /// <para>
         /// Use <see cref="Direct3DCreate9"/> to verify that the correct runtime is installed.
+        /// </para>
         /// </remarks>
         [DllImport("D3DX9_43.dll", CharSet = CharSet.Unicode, EntryPoint = "D3DXCheckVersion", ExactSpelling = true)]
         public static extern BOOL D3DXCheckVersion([In] UINT D3DSDKVersion, [In] UINT D3DXSDKVersion);
