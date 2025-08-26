@@ -29,7 +29,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// <para>
     /// The latest version of this interface is <see cref="ID3D11DeviceContext4"/> introduced in the Windows 10 Creators Update.
-    /// Applications targetting Windows 10 Creators Update should use the <see cref="ID3D11DeviceContext4"/> interface instead of <see cref="ID3D11DeviceContext"/>.
+    /// Applications targetting Windows 10 Creators Update
+    /// should use the <see cref="ID3D11DeviceContext4"/> interface instead of <see cref="ID3D11DeviceContext"/>.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nn-d3d11-id3d11devicecontext"/>
     /// </para>
     /// </summary>
     [WindowsVersionRequirement(WindowsVersion.Windows7)]

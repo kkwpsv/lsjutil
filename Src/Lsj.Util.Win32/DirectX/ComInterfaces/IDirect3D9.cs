@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -30,6 +31,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d9/nn-d3d9-idirect3d9"/>
     /// </para>
     /// </summary>
+    [ComInterface(IID = "81BDCBCA-64D4-426d-AE8D-AD0147F4275C", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 16, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3D9
     {
         IntPtr* _vTable;
@@ -48,6 +50,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For example, a method's parameter may have an invalid value: <see cref="D3DERR_OUTOFVIDEOMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the user's computer provides no special hardware acceleration for 3D operations,
         /// your application might emulate 3D hardware in software.
         /// Software rasterization devices emulate the functions of color 3D hardware in software.
@@ -57,10 +60,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and the MMX instruction set supported by many Intel processors.
         /// Direct3D uses the 3D-Now! instruction set to accelerate transformation and lighting operations
         /// and the MMX instruction set to accelerate rasterization.
+        /// </para>
+        /// <para>
         /// Software devices communicate with Direct3D through an interface similar to the hardware device driver interface (DDI).
-        /// Software devices are loaded by the application and registered with the <see cref="IDirect3D9"/> object.
+        /// </para>
+        /// <para>
+        /// Software devices are loaded by the application and registered with the <see cref="IDirect3D9"/> object.
         /// Direct3D uses the software device for rendering.
+        /// </para>
+        /// <para>
         /// The Direct3D Driver Development Kit (DDK) provides the documentation and headers for developing pluggable software devices.
+        /// </para>
         /// </remarks>
         public HRESULT RegisterSoftwareDevice([In] IntPtr pInitializeFunction)
         {
@@ -74,7 +84,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of adapters on the system.
         /// </summary>
         /// <returns>
-        /// A UINT value that denotes the number of adapters on the system at the time this <see cref="IDirect3D9"/> interface was instantiated.
+        /// A <see cref="UINT"/> value that denotes the number of adapters on the system
+        /// at the time this <see cref="IDirect3D9"/> interface was instantiated.
         /// </returns>
         public UINT GetAdapterCount()
         {
@@ -85,7 +96,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         }
 
         /// <summary>
-        /// Describes the physical display adapters present in the system when the <see cref="IDirect3D9"/> interface was instantiated.
+        /// Describes the physical display adapters present in the system
+        /// when the <see cref="IDirect3D9"/> interface was instantiated.
         /// </summary>
         /// <param name="Adapter">
         /// Ordinal number that denotes the display adapter.
@@ -94,19 +106,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// is one less than the value returned by <see cref="GetAdapterCount"/>.
         /// </param>
         /// <param name="Flags">
-        /// Flags sets the <see cref="D3DADAPTER_IDENTIFIER9.WHQLLevel"/> member of <see cref="D3DADAPTER_IDENTIFIER9"/>.
-        /// Flags can be set to either 0 or <see cref="D3DENUM_WHQL_LEVEL"/>.
-        /// If <see cref="D3DENUM_WHQL_LEVEL"/> is specified, this call can connect to the Internet
-        /// to download new Microsoft Windows Hardware Quality Labs (WHQL) certificates.
+        /// <para>
+        /// <paramref name="Flags"/> sets the <see cref="D3DADAPTER_IDENTIFIER9.WHQLLevel"/> member of <see cref="D3DADAPTER_IDENTIFIER9"/>.
+        /// <paramref name="Flags"/> can be set to either 0 or <see cref="D3DENUM_WHQL_LEVEL"/>.
+        /// If <see cref="D3DENUM_WHQL_LEVEL"/> is specified,
+        /// this call can connect to the Internet to download new Microsoft Windows Hardware Quality Labs (WHQL) certificates.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 9Ex:
+        /// </para>
+        /// <para>
         /// <see cref="D3DENUM_WHQL_LEVEL"/> is deprecated for Direct3D9Ex running on Windows Vista,
         /// Windows Server 2008, Windows 7, and Windows Server 2008 R2 (or more current operating system).
-        /// Any of these operating systems return 1 in the <see cref="D3DADAPTER_IDENTIFIER9.WHQLLevel"/> member
-        /// of <see cref="D3DADAPTER_IDENTIFIER9"/> without checking the status of the driver.
+        /// Any of these operating systems return 1
+        /// in the <see cref="D3DADAPTER_IDENTIFIER9.WHQLLevel"/> member of <see cref="D3DADAPTER_IDENTIFIER9"/>
+        /// without checking the status of the driver.
+        /// </para>
         /// </param>
         /// <param name="pIdentifier">
         /// Pointer to a <see cref="D3DADAPTER_IDENTIFIER9"/> structure to be filled with information describing this adapter.
-        /// If <paramref name="Adapter"/> is greater than or equal to the number of adapters in the system, this structure will be zeroed.
+        /// If <paramref name="Adapter"/> is greater than or equal to the number of adapters in the system,
+        /// this structure will be zeroed.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -118,7 +138,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, out D3DADAPTER_IDENTIFIER9, HRESULT>)_vTable[5])(thisPtr, Adapter, Flags, out pIdentifier);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, out D3DADAPTER_IDENTIFIER9, HRESULT>)_vTable[5])
+                    (thisPtr, Adapter, Flags, out pIdentifier);
             }
         }
 
@@ -152,7 +173,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="Adapter">
         /// Ordinal number denoting the display adapter to enumerate.
         /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
-        /// This method returns <see cref="D3DERR_INVALIDCALL"/> when this value equals or exceeds the number of display adapters in the system.
+        /// This method returns <see cref="D3DERR_INVALIDCALL"/>
+        /// when this value equals or exceeds the number of display adapters in the system.
         /// </param>
         /// <param name="Format">
         /// Allowable pixel formats.
@@ -167,27 +189,85 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// See Remarks.
         /// </param>
         /// <returns>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// If the device can be used on this adapter, <see cref="D3D_OK"/> is returned.
-        /// If the Adapter equals or exceeds the number of display adapters in the system, <see cref="D3DERR_INVALIDCALL"/> is returned.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the <paramref name="Adapter"/> equals or exceeds the number of display adapters in the system,
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If either surface format is not supported or if hardware acceleration is not available for the specified formats,
         /// <see cref="D3DERR_NOTAVAILABLE"/> is returned.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// An application supplies a display mode and a format to <see cref="EnumAdapterModes"/> which returns a display mode.
+        /// <para>
+        /// An application supplies a display mode and a format to <see cref="EnumAdapterModes"/> which returns a display mode.
         /// This method could be used in a loop to enumerate all available display modes.
-        /// The application specifies a format and the enumeration is restricted to those display modes that exactly match the format (alpha is ignored).
-        /// Allowed formats (which are members of <see cref="D3DFORMAT"/>) are as follows:
-        /// <see cref="D3DFMT_A1R5G5B5"/>, <see cref="D3DFMT_A2R10G10B10"/>, <see cref="D3DFMT_A8R8G8B8"/>,
-        /// <see cref="D3DFMT_R5G6B5"/>, <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_X8R8G8B8"/>
-        /// In addition, <see cref="EnumAdapterModes"/> treats pixel formats 565 and 555 as equivalent, and returns the correct version.
+        /// </para>
+        /// <para>
+        /// The application specifies a format and the enumeration is restricted to those display modes
+        /// that exactly match the format (alpha is ignored).
+        /// Allowed formats (which are members of <see cref="D3DFORMAT"/>) are as follows:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_A1R5G5B5"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_A2R10G10B10"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_A8R8G8B8"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_R5G6B5"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_X1R5G5B5"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_X8R8G8B8"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In addition, <see cref="EnumAdapterModes"/> treats pixel formats 565 and 555 as equivalent,
+        /// and returns the correct version.
         /// The difference comes into play only when the application locks the back buffer
         /// and there is an explicit flag that the application must set in order to accomplish this.
+        /// </para>
         /// </remarks>
         public HRESULT EnumAdapterModes([In] UINT Adapter, [In] D3DFORMAT Format, [In] UINT Mode, [Out] out D3DDISPLAYMODE pMode)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DFORMAT, UINT, out D3DDISPLAYMODE, HRESULT>)_vTable[7])(thisPtr, Adapter, Format, Mode, out pMode);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DFORMAT, UINT, out D3DDISPLAYMODE, HRESULT>)_vTable[7])
+                    (thisPtr, Adapter, Format, Mode, out pMode);
             }
         }
 
@@ -199,16 +279,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
         /// </param>
         /// <param name="pMode">
-        /// Pointer to a <see cref="D3DDISPLAYMODE"/> structure, to be filled with information describing the current adapter's mode.
+        /// Pointer to a <see cref="D3DDISPLAYMODE"/> structure,
+        /// to be filled with information describing the current adapter's mode.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// </para>
+        /// <para>
         /// If <paramref name="Adapter"/> is out of range or <paramref name="pMode"/> is invalid,
         /// this method returns <see cref="D3DERR_INVALIDCALL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="GetAdapterDisplayMode"/> will not return the correct format when the display is in an extended format,
-        /// such as 2:10:10:10. Instead, it returns the format X8R8G8B8.
+        /// <see cref="GetAdapterDisplayMode"/> will not return the correct format
+        /// when the display is in an extended format, such as 2:10:10:10.
+        /// Instead, it returns the format X8R8G8B8.
         /// </remarks>
         public HRESULT GetAdapterDisplayMode([In] UINT Adapter, [In][Out] ref D3DDISPLAYMODE pMode)
         {
@@ -235,37 +321,67 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For example, some devices will operate only in 16-bits-per-pixel modes.
         /// </param>
         /// <param name="BackBufferFormat">
+        /// <para>
         /// Back buffer format.
-        /// For more information about formats, see <see cref="D3DFORMAT"/>.
+        /// For more information about formats, see <see cref="D3DFORMAT"/>.
         /// This value must be one of the render-target formats.
-        /// You can use <see cref="GetAdapterDisplayMode"/> to obtain the current format.
-        /// For windowed applications, the back buffer format does not need to match the display mode format if the hardware supports color conversion.
-        /// The set of possible back buffer formats is constrained, but the runtime will allow any valid back buffer format to be presented to any desktop format.
-        /// There is the additional requirement that the device be operable in the desktop because devices typically do not operate in 8 bits per pixel modes.
+        /// You can use <see cref="GetAdapterDisplayMode"/> to obtain the current format.
+        /// </para>
+        /// <para>
+        /// For windowed applications, the back buffer format does not need to match the display mode format
+        /// if the hardware supports color conversion.
+        /// The set of possible back buffer formats is constrained,
+        /// but the runtime will allow any valid back buffer format to be presented to any desktop format.
+        /// There is the additional requirement that the device be operable in the desktop
+        /// because devices typically do not operate in 8 bits per pixel modes.
+        /// </para>
+        /// <para>
         /// Full-screen applications cannot do color conversion.
+        /// </para>
+        /// <para>
         /// <see cref="D3DFMT_UNKNOWN"/> is allowed for windowed mode.
+        /// </para>
         /// </param>
         /// <param name="bWindowed">
         /// Value indicating whether the device type will be used in full-screen or windowed mode.
-        /// If set to <see cref="TRUE"/>, the query is performed for windowed applications; otherwise, this value should be set <see cref="FALSE"/>.
+        /// If set to <see cref="TRUE"/>, the query is performed for windowed applications;
+        /// otherwise, this value should be set <see cref="FALSE"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the device can be used on this adapter, <see cref="D3D_OK"/> is returned.
-        /// <see cref="D3DERR_INVALIDCALL"/> is returned if Adapter equals or exceeds the number of display adapters in the system.
-        /// <see cref="D3DERR_INVALIDCALL"/> is also returned if CheckDeviceType specified a device that does not exist.
-        /// <see cref="D3DERR_NOTAVAILABLE"/> is returned if the requested back buffer format is not supported,
+        /// </para>
+        /// <para>
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned
+        /// if <paramref name="Adapter"/> equals or exceeds the number of display adapters in the system.
+        /// <see cref="D3DERR_INVALIDCALL"/> is also returned
+        /// if <see cref="CheckDeviceType"/> specified a device that does not exist.
+        /// </para>
+        /// <para>
+        /// <see cref="D3DERR_NOTAVAILABLE"/> is returned
+        /// if the requested back buffer format is not supported,
         /// or if hardware acceleration is not available for the specified formats.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A hal device type requires hardware acceleration.
-        /// Applications can use <see cref="CheckDeviceType"/> to determine if the needed hardware and drivers are present to support a hal device.
+        /// Applications can use <see cref="CheckDeviceType"/> to determine
+        /// if the needed hardware and drivers are present to support a hal device.
+        /// </para>
+        /// <para>
         /// Full-screen applications should not specify a DisplayFormat that contains an alpha channel.
         /// This will result in a failed call.
-        /// Note that an alpha channel can be present in the back buffer but the two display formats must be identical in all other respects.
-        /// For example, if <paramref name="AdapterFormat"/> = <see cref="D3DFMT_X1R5G5B5"/>,
-        /// valid values for <paramref name="BackBufferFormat"/> include <see cref="D3DFMT_X1R5G5B5"/> and <see cref="D3DFMT_A1R5G5B5"/>
+        /// Note that an alpha channel can be present in the back buffer
+        /// but the two display formats must be identical in all other respects.
+        /// For example, if DisplayFormat = <see cref="D3DFMT_X1R5G5B5"/>,
+        /// valid values for BackBufferFormat include <see cref="D3DFMT_X1R5G5B5"/> and <see cref="D3DFMT_A1R5G5B5"/>
         /// but exclude <see cref="D3DFMT_R5G6B5"/>.
-        /// The following code fragment shows how you could use <see cref="CheckDeviceType"/> to test whether a certain device type can be used on this adapter.
+        /// </para>
+        /// <para>
+        /// The following code fragment shows how you could use <see cref="CheckDeviceType"/> to test
+        /// whether a certain device type can be used on this adapter.
+        /// </para>
         /// <code>
         /// if(SUCCEEDED(pD3Device->CheckDeviceType(D3DADAPTER_DEFAULT,
         ///                                         D3DDEVTYPE_HAL,
@@ -276,14 +392,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// // There is no HAL on this adapter using this render-target format.
         /// // Try again, using another format.
         /// </code>
-        /// This code returns <see cref="S_OK"/> if the device can be used on the default adapter with the specified surface format.
-        /// Using <see cref="CheckDeviceType"/> to test for compatibility between a back buffer that differs from the display format will return appropriate values.
+        /// <para>
+        /// This code returns <see cref="S_OK"/>
+        /// if the device can be used on the default adapter with the specified surface format.
+        /// </para>
+        /// <para>
+        /// Using <see cref="CheckDeviceType"/> to test for compatibility between a back buffer
+        /// that differs from the display format will return appropriate values.
         /// This means that the call will reflect device capabilities.
-        /// If the device cannot render to the requested back-buffer format, the call will still return <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// If the device cannot render to the requested back-buffer format,
+        /// the call will still return <see cref="D3DERR_NOTAVAILABLE"/>.
         /// If the device can render to the format, but cannot perform the color-converting presentation,
         /// the return value will also be <see cref="D3DERR_NOTAVAILABLE"/>.
-        /// Applications can discover hardware support for the presentation itself by calling <see cref="CheckDeviceFormatConversion"/>.
+        /// Applications can discover hardware support for the presentation itself
+        /// by calling <see cref="CheckDeviceFormatConversion"/>.
         /// No software emulation for the color-converting presentation itself will be offered.
+        /// </para>
         /// </remarks>
         public HRESULT CheckDeviceType([In] UINT Adapter, [In] D3DDEVTYPE DevType, [In] D3DFORMAT AdapterFormat,
             [In] D3DFORMAT BackBufferFormat, [In] BOOL bWindowed)
@@ -302,13 +426,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="Adapter">
         /// Ordinal number denoting the display adapter to query.
         /// <see cref="D3DADAPTER_DEFAULT"/> is always the primary display adapter.
-        /// This method returns <see cref="D3DERR_INVALIDCALL"/> when this value equals or exceeds the number of display adapters in the system.
+        /// This method returns <see cref="D3DERR_INVALIDCALL"/>
+        /// when this value equals or exceeds the number of display adapters in the system.
         /// </param>
         /// <param name="DeviceType">
         /// Member of the <see cref="D3DDEVTYPE"/> enumerated type, identifying the device type.
         /// </param>
         /// <param name="AdapterFormat">
-        /// Member of the <see cref="D3DFORMAT"/> enumerated type, identifying the format of the display mode into which the adapter will be placed.
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type,
+        /// identifying the format of the display mode into which the adapter will be placed.
         /// </param>
         /// <param name="Usage">
         /// Requested usage options for the surface.
@@ -325,15 +451,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Member of <see cref="D3DFORMAT"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the format is compatible with the specified device for the requested usage, this method returns <see cref="D3D_OK"/>.
-        /// <see cref="D3DERR_INVALIDCALL"/> is returned if <paramref name="Adapter"/> equals or exceeds the number of display adapters in the system,
+        /// </para>
+        /// <para>
+        /// <see cref="D3DERR_INVALIDCALL"/> is returned
+        /// if <paramref name="Adapter"/> equals or exceeds the number of display adapters in the system,
         /// or if <paramref name="DeviceType"/> is unsupported.
+        /// </para>
+        /// <para>
         /// <see cref="D3DERR_NOTAVAILABLE"/> is returned if the format is not acceptable to the device for this usage.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Here are some examples using <see cref="CheckDeviceFormat"/> to check for hardware support of:
-        /// An off-screen plain surface format - Specify <paramref name="Usage"/> = 0 and <paramref name="RType"/> = <see cref="D3DRTYPE_SURFACE"/>.
+        /// <para>
+        /// Here are some examples using <see cref="CheckDeviceFormat"/> to check for hardware support of:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// An off-screen plain surface format -
+        /// Specify <paramref name="Usage"/> = 0 and <paramref name="RType"/> = <see cref="D3DRTYPE_SURFACE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
         /// A depth-stencil format - The following snippet tests for the passed in depth-stencil format:
+        /// </para>
         /// <code>
         /// BOOL IsDepthFormatExisting(D3DFORMAT DepthFormat, D3DFORMAT AdapterFormat)
         /// {
@@ -347,11 +493,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// return SUCCEEDED(hr);
         /// }
         /// </code>
-        /// See Selecting a Device (Direct3D 9) for more detail on the enumeration process.
-        /// Can this texture be rendered in a particular format - Given the current display mode,
-        /// this example shows how to verify that the texture format is compatible with the specific back-buffer format:
+        /// <para>
+        /// See Selecting a Device (Direct3D 9) for more detail on the enumeration process.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Can this texture be rendered in a particular format -
+        /// Given the current display mode, this example shows how to verify
+        /// that the texture format is compatible with the specific back-buffer format:
+        /// </para>
         /// <code>
-        /// 
         /// BOOL IsTextureFormatOk( D3DFORMAT TextureFormat, D3DFORMAT AdapterFormat ) 
         /// {
         /// HRESULT hr = pD3D->CheckDeviceFormat( D3DADAPTER_DEFAULT,
@@ -364,15 +518,31 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// return SUCCEEDED( hr );
         /// }
         /// </code>
-        /// Alpha blending in a pixel shader - Set Usage to <see cref="D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Alpha blending in a pixel shader -
+        /// Set <paramref name="Usage"/> to <see cref="D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING"/>.
         /// Expect this to fail for all floating-point render targets.
-        /// Autogeneration of mipmaps - Set Usage to <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Autogeneration of mipmaps - et <paramref name="Usage"/> to <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
         /// If the mipmap automatic generation fails, the application will get a non-mipmapped texture.
-        /// Calling this method is considered a hint, so this method can return <see cref="D3DOK_NOAUTOGEN"/> (a valid success code)
+        /// Calling this method is considered a hint,
+        /// so this method can return <see cref="D3DOK_NOAUTOGEN"/> (a valid success code)
         /// if the only thing that fails is the mipmap generation.
-        /// For more information about mipmap generation, see Automatic Generation of Mipmaps (Direct3D 9).
-        /// When migrating code from Direct3D 9 to Direct3D 10, the Direct3D 10 equivalent to <see cref="CheckDeviceFormat"/>
-        /// is <see cref="ID3D10Device.CheckFormatSupport"/>.
+        /// For more information about mipmap generation, see Automatic Generation of Mipmaps (Direct3D 9).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// When migrating code from Direct3D 9 to Direct3D 10,
+        /// the Direct3D 10 equivalent to <see cref="CheckDeviceFormat"/> is <see cref="ID3D10Device.CheckFormatSupport"/>.
+        /// </para>
         /// </remarks>
         public HRESULT CheckDeviceFormat([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] D3DFORMAT AdapterFormat,
             [In] DWORD Usage, [In] D3DRESOURCETYPE RType, [In] D3DFORMAT CheckFormat)
@@ -423,10 +593,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDDEVICE"/> is returned if <paramref name="DeviceType"/> does not apply to this adapter.
         /// </returns>
         /// <remarks>
-        /// This method is intended for use with both render-target and depth-stencil surfaces 
+        /// <para>
+        /// This method is intended for use with both render-target and depth-stencil surfaces
         /// because you must create both surfaces multisampled if you want to use them together.
-        /// The following code fragment shows how you could use <see cref="CheckDeviceMultiSampleType"/>
+        /// </para>
+        /// <para>
+        /// The following code fragment shows how you could use <see cref="CheckDeviceMultiSampleType"/>
         /// to test for devices that support a specific multisampling method.
+        /// </para>
+        /// <para>
+        /// body>
+        /// </para>
         /// <code>
         /// 
         /// if(SUCCEEDED(pD3D->CheckDeviceMultiSampleType(pCaps->AdapterOrdinal,
@@ -437,10 +614,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         ///                                                FALSE, D3DMULTISAMPLE_3_SAMPLES, NULL ) ) )
         /// return S_OK;
         /// </code>
-        /// The preceding code will return <see cref="S_OK"/> if the device supports
-        /// the full-screen <see cref="D3DMULTISAMPLE_3_SAMPLES"/> multisampling method with the surface format.
-        /// See the remarks in <see cref="D3DMULTISAMPLE_TYPE"/> for additional information
+        /// <para>
+        /// The preceding code will return <see cref="S_OK"/>
+        /// if the device supports the full-screen <see cref="D3DMULTISAMPLE_3_SAMPLES"/> multisampling method with the surface format.
+        /// </para>
+        /// <para>
+        /// See the remarks in <see cref="D3DMULTISAMPLE_TYPE"/> for additional information
         /// on working with and setting multisample types and quality levels.
+        /// </para>
         /// </remarks>
         public HRESULT CheckDeviceMultiSampleType([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] D3DFORMAT SurfaceFormat,
             [In] BOOL Windowed, [In] D3DMULTISAMPLE_TYPE MultiSampleType, [Out] out DWORD pQualityLevels)
@@ -475,17 +656,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// identifying the format of the depth-stencil surface to be tested.
         /// </param>
         /// <returns>
-        /// If the depth-stencil format is compatible with the render-target format in the display mode, this method returns <see cref="D3D_OK"/>.
+        /// If the depth-stencil format is compatible with the render-target format in the display mode,
+        /// this method returns <see cref="D3D_OK"/>.
         /// <see cref="D3DERR_INVALIDCALL"/> can be returned if one or more of the parameters is invalid.
-        /// If a depth-stencil format is not compatible with the render target in the display mode, then this method returns <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// If a depth-stencil format is not compatible with the render target in the display mode,
+        /// then this method returns <see cref="D3DERR_NOTAVAILABLE"/>.
         /// </returns>
         /// <remarks>
-        /// This method is provided to enable applications to work with hardware requiring that certain depth formats can only work with certain render-target formats.
+        /// <para>
+        /// This method is provided to enable applications to work with hardware requiring
+        /// that certain depth formats can only work with certain render-target formats.
+        /// </para>
+        /// <para>
         /// The behavior of this method has been changed for DirectX 8.1.
         /// This method now pays attention to the D24x8 and D32 depth-stencil formats.
         /// The previous version assumed that these formats would always be usable with 32- or 16-bit render targets.
-        /// This method will now return <see cref="D3D_OK"/> for these formats only if the device is capable of mixed-depth operations.
-        /// The following code fragment shows how you could use CheckDeviceFormat to validate a depth stencil format.
+        /// This method will now return <see cref="D3D_OK"/> for these formats
+        /// only if the device is capable of mixed-depth operations.
+        /// </para>
+        /// <para>
+        /// The following code fragment shows how you could use <see cref="CheckDeviceFormat"/> to validate a depth stencil format.
+        /// </para>
         /// <code>
         /// BOOL IsDepthFormatOk(D3DFORMAT DepthFormat,
         ///                      D3DFORMAT AdapterFormat,
@@ -513,7 +704,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// 
         /// }
         /// </code>
-        /// The preceding call will return <see cref="FALSE"/> if DepthFormat cannot be used in conjunction with AdapterFormat and BackBufferFormat.
+        /// <para>
+        /// The preceding call will return <see cref="FALSE"/>
+        /// if DepthFormat cannot be used in conjunction with AdapterFormat and BackBufferFormat.
+        /// </para>
         /// </remarks>
         public HRESULT CheckDepthStencilMatch([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] D3DFORMAT AdapterFormat,
             [In] D3DFORMAT RenderTargetFormat, [In] D3DFORMAT DepthStencilFormat)
@@ -551,24 +745,94 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The method will return <see cref="D3DERR_NOTAVAILABLE"/> when the hardware does not support conversion between the two formats.
         /// </returns>
         /// <remarks>
-        /// Using <see cref="CheckDeviceType"/> to test for compatibility between a back buffer
+        /// <para>
+        /// Using <see cref="CheckDeviceType"/> to test for compatibility between a back buffer
         /// that differs from the display format will return appropriate values.
         /// This means that the call will reflect device capabilities.
-        /// If the device cannot render to the requested back buffer format, the call will still return <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// If the device cannot render to the requested back buffer format,
+        /// the call will still return <see cref="D3DERR_NOTAVAILABLE"/>.
         /// If the device can render to the format, but cannot perform the color-converting presentation,
         /// the return value will also be <see cref="D3DERR_NOTAVAILABLE"/>.
-        /// Applications can discover hardware support for the presentation itself by calling <see cref="CheckDeviceFormatConversion"/>.
+        /// Applications can discover hardware support for the presentation itself
+        /// by calling <see cref="CheckDeviceFormatConversion"/>.
         /// No software emulation for the color-converting presentation itself will be offered.
-        /// <see cref="CheckDeviceFormatConversion"/> can also be used to determine which combinations of source surface formats
-        /// and destination surface formats are permissible in calls to <see cref="IDirect3DDevice9.StretchRect"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="CheckDeviceFormatConversion"/> can also be used to determine
+        /// which combinations of source surface formats and destination surface formats are permissible
+        /// in calls to <see cref="IDirect3DDevice9.StretchRect"/>.
+        /// </para>
+        /// <para>
         /// Color conversion is restricted to the following source and target formats.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The source format must be a FOURCC format or a valid back buffer format.
-        /// For a list of these, see FourCC Formats and BackBuffer or Display Formats.
+        /// For a list of these, see FourCC Formats and BackBuffer or Display Formats.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
         /// The target format must be one of these unsigned formats:
-        /// <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_A1R5G5B5"/>, <see cref="D3DFMT_R5G6B5"/>, <see cref="D3DFMT_R8G8B8"/>,
-        /// <see cref="D3DFMT_X8R8G8B8"/>, <see cref="D3DFMT_A8R8G8B8"/>, <see cref="D3DFMT_A2R10G10B10"/>, <see cref="D3DFMT_A16B16G16R16"/>,
-        /// <see cref="D3DFMT_A2B10G10R10"/>, <see cref="D3DFMT_A8B8G8R8"/>, <see cref="D3DFMT_X8B8G8R8"/>, <see cref="D3DFMT_A16B16G16R16F"/>,
+        /// </para>
+        /// <list type="table">
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_X1R5G5B5"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_A1R5G5B5"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_R5G6B5"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_R8G8B8"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_X8R8G8B8"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_A8R8G8B8"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_A2R10G10B10"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_A16B16G16R16"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_A2B10G10R10"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_A8B8G8R8"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_X8B8G8R8"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DFMT_A16B16G16R16F"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="D3DFMT_A32B32G32R32F"/>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT CheckDeviceFormatConversion([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] D3DFORMAT SourceFormat, [In] D3DFORMAT TargetFormat)
         {
@@ -596,7 +860,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be one of the following:
-        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_INVALIDDEVICE"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, and <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_INVALIDDEVICE"/>,
+        /// <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, and <see cref="D3DERR_NOTAVAILABLE"/>.
         /// </returns>
         /// <remarks>
         /// The application should not assume the persistence of vertex processing capabilities across Direct3D device objects.
@@ -624,6 +889,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Handle of the monitor associated with the Direct3D object.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// As shown in the following code fragment,
+        /// which illustrates how to obtain a handle to the monitor associated with a given device,
+        /// use <see cref="IDirect3DDevice9.GetDirect3D"/> to return the Direct3D enumerator from the device
+        /// and use <see cref="IDirect3DDevice9.GetCreationParameters"/> to retrieve the value for <paramref name="Adapter"/>.
+        /// </para>
+        /// <code>
+        /// if( FAILED( pDevice-&gt;GetCreationParameters(  &amp;Parameters ) ) )
+        ///         return D3DERR_INVALIDCALL;
+        ///     
+        ///     if( FAILED( pDevice-&gt;GetDirect3D(&amp;pD3D) ) )
+        ///         return D3DERR_INVALIDCALL;
+        ///     
+        ///     hMonitor = pD3D-&gt;GetAdapterMonitor(Parameters.AdapterOrdinal);
+        ///     
+        ///     pD3D-&gt;Release();
+        /// </code>
+        /// </remarks>
         public HRESULT GetAdapterMonitor([In] UINT Adapter)
         {
             fixed (void* thisPtr = &this)
@@ -644,36 +928,101 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the desired device type is not available, the method will fail.
         /// </param>
         /// <param name="hFocusWindow">
-        /// The focus window alerts Direct3D when an application switches from foreground mode to background mode.
-        /// See Remarks.
+        /// <para>
+        /// The focus window alerts Direct3D when an application switches from foreground mode to background mode. See Remarks.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// For full-screen mode, the window specified must be a top-level window.
-        /// For windowed mode, this parameter may be <see cref="NULL"/> only if the <see cref="D3DPRESENT_PARAMETERS.hDeviceWindow"/> member
-        /// of <paramref name="pPresentationParameters"/> is set to a valid, non-NULL value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For windowed mode, this parameter may be <see cref="NULL"/> only
+        /// if the <see cref="D3DPRESENT_PARAMETERS.hDeviceWindow"/> member of <paramref name="pPresentationParameters"/>
+        /// is set to a valid, non-<see cref="NULL"/> value.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="BehaviorFlags">
         /// Combination of one or more options that control device creation.
         /// For more information, see <see cref="D3DCREATE"/>.
         /// </param>
         /// <param name="pPresentationParameters">
-        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure, describing the presentation parameters for the device to be created.
-        /// If <paramref name="BehaviorFlags"/> specifies <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>, <paramref name="pPresentationParameters"/> is an array.
+        /// <para>
+        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure,
+        /// describing the presentation parameters for the device to be created.
+        /// If <paramref name="BehaviorFlags"/> specifies <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>,
+        /// <paramref name="pPresentationParameters"/> is an array.
         /// Regardless of the number of heads that exist, only one depth/stencil surface is automatically created.
+        /// </para>
+        /// <para>
         /// For Windows 2000 and Windows XP, the full-screen device display refresh rate is set in the following order:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// User-specified nonzero ForcedRefreshRate registry key, if supported by the device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Application-specified nonzero refresh rate value in the presentation parameter.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Refresh rate of the latest desktop, if supported by the device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// 75 hertz if supported by the device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// 60 hertz if supported by the device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Device default.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// An unsupported refresh rate will default to the closest supported refresh rate below it.
         /// For example, if the application specifies 63 hertz, 60 hertz will be used.
         /// There are no supported refresh rates below 57 hertz.
+        /// </para>
+        /// <para>
         /// <paramref name="pPresentationParameters"/> is both an input and an output parameter.
         /// Calling this method may change several members including:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/>, <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>,
-        /// and <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> are 0 before the method is called, they will be changed when the method returns.
-        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> equals <see cref="D3DFMT_UNKNOWN"/> before the method is called,
+        /// and <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> are 0 before the method is called,
+        /// they will be changed when the method returns.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> equals <see cref="D3DFMT_UNKNOWN"/> before the method is called,
         /// it will be changed when the method returns.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="ppReturnedDeviceInterface">
         /// Address of a pointer to the returned <see cref="IDirect3DDevice9"/> interface, which represents the created device.
@@ -684,34 +1033,68 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// This method returns a fully working device interface, set to the required display mode (or windowed),
-        /// and allocated with the appropriate back buffers.
+        /// <para>
+        /// This method returns a fully working device interface,
+        /// set to the required display mode (or windowed), and allocated with the appropriate back buffers.
         /// To begin rendering, the application needs only to create and set a depth buffer
-        /// (assuming <see cref="D3DPRESENT_PARAMETERS.EnableAutoDepthStencil"/> is <see cref="FALSE"/> in <see cref="D3DPRESENT_PARAMETERS"/>).
+        /// (assuming <see cref="D3DPRESENT_PARAMETERS.EnableAutoDepthStencil"/> is <see cref="FALSE"/> in <see cref="D3DPRESENT_PARAMETERS"/>).
+        /// </para>
+        /// <para>
         /// When you create a Direct3D device, you supply two different window parameters:
-        /// a focus window (<paramref name="hFocusWindow"/>) and
-        /// a device window (the <see cref="D3DPRESENT_PARAMETERS.hDeviceWindow"/> in <see cref="D3DPRESENT_PARAMETERS"/>).
+        /// a focus window (hFocusWindow) and a device window
+        /// (the <see cref="D3DPRESENT_PARAMETERS.hDeviceWindow"/> in <see cref="D3DPRESENT_PARAMETERS"/>).
         /// The purpose of each window is:
-        /// The focus window alerts Direct3D when an application switches from foreground mode to background mode (via Alt-Tab, a mouse click, or some other method).
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The focus window alerts Direct3D when an application switches from foreground mode to background mode
+        /// (via Alt-Tab, a mouse click, or some other method).
         /// A single focus window is shared by each device created by an application.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The device window determines the location and size of the back buffer on screen.
-        /// This is used by Direct3D when the back buffer contents are copied to the front buffer during <see cref="IDirect3DDevice9.Present"/>.
+        /// This is used by Direct3D when the back buffer contents are copied to the front buffer
+        /// during <see cref="IDirect3DDevice9.Present"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// This method should not be run during the handling of <see cref="WM_CREATE"/>.
         /// An application should never pass a window handle to Direct3D while handling <see cref="WM_CREATE"/>.
-        /// Any call to create, release, or reset the device must be done using the same thread as the window procedure of the focus window.
+        /// Any call to create, release, or reset the device must be done 
+        /// using the same thread as the window procedure of the focus window.
+        /// </para>
+        /// <para>
         /// Note that <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>, <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>,
         /// and <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/> are mutually exclusive flags,
         /// and at least one of these vertex processing flags must be specified when calling this method.
+        /// </para>
+        /// <para>
         /// Back buffers created as part of the device are only lockable
         /// if <see cref="D3DPRESENTFLAG_LOCKABLE_BACKBUFFER"/> is specified in the presentation parameters.
         /// (Multisampled back buffers and depth surfaces are never lockable.)
-        /// The methods <see cref="IDirect3DDevice9.Reset"/>, <see cref="IUnknown"/>, and <see cref="IDirect3DDevice9.TestCooperativeLevel"/>
-        /// must be called from the same thread that used this method to create a device.
+        /// </para>
+        /// <para>
+        /// The methods <see cref="IDirect3DDevice9.Reset"/>, <see cref="IUnknown"/>,
+        /// and <see cref="IDirect3DDevice9.TestCooperativeLevel"/> must be called from the same thread
+        /// that used this method to create a device.
+        /// </para>
+        /// <para>
         /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
-        /// when calling <see cref="CreateDevice"/>, <see cref="IDirect3DDevice9.Reset"/>, and <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>.
-        /// This means the application does not have to query the current desktop format before calling <see cref="CreateDevice"/> for windowed mode.
+        /// when calling <see cref="CreateDevice"/>, <see cref="IDirect3DDevice9.Reset"/>,
+        /// and <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/>.
+        /// This means the application does not have to query the current desktop format
+        /// before calling <see cref="CreateDevice"/> for windowed mode.
         /// For full-screen mode, the back buffer format must be specified.
-        /// If you attempt to create a device on a 0x0 sized window, <see cref="CreateDevice"/> will fail.
+        /// </para>
+        /// <para>
+        /// If you attempt to create a device on a 0x0 sized window, <see cref="CreateDevice"/> will fail.
+        /// </para>
         /// </remarks>
         public HRESULT CreateDevice([In] UINT Adapter, [In] D3DDEVTYPE DeviceType, [In] HWND hFocusWindow, [In] D3DCREATE BehaviorFlags,
             [In][Out] ref D3DPRESENT_PARAMETERS pPresentationParameters, [Out] out P<IDirect3DDevice9> ppReturnedDeviceInterface)
