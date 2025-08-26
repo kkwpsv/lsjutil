@@ -1725,6 +1725,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// <see cref="HKEY_USERS"/>
         /// </para>
+        /// </param>
         /// <returns>
         /// <para>
         /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
@@ -1761,7 +1762,7 @@ namespace Lsj.Util.Win32
         /// After <see cref="RegFlushKey"/> returns, use <see cref="RegCloseKey"/> to close the handle to the registry key.
         /// </para>
         /// </remarks>
-        ///  [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegFlushKey", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegFlushKey([In] HKEY hKey);
 
@@ -2777,7 +2778,6 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="ERROR_MORE_DATA"/>.
         /// </para>
         /// </returns>
-        /// <remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryInfoKeyW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegQueryInfoKey([In] HKEY hKey, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [In] IntPtr lpReserved,

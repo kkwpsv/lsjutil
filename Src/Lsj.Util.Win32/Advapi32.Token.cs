@@ -16,9 +16,11 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -56,16 +58,20 @@ namespace Lsj.Util.Win32
         /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is <see cref="NullRef{TOKEN_GROUPS}"/>,
         /// </param>
         /// <param name="PreviousState">
+        /// <para>
         /// A pointer to a buffer that receives a <see cref="TOKEN_GROUPS"/> structure containing the previous state of any groups the function modifies.
         /// That is, if a group has been modified by this function, the group and its previous state are contained
         /// in the <see cref="TOKEN_GROUPS"/> structure referenced by <paramref name="PreviousState"/>.
         /// If the <see cref="TOKEN_GROUPS.GroupCount"/> member of <see cref="TOKEN_GROUPS"/> is zero,
         /// then no groups have been changed by this function.
         /// This parameter can be <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// </para>
+        /// <para>
         /// If a buffer is specified but it does not contain enough space to receive the complete list of modified groups,
         /// no group states are changed and the function fails.
         /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
         /// to the number of bytes required to hold the complete list of modified groups.
+        /// </para>
         /// </param>
         /// <param name="ReturnLength">
         /// A pointer to a variable that receives the actual number of bytes needed
@@ -73,21 +79,34 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see cref="NullRef{DWORD}"/> and is ignored if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_GROUPS}"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The information retrieved in the <paramref name="PreviousState"/> parameter is formatted as a <see cref="TOKEN_GROUPS"/> structure.
         /// This means a pointer to the buffer can be passed as the <paramref name="NewState"/> parameter in a subsequent call
         /// to the <see cref="AdjustTokenGroups"/> function, restoring the original state of the groups.
+        /// </para>
+        /// <para>
         /// The <paramref name="NewState"/> parameter can list groups to be changed that are not present in the access token.
         /// This does not affect the successful modification of the groups in the token.
+        /// </para>
+        /// <para>
         /// The <see cref="AdjustTokenGroups"/> function cannot disable groups
         /// with the <see cref="SE_GROUP_MANDATORY"/> attribute in the <see cref="TOKEN_GROUPS"/> structure.
         /// Use <see cref="CreateRestrictedToken"/> instead.
+        /// </para>
+        /// <para>
         /// You cannot enable a group that has the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenGroups", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustTokenGroups([In] HANDLE TokenHandle, [In] BOOL ResetToDefault, [In] in TOKEN_GROUPS NewState,
             [In] DWORD BufferLength, [Out] out TOKEN_GROUPS PreviousState, [Out] out DWORD ReturnLength);
@@ -110,34 +129,85 @@ namespace Lsj.Util.Win32
         /// <param name="DisableAllPrivileges">
         /// Specifies whether the function disables all of the token's privileges.
         /// If this value is <see cref="TRUE"/>, the function disables all privileges and ignores the <paramref name="NewState"/> parameter.
-        /// If it is <see cref="FALSE"/>, the function modifies privileges based on the information pointed to by the <paramref name="NewState"/> parameter.
+        /// If it is <see cref="FALSE"/>, the function modifies privileges
+        /// based on the information pointed to by the <paramref name="NewState"/> parameter.
         /// </param>
         /// <param name="NewState">
-        /// A pointer to a <see cref="TOKEN_PRIVILEGES"/> structure that specifies an array of privileges and their attributes.
-        /// If the <paramref name="DisableAllPrivileges"/> parameter is <see cref="FALSE"/>,
-        /// the <see cref="AdjustTokenPrivileges"/> function enables, disables, or removes these privileges for the token.
-        /// The following table describes the action taken by the <see cref="AdjustTokenPrivileges"/> function, based on the privilege attribute.
-        /// <see cref="SE_PRIVILEGE_ENABLED"/>: The function enables the privilege.
-        /// <see cref="SE_PRIVILEGE_REMOVED"/>:
-        /// The privilege is removed from the list of privileges in the token.
-        /// The other privileges in the list are reordered to remain contiguous.
+        /// <para>
+        /// A pointer to a <see cref="TOKEN_PRIVILEGES"/> structure that specifies an array of privileges and their attributes.
+        /// If the <paramref name="DisableAllPrivileges"/> parameter is <see cref="FALSE"/>,
+        /// the <see cref="AdjustTokenPrivileges"/> function enables, disables, or removes these privileges for the token.
+        /// The following table describes the action taken by the <see cref="AdjustTokenPrivileges"/> function,
+        /// based on the privilege attribute.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_ENABLED"/>
+        /// </term>
+        /// <term>
+        /// The function enables the privilege.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_PRIVILEGE_REMOVED"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The privilege is removed from the list of privileges in the token. The other privileges in the list are reordered to remain contiguous.
+        /// </para>
+        /// <para>
         /// <see cref="SE_PRIVILEGE_REMOVED"/> supersedes <see cref="SE_PRIVILEGE_ENABLED"/>.
-        /// Because the privilege has been removed from the token, attempts to reenable the privilege result in
-        /// the warning <see cref="ERROR_NOT_ALL_ASSIGNED"/> as if the privilege had never existed.
+        /// </para>
+        /// <para>
+        /// Because the privilege has been removed from the token,
+        /// attempts to reenable the privilege result in the warning <see cref="ERROR_NOT_ALL_ASSIGNED"/> as if the privilege had never existed.
+        /// </para>
+        /// <para>
         /// Attempting to remove a privilege that does not exist in the token results in <see cref="ERROR_NOT_ALL_ASSIGNED"/> being returned.
-        /// Privilege checks for removed privileges result in <see cref="STATUS_PRIVILEGE_NOT_HELD"/>.
-        /// Failed privilege check auditing occurs as normal.
+        /// </para>
+        /// <para>
+        /// Privilege checks for removed privileges result in <see cref="STATUS_PRIVILEGE_NOT_HELD"/>. Failed privilege check auditing occurs as normal.
+        /// </para>
+        /// <para>
         /// The removal of the privilege is irreversible, so the name of the removed privilege is not included
-        /// in the <paramref name="PreviousState"/> parameter after a call to <see cref="AdjustTokenPrivileges"/>.
-        /// Windows XP with SP1: The function cannot remove privileges. This value is not supported.
-        /// None: The function disables the privilege.
-        /// If <paramref name="DisableAllPrivileges"/> is <see cref="TRUE"/>, the function ignores this parameter.
+        /// in the <paramref name="PreviousState"/> parameter after a call to <see cref="AdjustTokenPrivileges"/>.
+        /// </para>
+        /// <para>
+        /// Windows XP with SP1: The function cannot remove privileges. This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// None
+        /// </term>
+        /// <term>
+        /// The function disables the privilege.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="DisableAllPrivileges"/> is <see cref="TRUE"/>, the function ignores this parameter.
+        /// </para>
         /// </param>
         /// <param name="BufferLength">
         /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
         /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is NULL.
         /// </param>
         /// <param name="PreviousState">
+        /// <para>
         /// A pointer to a buffer that the function fills with a <see cref="TOKEN_PRIVILEGES"/> structure
         /// that contains the previous state of any privileges that the function modifies.
         /// That is, if a privilege has been modified by this function, the privilege and its previous state are contained
@@ -145,40 +215,78 @@ namespace Lsj.Util.Win32
         /// If the <see cref="TOKEN_PRIVILEGES.PrivilegeCount"/> member of <see cref="TOKEN_PRIVILEGES"/> is zero,
         /// then no privileges have been changed by this function.
         /// This parameter can be <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
+        /// </para>
+        /// <para>
         /// If you specify a buffer that is too small to receive the complete list of modified privileges,
         /// the function fails and does not adjust any privileges.
         /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
         /// to the number of bytes required to hold the complete list of modified privileges.
+        /// </para>
         /// </param>
         /// <param name="ReturnLength">
         /// A pointer to a variable that receives the required size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
         /// This parameter can be <see cref="NullRef{DWORD}"/> if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// To determine whether the function adjusted all of the specified privileges, call <see cref="GetLastError"/>,
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// To determine whether the function adjusted all of the specified privileges, call <see cref="GetLastError"/>,
         /// which returns one of the following values when the function succeeds:
-        /// <see cref="ERROR_SUCCESS"/>: The function adjusted all specified privileges.
-        /// <see cref="ERROR_NOT_ALL_ASSIGNED"/>:
-        /// The token does not have one or more of the privileges specified in the <paramref name="NewState"/> parameter.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// <term>
+        /// The function adjusted all specified privileges.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ALL_ASSIGNED"/>
+        /// </term>
+        /// <term>
+        /// The token does not have one or more of the privileges specified in the <paramref name="NewState"/> parameter.
         /// The function may succeed with this error value even if no privileges were adjusted.
-        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The <see cref="AdjustTokenPrivileges"/> function cannot add new privileges to the access token.
         /// It can only enable or disable the token's existing privileges.
         /// To determine the token's privileges, call the <see cref="GetTokenInformation"/> function.
+        /// </para>
+        /// <para>
         /// The <paramref name="NewState"/> parameter can specify privileges that the token does not have, without causing the function to fail.
         /// In this case, the function adjusts the privileges that the token does have and ignores the other privileges so that the function succeeds.
         /// Call the <see cref="GetLastError"/> function to determine whether the function adjusted all of the specified privileges.
+        /// </para>
+        /// <para>
         /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
         /// The <paramref name="PreviousState"/> parameter retrieves a <see cref="TOKEN_PRIVILEGES"/> structure
         /// that contains the original state of the adjusted privileges.
         /// To restore the original state, pass the <paramref name="PreviousState"/> pointer as the <paramref name="NewState"/> parameter
         /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustTokenPrivileges([In] HANDLE TokenHandle, [In] BOOL DisableAllPrivileges, [In] in TOKEN_PRIVILEGES NewState,
             [In] DWORD BufferLength, [Out] out TOKEN_PRIVILEGES PreviousState, [Out] out DWORD ReturnLength);
@@ -193,12 +301,16 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
+        /// <para>
         /// A handle to an access token.
         /// The handle must have <see cref="TOKEN_QUERY"/> access to the token.
         /// The token must be an impersonation token.
-        /// If <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>,
+        /// </para>
+        /// <para>
+        /// If <paramref name="TokenHandle"/> is <see cref="NULL"/>,
         /// <see cref="CheckTokenMembership"/> uses the impersonation token of the calling thread.
         /// If the thread is not impersonating, the function duplicates the thread's primary token to create an impersonation token.
+        /// </para>
         /// </param>
         /// <param name="SidToCheck">
         /// A pointer to a <see cref="SID"/> structure.
@@ -210,19 +322,30 @@ namespace Lsj.Util.Win32
         /// IsMember returns <see langword="true"/>; otherwise, it returns <see langword="false"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CheckTokenMembership"/> function simplifies the process of determining whether a SID is both present and enabled in an access token.
+        /// <para>
+        /// The <see cref="CheckTokenMembership"/> function simplifies the process of determining
+        /// whether a SID is both present and enabled in an access token.
+        /// </para>
+        /// <para>
         /// Even if a SID is present in the token, the system may not use the SID in an access check.
-        /// The SID may be disabled or have the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// The SID may be disabled or have the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
         /// The system uses only enabled SIDs to grant access when performing an access check.
-        /// For more information, see SID Attributes in an Access Token.
-        /// If <paramref name="TokenHandle"/> is a restricted token, or if <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>
+        /// For more information, see SID Attributes in an Access Token.
+        /// </para>
+        /// <para>
+        /// If <paramref name="TokenHandle"/> is a restricted token, or if <paramref name="TokenHandle"/> is <see cref="NULL"/>
         /// and the current effective token of the calling thread is a restricted token,
-        /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
+        /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
+        /// </para>
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckTokenMembership([In] HANDLE TokenHandle, [In] PSID SidToCheck, [Out] out BOOL IsMember);
@@ -243,53 +366,183 @@ namespace Lsj.Util.Win32
         /// The handle must have <see cref="TOKEN_DUPLICATE"/> access to the token.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// Specifies additional privilege options.
         /// This parameter can be zero or a combination of the following values.
-        /// <see cref="DISABLE_MAX_PRIVILEGE"/>, <see cref="SANDBOX_INERT"/>,
-        /// <see cref="LUA_TOKEN"/>, <see cref="WRITE_RESTRICTED"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DISABLE_MAX_PRIVILEGE"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables all privileges in the new token except the SeChangeNotifyPrivilege privilege.
+        /// If this value is specified, the <paramref name="DeletePrivilegeCount"/> and <paramref name="PrivilegesToDelete"/> parameters are ignored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SANDBOX_INERT"/>
+        /// </para>
+        /// <para>
+        /// 0x2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If this value is used, the system does not check AppLocker rules or apply Software Restriction Policies.
+        /// For AppLocker, this flag disables checks for all four rule collections: Executable, Windows Installer, Script, and DLL.
+        /// </para>
+        /// <para>
+        /// When creating a setup program that must run extracted DLLs during installation,
+        /// use the flag <see cref="SAFER_TOKEN_MAKE_INERT"/> in the <see cref="SaferComputeTokenFromLevel"/> function.
+        /// </para>
+        /// <para>
+        /// A token can be queried for existence of this flag by using <see cref="GetTokenInformation"/>.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// On systems with KB2532445 installed, the caller must be running as LocalSystem or TrustedInstaller or the system ignores this flag.
+        /// For more information, see You can circumvent AppLocker rules
+        /// by using an Office macro on a computer that is running Windows 7 or Windows Server 2008 R2.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// AppLocker is not supported. AppLocker was introduced in Windows 7 and Windows Server 2008 R2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LUA_TOKEN"/>
+        /// </para>
+        /// <para>
+        /// 0x4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The new token is a LUA token.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP: This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WRITE_RESTRICTED"/>
+        /// </para>
+        /// <para>
+        /// 0x8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The new token contains restricting SIDs that are considered only when evaluating write access.
+        /// </para>
+        /// <para>
+        /// Windows XP with SP2 and later: The value of this constant is 0x4.
+        /// For an application to be compatible with Windows XP with SP2 and later operating systems,
+        /// the application should query the operating system
+        /// by calling the <see cref="GetVersionEx"/> function to determine which value should be used.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP with SP1 and earlier: This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="DisableSidCount">
         /// Specifies the number of entries in the <paramref name="SidsToDisable"/> array.
         /// </param>
         /// <param name="SidsToDisable">
-        /// A pointer to an array of <see cref="SID_AND_ATTRIBUTES"/> structures that specify the deny-only SIDs in the restricted token.
+        /// <para>
+        /// A pointer to an array of <see cref="SID_AND_ATTRIBUTES"/> structures
+        /// that specify the deny-only SIDs in the restricted token.
         /// The system uses a deny-only SID to deny access to a securable object.
         /// The absence of a deny-only SID does not allow access.
-        /// Disabling a SID turns on <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> and
-        /// turns off <see cref="SE_GROUP_ENABLED"/> and <see cref="SE_GROUP_ENABLED_BY_DEFAULT"/>.
+        /// </para>
+        /// <para>
+        /// Disabling a SID turns on <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/>
+        /// and turns off <see cref="SE_GROUP_ENABLED"/> and <see cref="SE_GROUP_ENABLED_BY_DEFAULT"/>.
         /// All other attributes are ignored.
-        /// Deny-only attributes apply to any combination of an existing token's SIDs, including the user SID and group SIDs
-        /// that have the <see cref="SE_GROUP_MANDATORY"/> attribute.
-        /// To get the SIDs associated with the existing token, use the <see cref="GetTokenInformation"/> function
-        /// with the <see cref="TokenUser"/> and <see cref="TokenGroups"/> flags.
+        /// </para>
+        /// <para>
+        /// Deny-only attributes apply to any combination of an existing token's SIDs,
+        /// including the user SID and group SIDs that have the <see cref="SE_GROUP_MANDATORY"/> attribute.
+        /// To get the SIDs associated with the existing token
+        /// , use the <see cref="GetTokenInformation"/> function with the <see cref="TokenUser"/> and <see cref="TokenGroups"/> flags.
         /// The function ignores any SIDs in the array that are not also found in the existing token.
-        /// The function ignores the <see cref="SID_AND_ATTRIBUTES.Attributes"/> member of the <see cref="SID_AND_ATTRIBUTES"/> structure.
-        /// This parameter can be <see cref="IntPtr.Zero"/> if no SIDs are to be disabled.
+        /// </para>
+        /// <para>
+        /// The function ignores the <see cref="SID_AND_ATTRIBUTES.Attributes"/> member of the <see cref="SID_AND_ATTRIBUTES"/> structure.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NULL"/> if no SIDs are to be disabled.
+        /// </para>
         /// </param>
         /// <param name="DeletePrivilegeCount">
         /// Specifies the number of entries in the <paramref name="PrivilegesToDelete"/> array.
         /// </param>
         /// <param name="PrivilegesToDelete">
-        /// A pointer to an array of <see cref="LUID_AND_ATTRIBUTES"/> structures that specify the privileges to delete in the restricted token.
-        /// The <see cref="GetTokenInformation"/> function can be used with the TokenPrivileges flag to retrieve the privileges held by the existing token.
+        /// <para>
+        /// A pointer to an array of <see cref="LUID_AND_ATTRIBUTES"/> structures that specify the privileges to delete in the restricted token.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetTokenInformation"/> function can be used
+        /// with the <see cref="TokenPrivileges"/> flag to retrieve the privileges held by the existing token.
         /// The function ignores any privileges in the array that are not held by the existing token.
-        /// The function ignores the <see cref="LUID_AND_ATTRIBUTES.Attributes"/> members of the <see cref="LUID_AND_ATTRIBUTES"/> structures.
-        /// This parameter can be <see cref="IntPtr.Zero"/> if you do not want to delete any privileges.
+        /// </para>
+        /// <para>
+        /// The function ignores the <see cref="Attributes"/> members of the <see cref="LUID_AND_ATTRIBUTES"/> structures.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NULL"/> if you do not want to delete any privileges.
+        /// </para>
+        /// <para>
         /// If the calling program passes too many privileges in this array,
-        /// <see cref="CreateRestrictedToken"/> returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// <see cref="CreateRestrictedToken"/> returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
         /// </param>
         /// <param name="RestrictedSidCount">
         /// Specifies the number of entries in the <paramref name="SidsToRestrict"/> array.
         /// </param>
         /// <param name="SidsToRestrict">
-        /// A pointer to an array of <see cref="SID_AND_ATTRIBUTES"/> structures that specify a list of restricting SIDs for the new token.
-        /// If the existing token is a restricted token, the list of restricting SIDs for the new token is the intersection of this array 
+        /// <para>
+        /// A pointer to an array of <see cref="SID_AND_ATTRIBUTES"/> structures that specify a list of restricting SIDs for the new token.
+        /// If the existing token is a restricted token,
+        /// the list of restricting SIDs for the new token is the intersection of this array
         /// and the list of restricting SIDs for the existing token.
-        /// No check is performed to remove duplicate SIDs that were placed on the <paramref name="SidsToRestrict"/> parameter.
+        /// No check is performed to remove duplicate SIDs that were placed on the <paramref name="SidsToRestrict"/> parameter.
         /// Duplicate SIDs allow a restricted token to have redundant information in the restricting SID list.
-        /// The <see cref="SID_AND_ATTRIBUTES.Attributes"/> member of the <see cref="SID_AND_ATTRIBUTES"/> structure must be zero.
+        /// </para>
+        /// <para>
+        /// The <see cref="Attributes"/> member of the <see cref="SID_AND_ATTRIBUTES"/> structure must be zero.
         /// Restricting SIDs are always enabled for access checks.
-        /// This parameter can be <see cref="IntPtr.Zero"/> if you do not want to specify any restricting SIDs.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NULL"/> if you do not want to specify any restricting SIDs.
+        /// </para>
         /// </param>
         /// <param name="NewTokenHandle">
         /// A pointer to a variable that receives a handle to the new restricted token.
@@ -298,28 +551,61 @@ namespace Lsj.Util.Win32
         /// The handle returned in <paramref name="NewTokenHandle"/> can be duplicated.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateRestrictedToken"/> function can restrict the token in the following ways:
+        /// <para>
+        /// The <see cref="CreateRestrictedToken"/> function can restrict the token in the following ways:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Apply the deny-only attribute to SIDs in the token so they cannot be used to access secured objects.
-        /// For more information about the deny-only attribute, see SID Attributes in an Access Token.
-        /// Remove privileges from the token.
+        /// For more information about the deny-only attribute, see SID Attributes in an Access Token.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Remove privileges from the token.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Specify a list of restricting SIDs, which the system uses when it checks the token's access to a securable object.
-        /// The system performs two access checks: one using the token's enabled SIDs, and another using the list of restricting SIDs.
+        /// The system performs two access checks:
+        /// one using the token's enabled SIDs, and another using the list of restricting SIDs.
         /// Access is granted only if both access checks allow the requested access rights.
-        /// You can use the restricted token in the <see cref="CreateProcessAsUser"/> function to create a process
-        /// that has restricted access rights and privileges.
-        /// If a process calls <see cref="CreateProcessAsUser"/> using a restricted version of its own token,
-        /// the calling process does not need to have the SE_ASSIGNPRIMARYTOKEN_NAME privilege.
-        /// You can use the restricted token in the <see cref="ImpersonateLoggedOnUser"/> function.
-        ///  Applications that use restricted tokens should run the restricted application on desktops other than the default desktop.
-        ///  This is necessary to prevent an attack by a restricted application, using <see cref="SendMessage"/> or <see cref="PostMessage"/>,
-        ///  to unrestricted applications on the default desktop. 
-        ///  If necessary, switch between desktops for your application purposes.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// You can use the restricted token in the <see cref="CreateProcessAsUser"/> function
+        /// to create a process that has restricted access rights and privileges.
+        /// If a process calls <see cref="CreateProcessAsUser"/> using a restricted version of its own token,
+        /// the calling process does not need to have the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege.
+        /// </para>
+        /// <para>
+        /// You can use the restricted token in the <see cref="ImpersonateLoggedOnUser"/> function.
+        /// </para>
+        /// <para>
+        /// Warning
+        /// </para>
+        /// <para>
+        /// Applications that use restricted tokens should run the restricted application on desktops other than the default desktop.
+        /// This is necessary to prevent an attack by a restricted application,
+        /// using <see cref="SendMessage"/> or <see cref="PostMessage"/>, to unrestricted applications on the default desktop.
+        /// If necessary, switch between desktops for your application purposes.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRestrictedToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateRestrictedToken([In] HANDLE ExistingTokenHandle, [In] CreateRestrictedTokenFlags Flags,
             [In] DWORD DisableSidCount, [MarshalAs(UnmanagedType.LPArray)][In] SID_AND_ATTRIBUTES[] SidsToDisable,
@@ -340,7 +626,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="DomainSid">
         /// A pointer to a SID that identifies the domain to use when creating the SID.
-        /// Pass <see cref="IntPtr"/> to use the local computer.
+        /// Pass <see cref="NULL"/> to use the local computer.
         /// </param>
         /// <param name="pSid">
         /// A pointer to memory where <see cref="CreateWellKnownSid"/> will store the new SID.
@@ -350,13 +636,62 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateWellKnownSid"/> function stores the number of bytes actually used at this location.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// For extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWellKnownSid", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateWellKnownSid([In] WELL_KNOWN_SID_TYPE WellKnownSidType, [In] PSID DomainSid,
             [In] PSID pSid, [Out] out DWORD cbSid);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ExistingTokenHandle">
+        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// </param>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <param name="DuplicateTokenHandle">
+        /// <para>
+        /// A pointer to a variable that receives a handle to the duplicate token.
+        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
+        /// </para>
+        /// <para>
+        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
+        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
+        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
+        /// which requires a primary token.
+        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DuplicateToken([In] HANDLE ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out] out HANDLE DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -371,46 +706,91 @@ namespace Lsj.Util.Win32
         /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
         /// </param>
         /// <param name="dwDesiredAccess">
+        /// <para>
         /// Specifies the requested access rights for the new token.
-        /// The <see cref="DuplicateTokenEx"/> function compares the requested access rights with the existing token's
-        /// discretionary access control list (DACL) to determine which rights are granted or denied.
+        /// The <see cref="DuplicateTokenEx"/> function compares the requested access rights
+        /// with the existing token's discretionary access control list (DACL) to determine which rights are granted or denied.
         /// To request the same access rights as the existing token, specify zero.
         /// To request all access rights that are valid for the caller, specify <see cref="MAXIMUM_ALLOWED"/>.
-        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </para>
+        /// <para>
+        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </para>
         /// </param>
         /// <param name="lpTokenAttributes">
+        /// <para>
         /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies a security descriptor for the new token and
         /// determines whether child processes can inherit the token.
-        /// If <paramref name="lpTokenAttributes"/> is <see langword="null"/>, the token gets a default security descriptor and
+        /// If <paramref name="lpTokenAttributes"/> is <see cref="NullRef{SECURITY_ATTRIBUTES}"/>,
+        /// the token gets a default security descriptor and
         /// the handle cannot be inherited.
-        /// If the security descriptor contains a system access control list (SACL), the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
+        /// If the security descriptor contains a system access control list (SACL),
+        /// the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
         /// even if it was not requested in <paramref name="dwDesiredAccess"/>.
+        /// </para>
+        /// <para>
         /// To set the owner in the security descriptor for the new token,
         /// the caller's process token must have the SeRestorePrivilege privilege set.
+        /// </para>
         /// </param>
         /// <param name="ImpersonationLevel">
         /// Specifies a value from the <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumeration that indicates the impersonation level of the new token.
         /// </param>
         /// <param name="TokenType">
-        /// Specifies one of the following values from the <see cref="TOKEN_TYPE"/> enumeration.
-        /// <see cref="TokenPrimary"/>: The new token is a primary token that you can use in the <see cref="CreateProcessAsUser"/> function.
-        /// <see cref="TokenImpersonation"/>: The new token is an impersonation token.
+        /// <para>
+        /// Specifies one of the following values from the <see cref="TOKEN_TYPE"/> enumeration.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TokenPrimary"/>
+        /// </term>
+        /// <term>
+        /// The new token is a primary token that you can use in the <see cref="CreateProcessAsUser"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TokenImpersonation"/>
+        /// </term>
+        /// <term>
+        /// The new token is an impersonation token.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="DuplicateTokenHandle">
-        /// A pointer to a HANDLE variable that receives the new token.
+        /// A pointer to a <see cref="HANDLE"/> variable that receives the new token.
         /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the function returns a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The <see cref="DuplicateTokenEx"/> function allows you to create a primary token
         /// that you can use in the <see cref="CreateProcessAsUser"/> function.
         /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
         /// Note that the <see cref="DuplicateToken"/> function can create only impersonation tokens,
         /// which are not valid for <see cref="CreateProcessAsUser"/>.
+        /// </para>
+        /// <para>
         /// The following is a typical scenario for using <see cref="DuplicateTokenEx"/> to create a primary token.
         /// A server application creates a thread that calls one of the impersonation functions,
         /// such as <see cref="ImpersonateNamedPipeClient"/>, to impersonate a client.
@@ -418,7 +798,9 @@ namespace Lsj.Util.Win32
         /// which is an impersonation token that has the security context of the client.
         /// The thread specifies this impersonation token in a call to <see cref="DuplicateTokenEx"/>, specifying the <see cref="TokenPrimary"/> flag.
         /// The <see cref="DuplicateTokenEx"/> function creates a primary token that has the security context of the client.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DuplicateTokenEx([In] HANDLE ExistingTokenHandle, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
             [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out HANDLE DuplicateTokenHandle);
@@ -427,17 +809,24 @@ namespace Lsj.Util.Win32
         /// <para>
         /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
         /// The calling process must have appropriate access rights to obtain the information.
+        /// </para>
+        /// <para>
         /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
         /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-gettokeninformation"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
         /// A handle to an access token from which information is retrieved.
-        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
+        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>,
+        /// the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
         /// For all other <paramref name="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
         /// </param>
         /// <param name="TokenInformationClass">
-        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
+        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type
+        /// to identify the type of information the function retrieves.
         /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify that
         /// the caller token is not an identify level impersonation token.
         /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
@@ -451,18 +840,28 @@ namespace Lsj.Util.Win32
         /// If <paramref name="TokenInformation"/> is NULL, this parameter must be zero.
         /// </param>
         /// <param name="ReturnLength">
+        /// <para>
         /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
         /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
         /// the function fails and stores no data in the buffer.
-        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
-        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
+        /// </para>
+        /// <para>
+        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/>
+        /// and the token has no default DACL,
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to <c>sizeof("TOKEN_DEFAULT_DACL)</c> and
         /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
             [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength, [Out] out DWORD ReturnLength);
@@ -479,10 +878,16 @@ namespace Lsj.Util.Win32
         /// A handle to an access token to test.
         /// </param>
         /// <returns>
-        /// If the token contains a list of restricting SIDs, the return value is <see cref="TRUE"/>.
-        /// If the token does not contain a list of restricting SIDs, the return value is <see cref="FALSE"/>.
-        /// If an error occurs, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the token contains a list of restricting SIDs, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the token does not contain a list of restricting SIDs, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If an error occurs, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="CreateRestrictedToken"/> function can restrict a token by disabling SIDs,
@@ -491,6 +896,7 @@ namespace Lsj.Util.Win32
         /// If a token does not have any restricting SIDs, <see cref="IsTokenRestricted"/> returns <see cref="FALSE"/>,
         /// even though the token was created by a call to <see cref="CreateRestrictedToken"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTokenRestricted", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsTokenRestricted([In] HANDLE TokenHandle);
 
@@ -507,22 +913,41 @@ namespace Lsj.Util.Win32
         /// The process must have the <see cref="PROCESS_QUERY_INFORMATION"/> access permission.
         /// </param>
         /// <param name="DesiredAccess">
+        /// <para>
         /// Specifies an access mask that specifies the requested types of access to the access token.
         /// These requested access types are compared with the discretionary access control list (DACL) of the token
         /// to determine which accesses are granted or denied.
+        /// </para>
+        /// <para>
         /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </para>
         /// </param>
         /// <param name="TokenHandle">
         /// A pointer to a handle that identifies the newly opened access token when the function returns.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
+        /// <para>
+        /// To get a handle to an elevated process from within a non-elevated process, both processes must be started from the same account.
+        /// </para>
+        /// <para>
+        /// If the process being checked was started by a different account,
+        /// the checking process needs to have the <see cref="SE_DEBUG_NAME"/> privilege enabled.
+        /// See Privilege Constants (Authorization) for more info.
+        /// </para>
+        /// <para>
+        /// To close the access token handle returned through the <paramref name="TokenHandle"/> parameter, call <see cref="CloseHandle"/>.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenProcessToken([In] HANDLE ProcessHandle, [In] ACCESS_MASK DesiredAccess, [Out] out HANDLE TokenHandle);
 
@@ -538,34 +963,53 @@ namespace Lsj.Util.Win32
         /// A handle to the thread whose access token is opened.
         /// </param>
         /// <param name="DesiredAccess">
+        /// <para>
         /// Specifies an access mask that specifies the requested types of access to the access token.
         /// These requested access types are reconciled against the token's discretionary access control list (DACL) to determine
         /// which accesses are granted or denied.
+        /// </para>
+        /// <para>
         /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </para>
         /// </param>
         /// <param name="OpenAsSelf">
+        /// <para>
         /// <see cref="TRUE"/> if the access check is to be made against the process-level security context.
+        /// </para>
+        /// <para>
         /// <see cref="FALSE"/> if the access check is to be made against
         /// the current security context of the thread calling the <see cref="OpenThreadToken"/> function.
+        /// </para>
+        /// <para>
         /// The <paramref name="OpenAsSelf"/> parameter allows the caller of this function to open the access token of a specified thread
         /// when the caller is impersonating a token at <see cref="SecurityIdentification"/> level.
         /// Without this parameter, the calling thread cannot open the access token on the specified thread
         /// because it is impossible to open executive-level objects by using the <see cref="SecurityIdentification"/> impersonation level.
+        /// </para>
         /// </param>
         /// <param name="TokenHandle">
         /// A pointer to a variable that receives the handle to the newly opened access token.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If the token has the anonymous impersonation level, the token will not be opened
-        /// and <see cref="OpenThreadToken"/> sets <see cref="ERROR_CANT_OPEN_ANONYMOUS"/> as the error.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the token has the anonymous impersonation level,
+        /// the token will not be opened and <see cref="OpenThreadToken"/> sets <see cref="ERROR_CANT_OPEN_ANONYMOUS"/> as the error.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Tokens with the anonymous impersonation level cannot be opened.
-        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
+        /// </para>
+        /// <para>
+        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenThreadToken([In] HANDLE ThreadHandle, [In] ACCESS_MASK DesiredAccess, [In] BOOL OpenAsSelf, [Out] out HANDLE TokenHandle);
 
@@ -592,16 +1036,23 @@ namespace Lsj.Util.Win32
         /// Specifies the length, in bytes, of the buffer pointed to by <paramref name="TokenInformation"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the function returns <see cref="TRUE"/>.
-        /// If the function fails, it returns <see cref="FALSE"/>.
-        /// To get extended error information, call<see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the function returns a non-zero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
-        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
+        /// <para>
+        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
+        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
+        /// </para>
+        /// <para>
         /// Token-type information can be set only when an access token is created.
+        /// </para>
         /// </remarks>
-
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
             [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
@@ -616,25 +1067,40 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Thread">
+        /// <para>
         /// A pointer to a handle to the thread to which the function assigns the impersonation token.
-        /// If <paramref name="Thread"/> is <see cref="NullRef{HANDLE}"/>, the function assigns the impersonation token to the calling thread.
+        /// </para>
+        /// <para>
+        /// If <paramref name="Thread"/> is <see cref="NullRef{HANDLE}"/>,
+        /// the function assigns the impersonation token to the calling thread.
+        /// </para>
         /// </param>
         /// <param name="Token">
+        /// <para>
         /// A handle to the impersonation token to assign to the thread.
         /// This handle must have been opened with <see cref="TOKEN_IMPERSONATE"/> access rights.
         /// For more information, see Access Rights for Access-Token Objects.
-        /// If <paramref name="Token"/> is <see cref="NULL"/>, the function causes the thread to stop using an impersonation token.
+        /// </para>
+        /// <para>
+        /// If <paramref name="Token"/> is <see cref="NULL"/>,
+        /// the function causes the thread to stop using an impersonation token.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the function returns <see cref="TRUE"/>.
-        /// If the function fails, it returns <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// When using the <see cref="SetThreadToken"/> function to impersonate,
         /// you must have the impersonate privileges and make sure that
         /// the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
     }
