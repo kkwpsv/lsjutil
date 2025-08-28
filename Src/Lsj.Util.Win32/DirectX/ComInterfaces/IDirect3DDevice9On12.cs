@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
@@ -16,6 +17,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://microsoft.github.io/DirectX-Specs/d3d/TranslationLayerResourceInterop.html"/>
     /// </para>
     /// </summary>
+    [ComInterface(IID = "e7fda234-b589-4049-940d-8878977531c8", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDevice9On12
     {
         IntPtr* _vTable;
@@ -55,7 +57,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// On return, the D3D12 resource pointer.
         /// </param>
         /// <returns></returns>
-        public HRESULT UnwrapUnderlyingResource([In] in IDirect3DResource9 pResource9, [In] in ID3D12CommandQueue pCommandQueue, [In] in IID riid, [Out] out IntPtr ppvResource12)
+        public HRESULT UnwrapUnderlyingResource([In] in IDirect3DResource9 pResource9, [In] in ID3D12CommandQueue pCommandQueue,
+            [In] in IID riid, [Out] out IntPtr ppvResource12)
         {
             fixed (void* thisPtr = &this)
             {

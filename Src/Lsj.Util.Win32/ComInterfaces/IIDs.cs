@@ -158,6 +158,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDirect3DDevice9 = "D0223B96-BF7A-43fd-92BD-A43B0D82B9EB";
 
         /// <summary>
+        /// IID_IDirect3DDevice9Ex
+        /// </summary>
+        public static readonly IID IID_IDirect3DDevice9Ex = "B18B10CE-2649-405a-870F-95F777D4313A";
+
+        /// <summary>
         /// IID_IDirect3DDevice9On12
         /// </summary>
         public static readonly IID IID_IDirect3DDevice9On12 = "e7fda234-b589-4049-940d-8878977531c8";
@@ -166,6 +171,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IDirect3DDxgiInterfaceAccess
         /// </summary>
         public static readonly IID IID_IDirect3DDxgiInterfaceAccess = "A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1";
+
+        /// <summary>
+        /// IID_IDirect3DIndexBuffer9
+        /// </summary>
+        public static readonly IID IID_IDirect3DIndexBuffer9 = "7C9DD65E-D3F7-4529-ACEE-785830ACDE35";
 
         /// <summary>
         /// IID_IDirect3DSurface
