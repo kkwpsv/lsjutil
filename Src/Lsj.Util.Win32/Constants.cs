@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32
         public const int ANYSIZE_ARRAY = 1;
 
         /// <summary>
+        /// AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD
+        /// </summary>
+        public const uint AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD = 1;
+
+        /// <summary>
         /// AC_SRC_OVER
         /// </summary>
         public const byte AC_SRC_OVER = 0;
