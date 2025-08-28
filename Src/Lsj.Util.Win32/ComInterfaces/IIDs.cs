@@ -138,9 +138,24 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDirect3D9Ex = "02177241-69FC-400C-8FF1-93A44DF6861D";
 
         /// <summary>
+        /// IID_IDirect3DBaseTexture9
+        /// </summary>
+        public static readonly IID IID_IDirect3DBaseTexture9 = "580CA87E-1D3C-4d54-991D-B7D3E3C298CE";
+
+        /// <summary>
+        /// IID_IDirect3DCubeTexture9
+        /// </summary>
+        public static readonly IID IID_IDirect3DCubeTexture9 = "FFF32F81-D953-473a-9223-93D652ABA93F";
+
+        /// <summary>
         /// IID_IDirect3DDevice
         /// </summary>
         public static readonly IID IID_IDirect3DDevice = "a37624ab-8d5f-4650-9d3e-9eae3d9bc670";
+
+        /// <summary>
+        /// IID_IDirect3DDevice9
+        /// </summary>
+        public static readonly IID IID_IDirect3DDevice9 = "D0223B96-BF7A-43fd-92BD-A43B0D82B9EB";
 
         /// <summary>
         /// IID_IDirect3DDevice9On12

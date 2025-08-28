@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -47,6 +48,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d9/nn-d3d9-idirect3ddevice9"/>
     /// </para>
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The <see cref="IDirect3DDevice9"/> interface is obtained by calling the <see cref="IDirect3D9.CreateDevice"/> method.
+    /// </para>
+    /// <para>
+    /// This interface, like all COM interfaces, inherits the <see cref="IUnknown"/> interface methods.
+    /// </para>
+    /// <para>
+    /// The LPDIRECT3DDEVICE9 and PDIRECT3DDEVICE9 types are defined as pointers to the <see cref="IDirect3DDevice9"/> interface.
+    /// </para>
+    /// <code>
+    /// typedef struct IDirect3DDevice9 *LPDIRECT3DDEVICE9, *PDIRECT3DDEVICE9;
+    /// </code>
+    /// </remarks>
+    [ComInterface(IID = "D0223B96-BF7A-43fd-92BD-A43B0D82B9EB", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 118, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDevice9
     {
         IntPtr* _vTable;
@@ -61,14 +77,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DEVICENOTRESET"/>, <see cref="D3DERR_DRIVERINTERNALERROR"/>.
         /// </returns>
         /// <remarks>
-        /// If the device is lost but cannot be restored at the current time, <see cref="TestCooperativeLevel"/> returns the <see cref="D3DERR_DEVICELOST"/> return code.
+        /// <para>
+        /// If the device is lost but cannot be restored at the current time,
+        /// <see cref="TestCooperativeLevel"/> returns the <see cref="D3DERR_DEVICELOST"/> return code.
         /// This would be the case, for example, when a full-screen device has lost focus.
-        /// If an application detects a lost device, it should pause and periodically call <see cref="TestCooperativeLevel"/>
+        /// If an application detects a lost device,
+        /// it should pause and periodically call <see cref="TestCooperativeLevel"/>
         /// until it receives a return value of <see cref="D3DERR_DEVICENOTRESET"/>.
-        /// The application may then attempt to reset the device by calling <see cref="Reset"/> and,
+        /// The application may then attempt to reset the device by calling <see cref="Reset"/> and,
         /// if this succeeds, restore the necessary resources and resume normal operation.
-        /// Note that <see cref="Present"/> will return <see cref="D3DERR_DEVICELOST"/> if the device is either "lost" or "not reset".
-        /// A call to <see cref="TestCooperativeLevel"/> will fail if called on a different thread than that used to create the device being reset.
+        /// Note that <see cref="Present"/> will return <see cref="D3DERR_DEVICELOST"/>
+        /// if the device is either "lost" or "not reset".
+        /// </para>
+        /// <para>
+        /// A call to <see cref="TestCooperativeLevel"/> will fail 
+        /// if called on a different thread than that used to create the device being reset.
+        /// </para>
         /// </remarks>
         public HRESULT TestCooperativeLevel()
         {
@@ -90,7 +114,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and other issues that affect consumption by certain resources.
         /// Applications can use this value to make gross estimates of memory availability to make large-scale resource decisions
         /// such as how many levels of a mipmap to attempt to allocate,
-        /// but applications cannot use this value to make small-scale decisions such as if there is enough memory left to allocate another resource.
+        /// but applications cannot use this value to make small-scale decisions
+        /// such as if there is enough memory left to allocate another resource.
         /// </remarks>
         public UINT GetAvailableTextureMem()
         {
@@ -105,7 +130,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If the method fails, the return value can be <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="D3DERR_COMMAND_UNPARSED"/>.
+        /// If the method fails, the return value can be <see cref="D3DERR_OUTOFVIDEOMEMORY"/>,
+        /// <see cref="D3DERR_COMMAND_UNPARSED"/>.
         /// </returns>
         /// <remarks>
         /// This function causes only the <see cref="D3DPOOL_DEFAULT"/> copy of resources to be evicted.
@@ -124,7 +150,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns an interface to the instance of the Direct3D object that created the device.
         /// </summary>
         /// <param name="ppD3D9">
-        /// Address of a pointer to an <see cref="IDirect3D9"/> interface, representing the interface of the Direct3D object that created the device.
+        /// Address of a pointer to an <see cref="IDirect3D9"/> interface,
+        /// representing the interface of the Direct3D object that created the device.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -132,7 +159,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Calling <see cref="GetDirect3D"/> will increase the internal reference count on the <see cref="IDirect3D9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3D9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3D9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetDirect3D([Out] out P<IDirect3D9> ppD3D9)
         {
@@ -153,7 +181,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// <see cref="GetDeviceCaps"/> retrieves the software vertex pipeline capabilities when the device is being used in software vertex processing mode.
+        /// <see cref="GetDeviceCaps"/> retrieves the software vertex pipeline capabilities
+        /// when the device is being used in software vertex processing mode.
         /// </remarks>
         public HRESULT GetDeviceCaps([Out] out D3DCAPS9 pCaps)
         {
@@ -171,7 +200,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pMode">
         /// Pointer to a <see cref="D3DDISPLAYMODE"/> structure containing data about the display mode of the adapter.
-        /// As opposed to the display mode of the device, which may not be active if the device does not own full-screen mode.
+        /// As opposed to the display mode of the device,
+        /// which may not be active if the device does not own full-screen mode.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -192,12 +222,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Pointer to a <see cref="D3DDEVICE_CREATION_PARAMETERS"/> structure, describing the creation parameters of the device.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// </para>
+        /// <para>
         /// <see cref="D3DERR_INVALIDCALL"/> is returned if the argument is invalid.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// You can query the <see cref="D3DDEVICE_CREATION_PARAMETERS.AdapterOrdinal"/> member
-        /// of the returned <see cref="D3DDEVICE_CREATION_PARAMETERS"/> structure to retrieve the ordinal of the adapter represented by this device.
+        /// of the returned <see cref="D3DDEVICE_CREATION_PARAMETERS"/> structure
+        /// to retrieve the ordinal of the adapter represented by this device.
         /// </remarks>
         public HRESULT GetCreationParameters([Out] out D3DDEVICE_CREATION_PARAMETERS pParameters)
         {
@@ -225,7 +260,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pCursorBitmap">
         /// Pointer to an <see cref="IDirect3DSurface9"/> interface.
         /// This parameter must point to an 8888 ARGB surface (format <see cref="D3DFMT_A8R8G8B8"/>).
-        /// The contents of this surface will be copied and potentially format-converted into an internal buffer from which the cursor is displayed.
+        /// The contents of this surface will be copied and potentially format-converted 
+        /// into an internal buffer from which the cursor is displayed.
         /// The dimensions of this surface must be less than the dimensions of the display mode,
         /// and must be a power of two in each direction, although not necessarily the same power of two.
         /// The alpha channel must be either 0.0 or 1.0.
@@ -235,16 +271,36 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An operating system cursor is created and used under either of these conditions:
-        /// The hardware has set <see cref="D3DCURSORCAPS_COLOR"/> (see <see cref="D3DCURSORCAPS"/>), 
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The hardware has set <see cref="D3DCURSORCAPS_COLOR"/> (see <see cref="D3DCURSORCAPS"/>),
         /// and the cursor size is 32x32 (which is the cursor size in the operating system).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application is running in windowed mode.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Otherwise, DirectX uses an emulated cursor.
-        /// An application uses see cref="SetCursorPosition"/> to move an emulated cursor to follow mouse movement.
-        /// It is recommended for applications to always trap <see cref="WM_MOUSEMOVE"/> events and call DXSetCursorPosition.
+        /// An application uses <see cref="SetCursorPosition"/> to move an emulated cursor to follow mouse movement.
+        /// </para>
+        /// <para>
+        /// It is recommended for applications to always trap <see cref="WM_MOUSEMOVE"/> events and call <see cref="SetCursorPosition"/>.
+        /// </para>
+        /// <para>
         /// Direct3D cursor functions use either GDI cursor or software emulation, depending on the hardware.
         /// Users typically want to respond to a <see cref="WM_SETCURSOR"/> message.
         /// For example, they might want to write the message handler as follows:
+        /// </para>
         /// <code>
         /// case WM_SETCURSOR:
         /// // Turn off window cursor.
@@ -253,19 +309,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// return TRUE; // Prevent Windows from setting cursor to window class cursor.
         /// break;
         /// </code>
-        /// Or, users might want to call the <see cref="SetCursorProperties"/> method if they want to change the cursor.
-        /// The application can determine what hardware support is available for cursors by examining appropriate members of the <see cref="D3DCAPS9"/> structure.
+        /// <para>
+        /// Or, users might want to call the <see cref="SetCursorProperties"/> method if they want to change the cursor.
+        /// </para>
+        /// <para>
+        /// The application can determine what hardware support is available for cursors
+        /// by examining appropriate members of the <see cref="D3DCAPS9"/> structure.
         /// Typically, hardware supports only 32x32 cursors and, when windowed, the system might support only 32x32 cursors.
-        /// In this case, <see cref="SetCursorProperties"/> still succeeds but the cursor might be reduced to that size.
-        /// The hot spot is scaled appropriately.
+        /// In this case, <see cref="SetCursorProperties"/> still succeeds
+        /// but the cursor might be reduced to that size. The hot spot is scaled appropriately.
+        /// </para>
+        /// <para>
         /// The cursor does not survive when the device is lost.
         /// This method must be called after the device is reset.
+        /// </para>
         /// </remarks>
         public HRESULT SetCursorProperties([In] UINT XHotSpot, [In] UINT YHotSpot, [In] in IDirect3DSurface9 pCursorBitmap)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, in IDirect3DSurface9, HRESULT>)_vTable[10])(thisPtr, XHotSpot, YHotSpot, pCursorBitmap);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, in IDirect3DSurface9, HRESULT>)_vTable[10])
+                    (thisPtr, XHotSpot, YHotSpot, pCursorBitmap);
             }
         }
 
@@ -281,25 +345,55 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// See Remarks.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// Specifies the update options for the cursor.
         /// Currently, only one flag is defined.
-        /// <see cref="D3DCURSOR_IMMEDIATE_UPDATE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DCURSOR_IMMEDIATE_UPDATE"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Update cursor at the refresh rate.
-        /// If this flag is specified, the system guarantees that the cursor will be updated at a minimum of half the display refresh rate,
-        /// but never more frequently than the display refresh rate.
-        /// Otherwise, the method delays cursor updates until the next <see cref="Present"/> call.
+        /// </para>
+        /// <para>
+        /// If this flag is specified, the system guarantees that the cursor will be updated
+        /// at a minimum of half the display refresh rate, but never more frequently than the display refresh rate.
+        /// Otherwise, the method delays cursor updates until the next <see cref="Present"/> call.
         /// Not setting this flag usually results in better performance than if the flag is set.
         /// However, applications should set this flag if the rate of calls to <see cref="Present"/> is low enough
         /// that users would notice a significant delay in cursor motion.
         /// This flag has no effect in a windowed-mode application.
         /// Some video cards implement hardware color cursors.
         /// This flag does not have an effect on these cards.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <remarks>
-        /// When running in full-screen mode, screen space coordinates are the back buffer coordinates appropriately scaled to the current display mode.
+        /// <para>
+        /// When running in full-screen mode,
+        /// screen space coordinates are the back buffer coordinates appropriately scaled to the current display mode.
         /// When running in windowed mode, screen space coordinates are the desktop coordinates.
-        /// The cursor image is drawn at the specified position minus the hotspot-offset specified by the <see cref="SetCursorProperties"/> method.
-        /// If the cursor has been hidden by <see cref="ShowCursor"/>, the cursor is not drawn.
+        /// The cursor image is drawn at the specified position minus the hotspot-offset
+        /// specified by the <see cref="SetCursorProperties"/> method.
+        /// </para>
+        /// <para>
+        /// If the cursor has been hidden by <see cref="ShowCursor"/>, the cursor is not drawn.
+        /// </para>
         /// </remarks>
         public void SetCursorPosition([In] int X, [In] int Y, [In] DWORD Flags)
         {
@@ -321,9 +415,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="TRUE"/> if the cursor was previously visible, or <see cref="FALSE"/> if the cursor was not previously visible.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Direct3D cursor functions use either GDI cursor or software emulation, depending on the hardware.
         /// Users usually want to respond to a <see cref="WM_SETCURSOR"/> message.
         /// For example, the users might want to write the message handler like this:
+        /// </para>
         /// <code>
         /// case WM_SETCURSOR:
         /// // Turn off window cursor 
@@ -332,8 +428,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// return TRUE; // prevent Windows from setting cursor to window class cursor
         /// break;
         /// </code>
+        /// <para>
         /// Or users might want to call the <see cref="SetCursorProperties"/> method if they want to change the cursor.
         /// See the code in the DirectX Graphics C/C++ Samples for more detail.
+        /// </para>
         /// </remarks>
         public BOOL ShowCursor([In] BOOL bShow)
         {
@@ -347,12 +445,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Creates an additional swap chain for rendering multiple views.
         /// </summary>
         /// <param name="pPresentationParameters">
-        /// Pointer to a D3DPRESENT_PARAMETERS structure, containing the presentation parameters for the new swap chain.
-        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// <para>
+        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure, containing the presentation parameters for the new swap chain.
+        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// </para>
+        /// <para>
         /// Calling this method changes the value of members of the <see cref="D3DPRESENT_PARAMETERS"/> structure.
-        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> == 0, calling <see cref="CreateAdditionalSwapChain"/> will increase it to 1.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> == 0,
+        /// calling <see cref="CreateAdditionalSwapChain"/> will increase it to 1.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If the application is in windowed mode, and if either the <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>
-        /// or the <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> == 0, they will be set to the client area width and height of the hwnd.
+        /// or the <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> == 0,
+        /// they will be set to the client area width and height of the hwnd.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pSwapChain">
         /// Address of a pointer to an <see cref="IDirect3DSwapChain9"/> interface, representing the additional swap chain.
@@ -364,19 +480,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// There is always at least one swap chain (the implicit swap chain) for each device because Direct3D 9 has one swap chain as a property of the device.
+        /// <para>
+        /// There is always at least one swap chain (the implicit swap chain) for each device
+        /// because Direct3D 9 has one swap chain as a property of the device.
+        /// </para>
+        /// <para>
         /// Note that any given device can support only one full-screen swap chain.
+        /// </para>
+        /// <para>
         /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
-        /// when calling <see cref="IDirect3D9.CreateDevice"/>, <see cref="Reset"/> and <see cref="CreateAdditionalSwapChain"/>.
-        /// This means the application does not have to query the current desktop format before calling CreateDevice for windowed mode.
+        /// when calling <see cref="IDirect3D9.CreateDevice"/>, <see cref="Reset"/> and <see cref="CreateAdditionalSwapChain"/>.
+        /// This means the application does not have to query the current desktop format
+        /// before calling <see cref="IDirect3D9.CreateDevice"/> for windowed mode.
         /// For full-screen mode, the back buffer format must be specified.
+        /// </para>
         /// </remarks>
-        public HRESULT CreateAdditionalSwapChain([In] in D3DPRESENT_PARAMETERS pPresentationParameters, [Out] out P<IDirect3DSwapChain9> pSwapChain)
+        public HRESULT CreateAdditionalSwapChain([In][Out] ref D3DPRESENT_PARAMETERS pPresentationParameters, [Out] out P<IDirect3DSwapChain9> pSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3DPRESENT_PARAMETERS, out P<IDirect3DSwapChain9>, HRESULT>)_vTable[13])
-                    (thisPtr, in pPresentationParameters, out pSwapChain);
+                return ((delegate* unmanaged[Stdcall]<void*, ref D3DPRESENT_PARAMETERS, out P<IDirect3DSwapChain9>, HRESULT>)_vTable[13])
+                    (thisPtr, ref pPresentationParameters, out pSwapChain);
             }
         }
 
@@ -410,9 +534,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// See Remarks.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Implicit swap chains are created by the device during <see cref="IDirect3D9.CreateDevice"/>.
         /// This method returns the number of swap chains created by <see cref="IDirect3D9.CreateDevice"/>.
+        /// </para>
+        /// <para>
         /// An application may create additional swap chains using I<see cref="CreateAdditionalSwapChain"/>.
+        /// </para>
         /// </remarks>
         public UINT GetNumberOfSwapChains()
         {
@@ -426,57 +554,102 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Resets the type, size, and format of the swap chain.
         /// </summary>
         /// <param name="pPresentationParameters">
-        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure, describing the new presentation parameters.
-        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// <para>
+        /// Pointer to a <see cref="D3DPRESENT_PARAMETERS"/> structure, describing the new presentation parameters.
+        /// This value cannot be <see cref="NullRef{D3DPRESENT_PARAMETERS}"/>.
+        /// </para>
+        /// <para>
         /// When switching to full-screen mode, Direct3D will try to find a desktop format that matches the back buffer format,
         /// so that back buffer and front buffer formats will be identical (to eliminate the need for color conversion).
+        /// </para>
+        /// <para>
         /// When this method returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/>, <see cref="D3DPRESENT_PARAMETERS.BackBufferWidth"/>,
         /// and <see cref="D3DPRESENT_PARAMETERS.BackBufferHeight"/> are set to zero.
-        /// <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> is set to <see cref="D3DFMT_UNKNOWN"/> for windowed mode only;
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DPRESENT_PARAMETERS.BackBufferFormat"/> is set to <see cref="D3DFMT_UNKNOWN"/> for windowed mode only;
         /// a full-screen mode must specify a format.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// Possible return values include: <see cref="D3D_OK"/>, <see cref="D3DERR_DEVICELOST"/>,
         /// <see cref="D3DERR_DEVICEREMOVED"/>, <see cref="D3DERR_DRIVERINTERNALERROR"/>, or <see cref="D3DERR_OUTOFVIDEOMEMORY"/> (see D3DERR).
         /// </returns>
         /// <remarks>
-        /// If a call to <see cref="Reset"/> fails, the device will be placed in the "lost" state
-        /// (as indicated by a return value of <see cref="D3DERR_DEVICELOST"/> from a call to <see cref="TestCooperativeLevel"/>)
+        /// <para>
+        /// If a call to <see cref="Reset"/> fails, the device will be placed in the "lost" state
+        /// (as indicated by a return value of <see cref="D3DERR_DEVICELOST"/> from a call to <see cref="TestCooperativeLevel"/>)
         /// unless it is already in the "not reset" state
-        /// (as indicated by a return value of <see cref="D3DERR_DEVICENOTRESET"/> from a call to <see cref="TestCooperativeLevel"/>).
-        /// Refer to <see cref="TestCooperativeLevel"/> and Lost Devices (Direct3D 9) for further information
-        /// concerning the use of <see cref="Reset"/> in the context of lost devices.
-        /// Calling <see cref="Reset"/> causes all texture memory surfaces to be lost,
+        /// (as indicated by a return value of <see cref="D3DERR_DEVICENOTRESET"/> from a call to <see cref="TestCooperativeLevel"/>).
+        /// Refer to <see cref="TestCooperativeLevel"/> and Lost Devices (Direct3D 9) for further information
+        /// concerning the use of <see cref="Reset"/> in the context of lost devices.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="Reset"/> causes all texture memory surfaces to be lost,
         /// managed textures to be flushed from video memory, and all state information to be lost.
-        /// Before calling the <see cref="Reset"/> method for a device, an application should release any explicit render targets,
-        /// depth stencil surfaces, additional swap chains, state blocks, and <see cref="D3DPOOL_DEFAULT"/> resources associated with the device.
+        /// Before calling the <see cref="Reset"/> method for a device,
+        /// an application should release any explicit render targets, depth stencil surfaces, additional swap chains,
+        /// state blocks, and <see cref="D3DPOOL_DEFAULT"/> resources associated with the device.
+        /// </para>
+        /// <para>
         /// There are two different types of swap chains: full-screen or windowed.
         /// If the new swap chain is full-screen, the adapter will be placed in the display mode that matches the new size.
-        /// Direct3D 9 applications can expect messages to be sent to them during this call (for example, before this call is returned);
+        /// </para>
+        /// <para>
+        /// Direct3D 9 applications can expect messages to be sent to them during this call
+        /// (for example, before this call is returned);
         /// applications should take precautions not to call into Direct3D at this time.
-        /// In addition, when <see cref="Reset"/> fails, the only valid methods that can be called are <see cref="Reset"/>,
+        /// In addition, when <see cref="Reset"/> fails,
+        /// the only valid methods that can be called are <see cref="Reset"/>,
         /// <see cref="TestCooperativeLevel"/>, and the various Release member functions.
         /// Calling any other method can result in an exception.
-        /// A call to <see cref="Reset"/> will fail if called on a different thread than that used to create the device being reset.
-        /// Pixel shaders and vertex shaders survive <see cref="Reset"/> calls for Direct3D 9.
+        /// </para>
+        /// <para>
+        /// A call to <see cref="Reset"/> will fail
+        /// if called on a different thread than that used to create the device being reset.
+        /// </para>
+        /// <para>
+        /// Pixel shaders and vertex shaders survive <see cref="Reset"/> calls for Direct3D 9.
         /// They do not need to be re-created explicitly by the application.
-        /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
-        /// when calling <see cref="IDirect3D9.CreateDevice"/>, <see cref="Reset"/>, and <see cref="CreateAdditionalSwapChain"/>.
-        /// This means the application does not have to query the current desktop format before calling <see cref="IDirect3D9.CreateDevice"/> for windowed mode.
+        /// </para>
+        /// <para>
+        /// <see cref="D3DFMT_UNKNOWN"/> can be specified for the windowed mode back buffer format
+        /// when calling <see cref="IDirect3D9.CreateDevice"/>, <see cref="Reset"/>, and <see cref="CreateAdditionalSwapChain"/>.
+        /// This means the application does not have to query the current desktop format
+        /// before calling <see cref="IDirect3D9.CreateDevice"/> for windowed mode.
         /// For full-screen mode, the back buffer format must be specified.
-        /// Setting <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> equal to zero (BackBufferCount = 0) results in one back buffer.
-        /// When trying to reset more than one display adapter in a group, set <paramref name="pPresentationParameters"/> to point to
-        /// an array of <see cref="D3DPRESENT_PARAMETERS"/> structures, one for each display in the adapter group.
-        /// If a multihead device was created with <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>, 
-        /// <see cref="Reset"/> requires an array of <see cref="D3DPRESENT_PARAMETERS"/> structures wherein each structure must specify a full-screen display.
-        /// To switch back to windowed mode, the application must destroy the device and re-create a non-multihead device in windowed mode.
+        /// Setting <see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> equal to zero
+        /// (<see cref="D3DPRESENT_PARAMETERS.BackBufferCount"/> = 0) results in one back buffer.
+        /// </para>
+        /// <para>
+        /// When trying to reset more than one display adapter in a group,
+        /// set <paramref name="pPresentationParameters"/> to point to an array of <see cref="D3DPRESENT_PARAMETERS"/> structures,
+        /// one for each display in the adapter group.
+        /// </para>
+        /// <para>
+        /// If a multihead device was created with <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>,
+        /// <see cref="Reset"/> requires an array of <see cref="D3DPRESENT_PARAMETERS"/> structures
+        /// wherein each structure must specify a full-screen display.
+        /// To switch back to windowed mode,
+        /// the application must destroy the device and re-create a non-multihead device in windowed mode.
+        /// </para>
         /// </remarks>
-        public HRESULT Reset([In] in D3DPRESENT_PARAMETERS pPresentationParameters)
+        public HRESULT Reset([In][Out] ref D3DPRESENT_PARAMETERS pPresentationParameters)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3DPRESENT_PARAMETERS, HRESULT>)_vTable[16])(thisPtr, pPresentationParameters);
+                return ((delegate* unmanaged[Stdcall]<void*, ref D3DPRESENT_PARAMETERS, HRESULT>)_vTable[16])(thisPtr, ref pPresentationParameters);
             }
         }
 
@@ -484,14 +657,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Presents the contents of the next buffer in the sequence of back buffers owned by the device.
         /// </summary>
         /// <param name="pSourceRect">
-        /// Pointer to a value that must be <see cref="NullRef{RECT}"/> unless the swap chain was created with <see cref="D3DSWAPEFFECT_COPY"/>.
+        /// Pointer to a value that must be <see cref="NullRef{RECT}"/>
+        /// unless the swap chain was created with <see cref="D3DSWAPEFFECT_COPY"/>.
         /// pSourceRect is a pointer to a <see cref="RECT"/> structure containing the source rectangle.
         /// If <see cref="NullRef{RECT}"/>, the entire source surface is presented.
         /// If the rectangle exceeds the source surface, the rectangle is clipped to the source surface.
         /// </param>
         /// <param name="pDestRect">
-        /// Pointer to a value that must be <see cref="NullRef{RECT}"/> unless the swap chain was created with <see cref="D3DSWAPEFFECT_COPY"/>.
-        /// <paramref name="pSourceRect"/> is a pointer to a <see cref="NullRef{RECT}"/> structure containing the destination rectangle, in window client coordinates.
+        /// Pointer to a value that must be <see cref="NullRef{RECT}"/>
+        /// unless the swap chain was created with <see cref="D3DSWAPEFFECT_COPY"/>.
+        /// <paramref name="pSourceRect"/> is a pointer to a <see cref="NullRef{RECT}"/> structure
+        /// containing the destination rectangle, in window client coordinates.
         /// If <see cref="NullRef{RECT}"/>, the entire client area is filled.
         /// If the rectangle exceeds the destination client area, the rectangle is clipped to the destination client area.
         /// </param>
@@ -514,11 +690,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Possible return values include: <see cref="D3D_OK"/> or <see cref="D3DERR_DEVICEREMOVED"/> (see D3DERR).
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If necessary, a stretch operation is applied to transfer the pixels
         /// within the source rectangle to the destination rectangle in the client area of the target window.
-        /// Present will fail, returning <see cref="D3DERR_INVALIDCALL"/>, if called between <see cref="BeginScene"/> and <see cref="EndScene"/> pairs
-        /// unless the render target is not the current render target (such as the back buffer you get from creating an additional swap chain).
+        /// </para>
+        /// <para>
+        /// <see cref="Present"/> will fail, returning <see cref="D3DERR_INVALIDCALL"/>,
+        /// if called between <see cref="BeginScene"/> and <see cref="EndScene"/> pairs
+        /// unless the render target is not the current render target
+        /// (such as the back buffer you get from creating an additional swap chain).
         /// This is a new behavior for Direct3D 9.
+        /// </para>
         /// </remarks>
         public HRESULT Present([In] in RECT pSourceRect, [In] in RECT pDestRect, [In] HWND hDestWindowOverride, [In] in RGNDATA pDirtyRegion)
         {
@@ -543,7 +725,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Use <see cref="GetFrontBufferData"/> to retrieve a copy of the front buffer.
         /// </param>
         /// <param name="Type">
-        /// Stereo view is not supported in Direct3D 9, so the only valid value for this parameter is <see cref="D3DBACKBUFFER_TYPE_MONO"/>.
+        /// Stereo view is not supported in Direct3D 9,
+        /// so the only valid value for this parameter is <see cref="D3DBACKBUFFER_TYPE_MONO"/>.
         /// </param>
         /// <param name="ppBackBuffer">
         /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned back buffer surface.
@@ -555,7 +738,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetBackBuffer([In] UINT iSwapChain, [In] UINT iBackBuffer, [In] D3DBACKBUFFER_TYPE Type, [Out] out P<IDirect3DSurface9> ppBackBuffer)
         {
@@ -598,26 +782,60 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="TRUE"/> to enable GDI dialog boxes, and <see cref="FALSE"/> to disable them.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/> unless all of the following are true.
-        /// The application specified a back buffer format compatible with GDI,
-        /// in other words, one of <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_R5G6B5"/>, or <see cref="D3DFMT_X8R8G8B8"/>.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The application specified a back buffer format compatible with GDI, in other words,
+        /// one of <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_R5G6B5"/>, or <see cref="D3DFMT_X8R8G8B8"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application specified no multisampling.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application specified <see cref="D3DSWAPEFFECT_DISCARD"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application specified <see cref="D3DPRESENTFLAG_LOCKABLE_BACKBUFFER"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application did not specify <see cref="D3DCREATE_ADAPTERGROUP_DEVICE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application is not between <see cref="BeginScene"/> and <see cref="EndScene"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The GDI dialog boxes must be created as child to the device window.
         /// They should also be created within the same thread that created the device
         /// because this enables the parent window to manage redrawing the child window.
+        /// </para>
+        /// <para>
         /// The method has no effect for windowed mode applications,
         /// but this setting will be respected if the application resets the device into full-screen mode.
         /// If SetDialogBoxMode succeeds in a windowed mode application,
         /// any subsequent reset to full-screen mode will be checked against the restrictions listed above.
         /// Also, <see cref="SetDialogBoxMode"/> causes all back buffers on the swap chain to be discarded,
         /// so an application is expected to refresh its content for all back buffers after this call.
+        /// </para>
         /// </remarks>
         public HRESULT SetDialogBoxMode([In] BOOL bEnableDialogs)
         {
@@ -635,30 +853,68 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Unsigned integer specifying the swap chain.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// Indicates whether correction should be applied.
-        /// Gamma correction results in a more consistent display, but can incur processing overhead and should not be used frequently.
-        /// Short-duration effects, such as flashing the whole screen red, should not be calibrated, but long-duration gamma changes should be calibrated.
+        /// Gamma correction results in a more consistent display,
+        /// but can incur processing overhead and should not be used frequently.
+        /// Short-duration effects, such as flashing the whole screen red, should not be calibrated,
+        /// but long-duration gamma changes should be calibrated.
         /// One of the following values can be set:
-        /// <see cref="D3DSGR_CALIBRATE"/>:
-        /// If a gamma calibrator is installed, the ramp will be modified before being sent to the device to account for the system and monitor response curves.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Item
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DSGR_CALIBRATE"/>
+        /// </term>
+        /// <term>
+        /// If a gamma calibrator is installed, the ramp will be modified
+        /// before being sent to the device to account for the system and monitor response curves.
         /// If a calibrator is not installed, the ramp will be passed directly to the device.
-        /// <see cref="D3DSGR_NO_CALIBRATION"/>:
-        /// No gamma correction is applied. The supplied gamma table is transferred directly to the device.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DSGR_NO_CALIBRATION"/>
+        /// </term>
+        /// <term>
+        /// No gamma correction is applied.
+        /// The supplied gamma table is transferred directly to the device.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pRamp">
-        /// Pointer to a <see cref="D3DGAMMARAMP"/> structure, representing the gamma correction ramp to be set for the implicit swap chain.
+        /// Pointer to a <see cref="D3DGAMMARAMP"/> structure,
+        /// representing the gamma correction ramp to be set for the implicit swap chain.
         /// </param>
         /// <remarks>
+        /// <para>
         /// There is always at least one swap chain (the implicit swap chain) for each device,
         /// because Direct3D 9 has one swap chain as a property of the device.
         /// The gamma ramp takes effect immediately; there is no wait for a vertical sync.
-        /// If the device does not support gamma ramps in the swap chain's current presentation mode (full-screen or windowed), no error return is given.
+        /// </para>
+        /// <para>
+        /// If the device does not support gamma ramps in the swap chain's current presentation mode (full-screen or windowed),
+        /// no error return is given.
         /// Applications can check the <see cref="D3DCAPS2_FULLSCREENGAMMA"/> and <see cref="D3DCAPS2_CANCALIBRATEGAMMA"/> capability bits
         /// in the <see cref="D3DCAPS9.Caps2"/> member of the <see cref="D3DCAPS9"/> structure
         /// to determine the capabilities of the device and whether a calibrator is installed.
+        /// </para>
+        /// <para>
         /// For windowed gamma correction presentation, use <see cref="IDirect3DSwapChain9.Present"/> if the hardware supports the feature.
         /// In DirectX 8, SetGammaRamp will set the gamma ramp only on a full-screen mode application.
         /// For more information about gamma correction, see Gamma (Direct3D 9).
+        /// </para>
         /// </remarks>
         public void SetGammaRamp([In] UINT iSwapChain, [In] DWORD Flags, [In] in D3DGAMMARAMP pRamp)
         {
@@ -690,19 +946,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="Width">
         /// Width of the top-level of the texture, in pixels.
-        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// The pixel dimensions of subsequent levels will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
         /// Each dimension clamps at a size of 1 pixel.
         /// Thus, if the division by 2 results in 0, 1 will be taken instead.
         /// </param>
         /// <param name="Height">
         /// Height of the top-level of the texture, in pixels.
-        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// The pixel dimensions of subsequent levels will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
         /// Each dimension clamps at a size of 1 pixel.
         /// Thus, if the division by 2 results in 0, 1 will be taken instead.
         /// </param>
         /// <param name="Levels">
         /// Number of levels in the texture.
-        /// If this is zero, Direct3D will generate all texture sublevels down to 1 by 1 pixels for hardware that supports mipmapped textures.
+        /// If this is zero, Direct3D will generate all texture sublevels
+        /// down to 1 by 1 pixels for hardware that supports mipmapped textures.
         /// Call <see cref="IDirect3DBaseTexture9.GetLevelCount"/> to see the number of levels generated.
         /// </param>
         /// <param name="Usage">
@@ -730,20 +989,45 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// An application can discover support for Automatic Generation of Mipmaps (Direct3D 9) in a particular format
-        /// by calling <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
-        /// If <see cref="IDirect3D9.CheckDeviceFormat"/> returns <see cref="D3DOK_NOAUTOGEN"/>,
-        /// <see cref="CreateTexture"/> will succeed but it will return a one-level texture.
-        /// In Windows Vista CreateTexture can create a texture from a system memory pointer
+        /// <para>
+        /// An application can discover support for Automatic Generation of Mipmaps (Direct3D 9) in a particular format
+        /// by calling <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
+        /// If <see cref="IDirect3D9.CheckDeviceFormat"/> returns <see cref="D3DOK_NOAUTOGEN"/>,
+        /// <see cref="CreateTexture"/> will succeed but it will return a one-level texture.
+        /// </para>
+        /// <para>
+        /// In Windows Vista <see cref="CreateTexture"/> can create a texture from a system memory pointer
         /// allowing the application more flexibility over the use, allocation and deletion of the system memory.
         /// For example, an application could pass a GDI system memory bitmap pointer and get a Direct3D texture interface around it.
-        /// Using a system memory pointer with <see cref="CreateTexture"/> has the following restrictions.
+        /// Using a system memory pointer with CreateTexture has the following restrictions.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The pitch of the texture must be equal to the width multiplied by the number of bytes per pixel.
-        /// Only textures with a single mipmap level are supported. The <paramref name="Levels"/> argument must be 1.
-        /// The <paramref name="Pool"/> argument must be <see cref="D3DPOOL_SYSTEMMEM"/>.
-        /// The <paramref name="pSharedHandle"/> argument must be a valid pointer to a buffer that can hold the system memory point;
-        /// *<paramref name="pSharedHandle"/> must be a valid pointer to system memory
-        /// with a size in bytes of texture width * texture height * bytes per pixel of the texture format.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Only textures with a single mipmap level are supported.
+        /// The <paramref name="Levels"/> argument must be 1.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <paramref name="Pool"/> argument must be <see cref="D3DPOOL_SYSTEMMEM"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <paramref name="pSharedHandle"/> argument must be a valid pointer to a buffer that can hold the system memory point;
+        /// *<paramref name="pSharedHandle"/> must be a valid pointer to system memory with a size in bytes of
+        /// texture width * texture height * bytes per pixel of the texture format.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT CreateTexture([In] UINT Width, [In] UINT Height, [In] UINT Levels, [In] DWORD Usage,
             [In] D3DFORMAT Format, [In] D3DPOOL Pool, [Out] out P<IDirect3DTexture9> ppTexture, [In][Out] ref HANDLE pSharedHandle)
@@ -760,28 +1044,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="Width">
         /// Width of the top-level of the volume texture, in pixels.
-        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
-        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// This value must be a power of two 
+        /// if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
         /// Each dimension clamps at a size of 1 pixel. Thus, if the division by two results in 0 (zero), 1 will be taken instead.
-        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// The maximum dimension that a driver supports (for width, height, and depth)
+        /// can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
         /// </param>
         /// <param name="Height">
         /// Height of the top-level of the volume texture, in pixels.
-        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
-        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// This value must be a power of two
+        /// if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
         /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
-        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// The maximum dimension that a driver supports (for width, height, and depth)
+        /// can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
         /// </param>
         /// <param name="Depth">
         /// Depth of the top-level of the volume texture, in pixels.
-        /// This value must be a power of two if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
-        /// The pixel dimensions of subsequent levels will be the truncated value of half of the previous level's pixel dimension (independently).
+        /// This value must be a power of two
+        /// if the <see cref="D3DPTEXTURECAPS_VOLUMEMAP_POW2"/> member of <see cref="D3DCAPS9"/> is set.
+        /// The pixel dimensions of subsequent levels will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
         /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
-        /// The maximum dimension that a driver supports (for width, height, and depth) can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
+        /// The maximum dimension that a driver supports (for width, height, and depth)
+        /// can be found in <see cref="D3DCAPS9.MaxVolumeExtent"/> in <see cref="D3DCAPS9"/>.
         /// </param>
         /// <param name="Levels">
         /// Number of levels in the texture.
-        /// If this is zero, Direct3D will generate all texture sublevels down to 1x1 pixels for hardware that supports mipmapped volume textures.
+        /// If this is zero, Direct3D will generate all texture sublevels
+        /// down to 1x1 pixels for hardware that supports mipmapped volume textures.
         /// Call <see cref="IDirect3DBaseTexture9.GetLevelCount"/> to see the number of levels generated.
         /// </param>
         /// <param name="Usage">
@@ -790,13 +1084,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information, see <see cref="D3DUSAGE"/>.
         /// </param>
         /// <param name="Format">
-        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of all levels in the volume texture.
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type,
+        /// describing the format of all levels in the volume texture.
         /// </param>
         /// <param name="Pool">
-        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing the memory class into which the volume texture should be placed.
+        /// Member of the <see cref="D3DPOOL"/> enumerated type,
+        /// describing the memory class into which the volume texture should be placed.
         /// </param>
         /// <param name="ppVolumeTexture">
-        /// Address of a pointer to an <see cref="IDirect3DVolumeTexture9"/> interface, representing the created volume texture resource.
+        /// Address of a pointer to an <see cref="IDirect3DVolumeTexture9"/> interface,
+        /// representing the created volume texture resource.
         /// </param>
         /// <param name="pSharedHandle">
         /// Reserved.
@@ -813,7 +1110,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, out P<IDirect3DVolumeTexture9>, ref HANDLE, HRESULT>)_vTable[24])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, UINT, DWORD, D3DFORMAT,
+                    D3DPOOL, out P<IDirect3DVolumeTexture9>, ref HANDLE, HRESULT>)_vTable[24])
                     (thisPtr, Width, Height, Depth, Levels, Usage, Format, Pool, out ppVolumeTexture, ref pSharedHandle);
             }
         }
@@ -823,8 +1121,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="EdgeLength">
         /// Size of the edges of all the top-level faces of the cube texture.
-        /// The pixel dimensions of subsequent levels of each face will be the truncated value of half of the previous level's pixel dimension (independently).
-        /// Each dimension clamps at a size of 1 pixel. Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
+        /// The pixel dimensions of subsequent levels of each face will be the truncated value
+        /// of half of the previous level's pixel dimension (independently).
+        /// Each dimension clamps at a size of 1 pixel.
+        /// Thus, if the division by 2 results in 0 (zero), 1 will be taken instead.
         /// </param>
         /// <param name="Levels">
         /// Number of levels in each face of the cube texture.
@@ -840,13 +1140,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information, see Remarks.
         /// </param>
         /// <param name="Format">
-        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of all levels in all faces of the cube texture.
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type,
+        /// describing the format of all levels in all faces of the cube texture.
         /// </param>
         /// <param name="Pool">
-        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing the memory class into which the cube texture should be placed.
+        /// Member of the <see cref="D3DPOOL"/> enumerated type,
+        /// describing the memory class into which the cube texture should be placed.
         /// </param>
         /// <param name="ppCubeTexture">
-        /// Address of a pointer to an <see cref="IDirect3DCubeTexture9"/> interface, representing the created cube texture resource.
+        /// Address of a pointer to an <see cref="IDirect3DCubeTexture9"/> interface,
+        /// representing the created cube texture resource.
         /// </param>
         /// <param name="pSharedHandle">
         /// Reserved.
@@ -859,21 +1162,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A mipmap (texture) is a collection of successively downsampled (mipmapped) surfaces.
-        /// On the other hand, a cube texture (created by <see cref="CreateCubeTexture"/>) is a collection of six textures (mipmaps), one for each face.
+        /// On the other hand, a cube texture (created by <see cref="CreateCubeTexture"/>)
+        /// is a collection of six textures (mipmaps), one for each face.
         /// All faces must be present in the cube texture.
         /// Also, a cube map surface must be the same pixel size in all three dimensions (x, y, and z).
+        /// </para>
+        /// <para>
         /// An application can discover support for Automatic Generation of Mipmaps (Direct3D 9) in a particular format
         /// by calling <see cref="IDirect3D9.CheckDeviceFormat"/> with <see cref="D3DUSAGE_AUTOGENMIPMAP"/>.
         /// If <see cref="IDirect3D9.CheckDeviceFormat"/> returns <see cref="D3DOK_NOAUTOGEN"/>,
         /// <see cref="CreateCubeTexture"/> will succeed but it will return a one-level texture.
+        /// </para>
         /// </remarks>
         public HRESULT CreateCubeTexture([In] UINT EdgeLength, [In] UINT Levels, [In] D3DUSAGE Usage, [In] D3DFORMAT Format,
             [In] D3DPOOL Pool, [Out] out P<IDirect3DCubeTexture9> ppCubeTexture, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DUSAGE, D3DFORMAT, D3DPOOL, out P<IDirect3DCubeTexture9>, ref HANDLE, HRESULT>)_vTable[25])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DUSAGE, D3DFORMAT,
+                    D3DPOOL, out P<IDirect3DCubeTexture9>, ref HANDLE, HRESULT>)_vTable[25])
                     (thisPtr, EdgeLength, Levels, Usage, Format, Pool, out ppCubeTexture, ref pSharedHandle);
             }
         }
@@ -883,27 +1192,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="Length">
         /// Size of the vertex buffer, in bytes.
-        /// For FVF vertex buffers, Length must be large enough to contain at least one vertex, but it need not be a multiple of the vertex size.
+        /// For FVF vertex buffers, Length must be large enough to contain at least one vertex,
+        /// but it need not be a multiple of the vertex size.
         /// <paramref name="Length"/> is not validated for non-FVF buffers.
         /// See Remarks.
         /// </param>
         /// <param name="Usage">
         /// Usage can be 0, which indicates no usage value.
         /// However, if usage is desired, use a combination of one or more <see cref="D3DUSAGE"/> constants.
-        /// It is good practice to match the usage parameter in <see cref="CreateVertexBuffer"/> with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
+        /// It is good practice to match the usage parameter in <see cref="CreateVertexBuffer"/>
+        /// with the behavior flags in <see cref="IDirect3D9.CreateDevice"/>.
         /// For more information, see Remarks.
         /// </param>
         /// <param name="FVF">
-        /// Combination of <see cref="D3DFVF"/>, a usage specifier that describes the vertex format of the vertices in this buffer.
-        /// If this parameter is set to a valid FVF code, the created vertex buffer is an FVF vertex buffer (see Remarks).
-        /// Otherwise, if this parameter is set to zero, the vertex buffer is a non-FVF vertex buffer.
+        /// Combination of <see cref="D3DFVF"/>, a usage specifier
+        /// that describes the vertex format of the vertices in this buffer.
+        /// If this parameter is set to a valid FVF code,
+        /// the created vertex buffer is an FVF vertex buffer (see Remarks).
+        /// Otherwise, if this parameter is set to zero,
+        /// the vertex buffer is a non-FVF vertex buffer.
         /// </param>
         /// <param name="Pool">
-        /// Member of the <see cref="D3DPOOL"/> enumerated type, describing a valid memory class into which to place the resource.
+        /// Member of the <see cref="D3DPOOL"/> enumerated type,
+        /// describing a valid memory class into which to place the resource.
         /// Do not set to <see cref="D3DPOOL_SCRATCH"/>.
         /// </param>
         /// <param name="ppVertexBuffer">
-        /// Address of a pointer to an <see cref="IDirect3DVertexBuffer9"/> interface, representing the created vertex buffer resource.
+        /// Address of a pointer to an <see cref="IDirect3DVertexBuffer9"/> interface,
+        /// representing the created vertex buffer resource.
         /// </param>
         /// <param name="pSharedHandle">
         /// Reserved.
@@ -916,41 +1232,98 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A vertex buffer can be used with either hardware or software vertex processing.
         /// This is determined by how the device and the vertex buffer are created.
-        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag to determine whether to process vertices in hardware or software.
+        /// </para>
+        /// <para>
+        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag
+        /// to determine whether to process vertices in hardware or software.
         /// There are three possibilities:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Process vertices in hardware by setting <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Process vertices in software by setting <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Process vertices in either hardware or software by setting <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Mixed-mode devices might need to switch between software and hardware processing
-        /// (using <see cref="SetSoftwareVertexProcessing"/>) after the device is created.
-        /// When a vertex buffer is created, <see cref="CreateVertexBuffer"/> uses the usage parameter to decide whether to process vertices in hardware or software.
+        /// (using <see cref="SetSoftwareVertexProcessing"/>) after the device is created.
+        /// </para>
+        /// <para>
+        /// When a vertex buffer is created,
+        /// <see cref="CreateVertexBuffer"/> uses the <paramref name="Usage"/> parameter
+        /// to decide whether to process vertices in hardware or software.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>,
         /// <see cref="CreateVertexBuffer"/> must use 0.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>,
         /// <see cref="CreateVertexBuffer"/> must use either 0 or <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>.
         /// For either value, vertices will be processed in software.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If <see cref="IDirect3D9.CreateDevice"/> uses <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>,
         /// <see cref="CreateVertexBuffer"/> can use either 0 or <see cref="D3DUSAGE_SOFTWAREPROCESSING"/>.
-        /// To use a vertex buffer with a mixed mode device, create a single vertex buffer which can be used for both hardware or software processing.
-        /// Use <see cref="SetStreamSource"/> to set the current vertex buffer and use <see cref="SetRenderState"/>,
-        /// if necessary, to change the device behavior to match.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To use a vertex buffer with a mixed mode device,
+        /// create a single vertex buffer which can be used for both hardware or software processing.
+        /// Use <see cref="SetStreamSource"/> to set the current vertex buffer
+        /// and use <see cref="SetRenderState"/>, if necessary, to change the device behavior to match.
         /// It is recommended that the vertex buffer usage matches the device behavior.
         /// Note that a vertex buffer created for software processing cannot be located in video memory.
-        /// The <see cref="IDirect3DDevice9"/> interface supports rendering of primitives using vertex data stored in vertex buffer objects.
-        /// Vertex buffers are created from the <see cref="IDirect3DDevice9"/>, and are usable only with the <see cref="IDirect3DDevice9"/> object from which they are created.
+        /// </para>
+        /// <para>
+        /// The <see cref="IDirect3DDevice9"/> interface supports rendering of primitives
+        /// using vertex data stored in vertex buffer objects.
+        /// Vertex buffers are created from the <see cref="IDirect3DDevice9"/>,
+        /// and are usable only with the <see cref="IDirect3DDevice9"/> object from which they are created.
+        /// </para>
+        /// <para>
         /// When set to a nonzero value, which must be a valid FVF code,
-        /// the <paramref name="FVF"/> parameter indicates that the buffer content is to be characterized by an FVF code.
+        /// the FVF parameter indicates that the buffer content is to be characterized by an FVF code.
         /// A vertex buffer that is created with an FVF code is referred to as an FVF vertex buffer.
-        /// For more information, see FVF Vertex Buffers (Direct3D 9).
-        /// Non-FVF buffers can be used to interleave data during multipass rendering or multitexture rendering in a single pass.
-        /// To do this, one buffer contains geometry data and the others contain texture coordinates for each texture to be rendered.
-        /// When rendering, the buffer containing the geometry data is interleaved with each of the buffers containing the texture coordinates.
+        /// For more information, see FVF Vertex Buffers (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// Non-FVF buffers can be used to interleave data
+        /// during multipass rendering or multitexture rendering in a single pass.
+        /// To do this, one buffer contains geometry data
+        /// and the others contain texture coordinates for each texture to be rendered.
+        /// When rendering, the buffer containing the geometry data
+        /// is interleaved with each of the buffers containing the texture coordinates.
         /// If FVF buffers were used instead, each of them would need to contain identical geometry data
         /// in addition to the texture coordinate data specific to each texture rendered.
         /// This would result in either a speed or memory penalty, depending on the strategy used.
-        /// For more information about texture coordinates, see Texture Coordinates (Direct3D 9).
+        /// For more information about texture coordinates, see Texture Coordinates (Direct3D 9).
+        /// </para>
         /// </remarks>
         public HRESULT CreateVertexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFVF FVF, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DVertexBuffer9> ppVertexBuffer, [In][Out] ref HANDLE pSharedHandle)
@@ -976,11 +1349,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information, see Remarks.
         /// </param>
         /// <param name="Format">
-        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the index buffer.
-        /// For more information, see Remarks.
-        /// The valid settings are the following:
-        /// <see cref="D3DFMT_INDEX16"/>: Indices are 16 bits each.
-        /// <see cref="D3DFMT_INDEX32"/>: Indices are 32 bits each.
+        /// <para>
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the index buffer.
+        /// For more information, see Remarks. The valid settings are the following:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Item
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_INDEX16"/>
+        /// </term>
+        /// <term>
+        /// Indices are 16 bits each.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DFMT_INDEX32"/>
+        /// </term>
+        /// <term>
+        /// Indices are 32 bits each.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Pool">
         /// Member of the <see cref="D3DPOOL"/> enumerated type, describing a valid memory class into which to place the resource.
@@ -1000,12 +1400,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DXERR_INVALIDDATA"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Index buffers are memory resources used to hold indices, they are similar to both surfaces and vertex buffers.
-        /// The use of index buffers enables Direct3D to avoid unnecessary data copying and to place the buffer in the optimal memory type for the expected usage.
-        /// To use index buffers, create an index buffer, lock it, fill it with indices, unlock it, pass it to <see cref="SetIndices"/>,
-        /// set up the vertices, set up the vertex shader, and call <see cref="DrawIndexedPrimitive"/> for rendering.
-        /// The <see cref="D3DCAPS9.MaxVertexIndex"/> member of the <see cref="D3DCAPS9"/> structure
+        /// The use of index buffers enables Direct3D to avoid unnecessary data copying
+        /// and to place the buffer in the optimal memory type for the expected usage.
+        /// </para>
+        /// <para>
+        /// To use index buffers, create an index buffer, lock it, fill it with indices, unlock it,
+        /// pass it to <see cref="SetIndices"/>, set up the vertices, set up the vertex shader,
+        /// and call <see cref="DrawIndexedPrimitive"/> for rendering.
+        /// </para>
+        /// <para>
+        /// The <see cref="D3DCAPS9.MaxVertexIndex"/> member of the <see cref="D3DCAPS9"/> structure
         /// indicates the types of index buffers that are valid for rendering.
+        /// </para>
         /// </remarks>
         public HRESULT CreateIndexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DIndexBuffer9> ppIndexBuffer, [In][Out] ref HANDLE pSharedHandle)
@@ -1037,16 +1445,23 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="MultisampleQuality">
         /// Quality level. 
-        /// The valid range is between zero and one less than the level returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
+        /// The valid range is between zero and one less than the level
+        /// returned by pQualityLevels used by <see cref="IDirect3D9.CheckDeviceMultiSampleType"/>.
         /// Passing a larger value returns the error, <see cref="D3DERR_INVALIDCALL"/>.
-        /// The <paramref name="MultisampleQuality"/> values of paired render targets, depth stencil surfaces, and the multisample type must all match.
+        /// The <paramref name="MultisampleQuality"/> values of paired render targets,
+        /// depth stencil surfaces, and the multisample type must all match.
         /// </param>
         /// <param name="Lockable">
+        /// <para>
         /// Render targets are not lockable unless the application specifies <see cref="TRUE"/> for Lockable.
+        /// </para>
+        /// <para>
         /// Note that lockable render targets reduce performance on some graphics hardware.
-        /// The readback performance (moving data from video memory to system memory) depends on the type of hardware used (AGP vs. PCI Express)
+        /// The readback performance (moving data from video memory to system memory)
+        /// depends on the type of hardware used (AGP vs. PCI Express)
         /// and is usually far lower than upload performance (moving data from system to video memory).
         /// If you need read access to render targets, use <see cref="GetRenderTargetData"/> instead of lockable render targets.
+        /// </para>
         /// </param>
         /// <param name="ppSurface">
         /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface.
@@ -1059,18 +1474,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be one of the following:
-        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// <see cref="D3DERR_NOTAVAILABLE"/>, <see cref="D3DERR_INVALIDCALL"/>,
+        /// <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// Render-target surfaces are placed in the <see cref="D3DPOOL_DEFAULT"/> memory class.
+        /// <para>
+        /// Render-target surfaces are placed in the D3DPOOL_DEFAULT memory class.
+        /// </para>
+        /// <para>
         /// The creation of lockable, multisampled render targets is not supported.
+        /// </para>
         /// </remarks>
         public HRESULT CreateRenderTarget([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DMULTISAMPLE_TYPE MultiSample,
             [In] DWORD MultisampleQuality, [In] BOOL Lockable, [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[28])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE,
+                    DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[28])
                     (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Lockable, out ppSurface, ref pSharedHandle);
             }
         }
@@ -1102,10 +1523,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and the <paramref name="MultiSample"/> type must all match.
         /// </param>
         /// <param name="Discard">
+        /// <para>
         /// Set this flag to <see cref="TRUE"/> to enable z-buffer discarding, and <see cref="FALSE"/> otherwise.
         /// If this flag is set, the contents of the depth stencil buffer will be invalid
         /// after calling either <see cref="Present"/> or <see cref="SetDepthStencilSurface"/> with a different depth surface.
-        /// This flag has the same behavior as the constant, <see cref="D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL"/>, in <see cref="D3DPRESENTFLAG"/>.
+        /// </para>
+        /// <para>
+        /// This flag has the same behavior as the constant,
+        /// <see cref="D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL"/>, in <see cref="D3DPRESENTFLAG"/>.
+        /// </para>
         /// </param>
         /// <param name="ppSurface">
         /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the created depth-stencil surface resource.
@@ -1128,7 +1554,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE, DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[29])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, D3DFORMAT, D3DMULTISAMPLE_TYPE,
+                    DWORD, BOOL, out P<IDirect3DSurface9>, ref HANDLE, HRESULT>)_vTable[29])
                     (thisPtr, Width, Height, Format, MultiSample, MultisampleQuality, Discard, out ppSurface, ref pSharedHandle);
             }
         }
@@ -1156,26 +1583,187 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method is similar to CopyRects in DirectX 8.
+        /// </para>
+        /// <para>
         /// This function has the following restrictions.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The source surface must have been created with <see cref="D3DPOOL_SYSTEMMEM"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The destination surface must have been created with <see cref="D3DPOOL_DEFAULT"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Neither surface can be locked or holding an outstanding device context.
-        /// Neither surface can be created with multisampling. The only valid flag for both surfaces is <see cref="D3DMULTISAMPLE_NONE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Neither surface can be created with multisampling.
+        /// The only valid flag for both surfaces is <see cref="D3DMULTISAMPLE_NONE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The surface format cannot be a depth stencil format.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The source and dest rects must fit within the surface.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// No stretching or shrinking is allowed (the rects must be the same size).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The source format must match the dest format.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following table shows the supported combinations.
-        ///                                     Dest formats
-        ///                                     Texture     RT texture  RT      Off-screen plain
-        /// Src formats     Texture             Yes         Yes         Yes*    Yes
-        ///                 RT texture          No          No          No      No
-        ///                 RT                  No          No          No      No
-        ///                 Off-screen plain    Yes         Yes         Yes     Yes
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Dest formats
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Src formats
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes*
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// If the driver does not support the requested copy, it will be emulated using lock and copy.
-        /// If the application needs to copy data from a <see cref="D3DPOOL_DEFAULT"/> render target to a <see cref="D3DPOOL_SYSTEMMEM"/> surface,
-        /// it can use <see cref="GetRenderTargetData"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the application needs to copy data from a <see cref="D3DPOOL_DEFAULT"/> render target
+        /// to a <see cref="D3DPOOL_SYSTEMMEM"/> surface, it can use <see cref="GetRenderTargetData"/>.
+        /// </para>
         /// </remarks>
         public HRESULT UpdateSurface([In] in IDirect3DSurface9 pSourceSurface, [In] in RECT pSourceRect,
             [In] in IDirect3DSurface9 pDestinationSurface, [In] in POINT pDestPoint)
@@ -1203,51 +1791,116 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// You can dirty a portion of a texture by locking it, or by calling one of the following methods.
-        /// <see cref="IDirect3DCubeTexture9.AddDirtyRect"/>, <see cref="IDirect3DTexture9.AddDirtyRect"/>,
-        /// <see cref="IDirect3DVolumeTexture9.AddDirtyBox"/>, <see cref="UpdateSurface"/>
-        /// <see cref="UpdateTexture"/> retrieves the dirty portions of the texture by calculating what has been accumulated since the last update operation.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="IDirect3DCubeTexture9.AddDirtyRect"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="IDirect3DTexture9.AddDirtyRect"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="IDirect3DVolumeTexture9.AddDirtyBox"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="UpdateSurface"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <see cref="UpdateTexture"/> retrieves the dirty portions of the texture
+        /// by calculating what has been accumulated since the last update operation.
+        /// </para>
+        /// <para>
         /// For performance reasons, dirty regions are only recorded for level zero of a texture.
         /// For sublevels, it is assumed that the corresponding (scaled) rectangle or box is also dirty.
-        /// Dirty regions are automatically recorded when <see cref="IDirect3DTexture9.LockRect"/> or <see cref="IDirect3DVolumeTexture9.LockBox"/>
-        /// is called without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
-        /// Also, the destination surface of <see cref="UpdateSurface"/> is marked dirty.
-        /// This method fails if the textures are of different types, if their bottom-level buffers are of different sizes, or if their matching levels do not match.
+        /// Dirty regions are automatically recorded when <see cref="IDirect3DSurface9.LockRect"/>
+        /// or <see cref="IDirect3DVolumeTexture9.LockBox"/> is called
+        /// without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
+        /// Also, the destination surface of <see cref="UpdateSurface"/> is marked dirty.
+        /// </para>
+        /// <para>
+        /// This method fails if the textures are of different types,
+        /// if their bottom-level buffers are of different sizes, or if their matching levels do not match.
         /// For example, consider a six-level source texture with the following dimensions.
+        /// </para>
         /// <code>
         /// 32x16, 16x8, 8x4, 4x2, 2x1, 1x1
         /// </code>
+        /// <para>
         /// This six-level source texture could be the source for the following one-level destination.
+        /// </para>
         /// <code>
         /// 1x1
         /// </code>
+        /// <para>
         /// For the following two-level destination.
+        /// </para>
         /// <code>
         /// 2x1, 1x1
         /// </code>
+        /// <para>
         /// Or, for the following three-level destination.
+        /// </para>
         /// <code>
         /// 4x2, 2x1, 1x1
         /// </code>
+        /// <para>
         /// In addition, this method will fail if the textures are of different formats.
         /// If the destination texture has fewer levels than the source, only the matching levels are copied.
         /// If the source texture has fewer levels than the destination, the method will fail.
+        /// </para>
+        /// <para>
         /// If the source texture has dirty regions, the copy can be optimized by restricting the copy to only those regions.
         /// It is not guaranteed that only those bytes marked dirty will be copied.
+        /// </para>
+        /// <para>
         /// Here are the possibilities for source and destination surface combinations:
-        /// If <paramref name="pSourceTexture"/> is a non-autogenerated mipmap and <paramref name="pDestinationTexture"/> is an autogenerated mipmap,
-        /// only the topmost matching level is updated, and the destination sublevels are regenerated. All other source sublevels are ignored.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If <paramref name="pSourceTexture"/> is a non-autogenerated mipmap
+        /// and <paramref name="pDestinationTexture"/> is an autogenerated mipmap,
+        /// only the topmost matching level is updated, and the destination sublevels are regenerated.
+        /// All other source sublevels are ignored.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If both <paramref name="pSourceTexture"/> and <paramref name="pDestinationTexture"/> are autogenerated mipmaps,
         /// only the topmost matching level is updated.
         /// The sublevels from the source are ignored and the destination sublevels are regenerated.
-        /// If <paramref name="pSourceTexture"/> is an autogenerated mipmap and <paramref name="pDestinationTexture"/> a non-autogenerated mipmap,
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <paramref name="pSourceTexture"/> is an autogenerated mipmap
+        /// and <paramref name="pDestinationTexture"/> a non-autogenerated mipmap,
         /// <see cref="UpdateTexture"/> will fail.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT UpdateTexture([In] in IDirect3DBaseTexture9 pSourceTexture, [In] in IDirect3DBaseTexture9 pDestinationTexture)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DBaseTexture9, in IDirect3DBaseTexture9, HRESULT>)_vTable[31])(thisPtr, pSourceTexture, pDestinationTexture);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DBaseTexture9, in IDirect3DBaseTexture9, HRESULT>)_vTable[31])
+                    (thisPtr, pSourceTexture, pDestinationTexture);
             }
         }
 
@@ -1266,32 +1919,63 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// The destination surface must be either an off-screen plain surface or a level of a texture (mipmap or cube texture) created with <see cref="D3DPOOL_SYSTEMMEM"/>.
-        /// The source surface must be a regular render target or a level of a render-target texture (mipmap or cube texture) created with <see cref="POOL_DEFAULT"/>.
+        /// <para>
+        /// The destination surface must be either an off-screen plain surface
+        /// or a level of a texture (mipmap or cube texture) created with <see cref="D3DPOOL_SYSTEMMEM"/>.
+        /// </para>
+        /// <para>
+        /// The source surface must be a regular render target
+        /// or a level of a render-target texture (mipmap or cube texture) created with <see cref="D3DPOOL_DEFAULT"/>.
+        /// </para>
+        /// <para>
         /// This method will fail if:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The render target is multisampled.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The source render target is a different size than the destination surface.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The source render target and destination surface formats do not match.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT GetRenderTargetData([In] in IDirect3DSurface9 pRenderTarget, [In] in IDirect3DSurface9 pDestSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, HRESULT>)_vTable[32])(thisPtr, pRenderTarget, pDestSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, HRESULT>)_vTable[32])
+                    (thisPtr, pRenderTarget, pDestSurface);
             }
         }
 
         /// <summary>
-        /// Generates a copy of the device's front buffer and places that copy in a system memory buffer provided by the application.
+        /// Generates a copy of the device's front buffer and places
+        /// that copy in a system memory buffer provided by the application.
         /// </summary>
         /// <param name="iSwapChain">
         /// An unsigned integer specifying the swap chain.
         /// </param>
         /// <param name="pDestSurface">
+        /// <para>
         /// Pointer to an <see cref="IDirect3DSurface9"/> interface that will receive a copy of the contents of the front buffer.
-        /// The data is returned in successive rows with no intervening space, starting from the vertically highest row on the device's output to the lowest.
+        /// The data is returned in successive rows with no intervening space,
+        /// starting from the vertically highest row on the device's output to the lowest.
+        /// </para>
+        /// <para>
         /// For windowed mode, the size of the destination surface should be the size of the desktop.
         /// For full-screen mode, the size of the destination surface should be the screen size.
+        /// </para>
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -1299,11 +1983,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_INVALIDCALL"/>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The buffer pointed to by <paramref name="pDestSurface"/> will be filled with a representation of the front buffer,
         /// converted to the standard 32 bits per pixel format <see cref="D3DFMT_A8R8G8B8"/>.
+        /// </para>
+        /// <para>
         /// This method is the only way to capture an antialiased screen shot.
+        /// </para>
+        /// <para>
         /// This function is very slow, by design, and should not be used in any performance-critical path.
-        /// For more information, see Lost Devices and Retrieved Data.
+        /// </para>
+        /// <para>
+        /// For more information, see Lost Devices and Retrieved Data.
+        /// </para>
         /// </remarks>
         public HRESULT GetFrontBufferData([In] UINT iSwapChain, [In] in IDirect3DSurface9 pDestSurface)
         {
@@ -1344,72 +2036,668 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// <see cref="StretchRect"/> Restrictions
-        /// Driver support varies. See the section on driver support (below) to see which drivers support which source and destination formats.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Driver support varies.
+        /// See the section on driver support (below) to see which drivers support which source and destination formats.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The source and destination surfaces must be created in the default memory pool.
-        /// If filtering is specified, you must set the appropriate filter caps (see <see cref="D3DCAPS9.StretchRectFilterCaps"/> in <see cref="D3DCAPS9"/>).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If filtering is specified, you must set the appropriate filter caps
+        /// (see <see cref="D3DCAPS9.StretchRectFilterCaps"/> in <see cref="D3DCAPS9"/>).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Stretching is not supported between source and destination rectangles on the same surface.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Stretching is not supported if the destination surface is an off-screen plain surface but the source is not.
-        /// You many not stretch between source and destination rectangles if either surface is in a compressed format (see Using Compressed Textures (Direct3D 9)).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// You many not stretch between source and destination rectangles
+        /// if either surface is in a compressed format (see Using Compressed Textures (Direct3D 9)).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Stretching supports color-space conversion from YUV to high-precision RGBA only.
         /// Since color conversion support is not supported by software emulation,
-        /// use <see cref="IDirect3D9.CheckDeviceFormatConversion"/> to test the hardware for color conversion support.
+        /// use <see cref="IDirect3D9.CheckDeviceFormatConversion"/> to test the hardware for color conversion support.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If the source or destination surface is a texture surface (or a cube texture surface),
-        /// you must use a Direct3D 9 driver that supports <see cref="D3DDEVCAPS2_CAN_STRETCHRECT_FROM_TEXTURES"/> (see <see cref="D3DDEVCAPS2"/>).
+        /// you must use a Direct3D 9 driver that supports <see cref="D3DDEVCAPS2_CAN_STRETCHRECT_FROM_TEXTURES"/>
+        /// (see <see cref="D3DDEVCAPS2"/>).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Additional Restrictions for Depth and Stencil Surfaces
-        /// The source and destination surfaces must be plain depth stencil surfaces (not textures) (see <see cref="CreateDepthStencilSurface"/>).
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The source and destination surfaces must be plain depth stencil surfaces (not textures)
+        /// (see <see cref="CreateDepthStencilSurface"/>).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Neither of the surfaces can be discardable.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The entire surface must be copied (that is: sub-rectangle copies are not allowed).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Format conversion, stretching, and shrinking are not supported.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="StretchRect"/> cannot be called inside of a <see cref="BeginScene"/>/<see cref="EndScene"/> pair.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Using <see cref="StretchRect"/> to downsample a Multisample Rendertarget
+        /// </para>
+        /// <para>
         /// You can use <see cref="StretchRect"/> to copy from one rendertarget to another.
         /// If the source rendertarget is multisampled, this results in downsampling the source rendertarget.
         /// For instance you could:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Create a multisampled rendertarget.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Create a second rendertarget of the same size, that is not multisampled.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Copy (using <see cref="StretchRect"/> the multisample rendertarget to the second rendertarget.
-        /// Note that use of the extra surface involved in using StretchRect to downsample a Multisample Rendertarget will result in a performance hit.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Note that use of the extra surface involved in using <see cref="StretchRect"/>
+        /// to downsample a Multisample Rendertarget will result in a performance hit.
+        /// </para>
+        /// <para>
         /// Driver Support
+        /// </para>
+        /// <para>
         /// There are many restrictions as to which surface combinations are valid for <see cref="StretchRect"/>.
-        /// Factors include whether the driver is a Direct3D 9 driver or older, and whether the operation will result in stretching/shrinking.
-        /// Since applications are not expected to recognize if the driver is a Direct3D 9 driver or not, the runtime will automatically set a new cap,
-        /// <see cref="D3DDEVCAPS2_CAN_STRETCHRECT_FROM_TEXTURES"/> cap (see <see cref="D3DDEVCAPS2"/>), for Direct3D 9-level drivers and above.
+        /// Factors include whether the driver is a Direct3D 9 driver or older,
+        /// and whether the operation will result in stretching/shrinking.
+        /// Since applications are not expected to recognize if the driver is a Direct3D 9 driver or not,
+        /// the runtime will automatically set a new cap, <see cref="D3DDEVCAPS2_CAN_STRETCHRECT_FROM_TEXTURES"/> cap
+        /// (see <see cref="D3DDEVCAPS2"/>), for Direct3D 9-level drivers and above.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
         /// DirectX 8 Driver (no stretching)
-        ///                                     Dest formats
-        ///                                     Texture     RT texture  RT      Off-screen plain
-        /// Src formats     Texture             No          No          No      No
-        ///                 RT texture          No          Yes         Yes     No
-        ///                 RT                  No          Yes         Yes     No
-        ///                 Off-screen plain    Yes         Yes         Yes     Yes
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Dest formats
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Src formats
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
         /// DirectX 8 Driver (stretching)
-        ///                                     Dest formats
-        ///                                     Texture     RT texture  RT      Off-screen plain
-        /// Src formats     Texture             No          No          No      No
-        ///                 RT texture          No          No          No      No
-        ///                 RT                  No          Yes         Yes     No
-        ///                 Off-screen plain    No          Yes         Yes     No
-        /// DirectX 9 Driver (no stretching)
-        ///                                     Dest formats
-        ///                                     Texture     RT texture  RT      Off-screen plain
-        /// Src formats     Texture             No          Yes         Yes     No
-        ///                 RT texture          No          Yes         Yes     No
-        ///                 RT                  No          Yes         Yes     No
-        ///                 Off-screen plain    No          Yes         Yes     Yes
-        /// DirectX 9 Driver (stretching)
-        ///                                     Dest formats
-        ///                                     Texture     RT texture  RT      Off-screen plain
-        /// Src formats     Texture             No          Yes         Yes     No
-        ///                 RT texture          No          Yes         Yes     No
-        ///                 RT                  No          Yes         Yes     No
-        ///                 Off-screen plain    No          Yes         Yes     No
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Dest formats
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Src formats
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Direct3D 9 Driver (no stretching)
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Dest formats
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Src formats
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Direct3D 9 Driver (stretching)
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Dest formats
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Src formats
+        /// </term>
+        /// <term>
+        /// Texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT texture
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// RT
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Off-screen plain
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT StretchRect([In] in IDirect3DSurface9 pSourceSurface, [In] in RECT pSourceRect,
             [In] in IDirect3DSurface9 pDestinationSurface, [In] in RECT pDestRect, [In] D3DTEXTUREFILTERTYPE Filter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[34])
+                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT,
+                    in IDirect3DSurface9, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[34])
                     (thisPtr, pSourceSurface, pSourceRect, pDestinationSurface, pDestRect, Filter);
             }
         }
@@ -1432,15 +2720,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method can only be applied to a render target, a render-target texture surface,
         /// or an off-screen plain surface with a pool type of <see cref="D3DPOOL_DEFAULT"/>.
         /// <see cref="ColorFill"/> will work with all formats.
+        /// </para>
+        /// <para>
         /// However, when using a reference or software device, the only formats supported are
         /// <see cref="D3DFMT_X1R5G5B5"/>, <see cref="D3DFMT_A1R5G5B5"/>, <see cref="D3DFMT_R5G6B5"/>, <see cref="D3DFMT_X8R8G8B8"/>,
         /// <see cref="D3DFMT_A8R8G8B8"/>, <see cref="D3DFMT_YUY2"/>, <see cref="D3DFMT_G8R8_G8B8"/>, <see cref="D3DFMT_UYVY"/>,
         /// <see cref="D3DFMT_R8G8_B8G8"/>, <see cref="D3DFMT_R16F"/>, <see cref="D3DFMT_G16R16F"/>, <see cref="D3DFMT_A16B16G16R16F"/>,
         /// <see cref="D3DFMT_R32F"/>, <see cref="D3DFMT_G32R32F"/>, and <see cref="D3DFMT_A32B32G32R32F"/>.
-        /// When using a DirectX 7 or DirectX 8.x driver, the only YUV formats supported are <see cref="D3DFMT_UYVY"/> and <see cref="D3DFMT_YUY2"/>.
+        /// </para>
+        /// <para>
+        /// When using a DirectX 7 or DirectX 8.x driver,
+        /// the only YUV formats supported are <see cref="D3DFMT_UYVY"/> and <see cref="D3DFMT_YUY2"/>.
+        /// </para>
         /// </remarks>
         public HRESULT ColorFill([In] in IDirect3DSurface9 pSurface, [In] in RECT pRect, [In] D3DCOLOR color)
         {
@@ -1480,12 +2775,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// <see cref="D3DPOOL_SCRATCH"/> will return a surface that has identical characteristics to a surface
         /// created by the DirectX 8.x method <see cref="CreateImageSurface"/>.
+        /// </para>
+        /// <para>
         /// <see cref="D3DPOOL_DEFAULT"/> is the appropriate pool for use with the <see cref="StretchRect"/> and <see cref="ColorFill"/>.
+        /// </para>
+        /// <para>
         /// <see cref="D3DPOOL_MANAGED"/> is not allowed when creating an offscreen plain surface.
         /// For more information about memory pools, see <see cref="D3DPOOL"/>.
+        /// </para>
+        /// <para>
         /// Off-screen plain surfaces are always lockable, regardless of their pool types.
+        /// </para>
         /// </remarks>
         public HRESULT CreateOffscreenPlainSurface([In] UINT Width, [In] UINT Height, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DSurface9> ppSurface, [In][Out] ref HANDLE pSharedHandle)
@@ -1510,27 +2813,73 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The new render-target surface must have at least <see cref="D3DUSAGE_RENDERTARGET"/> specified.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// This method will return <see cref="D3DERR_INVALIDCALL"/> if either:
-        /// <paramref name="pRenderTarget"/> = <see cref="NullRef{IDirect3DSurface9}"/> and <paramref name="RenderTargetIndex"/> = 0
-        /// <paramref name="pRenderTarget"/> is != <see cref="NullRef{IDirect3DSurface9}"/> and the render target is invalid.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <paramref name="pRenderTarget"/> = <see cref="NULL"/> and <paramref name="RenderTargetIndex"/> = 0
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <paramref name="pRenderTarget"/> is != <see cref="NULL"/> and the render target is invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The device can support multiple render targets.
-        /// The number of render targets supported by a device is contained in the <see cref="D3DCAPS9.NumSimultaneousRTs"/> member of <see cref="D3DCAPS9"/>.
-        /// See Multiple Render Targets (Direct3D 9).
-        /// Setting a new render target will cause the viewport (see Viewports and Clipping (Direct3D 9)) to be set to the full size of the new render target.
+        /// The number of render targets supported by a device is contained
+        /// in the <see cref="D3DCAPS9.NumSimultaneousRTs"/> member of <see cref="D3DCAPS9"/>.
+        /// See Multiple Render Targets (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// Setting a new render target will cause the viewport (see Viewports and Clipping (Direct3D 9)) 
+        /// to be set to the full size of the new render target.
+        /// </para>
+        /// <para>
         /// Some hardware tests the compatibility of the depth stencil buffer with the color buffer.
         /// If this is done, it is only done in a debug build.
+        /// </para>
+        /// <para>
         /// Restrictions for using this method include the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The multisample type must be the same for the render target and the depth stencil surface.
-        /// The formats must be compatible for the render target and the depth stencil surface. See <see cref="IDirect3D9.CheckDepthStencilMatch"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The formats must be compatible for the render target and the depth stencil surface.
+        /// See <see cref="IDirect3D9.CheckDepthStencilMatch"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The size of the depth stencil surface must be greater than or equal to the size of the render target.
-        /// These restrictions are validated only when using the debug runtime when any of the <see cref="IDirect3DDevice9"/> Draw methods are called.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// These restrictions are validated only when using the debug runtime
+        /// when any of the <see cref="IDirect3DDevice9"/>Draw methods are called.
+        /// </para>
+        /// <para>
         /// Cube textures differ from other surfaces in that they are collections of surfaces.
-        /// To call <see cref="SetRenderTarget"/> with a cube texture,
-        /// you must select an individual face using <see cref="IDirect3DCubeTexture9.GetCubeMapSurface"/>
-        /// and pass the resulting surface to <see cref="SetRenderTarget"/>.
+        /// To call <see cref="SetRenderTarget"/> with a cube texture,
+        /// you must select an individual face using <see cref="IDirect3DCubeTexture9.GetCubeMapSurface"/>
+        /// and pass the resulting surface to <see cref="SetRenderTarget"/>.
+        /// </para>
         /// </remarks>
         public HRESULT SetRenderTarget([In] DWORD RenderTargetIndex, [In] in IDirect3DSurface9 pRenderTarget)
         {
@@ -1547,7 +2896,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Index of the render target. See Remarks.
         /// </param>
         /// <param name="ppRenderTarget">
-        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface, representing the returned render-target surface for this device.
+        /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface,
+        /// representing the returned render-target surface for this device.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -1555,19 +2905,28 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// or <see cref="D3DERR_NOTFOUND"/> if there's no render target available for the given index.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
         /// This method however, will work even on a pure device because it returns an interface.
+        /// </para>
+        /// <para>
         /// The device can now support multiple render targets.
-        /// The number of render targets supported by a device is contained in the <see cref="D3DCAPS9.NumSimultaneousRTs"/> member of <see cref="D3DCAPS9"/>.
-        /// See Multiple Render Targets (Direct3D 9).
-        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using the <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// The number of render targets supported by a device is contained
+        /// in the <see cref="D3DCAPS9.NumSimultaneousRTs"/> member of <see cref="D3DCAPS9"/>.
+        /// See Multiple Render Targets (Direct3D 9).
+        /// </para>
+        /// <para>
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using the <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// </para>
         /// </remarks>
         public HRESULT GetRenderTarget([In] DWORD RenderTargetIndex, [Out] out P<IDirect3DSurface9> ppRenderTarget)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DSurface9>, HRESULT>)_vTable[38])(thisPtr, RenderTargetIndex, out ppRenderTarget);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDirect3DSurface9>, HRESULT>)_vTable[38])
+                    (thisPtr, RenderTargetIndex, out ppRenderTarget);
             }
         }
 
@@ -1584,15 +2943,39 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// the return value is <see cref="D3DERR_INVALIDCALL"/> when the stencil surface is invalid.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Restrictions for using this method include the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The multisample type must be the same for the render target and the depth stencil surface.
-        /// The formats must be compatible for the render target and the depth stencil surface. See <see cref="IDirect3D9.CheckDepthStencilMatch"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The formats must be compatible for the render target and the depth stencil surface.
+        /// See <see cref="IDirect3D9.CheckDepthStencilMatch"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The size of the depth stencil surface must be greater than or equal to the size of the render target.
-        /// These restrictions are validated only when using the debug runtime when any of the <see cref="IDirect3DDevice9"/> Draw methods are called.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// These restrictions are validated only when using the debug runtime
+        /// when any of the <see cref="IDirect3DDevice9"/>Draw methods are called.
+        /// </para>
+        /// <para>
         /// Cube textures differ from other surfaces in that they are collections of surfaces.
-        /// To call <see cref="SetDepthStencilSurface"/> with a cube texture,
-        /// you must select an individual face using <see cref="IDirect3DCubeTexture9.GetCubeMapSurface"/>
-        /// and pass the resulting surface to <see cref="SetDepthStencilSurface"/>.
+        /// To call <see cref="SetDepthStencilSurface"/> with a cube texture,
+        /// you must select an individual face using <see cref="IDirect3DCubeTexture9.GetCubeMapSurface"/>
+        /// and pass the resulting surface to <see cref="SetDepthStencilSurface"/>.
+        /// </para>
         /// </remarks>
         public HRESULT SetDepthStencilSurface([In] in IDirect3DSurface9 pNewZStencil)
         {
@@ -1615,7 +2998,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetDepthStencilSurface([Out] out P<IDirect3DSurface9> ppZStencilSurface)
         {
@@ -1635,19 +3019,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This happens only when <see cref="BeginScene"/> is called twice without first calling <see cref="EndScene"/>.
         /// </returns>
         /// <remarks>
-        /// Applications must call <see cref="BeginScene"/> before performing any rendering
-        /// and must call <see cref="EndScene"/> when rendering is complete and before calling <see cref="BeginScene"/> again.
-        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene, and there is no need to call <see cref="EndScene"/>.
-        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
+        /// <para>
+        /// Applications must call <see cref="BeginScene"/> before performing any rendering
+        /// and must call <see cref="EndScene"/> when rendering is complete
+        /// and before calling <see cref="BeginScene"/> again.
+        /// </para>
+        /// <para>
+        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene,
+        /// and there is no need to call <see cref="EndScene"/>.
+        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
         /// This applies to any application that creates multiple swap chains.
-        /// There should be one <see cref="BeginScene"/>/<see cref="EndScene"/> pair between any successive calls to present
-        /// (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
-        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
-        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
-        /// Multiple non-nested <see cref="BeginScene"/>/<see cref="EndScene"/> pairs between calls to present are legal,
-        /// but having more than one pair may incur a performance hit.
+        /// </para>
+        /// <para>
+        /// There should be one <see cref="BeginScene"/>/<see cref="EndScene"/> pair
+        /// between any successive calls to present (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
+        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
+        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
+        /// Multiple non-nested <see cref="BeginScene"/>/<see cref="EndScene"/> pairs
+        /// between calls to present are legal, but having more than one pair may incur a performance hit.
         /// To enable maximal parallelism between the CPU and the graphics accelerator,
-        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// </para>
         /// </remarks>
         public HRESULT BeginScene()
         {
@@ -1667,21 +3059,29 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This happens only when <see cref="BeginScene"/> is called twice without first calling <see cref="EndScene"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When this method succeeds, the scene has been queued up for rendering by the driver.
         /// This is not a synchronous method, so the scene is not guaranteed to have completed rendering when this method returns.
-        /// Applications must call <see cref="BeginScene"/> before performing any rendering
-        /// and must call <see cref="EndScene"/> when rendering is complete and before calling <see cref="BeginScene"/> again.
-        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene, and there is no need to call <see cref="EndScene"/>.
-        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
+        /// </para>
+        /// <para>
+        /// Applications must call <see cref="BeginScene"/> before performing any rendering
+        /// and must call <see cref="EndScene"/> when rendering is complete
+        /// and before calling <see cref="BeginScene"/> again.
+        /// </para>
+        /// <para>
+        /// If <see cref="BeginScene"/> fails, the device was unable to begin the scene,
+        /// and there is no need to call <see cref="EndScene"/>.
+        /// In fact, calls to <see cref="EndScene"/> will fail if the previous <see cref="BeginScene"/> failed.
         /// This applies to any application that creates multiple swap chains.
-        /// There should be one <see cref="BeginScene"/>/<see cref="EndScene"/> pair between any successive calls to present
-        /// (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
-        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
-        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
-        /// Multiple non-nested <see cref="BeginScene"/>/<see cref="EndScene"/> pairs between calls to present are legal,
-        /// but having more than one pair may incur a performance hit.
+        /// </para>
+        /// <para>
+        /// There should be at most one <see cref="BeginScene"/>/<see cref="EndScene"/> pair
+        /// between any successive calls to present (either <see cref="Present"/> or <see cref="IDirect3DSwapChain9.Present"/>).
+        /// <see cref="BeginScene"/> should be called once before any rendering is performed,
+        /// and <see cref="EndScene"/> should be called once after all rendering for a frame has been submitted to the runtime.
         /// To enable maximal parallelism between the CPU and the graphics accelerator,
-        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// it is advantageous to call <see cref="EndScene"/> as far ahead of calling present as possible.
+        /// </para>
         /// </remarks>
         public HRESULT EndScene()
         {
@@ -1704,7 +3104,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Set a rectangle to the dimensions of the rendering target to clear the entire surface.
         /// Each rectangle uses screen coordinates that correspond to points on the render target.
         /// Coordinates are clipped to the bounds of the viewport rectangle.
-        /// To indicate that the entire viewport rectangle is to be cleared, set this parameter to <see langword="null"/> and <paramref name="Count"/> to 0.
+        /// To indicate that the entire viewport rectangle is to be cleared,
+        /// set this parameter to <see langword="null"/> and <paramref name="Count"/> to 0.
         /// </param>
         /// <param name="Flags">
         /// Combination of one or more <see cref="D3DCLEAR"/> flags that specify the surface(s) that will be cleared.
@@ -1725,11 +3126,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// Use this method to clear a surface including: a render target, all render targets in an MRT, a stencil buffer, or a depth buffer.
-        /// Flags determines how many surfaces are cleared. Use pRects to clear a subset of a surface defined by an array of rectangles.
-        /// <see cref="Clear"/> will fail if you:
-        /// Try to clear either the depth buffer or the stencil buffer of a render target that does not have an attached depth buffer.
+        /// <para>
+        /// Use this method to clear a surface including:
+        /// a render target, all render targets in an MRT, a stencil buffer, or a depth buffer.
+        /// <paramref name="Flags"/> determines how many surfaces are cleared.
+        /// Use <paramref name="pRects"/> to clear a subset of a surface defined by an array of rectangles.
+        /// </para>
+        /// <para>
+        /// <see cref="Clear"/> will fail if you:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Try to clear either the depth buffer or the stencil buffer of a render target
+        /// that does not have an attached depth buffer.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Try to clear the stencil buffer when the depth buffer does not contain stencil data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT Clear([In] DWORD Count, [In] D3DRECT[]? pRects, [In] D3DCLEAR Flags, [In] D3DCOLOR Color, [In] float Z, [In] DWORD Stencil)
         {
@@ -1748,7 +3168,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="State">
         /// Device-state variable that is being modified.
-        /// This parameter can be any member of the <see cref="D3DTRANSFORMSTATETYPE"/> enumerated type, or the <see cref="D3DTS_WORLDMATRIX"/> macro.
+        /// This parameter can be any member of the <see cref="D3DTRANSFORMSTATETYPE"/> enumerated type,
+        /// or the <see cref="D3DTS_WORLDMATRIX"/> macro.
         /// </param>
         /// <param name="pMatrix">
         /// Pointer to a <see cref="D3DMATRIX"/> structure that modifies the current transformation.
@@ -1770,7 +3191,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="State">
         /// Device state variable that is being modified.
-        /// This parameter can be any member of the <see cref="D3DTRANSFORMSTATETYPE"/> enumerated type, or the <see cref="D3DTS_WORLDMATRIX"/> macro.
+        /// This parameter can be any member of the <see cref="D3DTRANSFORMSTATETYPE"/> enumerated type,
+        /// or the <see cref="D3DTS_WORLDMATRIX"/> macro.
         /// </param>
         /// <param name="pMatrix">
         /// Pointer to a <see cref="D3DMATRIX"/> structure, describing the returned transformation state.
@@ -1808,9 +3230,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/> if one of the arguments is invalid.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The multiplication order is <paramref name="pMatrix"/> times State.
+        /// </para>
+        /// <para>
         /// An application might use the <see cref="MultiplyTransform"/> method to work with hierarchies of transformations.
         /// For example, the geometry and transformations describing an arm might be arranged in the following hierarchy.
+        /// </para>
         /// <code>
         /// shoulder_transformation
         /// upper_arm geometry
@@ -1819,7 +3245,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// wrist transformation
         /// hand geometry
         /// </code>
-        /// An application might use the following series of calls to render this hierarchy. Not all the parameters are shown in this pseudocode.
+        /// <para>
+        /// An application might use the following series of calls to render this hierarchy.
+        /// Not all the parameters are shown in this pseudocode.
+        /// </para>
         /// <code>
         /// IDirect3DDevice9::SetTransform(D3DTS_WORLDMATRIX(0), 
         ///                                shoulder_transform)
@@ -1853,7 +3282,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// or if <paramref name="pViewport"/> describes a region that cannot exist within the render target surface.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Direct3D sets the following default values for the viewport.
+        /// </para>
         /// <code>
         /// D3DVIEWPORT9 vp;
         /// vp.X      = 0;
@@ -1863,9 +3294,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// vp.MinZ   = 0.0f;
         /// vp.MaxZ   = 1.0f;
         /// </code>
-        /// <see cref="SetViewport"/> can be used to draw on part of the screen.
+        /// <para>
+        /// <see cref="SetViewport"/> can be used to draw on part of the screen.
         /// Make sure to call it before any geometry is drawn so the viewport settings will take effect.
-        /// To draw multiple views within a scene, repeat the <see cref="SetViewport"/> and draw geometry sequence for each view.
+        /// </para>
+        /// <para>
+        /// To draw multiple views within a scene,
+        /// repeat the <see cref="SetViewport"/> and draw geometry sequence for each view.
+        /// </para>
         /// </remarks>
         public HRESULT SetViewport([In] in D3DVIEWPORT9 pViewport)
         {
@@ -1886,7 +3322,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/> is returned if the <paramref name="pViewport"/> parameter is invalid.
         /// </returns>
         /// <remarks>
-        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// Typically, methods that return state will not work on a device
+        /// that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
         /// This method however, will work even on a pure device.
         /// </remarks>
         public HRESULT GetViewport([Out] out D3DVIEWPORT9 pViewport)
@@ -1926,8 +3363,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/> if the <paramref name="pMaterial"/> parameter is invalid.
         /// </returns>
         /// <remarks>
-        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
-        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// This method will not return device state for a device
+        /// that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method,
+        /// you must create your device with any of the other values in <see cref="D3DCREATE"/>.
         /// </remarks>
         public HRESULT GetMaterial([Out] out D3DMATERIAL9 pMaterial)
         {
@@ -1942,7 +3381,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="Index">
         /// Zero-based index of the set of lighting properties to set.
-        /// If a set of lighting properties exists at this index, it is overwritten by the new properties specified in <paramref name="pLight"/>.
+        /// If a set of lighting properties exists at this index,
+        /// it is overwritten by the new properties specified in <paramref name="pLight"/>.
         /// </param>
         /// <param name="pLight">
         /// Pointer to a <see cref="D3DLIGHT9"/> structure, containing the lighting parameters to set.
@@ -1952,17 +3392,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// Set light properties by preparing a <see cref="D3DLIGHT9"/> structure and then calling the <see cref="SetLight"/> method.
-        /// The <see cref="SetLight"/> method accepts the index at which the device should place the set of light properties to its internal list of light properties,
-        /// and the address of a prepared <see cref="D3DLIGHT9"/> structure that defines those properties.
-        /// You can call <see cref="SetLight"/> with new information as needed to update the light's illumination properties.
-        /// The system allocates memory to accommodate a set of lighting properties each time 
-        /// you call the <see cref="SetLight"/> method with an index that has never been assigned properties.
+        /// <para>
+        /// Set light properties by preparing a <see cref="D3DLIGHT9"/> structure and then calling the <see cref="SetLight"/> method.
+        /// The <see cref="SetLight"/> method accepts the index
+        /// at which the device should place the set of light properties to its internal list of light properties,
+        /// and the address of a prepared <see cref="D3DLIGHT9"/> structure that defines those properties.
+        /// You can call <see cref="SetLight"/> with new information as needed to update the light's illumination properties.
+        /// </para>
+        /// <para>
+        /// The system allocates memory to accommodate a set of lighting properties
+        /// each time you call the <see cref="SetLight"/> method with an index that has never been assigned properties.
         /// Applications can set a number of lights, with only a subset of the assigned lights enabled at a time.
-        /// Check the <see cref="D3DCAPS9.MaxActiveLights"/> member of the <see cref="D3DCAPS9"/> structure
+        /// Check the MaxActiveLights member of the <see cref="D3DCAPS9"/> structure
         /// when you retrieve device capabilities to determine the maximum number of active lights supported by that device.
         /// If you no longer need a light, you can disable it or overwrite it with a new set of light properties.
-        /// The following example prepares and sets properties for a white point-light whose emitted light will not attenuate over distance.
+        /// </para>
+        /// <para>
+        /// The following example prepares and sets properties
+        /// for a white point-light whose emitted light will not attenuate over distance.
+        /// </para>
         /// <code>
         /// // Assume d3dDevice is a valid pointer to an IDirect3DDevice9 interface.
         /// D3DLIGHT9 d3dLight;
@@ -2003,7 +3451,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// else
         ///     // Handle failure
         /// </code>
+        /// <para>
         /// Enable a light source by calling the <see cref="LightEnable"/> method for the device.
+        /// </para>
         /// </remarks>
         public HRESULT SetLight([In] DWORD Index, [In] in D3DLIGHT9 pLight)
         {
@@ -2018,7 +3468,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="Index">
         /// Zero-based index of the lighting property set to retrieve.
-        /// This method will fail if a lighting property has not been set for this index by calling the <see cref="SetLight"/> method.
+        /// This method will fail if a lighting property has not been set for this index
+        /// by calling the <see cref="SetLight"/> method.
         /// </param>
         /// <param name="unnamedParam2">
         /// Pointer to a <see cref="D3DLIGHT9"/> structure that is filled with the retrieved lighting-parameter set.
@@ -2028,12 +3479,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value is <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
-        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
-        /// Retrieve all the properties for an existing light source by calling the <see cref="GetLight"/> method for the device.
-        /// When calling the <see cref="GetLight"/> method, pass the zero-based index of the light source
-        /// for which the properties will be retrieved as the first parameter, and supply the address of a <see cref="D3DLIGHT9"/> structure as the second parameter.
-        /// The device fills the <see cref="D3DLIGHT9"/> structure to describe the lighting properties it uses for the light source at that index.
+        /// If you want to use this method,
+        /// you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// </para>
+        /// <para>
+        /// Retrieve all the properties for an existing light source
+        /// by calling the <see cref="GetLight"/> method for the device.
+        /// When calling the <see cref="GetLight"/> method,
+        /// pass the zero-based index of the light source for which the properties will be retrieved as the first parameter,
+        /// and supply the address of a <see cref="D3DLIGHT9"/> structure as the second parameter.
+        /// The device fills the <see cref="D3DLIGHT9"/> structure
+        /// to describe the lighting properties it uses for the light source at that index.
+        /// </para>
         /// <code>
         /// // Assume d3dDevice is a valid pointer to an IDirect3DDevice9 interface.
         /// HRESULT hr;
@@ -2046,15 +3505,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// else
         ///     // Handle failure
         /// </code>
+        /// <para>
         /// If you supply an index outside the range of the light sources assigned in the device,
-        /// the <see cref="GetLight"/> method fails, returning <see cref="D3DERR_INVALIDCALL"/>.
+        /// the <see cref="GetLight"/> method fails, returning <see cref="D3DERR_INVALIDCALL"/>.
+        /// </para>
+        /// <para>
         /// When you assign a set of light properties for a light source in a scene,
-        /// the light source can be activated by calling the <see cref="LightEnable"/> method for the device.
+        /// the light source can be activated by calling the <see cref="LightEnable"/> method for the device.
         /// New light sources are disabled by default.
-        /// The <see cref="LightEnable"/> method accepts two parameters.
+        /// The <see cref="LightEnable"/> method accepts two parameters.
         /// Set the first parameter to the zero-based index of the light source to be affected by the method,
-        /// and set the second parameter to <see cref="TRUE"/> to enable the light or <see cref="FALSE"/> to disable it.
-        /// The following code example illustrates the use of this method by enabling the first light source in the device's list of light source properties.
+        /// and set the second parameter to <see cref="TRUE"/> to enable the light or <see cref="FALSE"/> to disable it.
+        /// The following code example illustrates the use of this method
+        /// by enabling the first light source in the device's list of light source properties.
+        /// </para>
         /// <code>
         /// // Assume d3dDevice is a valid pointer to an IDirect3DDevice9 interface.
         /// HRESULT hr;
@@ -2065,10 +3529,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// else
         ///     // Handle failure
         /// </code>
-        /// Check the <see cref="D3DCAPS9.MaxActiveLights"/> member of the <see cref="D3DCAPS9"/> structure
+        /// <para>
+        /// Check the <see cref="D3DCAPS9.MaxActiveLights"/> member of the <see cref="D3DCAPS9"/> structure
         /// when you retrieve device capabilities to determine the maximum number of active lights supported by that device.
-        /// If you enable or disable a light that has no properties that are set with <see cref="SetLight"/>,
-        /// the <see cref="LightEnable"/> method creates a light source with the properties listed in following table and enables or disables it.
+        /// </para>
+        /// <para>
+        /// If you enable or disable a light that has no properties that are set with <see cref="SetLight"/>,
+        /// the <see cref="LightEnable"/> method creates a light source
+        /// with the properties listed in following table and enables or disables it.
+        /// </para>
         /// </remarks>
         public HRESULT GetLight([In] DWORD Index, [Out] out D3DLIGHT9 unnamedParam2)
         {
@@ -2086,30 +3555,135 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="Enable">
         /// Value that indicates if the set of lighting parameters are being enabled or disabled.
-        /// Set this parameter to <see cref="TRUE"/> to enable lighting with the parameters at the specified index, or <see cref="FALSE"/> to disable it.
+        /// Set this parameter to <see cref="TRUE"/> to enable lighting with the parameters at the specified index,
+        /// or <see cref="FALSE"/> to disable it.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// If a value for <paramref name="Index"/> is outside the range of the light property sets assigned within the device, 
-        /// the <see cref="LightEnable"/> method creates a light source represented by a <see cref="D3DLIGHT9"/> structure
+        /// <para>
+        /// If a value for <paramref name="Index"/> is outside the range of the light property sets assigned within the device,
+        /// the <see cref="LightEnable"/> method creates a light source represented by a <see cref="D3DLIGHT9"/> structure
         /// with the following properties and sets its enabled state to the value specified in <paramref name="Enable"/>.
-        /// Member                                  Default
-        /// <see cref="D3DLIGHT9.Type"/>            <see cref="D3DLIGHT_DIRECTIONAL"/>
-        /// <see cref="D3DLIGHT9.Diffuse"/>         (R:1, G:1, B:1, A:0)
-        /// <see cref="D3DLIGHT9.Specular"/>        (R:0, G:0, B:0, A:0)
-        /// <see cref="D3DLIGHT9.Ambient"/>         (R:0, G:0, B:0, A:0)
-        /// <see cref="D3DLIGHT9.Position"/>        (0, 0, 0)
-        /// <see cref="D3DLIGHT9.Direction"/>       (0, 0, 1)
-        /// <see cref="D3DLIGHT9.Range"/>           0
-        /// <see cref="D3DLIGHT9.Falloff"/>         0
-        /// <see cref="D3DLIGHT9.Attenuation0"/>    0
-        /// <see cref="D3DLIGHT9.Attenuation1"/>    0
-        /// <see cref="D3DLIGHT9.Attenuation2"/>    0
-        /// <see cref="D3DLIGHT9.Theta"/>           0
-        /// <see cref="D3DLIGHT9.Phi"/>             0
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Member
+        /// </term>
+        /// <term>
+        /// Default
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Type"/>
+        /// </term>
+        /// <term>
+        /// <see cref="D3DLIGHT_DIRECTIONAL"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Diffuse"/>
+        /// </term>
+        /// <term>
+        /// (R:1, G:1, B:1, A:0)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Specular"/>
+        /// </term>
+        /// <term>
+        /// (R:0, G:0, B:0, A:0)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Ambient"/>
+        /// </term>
+        /// <term>
+        /// (R:0, G:0, B:0, A:0)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Position"/>
+        /// </term>
+        /// <term>
+        /// (0, 0, 0)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Direction"/>
+        /// </term>
+        /// <term>
+        /// (0, 0, 1)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Range"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Falloff"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Attenuation0"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Attenuation1"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Attenuation2"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Theta"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DLIGHT9.Phi"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         public HRESULT LightEnable([In] DWORD Index, [In] BOOL Enable)
         {
@@ -2127,15 +3701,18 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pEnable">
         /// Pointer to a variable to fill with the status of the specified lighting parameters.
-        /// After the call, a nonzero value at this address indicates that the specified lighting parameters are enabled; a value of 0 indicates that they are disabled.
+        /// After the call, a nonzero value at this address indicates that the specified lighting parameters are enabled;
+        /// a value of 0 indicates that they are disabled.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
-        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// This method will not return device state for a device
+        /// that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// If you want to use this method,
+        /// you must create your device with any of the other values in <see cref="D3DCREATE"/>.
         /// </remarks>
         public HRESULT GetLightEnable([In] DWORD Index, [Out] out BOOL pEnable)
         {
@@ -2163,15 +3740,23 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// or that the array at <paramref name="pPlane"/> is not large enough to contain four floating-point values.
         /// </returns>
         /// <remarks>
-        /// The coefficients that this method reports take the form of the general plane equation.
-        /// If the values in the array at <paramref name="pPlane"/> were labeled A, B, C, and D in the order that they appear in the array,
+        /// <para>
+        /// The coefficients that this method sets take the form of the general plane equation.
+        /// If the values in the array at pPlane were labeled A, B, C, and D in the order that they appear in the array,
         /// they would fit into the general plane equation so that Ax + By + Cz + Dw = 0.
-        /// A point with homogeneous coordinates (x, y, z, w) is visible in the half space of the plane if Ax + By + Cz + Dw >= 0.
-        /// Points that exist on or behind the clipping plane are clipped from the scene.
+        /// A point with homogeneous coordinates (x, y, z, w) is visible in the half space of the plane 
+        /// if Ax + By + Cz + Dw &gt;= 0. Points that exist behind the clipping plane are clipped from the scene.
+        /// </para>
+        /// <para>
         /// When the fixed function pipeline is used the plane equations are assumed to be in world space.
-        /// When the programmable pipeline is used the plane equations are assumed to be in the clipping space (the same space as output vertices).
+        /// When the programmable pipeline is used the plane equations are assumed to be in the clipping space
+        /// (the same space as output vertices).
+        /// </para>
+        /// <para>
         /// This method does not enable the clipping plane equation being set.
-        /// To enable a clipping plane, set the corresponding bit in the DWORD value applied to the <see cref="D3DRS_CLIPPLANEENABLE"/> render state.
+        /// To enable a clipping plane, set the corresponding bit in the <see cref="DWORD"/> value
+        /// applied to the <see cref="D3DRS_CLIPPLANEENABLE"/> render state.
+        /// </para>
         /// </remarks>
         public HRESULT SetClipPlane([In] DWORD Index, [In] float[] pPlane)
         {
@@ -2188,24 +3773,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Index of the clipping plane for which the plane equation coefficients are retrieved.
         /// </param>
         /// <param name="pPlane">
-        /// Pointer to a four-element array of values that represent the coefficients of the clipping plane in the form of the general plane equation.
+        /// Pointer to a four-element array of values that represent the coefficients of the clipping plane
+        /// in the form of the general plane equation.
         /// See Remarks.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value is <see cref="D3DERR_INVALIDCALL"/>.
-        /// This error indicates that the value in <paramref name="Index"/> exceeds the maximum clipping plane index supported by the device,
+        /// This error indicates that the value in <paramref name="Index"/>
+        /// exceeds the maximum clipping plane index supported by the device,
         /// or that the array at <paramref name="pPlane"/> is not large enough to contain four floating-point values.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
-        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>.
+        /// If you want to use this method, you must create your device with any of the other values in <see cref="D3DCREATE"/>."
+        /// </para>
+        /// <para>
         /// The coefficients that this method reports take the form of the general plane equation.
-        /// If the values in the array at <paramref name="pPlane"/> were labeled A, B, C, and D in the order that they appear in the array,
+        /// If the values in the array at pPlane were labeled A, B, C, and D in the order that they appear in the array,
         /// they would fit into the general plane equation so that Ax + By + Cz + Dw = 0.
-        /// A point with homogeneous coordinates (x, y, z, w) is visible in the half space of the plane if Ax + By + Cz + Dw >= 0.
+        /// A point with homogeneous coordinates (x, y, z, w) is visible in the half space of the plane
+        /// if Ax + By + Cz + Dw &gt;= 0.
         /// Points that exist on or behind the clipping plane are clipped from the scene.
-        /// The plane equation used by this method exists in world space and is set by a previous call to the <see cref="SetClipPlane"/> method.
+        /// </para>
+        /// <para>
+        /// The plane equation used by this method exists in world space
+        /// and is set by a previous call to the <see cref="SetClipPlane"/> method.
+        /// </para>
         /// </remarks>
         public HRESULT GetClipPlane([In] DWORD Index, [Out] float[] pPlane)
         {
@@ -2282,13 +3877,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Vertex-related device states typically refer to those states that affect how the system processes vertices.
-        /// Pixel-related states generally refer to device states that affect how the system processes pixel or depth-buffer data during rasterization.
+        /// Pixel-related states generally refer to device states
+        /// that affect how the system processes pixel or depth-buffer data during rasterization.
         /// Some states are contained in both groups.
+        /// </para>
+        /// <para>
         /// Differences between Direct3D 9 and Direct3D 10:
+        /// </para>
+        /// <para>
         /// In Direct3D 9, a state block contains state data, for the states it was requested to capture, when the object is created.
-        /// To change the value of the state block, call <see cref="IDirect3DStateBlock9.Capture"/> or <see cref="BeginStateBlock"/>/<see cref="EndStateBlock"/>.
+        /// To change the value of the state block, 
+        /// call <see cref="IDirect3DStateBlock9.Capture"/> or <see cref="BeginStateBlock"/>/<see cref="EndStateBlock"/>.
         /// There is no state saved when a state block object is created in Direct3D 10.
+        /// </para>
         /// </remarks>
         public HRESULT CreateStateBlock([In] D3DSTATEBLOCKTYPE Type, [Out] out P<IDirect3DStateBlock9> ppSB)
         {
@@ -2303,21 +3906,156 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// Applications can ensure that all recorded states are valid by calling the <see cref="ValidateDevice"/> method prior to calling this method.
-        /// The following methods can be recorded in a state block, after calling <see cref="BeginStateBlock"/> and before <see cref="EndStateBlock"/>.
-        /// <see cref="LightEnable"/>, <see cref="SetClipPlane"/>, <see cref="SetCurrentTexturePalette"/>, <see cref="SetFVF"/>,
-        /// <see cref="SetIndices"/>, <see cref="SetLight"/>, <see cref="SetMaterial"/>, <see cref="SetNPatchMode"/>,
-        /// <see cref="SetPixelShader"/>, <see cref="SetPixelShaderConstantB"/>, <see cref="SetPixelShaderConstantF"/>,
-        /// <see cref="SetPixelShaderConstantI"/>, <see cref="SetRenderState"/>, <see cref="SetSamplerState"/>,
-        /// <see cref="SetScissorRect"/>, <see cref="SetStreamSource"/>, <see cref="SetStreamSourceFreq"/>, <see cref="SetTexture"/>,
-        /// <see cref="SetTextureStageState"/>, <see cref="SetTransform"/>, <see cref="SetViewport"/>, <see cref="SetVertexDeclaration"/>,
-        /// <see cref="SetVertexShader"/>, <see cref="SetVertexShaderConstantB"/>,<see cref="SetVertexShaderConstantF"/>,
+        /// <para>
+        /// Applications can ensure that all recorded states are valid
+        /// by calling the <see cref="ValidateDevice"/> method prior to calling this method.
+        /// </para>
+        /// <para>
+        /// The following methods can be recorded in a state block,
+        /// after calling <see cref="BeginStateBlock"/> and before <see cref="EndStateBlock"/>.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LightEnable"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetClipPlane"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetCurrentTexturePalette"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetFVF"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetIndices"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetLight"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetMaterial"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetNPatchMode"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetPixelShader"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetPixelShaderConstantB"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetPixelShaderConstantF"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetPixelShaderConstantI"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetRenderState"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetSamplerState"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetScissorRect"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetStreamSource"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetStreamSourceFreq"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetTexture"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetTextureStageState"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetTransform"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetViewport"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetVertexDeclaration"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetVertexShader"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetVertexShaderConstantB"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SetVertexShaderConstantF"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="SetVertexShaderConstantI"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The ordering of state changes in a state block is not guaranteed.
         /// If the same state is specified multiple times in a state block, only the last value is used.
+        /// </para>
         /// </remarks>
         public HRESULT BeginStateBlock()
         {
@@ -2357,25 +4095,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If one of the arguments is invalid, the return value is <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Clip status is used during software vertex processing.
         /// Therefore, this method is not supported on pure or nonpure hardware processing devices.
-        /// For more information about pure devices, see <see cref="D3DCREATE"/>.
-        /// When clipping is enabled during vertex processing (by <see cref="ProcessVertices"/>, <see cref="DrawPrimitive"/>, or other drawing functions),
+        /// For more information about pure devices, see <see cref="D3DCREATE"/>.
+        /// </para>
+        /// <para>
+        /// When clipping is enabled during vertex processing
+        /// (by <see cref="ProcessVertices"/>, <see cref="DrawPrimitive"/>, or other drawing functions),
         /// Direct3D computes a clip code for every vertex.
         /// The clip code is a combination of D3DCS_* bits.
         /// When a vertex is outside a particular clipping plane, the corresponding bit is set in the clipping code.
-        /// Direct3D maintains the clip status using <see cref="D3DCLIPSTATUS9"/>,
+        /// Direct3D maintains the clip status using <see cref="D3DCLIPSTATUS9"/>,
         /// which has <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> members.
         /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> is a bitwise "OR" of all vertex clip codes
         /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> is a bitwise "AND" of all vertex clip codes.
-        /// Initial values are zero for <see cref="D3DCLIPSTATUS9.ClipUnion"/> and 0xFFFFFFFF for ClipIntersection.
-        /// When <see cref="D3DRS_CLIPPING"/> is set to <see cref="FALSE"/>,
+        /// Initial values are zero for ClipUnion and 0xFFFFFFFF for <see cref="D3DCLIPSTATUS9.ClipIntersection"/>.
+        /// When <see cref="D3DRS_CLIPPING"/> is set to <see cref="FALSE"/>,
         /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> are set to zero.
         /// Direct3D updates the clip status during drawing calls.
-        /// To compute clip status for a particular object, set <see cref="D3DCLIPSTATUS9.ClipUnion"/>
-        /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> to their initial value and continue drawing.
-        /// Clip status is not updated by <see cref="DrawRectPatch"/> and <see cref="DrawTriPatch"/> because there is no software emulation for them.
-        /// /// </remarks>
+        /// To compute clip status for a particular object,
+        /// set <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/>
+        /// to their initial value and continue drawing.
+        /// </para>
+        /// <para>
+        /// Clip status is not updated by <see cref="DrawRectPatch"/> and <see cref="DrawTriPatch"/>
+        /// because there is no software emulation for them.
+        /// </para>
+        /// </remarks>
         public HRESULT SetClipStatus([In] in D3DCLIPSTATUS9 pClipStatus)
         {
             fixed (void* thisPtr = &this)
@@ -2391,28 +4138,41 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Pointer to a <see cref="D3DCLIPSTATUS9"/> structure that describes the clip status.
         /// </param>
         /// <returns>
-        /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
+        /// <para>
+        /// If the method succeeds, the return value is D3D_OK.
+        /// </para>
+        /// <para>
         /// <see cref="D3DERR_INVALIDCALL"/> is returned if the argument is invalid.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When clipping is enabled during vertex processing (by <see cref="ProcessVertices"/>, <see cref="DrawPrimitive"/>, or other drawing functions),
+        /// <para>
+        /// When clipping is enabled during vertex processing
+        /// (by <see cref="ProcessVertices"/>, <see cref="DrawPrimitive"/>, or other drawing functions),
         /// Direct3D computes a clip code for every vertex.
         /// The clip code is a combination of D3DCS_* bits.
         /// When a vertex is outside a particular clipping plane, the corresponding bit is set in the clipping code.
-        /// Direct3D maintains the clip status using <see cref="D3DCLIPSTATUS9"/>,
+        /// Direct3D maintains the clip status using <see cref="D3DCLIPSTATUS9"/>,
         /// which has <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> members.
         /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> is a bitwise "OR" of all vertex clip codes
         /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> is a bitwise "AND" of all vertex clip codes.
-        /// Initial values are zero for <see cref="D3DCLIPSTATUS9.ClipUnion"/> and 0xFFFFFFFF for ClipIntersection.
-        /// When <see cref="D3DRS_CLIPPING"/> is set to <see cref="FALSE"/>,
+        /// Initial values are zero for ClipUnion and 0xFFFFFFFF for <see cref="D3DCLIPSTATUS9.ClipIntersection"/>.
+        /// When <see cref="D3DRS_CLIPPING"/> is set to <see cref="FALSE"/>,
         /// <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> are set to zero.
         /// Direct3D updates the clip status during drawing calls.
-        /// To compute clip status for a particular object, set <see cref="D3DCLIPSTATUS9.ClipUnion"/>
-        /// and <see cref="D3DCLIPSTATUS9.ClipIntersection"/> to their initial value and continue drawing.
-        /// Clip status is not updated by <see cref="DrawRectPatch"/> and <see cref="DrawTriPatch"/> because there is no software emulation for them.
+        /// To compute clip status for a particular object,
+        /// set <see cref="D3DCLIPSTATUS9.ClipUnion"/> and <see cref="D3DCLIPSTATUS9.ClipIntersection"/>
+        /// to their initial value and continue drawing.
+        /// </para>
+        /// <para>
+        /// Clip status is not updated by <see cref="DrawRectPatch"/> and <see cref="DrawTriPatch"/>
+        /// because there is no software emulation for them.
+        /// </para>
+        /// <para>
         /// Clip status is used during software vertex processing.
         /// Therefore, this method is not supported on pure or nonpure hardware processing devices.
-        /// For more information about pure devices, see <see cref="D3DCREATE"/>.
+        /// For more information about pure devices, see <see cref="D3DCREATE"/>.
+        /// </para>
         /// </remarks>
         public HRESULT GetClipStatus([Out] out D3DCLIPSTATUS9 pClipStatus)
         {
@@ -2437,10 +4197,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// <para>
+        /// Typically, methods that return state will not work on a device
+        /// that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
         /// This method however, will work even on a pure device because it returns an interface.
-        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DTexture9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DTexture9"/> interface results in a memory leak.
+        /// </para>
+        /// <para>
+        /// Calling this method will increase the internal reference count on the <see cref="IDirect3DTexture9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DTexture9"/> interface results in a memory leak.
+        /// </para>
         /// </remarks>
         public HRESULT GetTexture([In] DWORD Stage, [Out] out P<IDirect3DBaseTexture9> ppTexture)
         {
@@ -2454,19 +4220,50 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Assigns a texture to a stage for a device.
         /// </summary>
         /// <param name="Stage">
+        /// <para>
         /// Zero based sampler number.
-        /// Textures are bound to samplers; samplers define sampling state such as the filtering mode and the address wrapping mode.
+        /// Textures are bound to samplers;
+        /// samplers define sampling state such as the filtering mode and the address wrapping mode.
         /// Textures are referenced differently by the programmable and the fixed function pipeline:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Programmable shaders reference textures using the sampler number.
         /// The number of samplers available to a programmable shader is dependent on the shader version.
-        /// For vertex shaders, see Sampler (Direct3D 9 asm-vs).
-        /// For pixel shaders see Sampler (Direct3D 9 asm-ps).
+        /// For vertex shaders, see Sampler (Direct3D 9 asm-vs).
+        /// For pixel shaders see Sampler (Direct3D 9 asm-ps).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The fixed function pipeline on the other hand, references textures by texture stage number.
         /// The maximum number of samplers is determined from two caps:
-        /// <see cref="D3DCAPS9.MaxSimultaneousTextures"/> and <see cref="D3DCAPS9.MaxTextureBlendStages"/> of the <see cref="D3DCAPS9"/> structure.
+        /// <see cref="D3DCAPS9.MaxSimultaneousTextures"/> and <see cref="D3DCAPS9.MaxTextureBlendStages"/>
+        /// of the <see cref="D3DCAPS9"/> structure.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// There are two other special cases for stage/sampler numbers.
-        /// A special number called <see cref="D3DDMAPSAMPLER"/> is used for Displacement Mapping (Direct3D 9).
-        /// A programmable vertex shader uses a special number defined by a D3DVERTEXTEXTURESAMPLER when accessing Vertex Textures in vs_3_0(DirectX HLSL).
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// A special number called <see cref="D3DDMAPSAMPLER"/> is used for Displacement Mapping (Direct3D 9).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A programmable vertex shader uses a special number defined by a <see cref="D3DVERTEXTEXTURESAMPLER"/>
+        /// when accessing Vertex Textures in vs_3_0 (DirectX HLSL).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pTexture">
         /// Pointer to an <see cref="IDirect3DBaseTexture9"/> interface, representing the texture being set.
@@ -2510,13 +4307,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// This method will not return device state for a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>
-        /// If you want to use this method, you must create your device with any of the other flag values in <see cref="D3DCREATE"/>
+        /// If you want to use this method,
+        /// you must create your device with any of the other flag values in <see cref="D3DCREATE"/>
         /// </remarks>
         public HRESULT GetTextureStageState([In] DWORD Stage, [In] D3DTEXTURESTAGESTATETYPE Type, [Out] out DWORD pValue)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, out DWORD, HRESULT>)_vTable[66])(thisPtr, Stage, Type, out pValue);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, out DWORD, HRESULT>)_vTable[66])
+                    (thisPtr, Stage, Type, out pValue);
             }
         }
 
@@ -2544,7 +4343,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, DWORD, HRESULT>)_vTable[67])(thisPtr, Stage, Type, Value);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DTEXTURESTAGESTATETYPE, DWORD, HRESULT>)_vTable[67])
+                    (thisPtr, Stage, Type, Value);
             }
         }
 
@@ -2573,7 +4373,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, out DWORD, HRESULT>)_vTable[68])(thisPtr, Sampler, Type, out pValue);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, out DWORD, HRESULT>)_vTable[68])
+                    (thisPtr, Sampler, Type, out pValue);
             }
         }
 
@@ -2599,7 +4400,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, DWORD, HRESULT>)_vTable[69])(thisPtr, Sampler, Type, Value);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, D3DSAMPLERSTATETYPE, DWORD, HRESULT>)_vTable[69])
+                    (thisPtr, Sampler, Type, Value);
             }
         }
 
@@ -2607,42 +4409,76 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Reports the device's ability to render the current texture-blending operations and arguments in a single pass.
         /// </summary>
         /// <param name="pNumPasses">
-        /// Pointer to a <see cref="DWORD"/> value to fill with the number of rendering passes needed to complete the desired effect through multipass rendering.
+        /// Pointer to a <see cref="DWORD"/> value to fill with the number of rendering passes
+        /// needed to complete the desired effect through multipass rendering.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be one of the following:
-        /// <see cref="D3DERR_CONFLICTINGRENDERSTATE"/>, <see cref="D3DERR_CONFLICTINGTEXTUREFILTER"/>, <see cref="D3DERR_DEVICELOST"/>,
-        /// <see cref="D3DERR_DRIVERINTERNALERROR"/>, <see cref="D3DERR_TOOMANYOPERATIONS"/>, <see cref="D3DERR_UNSUPPORTEDALPHAARG"/>,
-        /// <see cref="D3DERR_UNSUPPORTEDALPHAOPERATION"/>, <see cref="D3DERR_UNSUPPORTEDCOLORARG"/>, <see cref="D3DERR_UNSUPPORTEDCOLOROPERATION"/>,
-        /// <see cref="D3DERR_UNSUPPORTEDFACTORVALUE"/>, <see cref="D3DERR_UNSUPPORTEDTEXTUREFILTER"/>, <see cref="D3DERR_WRONGTEXTUREFORMAT"/>.
+        /// <see cref="D3DERR_CONFLICTINGRENDERSTATE"/>, <see cref="D3DERR_CONFLICTINGTEXTUREFILTER"/>,
+        /// <see cref="D3DERR_DEVICELOST"/>, <see cref="D3DERR_DRIVERINTERNALERROR"/>,
+        /// <see cref="D3DERR_TOOMANYOPERATIONS"/>, <see cref="D3DERR_UNSUPPORTEDALPHAARG"/>,
+        /// <see cref="D3DERR_UNSUPPORTEDALPHAOPERATION"/>, <see cref="D3DERR_UNSUPPORTEDCOLORARG"/>,
+        /// <see cref="D3DERR_UNSUPPORTEDCOLOROPERATION"/>, <see cref="D3DERR_UNSUPPORTEDFACTORVALUE"/>,
+        /// <see cref="D3DERR_UNSUPPORTEDTEXTUREFILTER"/>, <see cref="D3DERR_WRONGTEXTUREFORMAT"/>.
         /// </returns>
         /// <remarks>
-        /// The <see cref="ValidateDevice"/> method should be used to validate scenarios only when other capabilities are deficient.
-        /// For example, in a multistage texturing scenario, you could query the <see cref="D3DCAPS9.MaxTextureBlendStages"/>
-        /// and <see cref="D3DCAPS9.MaxSimultaneousTextures"/> members of a <see cref="D3DCAPS9"/> structure
+        /// <para>
+        /// The <see cref="ValidateDevice"/> method should be used to validate scenarios
+        /// only when other capabilities are deficient.
+        /// For example, in a multistage texturing scenario,
+        /// you could query the <see cref="D3DCAPS9.MaxTextureBlendStages"/>
+        /// and <see cref="D3DCAPS9.MaxSimultaneousTextures"/> members of a <see cref="D3DCAPS9"/> structure
         /// to determine if multistage texturing is possible on the device.
+        /// </para>
+        /// <para>
         /// Current hardware does not necessarily implement all possible combinations of operations and arguments.
-        /// You can determine whether a particular blending operation can be performed with given arguments by setting the desired blending operation,
-        /// and then calling the <see cref="ValidateDevice"/> method.
-        /// The <see cref="ValidateDevice"/> method uses the current render states, textures, and texture-stage states to perform validation at the time of the call.
-        /// Changes to these factors after the call invalidate the previous result, and the method must be called again before rendering a scene.
-        /// For best performance, call <see cref="ValidateDevice"/> at initialization time; do not use it within a render loop.
+        /// You can determine whether a particular blending operation can be performed
+        /// with given arguments by setting the desired blending operation,
+        /// and then calling the <see cref="ValidateDevice"/> method.
+        /// </para>
+        /// <para>
+        /// The <see cref="ValidateDevice"/> method uses the current render states, 
+        /// textures, and texture-stage states to perform validation at the time of the call.
+        /// Changes to these factors after the call invalidate the previous result,
+        /// and the method must be called again before rendering a scene.
+        /// </para>
+        /// <para>
+        /// For best performance, call <see cref="ValidateDevice"/> at initialization time; do not use it within a render loop.
+        /// </para>
+        /// <para>
         /// Using diffuse iterated values, either as an argument or as an operation
         /// (<see cref="D3DTA_DIFFUSE"/> <see cref="D3DTOP_BLENDDIFFUSEALPHA"/>) is rarely supported on current hardware.
         /// Most hardware can introduce iterated color data only at the last texture operation stage.
-        /// Try to specify the texture (<see cref="D3DTA_TEXTURE"/>) for each stage as the first argument, rather than the second argument.
+        /// </para>
+        /// <para>
+        /// Try to specify the texture (<see cref="D3DTA_TEXTURE"/>) for each stage as the first argument,
+        /// rather than the second argument.
+        /// </para>
+        /// <para>
         /// Many cards do not support use of diffuse or scalar values at arbitrary texture stages.
         /// Often, these are available only at the first or last texture-blending stage.
-        /// Many cards do not have a blending unit associated with the first texture that is capable of more than replicating alpha to color channels or inverting the input.
-        /// Therefore, your application might need to use only the second texture stage, if possible.On such hardware,
-        /// the first unit is presumed to be in its default state,
+        /// </para>
+        /// <para>
+        /// Many cards do not have a blending unit associated with the first texture
+        /// that is capable of more than replicating alpha to color channels or inverting the input.
+        /// Therefore, your application might need to use only the second texture stage, if possible.
+        /// On such hardware, the first unit is presumed to be in its default state,
         /// which has the first color argument set to <see cref="D3DTA_TEXTURE"/> with the <see cref="D3DTOP_SELECTARG1"/> operation.
-        /// Operations on the output alpha that are more intricate than or substantially different from the color operations are less likely to be supported.
+        /// </para>
+        /// <para>
+        /// Operations on the output alpha that are more intricate than
+        /// or substantially different from the color operations are less likely to be supported.
+        /// </para>
+        /// <para>
         /// Some hardware does not support simultaneous use of <see cref="D3DTA_TFACTOR"/> and <see cref="D3DTA_DIFFUSE"/>.
+        /// </para>
+        /// <para>
         /// Many cards do not support simultaneous use of multiple textures and mipmapped trilinear filtering.
-        /// If trilinear filtering has been requested for a texture involved in multitexture blending operations and validation fails, turn off trilinear filtering and revalidate.
+        /// If trilinear filtering has been requested for a texture involved in multitexture blending operations
+        /// and validation fails, turn off trilinear filtering and revalidate.
         /// In this case, you might want to perform multipass rendering instead.
+        /// </para>
         /// </remarks>
         public HRESULT ValidateDevice([Out] out DWORD pNumPasses)
         {
@@ -2668,13 +4504,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// For Direct3D 9 applications, any palette sent to this method must conform
-        /// to the <see cref="D3DPTEXTURECAPS_ALPHAPALETTE"/> capability bit of the <see cref="D3DCAPS9"/> structure.
+        /// to the <see cref="D3DPTEXTURECAPS_ALPHAPALETTE"/> capability bit of the <see cref="D3DCAPS9"/> structure.
         /// If <see cref="D3DPTEXTURECAPS_ALPHAPALETTE"/> is not set, every entry in the palette must have alpha set to 1.0
         /// or this method will fail with <see cref="D3DERR_INVALIDCALL"/>.
         /// If <see cref="D3DPTEXTURECAPS_ALPHAPALETTE"/> is set, then any set of alpha values are allowed.
         /// Note that the debug runtime will print a warning message if all palette entries have alpha set to 0.
+        /// </para>
+        /// <para>
         /// A single logical palette is associated with the device, and is shared by all texture stages.
+        /// </para>
         /// </remarks>
         public HRESULT SetPaletteEntries([In] UINT PaletteNumber, [In] PALETTEENTRY[] pEntries)
         {
@@ -2698,11 +4538,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// For more information about <see cref="PALETTEENTRY"/>, see the Platform SDK.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// As of Direct3D 9, the <see cref="PALETTEENTRY.peFlags"/> member of the <see cref="PALETTEENTRY"/> structure
         /// does not workthe way it is documented in the Platform SDK.
         /// The <see cref="PALETTEENTRY.peFlags"/> member is now the alpha channel for 8-bit palettized formats.
+        /// </para>
         /// </remarks>
         public HRESULT GetPaletteEntries([In] UINT PaletteNumber, [Out] PALETTEENTRY[] pEntries)
         {
@@ -2755,7 +4601,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Sets the scissor rectangle.
         /// </summary>
         /// <param name="pRect">
-        /// Pointer to a <see cref="RECT"/> structure that defines the rendering area within the render target if scissor test is enabled.
+        /// Pointer to a <see cref="RECT"/> structure that defines the rendering area
+        /// within the render target if scissor test is enabled.
         /// This parameter may not be <see cref="NullRef{RECT}"/>.
         /// </param>
         /// <returns>
@@ -2763,8 +4610,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The scissor rectangle is used as a rectangular clipping region.
-        /// See Rectangles (Direct3D 9) for further information on the use of rectangles in DirectX.
+        /// </para>
+        /// <para>
+        /// See Rectangles (Direct3D 9) for further information on the use of rectangles in DirectX.
+        /// </para>
         /// </remarks>
         public HRESULT SetScissorRect([In] in RECT pRect)
         {
@@ -2778,15 +4629,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Gets the scissor rectangle.
         /// </summary>
         /// <param name="pRect">
-        /// Returns a pointer to a <see cref="RECT"/> structure that defines the rendering area within the render target if scissor test is enabled.
+        /// Returns a pointer to a <see cref="RECT"/> structure that defines the rendering area
+        /// within the render target if scissor test is enabled.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The scissor rectangle is used as a rectangular clipping region.
-        /// See Rectangles (Direct3D 9) for further information on the use of rectangles in DirectX.
+        /// </para>
+        /// <para>
+        /// See Rectangles (Direct3D 9) for further information on the use of rectangles in DirectX.
+        /// </para>
         /// </remarks>
         public HRESULT GetScissorRect([Out] out RECT pRect)
         {
@@ -2808,20 +4664,45 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// The restrictions for changing modes are as follows (also refer to the notes on the <see cref="D3DCREATE"/> constants):
+        /// <para>
+        /// The restrictions for changing modes are as follows (also refer to the notes on the <see cref="D3DCREATE"/> constants):
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// If a device is created with <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>,
         /// the vertex processing will be done in software and cannot be changed.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If a device is created with <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>,
         /// the vertex processing will be done in hardware and cannot be changed.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If a device is created with <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>,
         /// the vertex processing will be done in hardware by default.
-        /// The processing can be switched to software (or back to hardware) using <see cref="SetSoftwareVertexProcessing"/>.
-        /// An application can create a mixed-mode device to use both the software vertex processing and the hardware vertex processing.
+        /// The processing can be switched to software (or back to hardware) using <see cref="SetSoftwareVertexProcessing"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// An application can create a mixed-mode device to use
+        /// both the software vertex processing and the hardware vertex processing.
         /// To switch between the two vertex processing modes in DirectX 8.x,
-        /// use <see cref="IDirect3DDevice8.SetRenderState"/> with the render state <see cref="D3DRS_SOFTWAREVERTEXPROCESSING"/> and the appropriate DWORD argument.
+        /// use <see cref="IDirect3DDevice8.SetRenderState"/> with the render state <see cref="D3DRS_SOFTWAREVERTEXPROCESSING"/>
+        /// and the appropriate <see cref="DWORD"/> argument.
         /// The drawback of the render state approach was the difficulty in defining the semantics for state blocks.
         /// Applications and the runtime had to do extra work and be careful while recording and playing back state blocks.
-        /// In Direct3D 9, use <see cref="SetSoftwareVertexProcessing"/> instead. This new API is not recorded by StateBlocks.
+        /// </para>
+        /// <para>
+        /// In Direct3D 9, use <see cref="SetSoftwareVertexProcessing"/> instead.
+        /// This new API is not recorded by StateBlocks.
+        /// </para>
         /// </remarks>
         public HRESULT SetSoftwareVertexProcessing([In] BOOL bSoftware)
         {
@@ -2839,13 +4720,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// An application can create a mixed-mode device to use both the software vertex processing and the hardware vertex processing.
+        /// <para>
+        /// An application can create a mixed-mode device to use
+        /// both the software vertex processing and the hardware vertex processing.
         /// To switch between the two vertex processing modes in DirectX 8.x,
-        /// use <see cref="SetRenderState"/> with the render state <see cref="D3DRS_SOFTWAREVERTEXPROCESSING"/> and the appropriate <see cref="BOOL"/> argument.
+        /// use <see cref="IDirect3DDevice8.SetRenderState"/> with the render state <see cref="D3DRS_SOFTWAREVERTEXPROCESSING"/>
+        /// and the appropriate <see cref="BOOL"/> argument.
         /// The drawback of the render state approach was the difficulty in defining the semantics for state blocks.
         /// Applications and the runtime had to do extra work and be careful while recording and playing back state blocks.
-        /// In Direct3D 9, use <see cref="SetSoftwareVertexProcessing"/> instead. This new API is not recorded by StateBlocks.
-        /// Also refer to the notes for the <see cref="D3DCREATE"/> constants.
+        /// </para>
+        /// <para>
+        /// In Direct3D 9, use <see cref="SetSoftwareVertexProcessing"/> instead.
+        /// This new API is not recorded by StateBlocks.
+        /// </para>
+        /// <para>
+        /// Also refer to the notes for the <see cref="D3DCREATE"/> constants.
+        /// </para>
         /// </remarks>
         public BOOL GetSoftwareVertexProcessing()
         {
@@ -2891,7 +4781,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         }
 
         /// <summary>
-        /// Renders a sequence of nonindexed, geometric primitives of the specified type from the current set of data input streams.
+        /// Renders a sequence of nonindexed, geometric primitives of the specified type
+        /// from the current set of data input streams.
         /// </summary>
         /// <param name="PrimitiveType">
         /// Member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type, describing the type of primitive to render.
@@ -2913,14 +4804,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// When converting a legacy application to Direct3D 9,
+        /// you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
         /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
         /// </remarks>
         public HRESULT DrawPrimitive([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT StartVertex, [In] UINT PrimitiveCount)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, HRESULT>)_vTable[81])(thisPtr, PrimitiveType, StartVertex, PrimitiveCount);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, HRESULT>)_vTable[81])
+                    (thisPtr, PrimitiveType, StartVertex, PrimitiveCount);
             }
         }
 
@@ -2957,16 +4850,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method draws indexed primitives from the current set of data input streams.
-        /// <paramref name="MinVertexIndex"/> and all the indices in the index stream are relative to the <paramref name="BaseVertexIndex"/>.
-        /// The <paramref name="MinVertexIndex"/> and <paramref name="NumVertices"/> parameters
-        /// specify the range of vertex indices used for each <see cref="DrawIndexedPrimitive"/> call.
-        /// These are used to optimize vertex processing of indexed primitives by processing a sequential range of vertices prior to indexing into these vertices.
+        /// <paramref name="MinVertexIndex"/> and all the indices in the index stream
+        /// are relative to the <paramref name="BaseVertexIndex"/>.
+        /// </para>
+        /// <para>
+        /// The MinIndex and NumVertices parameters specify the range of vertex indices
+        /// used for each <see cref="DrawIndexedPrimitive"/> call.
+        /// These are used to optimize vertex processing of indexed primitives
+        /// by processing a sequential range of vertices prior to indexing into these vertices.
         /// It is invalid for any indices used during this call to reference any vertices outside of this range.
-        /// <see cref="DrawIndexedPrimitive"/> fails if no index array is set.
-        /// The <see cref="D3DPT_POINTLIST"/> member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type is not supported and is not a valid type for this method.
-        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
-        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
+        /// <para>
+        /// <see cref="DrawIndexedPrimitive"/> fails if no index array is set.
+        /// </para>
+        /// <para>
+        /// The <see cref="D3DPT_POINTLIST"/> member of the <see cref="D3DPRIMITIVETYPE"/> enumerated type
+        /// is not supported and is not a valid type for this method.
+        /// </para>
+        /// <para>
+        /// When converting a legacy application to Direct3D 9,
+        /// you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
         /// </remarks>
         public HRESULT DrawIndexedPrimitive([In] D3DPRIMITIVETYPE unnamedParam1, [In] INT BaseVertexIndex, [In] UINT MinVertexIndex,
             [In] UINT NumVertices, [In] UINT startIndex, [In] UINT primCount)
@@ -3001,18 +4908,28 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method is intended for use in applications that are unable to store their vertex data in vertex buffers.
         /// This method supports only a single vertex stream.
         /// The effect of this call is to use the provided vertex data pointer and stride for vertex stream 0.
         /// It is invalid to have the declaration of the current vertex shader refer to vertex streams other than stream 0.
-        /// Following any <see cref="DrawPrimitiveUP"/> call, the stream 0 settings,
-        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
-        /// The vertex data passed to <see cref="DrawPrimitiveUP"/> does not need to persist after the call.
+        /// </para>
+        /// <para>
+        /// Following any <see cref="DrawPrimitiveUP"/> call, the stream 0 settings,
+        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// The vertex data passed to <see cref="DrawPrimitiveUP"/> does not need to persist after the call.
         /// Direct3D completes its access to that data prior to returning from the call.
-        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
-        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
+        /// <para>
+        /// When converting a legacy application to Direct3D 9,
+        /// you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
         /// </remarks>
-        public HRESULT DrawPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT PrimitiveCount, [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
+        public HRESULT DrawPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT PrimitiveCount,
+            [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
             fixed (void* thisPtr = &this)
             {
@@ -3045,8 +4962,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// User memory pointer to the index data.
         /// </param>
         /// <param name="IndexDataFormat">
-        /// Member of the D3DFORMAT enumerated type, describing the format of the index data. The valid settings are either:
-        /// <see cref="D3DFMT_INDEX16"/>, <see cref="D3DFMT_INDEX32"/>
+        /// <para>
+        /// Member of the <see cref="D3DFORMAT"/> enumerated type, describing the format of the index data.
+        /// The valid settings are either:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_INDEX16"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DFMT_INDEX32"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pVertexStreamZeroData">
         /// User memory pointer to the vertex data.
@@ -3061,23 +4994,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be the following: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method is intended for use in applications that are unable to store their vertex data in vertex buffers.
         /// This method supports only a single vertex stream, which must be declared as stream 0.
-        /// Following any <see cref="DrawIndexedPrimitiveUP"/> call, the stream 0 settings,
-        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
-        /// Also, the index buffer setting for <see cref="SetIndices"/> is set to <see cref="NULL"/>.
-        /// The vertex data passed to <see cref="DrawIndexedPrimitiveUP"/> does not need to persist after the call.
+        /// </para>
+        /// <para>
+        /// Following any <see cref="DrawIndexedPrimitiveUP"/> call, the stream 0 settings,
+        /// referenced by <see cref="GetStreamSource"/>, are set to <see cref="NULL"/>.
+        /// Also, the index buffer setting for <see cref="SetIndices"/> is set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// The vertex data passed to <see cref="DrawIndexedPrimitiveUP"/> does not need to persist after the call.
         /// Direct3D completes its access to that data prior to returning from the call.
-        /// When converting a legacy application to Direct3D 9, you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
-        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
+        /// <para>
+        /// When converting a legacy application to Direct3D 9,
+        /// you must add a call to either <see cref="SetFVF"/> to use the fixed function pipeline,
+        /// or <see cref="SetVertexDeclaration"/> to use a vertex shader before you make any Draw calls.
+        /// </para>
         /// </remarks>
         public HRESULT DrawIndexedPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT MinVertexIndex, [In] UINT NumVertices,
-            [In] UINT PrimitiveCount, [In] IntPtr pIndexData, [In] D3DFORMAT IndexDataFormat, [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
+            [In] UINT PrimitiveCount, [In] IntPtr pIndexData, [In] D3DFORMAT IndexDataFormat,
+            [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT, UINT, IntPtr, D3DFORMAT, IntPtr, UINT, HRESULT>)_vTable[84])
-                    (thisPtr, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT,
+                    UINT, IntPtr, D3DFORMAT, IntPtr, UINT, HRESULT>)_vTable[84])
+                    (thisPtr, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount,
+                    pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
             }
         }
 
@@ -3095,42 +5040,78 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Number of vertices to process.
         /// </param>
         /// <param name="pDestBuffer">
-        /// Pointer to an <see cref="IDirect3DVertexBuffer9"/> interface, the destination vertex buffer representing the stream of interleaved vertex data.
+        /// Pointer to an <see cref="IDirect3DVertexBuffer9"/> interface,
+        /// the destination vertex buffer representing the stream of interleaved vertex data.
         /// </param>
         /// <param name="pVertexDecl">
-        /// Pointer to an <see cref="IDirect3DVertexDeclaration9"/> interface that represents the output vertex data declaration.
-        /// When vertex shader 3.0 or above is set as the current vertex shader, the output vertex declaration must be present.
+        /// Pointer to an <see cref="IDirect3DVertexDeclaration9"/> interface
+        /// that represents the output vertex data declaration.
+        /// When vertex shader 3.0 or above is set as the current vertex shader,
+        /// the output vertex declaration must be present.
         /// </param>
         /// <param name="Flags">
         /// Processing options. Set this parameter to 0 for default processing.
-        /// Set to <see cref="D3DPV_DONOTCOPYDATA"/> to prevent the system from copying vertex data not affected by the vertex operation into the destination buffer.
-        /// The <see cref="D3DPV_DONOTCOPYDATA"/> value may be combined with one or more <see cref="D3DLOCK"/> values appropriate for the destination buffer.
+        /// Set to <see cref="D3DPV_DONOTCOPYDATA"/> to prevent the system
+        /// from copying vertex data not affected by the vertex operation into the destination buffer.
+        /// The <see cref="D3DPV_DONOTCOPYDATA"/> value may be combined
+        /// with one or more <see cref="D3DLOCK"/> values appropriate for the destination buffer.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The order of operations for this method is as follows:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Transform vertices to projection space using the world + view + projection matrix.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Compute screen coordinates using viewport settings.
-        /// If clipping is enabled, compute clipping codes and store them in an internal buffer, associated with the destination vertex buffer.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If clipping is enabled, compute clipping codes and store them in an internal buffer,
+        /// associated with the destination vertex buffer.
         /// If a vertex is inside the viewing frustum, its screen coordinates are computed.
-        /// If the vertex is outside the viewing frustum, the vertex is stored in the destination vertex buffer in projection space coordinates.
-        /// Other notes: The user does not have access to the internal clip code buffer. No clipping is done on triangles or any other primitives.
-        /// The destination vertex buffer, <paramref name="pDestBuffer"/>, must be created with a nonzero FVF parameter in <see cref="CreateVertexBuffer"/>.
-        /// The FVF code specified during the call to the <see cref="CreateVertexBuffer"/> method
+        /// If the vertex is outside the viewing frustum,
+        /// the vertex is stored in the destination vertex buffer in projection space coordinates.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Other notes: The user does not have access to the internal clip code buffer.
+        /// No clipping is done on triangles or any other primitives.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The destination vertex buffer, <paramref name="pDestBuffer"/>,
+        /// must be created with a nonzero FVF parameter in <see cref="CreateVertexBuffer"/>.
+        /// The FVF code specified during the call to the <see cref="CreateVertexBuffer"/> method
         /// specifies the vertex elements present in the destination vertex buffer.
+        /// </para>
+        /// <para>
         /// When Direct3D generates texture coordinates, or copies or transforms input texture coordinates,
         /// and the output texture coordinate format defines more texture coordinate components than Direct3D generates,
         /// Direct3D does not change these extra components.
+        /// </para>
         /// </remarks>
         public HRESULT ProcessVertices([In] UINT SrcStartIndex, [In] UINT DestIndex, [In] UINT VertexCount,
             [In] in IDirect3DVertexBuffer9 pDestBuffer, [In] in IDirect3DVertexDeclaration9 pVertexDecl, [In] DWORD Flags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, in IDirect3DVertexBuffer9, in IDirect3DVertexDeclaration9, DWORD, HRESULT>)_vTable[85])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT,
+                    in IDirect3DVertexBuffer9, in IDirect3DVertexDeclaration9, DWORD, HRESULT>)_vTable[85])
                     (thisPtr, SrcStartIndex, DestIndex, VertexCount, pDestBuffer, pVertexDecl, Flags);
             }
         }
@@ -3155,7 +5136,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DVERTEXELEMENT9[], out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[86])(thisPtr, pVertexElements, out ppDecl);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DVERTEXELEMENT9[], out P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[86])
+                    (thisPtr, pVertexElements, out ppDecl);
             }
         }
 
@@ -3204,18 +5186,166 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Sets the current vertex stream declaration.
         /// </summary>
         /// <param name="FVF">
-        /// DWORD containing the fixed function vertex type.
+        /// <see cref="D3DFVF"/> containing the fixed function vertex type.
         /// For more information, see <see cref="D3DFVF"/>.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
-        public HRESULT SetFVF([In] DWORD FVF)
+        /// <remarks>
+        /// <para>
+        /// Here are the steps necessary to initialize and use vertices that have a position,
+        /// diffuse and specular color, and texture coordinates:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Define the custom vertex type and FVF code.
+        /// </para>
+        /// <code>
+        /// struct LVertex
+        /// {
+        ///     FLOAT    x, y, z;
+        ///     D3DCOLOR specular, diffuse;
+        ///     FLOAT    tu, tv;
+        /// };
+        ///     
+        /// const DWORD VertexFVF = (D3DFVF_XYZ | D3DFVF_DIFFUSE |
+        ///                          D3DFVF_SPECULAR | D3DFVF_TEX1 );
+        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Create a vertex buffer with enough room for four vertices using <see cref="CreateVertexBuffer"/>.
+        /// </para>
+        /// <code>
+        /// g_d3dDevice-&gt;CreateVertexBuffer( 4*sizeof(LVertex),  
+        ///     D3DUSAGE_WRITEONLY, VertexFVF, D3DPOOL_DEFAULT, &amp;pBigSquareVB, NULL );
+        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Set the values for each vertex.
+        /// </para>
+        /// <code>
+        /// LVertex * v;
+        /// pBigSquareVB-&gt;Lock( 0, 0, (BYTE**)&amp;v, 0 );
+        ///     
+        /// v[0].x  = 0.0f;  v[0].y  = 10.0;  v[0].z  = 10.0f;
+        /// v[0].diffuse  = 0xffff0000;
+        /// v[0].specular = 0xff00ff00;
+        /// v[0].tu = 0.0f;  v[0].tv = 0.0f;
+        ///     
+        /// v[1].x  = 0.0f;  v[1].y  = 0.0f;  v[1].z  = 10.0f;
+        /// v[1].diffuse  = 0xff00ff00;
+        /// v[1].specular = 0xff00ffff;
+        /// v[1].tu = 0.0f;  v[1].tv = 0.0f;
+        ///     
+        /// v[2].x  = 10.0f; v[2].y  = 10.0f; v[2].z  = 10.0f;
+        /// v[2].diffuse  = 0xffff00ff;
+        /// v[2].specular = 0xff000000;
+        /// v[2].tu = 0.0f;  v[2].tv = 0.0f;
+        ///     
+        /// v[3].x  = 0.0f; v[3].y  = 10.0f;  v[3].z = 10.0f;
+        /// v[3].diffuse  = 0xffffff00;
+        /// v[3].specular = 0xffff0000;
+        /// v[3].tu = 0.0f; v[3].tv = 0.0f;
+        ///     
+        /// pBigSquareVB-&gt;Unlock();
+        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// The vertex buffer has been initialized and is ready to render.
+        /// The following code example shows how to use the legacy FVF to draw a square.
+        /// </para>
+        /// <code>
+        /// g_d3dDevice-&gt;SetFVF(VertexFVF);
+        /// g_d3dDevice-&gt;SetStreamSource(0, pBigSquareVB, 0, sizeof(LVertex));
+        /// g_d3dDevice-&gt;DrawPrimitive(D3DPT_TRIANGLESTRIP, 0 ,2);
+        /// </code>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Here are the steps necessary to initialize and use vertices that have a position, a normal, and texture coordinates:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Define the custom vertex type and FVF code.
+        /// </para>
+        /// <code>
+        /// struct Vertex
+        /// {
+        ///     FLOAT x, y, z;
+        ///     FLOAT nx, ny, nz;
+        ///     FLOAT tu, tv;
+        /// };
+        ///     
+        /// const DWORD VertexFVF = ( D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 );
+        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Create a vertex buffer with enough room for four vertices using <see cref="CreateVertexBuffer"/> (similar to the example above).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Set the values for each vertex.
+        /// </para>
+        /// <code>
+        /// Vertex * v;
+        /// pBigSquareVB-&gt;Lock(0, 0, (BYTE**)&amp;v, 0);
+        ///     
+        /// v[0].x  = 0.0f;  v[0].y  = 10.0;  v[0].z  = 10.0f;
+        /// v[0].nx = 0.0f;  v[0].ny = 1.0f;  v[0].nz = 0.0f;
+        /// v[0].tu = 0.0f;  v[0].tv = 0.0f;
+        /// 
+        /// v[1].x  = 0.0f;  v[1].y  = 0.0f;  v[1].z  = 10.0f;
+        /// v[1].nx = 0.0f;  v[1].ny = 1.0f;  v[1].nz = 0.0f;
+        /// v[1].tu = 0.0f;  v[1].tv = 0.0f;
+        ///     
+        /// v[2].x  = 10.0f; v[2].y  = 10.0f; v[2].z  = 10.0f;
+        /// v[2].nx = 0.0f;  v[2].ny = 1.0f;  v[2].nz = 0.0f;
+        /// v[2].tu = 0.0f;  v[2].tv = 0.0f;
+        ///     
+        /// v[3].x  = 0.0f; v[3].y  = 10.0f;  v[3].z = 10.0f;
+        /// v[3].nx = 0.0f; v[3].ny = 1.0f;   v[3].nz = 0.0f;
+        /// v[3].tu = 0.0f; v[3].tv = 0.0f;
+        ///     
+        /// pBigSquareVB-&gt;Unlock();
+        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Draw the object (similar to the example above).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        public HRESULT SetFVF([In] D3DFVF FVF)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[89])(thisPtr, FVF);
+                return ((delegate* unmanaged[Stdcall]<void*, D3DFVF, HRESULT>)_vTable[89])(thisPtr, FVF);
             }
         }
 
@@ -3231,7 +5361,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// The fixed vertex function declaration is a set of FVF flags that determine how vertices processed by the fixed function pipeline will be used.
+        /// The fixed vertex function declaration is a set of FVF flags
+        /// that determine how vertices processed by the fixed function pipeline will be used.
         /// </remarks>
         public HRESULT GetFVF([Out] out D3DFVF pFVF)
         {
@@ -3245,10 +5376,29 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Creates a vertex shader.
         /// </summary>
         /// <param name="pFunction">
-        /// Pointer to an array of tokens that represents the vertex shader, including any embedded debug and symbol table information.
-        /// Use a function such as <see cref="D3DXCompileShader"/> to create the array from a HLSL shader.
-        /// Use a function like <see cref="D3DXAssembleShader"/> to create the token array from an assembly language shader.
-        /// Use a function like <see cref="ID3DXEffectCompiler.CompileShader"/> to create the array from an effect.
+        /// <para>
+        /// Pointer to an array of tokens that represents the vertex shader,
+        /// including any embedded debug and symbol table information.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Use a function such as <see cref="D3DXCompileShader"/> to create the array from a HLSL shader.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Use a function like <see cref="D3DXAssembleShader"/> to create the token array from an assembly language shader.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Use a function like <see cref="ID3DXEffectCompiler.CompileShader"/> to create the array from an effect.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="ppShader">
         /// Pointer to the returned vertex shader interface (see <see cref="IDirect3DVertexShader9"/>).
@@ -3259,13 +5409,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag to determine whether to process vertices in hardware or software.
+        /// <para>
+        /// When a device is created, <see cref="IDirect3D9.CreateDevice"/> uses the behavior flag
+        /// to determine whether to process vertices in hardware or software.
         /// There are three possibilities:
-        /// rocess vertices in hardware by setting <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Process vertices in hardware by setting <see cref="D3DCREATE_HARDWARE_VERTEXPROCESSING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Process vertices in software by setting <see cref="D3DCREATE_SOFTWARE_VERTEXPROCESSING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Process vertices in either hardware or software by setting <see cref="D3DCREATE_MIXED_VERTEXPROCESSING"/>.
-        /// To switch a mixed-mode device between software and hardware processing, use <see cref="SetSoftwareVertexProcessing"/>.
-        /// For an example using <see cref="D3DXCompileShader"/>, see HLSLwithoutEffects Sample.
+        /// To switch a mixed-mode device between software and hardware processing, use <see cref="SetSoftwareVertexProcessing"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For an example using <see cref="D3DXCompileShader"/>, see HLSLwithoutEffects Sample.
+        /// </para>
         /// </remarks>
         public HRESULT CreateVertexShader([In] IntPtr pFunction, [Out] out P<IDirect3DVertexShader9> ppShader)
         {
@@ -3310,7 +5481,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If <paramref name="ppShader"/> is invalid, <see cref="D3DERR_INVALIDCALL"/> is returned.
         /// </returns>
         /// <remarks>
-        /// Typically, methods that return state will not work on a device that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
+        /// Typically, methods that return state will not work on a device
+        /// that is created using <see cref="D3DCREATE_PUREDEVICE"/>.
         /// This method however, will work even on a pure device because it returns an interface.
         /// </remarks>
         public HRESULT GetVertexShader([Out] out P<IDirect3DVertexShader9> ppShader)
@@ -3341,7 +5513,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[94])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[94])
+                    (thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -3365,7 +5538,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[95])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[95])
+                    (thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -3389,7 +5563,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[96])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[96])
+                    (thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -3413,7 +5588,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[97])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[97])
+                    (thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -3437,7 +5613,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[98])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[98])
+                    (thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -3461,7 +5638,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[99])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[99])
+                    (thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -3473,11 +5651,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Specifies the data stream, in the range from 0 to the maximum number of streams -1.
         /// </param>
         /// <param name="pStreamData">
-        /// Pointer to an <see cref="IDirect3DVertexBuffer9"/> interface, representing the vertex buffer to bind to the specified data stream.
+        /// Pointer to an <see cref="IDirect3DVertexBuffer9"/> interface,
+        /// representing the vertex buffer to bind to the specified data stream.
         /// </param>
         /// <param name="OffsetInBytes">
         /// Offset from the beginning of the stream to the beginning of the vertex data, in bytes.
-        /// To find out if the device supports stream offsets, see the <see cref="D3DDEVCAPS2_STREAMOFFSET"/> constant in <see cref="D3DDEVCAPS2"/>.
+        /// To find out if the device supports stream offsets,
+        /// see the <see cref="D3DDEVCAPS2_STREAMOFFSET"/> constant in <see cref="D3DDEVCAPS2"/>.
         /// </param>
         /// <param name="Stride">
         /// Stride of the component, in bytes.
@@ -3488,12 +5668,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// When a FVF vertex shader is used, the stride of the vertex stream must match the vertex size, computed from the FVF.
-        /// When a declaration is used, the stride should be greater than or equal to the stream size computed from the declaration.
+        /// <para>
+        /// When a FVF vertex shader is used,
+        /// the stride of the vertex stream must match the vertex size, computed from the FVF.
+        /// When a declaration is used,
+        /// the stride should be greater than or equal to the stream size computed from the declaration.
+        /// </para>
+        /// <para>
         /// When calling <see cref="SetStreamSource"/>, the stride is normally required to be equal to the vertex size.
-        /// However, there are times when you may want to draw multiple instances of the same or similar geometry (such as when using instancing to draw).
-        /// For this case, use a zero stride to tell the runtime not to increment the vertex buffer offset (ie: use the same vertex data for all instances).
-        /// For more information about instancing, see Efficiently Drawing Multiple Instances of Geometry (Direct3D 9).
+        /// However, there are times when you may want to draw multiple instances
+        /// of the same or similar geometry (such as when using instancing to draw).
+        /// For this case, use a zero stride to tell the runtime not to increment the vertex buffer offset
+        /// (ie: use the same vertex data for all instances).
+        /// For more information about instancing,
+        /// see Efficiently Drawing Multiple Instances of Geometry (Direct3D 9).
+        /// </para>
         /// </remarks>
         public HRESULT SetStreamSource([In] UINT StreamNumber, [In] in IDirect3DVertexBuffer9 pStreamData, [In] UINT OffsetInBytes, [In] UINT Stride)
         {
@@ -3527,14 +5716,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// A stream is defined as a uniform array of component data, where each component consists of one or more elements
+        /// <para>
+        /// A stream is defined as a uniform array of component data,
+        /// where each component consists of one or more elements
         /// representing a single entity such as position, normal, color, and so on.
-        /// When a FVF vertex shader is used, the stride of the vertex stream must match the vertex size, computed from the FVF.
-        /// When a declaration is used, the stride should be greater than or equal to the stream size computed from the declaration.
-        /// Calling this method increases the internal reference count on the <see cref="IDirect3DVertexBuffer9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DVertexBuffer9"/> interface results in a memory leak.
+        /// </para>
+        /// <para>
+        /// When a FVF vertex shader is used,
+        /// the stride of the vertex stream must match the vertex size, computed from the FVF.
+        /// When a declaration is used,
+        /// the stride should be greater than or equal to the stream size computed from the declaration.
+        /// </para>
+        /// <para>
+        /// Calling this method increases the internal reference count on the <see cref="IDirect3DVertexBuffer9"/> interface.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DVertexBuffer9"/> interface results in a memory leak.
+        /// </para>
         /// </remarks>
-        public HRESULT GetStreamSource([In] UINT StreamNumber, [Out] out P<IDirect3DVertexBuffer9> ppStreamData, [Out] out UINT pOffsetInBytes, [Out] out UINT pStride)
+        public HRESULT GetStreamSource([In] UINT StreamNumber, [Out] out P<IDirect3DVertexBuffer9> ppStreamData,
+            [Out] out UINT pOffsetInBytes, [Out] out UINT pStride)
         {
             fixed (void* thisPtr = &this)
             {
@@ -3603,9 +5803,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// When an application no longer holds a references to this interface, the interface will automatically be freed.
-        /// The <see cref="SetIndices"/> method sets the current index array to an index buffer.
+        /// <para>
+        /// When an application no longer holds a references to this interface,
+        /// the interface will automatically be freed.
+        /// </para>
+        /// <para>
+        /// The <see cref="SetIndices"/> method sets the current index array to an index buffer.
         /// The single set of indices is used to index all streams.
+        /// </para>
         /// </remarks>
         public HRESULT SetIndices([In] in IDirect3DIndexBuffer9 pIndexData)
         {
@@ -3627,7 +5832,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Calling this method increases the internal reference count on the <see cref="IDirect3DIndexBuffer9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DIndexBuffer9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DIndexBuffer9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetIndices([Out] out P<IDirect3DIndexBuffer9> ppIndexData)
         {
@@ -3657,7 +5863,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[106])(thisPtr, pFunction, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[106])
+                    (thisPtr, pFunction, out ppShader);
             }
         }
 
@@ -3720,7 +5927,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[109])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[109])
+                    (thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -3744,7 +5952,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[110])(thisPtr, StartRegister, pConstantData, Vector4fCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], UINT, HRESULT>)_vTable[110])
+                    (thisPtr, StartRegister, pConstantData, Vector4fCount);
             }
         }
 
@@ -3768,7 +5977,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[111])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[111])
+                    (thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -3792,7 +6002,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[112])(thisPtr, StartRegister, pConstantData, Vector4iCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, int[], UINT, HRESULT>)_vTable[112])
+                    (thisPtr, StartRegister, pConstantData, Vector4iCount);
             }
         }
 
@@ -3816,7 +6027,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[113])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[113])
+                    (thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -3840,7 +6052,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[114])(thisPtr, StartRegister, pConstantData, BoolCount);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, BOOL[], UINT, HRESULT>)_vTable[114])
+                    (thisPtr, StartRegister, pConstantData, BoolCount);
             }
         }
 
@@ -3863,25 +6076,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// For static patches:
-        /// Set the vertex shader, set the appropriate streams,  supply patch information in the <paramref name="pRectPatchInfo"/> parameter,
+        /// <para>
+        /// For static patches: Set the vertex shader, set the appropriate streams,
+        /// supply patch information in the <paramref name="pRectPatchInfo"/> parameter,
         /// and specify a handle so that Direct3D can capture and cache information.
-        /// Call <see cref="DrawRectPatch"/> subsequently with <paramref name="pRectPatchInfo"/>
-        /// set to <see cref="NullRef{D3DRECTPATCH_INFO}"/> to efficiently draw the patch.
+        /// Call <see cref="DrawRectPatch"/> subsequently with <paramref name="pRectPatchInfo"/>
+        /// set to <see cref="NullRef{D3DRECTPATCH_INFO}"/> to efficiently draw the patch.
         /// When drawing a cached patch, the currently set streams are ignored.
         /// Override the cached <paramref name="pNumSegs"/> by specifying a new value for <paramref name="pNumSegs"/>.
         /// When rendering a cached patch, you must set the same vertex shader that was set when it was captured.
-        /// Calling <see cref="DrawRectPatch"/> with a handle invalidates the same handle cached by a previous <see cref="DrawTriPatch"/> call.
-        /// For dynamic patches, the patch data changes for every rendering of the patch, so it is not efficient to cache information.
-        /// The application can convey this to Direct3D by setting <paramref name="Handle"/> to 0.
-        /// In this case, Direct3D draws the patch using the currently set streams and the <paramref name="pNumSegs"/> values, and does not cache any information.
-        /// It is not valid to simultaneously set <paramref name="Handle"/> to 0 and <paramref name="pRectPatchInfo"/> to <see cref="NullRef{D3DRECTPATCH_INFO}"/>.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="DrawRectPatch"/> with a handle invalidates the same handle
+        /// cached by a previous <see cref="DrawTriPatch"/> call.
+        /// </para>
+        /// <para>
+        /// For dynamic patches, the patch data changes for every rendering of the patch,
+        /// so it is not efficient to cache information.
+        /// The application can convey this to Direct3D by setting Handle to 0.
+        /// In this case, Direct3D draws the patch using the currently set streams
+        /// and the <paramref name="pNumSegs"/> values, and does not cache any information.
+        /// It is not valid to simultaneously set Handle to 0 and <paramref name="pRectPatchInfo"/> to <see cref="NULL"/>.
+        /// </para>
         /// </remarks>
         public HRESULT DrawRectPatch([In] UINT Handle, [In] float[] pNumSegs, [In] in D3DRECTPATCH_INFO pRectPatchInfo)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DRECTPATCH_INFO, HRESULT>)_vTable[115])(thisPtr, Handle, pNumSegs, pRectPatchInfo);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DRECTPATCH_INFO, HRESULT>)_vTable[115])
+                    (thisPtr, Handle, pNumSegs, pRectPatchInfo);
             }
         }
 
@@ -3904,24 +6127,36 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// For static patches:
-        /// Set the vertex shader, set the appropriate streams, supply patch information in the <paramref name="pTriPatchInfo"/> parameter,
+        /// <para>
+        /// For static patches: Set the vertex shader, set the appropriate streams,
+        /// supply patch information in the <paramref name="pTriPatchInfo"/> parameter,
         /// and specify a handle so that Direct3D can capture and cache information.
-        /// To efficiently draw the patch, call <see cref="DrawTriPatch"/> with <paramref name="pTriPatchInfo"/> set to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
+        /// To efficiently draw the patch, call <see cref="DrawTriPatch"/>
+        /// with <paramref name="pTriPatchInfo"/> set to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
         /// When drawing a cached patch, the currently set streams are ignored.
         /// Override the cached <paramref name="pNumSegs"/> by specifying a new value for <paramref name="pNumSegs"/>.
         /// When rendering a cached patch, you must set the same vertex shader that was set when it was captured.
-        /// Calling <see cref="DrawTriPatch"/> with a handle invalidates the same handle cached by a previous <see cref="DrawRectPatch"/> call.
-        /// For dynamic patches, the patch data changes for every rendering of the patch so it is not efficient to cache information.
-        /// The application can convey this to Direct3D by setting <paramref name="Handle"/> to 0.
-        /// In this case, Direct3D draws the patch using the currently set streams and the <paramref name="pNumSegs"/> values, and does not cache any information.
-        /// It is not valid to simultaneously set <paramref name="Handle"/> to 0 and <paramref name="pTriPatchInfo"/> to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="DrawTriPatch"/> with a handle invalidates the same handle cached
+        /// by a previous <see cref="DrawRectPatch"/> call.
+        /// </para>
+        /// <para>
+        /// For dynamic patches, the patch data changes for every rendering of the patch
+        /// so it is not efficient to cache information.
+        /// The application can convey this to Direct3D by setting Handle to 0.
+        /// In this case, Direct3D draws the patch using the currently set streams
+        /// and the <paramref name="pNumSegs"/> values, and does not cache any information.
+        /// It is not valid to simultaneously set Handle to 0
+        /// and <paramref name="pTriPatchInfo"/> to <see cref="NullRef{D3DTRIPATCH_INFO}"/>.
+        /// </para>
         /// </remarks>
         public HRESULT DrawTriPatch([In] UINT Handle, [In] float[] pNumSegs, [In] in D3DTRIPATCH_INFO pTriPatchInfo)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DTRIPATCH_INFO, HRESULT>)_vTable[116])(thisPtr, Handle, pNumSegs, pTriPatchInfo);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, float[], in D3DTRIPATCH_INFO, HRESULT>)_vTable[116])
+                    (thisPtr, Handle, pNumSegs, pTriPatchInfo);
             }
         }
 
@@ -3951,21 +6186,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information, see <see cref="D3DQUERYTYPE"/>.
         /// </param>
         /// <param name="ppQuery">
+        /// <para>
         /// Returns a pointer to the query interface that manages the query object.
-        /// See <see cref="IDirect3DQuery9"/>.
-        /// This parameter can be set to <see cref="NullRef{IDirect3DQuery9}"/> to see if a query is supported.
+        /// See <see cref="IDirect3DQuery9"/>.
+        /// </para>
+        /// <para>
+        /// This parameter can be set to <see cref="NullRef{T}"/> to see if a query is supported.
         /// If the query is not supported, the method returns <see cref="D3DERR_NOTAVAILABLE"/>.
+        /// </para>
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_NOTAVAILABLE"/> or <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method is provided for both synchronous and asynchronous queries.
         /// It takes the place of GetInfo, which is no longer supported in Direct3D 9.
-        /// Synchronous and asynchronous queries are created with <see cref="CreateQuery"/> with <see cref="D3DQUERYTYPE"/>.
+        /// </para>
+        /// <para>
+        /// Synchronous and asynchronous queries are created with <see cref="CreateQuery"/> with <see cref="D3DQUERYTYPE"/>.
         /// When a query has been created and the API calls have been made that are being queried,
-        /// use <see cref="IDirect3DQuery9.Issue"/> to issue a query and <see cref="IDirect3DQuery9.GetData"/> to get the results of the query.
+        /// use <see cref="IDirect3DQuery9.Issue"/> to issue a query
+        /// and <see cref="IDirect3DQuery9.GetData"/> to get the results of the query.
+        /// </para>
         /// </remarks>
         public HRESULT CreateQuery([In] D3DQUERYTYPE Type, [Out] out P<IDirect3DQuery9> ppQuery)
         {
