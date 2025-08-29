@@ -353,6 +353,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMarshal = "00000003-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IMFAttributes
+        /// </summary>
+        public static readonly IID IID_IMFAttributes = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
+
+        /// <summary>
+        /// IMFDXGIDeviceManager
+        /// </summary>
+        public static readonly IID IMFDXGIDeviceManager = "eb533d5d-2db6-40f8-97a9-494692014f07";
+
+        /// <summary>
         /// IID_IModalWindow
         /// </summary>
         public static readonly IID IID_IModalWindow = "b4db1657-70d7-485e-8e3e-6fcb5a5c1802";
