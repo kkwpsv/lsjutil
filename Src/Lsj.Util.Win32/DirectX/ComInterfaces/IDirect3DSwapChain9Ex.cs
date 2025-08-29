@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -21,16 +22,28 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// There is always at least one swap chain for each device, known as the implicit swap chain.
     /// However, an additional swap chain for rendering multiple views from the same device can be created
-    /// by calling the <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/> method.
-    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
-    /// The LPDIRECT3DSWAPCHAIN9 and PDIRECT3DSWAPCHAIN9 types are defined as pointers to the <see cref="IDirect3DSwapChain9"/> interface.
-    /// <see cref="IDirect3DSwapChain9Ex"/> objects are returned as a pointer to an <see cref="IDirect3DSwapChain9"/> object
-    /// when <see cref="IDirect3DDevice9.GetSwapChain"/> is called on an instance of <see cref="IDirect3DDevice9Ex"/>.
-    /// The <see cref="IDirect3DSwapChain9Ex"/> interface is obtained by calling <see cref="IUnknown.QueryInterface"/>
-    /// on the instance of <see cref="IDirect3DSwapChain9"/> that was returned by <see cref="IDirect3DDevice9.GetSwapChain"/>.
+    /// by calling the <see cref="IDirect3DDevice9.CreateAdditionalSwapChain"/> method.
+    /// </para>
+    /// <para>
+    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
+    /// </para>
+    /// <para>
+    /// The LPDIRECT3DSWAPCHAIN9 and PDIRECT3DSWAPCHAIN9 types are defined
+    /// as pointers to the <see cref="IDirect3DSwapChain9"/> interface.
+    /// </para>
+    /// <para>
+    /// <see cref="IDirect3DSwapChain9Ex"/> objects are returned as a pointer to an <see cref="IDirect3DSwapChain9"/> object
+    /// when <see cref="IDirect3DDevice9.GetSwapChain"/> is called on an instance of <see cref="IDirect3DDevice9Ex"/>.
+    /// The <see cref="IDirect3DSwapChain9Ex"/> interface is obtained
+    /// by calling <see cref="IUnknown.QueryInterface"/> on the instance of <see cref="IDirect3DSwapChain9"/>
+    /// that was returned by <see cref="IDirect3DDevice9.GetSwapChain"/>.
+    /// </para>
     /// </remarks>
+    [ComInterface(IID = "85C31227-3DE5-4f00-9B3A-F11AC38C18B5", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DSwapChain9)])]
     public unsafe struct IDirect3DSwapChain9Ex
     {
         IntPtr* _vTable;
@@ -39,8 +52,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of times the swapchain has been processed.
         /// </summary>
         /// <param name="pLastPresentCount">
-        /// Pointer to a <see cref="UINT"/> to be filled with the number of times the <see cref="IDirect3DDevice9Ex.PresentEx"/> method has been called.
-        /// The count will also be incremented by calling some other APIs such as <see cref="IDirect3DDevice9.SetDialogBoxMode"/>.
+        /// Pointer to a <see cref="UINT"/> to be filled with the number of times
+        /// the <see cref="IDirect3DDevice9Ex.PresentEx"/> method has been called.
+        /// The count will also be incremented by calling some other APIs
+        /// such as <see cref="IDirect3DDevice9.SetDialogBoxMode"/>.
         /// </param>
         /// <returns>
         /// <see cref="S_OK"/> the method was successful.
@@ -71,11 +86,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pMode">
         /// Pointer to a <see cref="D3DDISPLAYMODEEX"/> structure containing data about the display mode of the adapter.
-        /// As opposed to the display mode of the device, which may not be active if the device does not own full-screen mode.
+        /// As opposed to the display mode of the device,
+        /// which may not be active if the device does not own full-screen mode.
         /// </param>
         /// <param name="pRotation">
-        /// Pointer to a <see cref="D3DDISPLAYROTATION"/> indicating the type of screen rotation the application will do.
-        /// The value returned through this pointer is important when the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/> flag is used;
+        /// Pointer to a <see cref="D3DDISPLAYROTATION"/> indicating
+        /// the type of screen rotation the application will do.
+        /// The value returned through this pointer is important
+        /// when the <see cref="D3DPRESENTFLAG_NOAUTOROTATE"/> flag is used;
         /// otherwise, it can be set to <see cref="NullRef{D3DDISPLAYROTATION}"/>.
         /// </param>
         /// <returns>
@@ -86,7 +104,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out D3DDISPLAYMODEEX, out D3DDISPLAYROTATION, HRESULT>)_vTable[12])(thisPtr, out pMode, out pRotation);
+                return ((delegate* unmanaged[Stdcall]<void*, out D3DDISPLAYMODEEX, out D3DDISPLAYROTATION, HRESULT>)_vTable[12])
+                    (thisPtr, out pMode, out pRotation);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -18,9 +20,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The LPDIRECT3DQUERY9 and PDIRECT3DQUERY9 types are defined as pointers to the IDirect3DQuery9 interface.
+    /// <para>
+    /// The LPDIRECT3DQUERY9 and PDIRECT3DQUERY9 types are defined as pointers to the <see cref="IDirect3DQuery9"/> interface.
+    /// </para>
+    /// <code>
     /// typedef struct IDirect3DQuery9 *LPDIRECT3DQUERY9, *PDIRECT3DQUERY9;
+    /// </code>
     /// </remarks>
+    [ComInterface(IID = "d9771460-a695-4f26-bbd3-27b840b541cc", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DQuery9
     {
         IntPtr* _vTable;
@@ -85,7 +92,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
-        /// A signaled query means the query has completed, the data is available, and <see cref="GetData"/> will return <see cref="S_OK"/>.
+        /// A signaled query means the query has completed, the data is available,
+        /// and <see cref="GetData"/> will return <see cref="S_OK"/>.
         /// </remarks>
         public HRESULT Issue([In] DWORD dwIssueFlags)
         {
@@ -112,23 +120,33 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="dwGetDataFlags">
         /// Data flags specifying the query type.
         /// Valid values are either 0 or <see cref="D3DGETDATA_FLUSH"/>.
-        /// Use 0 to avoid flushing batched queries to the driver and use <see cref="D3DGETDATA_FLUSH"/> to go ahead and flush them.
-        /// For applications writing their own version of waiting, a query result is not realized until the driver receives a flush.
+        /// Use 0 to avoid flushing batched queries to the driver
+        /// and use <see cref="D3DGETDATA_FLUSH"/> to go ahead and flush them.
+        /// For applications writing their own version of waiting,
+        /// a query result is not realized until the driver receives a flush.
         /// </param>
         /// <returns>
         /// The return type identifies the query state (see Queries (Direct3D 9)).
         /// The method returns <see cref="S_OK"/> if the query data is available and <see cref="S_FALSE"/> if it is not.
         /// These are considered successful return values.
-        /// If the method fails when <see cref="D3DGETDATA_FLUSH"/> is used, the return value can be <see cref="D3DERR_DEVICELOST"/>.
+        /// If the method fails when <see cref="D3DGETDATA_FLUSH"/> is used,
+        /// the return value can be <see cref="D3DERR_DEVICELOST"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// It is possible to lose the device while polling for query status.
-        /// When <see cref="D3DGETDATA_FLUSH"/> is specified, this method will return <see cref="D3DERR_DEVICELOST"/> in response to a lost device.
-        /// This allows an application to prevent threads from endlessly polling due to a lost device (which cannot respond to the query).
+        /// When <see cref="D3DGETDATA_FLUSH"/> is specified,
+        /// this method will return <see cref="D3DERR_DEVICELOST"/> in response to a lost device.
+        /// This allows an application to prevent threads from endlessly polling due to a lost device
+        /// (which cannot respond to the query).
+        /// </para>
+        /// <para>
         /// An application must never write code that only invokes GetData ( ... , 0 ),
-        /// expecting that <see cref="GetData"/> will eventually return <see cref="S_OK"/> by itself over time.
-        /// This is true, even if the application has used the FLUSH flag with GetData in the past.
+        /// expecting that <see cref="GetData"/> will eventually return S_OK by itself over time.
+        /// This is true, even if the application has used the <see cref="D3DGETDATA_FLUSH"/> flag
+        /// with <see cref="GetData"/> in the past.
         /// For example:
+        /// </para>
         /// <code>
         /// // Enables an infinite loop:
         /// while( pQuery->GetData( ... , 0 ) == S_FALSE ) ;

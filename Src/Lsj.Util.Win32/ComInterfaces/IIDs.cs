@@ -178,9 +178,69 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDirect3DIndexBuffer9 = "7C9DD65E-D3F7-4529-ACEE-785830ACDE35";
 
         /// <summary>
+        /// IID_IDirect3DPixelShader9
+        /// </summary>
+        public static readonly IID IID_IDirect3DPixelShader9 = "6D3BDBDC-5B02-4415-B852-CE5E8BCCB289";
+
+        /// <summary>
+        /// IID_IDirect3DQuery9
+        /// </summary>
+        public static readonly IID IID_IDirect3DQuery9 = "d9771460-a695-4f26-bbd3-27b840b541cc";
+
+        /// <summary>
+        /// IID_IDirect3DResource9
+        /// </summary>
+        public static readonly IID IID_IDirect3DResource9 = "05EEC05D-8F7D-4362-B999-D1BAF357C704";
+
+        /// <summary>
         /// IID_IDirect3DSurface
         /// </summary>
         public static readonly IID IID_IDirect3DSurface = "0bf4a146-13c1-4694-bee3-7abf15eaf586";
+
+        /// <summary>
+        /// IID_IDirect3DSurface9
+        /// </summary>
+        public static readonly IID IID_IDirect3DSurface9 = "0CFBAF3A-9FF6-429a-99B3-A2796AF8B89B";
+
+        /// <summary>
+        /// IID_IDirect3DSwapChain9
+        /// </summary>
+        public static readonly IID IID_IDirect3DSwapChain9 = "794950F2-ADFC-458a-905E-10A10B0B503B";
+
+        /// <summary>
+        /// IID_IDirect3DSwapChain9Ex
+        /// </summary>
+        public static readonly IID IID_IDirect3DSwapChain9Ex = "91886CAF-1C3D-4d2e-A0AB-3E4C7D8D3303";
+
+        /// <summary>
+        /// IID_IDirect3DTexture9
+        /// </summary>
+        public static readonly IID IID_IDirect3DTexture9 = "85C31227-3DE5-4f00-9B3A-F11AC38C18B5";
+
+        /// <summary>
+        /// IID_IDirect3DVertexBuffer9
+        /// </summary>
+        public static readonly IID IID_IDirect3DVertexBuffer9 = "B64BB1B5-FD70-4df6-BF91-19D0A12455E3";
+
+        /// <summary>
+        /// IID_IDirect3DVertexDeclaration9
+        /// </summary>
+        public static readonly IID IID_IDirect3DVertexDeclaration9 = "DD13C59C-36FA-4098-A8FB-C7ED39DC8546";
+
+        /// <summary>
+        /// IID_IDirect3DVertexShader9
+        /// </summary>
+        public static readonly IID IID_IDirect3DVertexShader9 = "EFC5557E-6265-4613-8A94-43857889EB36";
+
+        /// <summary>
+        /// IID_IDirect3DVolume9
+        /// </summary>
+        public static readonly IID IID_IDirect3DVolume9 = "24F416E6-1F67-4aa7-B88E-D33F6F3128A1";
+
+        /// <summary>
+        /// IID_IDirect3DVolumeTexture9
+        /// </summary>
+        public static readonly IID IID_IDirect3DVolumeTexture9 = "2518526C-E789-4111-A7B9-47EF328D13E6";
 
         /// <summary>
         /// IID_IDXGIAdapter

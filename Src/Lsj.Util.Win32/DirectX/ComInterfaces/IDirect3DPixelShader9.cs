@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
@@ -9,18 +11,23 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
     /// <summary>
     /// <para>
-    /// Applications use the methods of the <see cref="IDirect3DPixelShader9"/> interface to encapsulate the functionality of a pixel shader.
+    /// Applications use the methods of the <see cref="IDirect3DPixelShader9"/> interface
+    /// to encapsulate the functionality of a pixel shader.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d9helper/nn-d3d9helper-idirect3dpixelshader9"/>
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The LPDIRECT3DPIXELSHADER9 and PDIRECT3DPIXELSHADER9 types are defined as pointers to the <see cref="IDirect3DPixelShader9"/> interface.
+    /// <para>
+    /// The LPDIRECT3DPIXELSHADER9 and PDIRECT3DPIXELSHADER9 types are defined
+    /// as pointers to the <see cref="IDirect3DPixelShader9"/> interface.
+    /// </para>
     /// <code>
     /// typedef struct IDirect3DPixelShader9 *LPDIRECT3DPIXELSHADER9, *PDIRECT3DPIXELSHADER9;
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "6D3BDBDC-5B02-4415-B852-CE5E8BCCB289", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DPixelShader9
     {
         IntPtr* _vTable;
@@ -52,7 +59,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pSizeOfData">
         /// Size of the data, in bytes.
-        /// To get the buffer size that is needed to retrieve the data, set <paramref name="pData"/> = <see cref="NULL"/> when calling <see cref="GetFunction"/>.
+        /// To get the buffer size that is needed to retrieve the data,
+        /// set <paramref name="pData"/> = <see cref="NULL"/> when calling <see cref="GetFunction"/>.
         /// Then call <see cref="GetFunction"/> with the returned size, to get the buffer data.
         /// </param>
         /// <returns>

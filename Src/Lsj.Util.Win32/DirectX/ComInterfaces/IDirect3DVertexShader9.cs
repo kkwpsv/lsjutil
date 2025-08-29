@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
@@ -16,11 +18,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The LPDIRECT3DVERTEXSHADER9 and PDIRECT3DVERTEXSHADER9 types are defined as pointers to the <see cref="IDirect3DVertexShader9"/> interface.
+    /// <para>
+    /// The LPDIRECT3DVERTEXSHADER9 and PDIRECT3DVERTEXSHADER9 types are defined
+    /// as pointers to the <see cref="IDirect3DVertexShader9"/> interface.
+    /// </para>
     /// <code>
     /// typedef struct IDirect3DVertexShader9 *LPDIRECT3DVERTEXSHADER9, *PDIRECT3DVERTEXSHADER9;
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "EFC5557E-6265-4613-8A94-43857889EB36", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 4, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DVertexShader9
     {
         IntPtr* _vTable;
@@ -52,7 +58,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pSizeOfData">
         /// Size of the data, in bytes.
-        /// To get the buffer size that is needed to retrieve the data, set <paramref name="pData"/> = <see cref="NULL"/> when calling <see cref="GetFunction"/>.
+        /// To get the buffer size that is needed to retrieve the data,
+        /// set <paramref name="pData"/> = <see cref="NULL"/> when calling <see cref="GetFunction"/>.
         /// Then call <see cref="GetFunction"/> with the returned size, to get the buffer data.
         /// </param>
         /// <returns>

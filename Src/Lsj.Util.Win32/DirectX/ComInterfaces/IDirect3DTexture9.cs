@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -24,15 +25,26 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="IDirect3DTexture9"/> interface can be obtained by calling the <see cref="IDirect3DDevice9.CreateTexture"/> method
-    /// or one of the D3DXCreateTexturexxx functions.
-    /// This interface inherits additional functionality from the <see cref="IDirect3DBaseTexture9"/> interface.
-    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
-    /// The LPDIRECT3DTEXTURE9 and PDIRECT3DTEXTURE9 types are defined as pointers to the <see cref="IDirect3DTexture9"/> interface.
+    /// <para>
+    /// The <see cref="IDirect3DTexture9"/> interface can be obtained
+    /// by calling the <see cref="IDirect3DDevice9.CreateTexture"/> method or one of the D3DXCreateTexturexxx functions.
+    /// </para>
+    /// <para>
+    /// This interface inherits additional functionality from the <see cref="IDirect3DBaseTexture9"/> interface.
+    /// </para>
+    /// <para>
+    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
+    /// </para>
+    /// <para>
+    /// The LPDIRECT3DTEXTURE9 and PDIRECT3DTEXTURE9 types are defined
+    /// as pointers to the <see cref="IDirect3DTexture9"/> interface.
+    /// </para>
     /// <code>
     /// typedef struct IDirect3DTexture9 *LPDIRECT3DTEXTURE9, *PDIRECT3DTEXTURE9;
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "91886CAF-1C3D-4d2e-A0AB-3E4C7D8D3303", BeginVTableSlotIndex = 17, EndVTableSlotIndex = 21,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DResource9), typeof(IDirect3DBaseTexture9)])]
     public unsafe struct IDirect3DTexture9
     {
         IntPtr* _vTable;
@@ -76,7 +88,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Calling this method will increase the internal reference count on the <see cref="IDirect3DSurface9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetSurfaceLevel([In] UINT Level, [Out] out P<IDirect3DSurface9> ppSurfaceLevel)
         {
@@ -101,35 +114,76 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Specifying <see cref="NullRef{RECT}"/> for this parameter expands the dirty region to cover the entire texture.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// Combination of zero or more locking flags that describe the type of lock to perform.
         /// For this method, the valid flags are:
-        /// <see cref="D3DLOCK_DISCARD"/>, <see cref="D3DLOCK_NO_DIRTY_UPDATE"/>,
-        /// <see cref="D3DLOCK_NOSYSLOCK"/>, <see cref="D3DLOCK_READONLY"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_DISCARD"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_NO_DIRTY_UPDATE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_NOSYSLOCK"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_READONLY"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// You may not specify a subrect when using <see cref="D3DLOCK_DISCARD"/>.
-        /// For a description of the flags, see <see cref="D3DLOCK"/>.
+        /// For a description of the flags, see <see cref="D3DLOCK"/>.
+        /// </para>
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Textures created with <see cref="D3DPOOL_DEFAULT"/> are not lockable.
-        /// Textures created in video memory are lockable when created with <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// Textures created in video memory are lockable when created with <see cref="D3DUSAGE_DYNAMIC"/>.
+        /// </para>
+        /// <para>
         /// For performance reasons, dirty regions are recorded only for level zero of a texture.
-        /// Dirty regions are automatically recorded when <see cref="LockRect"/> is called without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
-        /// See <see cref="IDirect3DDevice9.UpdateTexture"/> for more information.
-        /// The only lockable format for a depth-stencil texture is <see cref="D3DFMT_D16_LOCKABLE"/>.
-        /// Video memory textures cannot be locked, but must be modified by calling <see cref="IDirect3DDevice9.UpdateSurface"/> or <see cref="IDirect3DDevice9.UpdateTexture"/>.
-        /// There are exceptions for some proprietary driver pixel formats that Direct3D 9 does not recognize. These can be locked.
-        /// This method cannot retrieve data from a texture resource created with <see cref="D3DUSAGE_RENDERTARGET"/>
+        /// Dirty regions are automatically recorded
+        /// when <see cref="LockRect"/> is called without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
+        /// See <see cref="IDirect3DDevice9.UpdateTexture"/> for more information.
+        /// </para>
+        /// <para>
+        /// The only lockable format for a depth-stencil texture is <see cref="D3DFMT_D16_LOCKABLE"/>.
+        /// </para>
+        /// <para>
+        /// Video memory textures cannot be locked, but must be modified
+        /// by calling <see cref="IDirect3DDevice9.UpdateSurface"/> or <see cref="IDirect3DDevice9.UpdateTexture"/>.
+        /// There are exceptions for some proprietary driver pixel formats that Direct3D 9 does not recognize.
+        /// These can be locked.
+        /// </para>
+        /// <para>
+        /// This method cannot retrieve data from a texture resource created with <see cref="D3DUSAGE_RENDERTARGET"/>
         /// because such a texture must be assigned to <see cref="D3DPOOL_DEFAULT"/> memory and is therefore not lockable.
-        /// In this case, use instead <see cref="IDirect3DDevice9.GetRenderTargetData"/> to copy texture data from device memory to system memory.
+        /// In this case, use instead <see cref="IDirect3DDevice9.GetRenderTargetData"/>
+        /// to copy texture data from device memory to system memory.
+        /// </para>
         /// </remarks>
         public HRESULT LockRect([In] UINT Level, [Out] out D3DLOCKED_RECT pLockedRect, [In] in RECT pRect, [In] D3DLOCK Flags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out D3DLOCKED_RECT, in RECT, D3DLOCK, HRESULT>)_vTable[19])(thisPtr, Level, out pLockedRect, pRect, Flags);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out D3DLOCKED_RECT, in RECT, D3DLOCK, HRESULT>)_vTable[19])
+                    (thisPtr, Level, out pLockedRect, pRect, Flags);
             }
         }
 
@@ -163,15 +217,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// For performance reasons, dirty regions are only recorded for level zero of a texture.
         /// For sublevels, it is assumed that the corresponding (scaled) rectangle or box is also dirty.
-        /// Dirty regions are automatically recorded when <see cref="LockRect"/> is called
-        /// without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
-        /// The destination surface of <see cref="IDirect3DDevice9.UpdateSurface"/> is also marked dirty automatically.
-        /// Using <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> and explicitly specifying dirty regions
-        /// can be used to increase the efficiency of <see cref="IDirect3DDevice9.UpdateTexture"/>.
-        /// Using this method, applications can optimize what subset of a resource is copied by specifying dirty regions on the resource.
+        /// Dirty regions are automatically recorded when <see cref="LockRect"/> is called
+        /// without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
+        /// The destination surface of <see cref="IDirect3DDevice9.UpdateSurface"/> is also marked dirty automatically.
+        /// </para>
+        /// <para>
+        /// Using <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> and explicitly specifying dirty regions
+        /// can be used to increase the efficiency of <see cref="IDirect3DDevice9.UpdateTexture"/>.
+        /// Using this method, applications can optimize
+        /// what subset of a resource is copied by specifying dirty regions on the resource.
         /// However, the dirty regions may be expanded to optimize alignment.
+        /// </para>
         /// </remarks>
         public HRESULT AddDirtyRect([In] in RECT pDirtyRect)
         {

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -22,17 +23,25 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="IDirect3DVolume9"/> interface is obtained by calling the <see cref="IDirect3DVolumeTexture9.GetVolumeLevel"/> method.
-    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
-    /// The LPDIRECT3DVOLUME9 and PDIRECT3DVOLUME9 types are defined as pointers to the <see cref="IDirect3DVolume9"/> interface.
+    /// <para>
+    /// The <see cref="IDirect3DVolume9"/> interface is obtained
+    /// by calling the <see cref="IDirect3DVolumeTexture9.GetVolumeLevel"/> method.
+    /// </para>
+    /// <para>
+    /// This interface, like all COM interfaces, inherits from the <see cref="IUnknown"/> interface.
+    /// </para>
+    /// <para>
+    /// The LPDIRECT3DVOLUME9 and PDIRECT3DVOLUME9 types are defined
+    /// as pointers to the <see cref="IDirect3DVolume9"/> interface.
+    /// </para>
     /// <code>
     /// typedef struct IDirect3DVolume9 *LPDIRECT3DVOLUME9, *PDIRECT3DVOLUME9;
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "24F416E6-1F67-4aa7-B88E-D33F6F3128A1", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 10, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DVolume9
     {
         IntPtr* _vTable;
-
 
         /// <summary>
         /// Retrieves the device associated with a volume.
@@ -47,7 +56,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// This method allows navigation to the owning device object.
         /// Calling this method will increase the internal reference count on the <see cref="IDirect3DDevice9"/> interface.
-        /// Failure to call <see cref="IUnknown.Release"/> when finished using this <see cref="IDirect3DDevice9"/> interface results in a memory leak.
+        /// Failure to call <see cref="IUnknown.Release"/>
+        /// when finished using this <see cref="IDirect3DDevice9"/> interface results in a memory leak.
         /// </remarks>
         public HRESULT GetDevice([Out] out P<IDirect3DDevice9> ppDevice)
         {
@@ -70,22 +80,62 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Size of the buffer at <paramref name="pData"/> in bytes.
         /// </param>
         /// <param name="Flags">
-        /// Value that describes the type of data being passed, or indicates to the application that the data should be invalidated when the resource changes.
-        /// 0:
-        /// If no flags are specified, Direct3D allocates memory to hold the data within the buffer and copies the data into the new buffer.
+        /// <para>
+        /// Value that describes the type of data being passed, or indicates to the application
+        /// that the data should be invalidated when the resource changes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Item
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// (none)
+        /// </term>
+        /// <term>
+        /// If no flags are specified, Direct3D allocates memory to hold the data
+        /// within the buffer and copies the data into the new buffer.
         /// The buffer allocated by Direct3D is automatically freed, as appropriate.
-        /// <see cref="D3DSPD_IUNKNOWN"/>:
-        /// The data at <paramref name="pData"/> is a pointer to an <see cref="IUnknown"/> interface.
-        /// <paramref name="SizeOfData"/> must be set to the size of a pointer to an <see cref="IUnknown"/> interface, sizeof(IUnknown*).
-        /// Direct3D automatically calls <see cref="IUnknown.Release"/> through <paramref name="pData"/> and <see cref="IUnknown.Release"/> when the private data is destroyed.
-        /// Private data will be destroyed by a subsequent call to <see cref="SetPrivateData"/> with the same GUID,
-        /// a subsequent call to <see cref="FreePrivateData"/>, or when the <see cref="IDirect3D9"/> object is released.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="D3DSPD_IUNKNOWN"/>
+        /// </term>
+        /// <term>
+        /// The data at <paramref name="pData"/> is a pointer to an <see cref="IUnknown"/> interface.
+        /// <paramref name="SizeOfData"/> must be set to the size
+        /// of a pointer to an <see cref="IUnknown"/> interface, <c>sizeof(IUnknown*)</c>.
+        /// Direct3D automatically calls <see cref="IUnknown"/>
+        /// through <paramref name="pData"/> and <see cref="IUnknown"/> when the private data is destroyed.
+        /// Private data will be destroyed by a subsequent call to <see cref="SetPrivateData"/> with the same GUID,
+        /// a subsequent call to <see cref="FreePrivateData"/>, or when the <see cref="IDirect3D9"/> object is released.
         /// For more information, see Remarks.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>, <see cref="E_OUTOFMEMORY"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Direct3D does not manage the memory at <paramref name="pData"/>.
+        /// If this buffer was dynamically allocated, it is the calling application's responsibility to free the memory.
+        /// </para>
+        /// <para>
+        /// Data is passed by value, and multiple sets of data can be associated with a single volume.
+        /// </para>
+        /// </remarks>
         public HRESULT SetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In] DWORD SizeOfData, [In] DWORD Flags)
         {
             fixed (void* thisPtr = &this)
@@ -112,8 +162,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_MOREDATA"/>, <see cref="D3DERR_NOTFOUND"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_MOREDATA"/>, <see cref="D3DERR_NOTFOUND"/>.
         /// </returns>
+        /// <remarks>
+        /// If the data returned is a pointer to an <see cref="IUnknown"/>, or one of its derivative classes,
+        /// which was previously set by <see cref="SetPrivateData"/> with a <c>D3DSPD_IUNKNOWN</c> flag,
+        /// that interface will have its reference count incremented before the private data is returned.
+        /// </remarks>
         public HRESULT GetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In][Out] ref DWORD pSizeOfData)
         {
             fixed (void* thisPtr = &this)
@@ -130,7 +186,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If the method fails, the return value can be one of the following: <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_NOTFOUND"/>.
+        /// If the method fails, the return value can be one of the following:
+        /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_NOTFOUND"/>.
         /// </returns>
         /// <remarks>
         /// Direct3D calls this method automatically when a volume is released.
@@ -157,8 +214,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the call succeeds, the reference count of the container is increased by one.
+        /// </para>
+        /// <para>
         /// Here's an example getting the parent volume texture of a volume texture.
+        /// </para>
         /// <code>
         /// // Assumes pSurface is a valid IDirect3DVolume9 pointer
         /// void *pContainer = NULL;
@@ -207,10 +268,37 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Specifying <see cref="NullRef{D3DBOX}"/> for this parameter locks the entire volume.
         /// </param>
         /// <param name="Flags">
-        /// Combination of zero or more locking flags that describe the type of lock to perform. For this method, the valid flags are:
-        /// <see cref="D3DLOCK_DISCARD"/>, <see cref="D3DLOCK_NO_DIRTY_UPDATE"/>,
-        /// <see cref="D3DLOCK_NOSYSLOCK"/>, <see cref="D3DLOCK_NOSYSLOCK"/>
-        /// For a description of the flags, see <see cref="D3DLOCK"/>.
+        /// <para>
+        /// Combination of zero or more locking flags that describe the type of lock to perform.
+        /// For this method, the valid flags are:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_DISCARD"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_NO_DIRTY_UPDATE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_NOSYSLOCK"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3DLOCK_READONLY"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For a description of the flags, see <see cref="D3DLOCK"/>.
+        /// </para>
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
@@ -218,7 +306,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// For performance reasons, dirty regions are only recorded for level zero of a texture.
-        /// Dirty regions are automatically recorded when <see cref="LockBox"/> is called without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
+        /// Dirty regions are automatically recorded when <see cref="LockBox"/> is called
+        /// without <see cref="D3DLOCK_NO_DIRTY_UPDATE"/> or <see cref="D3DLOCK_READONLY"/>.
         /// See <see cref="IDirect3DDevice9.UpdateTexture"/> for more information.
         /// </remarks>
         public HRESULT LockBox([Out] out D3DLOCKED_BOX pLockedVolume, [In] in D3DBOX pBox, [In] DWORD Flags)

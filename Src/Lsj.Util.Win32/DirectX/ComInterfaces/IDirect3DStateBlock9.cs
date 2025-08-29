@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.DirectX.Constants;
@@ -15,12 +17,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This interface can be used to save and restore pipeline state. It can also be used to capture the current state.
-    /// The LPDIRECT3DSTATEBLOCK9 and PDIRECT3DSTATEBLOCK9 types are defined as pointers to the IDirect3DStateBlock9 interface.
+    /// <para>
+    /// This interface can be used to save and restore pipeline state.
+    /// It can also be used to capture the current state.
+    /// </para>
+    /// <para>
+    /// The LPDIRECT3DSTATEBLOCK9 and PDIRECT3DSTATEBLOCK9 types are defined 
+    /// as pointers to the <see cref="IDirect3DStateBlock9"/> interface.
+    /// </para>
     /// <code>
     /// typedef struct IDirect3DStateBlock9 *LPDIRECT3DSTATEBLOCK9, *PDIRECT3DSTATEBLOCK9;
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "B07C4FE5-310D-4ba8-A23C-4F0F206F218B", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DStateBlock9
     {
         IntPtr* _vTable;
@@ -51,8 +60,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails because capture cannot be done while in record mode, the return value is <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The <see cref="Capture"/> method captures current values for states within an existing state block.
-        /// It does not capture the entire state of the device. For example:
+        /// It does not capture the entire state of the device.
+        /// For example:
+        /// </para>
         /// <code>
         /// IDirect3DStateBlock9* pStateBlock = NULL;
         /// 
@@ -67,9 +79,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// 
         /// pStateBlock->Release();
         /// </code>
-        /// Creating an empty stateblock and calling the <see cref="Capture"/> method does nothing if no states have been set.
-        /// The <see cref="Capture"/> method will not capture information for lights
+        /// <para>
+        /// Creating an empty stateblock and calling the Capture method does nothing if no states have been set.
+        /// </para>
+        /// <para>
+        /// The Capture method will not capture information for lights
         /// that are explicitly or implicitly created after the stateblock is created.
+        /// </para>
         /// </remarks>
         public HRESULT Capture()
         {
