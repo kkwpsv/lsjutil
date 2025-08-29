@@ -1,0 +1,23 @@
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
+using System.Runtime.InteropServices;
+
+namespace Lsj.Util.Win32.Structs
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct CALPWSTR
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public ULONG cElems;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public P<IntPtr> pElems;
+    }
+}
