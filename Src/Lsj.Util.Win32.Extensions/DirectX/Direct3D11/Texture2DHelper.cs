@@ -5,7 +5,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Extensions.COM;
 using static Lsj.Util.Win32.Constants;
 
-namespace Lsj.Util.Win32.Extensions.Direct3D11.D3D11
+namespace Lsj.Util.Win32.Extensions.DirectX.Direct3D11
 {
     /// <summary>
     /// Texture2D Helper

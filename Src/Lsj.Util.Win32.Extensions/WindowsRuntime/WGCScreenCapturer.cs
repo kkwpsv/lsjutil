@@ -2,17 +2,14 @@
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
-using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
-using Lsj.Util.Win32.Extensions.Direct3D11.D3D11;
 using Lsj.Util.Win32.Extensions.DirectX.Direct3D11;
 using Lsj.Util.Win32.WindowsRuntimeInterfaces;
 using System;
 using System.Threading.Tasks;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.WindowsRuntime
 {
