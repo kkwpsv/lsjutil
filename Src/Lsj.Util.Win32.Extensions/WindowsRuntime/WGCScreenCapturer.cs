@@ -7,6 +7,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
 using Lsj.Util.Win32.Extensions.Direct3D11.D3D11;
+using Lsj.Util.Win32.Extensions.DirectX.Direct3D11;
 using Lsj.Util.Win32.WindowsRuntimeInterfaces;
 using System;
 using System.Threading.Tasks;
@@ -43,14 +44,13 @@ namespace Lsj.Util.Win32.Extensions.WindowsRuntime
         {
             _captureItemInterop = P<IGraphicsCaptureItemInterop>.FromPtr(WindowsRuntimeExtensions.GetActivationFactory("Windows.Graphics.Capture.GraphicsCaptureItem", IIDs.IID_IGraphicsCaptureItemInterop));
 
-            var result = D3D11.D3D11CreateDevice(NullRef<IDXGIAdapter>(), D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, NULL, 0, null, 0, (uint)D3D11.D3D11_SDK_VERSION, out _d3d11Device, out var featureLevel, out _d3d11DeviceContext);
-            result.ThrowExceptionIfNotSucceed();
+            DeviceHelper.CreateDevice(out _d3d11Device, out _d3d11DeviceContext);
 
             var dxgiDevice = _d3d11Device.AsIUnknown().ToInterface<IDXGIDevice>(IIDs.IID_IDXGIDevice);
 
             try
             {
-                result = D3D11.CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice.Value, out var d3dDevice);
+                var result = D3D11.CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice.Value, out var d3dDevice);
                 result.ThrowExceptionIfNotSucceed();
 
                 _d3dDevice = d3dDevice.AsIUnknown().ToInterface<IDirect3DDevice>(IIDs.IID_IDirect3DDevice, release: true, releaseOnFailed: true);

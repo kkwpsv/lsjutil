@@ -1,13 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
-using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Extensions.COM;
 using Lsj.Util.Win32.Extensions.Direct3D11.D3D11;
+using Lsj.Util.Win32.Extensions.DirectX.Direct3D11;
 using System;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.Direct3D11
 {
@@ -30,8 +29,7 @@ namespace Lsj.Util.Win32.Extensions.Direct3D11
         /// </summary>
         public DXGIScreenCapturer()
         {
-            var result = DirectX.D3D11.D3D11CreateDevice(NullRef<IDXGIAdapter>(), D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, NULL, 0, null, 0, (uint)DirectX.D3D11.D3D11_SDK_VERSION, out _d3d11Device, out var featureLevel, out _d3d11DeviceContext);
-            result.ThrowExceptionIfNotSucceed();
+            DeviceHelper.CreateDevice(out _d3d11Device, out _d3d11DeviceContext);
         }
 
         /// <inheritdoc/>

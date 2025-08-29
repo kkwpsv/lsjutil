@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <summary>
         /// D3D11_SDK_VERSION
         /// </summary>
-        public static readonly DWORD D3D11_SDK_VERSION = 7;
+        public static readonly UINT D3D11_SDK_VERSION = 7;
 
         /// <summary>
         /// <para>
