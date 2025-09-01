@@ -687,7 +687,7 @@ namespace Lsj.Util.Win32
         /// Initialize a slim reader/writer (SRW) lock.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-initializesrwlock?redirectedfrom=MSDN"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-initializesrwlock"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">

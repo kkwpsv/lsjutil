@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.Attributes
     /// <summary>
     /// Required Windows version
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Struct | AttributeTargets.Field)]
     public class WindowsVersionRequirementAttribute : Attribute
     {
         /// <summary>

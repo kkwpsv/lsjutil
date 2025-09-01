@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32.Enums
         /// Space for nonzero data will be allocated as needed as the file is written.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_set_sparse?redirectedfrom=MSDN"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_set_sparse"/>
         /// </para>
         /// </summary>
         FSCTL_SET_SPARSE = 0x900c4,
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Enums
         /// This sets the range of bytes to zeros (0) without extending the file size.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data?redirectedfrom=MSDN"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data"/>
         /// </para>
         /// </summary>
         FSCTL_SET_ZERO_DATA = 0x980c8,
