@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lsj.Util.Win32.MediaFoundation
+﻿namespace Lsj.Util.Win32.MediaFoundation
 {
+    /// <summary>
+    /// Constants
+    /// </summary>
     public static class Constants
     {
         /// <summary>
@@ -17,6 +14,31 @@ namespace Lsj.Util.Win32.MediaFoundation
         /// MF_SDK_VERSION
         /// </summary>
         public const int MF_SDK_VERSION = 0x0002;
+
+        /// <summary>
+        /// MF_SOURCE_READER_ALL_STREAMS
+        /// </summary>
+        public const uint MF_SOURCE_READER_ALL_STREAMS = 0xFFFFFFFE;
+
+        /// <summary>
+        /// MF_SOURCE_READER_CURRENT_TYPE_INDEX
+        /// </summary>
+        public const uint MF_SOURCE_READER_CURRENT_TYPE_INDEX = 0xFFFFFFFF;
+
+        /// <summary>
+        /// MF_SOURCE_READER_FIRST_AUDIO_STREAM
+        /// </summary>
+        public const uint MF_SOURCE_READER_FIRST_AUDIO_STREAM = 0xFFFFFFFD;
+
+        /// <summary>
+        /// MF_SOURCE_READER_FIRST_VIDEO_STREAM
+        /// </summary>
+        public const uint MF_SOURCE_READER_FIRST_VIDEO_STREAM = 0xFFFFFFFC;
+
+        /// <summary>
+        /// MF_SOURCE_READER_MEDIASOURCE
+        /// </summary>
+        public const uint MF_SOURCE_READER_MEDIASOURCE = 0xFFFFFFFF;
 
         /// <summary>
         /// MF_VERSION

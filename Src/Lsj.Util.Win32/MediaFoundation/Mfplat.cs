@@ -53,6 +53,29 @@ namespace Lsj.Util.Win32.MediaFoundation
 
         /// <summary>
         /// <para>
+        /// Creates an empty media type.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mfapi/nf-mfapi-mfcreatemediatype"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ppMFType">
+        /// Receives a pointer to the <see cref="IMFMediaType"/> interface.
+        /// The caller must release the interface.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// The media type is created without any attributes.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Mfplat.dll", CharSet = CharSet.Unicode, EntryPoint = "MFCreateMediaType", ExactSpelling = true)]
+        public static extern HRESULT MFCreateMediaType([Out] out P<IMFMediaType> ppMFType);
+
+        /// <summary>
+        /// <para>
         /// Creates an instance of the Microsoft DirectX Graphics Infrastructure (DXGI) Device Manager.
         /// </para>
         /// <para>

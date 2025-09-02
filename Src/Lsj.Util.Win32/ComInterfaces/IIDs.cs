@@ -358,9 +358,24 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMFAttributes = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
 
         /// <summary>
-        /// IMFDXGIDeviceManager
+        /// IID_IMFDXGIDeviceManager
         /// </summary>
         public static readonly IID IMFDXGIDeviceManager = "eb533d5d-2db6-40f8-97a9-494692014f07";
+
+        /// <summary>
+        /// IID_IMFMediaType
+        /// </summary>
+        public static readonly IID IID_IMFMediaType = "44ae0fa8-ea31-4109-8d2e-4cae4997c555";
+
+        /// <summary>
+        /// IID_IMFSample
+        /// </summary>
+        public static readonly IID IID_IMFSample = "c40a00f2-b93a-4d80-ae8c-5a1c634f58e4";
+
+        /// <summary>
+        /// IID_IMFSourceReader
+        /// </summary>
+        public static readonly IID IID_IMFSourceReader = "70ae66f2-c809-4e4f-8915-bdcb406b7993";
 
         /// <summary>
         /// IID_IModalWindow

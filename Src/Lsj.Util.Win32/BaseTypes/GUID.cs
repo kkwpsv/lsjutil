@@ -24,6 +24,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="val"></param>
         public static implicit operator GUID(Guid val) => new GUID { _value = val };
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator GUID(string val) => new GUID { _value = new Guid(val) };
+
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
     }
