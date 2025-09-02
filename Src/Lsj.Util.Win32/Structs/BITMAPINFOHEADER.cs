@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32.Structs
     /// or the following formula:
     /// </para>
     /// <code>
-    /// stride = ((((biWidth * biBitCount) + 31) & ~31) >> 3);
+    /// stride = ((((biWidth * biBitCount) + 31) &amp; ~31) >> 3);
     /// biSizeImage = abs(biHeight) * stride;
     /// </code>
     /// <para>

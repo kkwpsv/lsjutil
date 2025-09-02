@@ -85,6 +85,7 @@ namespace Lsj.Util.Win32.Structs
         /// Consequently, callers should be careful not to inadvertently pass a zero value (which indicates no deadline),
         /// and moniker implementations should be aware of clock wrapping problems.
         /// </para>
+        /// </summary>
         public DWORD dwTickCountDeadline;
 
         /// <summary>

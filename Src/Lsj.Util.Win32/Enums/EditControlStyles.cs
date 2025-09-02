@@ -123,7 +123,7 @@ namespace Lsj.Util.Win32.Enums
         /// To change the characters that is displayed, or set or clear this style, use the <see cref="EM_SETPASSWORDCHAR"/> message.
         /// </para>
         /// <para>
-        /// <see cref="Note:"/> To use Comctl32.dll version 6, specify it in a manifest.
+        /// Note: To use Comctl32.dll version 6, specify it in a manifest.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </para>
         /// </summary>

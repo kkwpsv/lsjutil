@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// <para>
-        /// Remote protocol (<see cref="WNNC_NET_*"/>) defined in Wnnc.h or Ntifs.h.
+        /// Remote protocol (WNNC_NET_*) defined in Wnnc.h or Ntifs.h.
         /// </para>
         /// <para>
         /// WNNC_NET_MSNET (0x00010000)

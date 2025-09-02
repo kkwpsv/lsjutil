@@ -13,8 +13,7 @@ namespace Lsj.Util.Win32.Enums
         REG_STANDARD_FORMAT = 1,
 
         /// <summary>
-        ///         REG_LATEST_FORMAT = 2,
-
+        /// REG_LATEST_FORMAT
         /// </summary>
         REG_LATEST_FORMAT = 2,
 

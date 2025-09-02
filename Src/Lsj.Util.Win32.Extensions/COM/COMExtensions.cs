@@ -61,7 +61,7 @@ namespace Lsj.Util.Win32.Extensions.COM
         }
 
         /// <summary>
-        /// As <see cref="Lsj.Util.Win32.ComInterfaces.IUnknown.QueryInterface"/>
+        /// As <see cref="Lsj.Util.Win32.ComInterfaces.IUnknown"/>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="from"></param>

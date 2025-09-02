@@ -35,7 +35,6 @@ namespace Lsj.Util.Win32.Structs
     /// sufficient memory must be allocated to accommodate the complete SID of the trustee
     /// in the <see cref="SidStart"/> member and the contiguous memory that follows it.
     /// </para>
-
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ACCESS_ALLOWED_CALLBACK_ACE

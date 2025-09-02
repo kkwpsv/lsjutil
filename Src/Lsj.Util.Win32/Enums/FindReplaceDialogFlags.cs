@@ -60,6 +60,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// FR_NOMATCHCASE
+        /// </summary>
         FR_NOMATCHCASE = 0x00000800,
 
         /// <summary>

@@ -158,7 +158,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="PSH_PROPSHEETPAGE"/> (0x00000008)
         /// </term>
         /// <term>
-        /// Uses the <<see cref="ppsp"/> member and ignores the <see cref="phpage"/> member when creating the pages for the property sheet.
+        /// Uses the <see cref="ppsp"/> member and ignores the <see cref="phpage"/> member when creating the pages for the property sheet.
         /// </term>
         /// </item>
         /// <item>

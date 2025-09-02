@@ -1682,8 +1682,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// <para>
-        /// The REFIID, or GUID, of the interface to the resource can be obtained by using the <code>__uuidof()</code> macro.
-        /// For example, <code>__uuidof(ID3D11Buffer)</code> will get the GUID of the interface to a buffer resource.
+        /// The REFIID, or GUID, of the interface to the resource can be obtained by using the <c>__uuidof()</c> macro.
+        /// For example, <c>__uuidof(ID3D11Buffer)</c> will get the GUID of the interface to a buffer resource.
         /// </para>
         /// <para>
         /// The unique handle of the resource is obtained differently depending on the type of device that originally created the resource.
@@ -1693,10 +1693,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// with the <see cref="D3D11_RESOURCE_MISC_SHARED"/> flag, if it was created using the <see cref="ID3D11Device"/> interface.
         /// If it was created using a DXGI device interface, then the resource is always shared.
         /// </para>
-        /// <remarks>
         /// <para>
-        /// The REFIID, or GUID, of the interface to the resource can be obtained by using the <code>__uuidof()</code> macro.
-        /// For example, <code>__uuidof(ID3D11Buffer)</code> will get the GUID of the interface to a buffer resource.
+        /// The REFIID, or GUID, of the interface to the resource can be obtained by using the <c>__uuidof()</c> macro.
+        /// For example, <c>__uuidof(ID3D11Buffer)</c> will get the GUID of the interface to a buffer resource.
         /// </para>
         /// <para>
         /// When sharing a resource between two Direct3D 10/11 devices the unique handle of the resource

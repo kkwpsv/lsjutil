@@ -44,7 +44,6 @@ namespace Lsj.Util.Win32.Structs
     /// and <see cref="InheritedObjectType"/> members, if one or both of them exists,
     /// as well as to accommodate the complete SID of the trustee in the <see cref="SidStart"/> member and the contiguous memory that follows it.
     /// </para>
-
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct ACCESS_ALLOWED_CALLBACK_OBJECT_ACE

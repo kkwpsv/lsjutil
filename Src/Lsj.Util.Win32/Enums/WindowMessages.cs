@@ -16182,7 +16182,7 @@ namespace Lsj.Util.Win32.Enums
         /// DPI virtualization provides automatic scaling support to applications
         /// that are not DPI aware and is active by default (users can turn it off).
         /// For more information, see Writing High-DPI Win32 Applications.
-        /// </para
+        /// </para>
         /// <para>
         /// Parameters
         /// </para>
@@ -16228,7 +16228,7 @@ namespace Lsj.Util.Win32.Enums
         /// DPI virtualization provides automatic scaling support to applications
         /// that are not DPI aware and is active by default (users can turn it off).
         /// For more information, see Writing High-DPI Win32 Applications.
-        /// </para
+        /// </para>
         /// <para>
         /// Parameters
         /// </para>

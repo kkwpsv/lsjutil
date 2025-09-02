@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// <see cref="SendMessageTimeout"/> flags
+    /// </summary>
     public enum SendMessageTimeoutFlags : uint
     {
         /// <summary>

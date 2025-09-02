@@ -34,7 +34,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Instead, the object's container provides the object with many of the services associated with having a window.
     /// </para>
     /// <para>
-    /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ocidl/nn-ocidl-ioleinplacesitewindowless"/>
     /// </para>
     /// </summary>

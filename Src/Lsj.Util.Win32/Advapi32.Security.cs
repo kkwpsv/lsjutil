@@ -1484,11 +1484,13 @@ namespace Lsj.Util.Win32
         /// The ACE is in the form of an <see cref="ACCESS_DENIED_ACE"/> structure.
         /// </param>
         /// <param name="dwAceRevision">
+        /// <para>
         /// Specifies the revision level of the ACL being modified.
         /// </para>
         /// <para>
         /// This value can be <see cref="ACL_REVISION"/> or <see cref="ACL_REVISION_DS"/>.
         /// Use <see cref="ACL_REVISION_DS"/> if the ACL contains object-specific ACEs.
+        /// </para>
         /// </param>
         /// <param name="AccessMask">
         /// Specifies the mask of access rights to be granted to the specified SID.

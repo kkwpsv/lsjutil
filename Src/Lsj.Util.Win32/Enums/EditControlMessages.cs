@@ -407,7 +407,7 @@ namespace Lsj.Util.Win32.Enums
         /// Rich Edit: Supported in Microsoft Rich Edit 1.0 and later.
         /// If the character index is greater than 64,000, use the <see cref="EM_EXLINEFROMCHAR"/> message.
         /// For information about the compatibility of rich edit versions with the various system versions, see About Rich Edit Controls.
-        /// </remarks
+        /// </remarks>
         EM_LINEFROMCHAR = 0x00C9,
 
         /// <summary>

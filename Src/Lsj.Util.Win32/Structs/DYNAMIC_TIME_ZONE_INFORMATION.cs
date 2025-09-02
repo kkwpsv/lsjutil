@@ -176,6 +176,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public SYSTEMTIME StandardDate;
 
+        /// <summary>
         /// <para>
         /// The bias value to be used during local time translations that occur during standard time.
         /// This member is ignored if a value for the <see cref="StandardDate"/> member is not supplied.
