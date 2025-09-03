@@ -88,9 +88,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ID3D11DeviceContext = "c0bfa96c-e089-44fb-8eaf-26f8796190da";
 
         /// <summary>
-        /// ID3D11Texture2D
+        /// IID_ID3D11Texture2D
         /// </summary>
         public static readonly IID IID_ID3D11Texture2D = "6f15aaf2-d208-4e89-9ab4-489535d34f9c";
+
+        /// <summary>
+        /// IID_ID3D11VideoDevice
+        /// </summary>
+        public static readonly IID IID_ID3D11VideoDevice = "10EC4D5B-975A-4689-B9E4-D0AAC30FE333";
 
         /// <summary>
         /// IID_ID3D12Device
