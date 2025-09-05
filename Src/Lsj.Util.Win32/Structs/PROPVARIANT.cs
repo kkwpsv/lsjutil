@@ -1364,7 +1364,7 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public P<PROPVARIANT> pvarVal;
+            public IntPtr pvarVal;
         }
 
 #pragma warning disable IDE1006

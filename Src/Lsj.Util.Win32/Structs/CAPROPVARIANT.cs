@@ -15,9 +15,17 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public ULONG cElems;
 
+        private IntPtr _val;
+
+#pragma warning disable IDE1006
         /// <summary>
         /// 
         /// </summary>
-        public P<PROPVARIANT> pElems;
+        public P<PROPVARIANT> pElems
+        {
+            get => _val;
+            set => _val = value;
+        }
+#pragma warning restore IDE1006
     }
 }
