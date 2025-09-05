@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Marshals
@@ -6,7 +7,7 @@ namespace Lsj.Util.Win32.Marshals
     /// <summary>
     /// LPCSTR
     /// </summary>
-    public class LPCSTR : CriticalHandle
+    public class LPCSTR : CriticalHandle, IPointer
     {
         private string? _str;
 
@@ -31,6 +32,9 @@ namespace Lsj.Util.Win32.Marshals
 
         /// <inheritdoc/>
         public override bool IsInvalid => IsClosed;
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => handle;
 
         /// <summary>
         /// The <see cref="string"/> val

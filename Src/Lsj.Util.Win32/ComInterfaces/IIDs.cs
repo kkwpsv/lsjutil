@@ -48,6 +48,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ID3D10Blob
+        /// </summary>
+        public static readonly IID IID_ID3D10Blob = "8BA5FB08-5195-40e2-AC58-0D989C3A0102";
+
+        /// <summary>
         /// IID_ID3D11Device
         /// </summary>
         public static readonly IID IID_ID3D11Device = "db6f6ddb-ac77-4e88-8253-819df9bbf140";
@@ -101,6 +106,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_ID3D12Device
         /// </summary>
         public static readonly IID IID_ID3D12Device = "189819f1-1db6-4b57-be54-1821339b85f7";
+
+        /// <summary>
+        /// IID_ID3DBlob
+        /// </summary>
+        public static readonly IID IID_ID3DBlob = "8BA5FB08-5195-40e2-AC58-0D989C3A0102";
 
         /// <summary>
         /// IID_IDataAdviseHolder
