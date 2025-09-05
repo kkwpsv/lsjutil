@@ -63,12 +63,14 @@ namespace Lsj.Util.Win32.NativeUI
                 }
                 switch (msg)
                 {
-                    case WindowMessages.WM_CREATE:
-                        return OnCreate(hWnd, wParam, ref UnsafePInvokeExtensions.AsStructRef<CREATESTRUCT>(lParam));
-                    case WindowMessages.WM_DESTROY:
+                    case WM_CREATE:
+                        return OnCreate(hWnd, wParam, lParam, ref UnsafePInvokeExtensions.AsStructRef<CREATESTRUCT>(lParam));
+                    case WM_DESTROY:
                         return OnDestroy(hWnd, wParam, lParam);
-                    case WindowMessages.WM_PAINT:
+                    case WM_PAINT:
                         return OnPaint(hWnd, wParam, lParam);
+                    case WM_SIZE:
+                        return OnResize(hWnd, wParam, lParam, (WindowSizingTypes)(int)wParam, LOWORD((uint)lParam), HIWORD((uint)lParam));
                     default:
                         return CallDefaultOrHookedWindowProc(hWnd, msg, wParam, lParam);
                 }
@@ -88,11 +90,12 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
         /// <param name="createStruct"></param>
         /// <returns></returns>
-        protected virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, ref CREATESTRUCT createStruct)
+        protected virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam, ref CREATESTRUCT createStruct)
         {
-            return CallDefaultOrHookedWindowProc(hWnd, WindowMessages.WM_CREATE, wParam, UnsafePInvokeExtensions.AsPointer(ref createStruct));
+            return CallDefaultOrHookedWindowProc(hWnd, WM_CREATE, wParam, lParam);
         }
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <returns></returns>
         protected virtual LRESULT OnDestroy(HWND hWnd, WPARAM wParam, LPARAM lParam)
         {
-            return CallDefaultOrHookedWindowProc(hWnd, WindowMessages.WM_DESTROY, wParam, lParam);
+            return CallDefaultOrHookedWindowProc(hWnd, WM_DESTROY, wParam, lParam);
         }
 
         /// <summary>
@@ -117,6 +120,21 @@ namespace Lsj.Util.Win32.NativeUI
         protected virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam)
         {
             return CallDefaultOrHookedWindowProc(hWnd, WindowMessages.WM_PAINT, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_SIZE"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="sizingType"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_SIZE, wParam, lParam);
         }
 
         private LRESULT CallDefaultOrHookedWindowProc(HWND hWnd, WindowMessages msg, WPARAM wParam, LPARAM lParam)

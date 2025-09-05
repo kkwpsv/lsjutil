@@ -36,5 +36,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator LPARAM(int val) => new LPARAM { _value = (IntPtr)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator uint(LPARAM val) => val._value.SafeToUInt32();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator int(LPARAM val) => val._value.SafeToInt32();
     }
 }
