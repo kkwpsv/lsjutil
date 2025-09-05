@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.DirectX.DXGI;
@@ -15,10 +17,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// Call the <see cref="DXGIGetDebugInterface1"/> function to obtain the <see cref="IDXGIDebug1"/> interface.
-    /// The <see cref="IDXGIDebug1"/> interface can be used only if the debug layer is turned on.
-    /// For more info, see Debug Layer.
+    /// <para>
+    /// Call the <see cref="DXGIGetDebugInterface1"/> function to obtain the <see cref="IDXGIDebug1"/> interface.
+    /// </para>
+    /// <para>
+    /// The <see cref="IDXGIDebug1"/> interface can be used only if the debug layer is turned on.
+    /// For more info, see Debug Layer.
+    /// </para>
     /// </remarks>
+    [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
+    [ComInterface(IID = "c5a05f0c-16f2-4adf-9f4d-a8c4d58ac550", BeginVTableSlotIndex = 4, EndVTableSlotIndex = 6,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIDebug)])]
     public unsafe struct IDXGIDebug1
     {
         IntPtr* _vTable;
@@ -49,7 +58,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Gets a value indicating whether leak tracking is turned on for the current thread.
         /// </summary>
         /// <returns>
-        /// <see cref="TRUE"/> if leak tracking is turned on for the current thread; otherwise, <see cref="FALSE"/>.
+        /// <see cref="TRUE"/> if leak tracking is turned on for the current thread;
+        /// otherwise, <see cref="FALSE"/>.
         /// </returns>
         public BOOL IsLeakTrackingEnabledForThread()
         {

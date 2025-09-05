@@ -208,6 +208,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDirect3DResource9 = "05EEC05D-8F7D-4362-B999-D1BAF357C704";
 
         /// <summary>
+        /// IID_IDirect3DStateBlock9
+        /// </summary>
+        public static readonly IID IID_IDirect3DStateBlock9 = "B07C4FE5-310D-4ba8-A23C-4F0F206F218B";
+
+        /// <summary>
         /// IID_IDirect3DSurface
         /// </summary>
         public static readonly IID IID_IDirect3DSurface = "0bf4a146-13c1-4694-bee3-7abf15eaf586";
@@ -263,9 +268,39 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDXGIAdapter = "2411e7e1-12ac-4ccf-bd14-9798e8534dc0";
 
         /// <summary>
+        /// IID_IDXGIAdapter1
+        /// </summary>
+        public static readonly IID IID_IDXGIAdapter1 = "29038f61-3839-4626-91fd-086879011a05";
+
+        /// <summary>
+        /// IID_IDXGIAdapter2
+        /// </summary>
+        public static readonly IID IID_IDXGIAdapter2 = "0AA1AE0A-FA0E-4B84-8644-E05FF8E5ACB5";
+
+        /// <summary>
+        /// IID_IDXGIAdapter3
+        /// </summary>
+        public static readonly IID IID_IDXGIAdapter3 = "645967A4-1392-4310-A798-8053CE3E93FD";
+
+        /// <summary>
         /// IID_IDXGIAdapter4
         /// </summary>
         public static readonly IID IID_IDXGIAdapter4 = "3c8d99d1-4fbf-4181-a82c-af66bf7bd24e";
+
+        /// <summary>
+        /// IID_IDXGIDebug
+        /// </summary>
+        public static readonly IID IID_IDXGIDebug = "119E7452-DE9E-40fe-8806-88F90C12B441";
+
+        /// <summary>
+        /// IID_IDXGIDebug1
+        /// </summary>
+        public static readonly IID IID_IDXGIDebug1 = "c5a05f0c-16f2-4adf-9f4d-a8c4d58ac550";
+
+        /// <summary>
+        /// IDXGIDecodeSwapChain
+        /// </summary>
+        public static readonly IID IDXGIDecodeSwapChain = "119E7452-DE9E-40fe-8806-88F90C12B441";
 
         /// <summary>
         /// IID_IDXGIDevice
@@ -286,6 +321,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IDXGIOutput1
         /// </summary>
         public static readonly IID IID_IDXGIOutput1 = "00cddea8-939b-4b83-a340-a685226666cc";
+
+        /// <summary>
+        /// IID_IDXGIDecodeSwapChain
+        /// </summary>
+        public static readonly IID IID_IDXGIDecodeSwapChain = "119E7452-DE9E-40fe-8806-88F90C12B441";
 
         /// <summary>
         /// IID_IEnumIDList
@@ -375,7 +415,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <summary>
         /// IID_IMFDXGIDeviceManager
         /// </summary>
-        public static readonly IID IMFDXGIDeviceManager = "eb533d5d-2db6-40f8-97a9-494692014f07";
+        public static readonly IID IID_IMFDXGIDeviceManager = "eb533d5d-2db6-40f8-97a9-494692014f07";
 
         /// <summary>
         /// IID_IMFMediaType

@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
@@ -17,19 +19,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// This interface is obtained by calling the <see cref="DXGIGetDebugInterface"/> function.
-    /// For more info about the debug layer, see Debug Layer.
-    /// Windows Phone 8: This API is supported.
+    /// <para>
+    /// This interface is obtained by calling the <see cref="DXGIGetDebugInterface"/> function.
+    /// </para>
+    /// <para>
+    /// For more info about the debug layer, see Debug Layer.
+    /// </para>
+    /// <para>
+    /// Windows Phone 8: This API is supported.
+    /// </para>
+    /// <para>
     /// Note
-    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
+    /// <para>
+    /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
+    [WindowsVersionRequirement(WindowsVersion.Windows8)]
+    [ComInterface(IID = "119E7452-DE9E-40fe-8806-88F90C12B441", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIDebug
     {
         IntPtr* _vTable;
 
         /// <summary>
+        /// <para>
         /// Reports info about the lifetime of an object or objects.
-        /// See the Memory management sample.
+        /// </para>
+        /// <para>
+        /// See the Memory management sample.
+        /// </para>
         /// </summary>
         /// <param name="apiid">
         /// The globally unique identifier (GUID) of the object or objects to get info about.
@@ -43,10 +61,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
-        public HRESULT ReportLiveObjects([In] GUID apiid,[In] DXGI_DEBUG_RLO_FLAGS flags)
+        public HRESULT ReportLiveObjects([In] GUID apiid, [In] DXGI_DEBUG_RLO_FLAGS flags)
         {
             fixed (void* thisPtr = &this)
             {

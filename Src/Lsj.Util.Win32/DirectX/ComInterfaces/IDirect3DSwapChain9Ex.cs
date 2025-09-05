@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// that was returned by <see cref="IDirect3DDevice9.GetSwapChain"/>.
     /// </para>
     /// </remarks>
-    [ComInterface(IID = "85C31227-3DE5-4f00-9B3A-F11AC38C18B5", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9,
+    [ComInterface(IID = "91886CAF-1C3D-4d2e-A0AB-3E4C7D8D3303", BeginVTableSlotIndex = 10, EndVTableSlotIndex = 12,
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DSwapChain9)])]
     public unsafe struct IDirect3DSwapChain9Ex
     {

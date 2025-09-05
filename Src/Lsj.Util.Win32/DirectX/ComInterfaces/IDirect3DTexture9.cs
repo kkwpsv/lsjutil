@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// typedef struct IDirect3DTexture9 *LPDIRECT3DTEXTURE9, *PDIRECT3DTEXTURE9;
     /// </code>
     /// </remarks>
-    [ComInterface(IID = "91886CAF-1C3D-4d2e-A0AB-3E4C7D8D3303", BeginVTableSlotIndex = 17, EndVTableSlotIndex = 21,
+    [ComInterface(IID = "85C31227-3DE5-4f00-9B3A-F11AC38C18B5", BeginVTableSlotIndex = 17, EndVTableSlotIndex = 21,
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DResource9), typeof(IDirect3DBaseTexture9)])]
     public unsafe struct IDirect3DTexture9
     {

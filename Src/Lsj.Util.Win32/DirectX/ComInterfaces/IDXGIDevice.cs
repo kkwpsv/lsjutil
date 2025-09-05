@@ -1,10 +1,12 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_RESIDENCY;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -19,6 +21,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi/nn-dxgi-idxgidevice"/>
     /// </para>
     /// </summary>
+    [ComInterface(IID = "54ec77fa-1377-44e6-8c32-88fd5f44c84c", BeginVTableSlotIndex = 7, EndVTableSlotIndex = 11,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIDevice
     {
         IntPtr* _vTable;

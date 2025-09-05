@@ -1,4 +1,7 @@
-﻿using Lsj.Util.Win32;
+﻿using Lsj.Util.Reflection;
+using Lsj.Util.Win32;
+using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.ComInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -87,6 +90,44 @@ namespace Lsj.Util.Tests.Win32
             if (wrongFieldsStructs.Any())
             {
                 Assert.Fail(Environment.NewLine + string.Concat(wrongFieldsStructs.Select(item => $"{item.type.Name} has wrong fields: {string.Join(" ", item.fields.Select(x => x.Name))}" + Environment.NewLine)));
+            }
+        }
+
+        [TestMethod]
+        public void TestComInterfaces()
+        {
+            var iids = typeof(IIDs).GetFields();
+            var interfaces = typeof(IUnknown).Assembly.GetTypes().Where(x => x.IsValueType && !x.IsEnum);
+
+            var wrongIIDInterfaces = new List<Type>();
+            var missingIIDInterfaces = new List<Type>();
+
+            foreach (var @interface in interfaces)
+            {
+                if (@interface.GetCustomAttribute<ComInterfaceAttribute>() is ComInterfaceAttribute attribute)
+                {
+                    var iidField = iids.SingleOrDefault(x => x.Name == $"IID_{@interface.Name}");
+                    if (iidField == null)
+                    {
+                        missingIIDInterfaces.Add(@interface);
+                        continue;
+                    }
+
+                    if (!iidField.GetValue(null).ToString().Equals(attribute.IID, StringComparison.OrdinalIgnoreCase))
+                    {
+                        wrongIIDInterfaces.Add(@interface);
+                    }
+                }
+            }
+
+            if (missingIIDInterfaces.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(missingIIDInterfaces.Select(item => $"{item.Name} missing IID in IIDs" + Environment.NewLine)));
+            }
+
+            if (wrongIIDInterfaces.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(wrongIIDInterfaces.Select(item => $"{item.Name} has wrong IID" + Environment.NewLine)));
             }
         }
     }
