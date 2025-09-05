@@ -39,11 +39,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Returns one of the error codes described in the <see cref="DXGI_ERROR"/> topic.
         /// </remarks>
-        public HRESULT CheckOverlaySupport([In] DXGI_FORMAT EnumFormat, [In] in IUnknown pConcernedDevice, [Out] out DXGI_OVERLAY_SUPPORT_FLAG pFlags)
+        public HRESULT CheckOverlaySupport([In] DXGI_FORMAT EnumFormat, [In] P<IUnknown> pConcernedDevice, [Out] out DXGI_OVERLAY_SUPPORT_FLAG pFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, in IUnknown, out DXGI_OVERLAY_SUPPORT_FLAG, HRESULT>)_vTable[24])
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, P<IUnknown>, out DXGI_OVERLAY_SUPPORT_FLAG, HRESULT>)_vTable[24])
                     (thisPtr, EnumFormat, pConcernedDevice, out pFlags);
             }
         }

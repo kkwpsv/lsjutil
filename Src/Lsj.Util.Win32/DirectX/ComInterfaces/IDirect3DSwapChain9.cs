@@ -182,11 +182,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Failure to call <see cref="IUnknown.Release"/>
         /// when finished using this <see cref="IDirect3DSurface9"/> interface results in a memory leak.
         /// </remarks>
-        public HRESULT GetFrontBufferData([In] in IDirect3DSurface9 pDestSurface)
+        public HRESULT GetFrontBufferData([In] P<IDirect3DSurface9> pDestSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, HRESULT>)_vTable[4])(thisPtr, pDestSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, HRESULT>)_vTable[4])(thisPtr, pDestSurface);
             }
         }
 

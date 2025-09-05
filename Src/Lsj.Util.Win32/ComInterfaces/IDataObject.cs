@@ -446,11 +446,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Then, delegate the call to the <see cref="IDataAdviseHolder.Advise"/> method in the data advise holder,
         /// which creates, and subsequently manages, the requested connection.
         /// </remarks>
-        public HRESULT DAdvise([In] in FORMATETC pformatetc, [In] ADVF advf, [In] in IAdviseSink pAdvSink, [Out] out DWORD pdwConnection)
+        public HRESULT DAdvise([In] in FORMATETC pformatetc, [In] ADVF advf, [In] P<IAdviseSink> pAdvSink, [Out] out DWORD pdwConnection)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, ADVF, in IAdviseSink, out DWORD, HRESULT>)_vTable[9])(thisPtr, pformatetc, advf, pAdvSink, out pdwConnection);
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, ADVF, P<IAdviseSink>, out DWORD, HRESULT>)_vTable[9])(thisPtr, pformatetc, advf, pAdvSink, out pdwConnection);
             }
         }
 

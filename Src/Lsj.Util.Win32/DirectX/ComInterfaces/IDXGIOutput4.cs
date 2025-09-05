@@ -42,12 +42,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method returns <see cref="S_OK"/> on success, or it returns one of the error codes that are described in the <see cref="DXGI_ERROR"/> topic.
         /// </returns>
         public HRESULT CheckOverlayColorSpaceSupport([In] DXGI_FORMAT Format, [In] DXGI_COLOR_SPACE_TYPE ColorSpace,
-            [In] in IUnknown pConcernedDevice, [Out] out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG pFlags)
+            [In] P<IUnknown> pConcernedDevice, [Out] out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG pFlags)
         {
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, DXGI_COLOR_SPACE_TYPE,
-                    in IUnknown, out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG, HRESULT>)_vTable[25])
+                    P<IUnknown>, out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG, HRESULT>)_vTable[25])
                     (thisPtr, Format, ColorSpace, pConcernedDevice, out pFlags);
             }
         }

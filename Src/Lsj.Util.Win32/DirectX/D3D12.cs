@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <param name="pAdapter">
         /// <para>
         /// A pointer to the video adapter to use when creating a device.
-        /// Pass <see cref="NullRef{IUnknown}"/> to use the default adapter,
+        /// Pass <see cref="NULL"/> to use the default adapter,
         /// which is the first adapter that is enumerated by <see cref="IDXGIFactory.EnumAdapters"/>.
         /// </para>
         /// <para>
@@ -110,7 +110,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D12.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D12CreateDevice", ExactSpelling = true)]
-        public static extern HRESULT D3D12CreateDevice([In] in IUnknown pAdapter, [In] D3D_FEATURE_LEVEL MinimumFeatureLevel,
+        public static extern HRESULT D3D12CreateDevice([In] P<IUnknown> pAdapter, [In] D3D_FEATURE_LEVEL MinimumFeatureLevel,
             [In] in IID riid, [Out] out IntPtr ppDevice);
     }
 }

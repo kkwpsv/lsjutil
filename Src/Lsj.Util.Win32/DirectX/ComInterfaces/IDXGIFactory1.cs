@@ -51,12 +51,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppAdapter">
         /// The address of a pointer to an <see cref="IDXGIAdapter1"/> interface at the position specified by the <paramref name="Adapter"/> parameter.
-        /// This parameter must not be <see cref="NullRef{IDXGIAdapter1}"/>.
+        /// This parameter must not be <see cref="NullRef{T}"/>.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; otherwise, returns <see cref="DXGI_ERROR_NOT_FOUND"/>
         /// if the index is greater than or equal to the number of adapters in the local system,
-        /// or <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="ppAdapter"/> parameter is <see cref="NullRef{IDXGIAdapter1}"/>.
+        /// or <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="ppAdapter"/> parameter is <see cref="NullRef{T}"/>.
         /// </returns>
         /// <remarks>
         /// This method is not supported by DXGI 1.0, which shipped in Windows Vista and Windows Server 2008.

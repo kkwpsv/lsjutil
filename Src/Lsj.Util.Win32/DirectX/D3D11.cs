@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <param name="pAdapter">
         /// <para>
         /// A pointer to the video adapter to use when creating a device.
-        /// Pass <see cref="NullRef{IDXGIAdapter}"/> to use the default adapter,
+        /// Pass <see cref="NULL"/> to use the default adapter,
         /// which is the first adapter that is enumerated by <see cref="IDXGIFactory1.EnumAdapters"/>.
         /// </para>
         /// <para>
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </param>
         /// <param name="ppDevice">
         /// Returns the address of a pointer to an <see cref="ID3D11Device"/> object that represents the device created.
-        /// If this parameter is <see cref="NullRef{ID3D11Device}"/>, no <see cref="ID3D11Device"/> will be returned.
+        /// If this parameter is <see cref="NullRef{T}"/>, no <see cref="ID3D11Device"/> will be returned.
         /// </param>
         /// <param name="pFeatureLevel">
         /// If successful, returns the first <see cref="D3D_FEATURE_LEVEL"/> from the <paramref name="pFeatureLevels"/> array which succeeded.
@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </param>
         /// <param name="ppImmediateContext">
         /// Returns the address of a pointer to an <see cref="ID3D11DeviceContext"/> object that represents the device context.
-        /// If this parameter is <see cref="NullRef{ID3D11DeviceContext}"/>, no <see cref="ID3D11DeviceContext"/> will be returned.
+        /// If this parameter is <see cref="NullRef{T}"/>, no <see cref="ID3D11DeviceContext"/> will be returned.
         /// </param>
         /// <returns>
         /// <para>
@@ -237,7 +237,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D11CreateDevice", ExactSpelling = true)]
-        public static extern HRESULT D3D11CreateDevice([In] in IDXGIAdapter pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
+        public static extern HRESULT D3D11CreateDevice([In] P<IDXGIAdapter> pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
             [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[]? pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
             [Out] out P<ID3D11Device> ppDevice, [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);
 
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <param name="pAdapter">
         /// <para>
         /// A pointer to the video adapter to use when creating a device.
-        /// Pass <see cref="NullRef{IDXGIAdapter}"/> to use the default adapter,
+        /// Pass <see cref="NULL"/> to use the default adapter,
         /// which is the first adapter that is enumerated by <see cref="IDXGIFactory1.EnumAdapters"/>.
         /// </para>
         /// <para>
@@ -321,7 +321,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </param>
         /// <param name="ppDevice">
         /// Returns the address of a pointer to an <see cref="ID3D11Device"/> object that represents the device created.
-        /// If this parameter is <see cref="NullRef{ID3D11Device}"/>, no <see cref="ID3D11Device"/> will be returned.
+        /// If this parameter is <see cref="NullRef{T}"/>, no <see cref="ID3D11Device"/> will be returned.
         /// </param>
         /// <param name="pFeatureLevel">
         /// If successful, returns the first <see cref="D3D_FEATURE_LEVEL"/> from the <paramref name="pFeatureLevels"/> array which succeeded.
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </param>
         /// <param name="ppImmediateContext">
         /// Returns the address of a pointer to an <see cref="ID3D11DeviceContext"/> object that represents the device context.
-        /// If this parameter is <see cref="NullRef{ID3D11DeviceContext}"/>, no <see cref="ID3D11DeviceContext"/> will be returned.
+        /// If this parameter is <see cref="NullRef{T}"/>, no <see cref="ID3D11DeviceContext"/> will be returned.
         /// </param>
         /// <returns>
         /// <para>
@@ -416,7 +416,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D11CreateDeviceAndSwapChain", ExactSpelling = true)]
-        public static extern HRESULT D3D11CreateDeviceAndSwapChain([In] in IDXGIAdapter pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
+        public static extern HRESULT D3D11CreateDeviceAndSwapChain([In] P<IDXGIAdapter> pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
              [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[] pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
              [In] in DXGI_SWAP_CHAIN_DESC pSwapChainDesc, [Out] out P<IDXGISwapChain> ppSwapChain, [Out] out P<ID3D11Device> ppDevice,
              [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);

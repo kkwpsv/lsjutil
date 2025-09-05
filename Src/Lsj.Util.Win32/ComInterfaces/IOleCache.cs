@@ -173,11 +173,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If a container does not use these helper functions to create compound document objects,
         /// it can use <see cref="Cache"/> to set up the cache entries which are then filled by <see cref="InitCache"/>.
         /// </remarks>
-        public HRESULT InitCache([In] in IDataObject pDataObject)
+        public HRESULT InitCache([In] P<IDataObject> pDataObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, HRESULT>)_vTable[6])(thisPtr, pDataObject);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDataObject>, HRESULT>)_vTable[6])(thisPtr, pDataObject);
             }
         }
 

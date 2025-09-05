@@ -143,13 +143,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If you do not wish to query for attributes, set <paramref name="pdwAttributes"/> to 0 to avoid unpredictable behavior.
         /// This method is similar to the <see cref="IParseDisplayName.ParseDisplayName"/> method.
         /// </remarks>
-        public HRESULT ParseDisplayName([In] HWND hwnd, [In] in IBindCtx pbc, [In] string pszDisplayName, [In][Out] ref ULONG pchEaten,
+        public HRESULT ParseDisplayName([In] HWND hwnd, [In] P<IBindCtx> pbc, [In] string pszDisplayName, [In][Out] ref ULONG pchEaten,
             [Out] out IntPtr ppidl, [In][Out] ref SFGAO pdwAttributes)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pszDisplayNamePtr = pszDisplayName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IBindCtx, char*, ref ULONG, out IntPtr, ref SFGAO, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, P<IBindCtx>, char*, ref ULONG, out IntPtr, ref SFGAO, HRESULT>)_vTable[3])
                     (thisPtr, hwnd, pbc, pszDisplayNamePtr, ref pchEaten, out ppidl, ref pdwAttributes);
             }
         }
@@ -241,11 +241,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// the implementation should return <see cref="E_NOINTERFACE"/> immediately instead of needlessly creating the Shell folder object
         /// for the subitem and then finding that <see cref="IRemoteComputer"/> was not supported after all.
         /// </remarks>
-        public HRESULT BindToObject([In] IntPtr pidl, [In] in IBindCtx pbc, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToObject([In] IntPtr pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out IntPtr ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, in IBindCtx, in IID, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pidl, pbc, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, P<IBindCtx>, in IID, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pidl, pbc, riid, out ppv);
             }
         }
 
@@ -280,11 +280,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// that can then be used to access the contents of object.
         /// See the <see cref="IMoniker.BindToStorage"/> reference for further discussion.
         /// </remarks>
-        public HRESULT BindToStorage([In] IntPtr pidl, [In] in IBindCtx pbc, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToStorage([In] IntPtr pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out IntPtr ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, in IBindCtx, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pidl, pbc, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, P<IBindCtx>, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pidl, pbc, riid, out ppv);
             }
         }
 

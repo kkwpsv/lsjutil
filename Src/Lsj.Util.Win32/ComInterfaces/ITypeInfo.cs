@@ -582,11 +582,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the application is active, <see cref="GetActiveObject"/> returns the active object;
         /// otherwise, if <see cref="GetActiveObject"/> fails, <see cref="CreateInstance"/> calls <see cref="CoCreateInstance"/>.
         /// </remarks>
-        public HRESULT CreateInstance([In] in IUnknown pUnkOuter, [In] in IID riid, [Out] out PVOID ppvObj)
+        public HRESULT CreateInstance([In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out PVOID ppvObj)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in IID, out PVOID, HRESULT>)_vTable[16])(thisPtr, pUnkOuter, riid, out ppvObj);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in IID, out PVOID, HRESULT>)_vTable[16])(thisPtr, pUnkOuter, riid, out ppvObj);
             }
         }
 

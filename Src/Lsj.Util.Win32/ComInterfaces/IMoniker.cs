@@ -137,11 +137,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvResult"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
-        public HRESULT BindToObject([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IID riidResult, [Out] out IntPtr ppvResult)
+        public HRESULT BindToObject([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [In] in IID riidResult, [Out] out IntPtr ppvResult)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IID, out IntPtr, HRESULT>)_vTable[8])(thisPtr, pbc, pmkToLeft, riidResult, out ppvResult);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, in IID, out IntPtr, HRESULT>)_vTable[8])(thisPtr, pbc, pmkToLeft, riidResult, out ppvResult);
             }
         }
 
@@ -209,11 +209,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvObj"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
-        public HRESULT BindToStorage([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IID riid, [Out] out IntPtr ppvObj)
+        public HRESULT BindToStorage([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [In] in IID riid, [Out] out IntPtr ppvObj)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IID, out IntPtr, HRESULT>)_vTable[9])(thisPtr, pbc, pmkToLeft, riid, out ppvObj);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, in IID, out IntPtr, HRESULT>)_vTable[9])(thisPtr, pbc, pmkToLeft, riid, out ppvObj);
             }
         }
 
@@ -280,11 +280,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This way, the caller still has the option of using the nonreduced moniker (for example, enumerating its components).
         /// Your implementation should reduce the moniker at least as far as is requested.
         /// </remarks>
-        public HRESULT Reduce([In] in IBindCtx pbc, [In] MKRREDUCE dwReduceHowFar, [In][Out] ref IMoniker* ppmkToLeft, [Out] out IntPtr ppmkReduced)
+        public HRESULT Reduce([In] P<IBindCtx> pbc, [In] MKRREDUCE dwReduceHowFar, [In][Out] ref IMoniker* ppmkToLeft, [Out] out IntPtr ppmkReduced)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, MKRREDUCE, ref IMoniker*, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pbc, dwReduceHowFar, ref ppmkToLeft, out ppmkReduced);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, MKRREDUCE, ref IMoniker*, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pbc, dwReduceHowFar, ref ppmkToLeft, out ppmkReduced);
             }
         }
 
@@ -356,11 +356,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If <paramref name="fOnlyIfNotGeneric"/> is <see langword="false"/>,
         /// call the <see cref="CreateGenericComposite"/> function to perform the composition generically.
         /// </remarks>
-        public HRESULT ComposeWith([In] in IMoniker pmkRight, [In] BOOL fOnlyIfNotGeneric, [Out] out IntPtr ppmkComposite)
+        public HRESULT ComposeWith([In] P<IMoniker> pmkRight, [In] BOOL fOnlyIfNotGeneric, [Out] out IntPtr ppmkComposite)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, BOOL, out IntPtr, HRESULT>)_vTable[11])(thisPtr, pmkRight, fOnlyIfNotGeneric, out ppmkComposite);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, BOOL, out IntPtr, HRESULT>)_vTable[11])(thisPtr, pmkRight, fOnlyIfNotGeneric, out ppmkComposite);
             }
         }
 
@@ -423,11 +423,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is the caller's responsibility to call <see cref="Reduce"/> to compare reduced monikers.
         /// Two monikers that compare as equal must hash to the same value using <see cref="Hash"/>.
         /// </remarks>
-        public HRESULT IsEqual([In] in IMoniker pmkOtherMoniker)
+        public HRESULT IsEqual([In] P<IMoniker> pmkOtherMoniker)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[13])(thisPtr, pmkOtherMoniker);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, HRESULT>)_vTable[13])(thisPtr, pmkOtherMoniker);
             }
         }
 
@@ -498,11 +498,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// by the moniker is running.
         /// The object identified by the moniker must have registered itself with the ROT when it first began running.
         /// </remarks>
-        public HRESULT IsRunning([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IMoniker pmkNewlyRunning)
+        public HRESULT IsRunning([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [In] P<IMoniker> pmkNewlyRunning)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IMoniker, HRESULT>)_vTable[15])(thisPtr, pbc, pmkToLeft, pmkNewlyRunning);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, P<IMoniker>, HRESULT>)_vTable[15])(thisPtr, pbc, pmkToLeft, pmkNewlyRunning);
             }
         }
 
@@ -563,11 +563,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You can get the storage associated with this moniker (or the <paramref name="pmkToLeft"/> moniker) and
         /// return the storage's last modification time with a call to <see cref="IStorage.Stat"/>.
         /// </remarks>
-        public HRESULT GetTimeOfLastChange([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [Out] out FILETIME pFileTime)
+        public HRESULT GetTimeOfLastChange([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [Out] out FILETIME pFileTime)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, out FILETIME, HRESULT>)_vTable[16])(thisPtr, pbc, pmkToLeft, out pFileTime);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, out FILETIME, HRESULT>)_vTable[16])(thisPtr, pbc, pmkToLeft, out pFileTime);
             }
         }
 
@@ -657,11 +657,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it should pass both monikers in a call to the <see cref="MonikerCommonPrefixWith"/> function,
         /// which correctly handles the generic case.
         /// </remarks>
-        public HRESULT CommonPrefixWith([In] in IMoniker pmkOther, [Out] out IntPtr ppmkPrefix)
+        public HRESULT CommonPrefixWith([In] P<IMoniker> pmkOther, [Out] out IntPtr ppmkPrefix)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[18])(thisPtr, pmkOther, out ppmkPrefix);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, out IntPtr, HRESULT>)_vTable[18])(thisPtr, pmkOther, out ppmkPrefix);
             }
         }
 
@@ -716,11 +716,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For example, a file moniker returns an anti-moniker as an inverse, while its <see cref="RelativePathTo"/> method
         /// must use one or more file monikers that each represent the path ".." to construct the inverse of myTail.
         /// </remarks>
-        public HRESULT RelativePathTo([In] in IMoniker pmkOther, [Out] out IntPtr ppmkRelPath)
+        public HRESULT RelativePathTo([In] P<IMoniker> pmkOther, [Out] out IntPtr ppmkRelPath)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[19])(thisPtr, pmkOther, out ppmkRelPath);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, out IntPtr, HRESULT>)_vTable[19])(thisPtr, pmkOther, out ppmkRelPath);
             }
         }
 
@@ -776,11 +776,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The display name for a file moniker does not include a delimiter because file monikers are always expected to be
         /// the leftmost component of a composite.
         /// </remarks>
-        public HRESULT GetDisplayName([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [Out] out IntPtr ppszDisplayName)
+        public HRESULT GetDisplayName([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [Out] out IntPtr ppszDisplayName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, out IntPtr, HRESULT>)_vTable[20])(thisPtr, pbc, pmkToLeft, out ppszDisplayName);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, out IntPtr, HRESULT>)_vTable[20])(thisPtr, pbc, pmkToLeft, out ppszDisplayName);
             }
         }
 
@@ -841,13 +841,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Any objects that are bound should be registered with the bind context (see <see cref="IBindCtx.RegisterObjectBound"/>)
         /// to ensure that they remain running for the duration of the parsing operation.
         /// </remarks>
-        public HRESULT ParseDisplayName([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] string pszDisplayName,
+        public HRESULT ParseDisplayName([In] P<IBindCtx> pbc, [In] P<IMoniker> pmkToLeft, [In] string pszDisplayName,
             [Out] out ULONG pchEaten, [Out] out IntPtr ppmkOut)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pszDisplayNamePtr = pszDisplayName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, char*, out ULONG, out IntPtr, HRESULT>)_vTable[21])(thisPtr, pbc, pmkToLeft, pszDisplayNamePtr, out pchEaten, out ppmkOut);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, P<IMoniker>, char*, out ULONG, out IntPtr, HRESULT>)_vTable[21])(thisPtr, pbc, pmkToLeft, pszDisplayNamePtr, out pchEaten, out ppmkOut);
             }
         }
 

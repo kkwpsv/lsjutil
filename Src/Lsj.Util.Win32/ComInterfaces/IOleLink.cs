@@ -134,11 +134,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A container application can also use the <see cref="SetSourceDisplayName"/> method to change a link's moniker.
         /// The linked object's implementation of <see cref="IPersistStorage.Save"/> saves both the relative and the absolute moniker.
         /// </remarks>
-        public HRESULT SetSourceMoniker([In] in IMoniker pmk, [In] in CLSID rclsid)
+        public HRESULT SetSourceMoniker([In] P<IMoniker> pmk, [In] in CLSID rclsid)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, in CLSID, HRESULT>)_vTable[5])(thisPtr, pmk, rclsid);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, in CLSID, HRESULT>)_vTable[5])(thisPtr, pmk, rclsid);
             }
         }
 
@@ -323,11 +323,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// source to set up advisory connections.
         /// The <see cref="UnbindSource"/> implementation unlocks the container and deletes the advisory connections.
         /// </remarks>
-        public HRESULT BindToSource([In] OLELINKBIND bindflags, [In] in IBindCtx pbc)
+        public HRESULT BindToSource([In] OLELINKBIND bindflags, [In] P<IBindCtx> pbc)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLELINKBIND, in IBindCtx, HRESULT>)_vTable[9])(thisPtr, bindflags, pbc);
+                return ((delegate* unmanaged[Stdcall]<void*, OLELINKBIND, P<IBindCtx>, HRESULT>)_vTable[9])(thisPtr, bindflags, pbc);
             }
         }
 
@@ -444,11 +444,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This ensures that the link source remains running until the bind context is released.
         /// The current caches are left intact if the link source cannot be bound.
         /// </remarks>
-        public HRESULT Update([In] in IBindCtx pbc)
+        public HRESULT Update([In] P<IBindCtx> pbc)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, HRESULT>)_vTable[13])(thisPtr, pbc);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, HRESULT>)_vTable[13])(thisPtr, pbc);
             }
         }
     }

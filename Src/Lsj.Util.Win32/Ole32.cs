@@ -211,7 +211,7 @@ namespace Lsj.Util.Win32
         /// but the one on a, the original proxy with the "default" security settings for the IA interface.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCopyProxy", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCopyProxy([In] in IUnknown pProxy, [Out] P<IUnknown> ppCopy);
+        public static extern HRESULT CoCopyProxy([In] P<IUnknown> pProxy, [Out] P<IUnknown> ppCopy);
 
         /// <summary>
         /// <para>
@@ -302,7 +302,7 @@ namespace Lsj.Util.Win32
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstance([In] in CLSID rclsid, [In] in IUnknown pUnkOuter,
+        public static extern HRESULT CoCreateInstance([In] in CLSID rclsid, [In] P<IUnknown> pUnkOuter,
             [In] CLSCTX dwClsContext, [In] in IID riid, [Out] out LPVOID ppv);
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace Lsj.Util.Win32
         /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid, [In] in IUnknown punkOuter,
+        public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid, [In] P<IUnknown> punkOuter,
             [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
             [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
 
@@ -1241,7 +1241,7 @@ namespace Lsj.Util.Win32
         /// you can call <see cref="CoMarshalInterface"/> on the object to do so.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoMarshalInterface", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoMarshalInterface([In] in IStream pStm, [In] in IID riid, [In] object pUnk,
+        public static extern HRESULT CoMarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] object pUnk,
             [In] DWORD dwDestContext, [In] LPVOID pvDestContext, [In] DWORD mshlflags);
 
         /// <summary>
@@ -2233,7 +2233,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreate", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreate([In] in CLSID rclsid, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC pFormatEtc,
-            [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -2271,7 +2271,7 @@ namespace Lsj.Util.Win32
         /// as a call to the <see cref="CoCreateInstance"/> function with the class context parameter assigned the value <see cref="CLSCTX_INPROC_HANDLER"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateDefaultHandler", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid, [In] in IUnknown pUnkOuter, [In] in IID riid, [Out] out LPVOID lplpObj);
+        public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid, [In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out LPVOID lplpObj);
 
         /// <summary>
         /// <para>
@@ -2369,7 +2369,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromData", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateFromData([In] IDataObject pSrcDataObj, [In] in IID riid, [In] OLERENDER renderopt,
-            [In] in FORMATETC pFormatEtc, [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+            [In] in FORMATETC pFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -2409,8 +2409,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromFile", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [MarshalAs(UnmanagedType.LPWStr)][In] in string lpszFileName,
-            [In] in IID riid, [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] in IOleClientSite pClientSite,
-            [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+            [In] in IID riid, [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] P<IOleClientSite> pClientSite,
+            [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -2457,8 +2457,8 @@ namespace Lsj.Util.Win32
         /// Call <see cref="OleCreateLink"/> to allow a container to create a link to an object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateLink", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateLink([In] in IMoniker pmkLinkSrc, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
-            [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleCreateLink([In] P<IMoniker> pmkLinkSrc, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -3139,6 +3139,6 @@ namespace Lsj.Util.Win32
         /// Container applications typically call this function before calling the <see cref="IPersistStorage.Save"/> method.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteClassStg", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT WriteClassStg([In] in IStorage pStg, [In] in CLSID rclsid);
+        public static extern HRESULT WriteClassStg([In] P<IStorage> pStg, [In] in CLSID rclsid);
     }
 }

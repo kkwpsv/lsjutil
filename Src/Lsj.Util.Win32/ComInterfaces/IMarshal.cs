@@ -216,12 +216,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Possible values come from the <see cref="MSHLFLAGS"/> enumeration.
         /// </param>
         /// <returns></returns>
-        public HRESULT MarshalInterface([In] in IStream pStm, [In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext,
+        public HRESULT MarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext,
             [In] IntPtr pvDestContext, [In] MSHLFLAGS mshlflags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, HRESULT>)_vTable[5])(thisPtr, pStm, riid, pv, dwDestContext, pvDestContext, mshlflags);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, HRESULT>)_vTable[5])(thisPtr, pStm, riid, pv, dwDestContext, pvDestContext, mshlflags);
             }
         }
 
@@ -262,11 +262,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Just before exiting, even if exiting with an error, your implementation should reposition
         /// the seek pointer in the stream immediately after the last byte of data read.
         /// </remarks>
-        public HRESULT UnmarshalInterface([In] in IStream pStm, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT UnmarshalInterface([In] P<IStream> pStm, [In] in IID riid, [Out] out IntPtr ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pStm, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pStm, riid, out ppv);
             }
         }
 
@@ -300,11 +300,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you can use this method to release the state information associated with the data packet represented by <paramref name="pStm"/>.
         /// Your implementation should also position the seek pointer in the stream past the last byte of data. 
         /// </remarks>
-        public HRESULT ReleaseMarshalData([In] in IStream pStm)
+        public HRESULT ReleaseMarshalData([In] P<IStream> pStm)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, HRESULT>)_vTable[7])(thisPtr, pStm);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, HRESULT>)_vTable[7])(thisPtr, pStm);
             }
         }
 

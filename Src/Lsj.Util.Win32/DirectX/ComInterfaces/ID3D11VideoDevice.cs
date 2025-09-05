@@ -764,11 +764,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT SetPrivateDataInterface([In] in GUID guid, [In] in IUnknown pData)
+        public HRESULT SetPrivateDataInterface([In] in GUID guid, [In] P<IUnknown> pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IUnknown, HRESULT>)_vTable[19])(thisPtr, guid, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, P<IUnknown>, HRESULT>)_vTable[19])(thisPtr, guid, pData);
             }
         }
     }

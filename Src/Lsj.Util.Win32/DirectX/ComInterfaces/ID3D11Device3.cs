@@ -293,12 +293,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method returns <see cref="E_OUTOFMEMORY"/> if there is insufficient memory to create the shader-resource view.
         /// See Direct3D 11 Return Codes for other possible return values.
         /// </returns>
-        public HRESULT CreateShaderResourceView1([In] in ID3D11Resource pResource, [In] in D3D11_SHADER_RESOURCE_VIEW_DESC1 pDesc1,
+        public HRESULT CreateShaderResourceView1([In] P<ID3D11Resource> pResource, [In] in D3D11_SHADER_RESOURCE_VIEW_DESC1 pDesc1,
             [Out] out P<ID3D11ShaderResourceView1> ppSRView1)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, in D3D11_SHADER_RESOURCE_VIEW_DESC1,
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_SHADER_RESOURCE_VIEW_DESC1,
                     out P<ID3D11ShaderResourceView1>, HRESULT>)_vTable[56])
                     (thisPtr, pResource, pDesc1, out ppSRView1);
             }
@@ -324,12 +324,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method returns <see cref="E_OUTOFMEMORY"/> if there is insufficient memory to create the unordered-access view.
         /// See Direct3D 11 Return Codes for other possible return values.
         /// </returns>
-        public HRESULT CreateUnorderedAccessView1([In] in ID3D11Resource pResource, [In] in D3D11_UNORDERED_ACCESS_VIEW_DESC1 pDesc1,
+        public HRESULT CreateUnorderedAccessView1([In] P<ID3D11Resource> pResource, [In] in D3D11_UNORDERED_ACCESS_VIEW_DESC1 pDesc1,
             [Out] out P<ID3D11UnorderedAccessView1> ppUAView1)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, in D3D11_UNORDERED_ACCESS_VIEW_DESC1,
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_UNORDERED_ACCESS_VIEW_DESC1,
                     out P<ID3D11UnorderedAccessView1>, HRESULT>)_vTable[57])
                     (thisPtr, pResource, pDesc1, out ppUAView1);
             }
@@ -358,12 +358,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// A render-target view can be bound to the output-merger stage by calling <see cref="ID3D11DeviceContext.OMSetRenderTargets"/>.
         /// </remarks>
-        public HRESULT CreateRenderTargetView1([In] in ID3D11Resource pResource, [In] in D3D11_RENDER_TARGET_VIEW_DESC1 pDesc1,
+        public HRESULT CreateRenderTargetView1([In] P<ID3D11Resource> pResource, [In] in D3D11_RENDER_TARGET_VIEW_DESC1 pDesc1,
             [Out] out P<ID3D11RenderTargetView1> ppRTView1)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, in D3D11_RENDER_TARGET_VIEW_DESC1,
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_RENDER_TARGET_VIEW_DESC1,
                     out P<ID3D11RenderTargetView1>, HRESULT>)_vTable[58])
                     (thisPtr, pResource, pDesc1, out ppRTView1);
             }
@@ -536,12 +536,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// with an opaque amount of offsetting which can interfere with alignment to cache lines.
         /// </para>
         /// </remarks>
-        public void WriteToSubresource([In] in ID3D11Resource pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
+        public void WriteToSubresource([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
             [In] IntPtr pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[62])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[62])
                     (thisPtr, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }
@@ -608,11 +608,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public void ReadFromSubresource([In] IntPtr pDstData, [In] UINT DstRowPitch, [In] UINT DstDepthPitch,
-            [In] in ID3D11Resource pSrcResource, [In] UINT SrcSubresource, [In] in D3D11_BOX pSrcBox)
+            [In] P<ID3D11Resource> pSrcResource, [In] UINT SrcSubresource, [In] in D3D11_BOX pSrcBox)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, in ID3D11Resource, UINT, in D3D11_BOX, void>)_vTable[63])
+                ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[63])
                     (thisPtr, pDstData, DstRowPitch, DstDepthPitch, pSrcResource, SrcSubresource, pSrcBox);
             }
         }

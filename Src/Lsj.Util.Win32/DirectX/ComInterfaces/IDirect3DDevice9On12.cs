@@ -57,12 +57,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// On return, the D3D12 resource pointer.
         /// </param>
         /// <returns></returns>
-        public HRESULT UnwrapUnderlyingResource([In] in IDirect3DResource9 pResource9, [In] in ID3D12CommandQueue pCommandQueue,
+        public HRESULT UnwrapUnderlyingResource([In] P<IDirect3DResource9> pResource9, [In] P<ID3D12CommandQueue> pCommandQueue,
             [In] in IID riid, [Out] out IntPtr ppvResource12)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DResource9, in ID3D12CommandQueue, in IID, out IntPtr, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DResource9>, P<ID3D12CommandQueue>, in IID, out IntPtr, HRESULT>)_vTable[4])
                     (thisPtr, pResource9, pCommandQueue, riid, out ppvResource12);
             }
         }
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The list of fences that will be signaled once any caller schedule work is completed.
         /// </param>
         /// <returns></returns>
-        public HRESULT ReturnUnderlyingResource([In] in IDirect3DResource9 pResource9, [In] UINT NumSync, [In] UINT64[] pSignalValues, [In] P<ID3D12Fence>[] ppFences)
+        public HRESULT ReturnUnderlyingResource([In] P<IDirect3DResource9> pResource9, [In] UINT NumSync, [In] UINT64[] pSignalValues, [In] P<ID3D12Fence>[] ppFences)
         {
             fixed (UINT64* pSignalValuesPtr = pSignalValues)
             {
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 {
                     fixed (void* thisPtr = &this)
                     {
-                        return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DResource9, UINT, UINT64*, P<ID3D12Fence>*, HRESULT>)_vTable[5])
+                        return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DResource9>, UINT, UINT64*, P<ID3D12Fence>*, HRESULT>)_vTable[5])
                             (thisPtr, pResource9, NumSync, pSignalValuesPtr, ppFencesPtr);
                     }
                 }

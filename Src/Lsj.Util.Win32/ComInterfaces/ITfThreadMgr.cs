@@ -126,11 +126,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the application associates a window with a document manager using <see cref="ITfThreadMgr.AssociateFocus"/>,
         /// the TSF manager calls this method for the application.
         /// </remarks>
-        public HRESULT SetFocus([In] in ITfDocumentMgr ppdimFocus)
+        public HRESULT SetFocus([In] P<ITfDocumentMgr> ppdimFocus)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ITfDocumentMgr, HRESULT>)_vTable[8])(thisPtr, ppdimFocus);
+                return ((delegate* unmanaged[Stdcall]<void*, P<ITfDocumentMgr>, HRESULT>)_vTable[8])(thisPtr, ppdimFocus);
             }
         }
 
@@ -185,11 +185,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// }
         /// </code>
         /// </remarks>
-        public HRESULT AssociateFocus([In] HWND hwnd, [In] in ITfDocumentMgr pdimNew, [Out] out P<ITfDocumentMgr> ppdimPrev)
+        public HRESULT AssociateFocus([In] HWND hwnd, [In] P<ITfDocumentMgr> pdimNew, [Out] out P<ITfDocumentMgr> ppdimPrev)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in ITfDocumentMgr, out P<ITfDocumentMgr>, HRESULT>)_vTable[9])(thisPtr, hwnd, pdimNew, out ppdimPrev);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, P<ITfDocumentMgr>, out P<ITfDocumentMgr>, HRESULT>)_vTable[9])(thisPtr, hwnd, pdimNew, out ppdimPrev);
             }
         }
 

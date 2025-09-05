@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <para>
         /// Optional.
         /// A pointer to an <see cref="ID3DInclude"/> for handling include files.
-        /// Setting this to <see cref="NullRef{ID3DInclude}"/> will cause a compile error if a shader contains a #include.
+        /// Setting this to <see cref="NULL"/> will cause a compile error if a shader contains a #include.
         /// You can pass the <see cref="D3D_COMPILE_STANDARD_FILE_INCLUDE"/> macro,
         /// which is a pointer to a default include handler.
         /// This default include handler includes files that are relative to the current directory and files

@@ -97,6 +97,6 @@ namespace Lsj.Util.Win32
         /// Any attempt to do so will fail with <see cref="E_INVALIDARG"/>.
         /// </remarks>
         [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMonikerEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateURLMonikerEx([In] in IMoniker pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk, [In] DWORD dwFlags);
+        public static extern HRESULT CreateURLMonikerEx([In] P<IMoniker> pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk, [In] DWORD dwFlags);
     }
 }

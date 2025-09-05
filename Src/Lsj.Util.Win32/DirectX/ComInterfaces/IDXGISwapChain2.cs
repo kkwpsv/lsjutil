@@ -168,7 +168,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="SetMatrixTransform"/> returns:
         /// <see cref="S_OK"/> if it successfully retrieves the transform matrix.
         /// <see cref="E_INVALIDARG"/> if the <paramref name="pMatrix"/> parameter is incorrect,
-        /// for example, <paramref name="pMatrix"/> is <see cref="NullRef{pMatrix}"/>
+        /// for example, <paramref name="pMatrix"/> is <see cref="NullRef{DXGI_MATRIX_3X2_F}"/>
         /// or the matrix represented by <see cref="DXGI_MATRIX_3X2_F"/> includes components other than scale and translation.
         /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the method is called on a swap chain that was not created with <see cref="IDXGIFactory2.CreateSwapChainForComposition"/>.
         /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.

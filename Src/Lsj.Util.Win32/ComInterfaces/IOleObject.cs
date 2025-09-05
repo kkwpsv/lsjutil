@@ -57,11 +57,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Implementation consists simply of incrementing the reference count on, and storing, the pointer to the client site.
         /// </remarks>
-        public HRESULT SetClientSite([In] in IOleClientSite pClientSite)
+        public HRESULT SetClientSite([In] P<IOleClientSite> pClientSite)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IOleClientSite, HRESULT>)_vTable[3])(thisPtr, pClientSite);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IOleClientSite>, HRESULT>)_vTable[3])(thisPtr, pClientSite);
             }
         }
 
@@ -227,11 +227,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Upon receiving a call to <see cref="SetMoniker"/>, an object should register its full moniker in the running object table
         /// and send <see cref="IAdviseSink.OnRename"/> notification to all advise sinks that exist for the object.
         /// </remarks>
-        public HRESULT SetMoniker([In] OLEWHICHMK dwWhichMoniker, [In] in IMoniker pmk)
+        public HRESULT SetMoniker([In] OLEWHICHMK dwWhichMoniker, [In] P<IMoniker> pmk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLEWHICHMK, in IMoniker, HRESULT>)_vTable[7])(thisPtr, dwWhichMoniker, pmk);
+                return ((delegate* unmanaged[Stdcall]<void*, OLEWHICHMK, P<IMoniker>, HRESULT>)_vTable[7])(thisPtr, dwWhichMoniker, pmk);
             }
         }
 
@@ -331,11 +331,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For example, if the type of the data provided is unacceptable, the object should fail to initialize and return <see cref="S_FALSE"/>.
         /// If the object returns <see cref="S_FALSE"/>, it cannot initialize itself from the provided data.
         /// </remarks>
-        public HRESULT InitFromData([In] in IDataObject pDataObject, [In] BOOL fCreation, [In] DWORD dwReserved)
+        public HRESULT InitFromData([In] P<IDataObject> pDataObject, [In] BOOL fCreation, [In] DWORD dwReserved)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, BOOL, DWORD, HRESULT>)_vTable[9])(thisPtr, pDataObject, fCreation, dwReserved);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDataObject>, BOOL, DWORD, HRESULT>)_vTable[9])(thisPtr, pDataObject, fCreation, dwReserved);
             }
         }
 
@@ -522,11 +522,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This ensures that the object's window will be visible to the user even if another process originally obscured it.
         /// For more information see <see cref="SetForegroundWindow"/> and <see cref="SetActiveWindow"/>.
         /// </remarks>
-        public HRESULT DoVerb([In] OLEInvokeVerbs iVerb, [In] in MSG lpmsg, [In] in IOleClientSite pActiveSite, [In] LONG lindex, [In] HWND hwndParent, [In] in RECT lprcPosRect)
+        public HRESULT DoVerb([In] OLEInvokeVerbs iVerb, [In] in MSG lpmsg, [In] P<IOleClientSite> pActiveSite, [In] LONG lindex, [In] HWND hwndParent, [In] in RECT lprcPosRect)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLEInvokeVerbs, in MSG, in IOleClientSite, LONG, HWND, in RECT, HRESULT>)_vTable[11])(thisPtr, iVerb, lpmsg, pActiveSite, lindex, hwndParent, lprcPosRect);
+                return ((delegate* unmanaged[Stdcall]<void*, OLEInvokeVerbs, in MSG, P<IOleClientSite>, LONG, HWND, in RECT, HRESULT>)_vTable[11])(thisPtr, iVerb, lpmsg, pActiveSite, lindex, hwndParent, lprcPosRect);
             }
         }
 
@@ -807,11 +807,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Calls to <see cref="Advise"/>, <see cref="Unadvise"/>, or <see cref="EnumAdvise"/> are delegated to corresponding methods in the advise holder.
         /// To destroy the advise holder, simply call IUnknown::Release on the <see cref="IOleAdviseHolder"/> interface.
         /// </remarks>
-        public HRESULT Advise([In] in IAdviseSink pAdvSink, [Out] out DWORD pdwConnection)
+        public HRESULT Advise([In] P<IAdviseSink> pAdvSink, [Out] out DWORD pdwConnection)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IAdviseSink, out DWORD, HRESULT>)_vTable[19])(thisPtr, pAdvSink, out pdwConnection);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IAdviseSink>, out DWORD, HRESULT>)_vTable[19])(thisPtr, pAdvSink, out pdwConnection);
             }
         }
 

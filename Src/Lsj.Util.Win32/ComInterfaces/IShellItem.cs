@@ -89,11 +89,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT BindToHandler([In] in IBindCtx pbc, [In] in GUID bhid, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToHandler([In] P<IBindCtx> pbc, [In] in GUID bhid, [In] in IID riid, [Out] out IntPtr ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in GUID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pbc, bhid, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, in GUID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pbc, bhid, riid, out ppv);
             }
         }
 
@@ -181,11 +181,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if the items are the same, <see cref="S_FALSE"/> if they are different, or an error value otherwise.
         /// </returns>
-        public HRESULT Compare([In] in IShellItem psi, [In] SICHINTF hint, [Out] out int piOrder)
+        public HRESULT Compare([In] P<IShellItem> psi, [In] SICHINTF hint, [Out] out int piOrder)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, SICHINTF, out int, HRESULT>)_vTable[7])(thisPtr, psi, hint, out piOrder);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IShellItem>, SICHINTF, out int, HRESULT>)_vTable[7])(thisPtr, psi, hint, out piOrder);
             }
         }
     }

@@ -67,11 +67,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Assuming the object has registered itself with the running object table,
         /// moniker implementations can call <see cref="IRunningObjectTable.GetObject"/> to retrieve a pointer to the object.
         /// </remarks>
-        public HRESULT RegisterObjectBound([In] in IUnknown punk)
+        public HRESULT RegisterObjectBound([In] P<IUnknown> punk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HRESULT>)_vTable[3])(thisPtr, punk);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, HRESULT>)_vTable[3])(thisPtr, punk);
             }
         }
 
@@ -90,11 +90,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You would rarely call this method.
         /// It is documented primarily for completeness.
         /// </remarks>
-        public HRESULT RevokeObjectBound([In] in IUnknown punk)
+        public HRESULT RevokeObjectBound([In] P<IUnknown> punk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HRESULT>)_vTable[4])(thisPtr, punk);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, HRESULT>)_vTable[4])(thisPtr, punk);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the same object has been registered more than once,
         /// this method calls the Release method on the object the number of times it was registered.
         /// </remarks>
-        public HRESULT ReleaseBoundObjects([In] in IUnknown punk)
+        public HRESULT ReleaseBoundObjects([In] P<IUnknown> punk)
         {
             fixed (void* thisPtr = &this)
             {
@@ -274,12 +274,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is removed from the table by a call to <see cref="RevokeObjectParam"/>.
         /// The bind context is released. All registered objects are released when the bind context is released.
         /// </remarks>
-        public HRESULT RegisterObjectParam([In] string pszKey, [In] in IUnknown punk)
+        public HRESULT RegisterObjectParam([In] string pszKey, [In] P<IUnknown> punk)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pszKeyPtr = pszKey)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, in IUnknown, HRESULT>)_vTable[9])(thisPtr, pszKeyPtr, punk);
+                return ((delegate* unmanaged[Stdcall]<void*, char*, P<IUnknown>, HRESULT>)_vTable[9])(thisPtr, pszKeyPtr, punk);
             }
         }
 

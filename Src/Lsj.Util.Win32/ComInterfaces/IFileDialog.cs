@@ -103,11 +103,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT Advise([In] in IFileDialogEvents pfde, [Out] out DWORD pdwCookie)
+        public HRESULT Advise([In] P<IFileDialogEvents> pfde, [Out] out DWORD pdwCookie)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IFileDialogEvents, out DWORD, HRESULT>)_vTable[7])(thisPtr, pfde, out pdwCookie);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IFileDialogEvents>, out DWORD, HRESULT>)_vTable[7])(thisPtr, pfde, out pdwCookie);
             }
         }
 
@@ -180,11 +180,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT SetDefaultFolder([In] in IShellItem psi)
+        public HRESULT SetDefaultFolder([In] P<IShellItem> psi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, HRESULT>)_vTable[11])(thisPtr, psi);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IShellItem>, HRESULT>)_vTable[11])(thisPtr, psi);
             }
         }
 
@@ -213,11 +213,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// such as the Microsoft OneDrive Documents folder for the Documents library.
         /// Because of these mappings, the folder location used in the dialog might not be exactly as you specified when you called this method.
         /// </remarks>
-        public HRESULT SetFolder([In] in IShellItem psi)
+        public HRESULT SetFolder([In] P<IShellItem> psi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, HRESULT>)_vTable[12])(thisPtr, psi);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IShellItem>, HRESULT>)_vTable[12])(thisPtr, psi);
             }
         }
 
@@ -412,11 +412,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// on the item represented by the <paramref name="psi"/> parameter.
         /// The value for this property will be used in place of the item's UI name.
         /// </remarks>
-        public HRESULT AddPlace([In] in IShellItem psi, [In] FDAP fdap)
+        public HRESULT AddPlace([In] P<IShellItem> psi, [In] FDAP fdap)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, FDAP, HRESULT>)_vTable[21])(thisPtr, psi, fdap);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IShellItem>, FDAP, HRESULT>)_vTable[21])(thisPtr, psi, fdap);
             }
         }
 
@@ -530,11 +530,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because in folders with a large number of items it may offer better performance than applying an <see cref="IShellItemFilter"/>.
         /// </remarks>
         [Obsolete("Deprecated. SetFilter is no longer available for use as of Windows 7.")]
-        public HRESULT SetFilter([In] in IShellItemFilter pFilter)
+        public HRESULT SetFilter([In] P<IShellItem> pFilter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IShellItemFilter, HRESULT>)_vTable[26])(thisPtr, pFilter);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IShellItem>, HRESULT>)_vTable[26])(thisPtr, pFilter);
             }
         }
     }

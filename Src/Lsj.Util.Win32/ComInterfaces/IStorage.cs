@@ -245,13 +245,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// in which case the object is destroyed when it receives its final release.
         /// This is useful for creating temporary storage objects.
         /// </remarks>
-        public HRESULT OpenStorage([In] string pwcsName, [In] in IStorage pstgPriority, [In] STGM grfMode,
+        public HRESULT OpenStorage([In] string pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
             [In] in IntPtr snbExclude, [In] DWORD reserved, [Out] out IntPtr ppstg)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pwcsNamePtr = pwcsName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, in IStorage, STGM, in IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[6])
+                return ((delegate* unmanaged[Stdcall]<void*, char*, P<IStorage>, STGM, in IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[6])
                     (thisPtr, pwcsNamePtr, pstgPriority, grfMode, snbExclude, reserved, out ppstg);
             }
         }
@@ -312,11 +312,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </code>
         /// Note To compact a document file, call <see cref="CopyTo"/> on the root storage object and copy to a new storage object.
         /// </remarks>
-        public HRESULT CopyTo([In] DWORD ciidExclude, [In] IID[] rgiidExclude, [In] IntPtr snbExclude, [In] in IStorage pstgDest)
+        public HRESULT CopyTo([In] DWORD ciidExclude, [In] IID[] rgiidExclude, [In] IntPtr snbExclude, [In] P<IStorage> pstgDest)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IID[], IntPtr, in IStorage, HRESULT>)_vTable[7])
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IID[], IntPtr, P<IStorage>, HRESULT>)_vTable[7])
                     (thisPtr, ciidExclude, rgiidExclude, snbExclude, pstgDest);
             }
         }
@@ -351,13 +351,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Also, the destination object and element cannot be the same storage object/element name as the source of the move.
         /// That is, you cannot move an element to itself.
         /// </remarks>
-        public HRESULT MoveElementTo([In] string pwcsName, [In] in IStorage pstgDest, [In] string pwcsNewName, [In] STGMOVE grfFlags)
+        public HRESULT MoveElementTo([In] string pwcsName, [In] P<IStorage> pstgDest, [In] string pwcsNewName, [In] STGMOVE grfFlags)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pwcsNamePtr = pwcsName)
             fixed (char* pwcsNewNamePtr = pwcsNewName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, in IStorage, char*, STGMOVE, HRESULT>)_vTable[8])
+                return ((delegate* unmanaged[Stdcall]<void*, char*, P<IStorage>, char*, STGMOVE, HRESULT>)_vTable[8])
                     (thisPtr, pwcsNamePtr, pstgDest, pwcsNewNamePtr, grfFlags);
             }
         }

@@ -252,11 +252,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// specify the maximum large integer value for the <paramref name="cb"/> parameter.
         /// If the seek pointer is the beginning of the stream, this operation copies the entire stream.
         /// </remarks>
-        public HRESULT CopyTo([In] in IStream pstm, [In] ULARGE_INTEGER cb, [Out] out ULARGE_INTEGER pcbRead, [Out] out ULARGE_INTEGER pcbWritten)
+        public HRESULT CopyTo([In] P<IStream> pstm, [In] ULARGE_INTEGER cb, [Out] out ULARGE_INTEGER pcbRead, [Out] out ULARGE_INTEGER pcbWritten)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, ULARGE_INTEGER, out ULARGE_INTEGER, out ULARGE_INTEGER, HRESULT>)_vTable[7])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, ULARGE_INTEGER, out ULARGE_INTEGER, out ULARGE_INTEGER, HRESULT>)_vTable[7])
                     (thisPtr, pstm, cb, out pcbRead, out pcbWritten);
             }
         }

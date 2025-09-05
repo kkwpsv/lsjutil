@@ -104,11 +104,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// (may be a full or partial URL string, see <see cref="CreateURLMonikerEx"/> for details).
         /// This is represented as a <see cref="ULONG"/> count of characters followed by that many Unicode characters.
         /// </remarks>
-        public HRESULT Load([In] in IStream pStm)
+        public HRESULT Load([In] P<IStream> pStm)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, HRESULT>)_vTable[5])(thisPtr, pStm);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, HRESULT>)_vTable[5])(thisPtr, pStm);
             }
         }
 
@@ -154,11 +154,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// (may be a full or partial URL string, see <see cref="CreateURLMonikerEx"/> for details).
         /// This is represented as a <see cref="ULONG"/> count of characters followed by that many Unicode characters.
         /// </remarks>
-        public HRESULT Save([In] in IStream pStm, [In] BOOL fClearDirty)
+        public HRESULT Save([In] P<IStream> pStm, [In] BOOL fClearDirty)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStream, BOOL, HRESULT>)_vTable[6])(thisPtr, pStm, fClearDirty);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, BOOL, HRESULT>)_vTable[6])(thisPtr, pStm, fClearDirty);
             }
         }
 

@@ -39,11 +39,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// such as change of focus, keystrokes, and window events. It also customizes the language bar for the text service.
         /// The corresponding <see cref="Deactivate"/> method that shuts down the text service must release all references to the ptim parameter.
         /// </remarks>
-        public HRESULT Activate([In] in ITfThreadMgr ptim, [In] TfClientId tid)
+        public HRESULT Activate([In] P<ITfThreadMgr> ptim, [In] TfClientId tid)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ITfThreadMgr, TfClientId, HRESULT>)_vTable[3])(thisPtr, ptim, tid);
+                return ((delegate* unmanaged[Stdcall]<void*, P<ITfThreadMgr>, TfClientId, HRESULT>)_vTable[3])(thisPtr, ptim, tid);
             }
         }
 

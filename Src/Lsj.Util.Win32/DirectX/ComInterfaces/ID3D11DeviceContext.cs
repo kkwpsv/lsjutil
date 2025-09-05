@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3D_FEATURE_LEVEL;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND_OP;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BUFFER_UAV_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_QUERY;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_RESOURCE_MISC_FLAG;
@@ -124,7 +125,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pPixelShader">
         /// Pointer to a pixel shader (see <see cref="ID3D11PixelShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11PixelShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -151,11 +152,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void PSSetShader([In] in ID3D11PixelShader pPixelShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void PSSetShader([In] P<ID3D11PixelShader> pPixelShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11PixelShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[9])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11PixelShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[9])
                     (thisPtr, pPixelShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -214,7 +215,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pVertexShader">
         /// Pointer to a vertex shader (see <see cref="ID3D11VertexShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11VertexShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -233,11 +234,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The maximum number of instances a shader can have is 256.
         /// </para>
         /// </remarks>
-        public void VSSetShader([In] in ID3D11VertexShader pVertexShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void VSSetShader([In] P<ID3D11VertexShader> pVertexShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11VertexShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[11])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VertexShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[11])
                     (thisPtr, pVertexShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -405,12 +406,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public HRESULT Map([In] in ID3D11Resource pResource, [In] UINT Subresource,
+        public HRESULT Map([In] P<ID3D11Resource> pResource, [In] UINT Subresource,
             [In] D3D11_MAP MapType, [In] UINT MapFlags, [Out] out D3D11_MAPPED_SUBRESOURCE pMappedResource)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, D3D11_MAP, UINT, out D3D11_MAPPED_SUBRESOURCE, HRESULT>)_vTable[14])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, D3D11_MAP, UINT, out D3D11_MAPPED_SUBRESOURCE, HRESULT>)_vTable[14])
                     (thisPtr, pResource, Subresource, MapType, MapFlags, out pMappedResource);
             }
         }
@@ -432,11 +433,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void Unmap([In] in ID3D11Resource pResource, [In] UINT Subresource)
+        public void Unmap([In] P<ID3D11Resource> pResource, [In] UINT Subresource)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, HRESULT>)_vTable[15])(thisPtr, pResource, Subresource);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, HRESULT>)_vTable[15])(thisPtr, pResource, Subresource);
             }
         }
 
@@ -495,11 +496,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The method will hold a reference to the interfaces passed in. This differs from the device state behavior in Direct3D 10.
         /// </para>
         /// </remarks>
-        public void IASetInputLayout([In] in ID3D11InputLayout pInputLayout)
+        public void IASetInputLayout([In] P<ID3D11InputLayout> pInputLayout)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11InputLayout, HRESULT>)_vTable[17])(thisPtr, pInputLayout);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11InputLayout>, HRESULT>)_vTable[17])(thisPtr, pInputLayout);
             }
         }
 
@@ -596,11 +597,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void IASetIndexBuffer([In] in ID3D11Buffer pIndexBuffer, [In] DXGI_FORMAT Format, [In] UINT Offset)
+        public void IASetIndexBuffer([In] P<ID3D11Buffer> pIndexBuffer, [In] DXGI_FORMAT Format, [In] UINT Offset)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Buffer, DXGI_FORMAT, UINT, HRESULT>)_vTable[19])(thisPtr, pIndexBuffer, Format, Offset);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Buffer>, DXGI_FORMAT, UINT, HRESULT>)_vTable[19])(thisPtr, pIndexBuffer, Format, Offset);
             }
         }
 
@@ -738,7 +739,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pShader">
         /// Pointer to a geometry shader (see <see cref="ID3D11GeometryShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11GeometryShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -757,11 +758,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The maximum number of instances a shader can have is 256.
         /// </para>
         /// </remarks>
-        public void GSSetShader([In] in ID3D11GeometryShader pShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void GSSetShader([In] P<ID3D11GeometryShader> pShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11GeometryShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[23])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11GeometryShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[23])
                     (thisPtr, pShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -885,11 +886,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Use <see cref="End"/> to mark the ending of the series of commands.
         /// </remarks>
-        public void Begin([In] in ID3D11Asynchronous pAsync)
+        public void Begin([In] P<ID3D11Asynchronous> pAsync)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Asynchronous, void>)_vTable[27])(thisPtr, pAsync);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Asynchronous>, void>)_vTable[27])(thisPtr, pAsync);
             }
         }
 
@@ -902,11 +903,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Use <see cref="Begin"/> to mark the beginning of the series of commands.
         /// </remarks>
-        public void End([In] in ID3D11Asynchronous pAsync)
+        public void End([In] P<ID3D11Asynchronous> pAsync)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Asynchronous, void>)_vTable[28])(thisPtr, pAsync);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Asynchronous>, void>)_vTable[28])(thisPtr, pAsync);
             }
         }
 
@@ -961,11 +962,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For information about performance counter types, see <see cref="D3D11_COUNTER"/>.
         /// </para>
         /// </remarks>
-        public HRESULT GetData([In] in ID3D11Asynchronous pAsync, [In] IntPtr pData, [In] UINT DataSize, [In] D3D11_ASYNC_GETDATA_FLAG GetDataFlags)
+        public HRESULT GetData([In] P<ID3D11Asynchronous> pAsync, [In] IntPtr pData, [In] UINT DataSize, [In] D3D11_ASYNC_GETDATA_FLAG GetDataFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Asynchronous, IntPtr, UINT, D3D11_ASYNC_GETDATA_FLAG, HRESULT>)_vTable[29])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Asynchronous>, IntPtr, UINT, D3D11_ASYNC_GETDATA_FLAG, HRESULT>)_vTable[29])
                     (thisPtr, pAsync, pData, DataSize, GetDataFlags);
             }
         }
@@ -975,7 +976,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pPredicate">
         /// A pointer to the <see cref="ID3D11Predicate"/> interface that represents the rendering predicate.
-        /// A <see cref="NullRef{ID3D11Predicate}"/> value indicates "no" predication;
+        /// A <see cref="NULL"/> value indicates "no" predication;
         /// in this case, the value of <paramref name="PredicateValue"/> is irrelevant but will be preserved for <see cref="GetPredication"/>.
         /// </param>
         /// <param name="PredicateValue">
@@ -1141,11 +1142,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For info about immediate and deferred contexts, see Immediate and Deferred Rendering.
         /// </para>
         /// </remarks>
-        public void SetPredication([In] in ID3D11Predicate pPredicate, [In] BOOL PredicateValue)
+        public void SetPredication([In] P<ID3D11Predicate> pPredicate, [In] BOOL PredicateValue)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Predicate, BOOL, void>)_vTable[30])(thisPtr, pPredicate, PredicateValue);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Predicate>, BOOL, void>)_vTable[30])(thisPtr, pPredicate, PredicateValue);
             }
         }
 
@@ -1249,7 +1250,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pDepthStencilView">
         /// Pointer to a <see cref="ID3D11DepthStencilView"/> that represents the depth-stencil view to bind to the device.
-        /// If this parameter is <see cref="NullRef{ID3D11DepthStencilView}"/>, the depth-stencil view is not bound.
+        /// If this parameter is <see cref="NULL"/>, the depth-stencil view is not bound.
         /// </param>
         /// <remarks>
         /// <para>
@@ -1298,11 +1299,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// all currently bound render targets will be unbound by calling <c>OMSetRenderTargets(0, nullptr, nullptr);</c>.
         /// </para>
         /// </remarks>
-        public void OMSetRenderTargets([In] UINT NumViews, [In] P<ID3D11SamplerState>[]? ppRenderTargetViews, [In] in ID3D11DepthStencilView pDepthStencilView)
+        public void OMSetRenderTargets([In] UINT NumViews, [In] P<ID3D11RenderTargetView>[]? ppRenderTargetViews,
+            [In] P<ID3D11DepthStencilView> pDepthStencilView)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, P<ID3D11SamplerState>[]?, in ID3D11DepthStencilView, void>)_vTable[33])
+                ((delegate* unmanaged[Stdcall]<void*, UINT, P<ID3D11RenderTargetView>[]?, P<ID3D11DepthStencilView>, void>)_vTable[33])
                     (thisPtr, NumViews, ppRenderTargetViews, pDepthStencilView);
             }
         }
@@ -1323,7 +1325,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pDepthStencilView">
         /// Pointer to a <see cref="ID3D11DepthStencilView"/> that represents the depth-stencil view to bind to the device.
-        /// If this parameter is <see cref="NullRef{ID3D11DepthStencilView}"/>, the depth-stencil view is not bound.
+        /// If this parameter is <see cref="NULL"/>, the depth-stencil view is not bound.
         /// </param>
         /// <param name="UAVStartSlot">
         /// <para>
@@ -1351,7 +1353,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppUnorderedAccessViews">
         /// Pointer to an array of <see cref="ID3D11UnorderedAccessView"/>s that represent the unordered-access views to bind to the device.
-        /// If this parameter is <see cref="NullRef{ID3D11UnorderedAccessView}"/> and <paramref name="NumUAVs"/> is 0, no unordered-access views are bound.
+        /// If this parameter is <see cref="NULL"/> and <paramref name="NumUAVs"/> is 0, no unordered-access views are bound.
         /// </param>
         /// <param name="pUAVInitialCounts">
         /// An array of append and consume buffer offsets.
@@ -1555,12 +1557,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public void OMSetRenderTargetsAndUnorderedAccessViews([In] UINT NumRTVs, [In] P<ID3D11RenderTargetView>[]? ppRenderTargetViews,
-            [In] in ID3D11DepthStencilView pDepthStencilView, [In] UINT UAVStartSlot, [In] UINT NumUAVs,
+            [In] P<ID3D11DepthStencilView> pDepthStencilView, [In] UINT UAVStartSlot, [In] UINT NumUAVs,
             [In] P<ID3D11UnorderedAccessView>[]? ppUnorderedAccessViews, [In] UINT[]? pUAVInitialCounts)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, P<ID3D11RenderTargetView>[]?, in ID3D11DepthStencilView,
+                ((delegate* unmanaged[Stdcall]<void*, UINT, P<ID3D11RenderTargetView>[]?, P<ID3D11DepthStencilView>,
                     UINT, UINT, P<ID3D11UnorderedAccessView>[]?, UINT[]?, void>)_vTable[34])
                     (thisPtr, NumRTVs, ppRenderTargetViews, pDepthStencilView, UAVStartSlot, NumUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
             }
@@ -1571,7 +1573,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pBlendState">
         /// Pointer to a blend-state interface (see <see cref="ID3D11BlendState"/>).
-        /// Pass <see cref="NullRef{ID3D11BlendState}"/> for a default blend state.
+        /// Pass <see cref="NULL"/> for a default blend state.
         /// For more info about default blend state, see Remarks.
         /// </param>
         /// <param name="BlendFactor">
@@ -1582,7 +1584,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If you didn't create the blend-state object with <see cref="D3D11_BLEND_BLEND_FACTOR"/> or <see cref="D3D11_BLEND_INV_BLEND_FACTOR"/>,
         /// the blending stage does not use the non-NULL array of blend factors;
         /// the runtime stores the blend factors, and you can later call <see cref="OMGetBlendState"/> to retrieve the blend factors.
-        /// If you pass <see cref="NullRef{ID3D11BlendState}"/>, the runtime uses or stores a blend factor equal to { 1, 1, 1, 1 }.
+        /// If you pass <see langword="null"/>, the runtime uses or stores a blend factor equal to { 1, 1, 1, 1 }.
         /// </param>
         /// <param name="SampleMask">
         /// 32-bit sample coverage.
@@ -1602,7 +1604,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// To create a blend-state interface, call <see cref="ID3D11Device.CreateBlendState"/>.
         /// </para>
         /// <para>
-        /// Passing in <see cref="NullRef{ID3D11BlendState}"/> for the blend-state interface
+        /// Passing in <see langword="null"/> for the blend-state interface
         /// indicates to the runtime to set a default blending state.
         /// The following table indicates the default blending parameters.
         /// </para>
@@ -1707,11 +1709,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This differs from the device state behavior in Direct3D 10.
         /// </para>
         /// </remarks>
-        public void OMSetBlendState([In] in ID3D11BlendState pBlendState, [In] FLOAT[]? BlendFactor, [In] UINT SampleMask)
+        public void OMSetBlendState([In] P<ID3D11BlendState> pBlendState, [In] FLOAT[]? BlendFactor, [In] UINT SampleMask)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11BlendState, FLOAT[]?, UINT, void>)_vTable[35])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11BlendState>, FLOAT[]?, UINT, void>)_vTable[35])
                     (thisPtr, pBlendState, BlendFactor, SampleMask);
             }
         }
@@ -1721,7 +1723,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pDepthStencilState">
         /// Pointer to a depth-stencil state interface (see <see cref="ID3D11DepthStencilState"/>) to bind to the device.
-        /// Set this to <see cref="NullRef{ID3D11DepthStencilState}"/> to use the default state listed in <see cref="D3D11_DEPTH_STENCIL_DESC"/>.
+        /// Set this to <see cref="NULL"/> to use the default state listed in <see cref="D3D11_DEPTH_STENCIL_DESC"/>.
         /// </param>
         /// <param name="StencilRef">
         /// Reference value to perform against when doing a depth-stencil test. See remarks.
@@ -1734,11 +1736,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The method will hold a reference to the interfaces passed in. This differs from the device state behavior in Direct3D 10.
         /// </para>
         /// </remarks>
-        public void OMSetDepthStencilState([In] in ID3D11DepthStencilState pDepthStencilState, [In] UINT StencilRef)
+        public void OMSetDepthStencilState([In] P<ID3D11DepthStencilState> pDepthStencilState, [In] UINT StencilRef)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11DepthStencilState, UINT, void>)_vTable[36])(thisPtr, pDepthStencilState, StencilRef);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11DepthStencilState>, UINT, void>)_vTable[36])(thisPtr, pDepthStencilState, StencilRef);
             }
         }
 
@@ -1861,11 +1863,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void DrawIndexedInstancedIndirect([In] in ID3D11Buffer pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
+        public void DrawIndexedInstancedIndirect([In] P<ID3D11Buffer> pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Buffer, UINT, void>)_vTable[39])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Buffer>, UINT, void>)_vTable[39])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
             }
         }
 
@@ -1886,11 +1888,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// To create the buffer, the application calls the <see cref="ID3D11Device.CreateBuffer"/> method
         /// and in this call passes a pointer to <see cref="D3D11_BUFFER_DESC"/> in the pDesc parameter.
         /// </remarks>
-        public void DrawInstancedIndirect([In] in ID3D11Buffer pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
+        public void DrawInstancedIndirect([In] P<ID3D11Buffer> pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Buffer, UINT, void>)_vTable[40])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Buffer>, UINT, void>)_vTable[40])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
             }
         }
 
@@ -1959,11 +1961,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and in this call passes a pointer to <see cref="D3D11_BUFFER_DESC"/> in the pDesc parameter.
         /// </para>
         /// </remarks>
-        public void DispatchIndirect([In] in ID3D11Buffer pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
+        public void DispatchIndirect([In] P<ID3D11Buffer> pBufferForArgs, [In] UINT AlignedByteOffsetForArgs)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Buffer, UINT, void>)_vTable[42])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Buffer>, UINT, void>)_vTable[42])(thisPtr, pBufferForArgs, AlignedByteOffsetForArgs);
             }
         }
 
@@ -1982,11 +1984,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This differs from the device state behavior in Direct3D 10.
         /// </para>
         /// </remarks>
-        public void RSSetState([In] in ID3D11RasterizerState pRasterizerState)
+        public void RSSetState([In] P<ID3D11RasterizerState> pRasterizerState)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11RasterizerState, void>)_vTable[43])(thisPtr, pRasterizerState);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11RasterizerState>, void>)_vTable[43])(thisPtr, pRasterizerState);
             }
         }
 
@@ -2201,12 +2203,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// by the <paramref name="pSrcResource"/> and <paramref name="pDstResource"/> parameters, should have identical sample count values.
         /// </para>
         /// </remarks>
-        public void CopySubresourceRegion([In] in ID3D11Resource pDstResource, [In] UINT DstSubresource, [In] UINT DstX,
-            [In] UINT DstY, [In] UINT DstZ, [In] in ID3D11Resource pSrcResource, [In] UINT SrcSubresource, [In] in D3D11_BOX pSrcBox)
+        public void CopySubresourceRegion([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource, [In] UINT DstX,
+            [In] UINT DstY, [In] UINT DstZ, [In] P<ID3D11Resource> pSrcResource, [In] UINT SrcSubresource, [In] in D3D11_BOX pSrcBox)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, UINT, UINT, UINT, in ID3D11Resource, UINT, in D3D11_BOX, void>)_vTable[46])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, UINT, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[46])
                     (thisPtr, pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
             }
         }
@@ -2283,11 +2285,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// We recommend to use <see cref="CopySubresourceRegion"/> instead if you only need to copy a portion of the data in a resource.
         /// </para>
         /// </remarks>
-        public void CopyResource([In] in ID3D11Resource pDstResource, [In] in ID3D11Resource pSrcResource)
+        public void CopyResource([In] P<ID3D11Resource> pDstResource, [In] P<ID3D11Resource> pSrcResource)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, in ID3D11Resource, void>)_vTable[47])(thisPtr, pDstResource, pSrcResource);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, P<ID3D11Resource>, void>)_vTable[47])(thisPtr, pDstResource, pSrcResource);
             }
         }
 
@@ -2544,12 +2546,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// }
         /// </code>
         /// </remarks>
-        public void UpdateSubresource([In] in ID3D11Resource pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
+        public void UpdateSubresource([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
             [In] IntPtr pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[48])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[48])
                     (thisPtr, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }
@@ -2570,11 +2572,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// created with either <see cref="D3D11_BUFFER_UAV_FLAG_APPEND"/> or <see cref="D3D11_BUFFER_UAV_FLAG_COUNTER"/> specified when the UAV was created.
         /// These types of resources have hidden counters tracking "how many" records have been written.
         /// </param>
-        public void CopyStructureCount([In] in ID3D11Buffer pDstBuffer, [In] UINT DstAlignedByteOffset, [In] in ID3D11UnorderedAccessView pSrcView)
+        public void CopyStructureCount([In] P<ID3D11Buffer> pDstBuffer, [In] UINT DstAlignedByteOffset, [In] P<ID3D11UnorderedAccessView> pSrcView)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Buffer, UINT, in ID3D11UnorderedAccessView, void>)_vTable[49])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Buffer>, UINT, P<ID3D11UnorderedAccessView>, void>)_vTable[49])
                     (thisPtr, pDstBuffer, DstAlignedByteOffset, pSrcView);
             }
         }
@@ -2607,11 +2609,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Applications should create a render target view for each face or array slice, then clear each view individually.
         /// </para>
         /// </remarks>
-        public void ClearRenderTargetView([In] in ID3D11RenderTargetView pRenderTargetView, [In] FLOAT[] ColorRGBA)
+        public void ClearRenderTargetView([In] P<ID3D11RenderTargetView> pRenderTargetView, [In] FLOAT[] ColorRGBA)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11RenderTargetView, FLOAT[], void>)_vTable[50])(thisPtr, pRenderTargetView, ColorRGBA);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11RenderTargetView>, FLOAT[], void>)_vTable[50])(thisPtr, pRenderTargetView, ColorRGBA);
             }
         }
 
@@ -2631,11 +2633,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This works on any UAV with no format conversion.
         /// For a raw or structured buffer view, only the first array element value is used.
         /// </remarks>
-        public void ClearUnorderedAccessViewUint([In] in ID3D11UnorderedAccessView pUnorderedAccessView, [In] UINT[] Values)
+        public void ClearUnorderedAccessViewUint([In] P<ID3D11UnorderedAccessView> pUnorderedAccessView, [In] UINT[] Values)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11UnorderedAccessView, UINT[], void>)_vTable[51])(thisPtr, pUnorderedAccessView, Values);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11UnorderedAccessView>, UINT[], void>)_vTable[51])(thisPtr, pUnorderedAccessView, Values);
             }
         }
 
@@ -2653,11 +2655,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// with format conversion from FLOAT to *NORM where appropriate.
         /// On other UAVs, the operation is invalid and the call will not reach the driver.
         /// </remarks>
-        public void ClearUnorderedAccessViewFloat([In] in ID3D11UnorderedAccessView pUnorderedAccessView, [In] FLOAT[] Values)
+        public void ClearUnorderedAccessViewFloat([In] P<ID3D11UnorderedAccessView> pUnorderedAccessView, [In] FLOAT[] Values)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11UnorderedAccessView, FLOAT[], void>)_vTable[52])(thisPtr, pUnorderedAccessView, Values);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11UnorderedAccessView>, FLOAT[], void>)_vTable[52])(thisPtr, pUnorderedAccessView, Values);
             }
         }
 
@@ -2686,12 +2688,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Viewport and scissor settings are not applied.
         /// </para>
         /// </remarks>
-        public void ClearDepthStencilView([In] in ID3D11DepthStencilView pDepthStencilView,
+        public void ClearDepthStencilView([In] P<ID3D11DepthStencilView> pDepthStencilView,
             [In] D3D11_CLEAR_FLAG ClearFlags, [In] FLOAT Depth, [In] UINT8 Stencil)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11DepthStencilView, D3D11_CLEAR_FLAG, FLOAT, UINT8, void>)_vTable[53])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11DepthStencilView>, D3D11_CLEAR_FLAG, FLOAT, UINT8, void>)_vTable[53])
                     (thisPtr, pDepthStencilView, ClearFlags, Depth, Stencil);
             }
         }
@@ -2771,11 +2773,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For all other unsupported formats, <see cref="GenerateMips"/> will silently fail.
         /// </para>
         /// </remarks>
-        public void GenerateMips([In] in ID3D11ShaderResourceView pShaderResourceView)
+        public void GenerateMips([In] P<ID3D11ShaderResourceView> pShaderResourceView)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11ShaderResourceView, void>)_vTable[54])(thisPtr, pShaderResourceView);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11ShaderResourceView>, void>)_vTable[54])(thisPtr, pShaderResourceView);
             }
         }
 
@@ -2813,11 +2815,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <para>
         /// Empty-set accesses are handled as out-of-bounds cases.
         /// </para>
-        public void SetResourceMinLOD([In] in ID3D11Resource pResource, [In] FLOAT MinLOD)
+        public void SetResourceMinLOD([In] P<ID3D11Resource> pResource, [In] FLOAT MinLOD)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, FLOAT, void>)_vTable[55])(thisPtr, pResource, MinLOD);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, FLOAT, void>)_vTable[55])(thisPtr, pResource, MinLOD);
             }
         }
 
@@ -2830,11 +2832,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Returns the minimum LOD.
         /// </returns>
-        public FLOAT GetResourceMinLOD([In] in ID3D11Resource pResource)
+        public FLOAT GetResourceMinLOD([In] P<ID3D11Resource> pResource)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, FLOAT>)_vTable[56])(thisPtr, pResource);
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, FLOAT>)_vTable[56])(thisPtr, pResource);
             }
         }
 
@@ -2926,12 +2928,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </item>
         /// </list>
         /// </remarks>
-        public void ResolveSubresource([In] in ID3D11Resource pDstResource, [In] UINT DstSubresource,
-            [In] in ID3D11Resource pSrcResource, [In] UINT SrcSubresource, [In] DXGI_FORMAT Format)
+        public void ResolveSubresource([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource,
+            [In] P<ID3D11Resource> pSrcResource, [In] UINT SrcSubresource, [In] DXGI_FORMAT Format)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, UINT, in ID3D11Resource, UINT, DXGI_FORMAT, void>)_vTable[57])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, P<ID3D11Resource>, UINT, DXGI_FORMAT, void>)_vTable[57])
                     (thisPtr, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
             }
         }
@@ -2978,11 +2980,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void ExecuteCommandList([In] in ID3D11CommandList pCommandList, [In] BOOL RestoreContextState)
+        public void ExecuteCommandList([In] P<ID3D11CommandList> pCommandList, [In] BOOL RestoreContextState)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11CommandList, BOOL, void>)_vTable[58])(thisPtr, pCommandList, RestoreContextState);
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CommandList>, BOOL, void>)_vTable[58])(thisPtr, pCommandList, RestoreContextState);
             }
         }
 
@@ -3028,7 +3030,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pHullShader">
         /// Pointer to a hull shader (see <see cref="ID3D11HullShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11HullShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -3047,11 +3049,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The maximum number of instances a shader can have is 256.
         /// </para>
         /// </remarks>
-        public void HSSetShader([In] in ID3D11HullShader pHullShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void HSSetShader([In] P<ID3D11HullShader> pHullShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11HullShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[60])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11HullShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[60])
                     (thisPtr, pHullShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -3185,7 +3187,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pDomainShader">
         /// Pointer to a domain shader (see <see cref="ID3D11DomainShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11DomainShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -3207,11 +3209,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public void DSSetShader([In] in ID3D11DomainShader pDomainShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void DSSetShader([In] P<ID3D11DomainShader> pDomainShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11DomainShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[64])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11DomainShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[64])
                     (thisPtr, pDomainShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -3383,7 +3385,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pDomainShader">
         /// Pointer to a compute shader (see <see cref="ID3D11ComputeShader"/>).
-        /// Passing in <see cref="NullRef{ID3D11ComputeShader}"/> disables the shader for this pipeline stage.
+        /// Passing in <see cref="NULL"/> disables the shader for this pipeline stage.
         /// </param>
         /// <param name="ppClassInstances">
         /// A pointer to an array of class-instance interfaces (see <see cref="ID3D11ClassInstance"/>).
@@ -3402,11 +3404,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The maximum number of instances a shader can have is 256.
         /// </para>
         /// </remarks>
-        public void CSSetShader([In] in ID3D11ComputeShader pDomainShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
+        public void CSSetShader([In] P<ID3D11ComputeShader> pDomainShader, [In] P<ID3D11ClassInstance>[]? ppClassInstances, [In] UINT NumClassInstances)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11ComputeShader, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[69])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11ComputeShader>, P<ID3D11ClassInstance>[]?, UINT, void>)_vTable[69])
                     (thisPtr, pDomainShader, ppClassInstances, NumClassInstances);
             }
         }
@@ -3876,7 +3878,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="ppPredicate">
         /// Address of a pointer to a predicate (see <see cref="ID3D11Predicate"/>).
-        /// Value stored here will be <see cref="NullRef{ID3D11Predicate}"/> upon device creation.
+        /// Value stored here will be <see cref="NULL"/> upon device creation.
         /// </param>
         /// <param name="pPredicateValue">
         /// Address of a boolean to fill with the predicate comparison value.
@@ -3961,7 +3963,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppDepthStencilView">
         /// Pointer to a <see cref="ID3D11DepthStencilView"/>, which represents a depth-stencil view.
-        /// Specify <see cref="NullRef{ID3D11DepthStencilView}"/> for this parameter when retrieval of the depth-stencil view is not needed.
+        /// Specify <see cref="NullRef{T}"/> for this parameter when retrieval of the depth-stencil view is not needed.
         /// </param>
         /// <remarks>
         /// Any returned interfaces will have their reference count incremented by one.
@@ -3988,7 +3990,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppDepthStencilView">
         /// Pointer to a <see cref="ID3D11DepthStencilView"/>, which represents a depth-stencil view.
-        /// Specify <see cref="NullRef{ID3D11DepthStencilView}"/> for this parameter when retrieval of the depth-stencil view is not required.
+        /// Specify <see cref="NullRef{T}"/> for this parameter when retrieval of the depth-stencil view is not required.
         /// </param>
         /// <param name="UAVStartSlot">
         /// Index into a zero-based array to begin retrieving unordered-access views
@@ -4001,7 +4003,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppUnorderedAccessViews">
         /// Pointer to an array of <see cref="ID3D11UnorderedAccessView"/>s, which represent unordered-access views that are retrieved.
-        /// Specify <see cref="NullRef{ID3D11UnorderedAccessView}"/> for this parameter when retrieval of unordered-access views is not required.
+        /// Specify <see cref="NullRef{T}"/> for this parameter when retrieval of unordered-access views is not required.
         /// </param>
         /// <remarks>
         /// <para>

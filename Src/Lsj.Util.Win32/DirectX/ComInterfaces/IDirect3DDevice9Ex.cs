@@ -242,13 +242,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The method is not recorded in state blocks.
         /// </para>
         /// </remarks>
-        public HRESULT ComposeRects([In] in IDirect3DSurface9 pSrc, [In] in IDirect3DSurface9 pDst, [In] in IDirect3DVertexBuffer9 pSrcRectDescs,
-            [In] UINT NumRects, [In] in IDirect3DVertexBuffer9 pDstRectDescs, [In] D3DCOMPOSERECTSOP Operation, [In] int Xoffset, [In] int Yoffset)
+        public HRESULT ComposeRects([In] P<IDirect3DSurface9> pSrc, [In] P<IDirect3DSurface9> pDst, [In] P<IDirect3DVertexBuffer9> pSrcRectDescs,
+            [In] UINT NumRects, [In] P<IDirect3DVertexBuffer9> pDstRectDescs, [In] D3DCOMPOSERECTSOP Operation, [In] int Xoffset, [In] int Yoffset)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, in IDirect3DVertexBuffer9,
-                    UINT, in IDirect3DVertexBuffer9, D3DCOMPOSERECTSOP, int, int, HRESULT>)_vTable[120])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, P<IDirect3DSurface9>, P<IDirect3DVertexBuffer9>,
+                    UINT, P<IDirect3DVertexBuffer9>, D3DCOMPOSERECTSOP, int, int, HRESULT>)_vTable[120])
                     (thisPtr, pSrc, pDst, pSrcRectDescs, NumRects, pDstRectDescs, Operation, Xoffset, Yoffset);
             }
         }

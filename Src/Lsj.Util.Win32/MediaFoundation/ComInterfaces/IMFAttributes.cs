@@ -2166,11 +2166,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT SetUnknown([In] in GUID guidKey, [In] in IUnknown pUnknown)
+        public HRESULT SetUnknown([In] in GUID guidKey, [In] P<IUnknown> pUnknown)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IUnknown, HRESULT>)_vTable[27])(thisPtr, guidKey, pUnknown);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, P<IUnknown>, HRESULT>)_vTable[27])(thisPtr, guidKey, pUnknown);
             }
         }
 

@@ -6,6 +6,8 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.DirectX.D3D11;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_PRESENT;
@@ -13,7 +15,6 @@ using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_CHAIN_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_USAGE;
 using static Lsj.Util.Win32.Enums.WindowMessages;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -137,8 +138,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pTarget">
         /// If you pass <see cref="TRUE"/> to the <paramref name="Fullscreen"/> parameter to set the display state to full screen,
         /// you can optionally set this parameter to a pointer to an <see cref="IDXGIOutput"/> interface for the output target that contains the swap chain.
-        /// If you set this parameter to <see cref="NullRef{IDXGIOutput}"/>, DXGI will choose the output based on the swap-chain's device and the output window's placement.
-        /// If you pass <see cref="FALSE"/> to Fullscreen, then you must set this parameter to <see cref="NullRef{IDXGIOutput}"/>.
+        /// If you set this parameter to <see cref="NULL"/>, DXGI will choose the output based on the swap-chain's device and the output window's placement.
+        /// If you pass <see cref="FALSE"/> to Fullscreen, then you must set this parameter to <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// This method returns one of these values.
@@ -170,11 +171,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For the flip presentation model, after you transition the display state to full screen,
         /// you must call <see cref="ResizeBuffers"/> to ensure that your call to <see cref="IDXGISwapChain1.Present1"/> succeeds.
         /// </remarks>
-        public HRESULT SetFullscreenState([In] BOOL Fullscreen, [In] in IDXGIOutput pTarget)
+        public HRESULT SetFullscreenState([In] BOOL Fullscreen, [In] P<IDXGIOutput> pTarget)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, BOOL, in IDXGIOutput, HRESULT>)_vTable[10])(thisPtr, Fullscreen, pTarget);
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL, P<IDXGIOutput>, HRESULT>)_vTable[10])(thisPtr, Fullscreen, pTarget);
             }
         }
 

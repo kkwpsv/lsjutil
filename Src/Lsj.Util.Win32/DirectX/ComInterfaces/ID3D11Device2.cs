@@ -183,13 +183,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// For more info about tiled resources, see Tiled resources.
         /// </remarks>
-        public void GetResourceTiling([In] in ID3D11Resource pTiledResource, [Out] out UINT pNumTilesForEntireResource,
+        public void GetResourceTiling([In] P<ID3D11Resource> pTiledResource, [Out] out UINT pNumTilesForEntireResource,
             [Out] out D3D11_PACKED_MIP_DESC pPackedMipDesc, [Out] out D3D11_TILE_SHAPE pStandardTileShapeForNonPackedMips,
             [In][Out] ref UINT pNumSubresourceTilings, [In] UINT FirstSubresourceTilingToGet, [Out] out D3D11_SUBRESOURCE_TILING pSubresourceTilingsForNonPackedMips)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in ID3D11Resource, out UINT, out D3D11_PACKED_MIP_DESC, out D3D11_TILE_SHAPE,
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, out UINT, out D3D11_PACKED_MIP_DESC, out D3D11_TILE_SHAPE,
                     ref UINT, UINT, out D3D11_SUBRESOURCE_TILING, HRESULT>)_vTable[51])
                     (thisPtr, pTiledResource, out pNumTilesForEntireResource, out pPackedMipDesc, out pStandardTileShapeForNonPackedMips,
                     ref pNumSubresourceTilings, FirstSubresourceTilingToGet, out pSubresourceTilingsForNonPackedMips);

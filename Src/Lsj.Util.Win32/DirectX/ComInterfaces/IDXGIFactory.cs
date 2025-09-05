@@ -193,7 +193,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pDevice">
         /// For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain.
         /// For Direct3D 12 this is a pointer to a direct command queue (refer to <see cref="ID3D12CommandQueue"/>) .
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="pDesc">
         /// A pointer to a <see cref="DXGI_SWAP_CHAIN_DESC"/> structure for the swap-chain description.
@@ -255,11 +255,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Store apps call the <see cref="IDXGIFactory2.CreateSwapChainForCoreWindow"/> method to create a swap chain.
         /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
         /// </remarks>
-        public HRESULT CreateSwapChain([In] in IUnknown pDevice, [In] in DXGI_SWAP_CHAIN_DESC pDesc, [Out] out P<IDXGISwapChain> ppSwapChain)
+        public HRESULT CreateSwapChain([In] P<IUnknown> pDevice, [In] in DXGI_SWAP_CHAIN_DESC pDesc, [Out] out P<IDXGISwapChain> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DXGI_SWAP_CHAIN_DESC, out P<IDXGISwapChain>, HRESULT>)_vTable[10])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DXGI_SWAP_CHAIN_DESC, out P<IDXGISwapChain>, HRESULT>)_vTable[10])
                     (thisPtr, pDevice, pDesc, out ppSwapChain);
             }
         }

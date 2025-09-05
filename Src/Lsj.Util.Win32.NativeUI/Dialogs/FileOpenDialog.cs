@@ -4,9 +4,9 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Ole32;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.NativeUI.Dialogs
 {
@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <inheritdoc/>
         protected override P<IFileDialog> CreateDialog()
         {
-            var result = CoCreateInstance(CLSID_FileOpenDialog, NullRef<IUnknown>(), CLSCTX_INPROC_SERVER, IID_IFileDialog, out var obj);
+            var result = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_IFileDialog, out var obj);
             if (result)
             {
                 return (P<IFileDialog>)(IntPtr)obj;

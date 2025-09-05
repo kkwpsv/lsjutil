@@ -5,6 +5,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ENUM_MODES;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
@@ -125,7 +126,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If either <see cref="DXGI_MODE_DESC.Width"/> or <see cref="DXGI_MODE_DESC.Height"/> are 0, both must be 0.
         /// A numerator and denominator of 0 in <see cref="DXGI_MODE_DESC.RefreshRate"/> indicate it is unspecified.
         /// Other members of <see cref="DXGI_MODE_DESC"/> have enumeration values indicating the member is unspecified.
-        /// If <paramref name="pModeToMatch"/> is <see cref="NullRef{IUnknown}"/>,
+        /// If <paramref name="pModeToMatch"/> is <see cref="NullRef{DXGI_MODE_DESC}"/>,
         /// <see cref="DXGI_MODE_DESC.Format"/> cannot be <see cref="DXGI_FORMAT_UNKNOWN"/>.
         /// </param>
         /// <param name="pClosestMatch">
@@ -133,7 +134,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pConcernedDevice">
         /// A pointer to the Direct3D device interface.
-        /// If this parameter is <see cref="NullRef{IUnknown}"/>, only modes whose format matches that of <paramref name="pModeToMatch"/> will be returned;
+        /// If this parameter is <see cref="NULL"/>, only modes whose format matches that of <paramref name="pModeToMatch"/> will be returned;
         /// otherwise, only those formats that are supported for scan-out by the device are returned.
         /// For info about the formats that are supported for scan-out by the device at each feature level:
         /// DXGI Format Support for Direct3D Feature Level 12.1 Hardware
@@ -156,11 +157,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="IDXGIOutput1.FindClosestMatchingMode1"/> returns a matched display-mode set with only stereo modes or only mono modes.
         /// <see cref="FindClosestMatchingMode"/> behaves as though you specified the input mode as mono.
         /// </remarks>
-        public HRESULT FindClosestMatchingMode([In] in DXGI_MODE_DESC pModeToMatch, [Out] out DXGI_MODE_DESC pClosestMatch, [In] in IUnknown pConcernedDevice)
+        public HRESULT FindClosestMatchingMode([In] in DXGI_MODE_DESC pModeToMatch, [Out] out DXGI_MODE_DESC pClosestMatch, [In] P<IUnknown> pConcernedDevice)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in DXGI_MODE_DESC, out DXGI_MODE_DESC, in IUnknown, HRESULT>)_vTable[9])
+                return ((delegate* unmanaged[Stdcall]<void*, in DXGI_MODE_DESC, out DXGI_MODE_DESC, P<IUnknown>, HRESULT>)_vTable[9])
                     (thisPtr, pModeToMatch, out pClosestMatch, pConcernedDevice);
             }
         }
@@ -198,11 +199,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Notes for Windows Store apps
         /// If a Windows Store app uses TakeOwnership, it fails with <see cref="DXGI_ERROR_NOT_CURRENTLY_AVAILABLE"/>.
         /// </returns>
-        public HRESULT TakeOwnership([In] in IUnknown pDevice, [In] BOOL Exclusive)
+        public HRESULT TakeOwnership([In] P<IUnknown> pDevice, [In] BOOL Exclusive)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, BOOL, HRESULT>)_vTable[11])(thisPtr, pDevice, Exclusive);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, BOOL, HRESULT>)_vTable[11])(thisPtr, pDevice, Exclusive);
             }
         }
 
@@ -304,11 +305,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Notes for Windows Store apps
         /// If a Windows Store app uses SetDisplaySurface, it fails with DXGI_ERROR_NOT_CURRENTLY_AVAILABLE.
         /// </remarks>
-        public HRESULT SetDisplaySurface([In] in IDXGISurface pScanoutSurface)
+        public HRESULT SetDisplaySurface([In] P<IDXGISurface> pScanoutSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDXGISurface, HRESULT>)_vTable[16])(thisPtr, pScanoutSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDXGISurface>, HRESULT>)_vTable[16])(thisPtr, pScanoutSurface);
             }
         }
 
@@ -334,11 +335,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </remarks>
         [Obsolete("Starting with Direct3D 11.1, we recommend not to use GetDisplaySurfaceData anymore to retrieve the current display surface. " +
             "Instead, use IDXGIOutput1::GetDisplaySurfaceData1, which supports stereo display mode.")]
-        public HRESULT GetDisplaySurfaceData([In] in IDXGISurface pDestination)
+        public HRESULT GetDisplaySurfaceData([In] P<IDXGISurface> pDestination)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDXGISurface, HRESULT>)_vTable[17])(thisPtr, pDestination);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDXGISurface>, HRESULT>)_vTable[17])(thisPtr, pDestination);
             }
         }
 

@@ -5,6 +5,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ENUM_MODES;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
@@ -109,7 +110,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If either <see cref="DXGI_MODE_DESC1.Width"/> or <see cref="DXGI_MODE_DESC1.Height"/> is 0, both must be 0.
         /// A numerator and denominator of 0 in <see cref="DXGI_MODE_DESC1.RefreshRate"/> indicate it is unspecified.
         /// Other members of <see cref="DXGI_MODE_DESC1"/> have enumeration values that indicate that the member is unspecified.
-        /// If <paramref name="pConcernedDevice"/> is <see cref="NullRef{IUnknown}"/>,
+        /// If <paramref name="pConcernedDevice"/> is <see cref="NULL"/>,
         /// the <see cref="DXGI_MODE_DESC1.Format"/> member of <see cref="DXGI_MODE_DESC1"/> cannot be <see cref="DXGI_FORMAT_UNKNOWN"/>.
         /// </param>
         /// <param name="pClosestMatch">
@@ -162,11 +163,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Because unspecified members are lower priority than specified members,
         /// <see cref="FindClosestMatchingMode1"/> resolves unspecified members later than specified members.
         /// </remarks>
-        public HRESULT FindClosestMatchingMode1([In] in DXGI_MODE_DESC1 pModeToMatch, [Out] out DXGI_MODE_DESC1 pClosestMatch, [In] in IUnknown pConcernedDevice)
+        public HRESULT FindClosestMatchingMode1([In] in DXGI_MODE_DESC1 pModeToMatch, [Out] out DXGI_MODE_DESC1 pClosestMatch, [In] P<IUnknown> pConcernedDevice)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in DXGI_MODE_DESC1, out DXGI_MODE_DESC1, in IUnknown, HRESULT>)_vTable[20])
+                return ((delegate* unmanaged[Stdcall]<void*, in DXGI_MODE_DESC1, out DXGI_MODE_DESC1, P<IUnknown>, HRESULT>)_vTable[20])
                     (thisPtr, pModeToMatch, out pClosestMatch, pConcernedDevice);
             }
         }
@@ -200,11 +201,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="GetDisplaySurfaceData1"/> modifies the surface data to fit the destination resource (stretch, shrink, convert format, rotate).
         /// <see cref="GetDisplaySurfaceData1"/> performs the stretch and shrink with point sampling.
         /// </remarks>
-        public HRESULT GetDisplaySurfaceData1([In] in IDXGIResource pDestination)
+        public HRESULT GetDisplaySurfaceData1([In] P<IDXGIResource> pDestination)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDXGIResource, HRESULT>)_vTable[21])(thisPtr, pDestination);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDXGIResource>, HRESULT>)_vTable[21])(thisPtr, pDestination);
             }
         }
 
@@ -253,11 +254,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// however, that process can have a desktop duplication interface for each output that is part of the desktop.
         /// For improved performance, consider using <see cref="IDXGIOutput5.DuplicateOutput1"/>.
         /// </remarks>
-        public HRESULT DuplicateOutput([In] in IUnknown pDevice, [Out] out P<IDXGIOutputDuplication> ppOutputDuplication)
+        public HRESULT DuplicateOutput([In] P<IUnknown> pDevice, [Out] out P<IDXGIOutputDuplication> ppOutputDuplication)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[22])(thisPtr, pDevice, out ppOutputDuplication);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[22])(thisPtr, pDevice, out ppOutputDuplication);
             }
         }
     }

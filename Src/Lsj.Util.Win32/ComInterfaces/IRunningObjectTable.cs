@@ -122,11 +122,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to ensure that the moniker is fully reduced before registration.
         /// If an object is known by more than one fully reduced moniker, it should be registered under all such monikers.
         /// </remarks>
-        public HRESULT Register([In] RunningObjectTableFlags grfFlags, [In] in IUnknown punkObject, [In] in IMoniker pmkObjectName, [Out] out DWORD pdwRegister)
+        public HRESULT Register([In] RunningObjectTableFlags grfFlags, [In] P<IUnknown> punkObject, [In] P<IMoniker> pmkObjectName, [Out] out DWORD pdwRegister)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, RunningObjectTableFlags, in IUnknown, in IMoniker, out DWORD, HRESULT>)_vTable[3])(thisPtr, grfFlags, punkObject, pmkObjectName, out pdwRegister);
+                return ((delegate* unmanaged[Stdcall]<void*, RunningObjectTableFlags, P<IUnknown>, P<IMoniker>, out DWORD, HRESULT>)_vTable[3])(thisPtr, grfFlags, punkObject, pmkObjectName, out pdwRegister);
             }
         }
 
@@ -185,11 +185,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// However, you should do so only if the pmkToLeft parameter of <see cref="IMoniker.IsRunning"/> is <see cref="NULL"/>.
         /// Otherwise, you should call <see cref="IMoniker.IsRunning"/> on your pmkToLeft parameter instead.
         /// </remarks>
-        public HRESULT IsRunning([In] in IMoniker pmkObjectName)
+        public HRESULT IsRunning([In] P<IMoniker> pmkObjectName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[5])(thisPtr, pmkObjectName);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, HRESULT>)_vTable[5])(thisPtr, pmkObjectName);
             }
         }
 
@@ -228,11 +228,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Instead, your moniker should request services from the object identified by the prefix
         /// (for example, the container of the object identified by your moniker).
         /// </remarks>
-        public HRESULT GetObject([In] in IMoniker pmkObjectName, [Out] out IntPtr ppunkObject)
+        public HRESULT GetObject([In] P<IMoniker> pmkObjectName, [Out] out IntPtr ppunkObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pmkObjectName, out ppunkObject);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pmkObjectName, out ppunkObject);
             }
         }
 

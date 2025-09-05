@@ -57,11 +57,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the attempt fails, the object returns a zero.
         /// To delete an advisory connection, the object with the advise sink passes this nonzero token back to the object by calling <see cref="Advise"/>.
         /// </remarks>
-        HRESULT Advise([In] in IAdviseSink pAdvise, [Out] out DWORD pdwConnection)
+        HRESULT Advise([In] P<IAdviseSink> pAdvise, [Out] out DWORD pdwConnection)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IAdviseSink, out DWORD, HRESULT>)_vTable[3])(thisPtr, pAdvise, out pdwConnection);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IAdviseSink>, out DWORD, HRESULT>)_vTable[3])(thisPtr, pAdvise, out pdwConnection);
             }
         }
 
@@ -138,11 +138,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you can call <see cref="SendOnRename"/> in the implementation of <see cref="IOleObject.SetMoniker"/>,
         /// when you have determined that the operation is successful.
         /// </remarks>
-        public HRESULT SendOnRename([In] in IMoniker pmk)
+        public HRESULT SendOnRename([In] P<IMoniker> pmk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[6])(thisPtr, pmk);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, HRESULT>)_vTable[6])(thisPtr, pmk);
             }
         }
 

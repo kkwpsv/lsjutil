@@ -28,11 +28,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pAdapter">
         /// The address of an <see cref="IDXGIAdapter"/> interface pointer to the adapter.
-        /// This parameter must not be <see cref="NullRef{IDXGIAdapter}"/>.
+        /// This parameter must not be <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; otherwise, returns one of the <see cref="DXGI_ERROR"/> that indicates failure.
-        /// If the <paramref name="pAdapter"/> parameter is <see cref="NullRef{IDXGIAdapter}"/> this method returns <see cref="E_INVALIDARG"/>.
+        /// If the <paramref name="pAdapter"/> parameter is <see cref="NULL"/> this method returns <see cref="E_INVALIDARG"/>.
         /// </returns>
         /// <remarks>
         /// If the <see cref="GetAdapter"/> method succeeds, the reference count on the adapter interface will be incremented.

@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32.Extensions.DirectX
             }
 
             var output1 = output.AsIUnknown().ToInterface<IDXGIOutput1>(IIDs.IID_IDXGIOutput1, true, true);
-            result = output1.Value.DuplicateOutput(_d3d11Device.AsIUnknown().Value, out var outputDuplication);
+            result = output1.Value.DuplicateOutput(_d3d11Device.AsIUnknown(), out var outputDuplication);
             result.ThrowExceptionIfNotSucceed();
 
             P<IDXGIResource> desktopResource;

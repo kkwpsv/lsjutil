@@ -82,12 +82,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to send the necessary notifications.
         /// The established connection can be deleted by passing the value in <paramref name="pdwConnection"/> in a call to <see cref="Unadvise"/>.
         /// </remarks>
-        public HRESULT Advise([In] in IDataObject pDataObject, [In] in FORMATETC pFetc, [In] ADVF advf,
-            [In] in IAdviseSink pAdvise, [Out] out DWORD pdwConnection)
+        public HRESULT Advise([In] P<IDataObject> pDataObject, [In] in FORMATETC pFetc, [In] ADVF advf,
+            [In] P<IAdviseSink> pAdvise, [Out] out DWORD pdwConnection)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, in FORMATETC, ADVF, in IAdviseSink, out DWORD, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDataObject>, in FORMATETC, ADVF, P<IAdviseSink>, out DWORD, HRESULT>)_vTable[3])
                     (thisPtr, pDataObject, pFetc, advf, pAdvise, out pdwConnection);
             }
         }
@@ -169,11 +169,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// this method obtains the actual data by calling the <see cref="IDataObject.GetData"/> method through the pointer
         /// specified in the <paramref name="pDataObject"/> parameter.
         /// </remarks>
-        public HRESULT SendOnDataChange([In] in IDataObject pDataObject, [In] DWORD dwReserved, [In] ADVF advf)
+        public HRESULT SendOnDataChange([In] P<IDataObject>  pDataObject, [In] DWORD dwReserved, [In] ADVF advf)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, DWORD, ADVF, HRESULT>)_vTable[6])(thisPtr, pDataObject, dwReserved, advf);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDataObject>, DWORD, ADVF, HRESULT>)_vTable[6])(thisPtr, pDataObject, dwReserved, advf);
             }
         }
     }

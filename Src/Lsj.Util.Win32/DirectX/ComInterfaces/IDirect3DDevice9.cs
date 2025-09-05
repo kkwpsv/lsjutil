@@ -324,11 +324,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method must be called after the device is reset.
         /// </para>
         /// </remarks>
-        public HRESULT SetCursorProperties([In] UINT XHotSpot, [In] UINT YHotSpot, [In] in IDirect3DSurface9 pCursorBitmap)
+        public HRESULT SetCursorProperties([In] UINT XHotSpot, [In] UINT YHotSpot, [In] P<IDirect3DSurface9> pCursorBitmap)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, in IDirect3DSurface9, HRESULT>)_vTable[10])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, P<IDirect3DSurface9>, HRESULT>)_vTable[10])
                     (thisPtr, XHotSpot, YHotSpot, pCursorBitmap);
             }
         }
@@ -1765,12 +1765,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to a <see cref="D3DPOOL_SYSTEMMEM"/> surface, it can use <see cref="GetRenderTargetData"/>.
         /// </para>
         /// </remarks>
-        public HRESULT UpdateSurface([In] in IDirect3DSurface9 pSourceSurface, [In] in RECT pSourceRect,
-            [In] in IDirect3DSurface9 pDestinationSurface, [In] in POINT pDestPoint)
+        public HRESULT UpdateSurface([In] P<IDirect3DSurface9> pSourceSurface, [In] in RECT pSourceRect,
+            [In] P<IDirect3DSurface9> pDestinationSurface, [In] in POINT pDestPoint)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, in IDirect3DSurface9, in POINT, HRESULT>)_vTable[30])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, in RECT, P<IDirect3DSurface9>, in POINT, HRESULT>)_vTable[30])
                     (thisPtr, pSourceSurface, pSourceRect, pDestinationSurface, pDestPoint);
             }
         }
@@ -1895,11 +1895,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT UpdateTexture([In] in IDirect3DBaseTexture9 pSourceTexture, [In] in IDirect3DBaseTexture9 pDestinationTexture)
+        public HRESULT UpdateTexture([In] P<IDirect3DBaseTexture9> pSourceTexture, [In] P<IDirect3DBaseTexture9> pDestinationTexture)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DBaseTexture9, in IDirect3DBaseTexture9, HRESULT>)_vTable[31])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DBaseTexture9>, P<IDirect3DBaseTexture9>, HRESULT>)_vTable[31])
                     (thisPtr, pSourceTexture, pDestinationTexture);
             }
         }
@@ -1950,11 +1950,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT GetRenderTargetData([In] in IDirect3DSurface9 pRenderTarget, [In] in IDirect3DSurface9 pDestSurface)
+        public HRESULT GetRenderTargetData([In] P<IDirect3DSurface9> pRenderTarget, [In] P<IDirect3DSurface9> pDestSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in IDirect3DSurface9, HRESULT>)_vTable[32])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, P<IDirect3DSurface9>, HRESULT>)_vTable[32])
                     (thisPtr, pRenderTarget, pDestSurface);
             }
         }
@@ -1997,11 +1997,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information, see Lost Devices and Retrieved Data.
         /// </para>
         /// </remarks>
-        public HRESULT GetFrontBufferData([In] UINT iSwapChain, [In] in IDirect3DSurface9 pDestSurface)
+        public HRESULT GetFrontBufferData([In] UINT iSwapChain, [In] P<IDirect3DSurface9> pDestSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DSurface9, HRESULT>)_vTable[33])(thisPtr, iSwapChain, pDestSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, P<IDirect3DSurface9>, HRESULT>)_vTable[33])(thisPtr, iSwapChain, pDestSurface);
             }
         }
 
@@ -2691,13 +2691,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT StretchRect([In] in IDirect3DSurface9 pSourceSurface, [In] in RECT pSourceRect,
-            [In] in IDirect3DSurface9 pDestinationSurface, [In] in RECT pDestRect, [In] D3DTEXTUREFILTERTYPE Filter)
+        public HRESULT StretchRect([In] P<IDirect3DSurface9> pSourceSurface, [In] in RECT pSourceRect,
+            [In] P<IDirect3DSurface9> pDestinationSurface, [In] in RECT pDestRect, [In] D3DTEXTUREFILTERTYPE Filter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT,
-                    in IDirect3DSurface9, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[34])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, in RECT,
+                    P<IDirect3DSurface9>, in RECT, D3DTEXTUREFILTERTYPE, HRESULT>)_vTable[34])
                     (thisPtr, pSourceSurface, pSourceRect, pDestinationSurface, pDestRect, Filter);
             }
         }
@@ -2737,11 +2737,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// the only YUV formats supported are <see cref="D3DFMT_UYVY"/> and <see cref="D3DFMT_YUY2"/>.
         /// </para>
         /// </remarks>
-        public HRESULT ColorFill([In] in IDirect3DSurface9 pSurface, [In] in RECT pRect, [In] D3DCOLOR color)
+        public HRESULT ColorFill([In] P<IDirect3DSurface9> pSurface, [In] in RECT pRect, [In] D3DCOLOR color)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, in RECT, D3DCOLOR, HRESULT>)_vTable[35])(thisPtr, pSurface, pRect, color);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, in RECT, D3DCOLOR, HRESULT>)_vTable[35])(thisPtr, pSurface, pRect, color);
             }
         }
 
@@ -2808,7 +2808,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pRenderTarget">
         /// Pointer to a new color buffer.
-        /// If <see cref="NullRef{IDirect3DSurface9}"/>, the color buffer for the corresponding <paramref name="RenderTargetIndex"/> is disabled.
+        /// If <see cref="NULL"/>, the color buffer for the corresponding <paramref name="RenderTargetIndex"/> is disabled.
         /// Devices always must be associated with a color buffer.
         /// The new render-target surface must have at least <see cref="D3DUSAGE_RENDERTARGET"/> specified.
         /// </param>
@@ -2881,11 +2881,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and pass the resulting surface to <see cref="SetRenderTarget"/>.
         /// </para>
         /// </remarks>
-        public HRESULT SetRenderTarget([In] DWORD RenderTargetIndex, [In] in IDirect3DSurface9 pRenderTarget)
+        public HRESULT SetRenderTarget([In] DWORD RenderTargetIndex, [In] P<IDirect3DSurface9> pRenderTarget)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DSurface9, HRESULT>)_vTable[37])(thisPtr, RenderTargetIndex, pRenderTarget);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, P<IDirect3DSurface9>, HRESULT>)_vTable[37])(thisPtr, RenderTargetIndex, pRenderTarget);
             }
         }
 
@@ -2935,11 +2935,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pNewZStencil">
         /// Address of a pointer to an <see cref="IDirect3DSurface9"/> interface representing the depth stencil surface.
-        /// Setting this to <see cref="NullRef{IDirect3DSurface9}"/> disables the depth stencil operation.
+        /// Setting this to <see cref="NULL"/> disables the depth stencil operation.
         /// </param>
         /// <returns>
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
-        /// If <paramref name="pNewZStencil"/> is other than <see cref="NullRef{IDirect3DSurface9}"/>,
+        /// If <paramref name="pNewZStencil"/> is other than <see cref="NULL"/>,
         /// the return value is <see cref="D3DERR_INVALIDCALL"/> when the stencil surface is invalid.
         /// </returns>
         /// <remarks>
@@ -2977,11 +2977,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and pass the resulting surface to <see cref="SetDepthStencilSurface"/>.
         /// </para>
         /// </remarks>
-        public HRESULT SetDepthStencilSurface([In] in IDirect3DSurface9 pNewZStencil)
+        public HRESULT SetDepthStencilSurface([In] P<IDirect3DSurface9> pNewZStencil)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DSurface9, HRESULT>)_vTable[39])(thisPtr, pNewZStencil);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DSurface9>, HRESULT>)_vTable[39])(thisPtr, pNewZStencil);
             }
         }
 
@@ -4277,11 +4277,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="SetTexture"/> is not allowed with a pool type of <see cref="D3DPOOL_SYSTEMMEM"/> texture
         /// unless <see cref="D3DCAPS9.DevCaps"/> is set with <see cref="D3DDEVCAPS_TEXTURESYSTEMMEMORY"/>.
         /// </remarks>
-        public HRESULT SetTexture([In] DWORD Stage, [In] in IDirect3DBaseTexture9 pTexture)
+        public HRESULT SetTexture([In] DWORD Stage, [In] P<IDirect3DBaseTexture9> pTexture)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in IDirect3DBaseTexture9, HRESULT>)_vTable[65])(thisPtr, Stage, pTexture);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, P<IDirect3DBaseTexture9>, HRESULT>)_vTable[65])(thisPtr, Stage, pTexture);
             }
         }
 
@@ -5106,12 +5106,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public HRESULT ProcessVertices([In] UINT SrcStartIndex, [In] UINT DestIndex, [In] UINT VertexCount,
-            [In] in IDirect3DVertexBuffer9 pDestBuffer, [In] in IDirect3DVertexDeclaration9 pVertexDecl, [In] DWORD Flags)
+            [In] P<IDirect3DVertexBuffer9> pDestBuffer, [In] P<IDirect3DVertexDeclaration9> pVertexDecl, [In] DWORD Flags)
         {
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT,
-                    in IDirect3DVertexBuffer9, in IDirect3DVertexDeclaration9, DWORD, HRESULT>)_vTable[85])
+                    P<IDirect3DVertexBuffer9>, P<IDirect3DVertexDeclaration9>, DWORD, HRESULT>)_vTable[85])
                     (thisPtr, SrcStartIndex, DestIndex, VertexCount, pDestBuffer, pVertexDecl, Flags);
             }
         }
@@ -5156,11 +5156,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// (i.e. texture coordinates, colors, normals, etc.).
         /// This data can be useful for implementing vertex shaders and pixel shaders.
         /// </remarks>
-        public HRESULT SetVertexDeclaration([In] in IDirect3DVertexDeclaration9 pDecl)
+        public HRESULT SetVertexDeclaration([In] P<IDirect3DVertexDeclaration9> pDecl)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexDeclaration9, HRESULT>)_vTable[87])(thisPtr, pDecl);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DVertexDeclaration9>, HRESULT>)_vTable[87])(thisPtr, pDecl);
             }
         }
 
@@ -5462,11 +5462,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// call <see cref="SetVertexShader"/>(NULL) to release the programmable shader,
         /// and then call <see cref="SetFVF"/> with the fixed-function vertex format.
         /// </remarks>
-        public HRESULT SetVertexShader([In] in IDirect3DVertexShader9 pShader)
+        public HRESULT SetVertexShader([In] P<IDirect3DVertexShader9> pShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DVertexShader9, HRESULT>)_vTable[92])(thisPtr, pShader);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DVertexShader9>, HRESULT>)_vTable[92])(thisPtr, pShader);
             }
         }
 
@@ -5684,11 +5684,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// see Efficiently Drawing Multiple Instances of Geometry (Direct3D 9).
         /// </para>
         /// </remarks>
-        public HRESULT SetStreamSource([In] UINT StreamNumber, [In] in IDirect3DVertexBuffer9 pStreamData, [In] UINT OffsetInBytes, [In] UINT Stride)
+        public HRESULT SetStreamSource([In] UINT StreamNumber, [In] P<IDirect3DVertexBuffer9> pStreamData, [In] UINT OffsetInBytes, [In] UINT Stride)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IDirect3DVertexBuffer9, UINT, UINT, HRESULT>)_vTable[100])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, P<IDirect3DVertexBuffer9>, UINT, UINT, HRESULT>)_vTable[100])
                     (thisPtr, StreamNumber, pStreamData, OffsetInBytes, Stride);
             }
         }
@@ -5812,11 +5812,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The single set of indices is used to index all streams.
         /// </para>
         /// </remarks>
-        public HRESULT SetIndices([In] in IDirect3DIndexBuffer9 pIndexData)
+        public HRESULT SetIndices([In] P<IDirect3DIndexBuffer9> pIndexData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DIndexBuffer9, HRESULT>)_vTable[104])(thisPtr, pIndexData);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DIndexBuffer9>, HRESULT>)_vTable[104])(thisPtr, pIndexData);
             }
         }
 
@@ -5878,11 +5878,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
-        public HRESULT SetPixelShader([In] in IDirect3DPixelShader9 pShader)
+        public HRESULT SetPixelShader([In] P<IDirect3DPixelShader9> pShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IDirect3DPixelShader9, HRESULT>)_vTable[107])(thisPtr, pShader);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DPixelShader9>, HRESULT>)_vTable[107])(thisPtr, pShader);
             }
         }
 

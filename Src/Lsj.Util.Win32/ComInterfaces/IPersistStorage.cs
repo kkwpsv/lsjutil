@@ -58,11 +58,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to initialize the new storage object with the object class identifier (CLSID).
         /// </param>
         /// <returns></returns>
-        public HRESULT InitNew([In] in IStorage pStg)
+        public HRESULT InitNew([In] P<IStorage> pStg)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[5])(thisPtr, pStg);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStorage>, HRESULT>)_vTable[5])(thisPtr, pStg);
             }
         }
 
@@ -105,11 +105,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Your implementation of this method should return the <see cref="CO_E_ALREADYINITIALIZED"/> error code
         /// if it receives a call to either the <see cref="InitNew"/> method or the <see cref="Load"/> method after it is already initialized.
         /// </remarks>
-        public HRESULT Load([In] in IStorage pStg)
+        public HRESULT Load([In] P<IStorage> pStg)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[6])(thisPtr, pStg);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStorage>, HRESULT>)_vTable[6])(thisPtr, pStg);
             }
         }
 
@@ -156,11 +156,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If an embedded object passes the <see cref="Save"/> method to its nested objects,
         /// it must receive a call to its <see cref="SaveCompleted"/> method before calling this method for its nested objects.
         /// </remarks>
-        public HRESULT Save([MarshalAs(UnmanagedType.Interface)][In] in IStorage pStgSave, [In] BOOL fSameAsLoad)
+        public HRESULT Save([In] P<IStorage> pStgSave, [In] BOOL fSameAsLoad)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, BOOL, HRESULT>)_vTable[7])(thisPtr, pStgSave, fSameAsLoad);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStorage>, BOOL, HRESULT>)_vTable[7])(thisPtr, pStgSave, fSameAsLoad);
             }
         }
 
@@ -205,11 +205,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method returns an error code, the object is not returned to Normal mode.
         /// Thus, the container object can attempt different save strategies.
         /// </remarks>
-        public HRESULT SaveCompleted([In] in IStorage pStgNew)
+        public HRESULT SaveCompleted([In] P<IStorage> pStgNew)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[8])(thisPtr, pStgNew);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStorage>, HRESULT>)_vTable[8])(thisPtr, pStgNew);
             }
         }
 

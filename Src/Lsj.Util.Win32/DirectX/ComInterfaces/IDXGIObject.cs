@@ -80,11 +80,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// When the data are overwritten (by calling SPD or SPDI with the same GUID) or the object is destroyed,
         /// <see cref="IUnknown.Release"/> is called and the interface's reference count is decremented.
         /// </remarks>
-        public HRESULT SetPrivateDataInterface([In] in GUID Name, [In] in IUnknown pUnknown)
+        public HRESULT SetPrivateDataInterface([In] in GUID Name, [In] P<IUnknown> pUnknown)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IUnknown, HRESULT>)_vTable[4])(thisPtr, Name, pUnknown);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, P<IUnknown>, HRESULT>)_vTable[4])(thisPtr, Name, pUnknown);
             }
         }
 

@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pDevice">
         /// For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain.
         /// For Direct3D 12 this is a pointer to a direct command queue (refer to <see cref="ID3D12CommandQueue"/>).
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="hWnd">
         /// The <see cref="HWND"/> handle that is associated with the swap chain that <see cref="CreateSwapChainForHwnd"/> creates.
@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
         /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
-        /// Set this parameter to <see cref="NullRef{IDXGIOutput}"/> if you don't want to restrict content to an output target.
+        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
@@ -144,13 +144,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more info about this situation, see Deferred Destruction Issues with Flip Presentation Swap Chains.
         /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
         /// </remarks>
-        public HRESULT CreateSwapChainForHwnd([In] in IUnknown pDevice, [In] HWND hWnd, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
-            [In] in DXGI_SWAP_CHAIN_FULLSCREEN_DESC pFullscreenDesc, [In] in IDXGIOutput pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
+        public HRESULT CreateSwapChainForHwnd([In] P<IUnknown> pDevice, [In] HWND hWnd, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
+            [In] in DXGI_SWAP_CHAIN_FULLSCREEN_DESC pFullscreenDesc, [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HWND, in DXGI_SWAP_CHAIN_DESC1,
-                    in DXGI_SWAP_CHAIN_FULLSCREEN_DESC, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[15])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, HWND, in DXGI_SWAP_CHAIN_DESC1,
+                    in DXGI_SWAP_CHAIN_FULLSCREEN_DESC, P<IDXGIOutput>, out P<IDXGISwapChain1>, HRESULT>)_vTable[15])
                     (thisPtr, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, out ppSwapChain);
             }
         }
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pDevice">
         /// For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain.
         /// For Direct3D 12 this is a pointer to a direct command queue (refer to <see cref="ID3D12CommandQueue"/>).
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="pWindow">
         /// A pointer to the CoreWindow object that is associated with the swap chain that <see cref="CreateSwapChainForCoreWindow"/> creates.
@@ -175,7 +175,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the swap chain is moved to a different output, the content is black.
         /// You can optionally set this parameter to an output target
         /// that uses <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> to restrict the content on this output.
-        /// If you do not set this parameter to restrict content on an output target, you can set it to <see cref="NullRef{IDXGIOutput}"/>.
+        /// If you do not set this parameter to restrict content on an output target, you can set it to <see cref="NULL"/>.
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
@@ -259,13 +259,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// }
         /// </code>
         /// </remarks>
-        public HRESULT CreateSwapChainForCoreWindow([In] in IUnknown pDevice, [In] in IUnknown pWindow, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
-            [In] in IDXGIOutput pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
+        public HRESULT CreateSwapChainForCoreWindow([In] P<IUnknown> pDevice, [In] P<IUnknown> pWindow, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
+            [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in IUnknown, in DXGI_SWAP_CHAIN_DESC1,
-                    in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[16])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, P<IUnknown>, in DXGI_SWAP_CHAIN_DESC1,
+                    P<IDXGIOutput>, out P<IDXGISwapChain1>, HRESULT>)_vTable[16])
                     (thisPtr, pDevice, pWindow, pDesc, pRestrictToOutput, out ppSwapChain);
             }
         }
@@ -477,7 +477,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pDevice">
         /// For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain.
         /// For Direct3D 12 this is a pointer to a direct command queue (refer to <see cref="ID3D12CommandQueue"/>).
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="pDesc">
         /// A pointer to a <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure for the swap-chain description.
@@ -494,7 +494,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
         /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
-        /// Set this parameter to <see cref="NullRef{IDXGIOutput}"/> if you don't want to restrict content to an output target.
+        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
@@ -529,12 +529,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If you call any of these methods on this type of swap chain, they fail.
         /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
         /// </remarks>
-        public HRESULT CreateSwapChainForComposition([In] in IUnknown pDevice, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
-            [In] in IDXGIOutput pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
+        public HRESULT CreateSwapChainForComposition([In] P<IUnknown> pDevice, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
+            [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DXGI_SWAP_CHAIN_DESC1, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[24])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DXGI_SWAP_CHAIN_DESC1, P<IDXGIOutput>, out P<IDXGISwapChain1>, HRESULT>)_vTable[24])
                     (thisPtr, pDevice, pDesc, pRestrictToOutput, out ppSwapChain);
             }
         }

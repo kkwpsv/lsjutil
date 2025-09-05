@@ -3,8 +3,8 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.COM
 {
@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.Extensions.COM
         /// <returns></returns>
         public static P<T> CreateInstance<T>(CLSID clsid, IID iid, CLSCTX clsctx) where T : struct
         {
-            var result = Ole32.CoCreateInstance(clsid, NullRef<IUnknown>(), clsctx, iid, out var obj);
+            var result = Ole32.CoCreateInstance(clsid, NULL, clsctx, iid, out var obj);
             if (result)
             {
                 return (P<T>)obj.ToIntPtr();

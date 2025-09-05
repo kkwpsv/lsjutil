@@ -112,13 +112,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// since no proxy is created for such an interface.
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
-        public HRESULT QueryBlanket([In] in IUnknown pProxy, [In] in DWORD pAuthnSvc, [In] in DWORD pAuthzSvc, [Out] out IntPtr pServerPrincName,
+        public HRESULT QueryBlanket([In] P<IUnknown> pProxy, [In] in DWORD pAuthnSvc, [In] in DWORD pAuthzSvc, [Out] out IntPtr pServerPrincName,
             [In] in DWORD pAuthnLevel, [In] in DWORD pImpLevel, [In] in IntPtr pAuthInfo, [In] in EOLE_AUTHENTICATION_CAPABILITIES pCapabilites)
 
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DWORD, in DWORD, out IntPtr, in DWORD, in DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, out IntPtr, in DWORD, in DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[3])
                     (thisPtr, pProxy, pAuthnSvc, pAuthzSvc, out pServerPrincName, pAuthnLevel, pImpLevel, pAuthInfo, pCapabilites);
             }
         }
@@ -265,12 +265,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// if you set the authentication service to default and the authentication information to <see cref="NULL"/>,
         /// you might get a security setting that will not work.
         /// </remarks>
-        public HRESULT SetBlanket([In] in IUnknown pProxy, [In] DWORD pAuthnSvc, [In] DWORD pAuthzSvc, [In] StringHandle pServerPrincName,
+        public HRESULT SetBlanket([In] P<IUnknown> pProxy, [In] DWORD pAuthnSvc, [In] DWORD pAuthzSvc, [In] StringHandle pServerPrincName,
             [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in DWORD, in DWORD, StringHandle, DWORD, DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, StringHandle, DWORD, DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
                     (thisPtr, pProxy, pAuthnSvc, pAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
             }
         }
@@ -310,11 +310,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The helper function <see cref="CoCopyProxy"/> encapsulates a QueryInterface call for a pointer to <see cref="IClientSecurity"/>,
         /// a call to <see cref="CopyProxy"/> with the <see cref="IClientSecurity"/> pointer, and the release of the <see cref="IClientSecurity"/> pointer.
         /// </remarks>
-        public HRESULT CopyProxy([In] in IUnknown pProxy, [Out] out IntPtr ppCopy)
+        public HRESULT CopyProxy([In] P<IUnknown> pProxy, [Out] out IntPtr ppCopy)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pProxy, out ppCopy);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pProxy, out ppCopy);
             }
         }
     }

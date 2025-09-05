@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32
         /// you need to call to expose an object using type information provided by the <see cref="INTERFACEDATA"/> structure.
         /// </remarks>
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateStdDispatch", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateStdDispatch([In] in IUnknown punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
+        public static extern HRESULT CreateStdDispatch([In] P<IUnknown> punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
 
         /// <summary>
         /// <para>

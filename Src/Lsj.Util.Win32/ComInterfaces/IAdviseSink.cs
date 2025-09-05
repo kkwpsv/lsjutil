@@ -102,11 +102,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In response, the link object must update its moniker.
         /// The link object, in turn, forwards the notification to its own container.
         /// </remarks>
-        public void OnRename([In] in IMoniker pmk)
+        public void OnRename([In] P<IMoniker> pmk)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, in IMoniker, void>)_vTable[5])(thisPtr, pmk);
+                ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, void>)_vTable[5])(thisPtr, pmk);
             }
         }
 

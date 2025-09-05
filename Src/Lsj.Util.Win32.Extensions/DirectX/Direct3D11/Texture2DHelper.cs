@@ -34,8 +34,8 @@ namespace Lsj.Util.Win32.Extensions.DirectX.Direct3D11
 
             try
             {
-                deviceContext.Value.CopyResource(cpuTexture.As<ID3D11Resource>(), texture.As<ID3D11Resource>());
-                result = deviceContext.Value.Map(cpuTexture.As<ID3D11Resource>(), 0, D3D11_MAP.D3D11_MAP_READ, 0, out var mappedResource);
+                deviceContext.Value.CopyResource(cpuTexture.AsP<ID3D11Resource>(), texture.AsP<ID3D11Resource>());
+                result = deviceContext.Value.Map(cpuTexture.AsP<ID3D11Resource>(), 0, D3D11_MAP.D3D11_MAP_READ, 0, out var mappedResource);
                 result.ThrowExceptionIfNotSucceed();
 
                 return mappedResource;

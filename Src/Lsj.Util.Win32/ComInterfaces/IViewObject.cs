@@ -362,11 +362,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Therefore, when <see cref="IViewObject.SetAdvise"/> is called and the view object is already holding on to an advise sink pointer,
         /// OLE releases the existing pointer before the new one is registered.
         /// </remarks>
-        public HRESULT SetAdvise([In] DVASPECT aspects, [In] ADVF advf, [In] in IAdviseSink pAdvSink)
+        public HRESULT SetAdvise([In] DVASPECT aspects, [In] ADVF advf, [In] P<IAdviseSink> pAdvSink)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, ADVF, in IAdviseSink, HRESULT>)_vTable[7])(thisPtr, aspects, advf, pAdvSink);
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, ADVF, P<IAdviseSink>, HRESULT>)_vTable[7])(thisPtr, aspects, advf, pAdvSink);
             }
         }
 

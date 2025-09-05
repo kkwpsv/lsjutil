@@ -77,14 +77,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// that format before returning from <see cref="IDXGIOutputDuplication.AcquireNextFrame"/>.
         /// The list of supported formats should always contain <see cref="DXGI_FORMAT_B8G8R8A8_UNORM"/>, as this is the most common format for the desktop.
         /// </remarks>
-        public HRESULT DuplicateOutput1([In] in IUnknown pDevice, [In] UINT Flags, [In] UINT SupportedFormatsCount,
+        public HRESULT DuplicateOutput1([In] P<IUnknown> pDevice, [In] UINT Flags, [In] UINT SupportedFormatsCount,
             [In] DXGI_FORMAT[] pSupportedFormats, [Out] out P<IDXGIOutputDuplication> ppOutputDuplication)
         {
             fixed (void* thisPtr = &this)
             {
                 fixed (DXGI_FORMAT* pSupportedFormatsPtr = pSupportedFormats)
                 {
-                    return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, UINT, UINT, DXGI_FORMAT*, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[26])
+                    return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, UINT, UINT, DXGI_FORMAT*, out P<IDXGIOutputDuplication>, HRESULT>)_vTable[26])
                         (thisPtr, pDevice, Flags, SupportedFormatsCount, pSupportedFormatsPtr, out ppOutputDuplication);
                 }
             }

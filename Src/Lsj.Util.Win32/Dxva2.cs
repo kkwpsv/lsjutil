@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetNumberOfPhysicalMonitorsFromIDirect3DDevice9([In] in IDirect3DDevice9 pDirect3DDevice9, [Out] out DWORD pdwNumberOfPhysicalMonitors);
+        public static extern HRESULT GetNumberOfPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9, [Out] out DWORD pdwNumberOfPhysicalMonitors);
 
         /// <summary>
         /// <para>
@@ -168,7 +168,7 @@ namespace Lsj.Util.Win32
         /// When you are done using the monitor handles, close them by passing the <paramref name="pPhysicalMonitorArray"/> array to the <see cref="DestroyPhysicalMonitors"/> function.
         /// </remarks>
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetPhysicalMonitorsFromIDirect3DDevice9([In] in IDirect3DDevice9 pDirect3DDevice9,
+        public static extern HRESULT GetPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9,
             [In] DWORD dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
     }
 }

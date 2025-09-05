@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pDevice">
         /// A pointer to the Direct3D device for the swap chain.
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// Software drivers, like <see cref="D3D_DRIVER_TYPE_REFERENCE"/>, are not supported for composition swap chains.
         /// </param>
         /// <param name="hSurface">
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
         /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
-        /// Set this parameter to <see cref="NullRef{IDXGIOutput}"/> if you don't want to restrict content to an output target.
+        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
@@ -88,12 +88,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
         /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
         /// </returns>
-        public HRESULT CreateSwapChainForCompositionSurfaceHandle([In] in IUnknown pDevice, [In] HANDLE hSurface, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
-            [In] in IDXGIOutput pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
+        public HRESULT CreateSwapChainForCompositionSurfaceHandle([In] P<IUnknown> pDevice, [In] HANDLE hSurface, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
+            [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HANDLE, in DXGI_SWAP_CHAIN_DESC1, in IDXGIOutput, out P<IDXGISwapChain1>, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, HANDLE, in DXGI_SWAP_CHAIN_DESC1, P<IDXGIOutput>, out P<IDXGISwapChain1>, HRESULT>)_vTable[3])
                     (thisPtr, pDevice, hSurface, pDesc, pRestrictToOutput, out ppSwapChain);
             }
         }
@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </summary>
         /// <param name="pDevice">
         /// A pointer to the Direct3D device for the swap chain.
-        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// Software drivers, like <see cref="D3D_DRIVER_TYPE_REFERENCE"/>, are not supported for composition swap chains.
         /// </param>
         /// <param name="hSurface">
@@ -131,7 +131,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
         /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
-        /// Set this parameter to <see cref="NullRef{IDXGIOutput}"/> if you don't want to restrict content to an output target.
+        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGIDecodeSwapChain"/> interface
@@ -150,12 +150,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The <see cref="IDXGIResource"/> provided via the <paramref name="pYuvDecodeBuffers"/> parameter must point to at least one subresource,
         /// and all subresources must be created with the <see cref="D3D11_BIND_DECODER"/> flag.
         /// </remarks>
-        public HRESULT CreateDecodeSwapChainForCompositionSurfaceHandle([In] in IUnknown pDevice, [In] HANDLE hSurface, [In] in DXGI_DECODE_SWAP_CHAIN_DESC pDesc,
-            [In] in IDXGIResource pYuvDecodeBuffers, [In] in IDXGIOutput pRestrictToOutput, [Out] out P<IDXGIDecodeSwapChain> ppSwapChain)
+        public HRESULT CreateDecodeSwapChainForCompositionSurfaceHandle([In] P<IUnknown> pDevice, [In] HANDLE hSurface, [In] in DXGI_DECODE_SWAP_CHAIN_DESC pDesc,
+            [In] P<IDXGIResource> pYuvDecodeBuffers, [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGIDecodeSwapChain> ppSwapChain)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HANDLE, in DXGI_DECODE_SWAP_CHAIN_DESC, in IDXGIResource, in IDXGIOutput, out P<IDXGIDecodeSwapChain>, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, HANDLE, in DXGI_DECODE_SWAP_CHAIN_DESC, P<IDXGIResource>, P<IDXGIOutput>, out P<IDXGIDecodeSwapChain>, HRESULT>)_vTable[4])
                     (thisPtr, pDevice, hSurface, pDesc, pYuvDecodeBuffers, pRestrictToOutput, out ppSwapChain);
             }
         }
