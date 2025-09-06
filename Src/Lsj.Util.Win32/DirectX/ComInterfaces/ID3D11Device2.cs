@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
-    [ComInterface(IID = "9d06dffa-d1e5-4d07-83a8-1bb123f2f841", BeginVTableSlotIndex = 49, EndVTableSlotIndex = 52,
+    [ComInterface(IID = "9d06dffa-d1e5-4d07-83a8-1bb123f2f841", BeginVTableSlotIndex = 50, EndVTableSlotIndex = 53,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1)])]
     public unsafe struct ID3D11Device2
     {
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext2>, HRESULT>)_vTable[49])(thisPtr, out ppImmediateContext);
+                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext2>, HRESULT>)_vTable[50])(thisPtr, out ppImmediateContext);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext2>, HRESULT>)_vTable[50])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext2>, HRESULT>)_vTable[51])
                     (thisPtr, ContextFlags, out ppDeferredContext);
             }
         }
@@ -190,7 +190,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, out UINT, out D3D11_PACKED_MIP_DESC, out D3D11_TILE_SHAPE,
-                    ref UINT, UINT, out D3D11_SUBRESOURCE_TILING, HRESULT>)_vTable[51])
+                    ref UINT, UINT, out D3D11_SUBRESOURCE_TILING, HRESULT>)_vTable[52])
                     (thisPtr, pTiledResource, out pNumTilesForEntireResource, out pPackedMipDesc, out pStandardTileShapeForNonPackedMips,
                     ref pNumSubresourceTilings, FirstSubresourceTilingToGet, out pSubresourceTilingsForNonPackedMips);
             }
@@ -240,7 +240,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG, UINT, out UINT, HRESULT>)_vTable[52])
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FORMAT, D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG, UINT, out UINT, HRESULT>)_vTable[53])
                     (thisPtr, Format, Flags, SampleCount, out pNumQualityLevels);
             }
         }

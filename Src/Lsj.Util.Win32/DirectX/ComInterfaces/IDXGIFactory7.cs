@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -10,9 +12,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// This interface enables registration for notifications to detect adapter enumeration state changes.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nn-dxgi1_6-idxgifactory6"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nn-dxgi1_6-idxgifactory7"/>
     /// </para>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows10, 17763)]
+    [ComInterface(IID = "a4966eed-76db-44da-84c1-ee9a7afb20a8", BeginVTableSlotIndex = 30, EndVTableSlotIndex = 31,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2),
+            typeof(IDXGIFactory3),typeof(IDXGIFactory4), typeof(IDXGIFactory5), typeof(IDXGIFactory6)])]
     public unsafe struct IDXGIFactory7
     {
         IntPtr* _vTable;

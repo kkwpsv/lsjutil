@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11_4/nn-d3d11_4-id3d11device4"/>
     /// </para>
     /// </summary>
-    [ComInterface(IID = "8992ab71-02e6-4b8d-ba48-b056dcda42c4", BeginVTableSlotIndex = 64, EndVTableSlotIndex = 65,
+    [ComInterface(IID = "8992ab71-02e6-4b8d-ba48-b056dcda42c4", BeginVTableSlotIndex = 65, EndVTableSlotIndex = 66,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1), typeof(ID3D11Device2), typeof(ID3D11Device3)])]
     public unsafe struct ID3D11Device4
     {
@@ -95,7 +95,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[64])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, out DWORD, HRESULT>)_vTable[65])
                     (thisPtr, hEvent, out pdwCookie);
             }
         }
@@ -114,7 +114,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[65])(thisPtr, dwCookie);
+                ((delegate* unmanaged[Stdcall]<void*, DWORD, void>)_vTable[66])(thisPtr, dwCookie);
             }
         }
     }

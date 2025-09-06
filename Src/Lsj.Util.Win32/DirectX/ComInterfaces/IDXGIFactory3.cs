@@ -1,5 +1,8 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
+using static Lsj.Util.Win32.DirectX.D3D11;
 using static Lsj.Util.Win32.DirectX.DXGI;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -12,6 +15,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_3/nn-dxgi1_3-idxgifactory3"/>
     /// </para>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
+    [ComInterface(IID = "25483823-cd46-4c7d-86ca-47aa95b837bd", BeginVTableSlotIndex = 25, EndVTableSlotIndex = 25,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2)])]
     public unsafe struct IDXGIFactory3
     {
         IntPtr* _vTable;

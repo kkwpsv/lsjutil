@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -10,12 +12,14 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// Inherited from objects that are tied to the device so that they can retrieve a pointer to it.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi/nn-dxgi-idxgiobject"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi/nn-dxgi-idxgidevicesubobject"/>
     /// </para>
     /// </summary>
     /// <remarks>
     /// Windows Phone 8: This API is supported.
     /// </remarks>
+    [ComInterface(IID = "3d3e0379-f9de-4d58-bb6c-18d62992f1a6", BeginVTableSlotIndex = 7, EndVTableSlotIndex = 7,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIDeviceSubObject
     {
         IntPtr* _vTable;
@@ -34,7 +38,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </returns>
         /// <remarks>
         /// The type of interface that is returned can be any interface published by the device.
-        /// For example, it could be an IDXGIDevice * called pDevice, and therefore the REFIID would be obtained by calling __uuidof(pDevice).
+        /// For example, it could be an IDXGIDevice * called pDevice,
+        /// and therefore the REFIID would be obtained by calling __uuidof(pDevice).
         /// </remarks>
         public HRESULT GetDevice([In] in IID riid, [Out] out IntPtr ppDevice)
         {

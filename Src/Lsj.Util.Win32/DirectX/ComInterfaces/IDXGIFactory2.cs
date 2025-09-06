@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -9,6 +10,8 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.DXGI;
+using static Lsj.Util.Win32.DirectX.Enums.D3D_DRIVER_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ALPHA_MODE;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_PRESENT;
@@ -30,14 +33,20 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
-    /// To create a Microsoft DirectX Graphics Infrastructure (DXGI) 1.2 factory interface, pass <see cref="IDXGIFactory2"/> into
-    /// either the <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/> function
-    /// or call <see cref="IUnknown.QueryInterface"/> from a factory object that either <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/> returns.
-    /// Because you can create a Direct3D device without creating a swap chain, you might need to retrieve the factory
-    /// that is used to create the device in order to create a swap chain.
-    /// You can request the <see cref="IDXGIDevice"/>, <see cref="IDXGIDevice1"/>, or <see cref="IDXGIDevice2"/> interface
-    /// from the Direct3D device and then use the <see cref="IDXGIObject.GetParent"/> method to locate the factory.
+    /// <para>
+    /// To create a Microsoft DirectX Graphics Infrastructure (DXGI) 1.2 factory interface,
+    /// pass <see cref="IDXGIFactory2"/> into either the <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/> function
+    /// or call <see cref="IUnknown.QueryInterface"/> from a factory object
+    /// that either <see cref="CreateDXGIFactory"/> or <see cref="CreateDXGIFactory1"/> returns.
+    /// </para>
+    /// <para>
+    /// Because you can create a Direct3D device without creating a swap chain,
+    /// you might need to retrieve the factory that is used to create the device in order to create a swap chain.
+    /// You can request the <see cref="IDXGIDevice"/>, <see cref="IDXGIDevice1"/>,
+    /// or <see cref="IDXGIDevice2"/> interface from the Direct3D device
+    /// and then use the <see cref="IDXGIObject.GetParent"/> method to locate the factory.
     /// The following code shows how.
+    /// </para>
     /// <code>
     /// IDXGIDevice2 * pDXGIDevice;
     /// hr = g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice2), (void **)&amp;pDXGIDevice);
@@ -49,6 +58,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// pDXGIAdapter->GetParent(__uuidof(IDXGIFactory2), (void **)&amp;pIDXGIFactory);
     /// </code>
     /// </remarks>
+    [ComInterface(IID = "50c83a1c-e072-4c48-87b0-3630fa36a6d0", BeginVTableSlotIndex = 14, EndVTableSlotIndex = 24,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1)])]
     public unsafe struct IDXGIFactory2
     {
         IntPtr* _vTable;
@@ -57,25 +68,48 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Determines whether to use stereo mode.
         /// </summary>
         /// <returns>
+        /// <para>
         /// Indicates whether to use stereo mode.
-        /// <see cref="TRUE"/> indicates that you can use stereo mode; otherwise, <see cref="FALSE"/>.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="IsWindowedStereoEnabled"/> always returns <see cref="FALSE"/>
-        /// because stereoscopic 3D display behavior isn’t available with the Platform Update for Windows 7.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// <see cref="TRUE"/> indicates that you can use stereo mode; otherwise, <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="IsWindowedStereoEnabled"/> always returns <see cref="FALSE"/>
+        /// because stereoscopic 3D display behavior isn’t available with the Platform Update for Windows 7.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// We recommend that windowed applications call <see cref="IsWindowedStereoEnabled"/> before they attempt to use stereo.
-        /// <see cref="IsWindowedStereoEnabled"/> returns <see cref="TRUE"/> if both of the following items are true:
+        /// <para>
+        /// We recommend that windowed applications call <see cref="IsWindowedStereoEnabled"/> before they attempt to use stereo.
+        /// <see cref="IsWindowedStereoEnabled"/> returns <see cref="TRUE"/> if both of the following items are true:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// All adapters in the computer have drivers that are capable of stereo.
-        /// This only means that the driver is implemented to the Windows Display Driver Model (WDDM) for Windows 8 (WDDM 1.2).
+        /// This only means that the driver is implemented to the Windows Display Driver Model (WDDM) for Windows 8 (WDDM 1.2).
         /// However, the adapter does not necessarily have to be able to scan out stereo.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The current desktop mode (desktop modes are mono) and system policy and hardware are configured
         /// so that the Desktop Window Manager (DWM) performs stereo composition on at least one adapter output.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The creation of a windowed stereo swap chain succeeds if the first requirement is met.
         /// However, if the adapter can't scan out stereo, the output on that adapter is reduced to mono.
-        /// The Direct3D 11.1 Simple Stereo 3D Sample shows how to add a stereoscopic 3D effect and how to respond to system stereo changes.
+        /// </para>
+        /// <para>
+        /// The Direct3D 11.1 Simple Stereo 3D Sample shows
+        /// how to add a stereoscopic 3D effect and how to respond to system stereo changes.
+        /// </para>
         /// </remarks>
         public BOOL IsWindowedStereoEnabled()
         {
@@ -107,42 +141,85 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Set it to <see cref="NullRef{DXGI_SWAP_CHAIN_FULLSCREEN_DESC}"/> to create a windowed swap chain.
         /// </param>
         /// <param name="pRestrictToOutput">
-        /// A pointer to the <see cref="IDXGIOutput"/> interface for the output to restrict content to.
-        /// You must also pass the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag in a <see cref="IDXGISwapChain1.Present1"/> call
+        /// <para>
+        /// A pointer to the <see cref="IDXGIOutput"/> interface for the output to restrict content to.
+        /// You must also pass the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag
+        /// in a <see cref="IDXGISwapChain1.Present1"/> call
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
-        /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
-        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
+        /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
+        /// </para>
+        /// <para>
+        /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
+        /// </para>
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
         /// for the swap chain that <see cref="CreateSwapChainForHwnd"/> creates.
         /// </param>
         /// <returns>
-        /// <see cref="CreateSwapChainForHwnd"/> returns:
+        /// <para>
+        /// <see cref="CreateSwapChainForHwnd"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully created a swap chain.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data, for example,
-        /// if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is NULL, or <paramref name="pDesc"/> data members are invalid.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
-        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
-        /// Platform Update for Windows 7:
-        /// <see cref="DXGI_SCALING_NONE"/> is not supported on Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed
-        /// and causes <see cref="CreateSwapChainForHwnd"/> to return <see cref="DXGI_ERROR_INVALID_CALL"/> when called.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data,
+        /// for example, if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is <see cref="NullRef{T}"/>,
+        /// or <paramref name="pDesc"/> data members are invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
+        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// <see cref="DXGI_SCALING_NONE"/> is not supported on Windows 7 or Windows Server 2008 R2
+        /// with the Platform Update for Windows 7 installed
+        /// and causes <see cref="CreateSwapChainForHwnd"/> to return <see cref="DXGI_ERROR_INVALID_CALL"/> when called.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
-        /// Do not use this method in Windows Store apps. Instead, use <see cref="CreateSwapChainForCoreWindow"/>.
-        /// If you specify the width, height, or both (<see cref="DXGI_SWAP_CHAIN_DESC1.Width"/> and <see cref="DXGI_SWAP_CHAIN_DESC1.Height"/>
-        /// members of <see cref="DXGI_SWAP_CHAIN_DESC1"/> that pDesc points to) of the swap chain as zero,
-        /// the runtime obtains the size from the output window that the <paramref name="hWnd"/> parameter specifies.
-        /// You can subsequently call the <see cref="IDXGISwapChain1.GetDesc1"/> method to retrieve the assigned width or height value.
-        /// Because you can associate only one flip presentation model swap chain at a time with an <see cref="HWND"/>,
-        /// the Microsoft Direct3D 11 policy of deferring the destruction of objects can cause problems
+        /// </para>
+        /// <para>
+        /// Do not use this method in Windows Store apps.
+        /// Instead, use <see cref="CreateSwapChainForCoreWindow"/>.
+        /// If you specify the width, height, or both
+        /// (<see cref="DXGI_SWAP_CHAIN_DESC1.Width"/> and <see cref="DXGI_SWAP_CHAIN_DESC1.Height"/> members
+        /// of <see cref="DXGI_SWAP_CHAIN_DESC1"/> that <paramref name="pDesc"/> points to) of the swap chain as zero,
+        /// the runtime obtains the size from the output window that the <paramref name="hWnd"/> parameter specifies.
+        /// </para>
+        /// <para>
+        /// You can subsequently call the <see cref="IDXGISwapChain1.GetDesc1"/> method to retrieve the assigned width or height value.
+        /// </para>
+        /// <para>
+        /// Because you can associate only one flip presentation model swap chain at a time with an <see cref="HWND"/>,
+        /// the Microsoft Direct3D 11 policy of deferring the destruction of objects can cause problems
         /// if you attempt to destroy a flip presentation model swap chain and replace it with another swap chain.
-        /// For more info about this situation, see Deferred Destruction Issues with Flip Presentation Swap Chains.
-        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// For more info about this situation, see Deferred Destruction Issues with Flip Presentation Swap Chains.
+        /// </para>
+        /// <para>
+        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// </para>
         /// </remarks>
         public HRESULT CreateSwapChainForHwnd([In] P<IUnknown> pDevice, [In] HWND hWnd, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
             [In] in DXGI_SWAP_CHAIN_FULLSCREEN_DESC pFullscreenDesc, [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)
@@ -164,7 +241,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="pWindow">
-        /// A pointer to the CoreWindow object that is associated with the swap chain that <see cref="CreateSwapChainForCoreWindow"/> creates.
+        /// A pointer to the CoreWindow object that is associated with the swap chain
+        /// that <see cref="CreateSwapChainForCoreWindow"/> creates.
         /// </param>
         /// <param name="pDesc">
         /// A pointer to a <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure for the swap-chain description.
@@ -182,47 +260,97 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// for the swap chain that <see cref="CreateSwapChainForCoreWindow"/> creates.
         /// </param>
         /// <returns>
-        /// <see cref="CreateSwapChainForCoreWindow"/> returns:
+        /// <para>
+        /// <see cref="CreateSwapChainForCoreWindow"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully created a swap chain.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data, for example,
-        /// if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is NULL.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
-        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="CreateSwapChainForCoreWindow"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data,
+        /// for example, if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
+        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="CreateSwapChainForCoreWindow"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
-        /// Use this method in Windows Store apps rather than <see cref="CreateSwapChainForHwnd"/>.
-        /// If you specify the width, height, or both (<see cref="DXGI_SWAP_CHAIN_DESC1.Width"/> and <see cref="DXGI_SWAP_CHAIN_DESC1.Height"/>
-        /// members of <see cref="DXGI_SWAP_CHAIN_DESC1"/> that <paramref name="pDesc"/> points to) of the swap chain as zero,
-        /// the runtime obtains the size from the output window that the <paramref name="pWindow"/> parameter specifies.
-        /// You can subsequently call the <see cref="IDXGISwapChain1.GetDesc1"/> method to retrieve the assigned width or height value.
-        /// Because you can associate only one flip presentation model swap chain (per layer) at a time with a CoreWindow,
-        /// the Microsoft Direct3D 11 policy of deferring the destruction of objects can cause problems
+        /// </para>
+        /// <para>
+        /// Use this method in Windows Store apps rather than <see cref="CreateSwapChainForHwnd"/>.
+        /// If you specify the width, height, or both
+        /// (<see cref="DXGI_SWAP_CHAIN_DESC1.Width"/> and <see cref="DXGI_SWAP_CHAIN_DESC1.Height"/> members
+        /// of <see cref="DXGI_SWAP_CHAIN_DESC1"/> that <paramref name="pDesc"/> points to) of the swap chain as zero,
+        /// the runtime obtains the size from the output window that the <paramref name="pWindow"/> parameter specifies.
+        /// </para>
+        /// <para>
+        /// You can subsequently call the <see cref="IDXGISwapChain1.GetDesc1"/> method to retrieve the assigned width or height value.
+        /// </para>
+        /// <para>
+        /// Because you can associate only one flip presentation model swap chain (per layer) at a time with a CoreWindow,
+        /// the Microsoft Direct3D 11 policy of deferring the destruction of objects can cause problems
         /// if you attempt to destroy a flip presentation model swap chain and replace it with another swap chain.
-        /// For more info about this situation, see Deferred Destruction Issues with Flip Presentation Swap Chains.
-        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// For more info about this situation, see Deferred Destruction Issues with Flip Presentation Swap Chains.
+        /// </para>
+        /// <para>
+        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// </para>
+        /// <para>
         /// Overlapping swap chains
-        /// Starting with Windows 8.1, it is possible to create an additional swap chain in the foreground layer.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 8.1, it is possible to create an additional swap chain in the foreground layer.
         /// A foreground swap chain can be used to render UI elements at native resolution
         /// while scaling up real-time rendering in the background swap chain (such as gameplay).
-        /// This enables scenarios where lower resolution rendering is required for faster fill rates, but without sacrificing UI quality.
-        /// Foreground swap chains are created by setting the <see cref="DXGI_SWAP_CHAIN_FLAG_FOREGROUND_LAYER"/> swap chain flag
-        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1"/> that pDesc points to.
-        /// Foreground swap chains must also use the <see cref="DXGI_ALPHA_MODE_PREMULTIPLIED"/> alpha mode, and must use <see cref="DXGI_SCALING_NONE"/>.
-        /// Premultiplied alpha means that each pixel's color values are expected to be already multiplied by the alpha value before the frame is presented.
+        /// This enables scenarios where lower resolution rendering is required for faster fill rates,
+        /// but without sacrificing UI quality.
+        /// </para>
+        /// <para>
+        /// Foreground swap chains are created by setting the <see cref="DXGI_SWAP_CHAIN_FLAG_FOREGROUND_LAYER"/> swap chain flag
+        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1"/> that <paramref name="pDesc"/> points to.
+        /// Foreground swap chains must also use the <see cref="DXGI_ALPHA_MODE_PREMULTIPLIED"/> alpha mode,
+        /// and must use <see cref="DXGI_SCALING_NONE"/>.
+        /// Premultiplied alpha means that each pixel's color values are expected to
+        /// be already multiplied by the alpha value before the frame is presented.
         /// For example, a 100% white BGRA pixel at 50% alpha is set to (0.5, 0.5, 0.5, 0.5).
-        /// The alpha premultiplication step can be done in the output-merger stage by applying an app blend state (see <see cref="ID3D11BlendState"/>)
-        /// with the <see cref="D3D11_RENDER_TARGET_BLEND_DESC"/> structure's <see cref="D3D11_RENDER_TARGET_BLEND_DESC.SrcBlend"/> field
-        /// set to <see cref="D3D11_SRC_ALPHA"/>.
-        /// If the alpha premultiplication step is not done, colors on the foreground swap chain will be brighter than expected.
+        /// The alpha premultiplication step can be done in the output-merger stage
+        /// by applying an app blend state (see <see cref="ID3D11BlendState"/>)
+        /// with the <see cref="D3D11_RENDER_TARGET_BLEND_DESC"/> structure's
+        /// <see cref="D3D11_RENDER_TARGET_BLEND_DESC.SrcBlend"/> field set to <see cref="D3D11_BLEND_SRC_ALPHA"/>.
+        /// If the alpha premultiplication step is not done,
+        /// colors on the foreground swap chain will be brighter than expected.
+        /// </para>
+        /// <para>
         /// The foreground swap chain will use multiplane overlays if supported by the hardware.
-        /// Call <see cref="IDXGIOutput2.SupportsOverlays"/> to query the adapter for overlay support.
+        /// Call <see cref="IDXGIOutput2.SupportsOverlays"/> to query the adapter for overlay support.
+        /// </para>
+        /// <para>
         /// The following example creates a foreground swap chain for a CoreWindow:
+        /// </para>
         /// <code>
         /// DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
         /// 
@@ -248,8 +376,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         ///     &amp;swapChain
         ///     );
         /// </code>
+        /// <para>
         /// Present both swap chains together after rendering is complete.
+        /// </para>
+        /// <para>
         /// The following example presents both swap chains:
+        /// </para>
         /// <code>
         /// HRESULT hr = m_swapChain->Present(1, 0);
         /// 
@@ -284,15 +416,43 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The uniqueness of an LUID is guaranteed only until the operating system is restarted.
         /// </param>
         /// <returns>
-        /// <see cref="GetSharedResourceAdapterLuid"/> returns:
+        /// <para>
+        /// <see cref="GetSharedResourceAdapterLuid"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it identified the adapter.
-        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="hResource"/> is invalid.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="GetSharedResourceAdapterLuid"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="hResource"/> is invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="GetSharedResourceAdapterLuid"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// You cannot share resources across adapters.
+        /// Therefore, you cannot open a shared resource on an adapter other than the adapter on which the resource was created.
+        /// Call <see cref="GetSharedResourceAdapterLuid"/> before you open a shared resource
+        /// to ensure that the resource was created on the appropriate adapter.
+        /// To open a shared resource, call the <see cref="ID3D11Device1.OpenSharedResource1"/>
+        /// or <see cref="ID3D11Device1.OpenSharedResourceByName"/> method.
+        /// </remarks>
         public HRESULT GetSharedResourceAdapterLuid([In] HANDLE hResource, [Out] out LUID pLuid)
         {
             fixed (void* thisPtr = &this)
@@ -315,14 +475,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to unregister the notification message that <paramref name="wMsg"/> specifies.
         /// </param>
         /// <returns>
-        /// <see cref="RegisterStereoStatusWindow"/> returns:
+        /// <para>
+        /// <see cref="RegisterStereoStatusWindow"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully registered the window.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="RegisterStereoStatusWindow"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="RegisterStereoStatusWindow"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         public HRESULT RegisterStereoStatusWindow([In] HWND WindowHandle, [In] UINT wMsg, [Out] out DWORD pdwCookie)
         {
@@ -344,14 +524,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to unregister the notification event that <paramref name="hEvent"/> specifies.
         /// </param>
         /// <returns>
-        /// <see cref="RegisterStereoStatusEvent"/> returns:
+        /// <para>
+        /// <see cref="RegisterStereoStatusEvent"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully registered the event.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="RegisterStereoStatusEvent"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="RegisterStereoStatusEvent"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         public HRESULT RegisterStereoStatusEvent([In] HANDLE hEvent, [Out] out DWORD pdwCookie)
         {
@@ -370,7 +570,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <remarks>
         /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed, <see cref="UnregisterStereoStatus"/> has no effect.
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="UnregisterStereoStatus"/> has no effect.
         /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
         /// </remarks>
         public void UnregisterStereoStatus([In] DWORD dwCookie)
@@ -395,14 +596,39 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to unregister the notification message that <paramref name="wMsg"/> specifies.
         /// </param>
         /// <returns>
-        /// <see cref="RegisterOcclusionStatusWindow"/> returns:
+        /// <para>
+        /// <see cref="RegisterOcclusionStatusWindow"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully registered the window.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="RegisterOcclusionStatusWindow"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/>
+        /// if <paramref name="WindowHandle"/> is not a valid window handle or not the window handle that the current process owns.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:  On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="RegisterOcclusionStatusWindow"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Apps choose the Windows message that Windows sends when occlusion status changes.
@@ -427,20 +653,49 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// to unregister the notification event that <paramref name="hEvent"/> specifies.
         /// </param>
         /// <returns>
-        /// <see cref="RegisterOcclusionStatusEvent"/> returns:
-        /// <see cref="S_OK"/> if it successfully registered the event.
+        /// <para>
+        /// <see cref="RegisterOcclusionStatusEvent"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="S_OK"/> if the method successfully registered the event.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="RegisterOcclusionStatusEvent "/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="hEvent"/> is not a valid handle or not an event handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="RegisterOcclusionStatusEvent"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If you call <see cref="RegisterOcclusionStatusEvent"/> multiple times with the same event handle,
-        /// <see cref="RegisterOcclusionStatusEvent"/> fails with <see cref="DXGI_ERROR_INVALID_CALL"/>.
-        /// If you call <see cref="RegisterOcclusionStatusEvent"/> multiple times with the different event handles,
-        /// <see cref="RegisterOcclusionStatusEvent"/> properly registers the events.
+        /// <para>
+        /// If you call <see cref="RegisterOcclusionStatusEvent"/> multiple times with the same event handle,
+        /// <see cref="RegisterOcclusionStatusEvent"/> fails with <see cref="DXGI_ERROR_INVALID_CALL"/>.
+        /// </para>
+        /// <para>
+        /// If you call <see cref="RegisterOcclusionStatusEvent"/> multiple times with the different event handles,
+        /// <see cref="RegisterOcclusionStatusEvent"/> properly registers the events.
+        /// </para>
         /// </remarks>
         public HRESULT RegisterOcclusionStatusEvent([In] HANDLE hEvent, [Out] out DWORD pdwCookie)
         {
@@ -459,7 +714,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <remarks>
         /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed, <see cref="UnregisterStereoStatus"/> has no effect.
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="UnregisterStereoStatus"/> has no effect.
         /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
         /// </remarks>
         public void UnregisterOcclusionStatus([In] DWORD dwCookie)
@@ -478,56 +734,116 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain.
         /// For Direct3D 12 this is a pointer to a direct command queue (refer to <see cref="ID3D12CommandQueue"/>).
         /// This parameter cannot be <see cref="NULL"/>.
+        /// Software drivers, like <see cref="D3D_DRIVER_TYPE_REFERENCE"/>, are not supported for composition swap chains.
         /// </param>
         /// <param name="pDesc">
-        /// A pointer to a <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure for the swap-chain description.
-        /// This parameter cannot be <see cref="NullRef{DXGI_SWAP_CHAIN_DESC1}"/>.
-        /// You must specify the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value
-        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1.SwapEffect"/> member of <see cref="DXGI_SWAP_CHAIN_DESC1"/>
-        /// because <see cref="CreateSwapChainForComposition"/> supports only flip presentation model.
-        /// You must also specify the <see cref="DXGI_SCALING_STRETCH"/> value
-        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1.Scaling"/> member of <see cref="DXGI_SWAP_CHAIN_DESC1"/>.
+        /// <para>
+        /// A pointer to a <see cref="DXGI_SWAP_CHAIN_DESC1"/> structure for the swap-chain description.
+        /// This parameter cannot be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// You must specify the <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> value
+        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1.SwapEffect"/> member of <see cref="DXGI_SWAP_CHAIN_DESC1"/>
+        /// because <see cref="CreateSwapChainForComposition"/> supports only flip presentation model.
+        /// </para>
+        /// <para>
+        /// You must also specify the <see cref="DXGI_SCALING_STRETCH"/> value
+        /// in the <see cref="DXGI_SWAP_CHAIN_DESC1.Scaling"/> member of <see cref="DXGI_SWAP_CHAIN_DESC1"/>.
+        /// </para>
         /// </param>
         /// <param name="pRestrictToOutput">
+        /// <para>
         /// A pointer to the <see cref="IDXGIOutput"/> interface for the output to restrict content to.
         /// You must also pass the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag in a <see cref="IDXGISwapChain1.Present1"/> call
         /// to force the content to appear blacked out on any other output.
         /// If you want to restrict the content to a different output, you must create a new swap chain.
         /// However, you can conditionally restrict content based on the <see cref="DXGI_PRESENT_RESTRICT_TO_OUTPUT"/> flag.
+        /// </para>
+        /// <para>
         /// Set this parameter to <see cref="NULL"/> if you don't want to restrict content to an output target.
+        /// </para>
         /// </param>
         /// <param name="ppSwapChain">
         /// A pointer to a variable that receives a pointer to the <see cref="IDXGISwapChain1"/> interface
         /// for the swap chain that <see cref="CreateSwapChainForComposition"/> creates.
         /// </param>
         /// <returns>
-        /// <see cref="CreateSwapChainForComposition"/> returns:
+        /// <para>
+        /// <see cref="CreateSwapChainForComposition"/> returns:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="S_OK"/> if it successfully created a swap chain.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="E_OUTOFMEMORY"/> if memory is unavailable to complete the operation.
-        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data, for example,
-        /// if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is NULL.
-        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
-        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
-        /// Platform Update for Windows 7:
-        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
-        /// <see cref="CreateSwapChainForComposition"/> fails with <see cref="E_NOTIMPL"/>.
-        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DXGI_ERROR_INVALID_CALL"/> if the calling application provided invalid data,
+        /// for example, if <paramref name="pDesc"/> or <paramref name="ppSwapChain"/> is <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Possibly other error codes that are described in the <see cref="DXGI_ERROR"/> topic
+        /// that are defined by the type of device that you pass to <paramref name="pDevice"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Platform Update for Windows 7:
+        /// On Windows 7 or Windows Server 2008 R2 with the Platform Update for Windows 7 installed,
+        /// <see cref="CreateSwapChainForComposition"/> fails with <see cref="E_NOTIMPL"/>.
+        /// For more info about the Platform Update for Windows 7, see Platform Update for Windows 7.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// You can use composition swap chains with either:
-        /// DirectComposition's <see cref="IDCompositionVisual"/> interface,
-        /// System XAML's SwapChainPanel or SwapChainBackgroundPanel classes.
-        /// Windows UI Library (WinUI) 3 XAML's SwapChainPanel or SwapChainBackgroundPanel classes.
-        /// For DirectComposition, you can call the <see cref="IDCompositionVisual.SetContent"/> method
-        /// to set the swap chain as the content of a visual object, which then allows you to bind the swap chain to the visual tree.
-        /// For XAML, the SwapChainBackgroundPanel class exposes a classic COM interface ISwapChainBackgroundPanelNative.
-        /// You can use the ISwapChainBackgroundPanelNative::SetSwapChain method to bind to the XAML UI graph.
-        /// For info about how to use composition swap chains with XAML’s SwapChainBackgroundPanel class, see DirectX and XAML interop.
-        /// The <see cref="IDXGISwapChain.SetFullscreenState"/>, <see cref="IDXGISwapChain.ResizeTarget"/>,
-        /// <see cref="IDXGISwapChain.GetContainingOutput"/>, <see cref="IDXGISwapChain1.GetHwnd"/>,
-        /// and <see cref="IDXGISwapChain1.GetCoreWindow"/> methods aren't valid on this type of swap chain.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        ///  DirectComposition's <see cref="IDCompositionVisual"/> interface,
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// System XAML's SwapChainPanel or SwapChainBackgroundPanel classes.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Windows UI Library (WinUI) 3 XAML's SwapChainPanel or SwapChainBackgroundPanel classes.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For DirectComposition, you can call the <see cref="IDCompositionVisual.SetContent"/> method
+        /// to set the swap chain as the content of a visual object,
+        /// which then allows you to bind the swap chain to the visual tree.
+        /// For XAML, the SwapChainBackgroundPanel class exposes a classic COM interface <see cref="ISwapChainBackgroundPanelNative"/>.
+        /// You can use the <see cref="ISwapChainBackgroundPanelNative.SetSwapChain"/> method to bind to the XAML UI graph.
+        /// For info about how to use composition swap chains with XAML’s SwapChainBackgroundPanel class, see DirectX and XAML interop.
+        /// </para>
+        /// <para>
+        /// The <see cref="IDXGISwapChain.SetFullscreenState"/>, <see cref="IDXGISwapChain.ResizeTarget"/>,
+        /// <see cref="IDXGISwapChain.GetContainingOutput"/>, <see cref="IDXGISwapChain1.GetHwnd"/>,
+        /// and <see cref="IDXGISwapChain1.GetCoreWindow"/> methods aren't valid on this type of swap chain.
         /// If you call any of these methods on this type of swap chain, they fail.
-        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// </para>
+        /// <para>
+        /// For info about how to choose a format for the swap chain's back buffer, see Converting data for the color space.
+        /// </para>
         /// </remarks>
         public HRESULT CreateSwapChainForComposition([In] P<IUnknown> pDevice, [In] in DXGI_SWAP_CHAIN_DESC1 pDesc,
             [In] P<IDXGIOutput> pRestrictToOutput, [Out] out P<IDXGISwapChain1> ppSwapChain)

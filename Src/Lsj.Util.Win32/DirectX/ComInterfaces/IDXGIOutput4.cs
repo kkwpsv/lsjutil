@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
@@ -16,6 +17,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_4/nn-dxgi1_4-idxgioutput4"/>
     /// </para>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows10)]
+    [ComInterface(IID = "dc7dca35-2196-414d-9F53-617884032a60", BeginVTableSlotIndex = 25, EndVTableSlotIndex = 25,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIOutput), typeof(IDXGIOutput1),
+            typeof(IDXGIOutput2), typeof(IDXGIOutput3)])]
     public unsafe struct IDXGIOutput4
     {
         IntPtr* _vTable;
@@ -39,7 +44,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The resulting value specifies options for overlay color space support.
         /// </param>
         /// <returns>
-        /// This method returns <see cref="S_OK"/> on success, or it returns one of the error codes that are described in the <see cref="DXGI_ERROR"/> topic.
+        /// This method returns <see cref="S_OK"/> on success,
+        /// or it returns one of the error codes that are described in the <see cref="DXGI_ERROR"/> topic.
         /// </returns>
         public HRESULT CheckOverlayColorSpaceSupport([In] DXGI_FORMAT Format, [In] DXGI_COLOR_SPACE_TYPE ColorSpace,
             [In] P<IUnknown> pConcernedDevice, [Out] out DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG pFlags)

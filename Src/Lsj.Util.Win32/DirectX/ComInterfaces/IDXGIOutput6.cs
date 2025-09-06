@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
@@ -19,6 +21,10 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nn-dxgi1_6-idxgioutput6"/>
     /// </para>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows10)]
+    [ComInterface(IID = "068346e8-aaec-4b84-add7-137f513f77a1", BeginVTableSlotIndex = 27, EndVTableSlotIndex = 28,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIOutput), typeof(IDXGIOutput1),
+            typeof(IDXGIOutput2), typeof(IDXGIOutput3), typeof(IDXGIOutput4), typeof(IDXGIOutput5)])]
     public unsafe struct IDXGIOutput6
     {
         IntPtr* _vTable;
@@ -31,21 +37,32 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <returns>
         /// Returns a code that indicates success or failure.
-        /// <see cref="S_OK"/> if successful, <see cref="DXGI_ERROR_INVALID_CALL"/> if <paramref name="pDesc"/> is passed in as <see cref="NullRef{DXGI_OUTPUT_DESC1}"/>.
+        /// <see cref="S_OK"/> if successful, <see cref="DXGI_ERROR_INVALID_CALL"/>
+        /// if <paramref name="pDesc"/> is passed in as <see cref="NullRef{DXGI_OUTPUT_DESC1}"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Some scenarios do not have well-defined values for all fields in this struct.
-        /// For example, if this <see cref="IDXGIOutput"/> represents a clone/duplicate set, or if the EDID has missing or invalid data.
+        /// For example, if this <see cref="IDXGIOutput"/> represents a clone/duplicate set,
+        /// or if the EDID has missing or invalid data.
         /// In these cases, the OS will provide some default values that correspond to a standard SDR display.
+        /// </para>
+        /// <para>
         /// An output's reported color and luminance characteristics can adjust dynamically
         /// while the system is running due to user action or changing ambient conditions.
-        /// Therefore, apps should periodically query <see cref="IDXGIFactory1.IsCurrent"/>
-        /// and re-create their <see cref="IDXGIFactory"/> if it returns <see cref="FALSE"/>.
-        /// Then re-query <see cref="GetDesc1"/> from the new factory's equivalent output to retrieve the newest color information.
+        /// Therefore, apps should periodically query <see cref="IDXGIFactory1.IsCurrent"/>
+        /// and re-create their <see cref="IDXGIFactory"/> if it returns <see cref="FALSE"/>.
+        /// Then re-query <see cref="GetDesc1"/> from the new factory's equivalent output to retrieve the newest color information.
+        /// </para>
+        /// <para>
         /// For more details on how to write apps that react dynamically to monitor capabilities,
-        /// see Using DirectX with high dynamic range displays and Advanced Color.
-        /// On a high DPI desktop, <see cref="GetDesc1"/> returns the visualized screen size unless the app is marked high DPI aware.
-        /// For info about writing DPI-aware Win32 apps, see High DPI.
+        /// see Using DirectX with high dynamic range displays and Advanced Color.
+        /// </para>
+        /// <para>
+        /// On a high DPI desktop, <see cref="GetDesc1"/> returns the visualized screen size
+        /// unless the app is marked high DPI aware.
+        /// For info about writing DPI-aware Win32 apps, see High DPI.
+        /// </para>
         /// </remarks>
         public HRESULT GetDesc1([Out] out DXGI_OUTPUT_DESC1 pDesc)
         {

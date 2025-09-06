@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11_4/nn-d3d11_4-id3d11device5"/>
     /// </para>
     /// </summary>
-    [ComInterface(IID = "8ffde202-a0e7-45df-9e01-e837801b5ea0", BeginVTableSlotIndex = 66, EndVTableSlotIndex = 67,
+    [ComInterface(IID = "8ffde202-a0e7-45df-9e01-e837801b5ea0", BeginVTableSlotIndex = 67, EndVTableSlotIndex = 68,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1),
             typeof(ID3D11Device2), typeof(ID3D11Device3), typeof(ID3D11Device4)])]
     public unsafe struct ID3D11Device5
@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[66])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[67])
                     (thisPtr, hFence, ReturnedInterface, out ppFence);
             }
         }
@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT64, D3D11_FENCE_FLAG, in IID, out IntPtr, HRESULT>)_vTable[67])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT64, D3D11_FENCE_FLAG, in IID, out IntPtr, HRESULT>)_vTable[68])
                     (thisPtr, InitialValue, Flags, ReturnedInterface, out ppFence);
             }
         }

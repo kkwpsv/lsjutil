@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11_1/nn-d3d11_1-id3d11device1"/>
     /// </para>
     /// </summary>
-    [ComInterface(IID = "a04bfb29-08ef-43d6-a49c-a9bdbdcbe686", BeginVTableSlotIndex = 42, EndVTableSlotIndex = 48,
+    [ComInterface(IID = "a04bfb29-08ef-43d6-a49c-a9bdbdcbe686", BeginVTableSlotIndex = 43, EndVTableSlotIndex = 49,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device)])]
     public unsafe struct ID3D11Device1
     {
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext1>, HRESULT>)_vTable[42])(thisPtr, out ppImmediateContext);
+                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext1>, HRESULT>)_vTable[43])(thisPtr, out ppImmediateContext);
             }
         }
 
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext1>, HRESULT>)_vTable[43])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext1>, HRESULT>)_vTable[44])
                     (thisPtr, ContextFlags, out ppDeferredContext);
             }
         }
@@ -174,7 +174,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_BLEND_DESC1, out P<ID3D11BlendState1>, HRESULT>)_vTable[44])
+                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_BLEND_DESC1, out P<ID3D11BlendState1>, HRESULT>)_vTable[45])
                     (thisPtr, pBlendStateDesc, out ppBlendState);
             }
         }
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_RASTERIZER_DESC1, out P<ID3D11RasterizerState1>, HRESULT>)_vTable[45])
+                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_RASTERIZER_DESC1, out P<ID3D11RasterizerState1>, HRESULT>)_vTable[46])
                     (thisPtr, pRasterizerDesc, out ppRasterizerState);
             }
         }
@@ -1346,7 +1346,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 fixed (D3D_FEATURE_LEVEL* pFeatureLevelsPtr = pFeatureLevels)
                 {
                     return ((delegate* unmanaged[Stdcall]<void*, D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG, D3D_FEATURE_LEVEL*, UINT, UINT,
-                        in IID, out D3D_FEATURE_LEVEL, out P<ID3DDeviceContextState>, HRESULT>)_vTable[46])
+                        in IID, out D3D_FEATURE_LEVEL, out P<ID3DDeviceContextState>, HRESULT>)_vTable[47])
                         (thisPtr, Flags, pFeatureLevelsPtr, FeatureLevels, SDKVersion, EmulatedInterface, out pChosenFeatureLevel, out ppContextState);
                 }
             }
@@ -1423,7 +1423,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[47])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[48])
                     (thisPtr, hResource, in ReturnedInterface, out ppResource);
             }
         }
@@ -1524,7 +1524,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, DWORD, in IID, out IntPtr, HRESULT>)_vTable[48])
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, DWORD, in IID, out IntPtr, HRESULT>)_vTable[49])
                     (thisPtr, lpName.ToIntPtr(), dwDesiredAccess, in ReturnedInterface, out ppResource);
             }
         }

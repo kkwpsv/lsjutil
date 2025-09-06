@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
@@ -8,6 +10,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Dxgidebug;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -20,11 +23,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This interface is obtained by calling the <see cref="DXGIGetDebugInterface"/> function.
+    /// </para>
+    /// <para>
     /// For more info about the debug layer, see Debug Layer.
+    /// </para>
+    /// <para>
     /// Note
+    /// </para>
+    /// <para>
     /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+    /// </para>
     /// </remarks>
+    [WindowsVersionRequirement(WindowsVersion.Windows8)]
+    [ComInterface(IID = "D67441C7-672A-476f-9E82-CD55B44949CE", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 38, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIInfoQueue
     {
         IntPtr* _vTable;
@@ -44,8 +57,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT SetMessageCountLimit([In] DXGI_DEBUG_ID Producer, [In] UINT64 MessageCountLimit)
         {
@@ -62,8 +79,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A <see cref="DXGI_DEBUG_ID"/> value that identifies the entity that clears the messages.
         /// </param>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void ClearStoredMessages([In] DXGI_DEBUG_ID Producer)
         {
@@ -89,7 +110,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A pointer to a <see cref="DXGI_INFO_QUEUE_MESSAGE"/> structure that describes the message.
         /// </param>
         /// <param name="pMessageByteLength">
-        /// A pointer to a variable that receives the size, in bytes, of the message description that pMessage points to.
+        /// A pointer to a variable that receives the size, in bytes,
+        /// of the message description that <paramref name="pMessage"/> points to.
         /// This size includes the size of the <see cref="DXGI_INFO_QUEUE_MESSAGE"/> structure in bytes.
         /// </param>
         /// <returns>
@@ -97,10 +119,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This method doesn't remove any messages from the message queue.
+        /// </para>
+        /// <para>
         /// This method gets a message from the message queue after an optional retrieval filter has been applied.
-        /// Call this method twice to retrieve a message, first to obtain the size of the message and second to get the message.
+        /// </para>
+        /// <para>
+        /// Call this method twice to retrieve a message,
+        /// first to obtain the size of the message and second to get the message.
         /// Here is a typical example:
+        /// </para>
         /// <code>
         /// // Get the size of the message.
         /// SIZE_T messageLength = 0;
@@ -121,6 +150,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         ///     }
         /// }
         /// </code>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT GetMessage([In] DXGI_DEBUG_ID Producer, [In] UINT64 MessageIndex, [In][Out] ref DXGI_INFO_QUEUE_MESSAGE pMessage, [In][Out] ref SIZE_T pMessageByteLength)
         {
@@ -141,8 +176,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of messages that can pass through a retrieval filter.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetNumStoredMessagesAllowedByRetrievalFilters([In] DXGI_DEBUG_ID Producer)
         {
@@ -162,8 +201,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of messages that can pass through a retrieval filter.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetNumStoredMessages([In] DXGI_DEBUG_ID Producer)
         {
@@ -182,10 +225,17 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Returns the number of messages that were discarded.
         /// </returns>
-        /// /// <remarks>
-        /// Get and set the message count limit with <see cref="GetMessageCountLimit"/> and <see cref="SetMessageCountLimit"/>, respectively.
+        /// <remarks>
+        /// <para>
+        /// Get and set the message count limit
+        /// with <see cref="GetMessageCountLimit"/> and <see cref="SetMessageCountLimit"/>, respectively.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetNumMessagesDiscardedByMessageCountLimit([In] DXGI_DEBUG_ID Producer)
         {
@@ -206,9 +256,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// –1 means no limit.
         /// </returns>
         /// <remarks>
-        /// When the number of messages in the message queue reaches the maximum limit, new messages coming in push old messages out.
+        /// <para>
+        /// When the number of messages in the message queue reaches the maximum limit,
+        /// new messages coming in push old messages out.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetMessageCountLimit([In] DXGI_DEBUG_ID Producer)
         {
@@ -228,8 +285,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of messages allowed by a storage filter.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetNumMessagesAllowedByStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -249,8 +310,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the number of messages denied by a storage filter.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT64 GetNumMessagesDeniedByStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -274,8 +339,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT AddStorageFilterEntries([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_FILTER[] pFilter)
         {
@@ -298,16 +367,22 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A pointer to a <see cref="DXGI_INFO_QUEUE_FILTER"/> structure that describes the filter.
         /// </param>
         /// <param name="pFilterByteLength">
-        /// A pointer to a variable that receives the size, in bytes, of the filter description to which <paramref name="pFilter"/> points.
-        /// If <paramref name="pFilter"/> is NULL, <see cref="GetStorageFilter"/> outputs the size of the storage filter.
+        /// A pointer to a variable that receives the size, in bytes,
+        /// of the filter description to which <paramref name="pFilter"/> points.
+        /// If <paramref name="pFilter"/> is <see cref="NullRef{DXGI_INFO_QUEUE_FILTER}"/>,
+        /// <see cref="GetStorageFilter"/> outputs the size of the storage filter.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT GetStorageFilter([In] DXGI_DEBUG_ID Producer, [In][Out] ref DXGI_INFO_QUEUE_FILTER pFilter, [In][Out] ref SIZE_T pFilterByteLength)
         {
@@ -325,8 +400,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A <see cref="DXGI_DEBUG_ID"/> value that identifies the entity that removes the filter.
         /// </param>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void ClearStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -347,9 +426,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An empty storage filter allows all messages to pass through.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushEmptyStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -370,9 +455,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A deny-all storage filter prevents all messages from passing through.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushDenyAllStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -393,8 +484,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushCopyOfStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -418,8 +513,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushStorageFilter([In] DXGI_DEBUG_ID Producer, [In] in DXGI_INFO_QUEUE_FILTER pFilter)
         {
@@ -440,8 +539,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void PopStorageFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -461,8 +564,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the size of the storage-filter stack in bytes.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT GetStorageFilterStackSize([In] DXGI_DEBUG_ID Producer)
         {
@@ -486,8 +593,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT AddRetrievalFilterEntries([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_FILTER[] pFilter)
         {
@@ -507,8 +618,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A <see cref="DXGI_DEBUG_ID"/> value that identifies the entity that removes the filter.
         /// </param>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void ClearRetrievalFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -529,9 +644,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An empty retrieval filter allows all messages to pass through.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushEmptyRetrievalFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -552,9 +673,15 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A deny-all retrieval filter prevents all messages from passing through.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushDenyAllRetrievalFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -575,8 +702,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushCopyOfRetrievalFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -600,8 +731,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT PushRetrievalFilter([In] DXGI_DEBUG_ID Producer, [In] in DXGI_INFO_QUEUE_FILTER pFilter)
         {
@@ -618,8 +753,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A <see cref="DXGI_DEBUG_ID"/> value that identifies the entity that pops the filter.
         /// </param>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void PopRetrievalFilter([In] DXGI_DEBUG_ID Producer)
         {
@@ -639,8 +778,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the size of the retrieval-filter stack in bytes.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public UINT GetRetrievalFilterStackSize([In] DXGI_DEBUG_ID Producer)
         {
@@ -673,8 +816,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT AddMessage([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_CATEGORY Category,
             [In] DXGI_INFO_QUEUE_MESSAGE_SEVERITY Severity, [In] DXGI_INFO_QUEUE_MESSAGE_ID ID, [In] LPCWSTR pDescription)
@@ -701,8 +848,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT AddApplicationMessage([In] DXGI_INFO_QUEUE_MESSAGE_SEVERITY Severity, [In] LPCWSTR pDescription)
         {
@@ -731,8 +882,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT SetBreakOnCategory([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_CATEGORY Category, [In] BOOL bEnable)
         {
@@ -761,8 +916,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT SetBreakOnSeverity([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_SEVERITY Severity, [In] BOOL bEnable)
         {
@@ -791,8 +950,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For a list of error codes, see <see cref="DXGI_ERROR"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public HRESULT SetBreakOnID([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_ID ID, [In] BOOL bEnable)
         {
@@ -816,8 +979,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// (<see cref="TRUE"/> for on, <see cref="FALSE"/> for off).
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public BOOL GetBreakOnCategory([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_CATEGORY Category)
         {
@@ -841,8 +1008,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// (<see cref="TRUE"/> for on, <see cref="FALSE"/> for off).
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public BOOL GetBreakOnSeverity([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_SEVERITY Severity)
         {
@@ -866,8 +1037,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// (<see cref="TRUE"/> for on, <see cref="FALSE"/> for off).
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public BOOL GetBreakOnID([In] DXGI_DEBUG_ID Producer, [In] DXGI_INFO_QUEUE_MESSAGE_ID ID)
         {
@@ -887,8 +1062,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// A Boolean value that specifies whether to turn the debug output on or off (<see cref="TRUE"/> for on, <see cref="FALSE"/> for off).
         /// </param>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public void SetMuteDebugOutput([In] DXGI_DEBUG_ID Producer, [In] BOOL bEnable)
         {
@@ -909,8 +1088,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// (<see cref="TRUE"/> for on, <see cref="FALSE"/> for off).
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API requires the Windows Software Development Kit (SDK) for Windows 8.
+        /// </para>
         /// </remarks>
         public BOOL GetMuteDebugOutput([In] DXGI_DEBUG_ID Producer)
         {

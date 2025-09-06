@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// </summary>
     [WindowsVersionRequirement(WindowsVersion.Windows10)]
-    [ComInterface(IID = "A05C8C37-D2C6-4732-B3A0-9CE0B0DC9AE6", BeginVTableSlotIndex = 53, EndVTableSlotIndex = 63,
+    [ComInterface(IID = "A05C8C37-D2C6-4732-B3A0-9CE0B0DC9AE6", BeginVTableSlotIndex = 54, EndVTableSlotIndex = 64,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1), typeof(ID3D11Device2)])]
     public unsafe struct ID3D11Device3
     {
@@ -132,7 +132,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 fixed (D3D11_SUBRESOURCE_DATA* pInitialDataPtr = pInitialData)
                 {
                     return ((delegate* unmanaged[Stdcall]<void*, in D3D11_TEXTURE2D_DESC1,
-                        D3D11_SUBRESOURCE_DATA*, out P<ID3D11Texture2D1>, HRESULT>)_vTable[53])
+                        D3D11_SUBRESOURCE_DATA*, out P<ID3D11Texture2D1>, HRESULT>)_vTable[54])
                         (thisPtr, pDesc1, pInitialDataPtr, out ppTexture2D);
                 }
             }
@@ -239,7 +239,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 fixed (D3D11_SUBRESOURCE_DATA* pInitialDataPtr = pInitialData)
                 {
                     return ((delegate* unmanaged[Stdcall]<void*, in D3D11_TEXTURE3D_DESC1,
-                        D3D11_SUBRESOURCE_DATA*, out P<ID3D11Texture3D1>, HRESULT>)_vTable[54])
+                        D3D11_SUBRESOURCE_DATA*, out P<ID3D11Texture3D1>, HRESULT>)_vTable[55])
                         (thisPtr, pDesc1, pInitialDataPtr, out ppTexture3D);
                 }
             }
@@ -267,7 +267,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_RASTERIZER_DESC2, out P<ID3D11RasterizerState2>, HRESULT>)_vTable[55])
+                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_RASTERIZER_DESC2, out P<ID3D11RasterizerState2>, HRESULT>)_vTable[56])
                     (thisPtr, pRasterizerDesc, out ppRasterizerState);
             }
         }
@@ -299,7 +299,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_SHADER_RESOURCE_VIEW_DESC1,
-                    out P<ID3D11ShaderResourceView1>, HRESULT>)_vTable[56])
+                    out P<ID3D11ShaderResourceView1>, HRESULT>)_vTable[57])
                     (thisPtr, pResource, pDesc1, out ppSRView1);
             }
         }
@@ -330,7 +330,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_UNORDERED_ACCESS_VIEW_DESC1,
-                    out P<ID3D11UnorderedAccessView1>, HRESULT>)_vTable[57])
+                    out P<ID3D11UnorderedAccessView1>, HRESULT>)_vTable[58])
                     (thisPtr, pResource, pDesc1, out ppUAView1);
             }
         }
@@ -364,7 +364,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, in D3D11_RENDER_TARGET_VIEW_DESC1,
-                    out P<ID3D11RenderTargetView1>, HRESULT>)_vTable[58])
+                    out P<ID3D11RenderTargetView1>, HRESULT>)_vTable[59])
                     (thisPtr, pResource, pDesc1, out ppRTView1);
             }
         }
@@ -388,7 +388,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_QUERY_DESC1, out P<ID3D11Query1>, HRESULT>)_vTable[59])
+                return ((delegate* unmanaged[Stdcall]<void*, in D3D11_QUERY_DESC1, out P<ID3D11Query1>, HRESULT>)_vTable[60])
                     (thisPtr, pQueryDesc1, out ppQuery1);
             }
         }
@@ -416,7 +416,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext3>, HRESULT>)_vTable[60])(thisPtr, out ppImmediateContext);
+                ((delegate* unmanaged[Stdcall]<void*, out P<ID3D11DeviceContext3>, HRESULT>)_vTable[61])(thisPtr, out ppImmediateContext);
             }
         }
 
@@ -470,7 +470,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext3>, HRESULT>)_vTable[61])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, out P<ID3D11DeviceContext3>, HRESULT>)_vTable[62])
                     (thisPtr, ContextFlags, out ppDeferredContext);
             }
         }
@@ -541,7 +541,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[62])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[63])
                     (thisPtr, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }
@@ -612,7 +612,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[63])
+                ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[64])
                     (thisPtr, pDstData, DstRowPitch, DstDepthPitch, pSrcResource, SrcSubresource, pSrcBox);
             }
         }

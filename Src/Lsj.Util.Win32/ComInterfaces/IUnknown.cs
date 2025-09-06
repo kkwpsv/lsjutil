@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using System;
 using System.Runtime.InteropServices;
@@ -18,6 +19,8 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/unknwn/nn-unknwn-iunknown"/>
     /// </para>
     /// </summary>
+    [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+    [ComInterface(IID = "00000000-0000-0000-C000-000000000046", BeginVTableSlotIndex = 0, EndVTableSlotIndex = 2, InheritedFromTypes = [])]
     public unsafe struct IUnknown
     {
         IntPtr* _vTable;

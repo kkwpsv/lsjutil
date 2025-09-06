@@ -101,21 +101,52 @@ namespace Lsj.Util.Tests.Win32
 
             var wrongIIDInterfaces = new List<Type>();
             var missingIIDInterfaces = new List<Type>();
+            var wrongBeginVTableSlotIndexInterfaces = new List<Type>();
 
-            foreach (var @interface in interfaces)
+            var cache = new Dictionary<Type, ComInterfaceAttribute?>();
+
+            foreach (var interfaceType in interfaces)
             {
-                if (@interface.GetCustomAttribute<ComInterfaceAttribute>() is ComInterfaceAttribute attribute)
+                ComInterfaceAttribute? attribute = null;
+                if (!cache.ContainsKey(interfaceType))
                 {
-                    var iidField = iids.SingleOrDefault(x => x.Name == $"IID_{@interface.Name}");
+                    attribute = interfaceType.GetCustomAttribute<ComInterfaceAttribute>();
+                    cache[interfaceType] = attribute;
+                }
+                else
+                {
+                    attribute = cache[interfaceType];
+                }
+                if (attribute != null)
+                {
+                    var iidField = iids.SingleOrDefault(x => x.Name == $"IID_{interfaceType.Name}");
                     if (iidField == null)
                     {
-                        missingIIDInterfaces.Add(@interface);
+                        missingIIDInterfaces.Add(interfaceType);
                         continue;
                     }
 
-                    if (!iidField.GetValue(null).ToString().Equals(attribute.IID, StringComparison.OrdinalIgnoreCase))
+                    if (!iidField.GetValue(null)!.ToString()!.Equals(attribute.IID, StringComparison.OrdinalIgnoreCase))
                     {
-                        wrongIIDInterfaces.Add(@interface);
+                        wrongIIDInterfaces.Add(interfaceType);
+                    }
+
+                    if (attribute.InheritedFromTypes.LastOrDefault() is Type parentType)
+                    {
+                        ComInterfaceAttribute parentAttribute = null!;
+                        if (!cache.ContainsKey(parentType))
+                        {
+                            parentAttribute = parentType.GetCustomAttribute<ComInterfaceAttribute>()!;
+                            cache[parentType] = parentAttribute;
+                        }
+                        else
+                        {
+                            parentAttribute = cache[parentType]!;
+                        }
+                        if (attribute.BeginVTableSlotIndex != parentAttribute.EndVTableSlotIndex + 1)
+                        {
+                            wrongBeginVTableSlotIndexInterfaces.Add(interfaceType);
+                        }
                     }
                 }
             }
@@ -128,6 +159,11 @@ namespace Lsj.Util.Tests.Win32
             if (wrongIIDInterfaces.Any())
             {
                 Assert.Fail(Environment.NewLine + string.Concat(wrongIIDInterfaces.Select(item => $"{item.Name} has wrong IID" + Environment.NewLine)));
+            }
+
+            if (wrongBeginVTableSlotIndexInterfaces.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(wrongBeginVTableSlotIndexInterfaces.Select(item => $"{item.Name} has wrong BeginVTableSlotIndex" + Environment.NewLine)));
             }
         }
     }

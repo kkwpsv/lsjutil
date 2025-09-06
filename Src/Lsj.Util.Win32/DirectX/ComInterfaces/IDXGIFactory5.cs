@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -14,6 +16,9 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_5/nn-dxgi1_5-idxgifactory5"/>
     /// </para>
     /// </summary>
+    [ComInterface(IID = "7632e1f5-ee65-4dca-87fd-84cd75f8838d", BeginVTableSlotIndex = 28, EndVTableSlotIndex = 28,
+        InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2),
+            typeof(IDXGIFactory3),typeof(IDXGIFactory4)])]
     public unsafe struct IDXGIFactory5
     {
         IntPtr* _vTable;
@@ -40,7 +45,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, IntPtr, UINT, HRESULT>)_vTable[28])(thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, IntPtr, UINT, HRESULT>)_vTable[28])
+                    (thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
             }
         }
     }
