@@ -13,8 +13,8 @@ namespace Lsj.Util.Tests.JSON
         public void Parse_EmptyAndNull()
         {
             var parser = new JSONParser();
-            Assert.AreEqual<JSONObject>(null, parser.Parse(""));
-            Assert.AreEqual<JSONObject>(null, parser.Parse(null));
+            Assert.AreEqual((JSONObject?)null, parser.Parse(""));
+            Assert.AreEqual((JSONObject?)null, parser.Parse(null));
             Assert.AreEqual(0, parser.Parse<int>(""));
             Assert.AreEqual(0, parser.Parse<int>(null));
 
