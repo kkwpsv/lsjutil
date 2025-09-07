@@ -158,6 +158,7 @@ namespace Lsj.Util.Win32
         /// because this bypasses the authentication layer.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegConnectRegistryW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegConnectRegistry([In] LPCWSTR lpMachineName, [In] HKEY hKey, [Out] out HKEY phkResult);
 
@@ -1051,6 +1052,7 @@ namespace Lsj.Util.Win32
         /// On legacy versions of Windows, this API is also exposed by kernel32.dll.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "Windows Vista, Windows XP Professional x64 Edition")]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyExW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegDeleteKeyEx([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] REGSAM samDesired, [In] DWORD Reserved);
 

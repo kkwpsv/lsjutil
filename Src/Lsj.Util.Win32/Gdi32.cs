@@ -74,7 +74,6 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint GDI_ERROR = 0xFFFFFFFF;
 
-
         /// <summary>
         /// <para>
         /// The EnumObjectsProc function is an application-defined callback function used with the <see cref="EnumObjects"/> function.

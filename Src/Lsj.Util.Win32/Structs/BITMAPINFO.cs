@@ -85,6 +85,6 @@ namespace Lsj.Util.Win32.Structs
         /// The colors in the <see cref="bmiColors"/> table appear in order of importance. For more information, see the Remarks section.
         /// </para>
         /// </summary>
-        public RGBQUAD bmiColors;
+        public AnySizeArray<RGBQUAD> bmiColors;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
@@ -32,6 +33,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPhysicalMonitor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyPhysicalMonitor([In] HANDLE hMonitor);
 
@@ -56,6 +58,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPhysicalMonitors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyPhysicalMonitors([In] DWORD dwPhysicalMonitorArraySize, [In] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
 
@@ -71,7 +74,8 @@ namespace Lsj.Util.Win32
         /// <param name="hMonitor">
         /// A monitor handle.
         /// Monitor handles are returned by several Multiple Display Monitor functions,
-        /// including <see cref="EnumDisplayMonitors"/> and <see cref="MonitorFromWindow"/>, which are part of the graphics device interface (GDI).
+        /// including <see cref="EnumDisplayMonitors"/> and <see cref="MonitorFromWindow"/>,
+        /// which are part of the graphics device interface (GDI).
         /// </param>
         /// <param name="pdwNumberOfPhysicalMonitors">
         /// Receives the number of physical monitors associated with the monitor handle.
@@ -81,6 +85,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfPhysicalMonitorsFromHMONITOR", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumberOfPhysicalMonitorsFromHMONITOR([In] HMONITOR hMonitor, [Out] out DWORD pdwNumberOfPhysicalMonitors);
 
@@ -102,12 +107,13 @@ namespace Lsj.Util.Win32
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true)]
         public static extern HRESULT GetNumberOfPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9, [Out] out DWORD pdwNumberOfPhysicalMonitors);
 
         /// <summary>
         /// <para>
-        /// Retrieves the physical monitors associated with an HMONITOR monitor handle.
+        /// Retrieves the physical monitors associated with an <see cref="HMONITOR"/> monitor handle.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/physicalmonitorenumerationapi/nf-physicalmonitorenumerationapi-getphysicalmonitorsfromhmonitor"/>
@@ -116,7 +122,8 @@ namespace Lsj.Util.Win32
         /// <param name="hMonitor">
         /// A monitor handle.
         /// Monitor handles are returned by several Multiple Display Monitor functions,
-        /// including <see cref="EnumDisplayMonitors"/> and <see cref="MonitorFromWindow"/>, which are part of the graphics device interface (GDI).
+        /// including <see cref="EnumDisplayMonitors"/> and <see cref="MonitorFromWindow"/>,
+        /// which are part of the graphics device interface (GDI).
         /// </param>
         /// <param name="dwPhysicalMonitorArraySize">
         /// Number of elements in <paramref name="pPhysicalMonitorArray"/>.
@@ -132,10 +139,17 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A single <see cref="HMONITOR"/> handle can be associated with more than one physical monitor.
         /// This function returns a handle and a text description for each physical monitor.
-        /// When you are done using the monitor handles, close them by passing the <paramref name="pPhysicalMonitorArray"/> array to the <see cref="DestroyPhysicalMonitors"/> function.
+        /// </para>
+        /// <para>
+        /// When you are done using the monitor handles,
+        /// close them by passing the <paramref name="pPhysicalMonitorArray"/> array
+        /// to the <see cref="DestroyPhysicalMonitors"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalMonitorsFromHMONITOR", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPhysicalMonitorsFromHMONITOR([In] HMONITOR hMonitor, [In] DWORD dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
 
@@ -163,11 +177,18 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A single Direct3D device can be associated with more than one physical monitor.
         /// This function returns a handle and a text description for each physical monitor.
-        /// When you are done using the monitor handles, close them by passing the <paramref name="pPhysicalMonitorArray"/> array to the <see cref="DestroyPhysicalMonitors"/> function.
+        /// </para>
+        /// <para>
+        /// When you are done using the monitor handles,
+        /// close them by passing the <paramref name="pPhysicalMonitorArray"/> array
+        /// to the <see cref="DestroyPhysicalMonitors"/> function.
+        /// </para>
         /// </remarks>
-        [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true)]
         public static extern HRESULT GetPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9,
             [In] DWORD dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
     }

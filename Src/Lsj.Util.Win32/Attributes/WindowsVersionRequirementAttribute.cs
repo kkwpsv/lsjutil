@@ -110,5 +110,10 @@ namespace Lsj.Util.Win32.Attributes
         /// Build Number
         /// </summary>
         public int BuildNumber { get; }
+
+        /// <summary>
+        /// Note
+        /// </summary>
+        public string? Note { get; set; }
     }
 }

@@ -284,6 +284,7 @@ namespace Lsj.Util.Win32
         /// SMB 3.0 does not support EFS on shares with continuous availability capability.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EncryptFile([In] LPCWSTR lpFileName);
 

@@ -18,16 +18,6 @@ namespace Lsj.Util.Win32
     public partial class Gdi32
     {
         /// <summary>
-        /// AD_COUNTERCLOCKWISE
-        /// </summary>
-        public const int AD_COUNTERCLOCKWISE = 1;
-
-        /// <summary>
-        /// AD_CLOCKWISE
-        /// </summary>
-        public const int AD_CLOCKWISE = 2;
-
-        /// <summary>
         /// <para>
         /// The LineDDAProc function is an application-defined callback function used with the <see cref="LineDDA"/> function.
         /// It is used to process coordinates.
@@ -59,7 +49,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hdc">
-        /// https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-anglearc
+        /// Handle to a device context.
         /// </param>
         /// <param name="x">
         /// Specifies the x-coordinate, in logical units, of the center of the circle.

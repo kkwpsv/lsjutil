@@ -173,6 +173,7 @@ namespace Lsj.Util.Win32.DirectX
         /// </list>
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory1", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory1([In] in IID riid, [Out] out P<IDXGIFactory1> ppFactory);
 
@@ -231,6 +232,7 @@ namespace Lsj.Util.Win32.DirectX
         /// This function accepts a flag indicating whether DXGIDebug.dll is loaded.
         /// The function otherwise behaves identically to <see cref="CreateDXGIFactory1"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory2", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory2([In] UINT Flags, [In] in IID riid, [Out] out P<IDXGIFactory2> ppFactory);
 

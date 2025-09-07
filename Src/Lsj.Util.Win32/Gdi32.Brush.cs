@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -29,19 +30,36 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="LOGBRUSH"/> structure that contains information about the brush.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
-        /// After an application creates a brush by calling <see cref="CreateBrushIndirect"/>,
-        /// it can select it into any device context by calling the <see cref="SelectObject"/> function.
-        /// A brush created by using a monochrome bitmap (one color plane, one bit per pixel) is drawn using the current text and background colors.
+        /// </para>
+        /// <para>
+        /// After an application creates a brush by calling <see cref="CreateBrushIndirect"/>,
+        /// it can select it into any device context by calling the <see cref="SelectObject"/> function.
+        /// </para>
+        /// <para>
+        /// A brush created by using a monochrome bitmap (one color plane, one bit per pixel)
+        /// is drawn using the current text and background colors.
         /// Pixels represented by a bit set to 0 are drawn with the current text color;
         /// pixels represented by a bit set to 1 are drawn with the current background color.
-        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
-        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
+        /// <para>
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// ICM: No color is done at brush creation.
+        /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBrushIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateBrushIndirect([In] in LOGBRUSH plbrush);
 
@@ -49,7 +67,8 @@ namespace Lsj.Util.Win32
         /// <para>
         /// The <see cref="CreateDIBPatternBrush"/> function creates a logical brush
         /// that has the pattern specified by the specified device-independent bitmap (DIB).
-        /// The brush can subsequently be selected into any device context that is associated with a device that supports raster operations.
+        /// The brush can subsequently be selected into any device context
+        /// that is associated with a device that supports raster operations.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrush"/>
@@ -60,36 +79,75 @@ namespace Lsj.Util.Win32
         /// followed by an array of bytes defining the pixels of the bitmap.
         /// </param>
         /// <param name="iUsage">
-        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure is initialized and,
+        /// <para>
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure is initialized and,
         /// if so, whether this member contains explicit red, green, blue (RGB) values or indexes into a logical palette.
-        /// The <paramref name="iUsage"/> parameter must be one of the following values.
-        /// <see cref="DIB_PAL_COLORS"/>:
-        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette of
-        /// the device context into which the brush is to be selected.
-        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DIB_PAL_COLORS"/>
+        /// </term>
+        /// <term>
+        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette
+        /// of the device context into which the brush is to be selected.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DIB_RGB_COLORS"/>
+        /// </term>
+        /// <term>
         /// A color table is provided and contains literal RGB values.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When an application selects a two-color DIB pattern brush into a monochrome device context,
         /// the system does not acknowledge the colors specified in the DIB;
         /// instead, it displays the pattern brush using the current background and foreground colors of the device context.
         /// Pixels mapped to the first color of the DIB (offset 0 in the DIB color table) are displayed using the foreground color;
         /// pixels mapped to the second color (offset 1 in the color table) are displayed using the background color.
-        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
-        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
+        /// <para>
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// ICM: No color is done at brush creation.
+        /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateDIBPatternBrush([In] HGLOBAL h, [In] DIBColorTableUsages iUsage);
 
         /// <summary>
         /// <para>
-        /// The <see cref="CreateDIBPatternBrushPt"/> function creates a logical brush that has the pattern specified by the device-independent bitmap (DIB).
+        /// The <see cref="CreateDIBPatternBrushPt"/> function creates a logical brush
+        /// that has the pattern specified by the device-independent bitmap (DIB).
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrushpt"/>
@@ -100,26 +158,66 @@ namespace Lsj.Util.Win32
         /// followed by an array of bytes defining the pixels of the bitmap.
         /// </param>
         /// <param name="iUsage">
-        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure contains a valid color table and,
+        /// <para>
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure contains a valid color table and,
         /// if so, whether the entries in this color table contain explicit red, green, blue (RGB) values or palette indexes.
-        /// The <paramref name="iUsage"/> parameter must be one of the following values.
-        /// <see cref="DIB_PAL_COLORS"/>:
-        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette of the device context
-        /// into which the brush is to be selected.
-        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DIB_PAL_COLORS"/>
+        /// </term>
+        /// <term>
+        /// A color table is provided and consists of an array of 16-bit indexes
+        /// into the logical palette of the device context into which the brush is to be selected.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DIB_RGB_COLORS"/>
+        /// </term>
+        /// <term>
         /// A color table is provided and contains literal RGB values.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
-        /// After an application creates a brush by calling <see cref="CreateDIBPatternBrushPt"/>, it can select that brush into any device context
-        /// by calling the <see cref="SelectObject"/> function.
-        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
-        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
+        /// <para>
+        /// After an application creates a brush by calling <see cref="CreateDIBPatternBrushPt"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// </para>
+        /// <para>
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// ICM: No color is done at brush creation.
+        /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableUsages iUsage);
 
@@ -136,20 +234,36 @@ namespace Lsj.Util.Win32
         /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the HBRUSH object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HBRUSH"/> object,
+        /// call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// A solid brush is a bitmap that the system uses to paint the interiors of filled shapes.
-        /// After an application creates a brush by calling <see cref="CreateSolidBrush"/>,
-        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
-        /// To paint with a system color brush, an application should use <see cref="GetSysColorBrush"/> (nIndex)
-        /// instead of <see cref="CreateSolidBrush"/>(<see cref="GetSysColor"/>(nIndex)),
-        /// because <see cref="GetSysColorBrush"/> returns a cached brush instead of allocating a new one.
-        /// ICM: No color management is done at brush creation.
+        /// </para>
+        /// <para>
+        /// After an application creates a brush by calling <see cref="CreateSolidBrush"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// </para>
+        /// <para>
+        /// To paint with a system color brush, an application should use <c>GetSysColorBrush (nIndex)</c>
+        /// instead of <c>CreateSolidBrush(GetSysColor(nIndex))</c>,
+        /// because <see cref="GetSysColorBrush"/> returns a cached brush instead of allocating a new one.
+        /// </para>
+        /// <para>
+        /// ICM: No color management is done at brush creation.
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateSolidBrush([In] COLORREF color);
 
@@ -162,29 +276,105 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="iHatch">
-        /// The hatch style of the brush. This parameter can be one of the following values.
-        /// <see cref="HS_BDIAGONAL"/>, <see cref="HS_CROSS"/>, <see cref="HS_DIAGCROSS"/>, <see cref="HS_FDIAGONAL"/>,
-        /// <see cref="HS_HORIZONTAL"/>, <see cref="HS_VERTICAL"/>
+        /// <para>
+        /// The hatch style of the brush.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_BDIAGONAL"/>
+        /// </term>
+        /// <term>
+        /// 45-degree upward left-to-right hatch
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_CROSS"/>
+        /// </term>
+        /// <term>
+        /// Horizontal and vertical crosshatch
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_DIAGCROSS"/>
+        /// </term>
+        /// <term>
+        /// 45-degree crosshatch
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_FDIAGONAL"/>
+        /// </term>
+        /// <term>
+        /// 45-degree downward left-to-right hatch
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_HORIZONTAL"/>
+        /// </term>
+        /// <term>
+        /// Horizontal hatch
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="HS_VERTICAL"/>
+        /// </term>
+        /// <term>
+        /// Vertical hatch
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="color">
         /// The foreground color of the brush that is used for the hatches.
         /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
-        /// After an application creates a brush by calling <see cref="CreateHatchBrush"/>,
-        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
-        /// It can also call <see cref="SetBkMode"/> to affect the rendering of the brush.
+        /// </para>
+        /// <para>
+        /// After an application creates a brush by calling <see cref="CreateHatchBrush"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// It can also call <see cref="SetBkMode"/> to affect the rendering of the brush.
+        /// </para>
+        /// <para>
         /// If an application uses a hatch brush to fill the backgrounds of both a parent and a child window with matching color,
         /// you must set the brush origin before painting the background of the child window.
-        /// You can do this by calling the <see cref="SetBrushOrgEx"/> function.
-        /// Your application can retrieve the current brush origin by calling the <see cref="GetBrushOrgEx"/> function.
-        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
-        /// ICM: No color is defined at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// You can do this by calling the <see cref="SetBrushOrgEx"/> function.
+        /// Your application can retrieve the current brush origin by calling the <see cref="GetBrushOrgEx"/> function.
+        /// </para>
+        /// <para>
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// ICM: No color is defined at brush creation.
+        /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateHatchBrush([In] HatchStyles iHatch, [In] COLORREF color);
@@ -202,19 +392,36 @@ namespace Lsj.Util.Win32
         /// A handle to the bitmap to be used to create the logical brush.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a logical brush.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A pattern brush is a bitmap that the system uses to paint the interiors of filled shapes.
-        /// After an application creates a brush by calling <see cref="CreatePatternBrush"/>,
-        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
-        /// You can delete a pattern brush without affecting the associated bitmap by using the <see cref="DeleteObject"/> function.
+        /// </para>
+        /// <para>
+        /// After an application creates a brush by calling <see cref="CreatePatternBrush"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// </para>
+        /// <para>
+        /// You can delete a pattern brush without affecting the associated bitmap by using the <see cref="DeleteObject"/> function.
         /// Therefore, you can then use this bitmap to create any number of pattern brushes.
+        /// </para>
+        /// <para>
         /// A brush created by using a monochrome (1 bit per pixel) bitmap has the text and background colors of the device context to which it is drawn.
-        /// Pixels represented by a 0 bit are drawn with the current text color; pixels represented by a 1 bit are drawn with the current background color.
-        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// Pixels represented by a 0 bit are drawn with the current text color;
+        /// pixels represented by a 1 bit are drawn with the current background color.
+        /// </para>
+        /// <para>
+        /// ICM: No color is done at brush creation.
+        /// However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreatePatternBrush([In] HBITMAP hbm);
 
@@ -234,47 +441,39 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="POINT"/> structure that receives the brush origin, in device coordinates.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// </para>
+        /// <para>
         /// The brush origin is a set of coordinates with values between 0 and 7, specifying the location of one pixel in the bitmap.
         /// The default brush origin coordinates are (0,0).
         /// For horizontal coordinates, the value 0 corresponds to the leftmost column of pixels; the value 7 corresponds to the rightmost column.
         /// For vertical coordinates, the value 0 corresponds to the uppermost row of pixels; the value 7 corresponds to the lowermost row.
         /// When the system positions the brush at the start of any painting operation,
         /// it maps the origin of the brush to the location in the window's client area specified by the brush origin.
-        /// For example, if the origin is set to (2,3), the system maps the origin of the brush (0,0) to the location (2,3) on the window's client area.
+        /// For example, if the origin is set to (2,3),
+        /// the system maps the origin of the brush (0,0) to the location (2,3) on the window's client area.
+        /// </para>
+        /// <para>
         /// If an application uses a brush to fill the backgrounds of both a parent and a child window with matching colors,
         /// it may be necessary to set the brush origin after painting the parent window but before painting the child window.
+        /// </para>
+        /// <para>
         /// The system automatically tracks the origin of all window-managed device contexts
         /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBrushOrgEx([In] HDC hdc, [Out] out POINT lppt);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetDCBrushColor"/> function retrieves the current brush color for the specified device context (DC).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getdcbrushcolor"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the DC whose brush color is to be returned.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the <see cref="COLORREF"/> value for the current DC brush color.
-        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
-        /// </returns>
-        /// <remarks>
-        /// For information on setting the brush color, see <see cref="SetDCBrushColor"/>.
-        /// ICM: Color management is performed if ICM is enabled.
-        /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCBrushColor", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF GetDCBrushColor([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -297,28 +496,47 @@ namespace Lsj.Util.Win32
         /// If this value is greater than the brush height, its value is reduced using the modulus operator (<paramref name="y"/> mod brush height).
         /// </param>
         /// <param name="lppt">
-        /// A pointer to a <see cref="POINT"/> structure that receives the previous brush origin.
-        /// This parameter can be <see cref="NullRef{POINT}"/> if the previous brush origin is not required.
+        /// <para>
+        /// A pointer to a <see cref="POINT"/> structure that receives the previous brush origin.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NullRef{POINT}"/> if the previous brush origin is not required.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// </para>
+        /// <para>
         /// The brush origin is a pair of coordinates specifying the location of one pixel in the bitmap.
         /// The default brush origin coordinates are (0,0).
         /// For horizontal coordinates, the value 0 corresponds to the leftmost column of pixels; the width corresponds to the rightmost column.
         /// For vertical coordinates, the value 0 corresponds to the uppermost row of pixels; the height corresponds to the lowermost row.
-        /// The system automatically tracks the origin of all window-managed device contexts and adjusts their brushes as necessary
-        /// to maintain an alignment of patterns on the surface.
+        /// </para>
+        /// <para>
+        /// The system automatically tracks the origin of all window-managed device contexts
+        /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
         /// The brush origin that is set with this call is relative to the upper-left corner of the client area.
-        /// An application should call <see cref="SetBrushOrgEx"/> after setting the bitmap stretching mode
-        /// to <see cref="HALFTONE"/> by using <see cref="SetStretchBltMode"/>.
+        /// </para>
+        /// <para>
+        /// An application should call <see cref="SetBrushOrgEx"/>
+        /// after setting the bitmap stretching mode to <see cref="HALFTONE"/> by using <see cref="SetStretchBltMode"/>.
         /// This must be done to avoid brush misalignment.
-        /// The system automatically tracks the origin of all window-managed device contexts and adjusts their brushes
-        /// as necessary to maintain an alignment of patterns on the surface.
+        /// </para>
+        /// <para>
+        /// The system automatically tracks the origin of all window-managed device contexts
+        /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetBrushOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -338,19 +556,33 @@ namespace Lsj.Util.Win32
         /// The new brush color.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value specifies the previous DC brush color as a <see cref="COLORREF"/> value.
+        /// <para>
+        /// If the function succeeds, the return value specifies the previous DC brush color as a <see cref="COLORREF"/> value.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When the stock <see cref="DC_BRUSH"/> is selected in a DC, all the subsequent drawings will be done
-        /// using the DC brush color until the stock brush is deselected.
+        /// <para>
+        /// When the stock <see cref="DC_BRUSH"/> is selected in a DC,
+        /// all the subsequent drawings will be done using the DC brush color until the stock brush is deselected.
         /// The default <see cref="DC_BRUSH"/> color is <see cref="WHITE"/>.
-        /// The function returns the previous <see cref="DC_BRUSH"/> color, even if the stock brush <see cref="DC_BRUSH"/> is not selected in the DC:
+        /// </para>
+        /// <para>
+        /// The function returns the previous <see cref="DC_BRUSH"/> color,
+        /// even if the stock brush <see cref="DC_BRUSH"/> is not selected in the DC:
         /// however, this will not be used in drawing operations until the stock <see cref="DC_BRUSH"/> is selected in the DC.
-        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
-        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
-        /// ICM: Color management is performed if ICM is enabled.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
+        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
+        /// </para>
+        /// <para>
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDCBrushColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetDCBrushColor([In] HDC hdc, [In] COLORREF color);
     }

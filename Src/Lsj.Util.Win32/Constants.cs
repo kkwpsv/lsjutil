@@ -19,11 +19,6 @@ namespace Lsj.Util.Win32
         public const int ANYSIZE_ARRAY = 1;
 
         /// <summary>
-        /// AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD
-        /// </summary>
-        public const uint AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD = 1;
-
-        /// <summary>
         /// AC_SRC_OVER
         /// </summary>
         public const byte AC_SRC_OVER = 0;
@@ -34,14 +29,34 @@ namespace Lsj.Util.Win32
         public const byte AC_SRC_ALPHA = 1;
 
         /// <summary>
+        /// AD_COUNTERCLOCKWISE
+        /// </summary>
+        public const int AD_COUNTERCLOCKWISE = 1;
+
+        /// <summary>
+        /// AD_CLOCKWISE
+        /// </summary>
+        public const int AD_CLOCKWISE = 2;
+
+        /// <summary>
         /// AUDIT_ALLOW_NO_PRIVILEGE
         /// </summary>
         public const uint AUDIT_ALLOW_NO_PRIVILEGE = 0x1;
 
         /// <summary>
+        /// AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD
+        /// </summary>
+        public const uint AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD = 1;
+
+        /// <summary>
         /// CACHE_FULLY_ASSOCIATIVE
         /// </summary>
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
+
+        /// <summary>
+        /// DWM_SIT_DISPLAYFRAME
+        /// </summary>
+        public const uint DWM_SIT_DISPLAYFRAME = 0x00000001;
 
         /// <summary>
         /// EXCEPTION_MAXIMUM_PARAMETERS

@@ -347,6 +347,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckTokenMembership([In] HANDLE TokenHandle, [In] PSID SidToCheck, [Out] out BOOL IsMember);
 

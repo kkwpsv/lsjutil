@@ -945,7 +945,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// <para>
         /// Creates a new process and its primary thread.
         /// The new process runs in the security context of the specified token.
         /// It can optionally load the user profile for the specified user.
@@ -959,7 +958,6 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateProcessWithLogonW"/> requires no special privileges,
         /// but the specified user account must be allowed to log on interactively.
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
-        /// </para>
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"/>
@@ -1371,6 +1369,7 @@ namespace Lsj.Util.Win32
         /// CreateProcessWithTokenW(NULL, szCmdline, /*...*/);
         /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithTokenW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateProcessWithTokenW([In] HANDLE hToken, [In] LogonFlags dwLogonFlags, [In] LPCWSTR lpApplicationName,
             [In] LPWSTR lpCommandLine, [In] ProcessCreationFlags dwCreationFlags, [In] LPVOID lpEnvironment, [In] LPCWSTR lpCurrentDirectory,
