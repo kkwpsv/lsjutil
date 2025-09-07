@@ -22,12 +22,29 @@ namespace Lsj.Util.Tests.Win32
             "SetThreadCursorCreationScaling",
         };
 
+        private static List<string> missingWindowsVersionRequirementWhiteList = new List<string>
+        {
+            "CreateDirect3D11DeviceFromDXGIDevice",
+            "D3D11CreateDevice",
+            "D3D11CreateDeviceAndSwapChain",
+            "D3D12CreateDevice",
+            "Direct3DCreate9",
+            "Direct3DCreate9Ex",
+            "Direct3DCreate9On12",
+            "Direct3DCreate9On12Ex",
+            "D3DCompile",
+            "D3DXCheckVersion",
+            "D3DXCreateBuffer",
+            "CreateDXGIFactory",
+        };
+
         [TestMethod]
-        public void TestEntryPoints()
+        public void TestMethods()
         {
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
-            var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>())).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
+            var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var failed = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
+            var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
             {
                 if (item.Method.Name == item.Attribute.EntryPoint || item.Method.Name + "W" == item.Attribute.EntryPoint ||
@@ -54,10 +71,23 @@ namespace Lsj.Util.Tests.Win32
                 {
                     failed.Add(item);
                 }
+
+                if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>() == null)
+                {
+                    if (!missingWindowsVersionRequirementWhiteList.Contains(item.Method.Name))
+                    {
+                        missingWindowsVersionRequirementMethods.Add(item.Method);
+                    }
+                }
             }
             if (failed.Any())
             {
-                Assert.Fail(Environment.NewLine + string.Concat(failed.Select(item => $"{item.Method.DeclaringType.Name} {item.Method.Name} entrypoint error." + Environment.NewLine)));
+                Assert.Fail(Environment.NewLine + string.Concat(failed.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} entrypoint error." + Environment.NewLine)));
+            }
+
+            if (missingWindowsVersionRequirementMethods.Any())
+            {
+                Assert.Fail(Environment.NewLine + string.Concat(missingWindowsVersionRequirementMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing windows version requirements." + Environment.NewLine)));
             }
         }
 
