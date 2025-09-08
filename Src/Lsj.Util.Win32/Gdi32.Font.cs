@@ -28,6 +28,7 @@ using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -35,31 +36,43 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// The EnumFontFamExProc function is an application defined callback function used with the <see cref="EnumFontFamiliesEx"/> function.
+        /// The <see cref="EnumFontFamExProc"/> function is an application defined callback function used with the <see cref="EnumFontFamiliesEx"/> function.
         /// It is used to process the fonts. It is called once for each enumerated font.
-        /// The <see cref="FONTENUMPROC"/> type defines a pointer to this callback function.
-        /// EnumFontFamExProc is a placeholder for the application defined function name.
+        /// The <see cref="FONTENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumFontFamExProc"/> is a placeholder for the application defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/dd162618(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpelfe">
-        /// A pointer to an <see cref="LOGFONT"/> structure that contains information about the logical attributes of the font.
-        /// To obtain additional information about the font, you can cast the result
-        /// as an <see cref="ENUMLOGFONTEX"/> or <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// A pointer to an <see cref="LOGFONT"/> structure that contains information about the logical attributes of the font.
+        /// To obtain additional information about the font,
+        /// you can cast the result as an <see cref="ENUMLOGFONTEX"/> or <see cref="ENUMLOGFONTEXDV"/> structure.
         /// </param>
         /// <param name="lpntme">
+        /// <para>
         /// A pointer to a structure that contains information about the physical attributes of a font.
-        /// The function uses the <see cref="NEWTEXTMETRICEX"/> structure for TrueType fonts;
-        /// and the <see cref="TEXTMETRIC"/> structure for other fonts.
-        /// This can be an <see cref="ENUMTEXTMETRIC"/> structure.
+        /// The function uses the <see cref="NEWTEXTMETRICEX"/> structure for TrueType fonts;
+        /// and the <see cref="TEXTMETRIC"/> structure for other fonts.
+        /// </para>
+        /// <para>
+        /// This can be an <see cref="ENUMTEXTMETRIC"/> structure.
+        /// </para>
         /// </param>
         /// <param name="FontType">
+        /// <para>
         /// The type of the font. This parameter can be a combination of these values:
+        /// </para>
+        /// <para>
         /// <see cref="DEVICE_FONTTYPE"/>
+        /// </para>
+        /// <para>
         /// <see cref="RASTER_FONTTYPE"/>
+        /// </para>
+        /// <para>
         /// <see cref="TRUETYPE_FONTTYPE"/>
+        /// </para>
         /// </param>
         /// <param name="lParam">
         /// The application-defined data passed by the <see cref="EnumFontFamiliesEx"/> function.
@@ -68,17 +81,23 @@ namespace Lsj.Util.Win32
         /// The return value must be a nonzero value to continue enumeration; to stop enumeration, the return value must be zero.
         /// </returns>
         /// <remarks>
-        /// An application must register this callback function by passing its address to the <see cref="EnumFontFamiliesEx"/> function.
-        /// When the graphics mode on the device context is set to <see cref="GM_ADVANCED"/>
-        /// using the <see cref="SetGraphicsMode"/> function and the <see cref="DEVICE_FONTTYPE"/> flag is passed to the FontType parameter,
+        /// <para>
+        /// An application must register this callback function by passing its address to the <see cref="EnumFontFamiliesEx"/> function.
+        /// </para>
+        /// <para>
+        /// When the graphics mode on the device context is set to <see cref="GM_ADVANCED"/> using the <see cref="SetGraphicsMode"/> function
+        /// and the <see cref="DEVICE_FONTTYPE"/> flag is passed to the <paramref name="FontType"/> parameter,
         /// this function returns a list of type 1 and OpenType fonts on the system.
         /// When the graphics mode is not set to <see cref="GM_ADVANCED"/>,
         /// this function returns a list of type 1, OpenType, and TrueType fonts on the system.
-        /// Unlike the EnumFontFamProc callback function, EnumFontFamExProc receives extended information about a font.
-        /// The <see cref="ENUMLOGFONTEX"/> structure includes the localized name of the script (character set) and
-        /// the <see cref="NEWTEXTMETRICEX"/> structure includes a font-coverage signature.
+        /// </para>
+        /// <para>
+        /// Unlike the EnumFontFamProc callback function, <see cref="EnumFontFamExProc"/> receives extended information about a font.
+        /// The <see cref="ENUMLOGFONTEX"/> structure includes the localized name of the script (character set)
+        /// and the <see cref="NEWTEXTMETRICEX"/> structure includes a font-coverage signature.
+        /// </para>
         /// </remarks>
-        public delegate int Fontenumproc([In] IntPtr lpelfe, [In] IntPtr lpntme, [In] EnumFontTypes FontType, [In] IntPtr lParam);
+        public delegate int EnumFontFamExProc([In] P<LOGFONT> lpelfe, [In] P<TEXTMETRIC> lpntme, [In] EnumFontTypes FontType, [In] LPARAM lParam);
 
 
         /// <summary>
@@ -108,17 +127,24 @@ namespace Lsj.Util.Win32
         /// No extended error information is available.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function allows an application to get a font that is embedded in a document or a webpage.
-        /// A font that is added by <see cref="AddFontMemResourceEx"/> is always private to the process that made the call and is not enumerable.
+        /// A font that is added by <see cref="AddFontMemResourceEx"/> is always private to the process that made the call and is not enumerable.
+        /// </para>
+        /// <para>
         /// A memory image can contain more than one font.
-        /// When this function succeeds, pcFonts is a pointer to a DWORD whose value is the number of fonts added to the system as a result of this call.
+        /// When this function succeeds, <paramref name="pNumFonts"/> is a pointer to a <see cref="DWORD"/>
+        /// whose value is the number of fonts added to the system as a result of this call.
         /// For example, this number could be 2 for the vertical and horizontal faces of an Asian font.
-        /// When the function succeeds, the caller of this function can free the memory pointed to by pbFont
+        /// </para>
+        /// <para>
+        /// When the function succeeds, the caller of this function can free the memory pointed to by <paramref name="pFileView"/>
         /// because the system has made its own copy of the memory.
-        /// To remove the fonts that were installed, call <see cref="RemoveFontMemResourceEx"/>.
-        /// However, when the process goes away, the system will unload the fonts
-        /// even if the process did not call <see cref="RemoveFontMemResource"/>.
+        /// To remove the fonts that were installed, call <see cref="RemoveFontMemResourceEx"/>.
+        /// However, when the process goes away, the system will unload the fonts even if the process did not call <see cref="RemoveFontMemResourceEx"/>.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontMemResourceEx", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE AddFontMemResourceEx([In] PVOID pFileView, [In] DWORD cjSize, [In] PVOID pvResrved, [In] in DWORD pNumFonts);
 

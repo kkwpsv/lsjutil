@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.PenStyles;
 using static Lsj.Util.Win32.Enums.PathVertexTypes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Msimg32;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -67,22 +68,36 @@ namespace Lsj.Util.Win32
         /// Specifies the sweep angle, in degrees, relative to the starting angle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="AngleArc"/> function moves the current position to the ending point of the arc.
+        /// <para>
+        /// The <see cref="AngleArc"/> function moves the current position to the ending point of the arc.
+        /// </para>
+        /// <para>
         /// The arc drawn by this function may appear to be elliptical, depending on the current transformation and mapping mode.
-        /// Before drawing the arc, <see cref="AngleArc"/> draws the line segment from the current position to the beginning of the arc.
+        /// Before drawing the arc, <see cref="AngleArc"/> draws the line segment from the current position to the beginning of the arc.
+        /// </para>
+        /// <para>
         /// The arc is drawn by constructing an imaginary circle around the specified center point with the specified radius.
         /// The starting point of the arc is determined by measuring counterclockwise
         /// from the x-axis of the circle by the number of degrees in the start angle.
         /// The ending point is similarly located by measuring counterclockwise
         /// from the starting point by the number of degrees in the sweep angle.
+        /// </para>
+        /// <para>
         /// If the sweep angle is greater than 360 degrees, the arc is swept multiple times.
-        /// This function draws lines by using the current pen.
-        /// The figure is not filled.
+        /// </para>
+        /// <para>
+        /// This function draws lines by using the current pen. The figure is not filled.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AngleArc", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AngleArc([In] HDC hdc, [In] int x, [In] int y, [In] DWORD r, [In] FLOAT StartAngle, [In] FLOAT SweepAngle);
 
@@ -122,21 +137,37 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical units, of the ending point of the radial line defining the ending point of the arc.
         /// </param>
         /// <returns>
-        /// If the arc is drawn, the return value is <see cref="TRUE"/>.
-        /// If the arc is not drawn, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the arc is drawn, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the arc is not drawn, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The points (nLeftRect, nTopRect) and (nRightRect, nBottomRect) specify the bounding rectangle.
+        /// <para>
+        /// The points (<paramref name="x1"/>, <paramref name="y1"/>)
+        /// and (<paramref name="x2"/>, <paramref name="y2"/>) specify the bounding rectangle.
         /// An ellipse formed by the specified bounding rectangle defines the curve of the arc.
-        /// The arc extends in the current drawing direction from the point where it intersects the radial
-        /// from the center of the bounding rectangle to the (nXStartArc, nYStartArc) point.
-        /// The arc ends where it intersects the radial from the center of the bounding rectangle to the (nXEndArc, nYEndArc) point.
+        /// The arc extends in the current drawing direction from the point
+        /// where it intersects the radial from the center of the bounding rectangle to the (<paramref name="x3"/>, <paramref name="y3"/>) point.
+        /// The arc ends where it intersects the radial from the center
+        /// of the bounding rectangle to the (<paramref name="x4"/>, <paramref name="y4"/>) point.
         /// If the starting point and ending point are the same, a complete ellipse is drawn.
+        /// </para>
+        /// <para>
         /// The arc is drawn using the current pen; it is not filled.
-        /// The current position is neither used nor updated by Arc.
-        /// Use the <see cref="GetArcDirection"/> and <see cref="SetArcDirection"/> functions to get and set the current drawing direction for a device context.
+        /// </para>
+        /// <para>
+        /// The current position is neither used nor updated by <see cref="Arc"/>.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="GetArcDirection"/> and <see cref="SetArcDirection"/> functions
+        /// to get and set the current drawing direction for a device context.
         /// The default drawing direction is counterclockwise.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Arc([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int x3,
             [In] int y3, [In] int x4, [In] int y4);
@@ -177,21 +208,36 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical units, of the endpoint of the radial defining the ending point of the arc.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="ArcTo"/> is similar to the <see cref="Arc"/> function, except that the current position is updated.
-        /// The points (nLeftRect, nTopRect) and (nRightRect, nBottomRect) specify the bounding rectangle.
+        /// <para>
+        /// <see cref="ArcTo"/> is similar to the <see cref="Arc"/> function, except that the current position is updated.
+        /// </para>
+        /// <para>
+        /// The points (<paramref name="left"/>, <paramref name="top"/>)
+        /// and (<paramref name="right"/>, <paramref name="bottom"/>) specify the bounding rectangle.
         /// An ellipse formed by the specified bounding rectangle defines the curve of the arc.
         /// The arc extends counterclockwise from the point where it intersects the radial line
-        /// from the center of the bounding rectangle to the (nXRadial1, nYRadial1) point.
-        /// The arc ends where it intersects the radial line from the center of the bounding rectangle to the (nXRadial2, nYRadial2) point.
+        /// from the center of the bounding rectangle to the (<paramref name="xr1"/>, <paramref name="yr1"/>) point.
+        /// The arc ends where it intersects the radial line from the center of the bounding rectangle
+        /// to the (<paramref name="xr2"/>, <paramref name="yr2"/>) point.
         /// If the starting point and ending point are the same, a complete ellipse is drawn.
+        /// </para>
+        /// <para>
         /// A line is drawn from the current position to the starting point of the arc.
         /// If no error occurs, the current position is set to the ending point of the arc.
+        /// </para>
+        /// <para>
         /// The arc is drawn using the current pen; it is not filled.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ArcTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ArcTo([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
             [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
@@ -208,20 +254,134 @@ namespace Lsj.Util.Win32
         /// A handle to the device context.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// After a path bracket is open, an application can begin calling GDI drawing functions to define the points that lie in the path.
-        /// An application can close an open path bracket by calling the <see cref="EndPath"/> function.
-        /// When an application calls <see cref="BeginPath"/> for a device context, any previous paths are discarded from that device context.
+        /// An application can close an open path bracket by calling the <see cref="EndPath"/> function.
+        /// </para>
+        /// <para>
+        /// When an application calls <see cref="BeginPath"/> for a device context,
+        /// any previous paths are discarded from that device context.
         /// The following list shows which drawing functions can be used.
-        /// <see cref="AngleArc"/>, <see cref="Arc"/>, <see cref="ArcTo"/>, <see cref="Chord"/>, <see cref="CloseFigure"/>,
-        /// <see cref="Ellipse"/>, <see cref="ExtTextOut"/>, <see cref="LineTo"/>, <see cref="MoveToEx"/>, <see cref="Pie"/>,
-        /// <see cref="PolyBezier"/>, <see cref="PolyBezierTo"/>, <see cref="PolyDraw"/>, <see cref="Polygon"/>,
-        /// <see cref="Polyline"/>, <see cref="PolylineTo"/>, <see cref="PolyPolygon"/>, <see cref="PolyPolyline"/>,
-        /// <see cref="Rectangle"/>, <see cref="RoundRect"/>, <see cref="TextOut"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="AngleArc"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Arc"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ArcTo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Chord"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CloseFigure"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Ellipse"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ExtTextOut"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LineTo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MoveToEx"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Pie"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolyBezier"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolyBezierTo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolyDraw"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Polygon"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Polyline"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolylineTo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolyPolygon"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="PolyPolyline"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Rectangle"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="RoundRect"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="TextOut"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BeginPath([In] HDC hdc);
 
@@ -262,17 +422,29 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical coordinates, of the endpoint of the radial defining the end of the chord.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The curve of the chord is defined by an ellipse that fits the specified bounding rectangle.
-        /// The curve begins at the point where the ellipse intersects the first radial and extends counterclockwise to the point
-        /// where the ellipse intersects the second radial.
-        /// The chord is closed by drawing a line from the intersection of the first radial and the curve to the intersection of the second radial and the curve.
+        /// The curve begins at the point where the ellipse intersects the first radial
+        /// and extends counterclockwise to the point where the ellipse intersects the second radial.
+        /// The chord is closed by drawing a line from the intersection of the first radial
+        /// and the curve to the intersection of the second radial and the curve.
+        /// </para>
+        /// <para>
         /// If the starting point and ending point of the curve are the same, a complete ellipse is drawn.
-        /// The current position is neither used nor updated by <see cref="Chord"/>.
+        /// </para>
+        /// <para>
+        /// The current position is neither used nor updated by <see cref="Chord"/>.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Chord([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2,
             [In] int x3, [In] int y3, [In] int x4, [In] int y4);
@@ -289,21 +461,33 @@ namespace Lsj.Util.Win32
         /// Handle to the device context in which the figure will be closed.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CloseFigure"/> function closes the figure by drawing a line
-        /// from the current position to the first point of the figure
-        /// (usually, the point specified by the most recent call to the <see cref="MoveToEx"/> function)
+        /// <para>
+        /// The <see cref="CloseFigure"/> function closes the figure by drawing a line from the current position to the first point of the figure
+        /// (usually, the point specified by the most recent call to the <see cref="MoveToEx"/> function)
         /// and then connects the lines by using the line join style.
-        /// If a figure is closed by using the <see cref="LineTo"/> function instead of <see cref="CloseFigure"/>,
+        /// If a figure is closed by using the <see cref="LineTo"/> function instead of <see cref="CloseFigure"/>,
         /// end caps are used to create the corner instead of a join.
-        /// The <see cref="CloseFigure"/> function should only be called if there is an open path bracket in the specified device context.
+        /// </para>
+        /// <para>
+        /// The <see cref="CloseFigure"/> function should only be called if there is an open path bracket in the specified device context.
+        /// </para>
+        /// <para>
         /// A figure in a path is open unless it is explicitly closed by using this function.
         /// (A figure can be open even if the current point and the starting point of the figure are the same.)
-        /// After a call to <see cref="CloseFigure"/>, adding a line or curve to the path starts a new figure.
+        /// </para>
+        /// <para>
+        /// After a call to <see cref="CloseFigure"/>, adding a line or curve to the path starts a new figure.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseFigure", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseFigure([In] HDC hdc);
 
@@ -333,12 +517,17 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The current position is neither used nor updated by <see cref="Ellipse"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Ellipse([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -355,9 +544,14 @@ namespace Lsj.Util.Win32
         /// A handle to the device context into which the new path is selected.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndPath([In] HDC hdc);
 
@@ -384,35 +578,94 @@ namespace Lsj.Util.Win32
         /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </param>
         /// <param name="type">
+        /// <para>
         /// The type of fill operation to be performed. This parameter must be one of the following values.
-        /// <see cref="FLOODFILLBORDER"/>:
-        /// The fill area is bounded by the color specified by the <paramref name="color"/> parameter.
-        /// This style is identical to the filling performed by the <see cref="FloodFill"/> function.
-        /// <see cref="FLOODFILLSURFACE"/>:
-        /// The fill area is defined by the color that is specified by <paramref name="color"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FLOODFILLBORDER"/>
+        /// </term>
+        /// <term>
+        /// The fill area is bounded by the color specified by the color parameter.
+        /// This style is identical to the filling performed by the <see cref="FloodFill"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FLOODFILLSURFACE"/>
+        /// </term>
+        /// <term>
+        /// The fill area is defined by the color that is specified by color.
         /// Filling continues outward in all directions as long as the color is encountered.
         /// This style is useful for filling areas with multicolored boundaries.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The following are some of the reasons this function might fail:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The filling could not be completed.
-        /// The specified point has the boundary color specified by the <paramref name="color"/> parameter (if <see cref="FLOODFILLBORDER"/> was requested).
-        /// The specified point does not have the color specified by <paramref name="color"/> (if <see cref="FLOODFILLSURFACE"/> was requested).
-        /// The point is outside the clipping regionthat is, it is not visible on the device.
-        /// If the <paramref name="type"/> parameter is <see cref="FLOODFILLBORDER"/>, the system assumes
-        /// that the area to be filled is completely bounded by the color specified by the <paramref name="color"/> parameter.
-        /// The function begins filling at the point specified by the <paramref name="x"/> and <paramref name="y"/> parameters
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The specified point has the boundary color specified by the color parameter (if <see cref="FLOODFILLBORDER"/> was requested).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The specified point does not have the color specified by color (if <see cref="FLOODFILLSURFACE"/> was requested).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The point is outside the clipping region, that is, it is not visible on the device.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the <paramref name="type"/> parameter is <see cref="FLOODFILLBORDER"/>,
+        /// the system assumes that the area to be filled is completely bounded by the color specified by the <paramref name="color"/> parameter.
+        /// The function begins filling at the point specified by the <paramref name="x"/> and <paramref name="y"/> parameters
         /// and continues in all directions until it reaches the boundary.
-        /// If <paramref name="type"/> is <see cref="FLOODFILLSURFACE"/>, the system assumes that the area to be filled is a single color.
-        /// The function begins to fill the area at the point specified by <paramref name="x"/> and <paramref name="y"/> and continues in all directions,
-        /// filling all adjacent regions containing the color specified by <paramref name="color"/>.
-        /// Only memory device contexts and devices that support raster-display operations support the <see cref="ExtFloodFill"/> function.
-        /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
+        /// </para>
+        /// <para>
+        /// If <paramref name="type"/> is <see cref="FLOODFILLSURFACE"/>, the system assumes that the area to be filled is a single color.
+        /// The function begins to fill the area at the point specified by <paramref name="x"/> and <paramref name="y"/>
+        /// and continues in all directions, filling all adjacent regions containing the color specified by color.
+        /// </para>
+        /// <para>
+        /// Only memory device contexts and devices that support raster-display operations support the <see cref="ExtFloodFill"/> function.
+        /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtFloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color, [In] ExtFloodFillTypes type);
 
@@ -429,12 +682,17 @@ namespace Lsj.Util.Win32
         /// A handle to a device context that contains a valid path.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// After its interior is filled, the path is discarded from the DC identified by the <paramref name="hdc"/> parameter.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillPath([In] HDC hdc);
 
@@ -457,9 +715,14 @@ namespace Lsj.Util.Win32
         /// Handle to the brush to be used to fill the region.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillRgn([In] HDC hdc, [In] HRGN hrgn, [In] HBRUSH hbr);
 
@@ -476,9 +739,14 @@ namespace Lsj.Util.Win32
         /// A handle to a DC that contains a valid path.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlattenPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlattenPath([In] HDC hdc);
 
@@ -505,18 +773,41 @@ namespace Lsj.Util.Win32
         /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The following are reasons this function might fail:
+        /// <para>
+        /// he following are reasons this function might fail:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The fill could not be completed.
-        /// The given point has the boundary color specified by the <paramref name="color"/> parameter.
-        /// The given point lies outside the current clipping regionthat is, it is not visible on the device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The given point has the boundary color specified by the color parameter.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The given point lies outside the current clipping region, that is, it is not visible on the device.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("The FloodFill function is included only for compatibility with 16-bit versions of Windows." +
             "Applications should use the ExtFloodFill function with FLOODFILLBORDER specified.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         public static extern BOOL FloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
         /// <summary>
@@ -544,9 +835,14 @@ namespace Lsj.Util.Win32
         /// Specifies the height, in logical units, of horizontal brush strokes.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FrameRgn([In] HDC hdc, [In] HRGN hrgn, [In] HBRUSH hbr, [In] int w, [In] int h);
 
@@ -575,53 +871,107 @@ namespace Lsj.Util.Win32
         /// The number of elements (triangles or rectangles) in <paramref name="pMesh"/>.
         /// </param>
         /// <param name="ulMode">
+        /// <para>
         /// The gradient fill mode. This parameter can be one of the following values.
-        /// <see cref="GRADIENT_FILL_RECT_H"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GRADIENT_FILL_RECT_H"/>
+        /// </term>
+        /// <term>
         /// In this mode, two endpoints describe a rectangle.
-        /// The rectangle is defined to have a constant color (specified by the <see cref="TRIVERTEX"/> structure) for the left and right edges.
+        /// The rectangle is defined to have a constant color (specified by the <see cref="TRIVERTEX"/> structure) for the left and right edges.
         /// GDI interpolates the color from the left to right edge and fills the interior.
-        /// <see cref="GRADIENT_FILL_RECT_V"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GRADIENT_FILL_RECT_V"/>
+        /// </term>
+        /// <term>
         /// In this mode, two endpoints describe a rectangle.
-        /// The rectangle is defined to have a constant color (specified by the <see cref="TRIVERTEX"/> structure) for the top and bottom edges.
+        /// The rectangle is defined to have a constant color (specified by the <see cref="TRIVERTEX"/> structure) for the top and bottom edges.
         /// GDI interpolates the color from the top to bottom edge and fills the interior.
-        /// <see cref="GRADIENT_FILL_TRIANGLE"/>:
-        /// In this mode, an array of <see cref="TRIVERTEX"/> structures is passed to GDI
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GRADIENT_FILL_TRIANGLE"/>
+        /// </term>
+        /// <term>
+        /// In this mode, an array of <see cref="TRIVERTEX"/> structures is passed to GDI
         /// along with a list of array indexes that describe separate triangles.
         /// GDI performs linear interpolation between triangle vertices and fills the interior.
         /// Drawing is done directly in 24- and 32-bpp modes.
         /// Dithering is performed in 16-, 8-, 4-, and 1-bpp mode.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Note  This function is the same as <see cref="GradientFill"/>.
-        /// To add smooth shading to a triangle, call the <see cref="GdiGradientFill"/> function with the three triangle endpoints.
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function is the same as <see cref="GradientFill"/>.
+        /// </para>
+        /// <para>
+        /// To add smooth shading to a triangle, call the <see cref="GdiGradientFill"/> function with the three triangle endpoints.
         /// GDI will linearly interpolate and fill the triangle.
         /// Here is the drawing output of a shaded triangle.
-        /// To add smooth shading to a rectangle, call <see cref="GdiGradientFill"/>
-        /// with the upper-left and lower-right coordinates of the rectangle.
+        /// </para>
+        /// <para>
+        /// To add smooth shading to a rectangle, call <see cref="GdiGradientFill"/> with the upper-left and lower-right coordinates of the rectangle.
         /// There are two shading modes used when drawing a rectangle.
         /// In horizontal mode, the rectangle is shaded from left-to-right.
         /// In vertical mode, the rectangle is shaded from top-to-bottom.
         /// Here is the drawing output of two shaded rectangles - one in horizontal mode, the other in vertical mode.
-        /// The <see cref="GdiGradientFill"/> function uses a mesh method to specify the endpoints of the object to draw.
-        /// All vertices are passed to <see cref="GdiGradientFill"/> in the <paramref name="pVertex"/> array.
-        /// The <paramref name="pMesh"/> parameter specifies how these vertices are connected to form an object.
-        /// When filling a rectangle, <paramref name="pMesh"/> points to an array of <see cref="GRADIENT_RECT"/> structures.
-        /// Each <see cref="GRADIENT_RECT"/> structure specifies the index of two vertices in the <paramref name="pVertex"/> array.
+        /// </para>
+        /// <para>
+        /// The <see cref="GdiGradientFill"/> function uses a mesh method to specify the endpoints of the object to draw.
+        /// All vertices are passed to <see cref="GdiGradientFill"/> in the <paramref name="pVertex"/> array.
+        /// The <paramref name="pMesh"/> parameter specifies how these vertices are connected to form an object.
+        /// When filling a rectangle, <paramref name="pMesh"/> points to an array of <see cref="GRADIENT_RECT"/> structures.
+        /// Each <see cref="GRADIENT_RECT"/> structure specifies the index of two vertices in the <paramref name="pVertex"/> array.
         /// These two vertices form the upper-left and lower-right boundary of one rectangle.
-        /// In the case of filling a triangle, <paramref name="pMesh"/> points to an array of <see cref="GRADIENT_TRIANGLE"/> structures.
-        /// Each <see cref="GRADIENT_TRIANGLE"/> structure specifies the index of three vertices in the <paramref name="pVertex"/> array.
+        /// </para>
+        /// <para>
+        /// In the case of filling a triangle, <paramref name="pMesh"/> points to an array of <see cref="GRADIENT_TRIANGLE"/> structures.
+        /// Each <see cref="GRADIENT_TRIANGLE"/> structure specifies the index of three vertices in the <paramref name="pVertex"/> array.
         /// These three vertices form one triangle.
+        /// </para>
+        /// <para>
         /// To simplify hardware acceleration, this routine is not required to be pixel-perfect in the triangle interior.
-        /// Note that <see cref="GdiGradientFill"/> does not use
-        /// the <see cref="TRIVERTEX.Alpha"/> member of the <see cref="TRIVERTEX"/> structure.
-        /// To use <see cref="GdiGradientFill"/> with transparency, call <see cref="GdiGradientFill"/>
-        /// and then call <see cref="GdiAlphaBlend"/> with the desired values for the alpha channel of each vertex.
-        /// For more information, see Smooth Shading, Drawing a Shaded Triangle, and Drawing a Shaded Rectangle.
+        /// </para>
+        /// <para>
+        /// Note that <see cref="GdiGradientFill"/> does not use the Alpha member of the <see cref="TRIVERTEX"/> structure.
+        /// To use <see cref="GdiGradientFill"/> with transparency, call <see cref="GdiGradientFill"/>
+        /// and then call <see cref="GdiAlphaBlend"/> with the desired values for the alpha channel of each vertex.
+        /// </para>
+        /// <para>
+        /// For more information, see Smooth Shading, Drawing a Shaded Triangle, and Drawing a Shaded Rectangle.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiGradientFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GdiGradientFill([In] HDC hdc, [In] TRIVERTEX[] pVertex, [In] ULONG nVertex,
             [In] PVOID pMesh, [In] ULONG nCount, [In] ULONG ulMode);
@@ -639,10 +989,39 @@ namespace Lsj.Util.Win32
         /// Handle to the device context.
         /// </param>
         /// <returns>
+        /// <para>
         /// The return value specifies the current arc direction; it can be any one of the following values:
-        /// <see cref="AD_COUNTERCLOCKWISE"/>: Arcs and rectangles are drawn counterclockwise.
-        /// <see cref="AD_CLOCKWISE"/>: Arcs and rectangles are drawn clockwise.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="AD_COUNTERCLOCKWISE"/>
+        /// </term>
+        /// <term>
+        /// Arcs and rectangles are drawn counterclockwise.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="AD_CLOCKWISE"/>
+        /// </term>
+        /// <term>
+        /// Arcs and rectangles are drawn clockwise.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetArcDirection", ExactSpelling = true, SetLastError = true)]
         public static extern int GetArcDirection([In] HDC hdc);
 
@@ -661,9 +1040,14 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="POINT"/> structure that receives the logical coordinates of the current position.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPositionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrentPositionEx([In] HDC hdc, [Out] out POINT lppt);
 
@@ -684,41 +1068,107 @@ namespace Lsj.Util.Win32
         /// that receives the line endpoints and curve control points, in logical coordinates.
         /// </param>
         /// <param name="aj">
+        /// <para>
         /// A pointer to an array of bytes that receives the vertex types.
         /// This parameter can be one of the following values.
-        /// <see cref="PT_MOVETO"/>:
-        /// Specifies that the corresponding point in the lpPoints parameter starts a disjoint figure.
-        /// <see cref="PT_LINETO"/>:
-        /// Specifies that the previous point and the corresponding point in lpPoints are the endpoints of a line.
-        /// <see cref="PT_BEZIERTO"/>:
-        /// Specifies that the corresponding point in lpPoints is a control point or ending point for a Bézier curve
-        /// <see cref="PT_BEZIERTO"/> values always occur in sets of three. 
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Type
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_MOVETO"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the corresponding point in the <paramref name="apt"/> parameter starts a disjoint figure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_LINETO"/>
+        /// </term>
+        /// <term>
+        /// Specifies that the previous point and the corresponding point in <paramref name="apt"/> are the endpoints of a line.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_BEZIERTO"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Specifies that the corresponding point in <paramref name="apt"/> is a control point or ending point for a Bézier curve.
+        /// </para>
+        /// <para>
+        /// <see cref="PT_BEZIERTO"/> values always occur in sets of three.
         /// The point in the path immediately preceding them defines the starting point for the Bézier curve.
         /// The first two <see cref="PT_BEZIERTO"/> points are the control points,
         /// and the third <see cref="PT_BEZIERTO"/> point is the ending (if hard-coded) point.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// A <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> value may be combined with the following value
         /// (by using the bitwise operator OR) to indicate that the corresponding point
         /// is the last point in a figure and the figure should be closed.
-        /// <see cref="PT_CLOSEFIGURE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_CLOSEFIGURE"/>
+        /// </term>
+        /// <term>
         /// Specifies that the figure is automatically closed after the corresponding line or curve is drawn.
-        /// The figure is closed by drawing a line from the line or curve endpoint to the point corresponding to the last <see cref="PT_MOVETO"/>.
+        /// The figure is closed by drawing a line from the line or curve endpoint
+        /// to the point corresponding to the last <see cref="PT_MOVETO"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="cpt">
-        /// The total number of <see cref="POINT"/> structures that can be stored in the array pointed to by lpPoints.
-        /// This value must be the same as the number of bytes that can be placed in the array pointed to by lpTypes.
+        /// The total number of <see cref="POINT"/> structures that can be stored in the array pointed to by <paramref name="apt"/>.
+        /// This value must be the same as the number of bytes that can be placed in the array pointed to by <paramref name="aj"/>.
         /// </param>
         /// <returns>
-        /// If the nSize parameter is nonzero, the return value is the number of points enumerated.
-        /// If nSize is 0, the return value is the total number of points in the path (and GetPath writes nothing to the buffers).
-        /// If nSize is nonzero and is less than the number of points in the path, the return value is 1.
+        /// If the <paramref name="apt"/> parameter is nonzero, the return value is the number of points enumerated.
+        /// If <paramref name="apt"/> is 0, the return value is the total number of points in the path
+        /// (and <see cref="GetPath"/> writes nothing to the buffers).
+        /// If <paramref name="apt"/> is nonzero and is less than the number of points in the path, the return value is 1.
         /// </returns>
         /// <remarks>
-        /// The device context identified by the hdc parameter must contain a closed path.
+        /// <para>
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// </para>
+        /// <para>
         /// The points of the path are returned in logical coordinates.
-        /// Points are stored in the path in device coordinates, so <see cref="GetPath"/> changes the points
-        /// from device coordinates to logical coordinates by using the inverse of the current transformation.
-        /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
+        /// Points are stored in the path in device coordinates,
+        /// so <see cref="GetPath"/> changes the points from device coordinates to logical coordinates
+        /// by using the inverse of the current transformation.
+        /// </para>
+        /// <para>
+        /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPath", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] PathVertexTypes[] aj, [In] int cpt);
 
@@ -734,11 +1184,42 @@ namespace Lsj.Util.Win32
         /// Handle to the device context.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value specifies the polygon fill mode, which can be one of the following values.
-        /// <see cref="ALTERNATE"/>: Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
-        /// <see cref="WINDING"/>: Selects winding mode (fills any region with a nonzero winding value).
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ALTERNATE"/>
+        /// </term>
+        /// <term>
+        /// Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WINDING"/>
+        /// </term>
+        /// <term>
+        /// Selects winding mode (fills any region with a nonzero winding value).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If an error occurs, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPolyFillMode([In] HDC hdc);
 
@@ -758,13 +1239,18 @@ namespace Lsj.Util.Win32
         /// The region's coordinates are presumed to be logical coordinates.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// On monochrome screens, the <see cref="InvertRgn"/> function makes white pixels black and black pixels white.
         /// On color screens, this inversion is dependent on the type of technology used to generate the colors for the screen.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvertRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -796,15 +1282,25 @@ namespace Lsj.Util.Win32
         /// Pointer to the application-defined data.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="LineDDA"/> function passes the coordinates for each point along the line, except for the line's ending point,
-        /// to the application-defined callback function.
+        /// <para>
+        /// The <see cref="LineDDA"/> function passes the coordinates for each point along the line,
+        /// except for the line's ending point, to the application-defined callback function.
         /// In addition to passing the coordinates of a point, this function passes any existing application-defined data.
-        /// The coordinates passed to the callback function match pixels on a video display only if the default transformations and mapping modes are used.
+        /// </para>
+        /// <para>
+        /// The coordinates passed to the callback function match pixels on a video display
+        /// only if the default transformations and mapping modes are used.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineDDA", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineDDA([In] int xStart, [In] int yStart, [In] int xEnd, [In] int yEnd, [In] LINEDDAPROC lpProc, [In] LPARAM data);
 
@@ -826,13 +1322,22 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate, in logical units, of the line's ending point.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The line is drawn by using the current pen and, if the pen is a geometric pen, the current brush.
-        /// If <see cref="LineTo"/> succeeds, the current position is set to the specified ending point.
+        /// </para>
+        /// <para>
+        /// If <see cref="LineTo"/> succeeds, the current position is set to the specified ending point.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineTo([In] HDC hdc, [In] int x, [In] int y);
 
@@ -858,12 +1363,17 @@ namespace Lsj.Util.Win32
         /// If this parameter is a <see cref="NULL"/> pointer, the previous position is not returned.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="MoveToEx"/> function affects all drawing functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveToEx([In] HDC hdc, [In] int x, [In] int y, [In][Out] ref POINT lppt);
 
@@ -883,9 +1393,14 @@ namespace Lsj.Util.Win32
         /// The region's coordinates are presumed to be logical coordinates.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PaintRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -926,15 +1441,24 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical coordinates, of the endpoint of the second radial.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The curve of the pie is defined by an ellipse that fits the specified bounding rectangle.
-        /// The curve begins at the point where the ellipse intersects the first radial and extends counterclockwise to the point
-        /// where the ellipse intersects the second radial.
-        /// The current position is neither used nor updated by the <see cref="Pie"/> function.
+        /// The curve begins at the point where the ellipse intersects the first radial
+        /// and extends counterclockwise to the point where the ellipse intersects the second radial.
+        /// </para>
+        /// <para>
+        /// The current position is neither used nor updated by the <see cref="Pie"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Pie([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
             [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
@@ -951,28 +1475,40 @@ namespace Lsj.Util.Win32
         /// A handle to a device context.
         /// </param>
         /// <param name="apt">
-        /// A pointer to an array of <see cref="POINT"/> structures that contain the endpoints and control points of the curve(s), in logical units.
+        /// A pointer to an array of <see cref="POINT"/> structures
+        /// that contain the endpoints and control points of the curve(s), in logical units.
         /// </param>
         /// <param name="cpt">
         /// The number of points in the <paramref name="apt"/> array.
         /// This value must be one more than three times the number of curves to be drawn,
-        /// because each Bézier curve requires two control points and an endpoint, and the initial curve requires an additional starting point.
+        /// because each Bézier curve requires two control points and an endpoint,
+        /// and the initial curve requires an additional starting point.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="PolyBezier"/> function draws cubic Bézier curves by using the endpoints and control points
-        /// specified by the <paramref name="apt"/> parameter.
+        /// <para>
+        /// The <see cref="PolyBezier"/> function draws cubic Bézier curves by using the endpoints
+        /// and control points specified by the <paramref name="apt"/> parameter.
         /// The first curve is drawn from the first point to the fourth point by using the second and third points as control points.
         /// Each subsequent curve in the sequence needs exactly three more points:
-        /// the ending point of the previous curve is used as the starting point, the next two points in the sequence are control points,
-        /// and the third is the ending point.
-        /// The current position is neither used nor updated by the <see cref="PolyBezier"/> function.
-        /// The figure is not filled.
+        /// the ending point of the previous curve is used as the starting point,
+        /// the next two points in the sequence are control points, and the third is the ending point.
+        /// </para>
+        /// <para>
+        /// The current position is neither used nor updated by the <see cref="PolyBezier"/> function. The figure is not filled.
+        /// </para>
+        /// <para>
         /// This function draws lines by using the current pen.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezier", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyBezier([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -996,18 +1532,28 @@ namespace Lsj.Util.Win32
         /// because each Bézier curve requires two control points and an ending point.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function draws cubic Bézier curves by using the control points specified by the lppt parameter.
+        /// <para>
+        /// This function draws cubic Bézier curves by using the control points specified by the <paramref name="cpt"/> parameter.
         /// The first curve is drawn from the current position to the third point by using the first two points as control points.
         /// For each subsequent curve, the function needs exactly three more points,
         /// and uses the ending point of the previous curve as the starting point for the next.
-        /// <see cref="PolyBezierTo"/> moves the current position to the ending point of the last Bézier curve.
-        /// The figure is not filled.
+        /// </para>
+        /// <para>
+        /// <see cref="PolyBezierTo"/> moves the current position to the ending point of the last Bézier curve. The figure is not filled.
+        /// </para>
+        /// <para>
         /// This function draws lines by using the current pen.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezierTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyBezierTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -1027,47 +1573,119 @@ namespace Lsj.Util.Win32
         /// and the endpoints and control points for each Bézier curve, in logical units.
         /// </param>
         /// <param name="aj">
-        /// A pointer to an array that specifies how each point in the lppt array is used.
+        /// <para>
+        /// A pointer to an array that specifies how each point in the <paramref name="apt"/> array is used.
         /// This parameter can be one of the following values.
-        /// <see cref="PT_MOVETO"/>:
-        /// Specifies that this point starts a disjoint figure. This point becomes the new current position.
-        /// <see cref="PT_LINETO"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Type
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_MOVETO"/>
+        /// </term>
+        /// <term>
+        /// Specifies that this point starts a disjoint figure.
+        /// This point becomes the new current position.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_LINETO"/>
+        /// </term>
+        /// <term>
         /// Specifies that a line is to be drawn from the current position to this point, which then becomes the new current position.
-        /// <see cref="PT_BEZIERTO"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_BEZIERTO"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Specifies that this point is a control point or ending point for a Bézier curve.
+        /// </para>
+        /// <para>
         /// <see cref="PT_BEZIERTO"/> types always occur in sets of three.
         /// The current position defines the starting point for the Bézier curve.
-        /// The first two <see cref="PT_BEZIERTO"/> points are the control points,
-        /// and the third <see cref="PT_BEZIERTO"/> point is the ending point.
+        /// The first two <see cref="PT_BEZIERTO"/> points are the control points, and the third <see cref="PT_BEZIERTO"/> point is the ending point.
         /// The ending point becomes the new current position.
         /// If there are not three consecutive <see cref="PT_BEZIERTO"/> points, an error results.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// A <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> type can be combined with the following value
         /// by using the bitwise operator OR to indicate that the corresponding point is the last point in a figure and the figure is closed.
-        /// <see cref="PT_CLOSEFIGURE"/>:
-        /// Specifies that the figure is automatically closed
-        /// after the <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> type for this point is done.
-        /// A line is drawn from this point to the most recent <see cref="PT_MOVETO"/> or <see cref="MoveToEx"/> point.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PT_CLOSEFIGURE"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Specifies that the figure is automatically closed after the <see cref="PT_LINETO"/> or <see cref="PT_BEZIERTO"/> type for this point is done.
+        /// A line is drawn from this point to the most recent <see cref="PT_MOVETO"/> or <see cref="MoveToEx"/> point.
+        /// </para>
+        /// <para>
         /// This value is combined with the <see cref="PT_LINETO"/> type for a line,
         /// or with the <see cref="PT_BEZIERTO"/> type of the ending point for a Bézier curve, by using the bitwise operator OR.
+        /// </para>
+        /// <para>
         /// The current position is set to the ending point of the closing line.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="cpt">
-        /// The total number of points in the lppt array, the same as the number of bytes in the lpbTypes array.
+        /// The total number of points in the <paramref name="apt"/> array, the same as the number of bytes in the <paramref name="aj"/> array.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="PolyDraw"/> function can be used in place of consecutive calls
-        /// to <see cref="MoveToEx"/>, <see cref="LineTo"/>, and <see cref="PolyBezierTo"/> functions to draw disjoint figures.
+        /// <para>
+        /// The <see cref="PolyDraw"/> function can be used in place of consecutive calls to <see cref="MoveToEx"/>,
+        /// <see cref="LineTo"/>, and <see cref="PolyBezierTo"/> functions to draw disjoint figures.
         /// The lines and curves are drawn using the current pen and figures are not filled.
-        /// If there is an active path started by calling <see cref="BeginPath"/>, <see cref="PolyDraw"/> adds to the path.
-        /// The points contained in the lppt array and in the lpbTypes array indicate
-        /// whether each point is part of a <see cref="MoveTo"/>, <see cref="LineTo"/>, or <see cref="PolyBezierTo"/> operation.
+        /// If there is an active path started by calling <see cref="BeginPath"/>, <see cref="PolyDraw"/> adds to the path.
+        /// </para>
+        /// <para>
+        /// The points contained in the <paramref name="apt"/> array and in the <paramref name="aj"/> array indicate
+        /// whether each point is part of a <see cref="MoveToEx"/>, <see cref="LineTo"/>, or <see cref="PolyBezierTo"/> operation.
         /// It is also possible to close figures.
+        /// </para>
+        /// <para>
         /// This function updates the current position.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyDraw", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyDraw([In] HDC hdc, [In] POINT[] apt, [In] BYTE[] aj, [In] int cpt);
 
@@ -1091,16 +1709,27 @@ namespace Lsj.Util.Win32
         /// This value must be greater than or equal to 2.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The polygon is closed automatically by drawing a line from the last vertex to the first.
-        /// The current position is neither used nor updated by the <see cref="Polygon"/> function.
+        /// </para>
+        /// <para>
+        /// The current position is neither used nor updated by the <see cref="Polygon"/> function.
+        /// </para>
+        /// <para>
         /// Any extra points are ignored. To draw a line with more points, divide your data into groups,
         /// each of which have less than the maximum number of points, and call the function for each group of points.
         /// Remember to connect the line segments.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polygon([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
@@ -1123,14 +1752,19 @@ namespace Lsj.Util.Win32
         /// This number must be greater than or equal to two.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The lines are drawn from the first point through subsequent points by using the current pen.
         /// Unlike the <see cref="LineTo"/> or <see cref="PolylineTo"/> functions,
         /// the <see cref="Polyline"/> function neither uses nor updates the current position.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polyline([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
@@ -1152,17 +1786,31 @@ namespace Lsj.Util.Win32
         /// The number of points in the array.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Unlike the <see cref="Polyline"/> function, the <see cref="PolylineTo"/> function uses and updates the current position.
-        /// A line is drawn from the current position to the first point specified by the <paramref name="apt"/> parameter by using the current pen.
+        /// <para>
+        /// Unlike the <see cref="Polyline"/> function, the <see cref="PolylineTo"/> function uses and updates the current position.
+        /// </para>
+        /// <para>
+        /// A line is drawn from the current position to the first point
+        /// specified by the <paramref name="apt"/> parameter by using the current pen.
         /// For each additional line, the function draws from the ending point of the previous line
-        /// to the next point specified by <paramref name="apt"/>.
-        /// <see cref="PolylineTo"/> moves the current position to the ending point of the last line.
+        /// to the next point specified by <paramref name="apt"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="PolylineTo"/> moves the current position to the ending point of the last line.
+        /// </para>
+        /// <para>
         /// If the line segments drawn by this function form a closed figure, the figure is not filled.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolylineTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolylineTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -1193,16 +1841,25 @@ namespace Lsj.Util.Win32
         /// The total number of polygons.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The current position is neither used nor updated by this function.
+        /// </para>
+        /// <para>
         /// Any extra points are ignored.
         /// To draw the polygons with more points, divide your data into groups, each of which have less than the maximum number of points,
         /// and call the function for each group of points.
         /// Note, it is best to have a polygon in only one of the groups.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyPolygon([In] HDC hdc, [In] POINT[] apt, [In] INT[] asz, [In] int csz);
 
@@ -1222,21 +1879,30 @@ namespace Lsj.Util.Win32
         /// The polylines are specified consecutively.
         /// </param>
         /// <param name="asz">
-        /// A pointer to an array of variables specifying the number of points in the lppt array for the corresponding polyline.
+        /// A pointer to an array of variables specifying the number of points in the <paramref name="apt"/> array for the corresponding polyline.
         /// Each entry must be greater than or equal to two.
         /// </param>
         /// <param name="csz">
-        /// The total number of entries in the lpdwPolyPoints array.
+        /// The total number of entries in the <paramref name="asz"/> array.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The line segments are drawn by using the current pen.
         /// The figures formed by the segments are not filled.
+        /// </para>
+        /// <para>
         /// The current position is neither used nor updated by this function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolyline", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyPolyline([In] HDC hdc, [In] POINT[] apt, [In] DWORD[] asz, [In] DWORD csz);
 
@@ -1265,14 +1931,25 @@ namespace Lsj.Util.Win32
         /// The y-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The current position is neither used nor updated by <see cref="Rectangle"/>.
+        /// <para>
+        /// The current position is neither used nor updated by <see cref="Rectangle"/>.
+        /// </para>
+        /// <para>
         /// The rectangle that is drawn excludes the bottom and right edges.
+        /// </para>
+        /// <para>
         /// If a <see cref="PS_NULL"/> pen is used, the dimensions of the rectangle are 1 pixel less in height and 1 pixel less in width.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Rectangle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Rectangle([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -1307,12 +1984,17 @@ namespace Lsj.Util.Win32
         /// The height, in logical coordinates, of the ellipse used to draw the rounded corners.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The current position is neither used nor updated by this function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RoundRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RoundRect([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom, [In] int width, [In] int height);
 
@@ -1328,22 +2010,95 @@ namespace Lsj.Util.Win32
         /// A handle to the device context.
         /// </param>
         /// <param name="dir">
-        /// The new arc direction. This parameter can be one of the following values.
-        /// <see cref="AD_COUNTERCLOCKWISE"/>:
+        /// <para>
+        /// The new arc direction.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="AD_COUNTERCLOCKWISE"/>
+        /// </term>
+        /// <term>
         /// Figures drawn counterclockwise.
-        /// <see cref="AD_CLOCKWISE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="AD_CLOCKWISE"/>
+        /// </term>
+        /// <term>
         /// Figures drawn clockwise.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value specifies the old arc direction.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The default direction is counterclockwise.
-        /// The <see cref="SetArcDirection"/> function specifies the direction in which the following functions draw:
-        /// <see cref="Arc"/>, <see cref="ArcTo"/>, <see cref="Chord"/>, <see cref="Ellipse"/>,
-        /// <see cref="Pie"/>, <see cref="Rectangle"/>, <see cref="RoundRect"/>
+        /// </para>
+        /// <para>
+        /// The <see cref="SetArcDirection"/> function specifies the direction in which the following functions draw:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="Arc"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ArcTo"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Chord"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Ellipse"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Pie"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="Rectangle"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="RoundRect"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetArcDirection", ExactSpelling = true, SetLastError = true)]
         public static extern int SetArcDirection([In] HDC hdc, [In] int dir);
 
@@ -1359,26 +2114,60 @@ namespace Lsj.Util.Win32
         /// A handle to the device context.
         /// </param>
         /// <param name="mode">
-        /// The new fill mode.
-        /// This parameter can be one of the following values.
-        /// <see cref="ALTERNATE"/>: Selects alternate mode (fills the area between odd-numbered and even-numbered polygon sides on each scan line).
-        /// <see cref="WINDING"/>: Selects winding mode (fills any region with a nonzero winding value).
+        /// <para>
+        /// The new fill mode. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ALTERNATE"/>
+        /// </term>
+        /// <term>
+        /// Selects alternate mode (fills the area between odd-numbered and even-numbered polygon sides on each scan line).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WINDING"/>
+        /// </term>
+        /// <term>
+        /// Selects winding mode (fills any region with a nonzero winding value).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// The return value specifies the previous filling mode.
         /// If an error occurs, the return value is zero.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// In general, the modes differ only in cases where a complex, overlapping polygon must be filled
         /// (for example, a five-sided polygon that forms a five-pointed star with a pentagon in the center).
         /// In such cases, <see cref="ALTERNATE"/> mode fills every other enclosed region within the polygon (that is, the points of the star),
         /// but <see cref="WINDING"/> mode fills all regions (that is, the points and the pentagon).
+        /// </para>
+        /// <para>
         /// When the fill mode is <see cref="ALTERNATE"/>, GDI fills the area between odd-numbered and even-numbered polygon sides on each scan line.
         /// That is, GDI fills the area between the first and second side, between the third and fourth side, and so on.
+        /// </para>
+        /// <para>
         /// When the fill mode is <see cref="WINDING"/>, GDI fills any region that has a nonzero winding value.
         /// This value is defined as the number of times a pen used to draw the polygon would go around the region.
         /// The direction of each edge of the polygon is important.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetPolyFillMode([In] HDC hdc, [In] PolyFillModes mode);
 
@@ -1395,14 +2184,23 @@ namespace Lsj.Util.Win32
         /// A handle to the device context.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The device context identified by the hdc parameter must contain a closed path.
-        /// The <see cref="StrokeAndFillPath"/> function has the same effect as closing all the open figures in the path,
+        /// <para>
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// </para>
+        /// <para>
+        /// The <see cref="StrokeAndFillPath"/> function has the same effect as closing all the open figures in the path,
         /// and stroking and filling the path separately, except that the filled region will not overlap the stroked region even if the pen is wide.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokeAndFillPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StrokeAndFillPath([In] HDC hdc);
 
@@ -1418,8 +2216,12 @@ namespace Lsj.Util.Win32
         /// Handle to a device context that contains the completed path.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The path, if it is to be drawn by <see cref="StrokePath"/>, must have been completed through a call to <see cref="EndPath"/>.
@@ -1444,17 +2246,28 @@ namespace Lsj.Util.Win32
         /// A handle to a device context that contains a closed path.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="WidenPath"/> function is successful only if the current pen is a geometric pen
-        /// created by the <see cref="ExtCreatePen"/> function, or if the pen is created with the <see cref="CreatePen"/> function
-        /// and has a width, in device units, of more than one.
-        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// <para>
+        /// The <see cref="WidenPath"/> function is successful
+        /// only if the current pen is a geometric pen created by the <see cref="ExtCreatePen"/> function,
+        /// or if the pen is created with the <see cref="CreatePen"/> function and has a width, in device units, of more than one.
+        /// </para>
+        /// <para>
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// </para>
+        /// <para>
         /// Any Bézier curves in the path are converted to sequences of straight lines approximating the widened curves.
-        /// As such, no Bézier curves remain in the path after <see cref="WidenPath"/> is called.
+        /// As such, no Bézier curves remain in the path after <see cref="WidenPath"/> is called.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WidenPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WidenPath([In] HDC hdc);
     }

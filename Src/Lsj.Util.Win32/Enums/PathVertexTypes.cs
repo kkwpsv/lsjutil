@@ -1,8 +1,11 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using System;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// Path vertex types
     /// </summary>
+    [Flags]
     public enum PathVertexTypes : byte
     {
         /// <summary>

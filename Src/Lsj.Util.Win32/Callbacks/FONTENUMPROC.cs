@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Fontenumproc(FONTENUMPROC val) => (Fontenumproc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Fontenumproc));
+        public static implicit operator EnumFontFamExProc(FONTENUMPROC val) => (EnumFontFamExProc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(EnumFontFamExProc));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator FONTENUMPROC(Fontenumproc val) => new FONTENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator FONTENUMPROC(EnumFontFamExProc val) => new FONTENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 
