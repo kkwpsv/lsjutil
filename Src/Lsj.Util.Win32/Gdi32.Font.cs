@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -7,28 +8,27 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.AddFontResourceExFlags;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
-using static Lsj.Util.Win32.Enums.FontFamilies;
-using static Lsj.Util.Win32.Enums.FontQualities;
-using static Lsj.Util.Win32.Enums.AddFontResourceExFlags;
 using static Lsj.Util.Win32.Enums.EnumFontTypes;
+using static Lsj.Util.Win32.Enums.FontFamilies;
+using static Lsj.Util.Win32.Enums.FontPitches;
+using static Lsj.Util.Win32.Enums.FontQualities;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.GetCharacterPlacementFlags;
 using static Lsj.Util.Win32.Enums.GetGlyphOutlineFormats;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.OutPrecisions;
-using static Lsj.Util.Win32.Enums.FontPitches;
-using static Lsj.Util.Win32.Enums.TrueTypeFontFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TextMetricPitchAndFamilyFlags;
+using static Lsj.Util.Win32.Enums.TrueTypeFontFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32
         /// A pointer to a font resource.
         /// </param>
         /// <param name="cjSize">
-        /// The number of bytes in the font resource that is pointed to by pbFont.
+        /// The number of bytes in the font resource that is pointed to by <paramref name="pFileView"/>.
         /// </param>
         /// <param name="pvResrved">
         /// Reserved. Must be 0.
@@ -150,52 +150,144 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="AddFontResource"/> function adds the font resource from the specified file to the system font table.
+        /// The <see cref="AddFontResource"/> function adds the font resource from the specified file to the system font table.
         /// The font can subsequently be used for text output by any application.
-        /// To mark a font as private or not enumerable, use the <see cref="AddFontResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// To mark a font as private or not enumerable, use the <see cref="AddFontResourceEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-addfontresourcew"/>
         /// </para>
         /// </summary>
-        /// <param name="Arg1">
+        /// <param name="unnamedParam1">
+        /// <para>
         /// A pointer to a null-terminated character string that contains a valid font file name.
         /// This parameter can specify any of the following files.
-        /// .fon: Font resource file.
-        /// .fnt: Raw bitmap font file.
-        /// .ttf: Raw TrueType file.
-        /// .ttc: East Asian Windows: TrueType font collection.
-        /// .fot: TrueType resource file.
-        /// .otf: PostScript OpenType font.
-        /// .mmm: Multiple master Type1 font resource file. It must be used with .pfm and .pfb files.
-        /// .pfb: Type 1 font bits file. It is used with a .pfm file.
-        /// .pfm: Type 1 font metrics file. It is used with a .pfb file.
-        /// To add a font whose information comes from several resource files, have <paramref name="Arg1"/> point to a string with the file names
-        /// separated by a "|" --for example, abcxxxxx.pfm | abcxxxxx.pfb.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// File Extension
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// .fon
+        /// </term>
+        /// <term>
+        /// Font resource file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .fnt
+        /// </term>
+        /// <term>
+        /// Raw bitmap font file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .ttf
+        /// </term>
+        /// <term>
+        /// Raw TrueType file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .ttc
+        /// </term>
+        /// <term>
+        /// East Asian Windows: TrueType font collection.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .fot
+        /// </term>
+        /// <term>
+        /// TrueType resource file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .otf
+        /// </term>
+        /// <term>
+        /// PostScript OpenType font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .mmm
+        /// </term>
+        /// <term>
+        /// Multiple master Type1 font resource file. It must be used with .pfm and .pfb files.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .pfb
+        /// </term>
+        /// <term>
+        /// Type 1 font bits file. It is used with a .pfm file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .pfm
+        /// </term>
+        /// <term>
+        /// Type 1 font metrics file. It is used with a .pfb file.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To add a font whose information comes from several resource files, have <paramref name="unnamedParam1"/> point to a string
+        /// with the file names separated by a "|" --for example, abcxxxxx.pfm | abcxxxxx.pfb.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value specifies the number of fonts added.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
         /// No extended error information is available.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Any application that adds or removes fonts from the system font table should notify other windows of the change
-        /// by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the operating system.
-        /// The application should send this message by calling the <see cref="SendMessage"/> function
-        /// and setting the hwnd parameter to <see cref="HWND_BROADCAST"/>.
-        /// When an application no longer needs a font resource that it loaded by calling the <see cref="AddFontResource"/> function,
-        /// it must remove that resource by calling the <see cref="RemoveFontResource"/> function.
-        /// This function installs the font only for the current session.
-        /// When the system restarts, the font will not be present.
+        /// by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the operating system.
+        /// The application should send this message by calling the <see cref="SendMessage"/> function and setting the hwnd parameter to <see cref="HWND_BROADCAST"/>.
+        /// </para>
+        /// <para>
+        /// When an application no longer needs a font resource that it loaded by calling the <see cref="AddFontResource"/> function,
+        /// it must remove that resource by calling the <see cref="RemoveFontResource"/> function.
+        /// </para>
+        /// <para>
+        /// This function installs the font only for the current session. When the system restarts, the font will not be present.
         /// To have the font installed even after restarting the system, the font must be listed in the registry.
-        /// A font listed in the registry and installed to a location other than the %windir%\fonts\ folder cannot be modified, deleted,
-        /// or replaced as long as it is loaded in any session.
-        /// In order to change one of these fonts, it must first be removed by calling <see cref="RemoveFontResource"/>,
+        /// </para>
+        /// <para>
+        /// A font listed in the registry and installed to a location other than the %windir%\fonts\ folder
+        /// cannot be modified, deleted, or replaced as long as it is loaded in any session.
+        /// In order to change one of these fonts, it must first be removed by calling <see cref="RemoveFontResource"/>,
         /// removed from the font registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts), and the system restarted.
         /// After restarting the system, the font will no longer be loaded and can be changed.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResource([MarshalAs(UnmanagedType.LPWStr)][In] string Arg1);
+        public static extern int AddFontResource([In] string unnamedParam1);
 
         /// <summary>
         /// <para>
@@ -207,52 +299,171 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="name">
+        /// <para>
         /// A pointer to a null-terminated character string that contains a valid font file name.
         /// This parameter can specify any of the following files.
-        /// .fon: Font resource file.
-        /// .fnt: Raw bitmap font file.
-        /// .ttf: Raw TrueType file.
-        /// .ttc: East Asian Windows: TrueType font collection.
-        /// .fot: TrueType resource file.
-        /// .otf: PostScript OpenType font.
-        /// .mmm: Multiple master Type1 font resource file. It must be used with .pfm and .pfb files.
-        /// .pfb: Type 1 font bits file. It is used with a .pfm file.
-        /// .pfm: Type 1 font metrics file. It is used with a .pfb file.
-        /// To add a font whose information comes from several resource files, have <paramref name="name"/> point to a string with the file names
-        /// separated by a "|" --for example, abcxxxxx.pfm | abcxxxxx.pfb.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// File Extension
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// .fon
+        /// </term>
+        /// <term>
+        /// Font resource file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .fnt
+        /// </term>
+        /// <term>
+        /// Raw bitmap font file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .ttf
+        /// </term>
+        /// <term>
+        /// Raw TrueType file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .ttc
+        /// </term>
+        /// <term>
+        /// East Asian Windows: TrueType font collection.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .fot
+        /// </term>
+        /// <term>
+        /// TrueType resource file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .otf
+        /// </term>
+        /// <term>
+        /// PostScript OpenType font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .mmm
+        /// </term>
+        /// <term>
+        /// multiple master Type1 font resource file. It must be used with .pfm and .pfb files.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .pfb
+        /// </term>
+        /// <term>
+        /// Type 1 font bits file. It is used with a .pfm file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// .pfm
+        /// </term>
+        /// <term>
+        /// Type 1 font metrics file. It is used with a .pfb file.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// To add a font whose information comes from several resource files, point <paramref name="name"/> to a string
+        /// with the file names separated by a | --for example, abcxxxxx.pfm | abcxxxxx.pfb.
+        /// </para>
         /// </param>
         /// <param name="fl">
-        /// The characteristics of the font to be added to the system.
-        /// This parameter can be one of the following values.
-        /// <see cref="FR_PRIVATE"/>:
-        /// Specifies that only the process that called the <see cref="AddFontResourceEx"/> function can use this font.
+        /// <para>
+        /// The characteristics of the font to be added to the system. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FR_PRIVATE"/>
+        /// </term>
+        /// <term>
+        /// Specifies that only the process that called the <see cref="AddFontResourceEx"/> function can use this font.
         /// When the font name matches a public font, the private font will be chosen.
-        /// When the process terminates, the system will remove all fonts installed by the process with the <see cref="AddFontResourceEx"/> function.
-        /// <see cref="FR_NOT_ENUM"/>:
-        /// Specifies that no process, including the process that called the <see cref="AddFontResourceEx"/> function, can enumerate this font.
+        /// When the process terminates, the system will remove all fonts installed by the process with the <see cref="AddFontResourceEx"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FR_NOT_ENUM"/>
+        /// </term>
+        /// <term>
+        /// Specifies that no process, including the process that called the <see cref="AddFontResourceEx"/> function, can enumerate this font.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="res">
         /// Reserved. Must be zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value specifies the number of fonts added.
-        /// If the function fails, the return value is zero.
-        /// No extended error information is available.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. No extended error information is available.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function allows a process to use fonts without allowing other processes access to the fonts.
-        /// When an application no longer needs a font resource it loaded by calling the <see cref="AddFontResourceEx"/> function,
-        /// it must remove the resource by calling the <see cref="RemoveFontResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// When an application no longer needs a font resource it loaded by calling the <see cref="AddFontResourceEx"/> function,
+        /// it must remove the resource by calling the <see cref="RemoveFontResourceEx"/> function.
+        /// </para>
+        /// <para>
         /// This function installs the font only for the current session. When the system restarts, the font will not be present.
         /// To have the font installed even after restarting the system, the font must be listed in the registry.
-        /// A font listed in the registry and installed to a location other than the %windir%\fonts\ folder cannot be modified,
-        /// deleted, or replaced as long as it is loaded in any session.
-        /// In order to change one of these fonts, it must first be removed by calling <see cref="RemoveFontResource"/>,
+        /// </para>
+        /// <para>
+        /// A font listed in the registry and installed to a location other than the %windir%\fonts\ folder
+        /// cannot be modified, deleted, or replaced as long as it is loaded in any session.
+        /// In order to change one of these fonts, it must first be removed by calling <see cref="RemoveFontResource"/>,
         /// removed from the font registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts), and the system restarted.
         /// After restarting the system, the font will no longer be loaded and can be changed.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] AddFontResourceExFlags fl, [In] PVOID res);
+        public static extern int AddFontResourceEx([In] string name, [In] AddFontResourceExFlags fl, [In] PVOID res);
 
         /// <summary>
         /// <para>
@@ -264,15 +475,56 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="cHeight">
+        /// <para>
         /// The height, in logical units, of the font's character cell or character.
         /// The character height value (also known as the em height) is the character cell height value minus the internal-leading value.
-        /// The font mapper interprets the value specified in <paramref name="cHeight"/> in the following manner.
-        /// &gt; 0: The font mapper transforms this value into device units and matches it against the cell height of the available fonts.
-        /// 0: The font mapper uses a default height value when it searches for a match.
-        /// &lt; 0: The font mapper transforms this value into device units and matches its absolute value against the character height of the available fonts.
+        /// The font mapper interprets the value specified in <paramref name="cHeight"/> in the following manner.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// &gt; 0
+        /// </term>
+        /// <term>
+        /// The font mapper transforms this value into device units and matches it against the cell height of the available fonts.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The font mapper uses a default height value when it searches for a match.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// &lt; 0
+        /// </term>
+        /// <term>
+        /// The font mapper transforms this value into device units and matches its absolute value against the character height of the available fonts.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// For all height comparisons, the font mapper looks for the largest font that does not exceed the requested size.
+        /// </para>
+        /// <para>
         /// This mapping occurs when the font is used for the first time.
+        /// </para>
+        /// <para>
         /// For the <see cref="MM_TEXT"/> mapping mode, you can use the following formula to specify a height for a font with a specified point size:
+        /// </para>
         /// <code>
         /// nHeight = -MulDiv(PointSize, GetDeviceCaps(hDC, LOGPIXELSY), 72);
         /// </code>
@@ -284,22 +536,163 @@ namespace Lsj.Util.Win32
         /// between the current device's aspect ratio and the digitized aspect ratio of available fonts.
         /// </param>
         /// <param name="cEscapement">
+        /// <para>
         /// The angle, in tenths of degrees, between the escapement vector and the x-axis of the device.
         /// The escapement vector is parallel to the base line of a row of text.
-        /// When the graphics mode is set to <see cref="GM_ADVANCED"/>, you can specify the escapement angle of the string
-        /// independently of the orientation angle of the string's characters.
-        /// When the graphics mode is set to <see cref="GM_COMPATIBLE"/>, nEscapement specifies both the escapement and orientation.
-        /// You should set <paramref name="cEscapement"/> and <paramref name="cOrientation"/> to the same value.
+        /// </para>
+        /// <para>
+        /// When the graphics mode is set to <see cref="GM_ADVANCED"/>,
+        /// you can specify the escapement angle of the string independently of the orientation angle of the string's characters.
+        /// </para>
+        /// <para>
+        /// When the graphics mode is set to <see cref="GM_COMPATIBLE"/>, <paramref name="cEscapement"/> specifies both the escapement and orientation.
+        /// You should set <paramref name="cEscapement"/> and <paramref name="cOrientation"/> to the same value.
+        /// </para>
         /// </param>
         /// <param name="cOrientation">
         /// The angle, in tenths of degrees, between each character's base line and the x-axis of the device.
         /// </param>
         /// <param name="cWeight">
-        /// The weight of the font in the range 0 through 1000. For example, 400 is normal and 700 is bold. If this value is zero, a default weight is used.
+        /// <para>
+        /// The weight of the font in the range 0 through 1000.
+        /// For example, 400 is normal and 700 is bold.
+        /// If this value is zero, a default weight is used.
+        /// </para>
+        /// <para>
         /// The following values are defined for convenience.
-        /// <see cref="FW_DONTCARE"/>, <see cref="FW_THIN"/>, <see cref="FW_EXTRALIGHT"/>, <see cref="FW_ULTRALIGHT"/>, <see cref="FW_LIGHT"/>,
-        /// <see cref="FW_NORMAL"/>, <see cref="FW_REGULAR"/>, <see cref="FW_MEDIUM"/>, <see cref="FW_SEMIBOLD"/>, <see cref="FW_DEMIBOLD"/>,
-        /// <see cref="FW_BOLD"/>, <see cref="FW_EXTRABOLD"/>, <see cref="FW_ULTRABOLD"/>, <see cref="FW_HEAVY"/>, <see cref="FW_BLACK"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Weight
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_DONTCARE"/>
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_THIN"/>
+        /// </term>
+        /// <term>
+        /// 100
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_EXTRALIGHT"/>
+        /// </term>
+        /// <term>
+        /// 200
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_ULTRALIGHT"/>
+        /// </term>
+        /// <term>
+        /// 200
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_LIGHT"/>
+        /// </term>
+        /// <term>
+        /// 300
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_NORMAL"/>
+        /// </term>
+        /// <term>
+        /// 400
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_REGULAR"/>
+        /// </term>
+        /// <term>
+        /// 400
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_MEDIUM"/>
+        /// </term>
+        /// <term>
+        /// 500
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_SEMIBOLD"/>
+        /// </term>
+        /// <term>
+        /// 600
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_DEMIBOLD"/>
+        /// </term>
+        /// <term>
+        /// 600
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_BOLD"/>
+        /// </term>
+        /// <term>
+        /// 700
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_EXTRABOLD"/>
+        /// </term>
+        /// <term>
+        /// 800
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_ULTRABOLD"/>
+        /// </term>
+        /// <term>
+        /// 800
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_HEAVY"/>
+        /// </term>
+        /// <term>
+        /// 900
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FW_BLACK"/>
+        /// </term>
+        /// <term>
+        /// 900
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="bItalic">
         /// Specifies an italic font if set to <see cref="TRUE"/>.
@@ -311,33 +704,122 @@ namespace Lsj.Util.Win32
         /// A strikeout font if set to <see cref="TRUE"/>.
         /// </param>
         /// <param name="iCharSet">
-        /// The character set. The following values are predefined:
-        /// <see cref="ANSI_CHARSET"/>, <see cref="BALTIC_CHARSET"/>, <see cref="CHINESEBIG5_CHARSET"/>, <see cref="DEFAULT_CHARSET"/>,
-        /// <see cref="EASTEUROPE_CHARSET"/>, <see cref="GB2312_CHARSET"/>, <see cref="GREEK_CHARSET"/>, <see cref="HANGUL_CHARSET"/>,
-        /// <see cref="MAC_CHARSET"/>, <see cref="OEM_CHARSET"/>, <see cref="RUSSIAN_CHARSET"/>, <see cref="SHIFTJIS_CHARSET"/>,
-        /// <see cref="SYMBOL_CHARSET"/>, <see cref="TURKISH_CHARSET"/>, <see cref="VIETNAMESE_CHARSET"/>
-        /// Korean language edition of Windows:
-        /// <see cref="JOHAB_CHARSET"/>
-        /// Middle East language edition of Windows:
-        /// <see cref="ARABIC_CHARSET"/>, <see cref="HEBREW_CHARSET"/>
-        /// Thai language edition of Windows:
-        /// <see cref="THAI_CHARSET"/>
-        /// The <see cref="OEM_CHARSET"/> value specifies a character set that is operating-system dependent.
-        /// <see cref="DEFAULT_CHARSET"/> is set to a value based on the current system locale.
-        /// For example, when the system locale is English (United States), it is set as <see cref="ANSI_CHARSET"/>.
+        /// <para>
+        /// The character set. For a list of possible values, see <see cref="LOGFONT.lfCharSet"/> field of the <see cref="LOGFONT"/> structure.
+        /// </para>
+        /// <para>
         /// Fonts with other character sets may exist in the operating system.
-        /// If an application uses a font with an unknown character set, it should not attempt to translate or interpret strings
-        /// that are rendered with that font.
-        /// To ensure consistent results when creating a font, do not specify <see cref="OEM_CHARSET"/> or <see cref="DEFAULT_CHARSET"/>.
-        /// If you specify a typeface name in the <paramref name="pszFaceName"/> parameter,
-        /// make sure that the <paramref name="iCharSet"/> value matches the character set of the typeface specified in <paramref name="pszFaceName"/>.
+        /// If an application uses a font with an unknown character set,
+        /// it should not attempt to translate or interpret strings that are rendered with that font.
+        /// </para>
+        /// <para>
+        /// To ensure consistent results when creating a font, do not specify <see cref="OEM_CHARSET"/> or <see cref="DEFAULT_CHARSET"/>.
+        /// If you specify a typeface name in the <paramref name="pszFaceName"/> parameter,
+        /// make sure that the <paramref name="iCharSet"/> value matches the character set of the typeface specified in <paramref name="pszFaceName"/>.
+        /// </para>
         /// </param>
         /// <param name="iOutPrecision">
-        /// The output precision. The output precision defines how closely the output must match the requested font's height, width,
-        /// character orientation, escapement, pitch, and font type. It can be one of the following values.
-        /// <see cref="OUT_CHARACTER_PRECIS"/>, <see cref="OUT_DEFAULT_PRECIS"/>, <see cref="OUT_DEVICE_PRECIS"/>,
-        /// <see cref="OUT_OUTLINE_PRECIS"/>, <see cref="OUT_PS_ONLY_PRECIS"/>, <see cref="OUT_RASTER_PRECIS"/>,
-        /// <see cref="OUT_STRING_PRECIS"/>, <see cref="OUT_STROKE_PRECIS"/>, <see cref="OUT_TT_ONLY_PRECIS"/>, <see cref="OUT_TT_PRECIS"/>
+        /// <para>
+        /// The output precision.
+        /// The output precision defines how closely the output must match the requested font's height, width,
+        /// character orientation, escapement, pitch, and font type.
+        /// It can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_CHARACTER_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Not used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_DEFAULT_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// The default font mapper behavior.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_DEVICE_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Instructs the font mapper to choose a Device font when the system contains multiple fonts with the same name.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_OUTLINE_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// This value instructs the font mapper to choose from TrueType and other outline-based fonts.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_PS_ONLY_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Instructs the font mapper to choose from only PostScript fonts.
+        /// If there are no PostScript fonts installed in the system, the font mapper returns to default behavior.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_RASTER_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Instructs the font mapper to choose a raster font when the system contains multiple fonts with the same name.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_STRING_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// This value is not used by the font mapper, but it is returned when raster fonts are enumerated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_STROKE_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// This value is not used by the font mapper, but it is returned when TrueType, other outline-based fonts, and vector fonts are enumerated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_TT_ONLY_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Instructs the font mapper to choose from only TrueType fonts.
+        /// If there are no TrueType fonts installed in the system, the font mapper returns to default behavior.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OUT_TT_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Instructs the font mapper to choose a TrueType font when the system contains multiple fonts with the same name.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Applications can use the <see cref="OUT_DEVICE_PRECIS"/>, <see cref="OUT_RASTER_PRECIS"/>, <see cref="OUT_TT_PRECIS"/>,
         /// and <see cref="OUT_PS_ONLY_PRECIS"/> values to control how the font mapper chooses a font
         /// when the operating system contains more than one font with a specified name.
@@ -345,77 +827,377 @@ namespace Lsj.Util.Win32
         /// specifying <see cref="OUT_TT_PRECIS"/> forces the font mapper to choose the TrueType version.
         /// Specifying <see cref="OUT_TT_ONLY_PRECIS"/> forces the font mapper to choose a TrueType font,
         /// even if it must substitute a TrueType font of another name.
+        /// </para>
         /// </param>
         /// <param name="iClipPrecision">
+        /// <para>
         /// The clipping precision.
         /// The clipping precision defines how to clip characters that are partially outside the clipping region.
         /// It can be one or more of the following values.
-        /// <see cref="CLIP_CHARACTER_PRECIS"/>, <see cref="CLIP_DEFAULT_PRECIS"/>, <see cref="CLIP_DFA_DISABLE"/>,
-        /// <see cref="CLIP_EMBEDDED"/>, <see cref="CLIP_LH_ANGLES"/>, <see cref="CLIP_MASK"/>, <see cref="CLIP_DFA_OVERRIDE"/>,
-        /// <see cref="CLIP_STROKE_PRECIS"/>, <see cref="CLIP_TT_ALWAYS"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_CHARACTER_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Not used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_DEFAULT_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// Specifies default clipping behavior.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_DFA_DISABLE"/>
+        /// </term>
+        /// <term>
+        /// Windows XP SP1: Turns off font association for the font.
+        /// Note that this flag is not guaranteed to have any effect on any platform after Windows Server 2003.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_EMBEDDED"/>
+        /// </term>
+        /// <term>
+        /// You must specify this flag to use an embedded read-only font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_LH_ANGLES"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// When this value is used, the rotation for all fonts depends on
+        /// whether the orientation of the coordinate system is left-handed or right-handed.
+        /// </para>
+        /// <para>
+        /// If not used, device fonts always rotate counterclockwise,
+        /// but the rotation of other fonts is dependent on the orientation of the coordinate system.
+        /// </para>
+        /// <para>
+        /// For more information about the orientation of coordinate systems,
+        /// see the description of the <paramref name="cOrientation"/> parameter
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_MASK"/>
+        /// </term>
+        /// <term>
+        /// Not used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_DFA_OVERRIDE"/>
+        /// </term>
+        /// <term>
+        /// Turns off font association for the font.
+        /// This is identical to <see cref="CLIP_DFA_DISABLE"/>, but it can have problems in some situations;
+        /// the recommended flag to use is <see cref="CLIP_DFA_DISABLE"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_STROKE_PRECIS"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Not used by the font mapper, but is returned when raster, vector, or TrueType fonts are enumerated.
+        /// </para>
+        /// <para>
+        /// For compatibility, this value is always returned when enumerating fonts.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLIP_TT_ALWAYS"/>
+        /// </term>
+        /// <term>
+        /// Not used.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="iQuality">
+        /// <para>
         /// The output quality.
         /// The output quality defines how carefully GDI must attempt to match the logical-font attributes to those of an actual physical font.
         /// It can be one of the following values.
-        /// <see cref="ANTIALIASED_QUALITY"/>, <see cref="CLEARTYPE_QUALITY"/>, <see cref="DEFAULT_QUALITY"/>, <see cref="DRAFT_QUALITY"/>,
-        /// <see cref="NONANTIALIASED_QUALITY"/>, <see cref="PROOF_QUALITY"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ANTIALIASED_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// Font is antialiased, or smoothed, if the font supports it and the size of the font is not too small or too large.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CLEARTYPE_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// If set, text is rendered (when possible) using ClearType antialiasing method. See Remarks for more information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DEFAULT_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// Appearance of the font does not matter.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DRAFT_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// Appearance of the font is less important than when the <see cref="PROOF_QUALITY"/> value is used.
+        /// For GDI raster fonts, scaling is enabled, which means that more font sizes are available, but the quality may be lower.
+        /// Bold, italic, underline, and strikeout fonts are synthesized, if necessary.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NONANTIALIASED_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// Font is never antialiased, that is, font smoothing is not done.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PROOF_QUALITY"/>
+        /// </term>
+        /// <term>
+        /// Character quality of the font is more important than exact matching of the logical-font attributes.
+        /// For GDI raster fonts, scaling is disabled and the font closest in size is chosen.
+        /// Although the chosen font size may not be mapped exactly when <see cref="PROOF_QUALITY"/> is used,
+        /// the quality of the font is high and there is no distortion of appearance.
+        /// Bold, italic, underline, and strikeout fonts are synthesized, if necessary.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the output quality is <see cref="DEFAULT_QUALITY"/>, <see cref="DRAFT_QUALITY"/>, or <see cref="PROOF_QUALITY"/>,
-        /// then the font is antialiased if the <see cref="SPI_GETFONTSMOOTHING"/> system parameter is <see cref="TRUE"/>.
+        /// then the font is antialiased if the <see cref="SPI_GETFONTSMOOTHING"/> system parameter is <see cref="TRUE"/>.
         /// Users can control this system parameter from the Control Panel.
         /// (The precise wording of the setting in the Control panel depends on the version of Windows,
         /// but it will be words to the effect of "Smooth edges of screen fonts".)
+        /// </para>
         /// </param>
         /// <param name="iPitchAndFamily">
+        /// <para>
         /// The pitch and family of the font.
         /// The two low-order bits specify the pitch of the font and can be one of the following values:
-        /// <see cref="DEFAULT_PITCH"/>, <see cref="FIXED_PITCH"/>, <see cref="VARIABLE_PITCH"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="DEFAULT_PITCH"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="FIXED_PITCH"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VARIABLE_PITCH"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The four high-order bits specify the font family and can be one of the following values.
-        /// <see cref="FF_DECORATIVE"/>, <see cref="FF_DONTCARE"/>, <see cref="FF_MODERN"/>,
-        /// <see cref="FF_ROMAN"/>, <see cref="FF_SCRIPT"/>, <see cref="FF_SWISS"/>
-        /// An application can specify a value for the <paramref name="iPitchAndFamily"/> parameter by using the Boolean OR operator
-        /// to join a pitch constant with a family constant.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_DECORATIVE"/>
+        /// </term>
+        /// <term>
+        /// Novelty fonts. Old English is an example.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_DONTCARE"/>
+        /// </term>
+        /// <term>
+        /// Use default font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_MODERN"/>
+        /// </term>
+        /// <term>
+        /// Fonts with constant stroke width, with or without serifs.
+        /// Pica, Elite, and Courier New are examples.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_ROMAN"/>
+        /// </term>
+        /// <term>
+        /// Fonts with variable stroke width and with serifs. MS Serif is an example.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_SCRIPT"/>
+        /// </term>
+        /// <term>
+        /// Fonts designed to look like handwriting. Script and Cursive are examples.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FF_SWISS"/>
+        /// </term>
+        /// <term>
+        /// Fonts with variable stroke width and without serifs. MS?Sans Serif is an example.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// An application can specify a value for the <paramref name="iPitchAndFamily"/> parameter
+        /// by using the Boolean OR operator to join a pitch constant with a family constant.
+        /// </para>
+        /// <para>
         /// Font families describe the look of a font in a general way.
         /// They are intended for specifying fonts when the exact typeface requested is not available.
+        /// </para>
         /// </param>
         /// <param name="pszFaceName">
+        /// <para>
         /// A pointer to a null-terminated string that specifies the typeface name of the font.
         /// The length of this string must not exceed 32 characters, including the terminating null character.
-        /// The <see cref="EnumFontFamilies"/> function can be used to enumerate the typeface names of all currently available fonts.
+        /// The <see cref="EnumFontFamilies"/> function can be used to enumerate the typeface names of all currently available fonts.
         /// For more information, see the Remarks.
-        /// If <paramref name="pszFaceName"/> is <see langword="null"/> or empty string,
+        /// </para>
+        /// <para>
+        /// If <paramref name="pszFaceName"/> is <see cref="NULL"/> or empty string,
         /// GDI uses the first font that matches the other specified attributes.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to a logical font.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
-        /// To help protect the copyrights of vendors who provide fonts for Windows, applications should always report the exact name of a selected font.
+        /// <para>
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// To help protect the copyrights of vendors who provide fonts for Windows,
+        /// applications should always report the exact name of a selected font.
         /// Because available fonts can vary from system to system, do not assume that the selected font is always the same as the requested font.
         /// For example, if you request a font named Palatino, but no such font is available on the system,
         /// the font mapper will substitute a font that has similar attributes but a different name.
         /// Always report the name of the selected font to the user.
-        /// To get the appropriate font on different language versions of the OS, call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics
-        /// in the <see cref="LOGFONT"/> structure, then retrieve the appropriate typeface name
-        /// and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
-        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
-        /// both the English and the localized typeface name, regardless of locale.
+        /// </para>
+        /// <para>
+        /// To get the appropriate font on different language versions of the OS,
+        /// call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics in the <see cref="LOGFONT"/> structure,
+        /// then retrieve the appropriate typeface name and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
+        /// </para>
+        /// <para>
+        /// The font mapper for <see cref="CreateFont"/>,<see cref="CreateFontIndirect"/>,
+        /// and <see cref="CreateFontIndirectEx"/> recognizes both the English and the localized typeface name, regardless of locale.
+        /// </para>
+        /// <para>
         /// The following situations do not support ClearType antialiasing:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Text rendered on a printer.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// A display set for 256 colors or less.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Text rendered to a terminal server client.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The font is not a TrueType font or an OpenType font with TrueType outlines.
         /// For example, the following do not support ClearType antialiasing:
         /// Type 1 fonts, Postscript OpenType fonts without TrueType outlines, bitmap fonts, vector fonts, and device fonts.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The font has tuned embedded bitmaps, only for the font sizes that contain the embedded bitmaps.
         /// For example, this occurs commonly in East Asian fonts.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontW", ExactSpelling = true, SetLastError = true)]
         public static extern HFONT CreateFont([In] int cHeight, [In] int cWidth, [In] int cEscapement, [In] int cOrientation, [In] int cWeight,
             [In] DWORD bItalic, [In] DWORD bUnderline, [In] DWORD bStrikeOut, [In] DWORD iCharSet, [In] DWORD iOutPrecision, [In] DWORD iClipPrecision,
-            [In] DWORD iQuality, [In] DWORD iPitchAndFamily, [MarshalAs(UnmanagedType.LPWStr)][In] string pszFaceName);
+            [In] DWORD iQuality, [In] DWORD iPitchAndFamily, [In] LPCWSTR pszFaceName);
 
         /// <summary>
         /// <para>
@@ -430,27 +1212,43 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="LOGFONT"/> structure that defines the characteristics of the logical font.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to a logical font.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateFontIndirect"/> function creates a logical font with the characteristics specified in the <see cref="LOGFONT"/> structure.
-        /// When this font is selected by using the <see cref="SelectObject"/> function, GDI's font mapper attempts to match the logical font
-        /// with an existing physical font.
+        /// <para>
+        /// The <see cref="CreateFontIndirect"/> function creates a logical font with the characteristics specified in the <see cref="LOGFONT"/> structure.
+        /// When this font is selected by using the <see cref="SelectObject"/> function,
+        /// GDI's font mapper attempts to match the logical font with an existing physical font.
         /// If it fails to find an exact match, it provides an alternative whose characteristics match as many of the requested characteristics as possible.
-        /// To get the appropriate font on different language versions of the OS, call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics
-        /// in the <see cref="LOGFONT"/> structure, retrieve the appropriate typeface name,
-        /// and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
-        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
-        /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
-        /// <see cref="CreateFont"/> and <see cref="CreateFontIndirect"/> take the localized typeface name only on a system locale that matches the language,
+        /// </para>
+        /// <para>
+        /// To get the appropriate font on different language versions of the OS,
+        /// call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics in the <see cref="LOGFONT"/> structure,
+        /// retrieve the appropriate typeface name, and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
+        /// </para>
+        /// <para>
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// The fonts for many East Asian languages have two typeface names:
+        /// an English name and a localized name. <see cref="CreateFont"/> and <see cref="CreateFontIndirect"/>
+        /// take the localized typeface name only on a system locale that matches the language,
         /// while they take the English typeface name on all other system locales.
         /// The best method is to try one name and, on failure, try the other.
-        /// Note that <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
-        /// if the system locale does not match the language of the font.
-        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
-        /// both the English and the localized typeface name, regardless of locale.
+        /// Note that <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/>
+        /// return the English typeface name if the system locale does not match the language of the font.
+        /// </para>
+        /// <para>
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/>
+        /// recognizes both the English and the localized typeface name, regardless of locale.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", ExactSpelling = true, SetLastError = true)]
         public static extern HFONT CreateFontIndirect([In] in LOGFONT lplf);
 
@@ -463,26 +1261,42 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createfontindirectexw"/>
         /// </para>
         /// </summary>
-        /// <param name="Arg1">
-        /// Pointer to an <see cref="ENUMLOGFONTEXDV"/> structure that defines the characteristics of a multiple master font.
-        /// Note, this function ignores the <see cref="ENUMLOGFONTEXDV.elfDesignVector"/> member in <see cref="ENUMLOGFONTEXDV"/>.
+        /// <param name="unnamedParam1">
+        /// <para>
+        /// Pointer to an <see cref="ENUMLOGFONTEXDV"/> structure that defines the characteristics of a multiple master font.
+        /// </para>
+        /// <para>
+        /// Note, this function ignores the <see cref="ENUMLOGFONTEXDV.elfDesignVector"/> member in <see cref="ENUMLOGFONTEXDV"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is the handle to the new <see cref="ENUMLOGFONTEXDV"/> structure.
-        /// If the function fails, the return value is <see cref="NULL"/>. No extended error information is available.
+        /// <para>
+        /// If the function succeeds, the return value is the handle to the new <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// No extended error information is available.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateFontIndirectEx"/> function creates a logical font
-        /// with the characteristics specified in the <see cref="ENUMLOGFONTEXDV"/> structure.
-        /// When this font is selected by using the <see cref="SelectObject"/> function,
+        /// <para>
+        /// The <see cref="CreateFontIndirectEx"/> function creates a logical font
+        /// with the characteristics specified in the <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// When this font is selected by using the <see cref="SelectObject"/> function,
         /// GDI's font mapper attempts to match the logical font with an existing physical font.
         /// If it fails to find an exact match, it provides an alternative whose characteristics match as many of the requested characteristics as possible.
-        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
-        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
-        /// both the English and the localized typeface name, regardless of locale.
+        /// </para>
+        /// <para>
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/>
+        /// recognizes both the English and the localized typeface name, regardless of locale.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HFONT CreateFontIndirectEx([In] in ENUMLOGFONTEXDV Arg1);
+        public static extern HFONT CreateFontIndirectEx([In] in ENUMLOGFONTEXDV unnamedParam1);
 
         /// <summary>
         /// <para>
@@ -493,54 +1307,103 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="fdwHidden">
-        /// Specifies whether the font is a read-only font. This parameter can be one of the following values.
-        /// 0: The font has read/write permission.
-        /// 1: The font has read-only permission and should be hidden from other applications in the system.
-        /// When this flag is set, the font is not enumerated by the <see cref="EnumFonts"/> or <see cref="EnumFontFamilies"/> function.
+        /// <para>
+        /// Specifies whether the font is a read-only font.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The font has read/write permission.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// The font has read-only permission and should be hidden from other applications in the system.
+        /// When this flag is set, the font is not enumerated by the <see cref="EnumFonts"/> or <see cref="EnumFontFamilies"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpszFont">
         /// A pointer to a null-terminated string specifying the name of the font resource file to create.
         /// If this parameter specifies an existing font resource file, the function fails.
         /// </param>
         /// <param name="lpszFile">
-        /// A pointer to a null-terminated string specifying the name of the scalable font file that this function uses to create the font resource file.
+        /// A pointer to a null-terminated string specifying the name of the scalable font file
+        /// that this function uses to create the font resource file.
         /// </param>
         /// <param name="lpszPath">
         /// A pointer to a null-terminated string specifying the path to the scalable font file.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// If <paramref name="lpszFont"/> specifies an existing font file, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_EXISTS"/>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpszFont"/> specifies an existing font file, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_EXISTS"/>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateScalableFontResource"/> function is used by applications that install TrueType fonts.
-        /// An application uses the <see cref="CreateScalableFontResource"/> function to create a font resource file (typically with a .fot file name extension)
-        /// and then uses the <see cref="AddFontResource"/> function to install the font.
-        /// The TrueType font file (typically with a .ttf file name extension) must be in the System subdirectory of the Windows directory
-        /// to be used by the <see cref="AddFontResource"/> function.
-        /// The <see cref="CreateScalableFontResource"/> function currently supports only TrueType-technology scalable fonts.
-        /// When the <paramref name="lpszFile"/> parameter specifies only a file name and extension,
-        /// the <paramref name="lpszPath"/> parameter must specify a path.
-        /// When the <paramref name="lpszFile"/> parameter specifies a full path, the <paramref name="lpszPath"/> parameter
-        /// must be <see cref="NULL"/> or a pointer to <see cref="NULL"/>.
-        /// When only a file name and extension are specified in the <paramref name="lpszFile"/> parameter and a path is specified
-        /// in the <paramref name="lpszPath"/> parameter, the string in <paramref name="lpszFile"/> is copied into the .fot file
-        /// as the .ttf file that belongs to this resource.
-        /// When the <see cref="AddFontResource"/> function is called, the operating system assumes
-        /// that the .ttf file has been copied into the System directory (or into the main Windows directory in the case of a network installation).
-        /// The .ttf file need not be in this directory when the <see cref="CreateScalableFontResource"/> function is called,
-        /// because the <paramref name="lpszPath"/> parameter contains the directory information.
+        /// <para>
+        /// The <see cref="CreateScalableFontResource"/> function is used by applications that install TrueType fonts.
+        /// An application uses the <see cref="CreateScalableFontResource"/> function to create a font resource file
+        /// (typically with a .fot file name extension) and then uses the <see cref="AddFontResource"/> function to install the font.
+        /// The TrueType font file (typically with a .ttf file name extension) must be
+        /// in the System subdirectory of the Windows directory to be used by the <see cref="AddFontResource"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="CreateScalableFontResource"/> function currently supports only TrueType-technology scalable fonts.
+        /// </para>
+        /// <para>
+        /// When the <paramref name="lpszFile"/> parameter specifies only a file name and extension,
+        /// the <paramref name="lpszPath"/> parameter must specify a path.
+        /// When the <paramref name="lpszFile"/> parameter specifies a full path,
+        /// the <paramref name="lpszPath"/> parameter must be <see cref="NULL"/> or a pointer to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// When only a file name and extension are specified in the <paramref name="lpszFile"/> parameter
+        /// and a path is specified in the <paramref name="lpszPath"/> parameter,
+        /// the string in <paramref name="lpszFile"/> is copied into the .fot file as the .ttf file that belongs to this resource.
+        /// When the <see cref="AddFontResource"/> function is called, the operating system assumes that the .ttf file
+        /// has been copied into the System directory (or into the main Windows directory in the case of a network installation).
+        /// The .ttf file need not be in this directory when the <see cref="CreateScalableFontResource"/> function is called,
+        /// because the <paramref name="lpszPath"/> parameter contains the directory information.
         /// A resource created in this manner does not contain absolute path information and can be used in any installation.
-        /// When a path is specified in the <paramref name="lpszFile"/> parameter and <see cref="NULL"/> is specified
-        /// in the <paramref name="lpszPath"/> parameter, the string in <paramref name="lpszFont"/> is copied into the .fot file.
-        /// In this case, when the <see cref="AddFontResource"/> function is called, the .ttf file must be at the location specified
-        /// in the <paramref name="lpszFile"/> parameter when the <see cref="CreateScalableFontResource"/> function was called;
-        /// the <paramref name="lpszPath"/> parameter is not needed. A resource created in this manner contains absolute references to paths
-        /// and drives and does not work if the .ttf file is moved to a different location.
+        /// </para>
+        /// <para>
+        /// When a path is specified in the <paramref name="lpszFile"/> parameter
+        /// and <see cref="NULL"/> is specified in the <paramref name="lpszPath"/> parameter,
+        /// the string in <paramref name="lpszFile"/> is copied into the .fot file.
+        /// In this case, when the <see cref="AddFontResource"/> function is called,
+        /// the .ttf file must be at the location specified in the <paramref name="lpszFile"/> parameter
+        /// when the <see cref="CreateScalableFontResource"/> function was called; the <paramref name="lpszPath"/> parameter is not needed.
+        /// A resource created in this manner contains absolute references to paths and drives
+        /// and does not work if the .ttf file is moved to a different location.
+        /// </para>
         /// </remarks>
         [Obsolete("The CreateScalableFontResource function is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateScalableFontResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateScalableFontResource([In] DWORD fdwHidden, [In] LPWSTR lpszFont, [In] LPWSTR lpszFile, [In] LPWSTR lpszPath);
 
@@ -569,25 +1432,29 @@ namespace Lsj.Util.Win32
         /// The return value is the last value returned by the callback function. Its meaning is implementation specific.
         /// </returns>
         /// <remarks>
-        /// For each font having the typeface name specified by the <paramref name="lpLogfont"/> parameter,
-        /// the <see cref="EnumFontFamilies"/> function retrieves information about that font and passes it to the function
-        /// pointed to by the <paramref name="lpProc"/> parameter.
+        /// <para>
+        /// For each font having the typeface name specified by the <paramref name="lpLogfont"/> parameter,
+        /// the <see cref="EnumFontFamilies"/> function retrieves information about that font
+        /// and passes it to the function pointed to by the <paramref name="lpProc"/> parameter.
         /// The application defined callback function can process the font information as desired.
         /// Enumeration continues until there are no more fonts or the callback function returns zero.
-        /// When the graphics mode on the device context is set to ,<see cref="GM_ADVANCED"/> using the <see cref="SetGraphicsMode"/> function
+        /// </para>
+        /// <para>
+        /// When the graphics mode on the device context is set to <see cref="GM_ADVANCED"/> using the <see cref="SetGraphicsMode"/> function
         /// and the <see cref="DEVICE_FONTTYPE"/> flag is passed to the FontType parameter,
         /// this function returns a list of type 1 and OpenType fonts on the system.
-        /// When the graphics mode is not set to <see cref="GM_ADVANCED"/>, this function returns a list of type 1,
-        /// OpenType, and TrueType fonts on the system.
+        /// When the graphics mode is not set to <see cref="GM_ADVANCED"/>, this function returns a list of type 1, OpenType, and TrueType fonts on the system.
+        /// </para>
+        /// <para>
         /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
-        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
-        /// if the system locale does not match the language of the font.
+        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/>
+        /// return the English typeface name if the system locale does not match the language of the font.
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFontFamilies([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLogfont,
-            [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
+        public static extern int EnumFontFamilies([In] IntPtr hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
 
         /// <summary>
         /// <para>
@@ -603,17 +1470,49 @@ namespace Lsj.Util.Win32
         /// A handle to the device context from which to enumerate the fonts.
         /// </param>
         /// <param name="lpLogfont">
-        /// A pointer to a <see cref="LOGFONT"/> structure that contains information about the fonts to enumerate.
+        /// <para>
+        /// A pointer to a <see cref="LOGFONT"/> structure that contains information about the fonts to enumerate.
         /// The function examines the following members.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Member
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
         /// <see cref="LOGFONT.lfCharSet"/>
+        /// </term>
+        /// <term>
         /// If set to <see cref="DEFAULT_CHARSET"/>, the function enumerates all uniquely-named fonts in all character sets.
         /// (If there are two fonts with the same name, only one is enumerated.)
         /// If set to a valid character set value, the function enumerates only fonts in the specified character set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="LOGFONT.lfFaceName"/>
+        /// </term>
+        /// <term>
         /// If set to an empty string, the function enumerates one font in each available typeface name.
         /// If set to a valid typeface name, the function enumerates all fonts with the specified name.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="LOGFONT.lfPitchAndFamily"/>
+        /// </term>
+        /// <term>
         /// Must be set to zero for all language versions of the operating system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpProc">
         /// A pointer to the application defined callback function.
@@ -631,28 +1530,87 @@ namespace Lsj.Util.Win32
         /// This value depends on which font families are available for the specified device.
         /// </returns>
         /// <remarks>
-        /// The <see cref="EnumFontFamiliesEx"/> function does not use tagged typeface names to identify character sets.
+        /// <para>
+        /// The <see cref="EnumFontFamiliesEx"/> function does not use tagged typeface names to identify character sets.
         /// Instead, it always passes the correct typeface name and a separate character set value to the callback function.
-        /// The function enumerates fonts based on the values of
-        /// the <see cref="LOGFONT.lfCharSet"/> and <see cref="LOGFONT.lfFaceName"/> members in the <see cref="LOGFONT"/> structure.
-        /// As with <see cref="EnumFontFamilies"/>, <see cref="EnumFontFamiliesEx"/> enumerates all font styles.
+        /// The function enumerates fonts based on the values of the <see cref="LOGFONT.lfCharSet"/>
+        /// and <see cref="LOGFONT.lfFaceName"/> members in the <see cref="LOGFONT"/> structure.
+        /// </para>
+        /// <para>
+        /// As with <see cref="EnumFontFamilies"/>, <see cref="EnumFontFamiliesEx"/> enumerates all font styles.
         /// Not all styles of a font cover the same character sets.
         /// For example, Fontorama Bold might contain ANSI, Greek, and Cyrillic characters, but Fontorama Italic might contain only ANSI characters.
         /// For this reason, it's best not to assume that a specified font covers a specific character set, even if it is the ANSI character set.
-        /// The following table shows the results of various combinations of values for <see cref="LOGFONT.lfCharSet"/> and <see cref="LOGFONT.lfFaceName"/>.
-        /// <see cref="LOGFONT.lfCharSet"/> = <see cref="DEFAULT_CHARSET"/>
-        /// <see cref="LOGFONT.lfFaceName"/> = '\0'
-        /// Enumerates all uniquely-named fonts within all character sets.If there are two fonts with the same name, only one is enumerated.
-        /// <see cref="LOGFONT.lfCharSet"/> = <see cref="DEFAULT_CHARSET"/>
-        /// <see cref="LOGFONT.lfFaceName"/> =  a specific font
+        /// The following table shows the results of various combinations of values for <see cref="LOGFONT.lfCharSet"/> and <see cref="LOGFONT.lfFaceName"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Values
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOGFONT.lfCharSet"/> = <see cref="DEFAULT_CHARSET"/>
+        /// </para>
+        /// <para>
+        /// <see cref="LOGFONT.lfFaceName"/> = '\0'
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enumerates all uniquely-named fonts within all character sets.
+        /// If there are two fonts with the same name, only one is enumerated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOGFONT.lfCharSet"/> = <see cref="DEFAULT_CHARSET"/>
+        /// </para>
+        /// <para>
+        /// <see cref="LOGFONT.lfFaceName"/> = a specific font
+        /// </para>
+        /// </term>
+        /// <term>
         /// Enumerates all character sets and styles in a specific font.
-        /// <see cref="LOGFONT.lfCharSet"/> = a specific character set
-        /// <see cref="LOGFONT.lfFaceName"/> = '\0'
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOGFONT.lfCharSet"/> =a specific character set
+        /// </para>
+        /// <para>
+        /// <see cref="LOGFONT.lfFaceName"/> = '\0'
+        /// </para>
+        /// </term>
+        /// <term>
         /// Enumerates all styles of all fonts in the specific character set.
-        /// <see cref="LOGFONT.lfCharSet"/> = a specific character set
-        /// <see cref="LOGFONT.lfFaceName"/> =  a specific font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOGFONT.lfCharSet"/> =a specific character set
+        /// </para>
+        /// <para>
+        /// <see cref="LOGFONT.lfFaceName"/> = a specific font
+        /// </para>
+        /// </term>
+        /// <term>
         /// Enumerates all styles of a font in a specific character set.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following code sample shows how these values are used.
+        /// </para>
         /// <code>
         /// // To enumerate all styles and charsets of all fonts: 
         /// lf.lfFaceName[0] = '\0';
@@ -682,22 +1640,31 @@ namespace Lsj.Util.Win32
         ///     
         /// lf.lfCharSet = ANSI_CHARSET;
         /// </code>
-        /// The callback functions for <see cref="EnumFontFamilies"/> and <see cref="EnumFontFamiliesEx"/> are very similar.
-        /// The main difference is that the <see cref="ENUMLOGFONTEX"/> structure includes a script field.
-        /// Note, based on the values of <see cref="LOGFONT.lfCharSet"/> and <see cref="LOGFONT.lfFaceName"/>,
-        /// <see cref="EnumFontFamiliesEx"/> will enumerate the same font as many times as there are distinct character sets in the font.
+        /// <para>
+        /// The callback functions for <see cref="EnumFontFamilies"/> and <see cref="EnumFontFamiliesEx"/> are very similar.
+        /// The main difference is that the <see cref="ENUMLOGFONTEX"/> structure includes a script field.
+        /// </para>
+        /// <para>
+        /// Note, based on the values of <see cref="LOGFONT.lfCharSet"/> and <see cref="LOGFONT.lfFaceName"/>,
+        /// <see cref="EnumFontFamiliesEx"/> will enumerate the same font as many times as there are distinct character sets in the font.
         /// This can create an extensive list of fonts which can be burdensome to a user.
         /// For example, the Century Schoolbook font can appear for the Baltic, Western, Greek, Turkish, and Cyrillic character sets.
         /// To avoid this, an application should filter the list of fonts.
+        /// </para>
+        /// <para>
         /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
-        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
+        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
         /// if the system locale does not match the language of the font.
+        /// </para>
+        /// <para>
         /// When the graphics mode on the device context is set to <see cref="GM_ADVANCED"/> using the <see cref="SetGraphicsMode"/> function
         /// and the <see cref="DEVICE_FONTTYPE"/> flag is passed to the FontType parameter,
         /// this function returns a list of type 1 and OpenType fonts on the system.
         /// When the graphics mode is not set to <see cref="GM_ADVANCED"/>,
         /// this function returns a list of type 1, OpenType, and TrueType fonts on the system.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumFontFamiliesEx([In] IntPtr hdc, [In] ref LOGFONT lpLogfont, [In] FONTENUMPROC lpProc,
             [In] IntPtr lParam, [In] uint dwFlags);
@@ -728,20 +1695,24 @@ namespace Lsj.Util.Win32
         /// The return value is the last value returned by the callback function. Its meaning is defined by the application.
         /// </returns>
         /// <remarks>
-        /// Use <see cref="EnumFontFamiliesEx"/> instead of <see cref="EnumFonts"/>.
-        /// The <see cref="EnumFontFamiliesEx"/> function differs from the <see cref="EnumFonts"/> function in that
-        /// it retrieves the style names associated with a TrueType font.
-        /// With <see cref="EnumFontFamiliesEx"/>, you can retrieve information about font styles
-        /// that cannot be enumerated using the <see cref="EnumFonts"/> function.
+        /// <para>
+        /// Use <see cref="EnumFontFamiliesEx"/> instead of <see cref="EnumFonts"/>.
+        /// The <see cref="EnumFontFamiliesEx"/> function differs from the <see cref="EnumFonts"/> function
+        /// in that it retrieves the style names associated with a TrueType font.
+        /// With <see cref="EnumFontFamiliesEx"/>, you can retrieve information about font styles
+        /// that cannot be enumerated using the <see cref="EnumFonts"/> function.
+        /// </para>
+        /// <para>
         /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
-        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name 
-        /// if the system locale does not match the language of the font.
+        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/>
+        /// return the English typeface name if the system locale does not match the language of the font.
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontsW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFonts([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLogfont,
-            [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
+        public static extern int EnumFonts([In] IntPtr hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
 
         /// <summary>
         /// <para>
@@ -758,22 +1729,30 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="SIZE"/> structure that receives the current aspect-ratio filter.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The aspect ratio is the ratio formed by the width and height of a pixel on a specified device.
+        /// </para>
+        /// <para>
         /// The system provides a special filter, the aspect-ratio filter, to select fonts that were designed for a particular device.
-        /// An application can specify that the system should only retrieve fonts matching the specified aspect ratio
-        /// by calling the <see cref="SetMapperFlags"/> function.
+        /// An application can specify that the system should only retrieve fonts
+        /// matching the specified aspect ratio by calling the <see cref="SetMapperFlags"/> function.
+        /// </para>
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAspectRatioFilterEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetAspectRatioFilterEx([In] HDC hdc, [Out] out SIZE lpsize);
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetCharABCWidths"/> function retrieves the widths, in logical units, of consecutive characters in a specified range
-        /// from the current TrueType font.
+        /// The <see cref="GetCharABCWidths"/> function retrieves the widths, in logical units,
+        /// of consecutive characters in a specified range from the current TrueType font.
         /// This function succeeds only with TrueType fonts.
         /// </para>
         /// <para>
@@ -795,24 +1774,39 @@ namespace Lsj.Util.Win32
         /// specified by the <paramref name="wFirst"/> and <paramref name="wLast"/> parameters.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The TrueType rasterizer provides ABC character spacing after a specific point size has been selected.
         /// A spacing is the distance added to the current position before placing the glyph.
         /// B spacing is the width of the black part of the glyph.
         /// C spacing is the distance added to the current position to provide white space to the right of the glyph.
         /// The total advanced width is specified by A+B+C.
-        /// When the <see cref="GetCharABCWidths"/> function retrieves negative A or C widths for a character, that character includes underhangs or overhangs.
-        /// To convert the ABC widths to font design units, an application should use the value stored
-        /// in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member of a <see cref="OUTLINETEXTMETRIC"/> structure.
-        /// This value can be retrieved by calling the <see cref="GetOutlineTextMetrics"/> function.
+        /// </para>
+        /// <para>
+        /// When the <see cref="GetCharABCWidths"/> function retrieves negative A or C widths for a character, that character includes underhangs or overhangs.
+        /// </para>
+        /// <para>
+        /// To convert the ABC widths to font design units, an application should use the value
+        /// stored in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member of a <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// This value can be retrieved by calling the <see cref="GetOutlineTextMetrics"/> function.
+        /// </para>
+        /// <para>
         /// The ABC widths of the default character are used for characters outside the range of the currently selected font.
-        /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
+        /// </para>
+        /// <para>
+        /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCharABCWidths([In] HDC hdc, [In] UINT wFirst, [In] UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
+        public static extern BOOL GetCharABCWidths([In] HDC hdc, [In] UINT wFirst, [In] UINT wLast, [In][Out] ABC[] lpABC);
 
         /// <summary>
         /// <para>
@@ -843,21 +1837,32 @@ namespace Lsj.Util.Win32
         /// If this parameter is zero, <see cref="GetFontData"/> returns the size of the data specified in the <paramref name="dwTable"/> parameter.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the number of bytes returned.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function is intended to be used to retrieve TrueType font information directly from the font file by font-manipulation applications.
-        /// For information about embedding fonts see the Font Embedding Reference.
-        /// An application can sometimes use the <see cref="GetFontData"/> function to save a TrueType font with a document.
+        /// For information about embedding fonts see the Font Embedding Reference.
+        /// </para>
+        /// <para>
+        /// An application can sometimes use the <see cref="GetFontData"/> function to save a TrueType font with a document.
         /// To do this, the application determines whether the font can be embedded
-        /// by checking the <see cref="OUTLINETEXTMETRIC.otmfsType"/> member of the <see cref="OUTLINETEXTMETRIC"/> structure.
-        /// If bit 1 of <see cref="OUTLINETEXTMETRIC.otmfsType"/> is set, embedding is not permitted for the font.
+        /// by checking the <see cref="OUTLINETEXTMETRIC.otmfsType"/> member of the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// If bit 1 of <see cref="OUTLINETEXTMETRIC.otmfsType"/> is set, embedding is not permitted for the font.
         /// If bit 1 is clear, the font can be embedded. If bit 2 is set, the embedding is read-only.
         /// If embedding is permitted, the application can retrieve the entire font file,
-        /// specifying zero for the <paramref name="dwTable"/>, <paramref name="dwOffset"/>, and <paramref name="cjBuffer"/> parameters.
+        /// specifying zero for the <paramref name="dwTable"/>, <paramref name="dwOffset"/>, and <paramref name="cjBuffer"/> parameters.
+        /// </para>
+        /// <para>
         /// If an application attempts to use this function to retrieve information for a non-TrueType font, an error occurs.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontData", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontData([In] HDC hdc, [In] DWORD dwTable, [In] DWORD dwOffset, [In] PVOID pvBuffer, [In] DWORD cjBuffer);
 
@@ -873,33 +1878,99 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hdc">Handle to a display device context.</param>
         /// <returns>
+        /// <para>
         /// The return value identifies characteristics of the currently selected font.
         /// The function returns 0 if the font is "normalized" and can be treated as a simple Latin font;
         /// it returns <see cref="GCP_ERROR"/> if an error occurs.
         /// Otherwise, the function returns a combination of the following values.
-        /// <see cref="GCP_DBCS"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_DBCS"/>
+        /// </term>
+        /// <term>
         /// The character set is DBCS.
-        /// <see cref="GCP_DIACRITIC"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_DIACRITIC"/>
+        /// </term>
+        /// <term>
         /// The font/language contains diacritic glyphs.
-        /// <see cref="FLI_GLYPHS"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FLI_GLYPHS"/>
+        /// </term>
+        /// <term>
         /// The font contains extra glyphs not normally accessible using the code page.
-        /// Use <see cref="GetCharacterPlacement"/> to access the glyphs.
-        /// This value is for information only and is not intended to be passed to <see cref="GetCharacterPlacement"/>.
-        /// <see cref="GCP_GLYPHSHAPE"/>:
+        /// Use <see cref="GetCharacterPlacement"/> to access the glyphs.
+        /// This value is for information only and is not intended to be passed to <see cref="GetCharacterPlacement"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_GLYPHSHAPE"/>
+        /// </term>
+        /// <term>
         /// The font/language contains multiple glyphs per code point or per code point combination (supports shaping and/or ligation),
         /// and the font contains advanced glyph tables to provide extra glyphs for the extra shapes.
-        /// If this value is specified, the lpGlyphs array must be used with the <see cref="GetCharacterPlacement"/> function
-        /// and the <see cref="ETO_GLYPHINDEX"/> value must be passed to the <see cref="ExtTextOut"/> function when the string is drawn.
-        /// <see cref="GCP_KASHIDA"/>:
+        /// If this value is specified, the lpGlyphs array must be used with the <see cref="GetCharacterPlacement"/> function
+        /// and the <see cref="ETO_GLYPHINDEX"/> value must be passed to the <see cref="ExtTextOut"/> function when the string is drawn.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_KASHIDA"/>
+        /// </term>
+        /// <term>
         /// The font/ language permits Kashidas.
-        /// <see cref="GCP_LIGATE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_LIGATE"/>
+        /// </term>
+        /// <term>
         /// The font/language contains ligation glyphs which can be substituted for specific character combinations.
-        /// <see cref="GCP_USEKERNING"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_USEKERNING"/>
+        /// </term>
+        /// <term>
         /// The font contains a kerning table which can be used to provide better spacing between the characters and glyphs.
-        /// <see cref="GCP_REORDER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GCP_REORDER"/>
+        /// </term>
+        /// <term>
         /// The language requires reordering for display for example, Hebrew or Arabic.
-        /// The return value, when masked with <see cref="FLI_MASK"/>, can be passed directly to the <see cref="GetCharacterPlacement"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The return value, when masked with <see cref="FLI_MASK"/>,
+        /// can be passed directly to the <see cref="GetCharacterPlacement"/> function.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontLanguageInfo", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontLanguageInfo([In] HDC hdc);
 
@@ -921,11 +1992,14 @@ namespace Lsj.Util.Win32
         /// the function returns the size of the <see cref="GLYPHSET"/> structure required to store the information.
         /// </param>
         /// <returns>
-        /// If the function succeeds, it returns number of bytes written to the <see cref="GLYPHSET"/> structure or,
-        /// if the <paramref name="lpgs"/> parameter is <see cref="NullRef{GLYPHSET}"/>,
-        /// it returns the size of the <see cref="GLYPHSET"/> structure required to store the information.
-        /// If the function fails, it returns zero.
-        /// No extended error information is available.
+        /// <para>
+        ///  the function succeeds, it returns number of bytes written to the <see cref="GLYPHSET"/> structure or,
+        ///  if the <paramref name="lpgs"/> parameter is <see cref="NULL"/>,
+        ///  it returns the size of the <see cref="GLYPHSET"/> structure required to store the information.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero. No extended error information is available.
+        /// </para>
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontUnicodeRanges", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontUnicodeRanges([In] HDC hdc, [Out] out GLYPHSET lpgs);
