@@ -1,10 +1,12 @@
-﻿using static Lsj.Util.Win32.Gdi32;
+﻿using System;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <see cref="GetGlyphOutline"/> formats
     /// </summary>
+    [Flags]
     public enum GetGlyphOutlineFormats : uint
     {
         /// <summary>

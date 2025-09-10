@@ -2001,6 +2001,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns zero. No extended error information is available.
         /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontUnicodeRanges", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontUnicodeRanges([In] HDC hdc, [Out] out GLYPHSET lpgs);
 
@@ -2028,13 +2029,39 @@ namespace Lsj.Util.Win32
         /// On successful return, contains an array of glyph indices corresponding to the characters in the string.
         /// </param>
         /// <param name="fl">
+        /// <para>
         /// Specifies how glyphs should be handled if they are not supported.
         /// This parameter can be the following value.
-        /// <see cref="GGI_MARK_NONEXISTING_GLYPHS"/>: Marks unsupported glyphs with the hexadecimal value 0xffff.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GGI_MARK_NONEXISTING_GLYPHS"/>
+        /// </term>
+        /// <term>
+        /// Marks unsupported glyphs with the hexadecimal value 0xffff.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, it returns the number of bytes (for the ANSI function) or WORDs (for the Unicode function) converted.
+        /// <para>
+        /// If the function succeeds, it returns the number of bytes (for the ANSI function)
+        /// or <see cref="WORD"/>s (for the Unicode function) converted.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function attempts to identify a single-glyph representation
@@ -2042,6 +2069,7 @@ namespace Lsj.Util.Win32
         /// While this is useful for certain low-level purposes (such as manipulating font files),
         /// higher-level applications that wish to map a string to glyphs will typically wish to use the Uniscribe functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphIndicesW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetGlyphIndices([In] HDC hdc, [In] LPCWSTR lpstr, [In] int c, [Out] WORD[] pgi, [In] DWORD fl);
 
@@ -2061,17 +2089,109 @@ namespace Lsj.Util.Win32
         /// The character for which data is to be returned.
         /// </param>
         /// <param name="fuFormat">
+        /// <para>
         /// The format of the data that the function retrieves. This parameter can be one of the following values.
-        /// <see cref="GGO_BEZIER"/>, <see cref="GGO_BITMAP"/>, <see cref="GGO_GLYPH_INDEX"/>, <see cref="GGO_GRAY2_BITMAP"/>,
-        /// <see cref="GGO_GRAY4_BITMAP"/>, <see cref="GGO_GRAY8_BITMAP"/>, <see cref="GGO_METRICS"/>, <see cref="GGO_NATIVE"/>,
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_BEZIER"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves the curve data as a cubic Bézier spline (not in quadratic spline format).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves the glyph bitmap.
+        /// For information about memory allocation, see the following Remarks section.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_GLYPH_INDEX"/>
+        /// </term>
+        /// <term>
+        /// Indicates that the <paramref name="uChar"/> parameter is a TrueType Glyph Index rather than a character code.
+        /// See the <see cref="ExtTextOut"/> function for additional remarks on Glyph Indexing.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_GRAY2_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves a glyph bitmap that contains five levels of gray.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_GRAY4_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves a glyph bitmap that contains 17 levels of gray.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_GRAY8_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves a glyph bitmap that contains 65 levels of gray.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_METRICS"/>
+        /// </term>
+        /// <term>
+        /// The function only retrieves the <see cref="GLYPHMETRICS"/> structure specified by <paramref name="lpgm"/>.
+        /// The <paramref name="pvBuffer"/> is ignored.
+        /// This value affects the meaning of the function's return value upon failure; see the Return Values section.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GGO_NATIVE"/>
+        /// </term>
+        /// <term>
+        /// The function retrieves the curve data points in the rasterizer's native format and uses the font's design units.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="GGO_UNHINTED"/>
-        /// Note that, for the GGO_GRAYn_BITMAP values, the function retrieves a glyph bitmap that contains n^2+1 (n squared plus one) levels of gray.
+        /// </term>
+        /// <term>
+        /// The function only returns unhinted outlines.
+        /// This flag only works in conjunction with <see cref="GGO_BEZIER"/> and <see cref="GGO_NATIVE"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Note that, for the GGO_GRAYn_BITMAP values, the function retrieves a glyph bitmap
+        /// that contains n^2+1 (n squared plus one) levels of gray.
+        /// </para>
         /// </param>
         /// <param name="lpgm">
         /// A pointer to the <see cref="GLYPHMETRICS"/> structure describing the placement of the glyph in the character cell.
         /// </param>
         /// <param name="cjBuffer">
-        /// The size, in bytes, of the buffer (*<paramref name="pvBuffer"/>) where the function is to copy information about the outline character.
+        /// The size, in bytes, of the buffer (*<paramref name="pvBuffer"/>)
+        /// where the function is to copy information about the outline character.
         /// If this value is zero, the function returns the required size of the buffer.
         /// </param>
         /// <param name="pvBuffer">
@@ -2082,51 +2202,80 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="MAT2"/> structure specifying a transformation matrix for the character.
         /// </param>
         /// <returns>
+        /// <para>
         /// If <see cref="GGO_BITMAP"/>, <see cref="GGO_GRAY2_BITMAP"/>, <see cref="GGO_GRAY4_BITMAP"/>, <see cref="GGO_GRAY8_BITMAP"/>,
         /// or <see cref="GGO_NATIVE"/> is specified and the function succeeds, the return value is greater than zero;
         /// otherwise, the return value is <see cref="GDI_ERROR"/>.
-        /// If one of these flags is specified and the buffer size or address is zero, the return value specifies the required buffer size, in bytes.
+        /// If one of these flags is specified and the buffer size or address is zero,
+        /// the return value specifies the required buffer size, in bytes.
+        /// </para>
+        /// <para>
         /// If <see cref="GGO_METRICS"/> is specified and the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The glyph outline returned by the <see cref="GetGlyphOutline"/> function is for a grid-fitted glyph.
-        /// (A grid-fitted glyph is a glyph that has been modified so that its bitmapped image conforms as closely
-        /// as possible to the original design of the glyph.)
-        /// If an application needs an unmodified glyph outline, it can request the glyph outline for a character in a font
-        /// whose size is equal to the font's em unit.
-        /// The value for a font's em unit is stored in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member of the <see cref="OUTLINETEXTMETRIC"/> structure.
-        /// The glyph bitmap returned by <see cref="GetGlyphOutline"/> when <see cref="GGO_BITMAP"/> is specified
-        /// is a DWORD-aligned, row-oriented, monochrome bitmap.
-        /// When <see cref="GGO_GRAY2_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 4.
-        /// When <see cref="GGO_GRAY4_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 16.
-        /// When <see cref="GGO_GRAY8_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 64.
-        /// The native buffer returned by <see cref="GetGlyphOutline"/> when <see cref="GGO_NATIVE"/> is specified is a glyph outline.
-        /// A glyph outline is returned as a series of one or more contours defined by a <see cref="TTPOLYGONHEADER"/> structure followed by one or more curves.
-        /// Each curve in the contour is defined by a <see cref="TTPOLYCURVE"/> structure followed by a number of <see cref="POINTFX"/> data points.
-        /// <see cref="POINTFX"/> points are absolute positions, not relative moves.
-        /// The starting point of a contour is given by the <see cref="TTPOLYGONHEADER.pfxStart"/> member of the <see cref="TTPOLYGONHEADER"/> structure.
+        /// <para>
+        /// The glyph outline returned by the <see cref="GetGlyphOutline"/> function is for a grid-fitted glyph.
+        /// (A grid-fitted glyph is a glyph that has been modified so that its bitmapped image
+        /// conforms as closely as possible to the original design of the glyph.)
+        /// If an application needs an unmodified glyph outline,
+        /// it can request the glyph outline for a character in a font whose size is equal to the font's em unit.
+        /// The value for a font's em unit is stored in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member
+        /// of the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// </para>
+        /// <para>
+        /// The glyph bitmap returned by <see cref="GetGlyphOutline"/>
+        /// when <see cref="GGO_BITMAP"/> is specified is a <see cref="DWORD"/>-aligned, row-oriented, monochrome bitmap.
+        /// When <see cref="GGO_GRAY2_BITMAP"/> is specified, the bitmap returned is a <see cref="DWORD"/>-aligned,
+        /// row-oriented array of bytes whose values range from 0 to 4.
+        /// When <see cref="GGO_GRAY4_BITMAP"/> is specified, the bitmap returned is a <see cref="DWORD"/>-aligned,
+        /// row-oriented array of bytes whose values range from 0 to 16.
+        /// When <see cref="GGO_GRAY8_BITMAP"/> is specified, the bitmap returned is a <see cref="DWORD"/>-aligned,
+        /// row-oriented array of bytes whose values range from 0 to 64.
+        /// </para>
+        /// <para>
+        /// The native buffer returned by <see cref="GetGlyphOutline"/> when <see cref="GGO_NATIVE"/> is specified is a glyph outline.
+        /// A glyph outline is returned as a series of one or more contours
+        /// defined by a <see cref="TTPOLYGONHEADER"/> structure followed by one or more curves.
+        /// Each curve in the contour is defined by a <see cref="TTPOLYCURVE"/> structure
+        /// followed by a number of <see cref="POINTFX"/> data points.
+        /// <see cref="POINTFX"/> points are absolute positions, not relative moves.
+        /// The starting point of a contour is given by the <see cref="TTPOLYGONHEADER.pfxStart"/> member
+        /// of the <see cref="TTPOLYGONHEADER"/> structure.
         /// The starting point of each curve is the last point of the previous curve or the starting point of the contour.
-        /// The count of data points in a curve is stored in the <see cref="TTPOLYCURVE.cpfx"/> member of <see cref="TTPOLYCURVE"/> structure.
-        /// The size of each contour in the buffer, in bytes, is stored in the cb member of <see cref="TTPOLYGONHEADER"/> structure.
-        /// Additional curve definitions are packed into the buffer following preceding curves and additional contours are packed
-        /// into the buffer following preceding contours.
-        /// The buffer contains as many contours as fit within the buffer returned by <see cref="GetGlyphOutline"/>.
-        /// The <see cref="GLYPHMETRICS"/> structure specifies the width of the character cell and the location of a glyph within the character cell.
+        /// The count of data points in a curve is stored
+        /// in the <see cref="TTPOLYCURVE.cpfx"/> member of <see cref="TTPOLYCURVE"/> structure.
+        /// The size of each contour in the buffer, in bytes,
+        /// is stored in the <see cref="TTPOLYGONHEADER.cb"/> member of <see cref="TTPOLYGONHEADER"/> structure.
+        /// Additional curve definitions are packed into the buffer following preceding curves and additional contour
+        /// s are packed into the buffer following preceding contours.
+        /// The buffer contains as many contours as fit within the buffer returned by <see cref="GetGlyphOutline"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="GLYPHMETRICS"/> structure specifies the width of the character cell and the location of a glyph within the character cell.
         /// The origin of the character cell is located at the left side of the cell at the baseline of the font.
         /// The location of the glyph origin is relative to the character cell origin.
-        /// The height of a character cell, the baseline, and other metrics global to the font are given by the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// The height of a character cell, the baseline, and other metrics global to the font
+        /// are given by the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// </para>
+        /// <para>
         /// An application can alter the characters retrieved in bitmap or native format
-        /// by specifying a 2-by-2 transformation matrix in the <paramref name="lpmat2"/> parameter.
+        /// by specifying a 2-by-2 transformation matrix in the <paramref name="lpmat2"/> parameter.
         /// For example the glyph can be modified by shear, rotation, scaling, or any combination of the three using matrix multiplication.
+        /// </para>
+        /// <para>
         /// Additional information on a glyph outlines is located in the TrueType and the OpenType technical specifications.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetGlyphOutline([In] HDC hdc, [In] UINT uChar, [In] GetGlyphOutlineFormats fuFormat,
             [Out] out GLYPHMETRICS lpgm, [In] DWORD cjBuffer, [In] LPVOID pvBuffer, [In] in MAT2 lpmat2);
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetKerningPairs"/> function retrieves the character-kerning pairs for the currently selected font for the specified device context.
+        /// The <see cref="GetKerningPairs"/> function retrieves the character-kerning pairs
+        /// for the currently selected font for the specified device context.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getkerningpairsw"/>
@@ -2145,11 +2294,16 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see langword="null"/>, the function returns the total number of kerning pairs for the font.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the number of kerning pairs returned.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKerningPairsW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetKerningPairs([In] HDC hdc, [In] DWORD nPairs, [MarshalAs(UnmanagedType.LPArray)][In][Out] KERNINGPAIR[] lpKernPair);
+        public static extern DWORD GetKerningPairs([In] HDC hdc, [In] DWORD nPairs, [In][Out] KERNINGPAIR[] lpKernPair);
 
         /// <summary>
         /// <para>
@@ -2167,17 +2321,23 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="potm">
         /// A pointer to an <see cref="OUTLINETEXTMETRIC"/> structure.
-        /// If this parameter is <see langword="null"/>, the function returns the size of the buffer required for the retrieved metric data.
+        /// If this parameter is <see cref="NullRef{OUTLINETEXTMETRIC}"/>,
+        /// the function returns the size of the buffer required for the retrieved metric data.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero or the size of the required buffer.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="OUTLINETEXTMETRIC"/> structure contains most of the text metric information provided for TrueType fonts
         /// (including a <see cref="TEXTMETRIC"/> structure).
         /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are in logical units; they depend on the current mapping mode.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOutlineTextMetricsW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetOutlineTextMetrics([In] HDC hdc, [In] UINT cjCopy, [Out] out OUTLINETEXTMETRIC potm);
 
@@ -2196,17 +2356,29 @@ namespace Lsj.Util.Win32
         /// The number of bytes to be copied into the structure pointed to by the <paramref name="lpraststat"/> parameter.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The GetRasterizerCaps function enables applications and printer drivers to determine whether TrueType fonts are installed.
-        /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member
-        /// of the <see cref="RASTERIZER_STATUS"/> structure, at least one TrueType font is installed.
+        /// <para>
+        /// The <see cref="GetRasterizerCaps"/> function enables applications and printer drivers
+        /// to determine whether TrueType fonts are installed.
+        /// </para>
+        /// <para>
+        /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member
+        /// of the <see cref="RASTERIZER_STATUS"/> structure, at least one TrueType font is installed.
         /// If the <see cref="TT_ENABLED"/> flag is set, TrueType is enabled for the system.
-        /// The actual number of bytes copied is either the member specified in the <see cref="RASTERIZER_STATUS.nSize"/> parameter
-        /// or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
+        /// </para>
+        /// <para>
+        /// The actual number of bytes copied is either the member specified
+        /// in the <paramref name="cjBytes"/> parameter or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRasterizerCaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetRasterizerCaps([Out] out RASTERIZER_STATUS lpraststat, [In] UINT cjBytes);
 
@@ -2224,22 +2396,33 @@ namespace Lsj.Util.Win32
         /// <param name="c">
         /// The length of the buffer pointed to by <paramref name="lpName"/>.
         /// For the ANSI function it is a <see cref="BYTE"/> count and for the Unicode function it is a <see cref="WORD"/> count.
-        /// Note that for the ANSI function, characters in SBCS code pages take one byte each, while most characters in DBCS code pages take two bytes;
+        /// Note that for the ANSI function, characters in SBCS code pages take one byte each,
+        /// while most characters in DBCS code pages take two bytes;
         /// for the Unicode function, most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are
         /// one <see cref="WORD"/> while Unicode surrogates are two <see cref="WORD"/>s.
         /// </param>
         /// <param name="lpName">
         /// A pointer to the buffer that receives the typeface name.
-        /// If this parameter is <see cref="NULL"/>, the function returns the number of characters in the name, including the terminating null character.
+        /// If this parameter is <see cref="NULL"/>, the function returns the number of characters in the name,
+        /// including the terminating null character.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the number of characters copied to the buffer.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The typeface name is copied as a null-terminated character string.
-        /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
+        /// </para>
+        /// <para>
+        /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextFaceW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTextFace([In] HDC hdc, [In] int c, [In] LPWSTR lpName);
 
@@ -2258,8 +2441,12 @@ namespace Lsj.Util.Win32
         /// A pointer to the <see cref="TEXTMETRIC"/> structure that receives the text metrics.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// To determine whether a font is a TrueType font, first select it into a DC, then call <see cref="GetTextMetrics"/>,
@@ -2267,6 +2454,7 @@ namespace Lsj.Util.Win32
         /// Note that <see cref="GetDC"/> returns an uninitialized DC, which has "System" (a bitmap font) as the default font;
         /// thus the need to select a font into the DC.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextMetricsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextMetrics([In] HDC hdc, [Out] out TEXTMETRIC lptm);
 
@@ -2283,22 +2471,30 @@ namespace Lsj.Util.Win32
         /// This handle is returned by the <see cref="AddFontMemResourceEx"/> function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
         /// No extended error information is available.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function removes a font that was added by the <see cref="AddFontMemResourceEx"/> function.
         /// To remove the font, specify the same path and flags as were used in <see cref="AddFontMemResourceEx"/>.
-        /// This function will only remove the font that is specified by fh.
+        /// This function will only remove the font that is specified by <paramref name="h"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontMemResourceEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveFontMemResourceEx([In] HANDLE h);
 
         /// <summary>
         /// <para>
-        /// The <see cref="RemoveFontResource"/> function removes the fonts in the specified file from the system font table.
-        /// If the font was added using the <see cref="AddFontResourceEx"/> function, you must use the <see cref="RemoveFontResourceEx"/> function.
+        /// The <see cref="RemoveFontResource"/> function removes the fonts in the specified file from the system font table.
+        /// </para>
+        /// <para>
+        /// If the font was added using the <see cref="AddFontResourceEx"/> function,
+        /// you must use the <see cref="RemoveFontResourceEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-removefontresourcew"/>
@@ -2308,23 +2504,59 @@ namespace Lsj.Util.Win32
         /// A pointer to a null-terminated string that names a font resource file.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// We recommend that if an app adds or removes fonts from the system font table that it notify other windows of the change
-        /// by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the system.
-        /// The app sends this message by calling the <see cref="SendMessage"/> function with the hwnd parameter set to <see cref="HWND_BROADCAST"/>.
+        /// <para>
+        /// We recommend that if an app adds or removes fonts from the system font table
+        /// that it notify other windows of the change by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the system.
+        /// The app sends this message by calling the <see cref="SendMessage"/> function with the hwnd parameter set to <see cref="HWND_BROADCAST"/>.
+        /// </para>
+        /// <para>
         /// If there are outstanding references to a font, the associated resource remains loaded until no device context is using it.
         /// Furthermore, if the font is listed in the font registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts)
         /// and is installed to any location other than the %windir%\fonts\ folder, it may be loaded into other active sessions (including session 0).
-        /// When you try to replace an existing font file that contains a font with outstanding references to it, you might get an error
-        /// that indicates that the original font can't be deleted because it’s in use even after you call <see cref="RemoveFontResource"/>.
+        /// </para>
+        /// <para>
+        /// When you try to replace an existing font file that contains a font with outstanding references to it,
+        /// you might get an error that indicates that the original font can't be deleted
+        /// because it’s in use even after you call <see cref="RemoveFontResource"/>.
         /// If your app requires that the font file be replaced, to reduce the resource count of the original font to zero,
-        /// call <see cref="RemoveFontResource"/> in a loop as shown in this example code.
+        /// call <see cref="RemoveFontResource"/> in a loop as shown in this example code.
         /// If you continue to get errors, this is an indication that the font file remains loaded in other sessions.
         /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Apps where the original font file is in use will still be able to access the original file
+        /// and won't use the new font until the font reloads.
+        /// Call <see cref="AddFontResource"/> to reload the font.
+        /// We recommend that you call <see cref="AddFontResource"/> the same number of times
+        /// as the call to <see cref="RemoveFontResource"/> succeeded as shown in this example code.
+        /// </para>
+        /// <code>
+        /// int i = 0;
+        /// while( RemoveFontResource( FontFile ) )
+        /// {
+        ///     i++;
+        /// }
+        /// 
+        /// // TODO: Replace font file
+        /// 
+        /// while( i-- )
+        /// {
+        ///     AddFontResource( FontFile );
+        /// }
+        /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveFontResource([In] LPCWSTR lpFileName);
 
@@ -2349,25 +2581,54 @@ namespace Lsj.Util.Win32
         /// Reserved. Must be zero.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
         /// No extended error information is available.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function will only remove the font if the flags specified are the same as
-        /// when then font was added with the <see cref="AddFontResourceEx"/> function.
-        /// When you try to replace an existing font file that contains a font with outstanding references to it, you might get an error
-        /// that indicates that the original font can't be deleted because it’s in use even after you call <see cref="RemoveFontResourceEx"/>.
+        /// <para>
+        /// This function will only remove the font if the flags specified are the same
+        /// as when then font was added with the <see cref="AddFontResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// When you try to replace an existing font file that contains a font with outstanding references to it,
+        /// you might get an error that indicates that the original font can't be deleted
+        /// because it’s in use even after you call <see cref="RemoveFontResourceEx"/>.
         /// If your app requires that the font file be replaced, to reduce the resource count of the original font to zero,
-        /// call <see cref="RemoveFontResourceEx"/> in a loop as shown in this example code.
+        /// call <see cref="RemoveFontResourceEx"/> in a loop as shown in this example code.
         /// If you continue to get errors, this is an indication that the font file remains loaded in other sessions.
         /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
+        /// </para>
+        /// <para>
         /// Note
-        /// Apps where the original font file is in use will still be able to access the original file and won't use the new font until the font reloads.
-        /// Call <see cref="AddFontResourceEx"/> to reload the font.
-        /// We recommend that you call <see cref="AddFontResourceEx"/> the same number of times
-        /// as the call to <see cref="RemoveFontResourceEx"/> succeeded as shown in this example code.
+        /// </para>
+        /// <para>
+        /// Apps where the original font file is in use will still be able to access the original file
+        /// and won't use the new font until the font reloads.
+        /// Call <see cref="AddFontResourceEx"/> to reload the font.
+        /// We recommend that you call <see cref="AddFontResourceEx"/> the same number of times
+        /// as the call to <see cref="RemoveFontResourceEx"/> succeeded as shown in this example code.
+        /// </para>
+        /// <code>
+        /// int i = 0;
+        /// while( RemoveFontResourceEx( FontFile, FR_PRIVATE, 0 ) )
+        /// {
+        ///     i++;
+        /// }
+        /// 
+        /// // TODO: Replace font file
+        /// 
+        /// while( i-- )
+        /// {
+        ///     AddFontResourceEx( FontFile, FR_PRIVATE, 0 );
+        /// }
+        /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveFontResourceEx([In] LPCWSTR name, [In] DWORD fl, [In] PVOID pdv);
 
@@ -2387,14 +2648,23 @@ namespace Lsj.Util.Win32
         /// If bit zero is set, the mapper selects only matching fonts.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the previous value of the font-mapper flag.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If the <paramref name="flags"/> parameter is set and no matching fonts exist,
+        /// <para>
+        /// If the <paramref name="flags"/> parameter is set and no matching fonts exist,
         /// Windows chooses a new aspect ratio and retrieves a font that matches this ratio.
-        /// The remaining bits of the <paramref name="flags"/> parameter must be zero.
+        /// </para>
+        /// <para>
+        /// The remaining bits of the <paramref name="flags"/> parameter must be zero.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapperFlags", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SetMapperFlags([In] HDC hdc, [In] DWORD flags);
     }

@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Enhmfenumproc(ENHMFENUMPROC val) => (Enhmfenumproc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Enhmfenumproc));
+        public static implicit operator EnhMetaFileProc(ENHMFENUMPROC val) => (EnhMetaFileProc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(EnhMetaFileProc));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator ENHMFENUMPROC(Enhmfenumproc val) => new ENHMFENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator ENHMFENUMPROC(EnhMetaFileProc val) => new ENHMFENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

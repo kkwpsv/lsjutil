@@ -54,6 +54,16 @@ namespace Lsj.Util.Win32
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
 
         /// <summary>
+        /// CCHDEVICENAME
+        /// </summary>
+        public const int CCHDEVICENAME = 32;
+
+        /// <summary>
+        /// CCHFORMNAME
+        /// </summary>
+        public const int CCHFORMNAME = 32;
+
+        /// <summary>
         /// DWM_SIT_DISPLAYFRAME
         /// </summary>
         public const uint DWM_SIT_DISPLAYFRAME = 0x00000001;
@@ -258,6 +268,11 @@ namespace Lsj.Util.Win32
         public const string FINDMSGSTRING = "commdlg_FindReplace";
 
         /// <summary>
+        /// GDI_ERROR
+        /// </summary>
+        public const uint GDI_ERROR = 0xFFFFFFFF;
+
+        /// <summary>
         /// GDICOMMENT_IDENTIFIER
         /// </summary>
         public const uint GDICOMMENT_IDENTIFIER = 0x43494447;
@@ -306,6 +321,11 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         public const string HELPMSGSTRING = "commdlg_help";
+
+        /// <summary>
+        /// HGDI_ERROR
+        /// </summary>
+        public static readonly IntPtr HGDI_ERROR = new IntPtr(-1);
 
         /// <summary>
         /// HOVER_DEFAULT
@@ -443,6 +463,16 @@ namespace Lsj.Util.Win32
         public const string LBSELCHSTRING = "commdlg_LBSelChangedNotify";
 
         /// <summary>
+        /// LF_FACESIZE
+        /// </summary>
+        public const int LF_FACESIZE = 32;
+
+        /// <summary>
+        /// LF_FULLFACESIZE
+        /// </summary>
+        public const int LF_FULLFACESIZE = 64;
+
+        /// <summary>
         /// LINE_LEN
         /// </summary>
         public const int LINE_LEN = 256;
@@ -486,6 +516,16 @@ namespace Lsj.Util.Win32
         /// MAXIMUM_SUSPEND_COUNT
         /// </summary>
         public const int MAXIMUM_SUSPEND_COUNT = 0x7F;
+
+        /// <summary>
+        /// MM_MAX_NUMAXES
+        /// </summary>
+        public const int MM_MAX_NUMAXES = 16;
+
+        /// <summary>
+        /// MM_MAX_AXES_NAMELEN
+        /// </summary>
+        public const int MM_MAX_AXES_NAMELEN = 16;
 
         /// <summary>
         /// NULL
