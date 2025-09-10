@@ -4,12 +4,9 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
 using static Lsj.Util.Win32.Enums.HatchStyles;
-using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -539,51 +536,5 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetBrushOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
-
-        /// <summary>
-        /// <para>
-        /// <see cref="SetDCBrushColor"/> function sets the current device context (DC) brush color to the specified color value.
-        /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setdcbrushcolor"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the DC.
-        /// </param>
-        /// <param name="color">
-        /// The new brush color.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the return value specifies the previous DC brush color as a <see cref="COLORREF"/> value.
-        /// </para>
-        /// <para>
-        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// When the stock <see cref="DC_BRUSH"/> is selected in a DC,
-        /// all the subsequent drawings will be done using the DC brush color until the stock brush is deselected.
-        /// The default <see cref="DC_BRUSH"/> color is <see cref="WHITE"/>.
-        /// </para>
-        /// <para>
-        /// The function returns the previous <see cref="DC_BRUSH"/> color,
-        /// even if the stock brush <see cref="DC_BRUSH"/> is not selected in the DC:
-        /// however, this will not be used in drawing operations until the stock <see cref="DC_BRUSH"/> is selected in the DC.
-        /// </para>
-        /// <para>
-        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
-        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
-        /// </para>
-        /// <para>
-        /// ICM: Color management is performed if ICM is enabled.
-        /// </para>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDCBrushColor", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF SetDCBrushColor([In] HDC hdc, [In] COLORREF color);
     }
 }
