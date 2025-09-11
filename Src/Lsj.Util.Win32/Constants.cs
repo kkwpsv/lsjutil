@@ -64,6 +64,11 @@ namespace Lsj.Util.Win32
         public const int CCHFORMNAME = 32;
 
         /// <summary>
+        /// CHILDID_SELF
+        /// </summary>
+        public const uint CHILDID_SELF = 0;
+
+        /// <summary>
         /// DM_SPECVERSION
         /// </summary>
         public const ushort DM_SPECVERSION = 0x401;
@@ -645,9 +650,19 @@ namespace Lsj.Util.Win32
         public const string SHAREVISTRING = "commdlg_ShareViolation";
 
         /// <summary>
+        /// SOCKET_ERROR
+        /// </summary>
+        public const int SOCKET_ERROR = -1;
+
+        /// <summary>
         /// STILL_ACTIVE
         /// </summary>
         public const uint STILL_ACTIVE = (uint)NTSTATUS.STATUS_PENDING;
+
+        /// <summary>
+        /// TRANSACTION_DO_NOT_PROMOTE
+        /// </summary>
+        public const uint TRANSACTION_DO_NOT_PROMOTE = 0x00000001;
 
         /// <summary>
         /// USER_TIMER_MAXIMUM

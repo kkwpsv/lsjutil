@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -70,7 +71,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
-        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagGetWindowSource", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagGetWindowSource", ExactSpelling = true)]
         public static extern BOOL MagGetWindowSource([In] HWND hwnd, [In] in RECT pRect);
 
         /// <summary>
@@ -84,7 +86,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> if initialization was successful; otherwise <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagInitialize", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagInitialize", ExactSpelling = true)]
         public static extern BOOL MagInitialize();
 
         /// <summary>
@@ -105,24 +108,53 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function requires Windows Display Driver Model (WDDM)-capable video cards.
-        /// This function works only when Desktop Window Manager (DWM) is off.
+        /// </para>
+        /// <para>
+        /// This function works only when Desktop Window Manager (DWM) is off.
+        /// </para>
+        /// <para>
         /// This callback mechanism enables custom image filtering and scaling mechanisms.
-        /// Filtering might include bilinear, trilinear, bicubic, and flat.
-        /// The mechanism also enables edge detection and enhancement.
+        /// Filtering might include bilinear, trilinear, bicubic, and flat. The mechanism also enables edge detection and enhancement.
+        /// </para>
+        /// <para>
         /// The only transform that can be performed within the callback is scaling.
-        /// Rotations and skews that may compose the arbitrary transform passed to the <see cref="MagSetWindowTransform"/> function are performed after the callback function returns.
+        /// Rotations and skews that may compose the arbitrary transform passed to the <see cref="MagSetWindowTransform"/> function are performed after the callback function returns.
+        /// </para>
+        /// <para>
         /// The specified function is called by the magnification engine for all rasterized Windows Graphics Device Interface (GDI) bitmaps before they are composited.
+        /// </para>
+        /// <para>
         /// After the callback function returns, the bitmap in video memory can have one of the following size states:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Unscaled. The returned bitmap is the same size as the bitmap passed by the caller.
-        /// The magnification engine does the scaling by the transform specified in the <see cref="MagSetWindowTransform"/> function.
-        /// Scaled. The returned bitmap is scaled by the transform specified in <see cref="MagSetWindowTransform"/>.
-        /// If no callback is registered, the magnification engine scales bitmaps by the transform specified in <see cref="MagSetWindowTransform"/>.
-        /// Windows Presentation Foundation (WPF) bitmaps can be scaled automatically using flat, bilinear, bicubic filtering and consequently do not use this callback mechanism.
+        /// The magnification engine does the scaling by the transform specified in the <see cref="MagSetWindowTransform"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Scaled. The returned bitmap is scaled by the transform specified in <see cref="MagSetWindowTransform"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If no callback is registered, the magnification engine scales bitmaps by the transform specified in <see cref="MagSetWindowTransform"/>.
+        /// </para>
+        /// <para>
+        /// Windows Presentation Foundation (WPF) bitmaps can be scaled automatically using flat, bilinear, bicubic filtering
+        /// and consequently do not use this callback mechanism.
+        /// </para>
         /// </remarks>
-        [Obsolete("The MagSetImageScalingCallback function is deprecated in Windows 7 and later, and should not be used in new applications." +
-            " There is no alternate functionality.")]
-        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagSetImageScalingCallback", ExactSpelling = true, SetLastError = true)]
+        [Obsolete("The MagSetImageScalingCallback function is deprecated in Windows 7 and later, and should not be used in new applications. " +
+            "There is no alternate functionality.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagSetImageScalingCallback", ExactSpelling = true)]
         public static extern BOOL MagSetImageScalingCallback([In] HWND hwnd, [In] MagImageScalingCallback callback);
 
         /// <summary>
@@ -145,7 +177,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The transformation matrix specifies the magnification factor that the magnifier control applies to the contents of the source rectangle.
         /// </remarks>
-        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagSetWindowTransform", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagSetWindowTransform", ExactSpelling = true)]
         public static extern BOOL MagSetWindowTransform([In] HWND hwnd, [In] in MAGTRANSFORM pTransform);
 
         /// <summary>
@@ -159,7 +192,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
-        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagUninitialize", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagUninitialize", ExactSpelling = true)]
         public static extern BOOL MagUninitialize();
     }
 }

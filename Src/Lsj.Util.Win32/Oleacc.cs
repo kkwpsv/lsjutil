@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -18,12 +19,6 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Oleacc
     {
-        /// <summary>
-        /// CHILDID_SELF
-        /// </summary>
-        public const uint CHILDID_SELF = 0;
-
-
         /// <summary>
         /// <para>
         /// Retrieves the address of the <see cref="IAccessible"/> interface for the object
@@ -55,29 +50,61 @@ namespace Lsj.Util.Win32
         /// Address of a <see cref="VARIANT"/> structure that specifies the child ID that can be used to access information about the UI element.
         /// </param>
         /// <returns>
+        /// <para>
         /// If successful, returns <see cref="S_OK"/>.
-        /// If not successful, returns one of the following or another standard COM error code.
-        /// <see cref="E_INVALIDARG"/>: An argument is not valid.
+        /// </para>
+        /// <para>
+        /// If not successful, returns one of the following or another standard COM error code.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// An argument is not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Clients call this function within an event hook function to obtain an <see cref="IAccessible"/> interface pointer
+        /// <para>
+        /// Clients call this function within an event hook function to obtain an <see cref="IAccessible"/> interface pointer
         /// to either the object that generated the event or to the parent of the element that generated the event.
-        /// The parameters sent to the WinEventProc callback function must be used for
-        /// this function's <paramref name="hwnd"/>, <paramref name="dwId"/>, and <paramref name="dwChildId"/> parameters.
+        /// The parameters sent to the WinEventProc callback function must be used
+        /// for this function's <paramref name="hwnd"/>, <paramref name="dwId"/>, and <paramref name="dwChildId"/> parameters.
+        /// </para>
+        /// <para>
         /// This function retrieves the lowest-level accessible object in the object hierarchy that is associated with an event.
-        /// If the element that generated the event is not an accessible object (that is, does not support <see cref="IAccessible"/>),
-        /// then the function retrieves the <see cref="IAccessible"/> interface of the parent object.
-        /// The parent object must provide information about the child element through the <see cref="IAccessible"/> interface.
-        /// As with other <see cref="IAccessible"/> methods and functions, clients might receive errors
-        /// for <see cref="IAccessible"/> interface pointers because of a user action.
-        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
-        /// This function fails if called in response to <see cref="EVENT_OBJECT_CREATE"/> because the object is not fully initialized.
-        /// Similarly, clients should not call this in response to <see cref="EVENT_OBJECT_DESTROY"/>
+        /// If the element that generated the event is not an accessible object (that is, does not support <see cref="IAccessible"/>),
+        /// then the function retrieves the <see cref="IAccessible"/> interface of the parent object.
+        /// The parent object must provide information about the child element through the <see cref="IAccessible"/> interface.
+        /// </para>
+        /// <para>
+        /// As with other <see cref="IAccessible"/> methods and functions,
+        /// clients might receive errors for <see cref="IAccessible"/> interface pointers because of a user action.
+        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
+        /// </para>
+        /// <para>
+        /// This function fails if called in response to <see cref="EVENT_OBJECT_CREATE"/> because the object is not fully initialized.
+        /// Similarly, clients should not call this in response to <see cref="EVENT_OBJECT_DESTROY"/>
         /// because the object is no longer available and cannot respond.
-        /// Clients watch for <see cref="EVENT_OBJECT_SHOW"/> and <see cref="EVENT_OBJECT_HIDE"/> events
-        /// rather than for <see cref="EVENT_OBJECT_CREATE"/> and <see cref="EVENT_OBJECT_DESTROY"/>.
+        /// Clients watch for <see cref="EVENT_OBJECT_SHOW"/> and <see cref="EVENT_OBJECT_HIDE"/> events
+        /// rather than for <see cref="EVENT_OBJECT_CREATE"/> and <see cref="EVENT_OBJECT_DESTROY"/>.
+        /// </para>
         /// </remarks>
-        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromEvent", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromEvent", ExactSpelling = true)]
         public static extern HRESULT AccessibleObjectFromEvent([In] HWND hwnd, [In] DWORD dwId, [In] DWORD dwChildId,
             [Out] out IntPtr ppacc, [Out] out VARIANT pvarChild);
 
@@ -107,21 +134,49 @@ namespace Lsj.Util.Win32
         /// Clients must call <see cref="VariantClear"/> on the retrieved <see cref="VARIANT"/> parameter when finished using it.
         /// </param>
         /// <returns>
+        /// <para>
         /// If successful, returns <see cref="S_OK"/>.
-        /// If not successful, returns one of the following or another standard COM error code.
-        /// <see cref="E_INVALIDARG"/>: An argument is not valid.
+        /// </para>
+        /// <para>
+        /// If not successful, returns one of the following or another standard COM error code.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// An argument is not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function retrieves the lowest-level accessible object in the object hierarchy at a given point.
-        /// If the element at the point is not an accessible object (that is, does not support <see cref="IAccessible"/>),
-        /// then the function retrieves the <see cref="IAccessible"/> interface of the parent object.
-        /// The parent object must provide information about the child element through the <see cref="IAccessible"/> interface.
-        /// Call <see cref="IAccessible.accHitTest"/> to identify the child element at the specified screen coordinates.
-        /// As with other <see cref="IAccessible"/> methods and functions,
-        /// clients might receive errors for <see cref="IAccessible"/> interface pointers because of a user action.
-        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
+        /// If the element at the point is not an accessible object (that is, does not support <see cref="IAccessible"/>),
+        /// then the function retrieves the <see cref="IAccessible"/> interface of the parent object.
+        /// The parent object must provide information about the child element through the <see cref="IAccessible"/> interface.
+        /// Call <see cref="IAccessible.accHitTest"/> to identify the child element at the specified screen coordinates.
+        /// </para>
+        /// <para>
+        /// As with other <see cref="IAccessible"/> methods and functions,
+        /// clients might receive errors for <see cref="IAccessible"/> interface pointers because of a user action.
+        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
+        /// </para>
         /// </remarks>
-        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromPoint", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromPoint", ExactSpelling = true)]
         public static extern HRESULT AccessibleObjectFromPoint([In] POINT ptScreen, [Out] out IntPtr ppacc, [Out] out VARIANT pvarChild);
 
         /// <summary>
@@ -152,32 +207,126 @@ namespace Lsj.Util.Win32
         /// Address of a pointer variable that receives the address of the specified interface.
         /// </param>
         /// <returns>
+        /// <para>
         /// If successful, returns <see cref="S_OK"/>.
-        /// If not successful, returns one of the following or another standard COM error code.
-        /// <see cref="E_INVALIDARG"/>: An argument is not valid.
-        /// <see cref="E_NOINTERFACE"/>: The requested interface is not supported.
+        /// </para>
+        /// <para>
+        /// If not successful, returns one of the following or another standard COM error code.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// An argument is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="E_NOINTERFACE"/>
+        /// </term>
+        /// <term>
+        /// The requested interface is not supported.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Clients call this function to retrieve the address of an object's <see cref="IAccessible"/>,
-        /// <see cref="IDispatch"/>, <see cref="IEnumVARIANT"/>, <see cref="IUnknown"/>, or other supported interface pointer.
-        /// As with other <see cref="IAccessible"/> methods and functions,
-        /// clients might receive errors for <see cref="IAccessible"/> interface pointers because of a user action.
-        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
-        /// Clients use this function to obtain access to the Microsoft Office 2000 native object model.
-        /// The native object model provides clients with accessibility information about an Office application's document
-        /// or client area that is not exposed by Microsoft Active Accessibility.
-        /// To obtain an <see cref="IDispatch"/> interface pointer to a class supported by the native object model,
-        /// specify <see cref="OBJID_NATIVEOM"/> in <paramref name="dwId"/>. When using this object identifier,
-        /// the <paramref name="hwnd"/> parameter must match the following window class types.
-        /// Office application	Window class	IDispatch pointer to
-        /// Word	            _WwG	        Window
-        /// Excel	            EXCEL7	        Window
-        /// PowerPoint	        paneClassDC 	DocumentWindow
-        /// Command Bars	    MsoCommandBar	CommandBar
+        /// <para>
+        /// Clients call this function to retrieve the address of an object's <see cref="IAccessible"/>,
+        /// <see cref="IDispatch"/>, <see cref="IEnumVARIANT"/>, <see cref="IUnknown"/>, or other supported interface pointer.
+        /// </para>
+        /// <para>
+        /// As with other <see cref="IAccessible"/> methods and functions,
+        /// clients might receive errors for <see cref="IAccessible"/> interface pointers because of a user action.
+        /// For more information, see Receiving Errors for IAccessible Interface Pointers.
+        /// </para>
+        /// <para>
+        /// Clients use this function to obtain access to the Microsoft Office 2000 native object model.
+        /// The native object model provides clients with accessibility information about an Office application's document or client area
+        /// that is not exposed by Microsoft Active Accessibility.
+        /// </para>
+        /// <para>
+        /// To obtain an <see cref="IDispatch"/> interface pointer to a class supported by the native object model,
+        /// specify <see cref="OBJID_NATIVEOM"/> in <paramref name="dwId"/>.
+        /// When using this object identifier, the <paramref name="hwnd"/> parameter must match the following window class types.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Office application
+        /// </term>
+        /// <term>
+        /// Window class
+        /// </term>
+        /// <term>
+        /// IDispatch pointer to
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Word
+        /// </term>
+        /// <term>
+        /// _WwG
+        /// </term>
+        /// <term>
+        /// Window
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Excel
+        /// </term>
+        /// <term>
+        /// EXCEL7
+        /// </term>
+        /// <term>
+        /// Window
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// PowerPoint
+        /// </term>
+        /// <term>
+        /// paneClassDC
+        /// </term>
+        /// <term>
+        /// DocumentWindow
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Command Bars
+        /// </term>
+        /// <term>
+        /// MsoCommandBar
+        /// </term>
+        /// <term>
+        /// CommandBar
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Note that the above window classes correspond to the innermost document window or pane window.
-        /// For more information about the Office object model, see the Microsoft Office 2000/Visual Basic Programmer's Guide.
+        /// For more information about the Office object model, see the Microsoft Office 2000/Visual Basic Programmer's Guide.
+        /// </para>
         /// </remarks>
-        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromWindow", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromWindow", ExactSpelling = true)]
         public static extern HRESULT AccessibleObjectFromWindow([In] HWND hwnd, [In] DWORD dwId, [In] in IID riid, [Out] out IntPtr ppvObject);
     }
 }

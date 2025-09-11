@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
@@ -19,7 +20,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Associates the specified input context with the specified window.
         /// By default, the operating system associates the default input context with each window as it is created.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To specify a type of association, the application should use the <see cref="ImmAssociateContextEx"/> function.
         /// </para>
         /// <para>
@@ -35,7 +40,8 @@ namespace Lsj.Util.Win32
         /// When associating an input context with a window, an application must remove the association before destroying the input context.
         /// One way to do this is to save the handle and reassociate it to the default input context with the window.
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContext", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContext", ExactSpelling = true)]
         public static extern HIMC ImmAssociateContext([In] HWND unnamedParam1, [In] HIMC unnamedParam2);
 
         /// <summary>
@@ -46,37 +52,74 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immassociatecontextex"/>
         /// </para>
         /// </summary>
-        /// <param name="hWnd">
+        /// <param name="unnamedParam1">
         /// Handle to the window to associate with the input context.
         /// </param>
-        /// <param name="hIMC">
+        /// <param name="unnamedParam2">
         /// Handle to the input method context.
         /// </param>
         /// <param name="unnamedParam3">
+        /// <para>
         /// Flags specifying the type of association between the window and the input method context.
         /// This parameter can have one of the following values.
-        /// <see cref="IACE_CHILDREN"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="IACE_CHILDREN"/>
+        /// </term>
+        /// <term>
         /// Associate the input method context to the child windows of the specified window only.
-        /// <see cref="IACE_DEFAULT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IACE_DEFAULT"/>
+        /// </term>
+        /// <term>
         /// Restore the default input method context of the window.
-        /// <see cref="IACE_IGNORENOCONTEXT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IACE_IGNORENOCONTEXT"/>
+        /// </term>
+        /// <term>
         /// Do not associate the input method context with windows that are not associated with any input method context.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the application calls this function with <see cref="IACE_CHILDREN"/>,
-        /// the operating system associates the specified input method context with child windows of the window indicated by <paramref name="hWnd"/>.
-        /// It associates the input method context only with child windows of the thread that creates <paramref name="hWnd"/>.
+        /// the operating system associates the specified input method context with child windows of the window indicated by <paramref name="unnamedParam1"/>.
+        /// It associates the input method context only with child windows of the thread that creates <paramref name="unnamedParam1"/>.
         /// Any child window that is created after this function has been called will not be affected.
         /// Instead, the default input method context will be associated with it.
+        /// </para>
+        /// <para>
         /// If the application calls this function with <see cref="IACE_DEFAULT"/>,
         /// the operating system restores the default input method context for the window.
-        /// In this case, the <paramref name="hIMC"/> parameter is ignored.
+        /// In this case, the <paramref name="unnamedParam2"/> parameter is ignored.
+        /// </para>
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContextEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImmAssociateContextEx([In] HWND hWnd, [In] HIMC hIMC, [In] ImmAssociateContextExFlags unnamedParam3);
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContextEx", ExactSpelling = true)]
+        public static extern BOOL ImmAssociateContextEx([In] HWND unnamedParam1, [In] HIMC unnamedParam2, [In] ImmAssociateContextExFlags unnamedParam3);
 
         /// <summary>
         /// <para>
@@ -90,7 +133,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns the handle to the new input context if successful, or <see cref="NULL"/> otherwise.
         /// </returns>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmCreateContext", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmCreateContext", ExactSpelling = true)]
         public static extern HIMC ImmCreateContext();
 
         /// <summary>
@@ -111,7 +155,8 @@ namespace Lsj.Util.Win32
         /// However, before calling <see cref="ImmDestroyContext"/>, the application must remove the input context
         /// from any association with windows in the thread by using the <see cref="ImmAssociateContext"/> function.
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDestroyContext", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDestroyContext", ExactSpelling = true)]
         public static extern BOOL ImmDestroyContext([In] HIMC unnamedParam1);
 
         /// <summary>
@@ -127,12 +172,27 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// The application must call this function before the first top-level window in the thread receives the <see cref="WM_CREATE"/> message.
+        /// <para>
+        /// The application must call this function before the first top-level window in the thread receives the <see cref="WM_CREATE"/> message.
         /// Thus, the application must call this function in one of the following places:
-        /// Any time before calling <see cref="CreateWindow"/> to create the first top-level window
-        /// In the <see cref="WM_NCCREATE"/> handler for first top-level window
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Any time before calling <see cref="CreateWindow"/> to create the first top-level window
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// In the <see cref="WM_NCCREATE"/> handler for first top-level window
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDisableIME", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDisableIME", ExactSpelling = true)]
         public static extern BOOL ImmDisableIME([In] DWORD unnamedParam1);
 
         /// <summary>
@@ -150,7 +210,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if successful, or 0 otherwise.
         /// </returns>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetCompositionWindow", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetCompositionWindow", ExactSpelling = true)]
         public static extern BOOL ImmGetCompositionWindow([In] HIMC unnamedParam1, [Out] out COMPOSITIONFORM lpCompForm);
 
         /// <summary>
@@ -166,11 +227,16 @@ namespace Lsj.Util.Win32
         /// Returns the handle to the input context.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An application should routinely use this function to retrieve the current input context
         /// before attempting to access information in the context.
-        /// The application must call <see cref="ImmReleaseContext"/> when it is finished with the input context.
+        /// </para>
+        /// <para>
+        /// The application must call <see cref="ImmReleaseContext"/> when it is finished with the input context.
+        /// </para>
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetContext", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetContext", ExactSpelling = true)]
         public static extern HIMC ImmGetContext([In] HWND unnamedParam1);
 
         /// <summary>
@@ -190,7 +256,8 @@ namespace Lsj.Util.Win32
         /// The window is created based on the IME class.
         /// The application can send the <see cref="WM_IME_CONTROL"/> message to this window.
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetDefaultIMEWnd", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetDefaultIMEWnd", ExactSpelling = true)]
         public static extern HWND ImmGetDefaultIMEWnd([In] HWND unnamedParam1);
 
         /// <summary>
@@ -205,12 +272,14 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if the IME is open, or 0 otherwise.
         /// </returns>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetOpenStatus", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetOpenStatus", ExactSpelling = true)]
         public static extern BOOL ImmGetOpenStatus([In] HIMC unnamedParam1);
 
         /// <summary>
         /// <para>
-        /// Returns the input context associated with the specified window.
+        /// Releases the input context and unlocks the memory associated in the input context.
+        /// An application must call this function for each call to the <see cref="ImmGetContext"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immgetcontext"/>
@@ -221,7 +290,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if successful, or 0 otherwise.
         /// </returns>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmReleaseContext", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmReleaseContext", ExactSpelling = true)]
         public static extern BOOL ImmReleaseContext([In] HWND unnamedParam1, [In] HIMC unnamedParam2);
 
         /// <summary>
@@ -243,7 +313,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function causes an <see cref="IMN_SETCOMPOSITIONWINDOW"/> command to be sent to the application.
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetCompositionWindow", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetCompositionWindow", ExactSpelling = true)]
         public static extern BOOL ImmSetCompositionWindow([In] HIMC unnamedParam1, [In] in COMPOSITIONFORM lpCompForm);
 
         /// <summary>
@@ -260,9 +331,10 @@ namespace Lsj.Util.Win32
         /// Returns a nonzero value if successful, or 0 otherwise.
         /// </returns>
         /// <remarks>
-        ///This function causes an <see cref="IMN_SETOPENSTATUS"/> command to be sent to the application.
+        /// This function causes an <see cref="IMN_SETOPENSTATUS"/> command to be sent to the application.
         /// </remarks>
-        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetOpenStatus", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetOpenStatus", ExactSpelling = true)]
         public static extern BOOL ImmSetOpenStatus([In] HIMC unnamedParam1, [In] BOOL unnamedParam2);
     }
 }
