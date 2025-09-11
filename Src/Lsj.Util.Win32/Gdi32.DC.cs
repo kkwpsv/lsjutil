@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.BoundsRectAccumulationFlags;
 using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.DeviceCapIndexes;
 using static Lsj.Util.Win32.Enums.DeviceTechnologies;
+using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.EscapeFunctions;
@@ -1007,6 +1008,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBkColor"/> function returns the current background color for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getbkcolor"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context whose background color is to be returned.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a <see cref="COLORREF"/> value for the current background color.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetBkColor([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetBkMode"/> function returns the current background mix mode for a specified device context.
+        /// The background mix mode of a device context affects text, hatched brushes, and pen styles that are not solid lines.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getbkmode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context whose background mode is to be returned.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the current background mix mode,
+        /// either <see cref="OPAQUE"/> or <see cref="TRANSPARENT"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BackgroundModes GetBkMode([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBoundsRect"/> function obtains the current accumulated bounding rectangle for a specified device context.
         /// </para>
         /// <para>
@@ -1434,6 +1483,7 @@ namespace Lsj.Util.Win32
         /// ICM: Color management is performed if ICM is enabled.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCPenColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetDCPenColor([In] HDC hdc);
 
@@ -3640,6 +3690,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -4447,6 +4498,106 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ SelectObject([In] HDC hdc, [In] HGDIOBJ hgdiobj);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBkColor"/> function sets the current background color to the specified color value,
+        /// or to the nearest physical color if the device cannot represent the specified color value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setbkcolor"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="color">
+        /// The new background color.
+        /// To make a <see cref="COLORREF"/> value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the previous background color as a <see cref="COLORREF"/> value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is CLR_INVALID.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function fills the gaps between styled lines drawn using a pen created by the <see cref="CreatePen"/> function;
+        /// it does not fill the gaps between styled lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
+        /// The <see cref="SetBkColor"/> function also sets the background colors for <see cref="TextOut"/> and <see cref="ExtTextOut"/>.
+        /// </para>
+        /// <para>
+        /// If the background mode is <see cref="OPAQUE"/>, the background color is used to fill gaps
+        /// between styled lines, gaps between hatched lines in brushes, and character cells.
+        /// The background color is also used when converting bitmaps from color to monochrome and vice versa.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF SetBkColor([In] HDC hdc, [In] COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBkMode"/> function sets the background mix mode of the specified device context.
+        /// The background mix mode is used with text, hatched brushes, and pen styles that are not solid lines.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setbkmode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// <para>
+        /// The background mode.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Background is filled with the current background color before the text, hatched brush, or pen is drawn.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// Background is unaffected.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the previous background mode.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetBkMode"/> function affects the line styles for lines drawn using a pen created by the <see cref="CreatePen"/> function.
+        /// <see cref="SetBkMode"/> does not affect lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BackgroundModes SetBkMode([In] HDC hdc, [In] BackgroundModes mode);
 
         /// <summary>
         /// <para>
@@ -5938,6 +6089,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [Out] out SIZE lpsz);
 
@@ -5988,6 +6140,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -6073,6 +6226,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowExtEx([In] HDC hdc, [In] int x, [In] int y, [Out] out SIZE lpsz);
 
@@ -6122,6 +6276,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 

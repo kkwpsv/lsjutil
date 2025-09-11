@@ -1,7 +1,7 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -25,15 +25,23 @@ namespace Lsj.Util.Win32
         /// A pointer to an <see cref="XFORM"/> structure that specifies the second transformation.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Applying the combined transformation has the same effect
-        /// as applying the first transformation and then applying the second transformation.
+        /// <para>
+        /// Applying the combined transformation has the same effect as applying the first transformation and then applying the second transformation.
+        /// </para>
+        /// <para>
         /// The three transformations need not be distinct.
-        /// For example, <paramref name="lpxf1"/> can point to the same <see cref="XFORM"/> structure as <paramref name="lpxfOut"/>.
+        /// For example, <paramref name="lpxf1"/> can point to the same <see cref="XFORM"/> structure as <paramref name="lpxfOut"/>.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CombineTransform([Out] out XFORM lpxfOut, [In] in XFORM lpxf1, [In] in XFORM lpxf2);
     }

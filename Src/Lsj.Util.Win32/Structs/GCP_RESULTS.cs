@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32.Structs
         /// the <see cref="lpOrder"/> array gives the exact locations of each element in the original string.
         /// </para>
         /// </summary>
-        public IntPtr lpOrder;
+        public P<UINT> lpOrder;
 
         /// <summary>
         /// <para>
@@ -99,7 +99,7 @@ namespace Lsj.Util.Win32.Structs
         /// width = lpDx[lpOrder[i]];
         /// </code>
         /// </summary>
-        public IntPtr lpDx;
+        public P<int> lpDx;
 
         /// <summary>
         /// <para>
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32.Structs
         /// position = lpCaretPos[i];
         /// </code>
         /// </summary>
-        public IntPtr lpCaretPos;
+        public P<int> lpCaretPos;
 
         /// <summary>
         /// <para>

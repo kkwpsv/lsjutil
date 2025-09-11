@@ -503,6 +503,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtCreatePen", ExactSpelling = true, SetLastError = true)]
         public static extern HPEN ExtCreatePen([In] PenStyles iPenStyle, [In] DWORD cWidth, [In] in LOGBRUSH plbrush, [In] DWORD cStyle, [In] PenStyles[] pstyle);
     }

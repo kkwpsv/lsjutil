@@ -250,6 +250,7 @@ namespace Lsj.Util.Win32
         /// An application can determine whether a device supports palette operations
         /// by calling the <see cref="GetDeviceCaps"/> function and specifying the <see cref="RASTERCAPS"/> constant.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemPaletteEntries([In] HDC hdc, [In] UINT iStart, [In] UINT cEntries,[Out] PALETTEENTRY[] pPalEntries);
 

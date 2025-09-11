@@ -166,6 +166,7 @@ namespace Lsj.Util.Win32
         /// When an application calls the <see cref="DrawEscape"/> function,
         /// the data identified by <paramref name="cjIn"/> and <paramref name="lpIn"/> is passed directly to the specified display driver.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEscape", ExactSpelling = true, SetLastError = true)]
         public static extern int DrawEscape([In] HDC hdc, [In] int iEscape, [In] int cjIn, [In] LPCSTR lpIn);
 
@@ -1539,6 +1540,7 @@ namespace Lsj.Util.Win32
         /// Use <see cref="SetBrushOrgEx"/> to set the origin of a brush.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnrealizeObject([In] HGDIOBJ h);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
@@ -7,7 +8,9 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
@@ -35,21 +38,117 @@ namespace Lsj.Util.Win32
         /// A handle to the second of two regions to be combined.
         /// </param>
         /// <param name="iMode">
-        /// A mode indicating how the two regions will be combined.
-        /// This parameter can be one of the following values.
-        /// <see cref="RGN_AND"/>, <see cref="RGN_COPY"/>, <see cref="RGN_DIFF"/>, <see cref="RGN_OR"/>, <see cref="RGN_XOR"/>
+        /// <para>
+        /// A mode indicating how the two regions will be combined. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="RGN_AND"/>
+        /// </term>
+        /// <term>
+        /// Creates the intersection of the two combined regions.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RGN_COPY"/>
+        /// </term>
+        /// <term>
+        /// Creates a copy of the region identified by <paramref name="hrgnSrc1"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RGN_DIFF"/>
+        /// </term>
+        /// <term>
+        /// Combines the parts of <paramref name="hrgnSrc1"/> that are not part of <paramref name="hrgnSrc2"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RGN_OR"/>
+        /// </term>
+        /// <term>
+        /// Creates the union of two combined regions.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RGN_XOR"/>
+        /// </term>
+        /// <term>
+        /// Creates the union of two combined regions except for any overlapping areas.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// The return value specifies the type of the resulting region. It can be one of the following values.
-        /// <see cref="NULLREGION"/>: The region is empty.
-        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
-        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
-        /// <see cref="ERROR"/>: No region is created.
+        /// <para>
+        /// The return value specifies the type of the resulting region.
+        /// It can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="NULLREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is empty.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SIMPLEREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is a single rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMPLEXREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is more than a single rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR"/>
+        /// </term>
+        /// <term>
+        /// No region is created.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The three regions need not be distinct.
         /// For example, the <paramref name="hrgnSrc1"/> parameter can equal the <paramref name="hrgnDst"/> parameter.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags CombineRgn([In] HRGN hrgnDst, [In] HRGN hrgnSrc1, [In] HRGN hrgnSrc2, [In] CombineRgnModes iMode);
 
@@ -74,15 +173,25 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate in logical units, of the lower-right corner of the bounding rectangle of the ellipse.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// A bounding rectangle defines the size, shape, and orientation of the region:
-        /// The long sides of the rectangle define the length of the ellipse's major axis; the short sides define the length of the ellipse's minor axis;
+        /// The long sides of the rectangle define the length of the ellipse's major axis;
+        /// the short sides define the length of the ellipse's minor axis;
         /// and the center of the rectangle defines the intersection of the major and minor axes.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateEllipticRgn([In] int x1, [In] int y1, [In] int x2, [In] int y2);
 
@@ -99,15 +208,25 @@ namespace Lsj.Util.Win32
         /// of the ellipse in logical units.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
-        /// A bounding rectangle defines the size, shape, and orientation of the region: The long sides of the rectangle
-        /// define the length of the ellipse's major axis; the short sides define the length of the ellipse's minor axis;
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// A bounding rectangle defines the size, shape, and orientation of the region:
+        /// The long sides of the rectangle define the length of the ellipse's major axis;
+        /// the short sides define the length of the ellipse's minor axis;
         /// and the center of the rectangle defines the intersection of the major and minor axes.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgnIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateEllipticRgnIndirect([In] in RECT lprect);
 
@@ -125,26 +244,65 @@ namespace Lsj.Util.Win32
         /// The number of points in the array.
         /// </param>
         /// <param name="iMode">
+        /// <para>
         /// The fill mode used to determine which pixels are in the region.
         /// This parameter can be one of the following values.
-        /// <see cref="ALTERNATE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ALTERNATE"/>
+        /// </term>
+        /// <term>
         /// Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
-        /// <see cref="WINDING"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WINDING"/>
+        /// </term>
+        /// <term>
         /// Selects winding mode (fills any region with a nonzero winding value).
-        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
-        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
+        /// </para>
+        /// <para>
+        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
         /// only include the interior of the shape; the shape's outline is excluded from the region.
         /// This means that any point on a line between two sequential vertices is not included in the region.
-        /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
+        /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreatePolygonRgn([MarshalAs(UnmanagedType.LPArray)][In] POINT[] pptl, [In] int cPoint, [In] PolyFillModes iMode);
 
@@ -169,25 +327,61 @@ namespace Lsj.Util.Win32
         /// The total number of integers in the array pointed to by lpPolyCounts.
         /// </param>
         /// <param name="iMode">
+        /// <para>
         /// The fill mode used to determine which pixels are in the region.
         /// This parameter can be one of the following values.
-        /// <see cref="ALTERNATE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ALTERNATE"/>
+        /// </term>
+        /// <term>
         /// Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
-        /// <see cref="WINDING"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WINDING"/>
+        /// </term>
+        /// <term>
         /// Selects winding mode (fills any region with a nonzero winding value).
-        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolyPolygonRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern HRGN CreatePolyPolygonRgn([MarshalAs(UnmanagedType.LPArray)][In] POINT[] pptl,
-            [MarshalAs(UnmanagedType.LPArray)][In] INT[] pc, [In] int cPoly, [In] int iMode);
+        public static extern HRGN CreatePolyPolygonRgn([In] POINT[] pptl, [In] INT[] pc, [In] int cPoly, [In] int iMode);
 
         /// <summary>
         /// <para>
@@ -210,17 +404,28 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate of the lower-right corner of the region in logical units.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
-        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
+        /// </para>
+        /// <para>
+        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
         /// only include the interior of the shape; the shape's outline is excluded from the region.
         /// This means that any point on a line between two sequential vertices is not included in the region.
-        /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
+        /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRectRgn([In] int x1, [In] int y1, [In] int x2, [In] int y2);
 
@@ -237,14 +442,25 @@ namespace Lsj.Util.Win32
         /// that defines the region in logical units.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
+        /// </para>
+        /// <para>
         /// The region will be exclusive of the bottom and right edges.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgnIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRectRgnIndirect([In] in RECT lprect);
 
@@ -275,13 +491,22 @@ namespace Lsj.Util.Win32
         /// Specifies the height of the ellipse used to create the rounded corners in device units.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRoundRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRoundRectRgn([In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int w, [In] int h);
 
@@ -301,10 +526,15 @@ namespace Lsj.Util.Win32
         /// Handle to a region.
         /// </param>
         /// <returns>
-        /// If the two regions are equal, the return value is <see cref="TRUE"/>.
-        /// If the two regions are not equal, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the two regions are equal, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the two regions are not equal, the return value is zero.
         /// A return value of <see cref="ERROR"/> means at least one of the region handles is invalid.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EqualRgn([In] HRGN hrgn1, [In] HRGN hrgn2);
 
@@ -327,13 +557,22 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="RGNDATA"/> structure that contains the region data in logical units.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the value of the region.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Region coordinates are represented as 27-bit signed integers.
-        /// An application can retrieve data for a region by calling the <see cref="GetRegionData"/> function.
+        /// </para>
+        /// <para>
+        /// An application can retrieve data for a region by calling the <see cref="GetRegionData"/> function.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtCreateRegion", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN ExtCreateRegion([In] in XFORM lpx, [In] DWORD nCount, [In] in RGNDATA lpData);
 
@@ -359,20 +598,24 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is 1.
-        /// If the function fails, the return value is -1.
-        /// If the region to be retrieved is <see cref="NULL"/>, the return value is 0.
-        /// If the function fails or the region to be retrieved is <see cref="NULL"/>, <paramref name="hrgn"/> is not initialized.
+        /// If the function fails, the return value is -1. If the region to be retrieved is <see cref="NULL"/>, the return value is 0.
+        /// If the function fails or the region to be retrieved is <see cref="NULL"/>, <paramref name="hrgn"/> is not initialized.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When using the <see cref="SYSRGN"/> flag, note that the system clipping region might not be current because of window movements.
         /// Nonetheless, it is safe to retrieve and use the system clipping region
-        /// within the BeginPaint-EndPaint block during <see cref="WM_PAINT"/> processing.
+        /// within the <see cref="BeginPaint"/>-<see cref="EndPaint"/> block during <see cref="WM_PAINT"/> processing.
         /// In this case, the system region is the intersection of the update region and the current visible area of the window.
-        /// Any window movement following the return of <see cref="GetRandomRgn"/> and
-        /// before <see cref="EndPaint"/> will result in a new <see cref="WM_PAINT"/> message.
+        /// Any window movement following the return of <see cref="GetRandomRgn"/>
+        /// and before <see cref="EndPaint"/> will result in a new <see cref="WM_PAINT"/> message.
         /// Any other use of the <see cref="SYSRGN"/> flag may result in painting errors in your application.
+        /// </para>
+        /// <para>
         /// The region returned is in screen coordinates.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRandomRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int GetRandomRgn([In] HDC hdc, [In] HRGN hrgn, [In] INT i);
 
@@ -397,15 +640,29 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see cref="NullRef{RGNDATA}"/>, the return value contains the number of bytes needed for the region data.
         /// </param>
         /// <returns>
-        /// If the function succeeds and <paramref name="nCount"/> specifies an adequate number of bytes,
-        /// the return value is always <paramref name="nCount"/>.
-        /// If <paramref name="nCount"/> is too small or the function fails, the return value is 0.
-        /// If <paramref name="lpRgnData"/> is <see cref="NullRef{RGNDATA}"/>, the return value is the required number of bytes.
-        /// If the function fails, the return value is zero.
+        /// <para>
+        /// If the function succeeds and <paramref name="nCount"/> specifies an adequate number of bytes,
+        /// then the return value equals the actual number of bytes used (less than or equal to <paramref name="nCount"/>).
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpRgnData"/> is <see cref="NullRef{RGNDATA}"/>, then the return value is the required number of bytes.
+        /// </para>
+        /// <para>
+        /// If the function fails, then the return value is zero.
+        /// </para>
+        /// <para>
+        /// If the failure is due to <paramref name="hrgn"/> being invalid,
+        /// then <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_HANDLE"/>.
+        /// Otherwise, <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_PARAMETER"/> .
+        /// </para>
+        /// <para>
+        /// If <paramref name="nCount"/> is too small, then the function fails.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="GetRegionData"/> function is used in conjunction with the <see cref="ExtCreateRegion"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRegionData", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetRegionData([In] HRGN hrgn, [In] DWORD nCount, [Out] out RGNDATA lpRgnData);
 
@@ -424,12 +681,51 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="RECT"/> structure that receives the bounding rectangle in logical units.
         /// </param>
         /// <returns>
-        /// The return value specifies the region's complexity. It can be one of the following values:
-        /// <see cref="NULLREGION"/>: The region is empty.
-        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
-        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
-        /// If the <paramref name="hrgn"/> parameter does not identify a valid region, the return value is zero.
+        /// <para>
+        /// The return value specifies the region's complexity.
+        /// It can be one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="NULLREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is empty.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SIMPLEREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is a single rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMPLEXREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is more than a single rectangle.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the <paramref name="hrgn"/> parameter does not identify a valid region, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRgnBox", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags GetRgnBox([In] HRGN hrgn, [Out] out RECT lprc);
 
@@ -451,12 +747,56 @@ namespace Lsj.Util.Win32
         /// Specifies the number of logical units to move up or down.
         /// </param>
         /// <returns>
-        /// The return value specifies the type of the resulting region. It can be one of the following values.
-        /// <see cref="NULLREGION"/>: The region is empty.
-        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
-        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
-        /// <see cref="ERROR"/>: No region is created.
+        /// <para>
+        /// The return value specifies the new region's complexity.
+        /// It can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="NULLREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is empty.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SIMPLEREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is a single rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="COMPLEXREGION"/>
+        /// </term>
+        /// <term>
+        /// Region is more than one rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR"/>
+        /// </term>
+        /// <term>
+        /// An error occurred; region is unaffected.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags OffsetRgn([In] HRGN hrgn, [In] int x, [In] int y);
 
@@ -473,14 +813,25 @@ namespace Lsj.Util.Win32
         /// Handle to a device context that contains a closed path.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value identifies a valid region.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
-        /// The device context identified by the hdc parameter must contain a closed path.
-        /// After <see cref="PathToRegion"/> converts a path into a region, the system discards the closed path from the specified device context.
+        /// <para>
+        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
+        /// </para>
+        /// <para>
+        /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
+        /// </para>
+        /// <para>
+        /// After <see cref="PathToRegion"/> converts a path into a region, the system discards the closed path from the specified device context.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PathToRegion", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN PathToRegion([In] HDC hdc);
 
@@ -502,9 +853,14 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate of the point in logical units.
         /// </param>
         /// <returns>
-        /// If the specified point is in the region, the return value is <see cref="TRUE"/>.
-        /// If the specified point is not in the region, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the specified point is in the region, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the specified point is not in the region, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRegion", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PtInRegion([In] HRGN hrgn, [In] int x, [In] int y);
 
@@ -524,9 +880,14 @@ namespace Lsj.Util.Win32
         /// The lower and right edges of the rectangle are not included.
         /// </param>
         /// <returns>
-        /// If any part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="TRUE"/>.
-        /// If no part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If any part of the specified rectangle lies within the boundaries of the region, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If no part of the specified rectangle lies within the boundaries of the region, the return value is zero.
+        /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectInRegion", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RectInRegion([In] HRGN hrgn, [In] in RECT lprect);
 
@@ -554,12 +915,17 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate of the lower-right corner of the rectangular region in logical units.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The region does not include the lower and right boundaries of the rectangle.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetRectRgn([In] HRGN hrgn, [In] int left, [In] int top, [In] int right, [In] int bottom);
     }

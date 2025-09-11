@@ -584,6 +584,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableUsages usage,
             [Out] out IntPtr ppvBits, [In] HANDLE hSection, [In] DWORD offset);

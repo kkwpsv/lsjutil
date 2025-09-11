@@ -373,6 +373,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateHatchBrush([In] HatchStyles iHatch, [In] COLORREF color);
 

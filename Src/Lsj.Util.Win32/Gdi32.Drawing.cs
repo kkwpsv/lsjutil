@@ -2230,6 +2230,7 @@ namespace Lsj.Util.Win32
         /// <see cref="StrokePath"/> will not attempt to close the path by drawing a straight line
         /// from the first point on the path to the last point on the path.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokePath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StrokePath([In] HDC hdc);
 

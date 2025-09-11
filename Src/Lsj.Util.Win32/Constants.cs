@@ -64,6 +64,16 @@ namespace Lsj.Util.Win32
         public const int CCHFORMNAME = 32;
 
         /// <summary>
+        /// DM_SPECVERSION
+        /// </summary>
+        public const ushort DM_SPECVERSION = 0x401;
+
+        /// <summary>
+        /// DN_DEFAULTPRN
+        /// </summary>
+        public const ushort DN_DEFAULTPRN = 0x0001;
+
+        /// <summary>
         /// DWM_SIT_DISPLAYFRAME
         /// </summary>
         public const uint DWM_SIT_DISPLAYFRAME = 0x00000001;

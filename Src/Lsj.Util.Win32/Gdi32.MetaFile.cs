@@ -884,6 +884,7 @@ namespace Lsj.Util.Win32
         /// The record that contains the enhanced-metafile header is always the first record in the metafile.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileHeader", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetEnhMetaFileHeader([In] HENHMETAFILE hemf, [In] UINT nSize, [Out] out ENHMETAHEADER lpEnhMetaHeader);
 
@@ -960,6 +961,7 @@ namespace Lsj.Util.Win32
         /// In Win32 applications, use the <see cref="GetEnhMetaFile"/> function.
         /// </remarks>
         [Obsolete("GetMetaFile is no longer available for use as of Windows 2000. Instead, use GetEnhMetaFile.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaFileW", ExactSpelling = true, SetLastError = true)]
         public static extern HMETAFILE GetMetaFile([In] LPCWSTR lpName);
 
