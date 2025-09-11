@@ -112,8 +112,8 @@ namespace Lsj.Util.Tests.JSON
 
     public class TestSerializer : ISerializer
     {
-        public object Convert(object obj) => throw new NotImplementedException();
-        public object Parse(object str) => (string)str == "Test";
+        public object Convert(object? obj) => throw new NotImplementedException();
+        public object Parse(object? str) => (string)str == "Test";
     }
 
     public class TestObject
