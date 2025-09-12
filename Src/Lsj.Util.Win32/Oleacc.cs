@@ -326,6 +326,7 @@ namespace Lsj.Util.Win32
         /// For more information about the Office object model, see the Microsoft Office 2000/Visual Basic Programmer's Guide.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromWindow", ExactSpelling = true)]
         public static extern HRESULT AccessibleObjectFromWindow([In] HWND hwnd, [In] DWORD dwId, [In] in IID riid, [Out] out IntPtr ppvObject);
     }

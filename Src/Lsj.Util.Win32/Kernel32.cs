@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
@@ -1029,6 +1030,27 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
         public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In] string lpCmdLine, [In] ShowWindowCommands uCmdShow);
+
+        /// <summary>
+        /// Retrieves the session identifier of the console session. 
+        /// The console session is the session that is currently attached to the physical console. 
+        /// Note that it is not necessary that Remote Desktop Services be running for this function to succeed.
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-wtsgetactiveconsolesessionid"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The session identifier of the session that is attached to the physical console. 
+        /// If there is no session attached to the physical console, (for example, 
+        /// if the physical console session is in the process of being attached or detached), this function returns 0xFFFFFFFF.
+        /// </returns>
+        /// <remarks>
+        /// The session identifier returned by this function is the identifier of the current physical console session. 
+        /// To monitor the state of the current physical console session, use the<see cref="WTSRegisterSessionNotification"/>  function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSGetActiveConsoleSessionId", ExactSpelling = true)]
+        public static extern DWORD WTSGetActiveConsoleSessionId();
 
         /// <summary>
         /// <para>

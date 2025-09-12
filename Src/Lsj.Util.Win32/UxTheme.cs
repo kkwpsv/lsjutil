@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -45,11 +46,17 @@ namespace Lsj.Util.Win32
         /// If the parameter is set to -1, all the characters in the string are drawn.
         /// </param>
         /// <param name="dwTextFlags">
-        /// DWORD that contains one or more values that specify the string's formatting.
+        /// <para>
+        /// <see cref="DWORD"/> that contains one or more values that specify the string's formatting.
         /// See Format Values for possible parameter values.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="DrawThemeText"/> does not support <see cref="DT_CALCRECT"/>.
         /// However, <see cref="DrawThemeTextEx"/> does support <see cref="DT_CALCRECT"/>.
+        /// </para>
         /// </param>
         /// <param name="dwTextFlags2">
         /// Not used. Set to zero.
@@ -68,7 +75,8 @@ namespace Lsj.Util.Win32
         /// To find out if a themed font is defined, you can call <see cref="GetThemeFont"/>
         /// or <see cref="GetThemePropertyOrigin"/>with <see cref="TMT_FONT"/> as the property identifier.
         /// </remarks>
-        [DllImport("UxTheme.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawThemeText", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("UxTheme.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawThemeText", ExactSpelling = true)]
         public static extern HRESULT DrawThemeText([In] HTHEME hTheme, [In] HDC hdc, [In] int iPartId, [In] int iStateId, [In] LPCWSTR pszText,
             [In] int cchText, [In] DrawTextFormatFlags dwTextFlags, [In] DWORD dwTextFlags2, [In] in RECT pRect);
     }

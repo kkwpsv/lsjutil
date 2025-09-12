@@ -1,10 +1,11 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32
 {
-#pragma warning disable CS1574
     /// <summary>
     /// Secur32.dll
     /// </summary>
@@ -38,28 +39,86 @@ namespace Lsj.Util.Win32
         /// The second buffer should be of type <see cref="SECBUFFER_EMPTY"/>.
         /// </param>
         /// <param name="fContextReq">
+        /// <para>
         /// Bit flags that specify the attributes required by the server to establish the context.
-        /// Bit flags can be combined by using bitwise-OR operations.
+        /// Bit flags can be combined by using bitwise-OR operations.
         /// This parameter can be one or more of the following values.
-        /// <see cref="ASC_REQ_ALLOCATE_MEMORY"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_ALLOCATE_MEMORY"/>
+        /// </term>
+        /// <term>
         /// Credential Security Support Provider (CredSSP) will allocate output buffers.
-        /// When you have finished using the output buffers, free them by calling the <see cref="FreeContextBuffer"/> function.
-        /// <see cref="ASC_REQ_CONNECTION"/>:
+        /// When you have finished using the output buffers, free them by calling the <see cref="FreeContextBuffer"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_CONNECTION"/>
+        /// </term>
+        /// <term>
         /// The security context will not handle formatting messages.
-        /// <see cref="ASC_REQ_DELEGATE"/>:
-        /// The server is allowed to impersonate the client. Ignore this flag for constrained delegation.
-        /// <see cref="ASC_REQ_EXTENDED_ERROR"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_DELEGATE"/>
+        /// </term>
+        /// <term>
+        /// The server is allowed to impersonate the client. Ignore this flag for constrained delegation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_EXTENDED_ERROR"/>
+        /// </term>
+        /// <term>
         /// When errors occur, the remote party will be notified.
-        /// <see cref="ASC_REQ_REPLAY_DETECT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_REPLAY_DETECT"/>
+        /// </term>
+        /// <term>
         /// Detect replayed packets.
-        /// <see cref="ASC_REQ_SEQUENCE_DETECT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_SEQUENCE_DETECT"/>
+        /// </term>
+        /// <term>
         /// Detect messages received out of sequence.
-        /// <see cref="ASC_REQ_STREAM"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ASC_REQ_STREAM"/>
+        /// </term>
+        /// <term>
         /// Support a stream-oriented connection.
-        /// For possible attribute flags and their meanings, see Context Requirements.
-        /// Flags used for this parameter are prefixed with <see cref="ASC_REQ"/>, for example, <see cref="ASC_REQ_DELEGATE"/>.
-        /// The requested attributes may not be supported by the client.
-        /// For more information, see the <paramref name="pfContextAttr"/> parameter.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For possible attribute flags and their meanings, see Context Requirements. Flags used for this parameter are prefixed with ASC_REQ, for example, ASC_REQ_DELEGATE.
+        /// </para>
+        /// <para>
+        /// The requested attributes may not be supported by the client. For more information, see the <paramref name="pfContextAttr"/> parameter.
+        /// </para>
         /// </param>
         /// <param name="TargetDataRep">
         /// The data representation, such as byte ordering, on the target.
@@ -71,97 +130,302 @@ namespace Lsj.Util.Win32
         /// On subsequent calls, <paramref name="phNewContext"/> can be the same as the handle specified in the <paramref name="phContext"/> parameter.
         /// </param>
         /// <param name="pOutput">
-        /// A pointer to a <see cref="SecBufferDesc"/> structure that contains the output buffer descriptor.
-        /// This buffer is sent to the client for input into additional calls to <see cref="InitializeSecurityContext"/> (CredSSP).
+        /// <para>
+        /// A pointer to a <see cref="SecBufferDesc"/> structure that contains the output buffer descriptor.
+        /// This buffer is sent to the client for input into additional calls to <see cref="InitializeSecurityContext"/> (CredSSP).
         /// An output buffer may be generated even if the function returns <see cref="SEC_E_OK"/>.
         /// Any buffer generated must be sent back to the client application.
+        /// </para>
+        /// <para>
         /// On output, this buffer receives a token for the security context.
         /// The token must be sent to the client.
         /// The function can also return a buffer of type <see cref="SECBUFFER_EXTRA"/>.
+        /// </para>
         /// </param>
         /// <param name="pfContextAttr">
+        /// <para>
         /// A pointer to a set of bit flags that indicate the attributes of the established context.
-        /// For a description of the various attributes, see Context Requirements.
-        /// Flags used for this parameter are prefixed with <see cref="ASC_RET"/>, for example, <see cref="ASC_RET_DELEGATE"/>.
+        /// For a description of the various attributes, see Context Requirements.
+        /// Flags used for this parameter are prefixed with ASC_RET, for example, <see cref="ASC_RET_DELEGATE"/>.
+        /// </para>
+        /// <para>
         /// Do not check for security-related attributes until the final function call returns successfully.
-        /// Attribute flags not related to security, such as the <see cref="ASC_RET_ALLOCATED_MEMORY"/> flag, can be checked before the final return.
+        /// Attribute flags not related to security, such as the <see cref="ASC_RET_ALLOCATED_MEMORY"/> flag,
+        /// can be checked before the final return.
+        /// </para>
         /// </param>
         /// <param name="ptsExpiry">
+        /// <para>
         /// A pointer to a <see cref="TimeStamp"/> structure that receives the expiration time of the context.
         /// We recommend that the security package always return this value in local time.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// Until the last call of the authentication process, the expiration time for the context can be incorrect
         /// because more information will be provided during later stages of the negotiation.
-        /// Therefore, <paramref name="ptsExpiry"/> must be <see cref="IntPtr.Zero"/> until the last call to the function.
+        /// Therefore, <paramref name="ptsExpiry"/> must be <see cref="NULL"/> until the last call to the function.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// This function returns one of the following values.
-        /// <see cref="SEC_E_INCOMPLETE_MESSAGE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_INCOMPLETE_MESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x80090318L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function succeeded. The data in the input buffer is incomplete.
-        /// The application must read additional data from the client and call <see cref="AcceptSecurityContext"/> (CredSSP) again.
-        /// <see cref="SEC_E_INSUFFICIENT_MEMORY"/>:
+        /// The application must read additional data from the client and call <see cref="AcceptSecurityContext"/> (CredSSP) again.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_INSUFFICIENT_MEMORY"/>
+        /// </para>
+        /// <para>
+        /// 0x80090300L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function failed. There is not enough memory available to complete the requested action.
-        /// <see cref="SEC_E_INTERNAL_ERROR"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_INTERNAL_ERROR"/>
+        /// </para>
+        /// <para>
+        /// 0x80090304L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function failed. An error occurred that did not map to an SSPI error code.
-        /// <see cref="SEC_E_INVALID_HANDLE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_INVALID_HANDLE"/>
+        /// </para>
+        /// <para>
+        /// 0x80100003L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function failed. The handle passed to the function is not valid.
-        /// <see cref="SEC_E_INVALID_TOKEN"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_INVALID_TOKEN"/>
+        /// </para>
+        /// <para>
+        /// 0x80090308L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function failed. The token passed to the function is not valid.
-        /// <see cref="SEC_E_LOGON_DENIED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_LOGON_DENIED"/>
+        /// </para>
+        /// <para>
+        /// 0x8009030CL
+        /// </para>
+        /// </term>
+        /// <term>
         /// The logon failed.
-        /// <see cref="SEC_E_NO_AUTHENTICATING_AUTHORITY"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_NO_AUTHENTICATING_AUTHORITY"/>
+        /// </para>
+        /// <para>
+        /// 0x80090311L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
         /// The function failed. No authority could be contacted for authentication.
         /// This could be due to the following conditions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The domain name of the authenticating party is incorrect.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The domain is unavailable.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The trust relationship has failed.
-        /// <see cref="SEC_E_NO_CREDENTIALS"/>:
-        /// The function failed. The credentials handle specified in the phCredential parameter is not valid.
-        /// <see cref="SEC_E_OK"/>:
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_NO_CREDENTIALS"/>
+        /// </para>
+        /// <para>
+        /// 0x8009030EL
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function failed.
+        /// The credentials handle specified in the <paramref name="phCredential"/> parameter is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_OK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function succeeded. The security context received from the client was accepted.
         /// If the function generated an output token, the token must be sent to the client process.
-        /// <see cref="SEC_E_UNSUPPORTED_FUNCTION"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_E_UNSUPPORTED_FUNCTION"/>
+        /// </para>
+        /// <para>
+        /// 0x80090302L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function failed.
-        /// The <paramref name="fContextReq"/> parameter specified a context attribute flag
+        /// The <paramref name="fContextReq"/> parameter specified a context attribute flag
         /// (<see cref="ASC_REQ_DELEGATE"/> or <see cref="ASC_REQ_PROMPT_FOR_CREDS"/>) that was not valid.
-        /// <see cref="SEC_I_COMPLETE_AND_CONTINUE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_I_COMPLETE_AND_CONTINUE"/>
+        /// </para>
+        /// <para>
+        /// 0x00090314L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function succeeded.
-        /// The server must call <see cref="CompleteAuthToken"/> and pass the output token to the client.
-        /// The server must then wait for a return token from the client before making another call to <see cref="AcceptSecurityContext"/> (CredSSP).
-        /// <see cref="SEC_I_COMPLETE_NEEDED"/>:
+        /// The server must call <see cref="CompleteAuthToken"/> and pass the output token to the client.
+        /// The server must then wait for a return token from the client before making another call to <see cref="AcceptSecurityContext"/> (CredSSP).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_I_COMPLETE_NEEDED"/>
+        /// </para>
+        /// <para>
+        /// 0x00090313L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function succeeded.
-        /// The server must finish building the message from the client before calling <see cref="CompleteAuthToken"/>.
-        /// <see cref="SEC_I_CONTINUE_NEEDED"/>:
+        /// The server must finish building the message from the client before calling <see cref="CompleteAuthToken"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEC_I_CONTINUE_NEEDED"/>
+        /// </para>
+        /// <para>
+        /// 0x00090312L
+        /// </para>
+        /// </term>
+        /// <term>
         /// The function succeeded. The server must send the output token to the client and wait for a returned token.
-        /// The returned token should be passed in pInput for another call to <see cref="AcceptSecurityContext"/> (CredSSP).
+        /// The returned token should be passed in <paramref name="pInput"/> for another call to <see cref="AcceptSecurityContext"/> (CredSSP).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="AcceptSecurityContext"/> (CredSSP) function is the server counterpart to the <see cref="InitializeSecurityContext"/> (CredSSP) function.
-        /// When the server receives a request from a client, it uses the <paramref name="fContextReq"/> parameter to specify
-        /// what it requires of the session.
-        /// In this fashion, a server can require that clients be capable of using a confidential or integrity-checked session;
+        /// <para>
+        /// The <see cref="AcceptSecurityContext"/> (CredSSP) function
+        /// is the server counterpart to the <see cref="InitializeSecurityContext"/> (CredSSP) function.
+        /// </para>
+        /// <para>
+        /// When the server receives a request from a client,
+        /// it uses the <paramref name="fContextReq"/> parameter to specify what it requires of the session.
+        /// In this fashion, a server can require that clients be capable of using a confidential or integrity-checked session;
         /// it can reject clients that cannot meet that demand.
-        /// Alternatively, a server can require nothing; whatever the client requires or can provide is returned
-        /// in the <paramref name="pfContextAttr"/> parameter.
-        /// The <paramref name="fContextReq"/> and <paramref name="pfContextAttr"/> parameters are bitmasks that represent various context attributes.
-        /// For a description of the various attributes, see Context Requirements.
-        /// While the <paramref name="pfContextAttr"/> parameter is valid on any successful return,
+        /// Alternatively, a server can require nothing;
+        /// whatever the client requires or can provide is returned in the <paramref name="pfContextAttr"/> parameter.
+        /// </para>
+        /// <para>
+        /// The <paramref name="fContextReq"/> and <paramref name="pfContextAttr"/> parameters are bitmasks that represent various context attributes.
+        /// For a description of the various attributes, see Context Requirements.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// While the <paramref name="pfContextAttr"/> parameter is valid on any successful return,
         /// you should examine the flags pertaining to security aspects of the context only on the final successful return.
         /// Intermediate returns can set, for example, the <see cref="ISC_RET_ALLOCATED_MEMORY"/> flag.
         /// The caller is responsible for determining whether the final context attributes are sufficient.
         /// For example, if confidentiality (encryption) was requested but could not be established,
         /// some applications may choose to shut down the connection immediately.
         /// If the security context cannot be established,
-        /// the server must free the partially created context by calling the <see cref="DeleteSecurityContext"/> function.
-        /// For information about when to call the <see cref="DeleteSecurityContext"/> function, see <see cref="DeleteSecurityContext"/>.
-        /// After the security context has been established,
-        /// the server application can use the <see cref="QuerySecurityContextToken"/> function to retrieve a handle to the user account
-        /// to which the client certificate was mapped.
-        /// Also, the server can use the <see cref="ImpersonateSecurityContext"/> function to impersonate the user.
+        /// the server must free the partially created context by calling the <see cref="DeleteSecurityContext"/> function.
+        /// For information about when to call the <see cref="DeleteSecurityContext"/> function, see <see cref="DeleteSecurityContext"/>.
+        /// </para>
+        /// <para>
+        /// After the security context has been established, the server application can use the <see cref="QuerySecurityContextToken"/> function
+        /// to retrieve a handle to the user account to which the client certificate was mapped.
+        /// Also, the server can use the <see cref="ImpersonateSecurityContext"/> function to impersonate the user.
+        /// </para>
         /// </remarks>
-        [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", ExactSpelling = true, SetLastError = true)]
-        public static extern SECURITY_STATUS AcceptSecurityContext([In]IntPtr phCredential, [In]IntPtr phContext, [In]IntPtr pInput,
-            [In]uint fContextReq, [In]uint TargetDataRep, [In]IntPtr phNewContext, [In]IntPtr pOutput, [Out]out uint pfContextAttr,
-            [In]IntPtr ptsExpiry);
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", ExactSpelling = true)]
+        public static extern SECURITY_STATUS AcceptSecurityContext([In] IntPtr phCredential, [In] IntPtr phContext, [In] IntPtr pInput,
+            [In] uint fContextReq, [In] uint TargetDataRep, [In] IntPtr phNewContext, [In] IntPtr pOutput, [Out] out uint pfContextAttr,
+            [In] IntPtr ptsExpiry);
     }
 }
-#pragma warning restore CS1574

@@ -675,6 +675,11 @@ namespace Lsj.Util.Win32
         public const uint USER_TIMER_MINIMUM = 0x0000000A;
 
         /// <summary>
+        /// WAVE_MAPPER
+        /// </summary>
+        public const uint WAVE_MAPPER = unchecked((uint)-1);
+
+        /// <summary>
         /// WHEEL_DELTA
         /// </summary>
         public static int WHEEL_DELTA = 120;
