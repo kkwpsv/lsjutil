@@ -277,6 +277,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Ol();
                 case "li":
                     return new Li();
+                case "code":
+                    return new Code();
 
                 default:
                     LogProvider.Default.Warn("Unknown type: " + type);
