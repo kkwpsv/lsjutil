@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
@@ -126,7 +127,8 @@ namespace Lsj.Util.Win32
         /// <param name="SRWLock">
         /// A pointer to the SRW lock.
         /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockExclusive", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockExclusive", ExactSpelling = true)]
         public static extern void AcquireSRWLockExclusive([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -140,7 +142,8 @@ namespace Lsj.Util.Win32
         /// <param name="SRWLock">
         /// A pointer to the SRW lock.
         /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockShared", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcquireSRWLockShared", ExactSpelling = true)]
         public static extern void AcquireSRWLockShared([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -168,7 +171,8 @@ namespace Lsj.Util.Win32
         /// If a critical section is deleted while it is still owned,
         /// the state of the threads waiting for ownership of the deleted critical section is undefined.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteCriticalSection", ExactSpelling = true)]
         public static extern void DeleteCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
         /// <summary>
@@ -197,7 +201,8 @@ namespace Lsj.Util.Win32
         /// because deleting a barrier while this flag is in effect may result in an invalid handle access
         /// and cause one or more threads to become permanently blocked.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteSynchronizationBarrier", ExactSpelling = true)]
         public static extern BOOL DeleteSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier);
 
         /// <summary>
@@ -248,7 +253,8 @@ namespace Lsj.Util.Win32
         /// If a critical section is deleted while it is still owned,
         /// the state of the threads waiting for ownership of the deleted critical section is undefined.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterCriticalSection", ExactSpelling = true)]
         public static extern void EnterCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
         /// <summary>
@@ -298,7 +304,8 @@ namespace Lsj.Util.Win32
         /// In general it is better to allow the barrier to manage threads and use these flags
         /// only if performance testing indicates the application would benefit from them.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterSynchronizationBarrier", ExactSpelling = true)]
         public static extern BOOL EnterSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier, [In] SynchronizationBarrierFlags dwFlags);
 
         /// <summary>
@@ -320,7 +327,8 @@ namespace Lsj.Util.Win32
         /// A condition variable cannot be moved or copied. The process must not modify the object, and must instead treat it as logically opaque.
         /// Only use the condition variable functions to manage condition variables.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeConditionVariable", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeConditionVariable", ExactSpelling = true)]
         public static extern void InitializeConditionVariable([Out] out CONDITION_VARIABLE ConditionVariable);
 
         /// <summary>
@@ -359,7 +367,8 @@ namespace Lsj.Util.Win32
         /// A critical section object must be deleted before it can be reinitialized.
         /// Initializing a critical section that has already been initialized results in undefined behavior.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSection", ExactSpelling = true)]
         public static extern void InitializeCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
         /// <summary>
@@ -389,6 +398,7 @@ namespace Lsj.Util.Win32
         /// If the barrier was not successfully initialized, this function returns <see cref="FALSE"/>.
         /// Use <see cref="GetLastError"/> to get extended error information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeSynchronizationBarrier([Out] out SYNCHRONIZATION_BARRIER lpBarrier, [In] LONG lTotalThreads, [In] LONG lSpinCount);
 
@@ -450,6 +460,7 @@ namespace Lsj.Util.Win32
         /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
         /// For example, the heap manager uses a spin count of roughly 4,000 for its per-heap critical sections.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSectionAndSpinCount", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeCriticalSectionAndSpinCount([In][Out] ref CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount);
 
@@ -510,6 +521,7 @@ namespace Lsj.Util.Win32
         /// For example, the heap manager uses a spin count of roughly 4,000 for its per-heap critical sections.
         /// This gives great performance and scalability in almost all worst-case scenarios.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSectionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeCriticalSectionEx([In][Out] ref CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount, [In] DWORD Flags);
 
@@ -563,8 +575,9 @@ namespace Lsj.Util.Win32
         /// The process must not modify the initialization object, and must instead treat it as logically opaque.
         /// Only use the one-time initialization functions to manage one-time initialization objects.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceBeginInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceBeginInitialize([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] InitOnceFlags dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
+        public static extern BOOL InitOnceBeginInitialize([In][Out] ref INIT_ONCE lpInitOnce, [In] InitOnceFlags dwFlags, [Out] out BOOL fPending, [Out] out LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -600,6 +613,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceComplete", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitOnceComplete([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] DWORD dwFlags, [In] LPVOID lpContext);
 
@@ -637,8 +651,9 @@ namespace Lsj.Util.Win32
         /// Only one thread at a time can execute the callback function specified by <paramref name="InitFn"/>.
         /// Other threads that specify the same one-time initialization structure block until the callback finishes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceExecuteOnce", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitOnceExecuteOnce([In][Out] ref Structs.INIT_ONCE lpInitOnce, [In] PINIT_ONCE_FN InitFn, [In] PVOID Parameter, [Out] out LPVOID lpContext);
+        public static extern BOOL InitOnceExecuteOnce([In][Out] ref INIT_ONCE lpInitOnce, [In] PINIT_ONCE_FN InitFn, [In] PVOID Parameter, [Out] out LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -658,7 +673,8 @@ namespace Lsj.Util.Win32
         /// The process must not modify the initialization object, and must instead treat it as logically opaque.
         /// Only use the one-time initialization functions to manage one-time initialization objects.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceInitialize", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitOnceInitialize", ExactSpelling = true)]
         public static extern void InitOnceInitialize([Out] out Structs.INIT_ONCE InitOnce);
 
         /// <summary>
@@ -679,7 +695,8 @@ namespace Lsj.Util.Win32
         /// To add items to the list, use the <see cref="InterlockedPushEntrySList"/> function.
         /// To remove items from the list, use the <see cref="InterlockedPopEntrySList"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSListHead", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSListHead", ExactSpelling = true)]
         public static extern void InitializeSListHead([In][Out] ref SLIST_HEADER ListHead);
 
         /// <summary>
@@ -702,7 +719,8 @@ namespace Lsj.Util.Win32
         /// Only use the SRW functions to manage SRW locks.
         /// SRW locks do not need to be explicitly destroyed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSRWLock", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSRWLock", ExactSpelling = true)]
         public static extern void InitializeSRWLock([In][Out] ref SRWLOCK SRWLock);
 
         ///// <summary>
@@ -1106,7 +1124,8 @@ namespace Lsj.Util.Win32
         /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary;
         /// otherwise, this function will behave unpredictably. See _aligned_malloc.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedFlushSList", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedFlushSList", ExactSpelling = true)]
         public static extern PSLIST_ENTRY InterlockedFlushSList([In][Out] ref SLIST_HEADER ListHead);
 
         ///// <summary>
@@ -1187,7 +1206,8 @@ namespace Lsj.Util.Win32
         /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary; otherwise, this function will behave unpredictably.
         /// See _aligned_malloc.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPopEntrySList", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPopEntrySList", ExactSpelling = true)]
         public static extern PSLIST_ENTRY InterlockedPopEntrySList([In][Out] ref SLIST_HEADER ListHead);
 
         /// <summary>
@@ -1213,7 +1233,8 @@ namespace Lsj.Util.Win32
         /// All list items must be aligned on a MEMORY_ALLOCATION_ALIGNMENT boundary; otherwise, this function will behave unpredictably.
         /// See _aligned_malloc.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPushEntrySList", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPushEntrySList", ExactSpelling = true)]
         public static extern PSLIST_ENTRY InterlockedPushEntrySList([In][Out] ref SLIST_HEADER ListHead, [In] PSLIST_ENTRY ListEntry);
 
         /// <summary>
@@ -1242,7 +1263,8 @@ namespace Lsj.Util.Win32
         /// that were allocated when the critical section object was initialized.
         /// After this function has been called, the critical section object can no longer be used for synchronization.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LeaveCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LeaveCriticalSection", ExactSpelling = true)]
         public static extern void LeaveCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
         /// <summary>
@@ -1269,7 +1291,8 @@ namespace Lsj.Util.Win32
         /// The return value of <see cref="QueryDepthSList"/> should not be relied upon in multithreaded applications
         /// because the item count can be changed at any time by another thread.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDepthSList", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDepthSList", ExactSpelling = true)]
         public static extern USHORT QueryDepthSList([In] in SLIST_HEADER ListHead);
 
         /// <summary>
@@ -1326,6 +1349,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD QueueUserAPC([In] PAPCFUNC pfnAPC, [In] HANDLE hThread, [In] ULONG_PTR dwData);
 
@@ -1414,6 +1438,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterWaitForSingleObject([Out] out HANDLE phNewWaitObject, [In] HANDLE hObject, [In] WAITORTIMERCALLBACK Callback,
             [In] PVOID Context, [In] ULONG dwMilliseconds, [In] WorkThreadFlags dwFlags);
@@ -1429,7 +1454,8 @@ namespace Lsj.Util.Win32
         /// <param name="SRWLock">
         /// A pointer to the SRW lock.
         /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSRWLockExclusive", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSRWLockExclusive", ExactSpelling = true)]
         public static extern void ReleaseSRWLockExclusive([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -1443,6 +1469,7 @@ namespace Lsj.Util.Win32
         /// <param name="SRWLock">
         /// A pointer to the SRW lock.
         /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSRWLockShared", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseSRWLockShared([In][Out] ref SRWLOCK SRWLock);
 
@@ -1492,7 +1519,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0403 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCriticalSectionSpinCount", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCriticalSectionSpinCount", ExactSpelling = true)]
         public static extern DWORD SetCriticalSectionSpinCount([In] in CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount);
 
         /// <summary>
@@ -1585,7 +1613,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true)]
         public static extern WaitResult SignalObjectAndWait([In] HANDLE hObjectToSignal, [In] HANDLE hObjectToWaitOn,
             [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
@@ -1628,6 +1657,7 @@ namespace Lsj.Util.Win32
         /// stolen wakeups (another thread manages to run before the woken thread).
         /// Therefore, you should recheck a predicate (typically in a while loop) after a sleep operation returns.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepConditionVariableCS", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SleepConditionVariableCS([In][Out] ref CONDITION_VARIABLE ConditionVariable,
             [In][Out] ref CRITICAL_SECTION CriticalSection, [In] DWORD dwMilliseconds);
@@ -1671,6 +1701,7 @@ namespace Lsj.Util.Win32
         /// stolen wakeups (another thread manages to run before the woken thread).
         /// Therefore, you should recheck a predicate (typically in a while loop) after a sleep operation returns.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepConditionVariableSRW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SleepConditionVariableSRW([In][Out] ref CONDITION_VARIABLE ConditionVariable,
             [In][Out] ref CRITICAL_SECTION CriticalSection, [In] DWORD dwMilliseconds, [In] ULONG Flags);
@@ -1691,7 +1722,8 @@ namespace Lsj.Util.Win32
         /// If the lock is successfully acquired, the return value is <see cref="BOOLEAN.TRUE"/>.
         /// if the current thread could not acquire the lock, the return value is <see cref="BOOLEAN.FALSE"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockExclusive", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockExclusive", ExactSpelling = true)]
         public static extern BOOLEAN TryAcquireSRWLockExclusive([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -1710,7 +1742,8 @@ namespace Lsj.Util.Win32
         /// If the lock is successfully acquired, the return value is <see cref="BOOLEAN.TRUE"/>.
         /// if the current thread could not acquire the lock, the return value is <see cref="BOOLEAN.FALSE"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockShared", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryAcquireSRWLockShared", ExactSpelling = true)]
         public static extern BOOLEAN TryAcquireSRWLockShared([In][Out] ref SRWLOCK SRWLock);
 
         /// <summary>
@@ -1753,7 +1786,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryEnterCriticalSection", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryEnterCriticalSection", ExactSpelling = true)]
         public static extern BOOL TryEnterCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
         /// <summary>
@@ -1782,6 +1816,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWait", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterWait([In] HANDLE WaitHandle);
 
@@ -1877,9 +1912,9 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjects"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern WaitResult WaitForMultipleObjects([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In] HANDLE[] lpHandles,
-            [MarshalAs(UnmanagedType.Bool)][In] BOOL bWaitAll, [In] DWORD dwMilliseconds);
+        public static extern WaitResult WaitForMultipleObjects([In] DWORD nCount, [In] HANDLE[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -1982,9 +2017,9 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjectsEx"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern WaitResult WaitForMultipleObjectsEx([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In] IntPtr[] lpHandles,
-            [In] BOOL bWaitAll, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
+        public static extern WaitResult WaitForMultipleObjectsEx([In] DWORD nCount, [In] IntPtr[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
         /// <summary>
         /// <para>
@@ -2045,6 +2080,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
         /// rather than <see cref="WaitForSingleObject"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForSingleObject([In] HANDLE hHandle, [In] DWORD dwMilliseconds);
 
@@ -2117,6 +2153,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForSingleObjectEx"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObjectEx", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForSingleObjectEx([In] HANDLE hHandle, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
@@ -2136,7 +2173,8 @@ namespace Lsj.Util.Win32
         /// Waking one thread is similar to setting an auto-reset event, while waking all threads is similar to pulsing a manual reset event
         /// but more reliable (see <see cref="PulseEvent"/> for details).
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeAllConditionVariable", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeAllConditionVariable", ExactSpelling = true)]
         public static extern void WakeAllConditionVariable([In][Out] ref CONDITION_VARIABLE ConditionVariable);
 
         /// <summary>
@@ -2155,7 +2193,8 @@ namespace Lsj.Util.Win32
         /// Waking one thread is similar to setting an auto-reset event, while waking all threads is similar to pulsing a manual reset event
         /// but more reliable (see <see cref="PulseEvent"/> for details).
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeConditionVariable", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WakeConditionVariable", ExactSpelling = true)]
         public static extern void WakeConditionVariable([In][Out] ref CONDITION_VARIABLE ConditionVariable);
     }
 }

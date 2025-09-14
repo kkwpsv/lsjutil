@@ -436,7 +436,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <para>
         /// For improved performance, consider using <see cref="DuplicateOutput1"/>.
         /// </para>
-
         /// </remarks>
         public HRESULT DuplicateOutput([In] P<IUnknown> pDevice, [Out] out P<IDXGIOutputDuplication> ppOutputDuplication)
         {

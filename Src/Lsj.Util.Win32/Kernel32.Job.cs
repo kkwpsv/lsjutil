@@ -1,14 +1,16 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
-using static Lsj.Util.Win32.Enums.JobObjectSecurityLimitFlags;
 using static Lsj.Util.Win32.Enums.JobAccessRights;
 using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
+using static Lsj.Util.Win32.Enums.JobObjectLimitFlags;
+using static Lsj.Util.Win32.Enums.JobObjectSecurityLimitFlags;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -94,6 +96,7 @@ namespace Lsj.Util.Win32
         /// If the job or any of its parent jobs in the job chain is terminating when <see cref="AssignProcessToJobObject"/> is called, the function fails.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later. For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AssignProcessToJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AssignProcessToJobObject([In] HANDLE hJob, [In] HANDLE hProcess);
 
@@ -146,8 +149,9 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateJobObjectW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateJobObject([In] in SECURITY_ATTRIBUTES lpJobAttributes, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE CreateJobObject([In] in SECURITY_ATTRIBUTES lpJobAttributes, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -184,6 +188,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessInJob", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsProcessInJob([In] HANDLE ProcessHandle, [In] HANDLE JobHandle, [Out] out BOOL Result);
 
@@ -225,8 +230,9 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenJobObjectW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenJobObject([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE OpenJobObject([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -324,6 +330,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryInformationJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength, [Out] out DWORD lpReturnLength);
@@ -422,6 +429,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetInformationJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength);
@@ -461,6 +469,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TerminateJobObject([In] HANDLE hJob, [In] UINT uExitCode);
     }

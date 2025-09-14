@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EqualRect([In] in RECT lprc1, [MarshalAs(UnmanagedType.LPStruct)][In] RECT lprc2);
+        public static extern BOOL EqualRect([In] in RECT lprc1, [In] in RECT lprc2);
 
         /// <summary>
         /// <para>

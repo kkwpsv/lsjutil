@@ -259,7 +259,7 @@ namespace Lsj.Util.Win32.DirectX
         /// This function should be called once per process and before any device creation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 17134)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDeclareAdapterRemovalSupport", ExactSpelling = true)]
         public static extern HRESULT DXGIDeclareAdapterRemovalSupport();
 

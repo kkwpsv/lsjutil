@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
@@ -18,35 +19,52 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpString">
-        /// The null-terminated string to be added.
-        /// The string can have a maximum size of 255 bytes. Strings differing only in case are considered identical.
-        /// The case of the first string added is preserved and returned by the <see cref="GetAtomName"/> function.
-        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// <para>
+        /// The null-terminated string to be added. The string can have a maximum size of 255 bytes.
+        /// Strings differing only in case are considered identical.
+        /// The case of the first string added is preserved and returned by the <see cref="GetAtomName"/> function.
+        /// </para>
+        /// <para>
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
         /// See the Remarks for more information.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the newly created atom.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="AddAtom"/> function stores no more than one copy of a given string in the atom table.
-        /// If the string is already in the table, the function returns the existing atom and, in the case of a string atom,
-        /// increments the string's reference count.
-        /// If <paramref name="lpString"/> has the form "#1234", AddAtom returns an integer atom whose value is the 16-bit representation of the decimal number
-        /// specified in the string (0x04D2, in this example).
+        /// <para>
+        /// The <see cref="AddAtom"/> function stores no more than one copy of a given string in the atom table.
+        /// If the string is already in the table, the function returns the existing atom and,
+        /// in the case of a string atom, increments the string's reference count.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpString"/> has the form "#1234", <see cref="AddAtom"/> returns an integer atom
+        /// whose value is the 16-bit representation of the decimal number specified in the string (0x04D2, in this example).
         /// If the decimal value specified is 0x0000 or is greater than or equal to 0xC000, the return value is zero, indicating an error.
-        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
+        /// the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
-        /// If <paramref name="lpString"/> has any other form, <see cref="AddAtom"/> returns a string atom.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpString"/> has any other form, <see cref="AddAtom"/> returns a string atom.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAtomW", ExactSpelling = true, SetLastError = true)]
-        public static extern ATOM AddAtom([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern ATOM AddAtom([In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>
         /// Decrements the reference count of a local string atom.
-        /// If the atom's reference count is reduced to zero, <see cref="DeleteAtom"/> removes the string associated with the atom from the local atom table.
+        /// If the atom's reference count is reduced to zero,
+        /// <see cref="DeleteAtom"/> removes the string associated with the atom from the local atom table.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deleteatom"/>
@@ -56,19 +74,31 @@ namespace Lsj.Util.Win32
         /// The atom to be deleted.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is zero.
-        /// If the function fails, the return value is the <paramref name="nAtom"/> parameter.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is the <paramref name="nAtom"/> parameter.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A string atom's reference count specifies the number of times the atom has been added to the atom table.
-        /// The <see cref="AddAtom"/> function increments the count on each call.
-        /// The <see cref="DeleteAtom"/> function decrements the count on each call but removes the string only if the atom's reference count is zero.
-        /// Each call to <see cref="AddAtom"/> should have a corresponding call to <see cref="DeleteAtom"/>.
-        /// Do not call <see cref="DeleteAtom"/> more times than you call <see cref="AddAtom"/>, or you may delete the atom while other clients are using it.
-        /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
+        /// The <see cref="AddAtom"/> function increments the count on each call.
+        /// The <see cref="DeleteAtom"/> function decrements the count on each call but removes the string only if the atom's reference count is zero.
+        /// </para>
+        /// <para>
+        /// Each call to <see cref="AddAtom"/> should have a corresponding call to <see cref="DeleteAtom"/>.
+        /// Do not call <see cref="DeleteAtom"/> more times than you call <see cref="AddAtom"/>,
+        /// or you may delete the atom while other clients are using it.
+        /// </para>
+        /// <para>
+        /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
         /// The function always returns zero for an integer atom.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteAtom", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM DeleteAtom([In] ATOM nAtom);
 
@@ -81,23 +111,37 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpString">
+        /// <para>
         /// The character string for which to search.
-        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// </para>
+        /// <para>
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
         /// See Remarks for more information.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the atom associated with the given string.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Even though the system preserves the case of a string in an atom table,
-        /// the search performed by the <see cref="FindAtom"/> function is not case sensitive.
-        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// the search performed by the <see cref="FindAtom"/> function is not case sensitive.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
+        /// the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindAtomW", ExactSpelling = true, SetLastError = true)]
-        public static extern ATOM FindAtom([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern ATOM FindAtom([In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>
@@ -117,21 +161,32 @@ namespace Lsj.Util.Win32
         /// The size, in characters, of the buffer.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is the length of the string copied to the buffer, in characters,
-        /// not including the terminating null character.
+        /// <para>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer,
+        /// in characters, not including the terminating null character.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF) is a null-terminated string
-        /// in which the first character is a pound sign (#) and the remaining characters represent the unsigned integer atom value.
+        /// <para>
+        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF)
+        /// is a null-terminated string in which the first character is a pound sign (#)
+        /// and the remaining characters represent the unsigned integer atom value.
+        /// </para>
+        /// <para>
         /// Security Considerations
+        /// </para>
+        /// <para>
         /// Using this function incorrectly might compromise the security of your program.
-        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
+        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAtomNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetAtomName([In] ATOM nAtom, [In] IntPtr lpBuffer, [In] int nSize);
-
+        public static extern UINT GetAtomName([In] ATOM nAtom, [In] LPWSTR lpBuffer, [In] int nSize);
 
         /// <summary>
         /// <para>
@@ -142,34 +197,51 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpString">
+        /// <para>
         /// The null-terminated string to be added.
         /// The string can have a maximum size of 255 bytes.
         /// Strings that differ only in case are considered identical.
-        /// The case of the first string of this name added to the table is preserved and returned by the <see cref="GlobalGetAtomName"/> function.
-        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// The case of the first string of this name added to the table is preserved and returned by the <see cref="GlobalGetAtomName"/> function.
+        /// </para>
+        /// <para>
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
         /// See the Remarks for more information.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the newly created atom.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If the string already exists in the global atom table,
-        /// the atom for the existing string is returned and the atom's reference count is incremented.
+        /// <para>
+        /// If the string already exists in the global atom table, the atom for the existing string is returned and the atom's reference count is incremented.
+        /// </para>
+        /// <para>
         /// The string associated with the atom is not deleted from memory until its reference count is zero.
-        /// For more information, see the <see cref="GlobalDeleteAtom"/> function.
+        /// For more information, see the <see cref="GlobalDeleteAtom"/> function.
+        /// </para>
+        /// <para>
         /// Global atoms are not deleted automatically when the application terminates.
-        /// For every call to the <see cref="GlobalAddAtom"/> function, there must be a corresponding call to the <see cref="GlobalDeleteAtom"/> function.
-        /// If the <paramref name="lpString"/> parameter has the form "#1234",
-        /// <see cref="GlobalAddAtom"/> returns an integer atom whose value is the 16-bit representation of the decimal number
-        /// specified in the string (0x04D2, in this example).
+        /// For every call to the <see cref="GlobalAddAtom"/> function, there must be a corresponding call to the <see cref="GlobalDeleteAtom"/> function.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="lpString"/> parameter has the form "#1234", <see cref="GlobalAddAtom"/> returns an integer atom
+        /// whose value is the 16-bit representation of the decimal number specified in the string (0x04D2, in this example).
         /// If the decimal value specified is 0x0000 or is greater than or equal to 0xC000, the return value is zero, indicating an error.
-        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
         /// the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
-        /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtomW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalAddAtom([In] LPCWSTR lpString);
 
@@ -187,23 +259,33 @@ namespace Lsj.Util.Win32
         /// The atom and character string to be deleted.
         /// </param>
         /// <returns>
-        /// The function always returns (ATOM) 0.
-        /// To determine whether the function has failed,
-        /// call <see cref="SetLastError"/> with <see cref="ERROR_SUCCESS"/> before calling <see cref="GlobalDeleteAtom"/>,
-        /// then call <see cref="GetLastError"/>.
-        /// If the last error code is still <see cref="ERROR_SUCCESS"/>, <see cref="GlobalDeleteAtom"/> has succeeded.
+        /// <para>
+        /// The function always returns (<see cref="ATOM"/>) 0.
+        /// </para>
+        /// <para>
+        /// To determine whether the function has failed, call <see cref="SetLastError"/> with <see cref="ERROR_SUCCESS"/>
+        /// before calling <see cref="GlobalDeleteAtom"/>, then call <see cref="GetLastError"/>.
+        /// If the last error code is still <see cref="ERROR_SUCCESS"/>, <see cref="GlobalDeleteAtom"/> has succeeded.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A string atom's reference count specifies the number of times the string has been added to the atom table.
-        /// The <see cref="GlobalAddAtom"/> function increments the reference count of a string
+        /// The <see cref="GlobalAddAtom"/> function increments the reference count of a string
         /// that already exists in the global atom table each time it is called.
-        /// Each call to <see cref="GlobalAddAtom"/> should have a corresponding call to <see cref="GlobalDeleteAtom"/>.
-        /// Do not call <see cref="GlobalDeleteAtom"/> more times than you call <see cref="GlobalAddAtom"/>,
+        /// </para>
+        /// <para>
+        /// Each call to <see cref="GlobalAddAtom"/> should have a corresponding call to <see cref="GlobalDeleteAtom"/>.
+        /// Do not call <see cref="GlobalDeleteAtom"/> more times than you call <see cref="GlobalAddAtom"/>,
         /// or you may delete the atom while other clients are using it.
         /// Applications using Dynamic Data Exchange (DDE) should follow the rules on global atom management to prevent leaks and premature deletion.
-        /// <see cref="GlobalDeleteAtom"/> has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
+        /// </para>
+        /// <para>
+        /// <see cref="GlobalDeleteAtom"/> has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
         /// The function always returns zero for an integer atom.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalDeleteAtom", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalDeleteAtom([In] ATOM nAtom);
 
@@ -216,23 +298,37 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpString">
+        /// <para>
         /// The null-terminated character string for which to search.
-        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// </para>
+        /// <para>
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
         /// See the Remarks for more information.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the global atom associated with the given string.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Even though the system preserves the case of a string in an atom table as it was originally entered,
-        /// the search performed by <see cref="GlobalFindAtom"/> is not case sensitive.
-        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// the search performed by <see cref="GlobalFindAtom"/> is not case sensitive.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
+        /// the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFindAtomW", ExactSpelling = true, SetLastError = true)]
-        public static extern ATOM GlobalFindAtom([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern ATOM GlobalFindAtom([In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>
@@ -252,21 +348,32 @@ namespace Lsj.Util.Win32
         /// The size, in characters, of the buffer.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is the length of the string copied to the buffer, in characters,
-        /// not including the terminating null character.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer,
+        /// in characters, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF) is a null-terminated string
-        /// in which the first character is a pound sign (#) and the remaining characters represent the unsigned integer atom value.
+        /// <para>
+        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF)
+        /// is a null-terminated string in which the first character is a pound sign (#)
+        /// and the remaining characters represent the unsigned integer atom value.
+        /// </para>
+        /// <para>
         /// Security Considerations
+        /// </para>
+        /// <para>
         /// Using this function incorrectly might compromise the security of your program.
-        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
+        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
         /// Also, note that a global atom is accessible by anyone; thus, privacy and the integrity of its contents is not assured.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalGetAtomNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GlobalGetAtomName([In] ATOM nAtom, [In] IntPtr lpBuffer, [In] int nSize);
+        public static extern UINT GlobalGetAtomName([In] ATOM nAtom, [In] LPWSTR lpBuffer, [In] int nSize);
 
         /// <summary>
         /// <para>
@@ -277,25 +384,41 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="nSize">
+        /// <para>
         /// The number of hash buckets to use for the atom table.
         /// If this parameter is zero, the default number of hash buckets are created.
-        /// To achieve better performance, specify a prime number in <paramref name="nSize"/>.
+        /// </para>
+        /// <para>
+        /// To achieve better performance, specify a prime number in <paramref name="nSize"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An application need not use this function to use a local atom table.
-        /// The default number of hash buckets used is 37. 
-        /// If an application does use <see cref="InitAtomTable"/>, however, it should call the function before any other atom-management function.
-        /// If an application uses a large number of local atoms,
-        /// it can reduce the time required to add an atom to the local atom table or to find an atom in the table by increasing the size of the table.
+        /// The default number of hash buckets used is 37.
+        /// If an application does use <see cref="InitAtomTable"/>, however, it should call the function before any other atom-management function.
+        /// </para>
+        /// <para>
+        /// If an application uses a large number of local atoms, it can reduce the time required to add an atom to the local atom table
+        /// or to find an atom in the table by increasing the size of the table.
         /// However, this increases the amount of memory required to maintain the table.
+        /// </para>
+        /// <para>
         /// The number of buckets in the global atom table cannot be changed.
-        /// If the atom table has already been initialized, either explicitly by a prior call to <see cref="InitAtomTable"/>,
-        /// or implicitly by the use of any atom-management function, <see cref="InitAtomTable"/> returns success without changing the number of hash buckets.
+        /// If the atom table has already been initialized, either explicitly by a prior call to <see cref="InitAtomTable"/>,
+        /// or implicitly by the use of any atom-management function,
+        /// <see cref="InitAtomTable"/> returns success without changing the number of hash buckets.
+        /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitAtomTable", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitAtomTable([In] DWORD nSize);
 
@@ -310,11 +433,13 @@ namespace Lsj.Util.Win32
         /// <param name="i">
         /// The numeric value to be made into an integer atom. This parameter can be either an integer atom or a string atom.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// None
+        /// </returns>
         /// <remarks>
-        /// Although the return value of the <see cref="MAKEINTATOM"/> macro is cast as an LPTSTR value,
-        /// it cannot be used as a string pointer except when it is passed to atom-management functions that require an LPTSTR argument.
+        /// Although the return value of the <see cref="MAKEINTATOM"/> macro is cast as an <see cref="LPWSTR"/> value,
+        /// it cannot be used as a string pointer except when it is passed to atom-management functions that require an <see cref="LPWSTR"/> argument.
         /// </remarks>
-        public static IntPtr MAKEINTATOM(int i) => new IntPtr(i);
+        public static LPWSTR MAKEINTATOM(int i) => new LPWSTR(i);
     }
 }

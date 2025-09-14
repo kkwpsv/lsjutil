@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// This function draws lines by using the current pen. The figure is not filled.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AngleArc", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AngleArc([In] HDC hdc, [In] int x, [In] int y, [In] DWORD r, [In] FLOAT StartAngle, [In] FLOAT SweepAngle);
 
@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// The default drawing direction is counterclockwise.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Arc([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2, [In] int x3,
             [In] int y3, [In] int x4, [In] int y4);
@@ -237,7 +237,7 @@ namespace Lsj.Util.Win32
         /// The arc is drawn using the current pen; it is not filled.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ArcTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ArcTo([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
             [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
@@ -381,7 +381,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BeginPath([In] HDC hdc);
 
@@ -444,7 +444,7 @@ namespace Lsj.Util.Win32
         /// The current position is neither used nor updated by <see cref="Chord"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Chord([In] HDC hdc, [In] int x1, [In] int y1, [In] int x2, [In] int y2,
             [In] int x3, [In] int y3, [In] int x4, [In] int y4);
@@ -487,7 +487,7 @@ namespace Lsj.Util.Win32
         /// After a call to <see cref="CloseFigure"/>, adding a line or curve to the path starts a new figure.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseFigure", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseFigure([In] HDC hdc);
 
@@ -527,7 +527,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The current position is neither used nor updated by <see cref="Ellipse"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Ellipse([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -551,7 +551,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndPath([In] HDC hdc);
 
@@ -665,7 +665,7 @@ namespace Lsj.Util.Win32
         /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtFloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color, [In] ExtFloodFillTypes type);
 
@@ -692,7 +692,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// After its interior is filled, the path is discarded from the DC identified by the <paramref name="hdc"/> parameter.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillPath([In] HDC hdc);
 
@@ -722,7 +722,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillRgn([In] HDC hdc, [In] HRGN hrgn, [In] HBRUSH hbr);
 
@@ -746,7 +746,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlattenPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlattenPath([In] HDC hdc);
 
@@ -806,8 +806,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The FloodFill function is included only for compatibility with 16-bit versions of Windows." +
             "Applications should use the ExtFloodFill function with FLOODFILLBORDER specified.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", ExactSpelling = true, SetLastError = true)]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         public static extern BOOL FloodFill([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
         /// <summary>
@@ -842,7 +842,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FrameRgn([In] HDC hdc, [In] HRGN hrgn, [In] HBRUSH hbr, [In] int w, [In] int h);
 
@@ -1021,7 +1021,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetArcDirection", ExactSpelling = true, SetLastError = true)]
         public static extern int GetArcDirection([In] HDC hdc);
 
@@ -1047,7 +1047,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPositionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrentPositionEx([In] HDC hdc, [Out] out POINT lppt);
 
@@ -1168,7 +1168,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FlattenPath"/> function may be called before <see cref="GetPath"/> to convert all curves in the path into line segments.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPath", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPath([In] HDC hdc, [Out] POINT[] apt, [Out] PathVertexTypes[] aj, [In] int cpt);
 
@@ -1219,7 +1219,7 @@ namespace Lsj.Util.Win32
         /// If an error occurs, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPolyFillMode([In] HDC hdc);
 

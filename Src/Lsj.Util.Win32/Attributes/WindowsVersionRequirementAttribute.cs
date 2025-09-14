@@ -8,6 +8,11 @@ namespace Lsj.Util.Win32.Attributes
     public enum WindowsVersion
     {
         /// <summary>
+        /// Windows NT 4.0
+        /// </summary>
+        WindowsNT40 = 0x04_00_00_00,
+
+        /// <summary>
         /// Windows 2000 (Windows NT 5.0)
         /// </summary>
         Windows2000 = 0x05_00_00_00,
@@ -82,10 +87,10 @@ namespace Lsj.Util.Win32.Attributes
                     BuildNumber = 9600;
                     break;
                 case WindowsVersion.Windows10:
-                    BuildNumber = 10240;
+                    BuildNumber = BuildNumbers.Windows10_1507;
                     break;
                 case WindowsVersion.Windows11:
-                    BuildNumber = 22000;
+                    BuildNumber = BuildNumbers.Windows11_21H2;
                     break;
             }
         }

@@ -622,8 +622,7 @@ namespace Lsj.Util.Win32
         /// by the first value in the array to which <paramref name="lpnTabStopPositions"/> points.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetTabbedTextExtent([In] HDC hdc, [In] LPCWSTR lpString, [In] int chCount,
-            [In] int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In] INT[] lpnTabStopPositions);
+        public static extern DWORD GetTabbedTextExtent([In] HDC hdc, [In] LPCWSTR lpString, [In] int chCount, [In] int nTabPositions, [In] INT[] lpnTabStopPositions);
 
         /// <summary>
         /// <para>
@@ -918,7 +917,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP LoadBitmap([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBitmapName);
+        public static extern HBITMAP LoadBitmap([In] HINSTANCE hInstance, [In] LPCWSTR lpBitmapName);
 
         /// <summary>
         /// <para>
@@ -1020,8 +1019,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
-        public static extern int MapWindowPoints([In] HWND hWndFrom, [In] HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lpPoints,
-            [In] UINT cPoints);
+        public static extern int MapWindowPoints([In] HWND hWndFrom, [In] HWND hWndTo, [In][Out] POINT[] lpPoints, [In] UINT cPoints);
 
         /// <summary>
         /// <para>
@@ -1231,7 +1229,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern LONG TabbedTextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString,
-            [In] int chCount, [In] int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In] INT[] lpnTabStopPositions, [In] int nTabOrigin);
+            [In] int chCount, [In] int nTabPositions, [In] INT[] lpnTabStopPositions, [In] int nTabOrigin);
 
         /// <summary>
         /// <para>

@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// In this case, the printer driver resets the printer (when possible) and ends the print job.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortDoc", ExactSpelling = true, SetLastError = true)]
         public static extern int AbortDoc([In] HDC hdc);
 
@@ -123,7 +123,7 @@ namespace Lsj.Util.Win32
         /// Applications should call <see cref="EndDoc"/> immediately after finishing a print job.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDoc", ExactSpelling = true, SetLastError = true)]
         public static extern int EndDoc([In] HDC hdc);
 
@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32
         /// the amount of memory allocated by calling processes, and the amount of fragmentation in the process heap.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPage", ExactSpelling = true, SetLastError = true)]
         public static extern int EndPage([In] HDC hdc);
 

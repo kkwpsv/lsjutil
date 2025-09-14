@@ -463,7 +463,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="CreateProcess"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateProcessAsUser([In] HANDLE hToken, [In] LPCWSTR lpApplicationName, [In] LPWSTR lpCommandLine,
             [In] in SECURITY_ATTRIBUTES lpProcessAttributes, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] BOOL bInheritHandles,

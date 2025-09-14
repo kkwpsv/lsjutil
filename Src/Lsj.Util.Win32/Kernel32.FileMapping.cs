@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -237,9 +238,10 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFile"/> with <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_WRITE"/>
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFileMapping([In] HANDLE hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] DWORD flProtect,
-            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [In] LPWSTR lpName);
+            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -463,9 +465,10 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFile"/> with <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_WRITE"/>
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingNumaW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFileMappingNuma([In] HANDLE hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] DWORD flProtect,
-            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD nndPreferred);
+            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [In] LPCWSTR lpName, [In] DWORD nndPreferred);
 
         /// <summary>
         /// <para>
@@ -501,6 +504,7 @@ namespace Lsj.Util.Win32
         /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
         /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushViewOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlushViewOfFile([In] LPCVOID lpBaseAddress, [In] SIZE_T dwNumberOfBytesToFlush);
 
@@ -625,6 +629,7 @@ namespace Lsj.Util.Win32
         /// with either <see cref="PAGE_EXECUTE_READWRITE"/> or <see cref="PAGE_EXECUTE_READ"/>,
         /// and then call <see cref="MapViewOfFile"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID MapViewOfFile([In] HANDLE hFileMappingObject, [In] ACCESS_MASK dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
             [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap);
@@ -757,6 +762,7 @@ namespace Lsj.Util.Win32
         /// with either <see cref="PAGE_EXECUTE_READWRITE"/> or <see cref="PAGE_EXECUTE_READ"/>,
         /// and then call <see cref="MapViewOfFileEx"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID MapViewOfFileEx([In] HANDLE hFileMappingObject, [In] ACCESS_MASK dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
             [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap, [In] LPVOID lpBaseAddress);
@@ -895,6 +901,7 @@ namespace Lsj.Util.Win32
         /// with either <see cref="PAGE_EXECUTE_READWRITE"/> or <see cref="PAGE_EXECUTE_READ"/> and then call the <see cref="MapViewOfFileExNuma"/>
         /// function with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileExNuma", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID MapViewOfFileExNuma([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
             [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap, [In] LPVOID lpBaseAddress, [In] DWORD nndPreferred);
@@ -938,6 +945,7 @@ namespace Lsj.Util.Win32
         /// When it is no longer needed, the caller should call release
         /// the handle returned by <see cref="OpenFileMapping"/> with a call to <see cref="CloseHandle"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenFileMappingW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenFileMapping([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPWSTR lpName);
 
@@ -974,6 +982,7 @@ namespace Lsj.Util.Win32
         /// the system holds the corresponding file open until the last view of the file is unmapped.
         /// Files for which the last view has not yet been unmapped are held open with no sharing restrictions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnmapViewOfFile([In] LPCVOID lpBaseAddress);
 
@@ -1008,6 +1017,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more information about the behavior of this function, see the <see cref="UnmapViewOfFile"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnmapViewOfFileEx([In] PVOID BaseAddress, [In] ULONG UnmapFlags);
     }

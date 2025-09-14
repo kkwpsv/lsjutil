@@ -31,6 +31,7 @@ using static Lsj.Util.Win32.Enums.TransactionalNTFSMiniVersions;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -133,9 +134,10 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFileTransacted([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] LP<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags, [In] HANDLE hTransaction);
+            [In] LPVOID lpData, [In] P<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -201,6 +203,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateDirectoryTransacted([In] LPCWSTR lpTemplateDirectory, [In] LPCWSTR lpNewDirectory,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, HANDLE hTransaction);
@@ -265,6 +268,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHardLinkTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateHardLinkTransacted([In] LPCWSTR lpFileName, [In] LPCWSTR lpExistingFileName,
             [In] IntPtr lpSecurityAttributes, [In] HANDLE hTransaction);
@@ -316,6 +320,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSymbolicLinkTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOLEAN CreateSymbolicLinkTransacted([In] LPCWSTR lpSymlinkFileName, [In] LPCWSTR lpTargetFileName, [In] DWORD dwFlags, [In] HANDLE hTransaction);
 
@@ -527,6 +532,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFileTransacted([In] LPCWSTR lpFileName, [In] FileAccessRights dwDesiredAccess, [In] FileShareModes dwShareMode,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition, [In] uint dwFlagsAndAttributes,
@@ -588,6 +594,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteFileTransacted([In] LPCWSTR lpFileName, [In] HANDLE hTransaction);
 
@@ -630,6 +637,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileNameTransactedW([In] LPCWSTR lpFileName, [In] DWORD dwFlags, [In][Out] ref DWORD StringLength,
             [In] IntPtr LinkName, [In] HANDLE hTransaction);
@@ -734,6 +742,7 @@ namespace Lsj.Util.Win32
                     " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
                     " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
                     " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileTransacted([In] LPCWSTR lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFindFileData,
             [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter, [In] FindFirstFileExFlags dwAdditionalFlags, [In] HANDLE hTransaction);
@@ -789,6 +798,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstStreamTransactedW([In] LPCWSTR lpFileName,
             [In] STREAM_INFO_LEVELS InfoLevel, [In] LPVOID lpFindStreamData, [In] DWORD dwFlags, [In] LPVOID hTransaction);
@@ -845,6 +855,7 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCompressedFileSizeTransacted([In] LPCWSTR lpFileName, [Out] out DWORD lpFileSizeHigh, [In] HANDLE hTransaction);
 
@@ -899,11 +910,10 @@ namespace Lsj.Util.Win32
             " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileAttributesTransacted([In] LPCWSTR lpFileName, [In] GET_FILEEX_INFO_LEVELS fInfoLevelId,
             [In] LPVOID lpFileInformation, [In] HANDLE hTransaction);
-
-
 
         /// <summary>
         /// <para>
@@ -968,6 +978,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFullPathNameTransacted([In] LPCWSTR lpFileName, [In] DWORD nBufferLength, [In] IntPtr lpBuffer,
             [Out] out IntPtr lpFilePart, [In] HANDLE hTransaction);
@@ -1033,6 +1044,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLongPathNameTransacted([In] LPCWSTR lpszShortPath, [In] IntPtr lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
 
@@ -1129,6 +1141,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveFileTransacted([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName,
             [In] LPPROGRESS_ROUTINE lpProgressRoutine, [In] LPVOID lpData, [In] MoveFileFlags dwFlags, [In] HANDLE hTransaction);
@@ -1169,6 +1182,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveDirectoryTransacted([In] LPCWSTR lpPathName, [In] HANDLE hTransaction);
 
@@ -1237,6 +1251,7 @@ namespace Lsj.Util.Win32
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
             "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileAttributesTransacted([In] LPCWSTR lpFileName, [In] FileAttributes dwFileAttributes, [In] HANDLE hTransaction);
     }

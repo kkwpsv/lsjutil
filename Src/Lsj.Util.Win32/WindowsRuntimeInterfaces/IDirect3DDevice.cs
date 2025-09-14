@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// use the CreateDirect3DDevice and GetDXGIInterface(IDirect3DDevice^, DXGI_TYPE**) functions.
     /// </para>
     /// </remarks>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 10240)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1507)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 6, IID = "a37624ab-8d5f-4650-9d3e-9eae3d9bc670",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IDirect3DDevice

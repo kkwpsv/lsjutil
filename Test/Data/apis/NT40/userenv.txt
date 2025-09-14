@@ -1,0 +1,9 @@
+CreateEnvironmentBlock
+DestroyEnvironmentBlock
+GetProfilesDirectoryA
+GetProfilesDirectoryW
+GetUserProfileDirectoryA
+GetUserProfileDirectoryW
+LoadUserProfileA
+LoadUserProfileW
+UnloadUserProfile

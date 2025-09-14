@@ -773,8 +773,8 @@ namespace Lsj.Util.Win32
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern WaitResult MsgWaitForMultipleObjects([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In] HANDLE[] pHandles,
-          [In] BOOL fWaitAll, [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask);
+        public static extern WaitResult MsgWaitForMultipleObjects([In] DWORD nCount, [In] HANDLE[] pHandles, [In] BOOL fWaitAll,
+            [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask);
 
         /// <summary>
         /// <para>
@@ -884,8 +884,8 @@ namespace Lsj.Util.Win32
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern WaitResult MsgWaitForMultipleObjectsEx([In] DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In] HANDLE[] pHandles,
-            [In] DWORD dwMilliseconds, [In] QueueStatus dwWakeMask, [In] MsgWaitForMultipleObjectsExTypes dwFlags);
+        public static extern WaitResult MsgWaitForMultipleObjectsEx([In] DWORD nCount, [In] HANDLE[] pHandles, [In] DWORD dwMilliseconds,
+            [In] QueueStatus dwWakeMask, [In] MsgWaitForMultipleObjectsExTypes dwFlags);
 
         /// <summary>
         /// <para>

@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// Interface of GraphicsCaptureSession, See: <see href="https://learn.microsoft.com/en-us/uwp/api/windows.graphics.capture.graphicscapturesession"/>
     /// </para>
     /// </summary>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 19041)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_2004)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 7, IID = "2c39ae40-7d2e-5044-804e-8b6799d4cf9e",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IGraphicsCaptureSession2

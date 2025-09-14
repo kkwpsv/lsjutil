@@ -825,7 +825,7 @@ namespace Lsj.Util.Win32
         /// and specify the address of the hook procedure in the <see cref="CHOOSECOLOR.lpfnHook"/> member.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseColorW", ExactSpelling = true)]
         public static extern BOOL ChooseColor([In][Out] CHOOSECOLOR lpcc);
 
@@ -910,7 +910,7 @@ namespace Lsj.Util.Win32
         /// to get and set the current values and flags of the dialog box.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseFontW", ExactSpelling = true)]
         public static extern BOOL ChooseFont([In][Out] ref CHOOSEFONT lpcf);
 
@@ -1441,7 +1441,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommDlgExtendedError", ExactSpelling = true)]
         public static extern CommonDialogExtendedErrorCodes CommDlgExtendedError();
 
@@ -1502,7 +1502,7 @@ namespace Lsj.Util.Win32
         /// and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindTextW", ExactSpelling = true)]
         public static extern HWND FindText([In][Out] ref FINDREPLACE unnamedParam1);
 
@@ -1568,7 +1568,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOpenFileNameW", ExactSpelling = true)]
         public static extern BOOL GetOpenFileName([In][Out] ref OPENFILENAME unnamedParam1);
 
@@ -1615,7 +1615,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSaveFileNameW", ExactSpelling = true)]
         public static extern BOOL GetSaveFileName([In][Out] ref OPENFILENAME unnamedParam1);
 
@@ -1652,7 +1652,7 @@ namespace Lsj.Util.Win32
         /// Starting with Windows Vista, the <see cref="PageSetupDlg"/> does not contain the Printer button.
         /// To switch printer selection, use <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PageSetupDlgW", ExactSpelling = true)]
         public static extern BOOL PageSetupDlg([In][Out] ref PAGESETUPDLG lppsd);
 
@@ -1776,7 +1776,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("PrintDlg is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions. Instead, use PrintDlgEx or PageSetupDlg.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgW", ExactSpelling = true)]
         public static extern BOOL PrintDlg([In][Out] ref PRINTDLG lppd);
 
@@ -1978,7 +1978,7 @@ namespace Lsj.Util.Win32
         /// and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceTextW", ExactSpelling = true)]
         public static extern HWND ReplaceText([In][Out] ref FINDREPLACE Arg1);
     }

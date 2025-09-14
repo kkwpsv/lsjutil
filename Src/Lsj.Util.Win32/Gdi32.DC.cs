@@ -286,7 +286,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed when blits occur.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BitBlt([In] HDC hdc, [In] int x, [In] int y, [In] int cx, [In] int cy, [In] HDC hdcSrc,
             [In] int x1, [In] int y1, [In] RasterCodes rop);
@@ -320,7 +320,7 @@ namespace Lsj.Util.Win32
         /// The results are also undefined if no drawing operation was in progress when the function was called.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDC", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CancelDC([In] HDC hdc);
 
@@ -380,7 +380,7 @@ namespace Lsj.Util.Win32
         /// The source and destination color spaces are specified in the DC.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateCompatibleDC([In] HDC hdc);
 
@@ -477,7 +477,7 @@ namespace Lsj.Util.Win32
         /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateDC([In] LPCWSTR pwszDriver, [In] LPCWSTR pwszDevice, [In] LPCWSTR pszPort, [In] in DEVMODE pdm);
 
@@ -521,7 +521,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateIC([In] LPWSTR pszDriver, [In] LPWSTR pszDevice, [In] LPWSTR pszPort, [In] in DEVMODE pdm);
 
@@ -542,7 +542,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteDC([In] HDC hdc);
 
@@ -623,7 +623,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The lower and right edges of the specified rectangle are not excluded from the clipping region.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeClipRect", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags ExcludeClipRect([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -769,7 +769,7 @@ namespace Lsj.Util.Win32
         /// The region itself can be reused after this call or it can be deleted.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtSelectClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags ExtSelectClipRgn([In] HDC hdc, [In] HRGN hrgn, [In] CombineRgnModes mode);
 
@@ -1025,7 +1025,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetBkColor([In] HDC hdc);
 
@@ -1050,7 +1050,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkMode", ExactSpelling = true, SetLastError = true)]
         public static extern BackgroundModes GetBkMode([In] HDC hdc);
 
@@ -1165,7 +1165,7 @@ namespace Lsj.Util.Win32
         /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetBoundsRect([In] HDC hdc, [Out] out RECT lprect, [In] BoundsRectAccumulationFlags flags);
 
@@ -1235,7 +1235,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetClipBox"/> returns logical coordinates based on the given device context.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipBox", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags GetClipBox([In] HDC hdc, [Out] out RECT lprect);
 
@@ -1270,7 +1270,7 @@ namespace Lsj.Util.Win32
         /// Subsequent changes to this copy will not affect the current clipping region.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int GetClipRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetColorAdjustment", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetColorAdjustment([In] HDC hdc, [Out] out COLORADJUSTMENT lpca);
 
@@ -1390,7 +1390,7 @@ namespace Lsj.Util.Win32
         /// An application can use the <see cref="GetCurrentObject"/> and <see cref="GetObject"/> functions
         /// to retrieve descriptions of the graphic objects currently selected into the specified DC.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ GetCurrentObject([In] HDC hdc, [In] ObjTypes type);
 
@@ -1452,7 +1452,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The final translation origin is relative to the physical origin of the screen.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetDCOrgEx([In] HDC hdc, [Out] out POINT lppt);
 
@@ -2579,7 +2579,7 @@ namespace Lsj.Util.Win32
         /// (introduced in Windows Vista) causes GDI to not get the info, so <see cref="GetDeviceCaps"/> must always calculate the info.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDeviceCaps([In] HDC hdc, [In] DeviceCapIndexes nIndex);
 
@@ -2636,7 +2636,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application can set the graphics mode for a device context by calling the <see cref="SetGraphicsMode"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGraphicsMode", ExactSpelling = true, SetLastError = true)]
         public static extern GraphicsModes GetGraphicsMode([In] HDC hdc);
 
@@ -2778,7 +2778,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMapMode", ExactSpelling = true, SetLastError = true)]
         public static extern MappingModes GetMapMode([In] HDC hdc);
 
@@ -2807,7 +2807,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The miter limit is used when drawing geometric lines that have miter joins.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMiterLimit", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetMiterLimit([In] HDC hdc, [Out] out FLOAT plimit);
 
@@ -2846,7 +2846,7 @@ namespace Lsj.Util.Win32
         /// otherwise, <see cref="CLR_INVALID"/> is returned on all pixels.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetPixel([In] HDC hdc, [In] int x, [In] int y);
 
@@ -3015,7 +3015,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", ExactSpelling = true, SetLastError = true)]
         public static extern RasterOps GetROP2([In] HDC hdc);
 
@@ -3121,7 +3121,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", ExactSpelling = true, SetLastError = true)]
         public static extern StretchBltModes GetStretchBltMode([In] HDC hdc);
 
@@ -3147,7 +3147,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetViewportExtEx([In] HDC hdc, [Out] out SIZE lpsize);
 
@@ -3174,7 +3174,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetViewportOrgEx([In] HDC hdc, [Out] out POINT lppoint);
 
@@ -3200,7 +3200,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowExtEx([In] HDC hdc, [Out] out SIZE lpsize);
 
@@ -3226,7 +3226,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowOrgEx([In] HDC hdc, [Out] out POINT lppoint);
 
@@ -3257,7 +3257,7 @@ namespace Lsj.Util.Win32
         /// if an application calls the <see cref="ModifyWorldTransform"/> function prior to calling <see cref="GetWorldTransform"/>.
         /// (This is because the internal format for storing transformation values uses a higher precision than a <see cref="FLOAT"/> value.)
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWorldTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWorldTransform([In] HDC hdc, [Out] out XFORM lpxf);
 
@@ -3344,7 +3344,7 @@ namespace Lsj.Util.Win32
         /// and the rectangle specified in the function parameters.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectClipRect", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags IntersectClipRect([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -3467,7 +3467,7 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MaskBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MaskBlt([In] HDC hdcDest, [In] int xDest, [In] int yDest, [In] int width, [In] int height, [In] HDC hdcSrc,
             [In] int xSrc, [In] int ySrc, [In] HBITMAP hbmMask, [In] int xMask, [In] int yMask, [In] RasterCodes rop);
@@ -3547,7 +3547,7 @@ namespace Lsj.Util.Win32
         /// to the default <see cref="GM_COMPATIBLE"/> mode, unless world transform has first been
         /// reset to the default identity transform by calling <see cref="SetWorldTransform"/> or <see cref="ModifyWorldTransform"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ModifyWorldTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ModifyWorldTransform([In] HDC hdc, [In] in XFORM lpxf, [In] DWORD mode);
 
@@ -3617,7 +3617,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags OffsetClipRgn([In] HDC hdc, [In] int x, [In] int y);
 
@@ -3655,7 +3655,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
@@ -3690,7 +3690,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -3797,7 +3797,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PatBlt([In] HDC hdc, [In] int x, [In] int y, [In] int w, [In] int h, [In] RasterCodes rop);
 
@@ -3903,7 +3903,7 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlgBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PlgBlt([In] HDC hdcDest, [In] POINT[] lpPoint, [In] HDC hdcSrc, [In] int xSrc, [In] int ySrc,
             [In] int width, [In] int height, [In] HBITMAP hbmMask, [In] int xMask, [In] int yMask);
@@ -3936,7 +3936,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="HDC"/> is not valid, the return value is (BOOL)-1.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PtVisible([In] HDC hdc, [In] int x, [In] int y);
 
@@ -3974,10 +3974,9 @@ namespace Lsj.Util.Win32
         /// All other return values are considered error codes. If the any parameter is not valid, the return value is undefined.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RectVisible([In] HDC hdc, [In] in RECT lprect);
-
 
         /// <summary>
         /// <para>
@@ -4021,7 +4020,7 @@ namespace Lsj.Util.Win32
         /// based on the information contained in the <see cref="DEVMODE"/> structure.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetDCW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC ResetDC([In] HDC hdc, [In] in DEVMODE lpdm);
 
@@ -4060,7 +4059,7 @@ namespace Lsj.Util.Win32
         /// In other words, the <see cref="RestoreDC"/> function
         /// pops the restored state (and any subsequent states) from the state information stack.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RestoreDC", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RestoreDC([In] HDC hdc, [In] int nSavedDC);
 
@@ -4092,7 +4091,7 @@ namespace Lsj.Util.Win32
         /// A saved state can be restored by using the <see cref="RestoreDC"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", ExactSpelling = true, SetLastError = true)]
         public static extern int SaveDC([In] HDC hdc);
 
@@ -4141,7 +4140,7 @@ namespace Lsj.Util.Win32
         /// yNewVE = (yOldVE * Ynum) / Ydenom
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScaleViewportExtEx([In] HDC hdc, [In] int xn, [In] int dx, [In] int yn, [In] int yd, [In] in SIZE lpsz);
 
@@ -4190,7 +4189,7 @@ namespace Lsj.Util.Win32
         /// yNewWE = (yOldWE* Ynum) / Ydenom
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScaleWindowExtEx([In] HDC hdc, [In] int xn, [In] int xd, [In] int yn, [In] int yd, [Out] out SIZE lpsz);
 
@@ -4274,7 +4273,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The device context identified by the <paramref name="hdc"/> parameter must contain a closed path.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SelectClipPath([In] HDC hdc, [In] CombineRgnModes mode);
 
@@ -4353,7 +4352,7 @@ namespace Lsj.Util.Win32
         /// To remove a device-context's clipping region, specify a <see cref="NULL"/> region handle.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags SelectClipRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -4483,6 +4482,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it is <see cref="HGDI_ERROR"/>.
         /// </para>
         /// </returns>
+        /// <remarks>
         /// <para>
         /// This function returns the previously selected object of the specified type.
         /// An application should always replace a new object with the original,
@@ -4495,7 +4495,7 @@ namespace Lsj.Util.Win32
         /// ICM: If the object being selected is a brush or a pen, color management is performed.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ SelectObject([In] HDC hdc, [In] HGDIOBJ hgdiobj);
 
@@ -4535,7 +4535,7 @@ namespace Lsj.Util.Win32
         /// The background color is also used when converting bitmaps from color to monochrome and vice versa.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetBkColor([In] HDC hdc, [In] COLORREF color);
 
@@ -4595,7 +4595,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetBkMode"/> function affects the line styles for lines drawn using a pen created by the <see cref="CreatePen"/> function.
         /// <see cref="SetBkMode"/> does not affect lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkMode", ExactSpelling = true, SetLastError = true)]
         public static extern BackgroundModes SetBkMode([In] HDC hdc, [In] BackgroundModes mode);
 
@@ -4731,7 +4731,7 @@ namespace Lsj.Util.Win32
         /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern BoundsRectAccumulationFlags SetBoundsRect([In] HDC hdc, [In] in RECT lprect, [In] BoundsRectAccumulationFlags flags);
 
@@ -4761,7 +4761,7 @@ namespace Lsj.Util.Win32
         /// The color adjustment values are used to adjust the input color of the source bitmap
         /// for calls to the <see cref="StretchBlt"/> and <see cref="StretchDIBits"/> functions when <see cref="HALFTONE"/> mode is set.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetColorAdjustment", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetColorAdjustment([In] HDC hdc, [In] in COLORADJUSTMENT lpca);
 
@@ -4996,7 +4996,7 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", ExactSpelling = true, SetLastError = true)]
         public static extern int SetDIBitsToDevice([In] HDC hdc, [In] int xDest, [In] int yDest, [In] DWORD w, [In] DWORD h, [In] int xSrc, [In] int ySrc,
             [In] UINT StartScan, [In] UINT cLines, [In] IntPtr lpvBits, [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
@@ -5117,7 +5117,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetGraphicsMode", ExactSpelling = true, SetLastError = true)]
         public static extern GraphicsModes SetGraphicsMode([In] HDC hdc, [In] GraphicsModes iMode);
 
@@ -5239,10 +5239,9 @@ namespace Lsj.Util.Win32
         /// which result in WCS being turned off for the printer's DC.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetICMMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetICMMode([In] HDC hdc, [In] ICMModes mode);
-
 
         /// <summary>
         /// <para>
@@ -5512,7 +5511,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MM_ANISOTROPIC"/> mode allows the x-coordinates and y-coordinates to be adjusted independently.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetMapMode([In] HDC hdc, [In] MappingModes iMode);
 
@@ -5558,7 +5557,7 @@ namespace Lsj.Util.Win32
         /// Setting <paramref name="limit"/> to a float value less than 1.0f will cause the function to fail.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMiterLimit", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMiterLimit([In] HDC hdc, [In] FLOAT limit, [Out] out FLOAT old);
 
@@ -5625,7 +5624,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="GetDeviceCaps"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetPixel([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
@@ -5669,7 +5668,7 @@ namespace Lsj.Util.Win32
         /// because it does not need to return the color value of the point actually painted.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixelV", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetPixelV([In] HDC hdc, [In] int x, [In] int y, [In] COLORREF color);
 
@@ -5845,7 +5844,7 @@ namespace Lsj.Util.Win32
         /// using the binary operations AND, OR, and XOR (exclusive OR), and the unary operation NOT.
         /// The mix mode is for raster devices only; it is not available for vector devices.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", ExactSpelling = true, SetLastError = true)]
         public static extern int SetROP2([In] HDC hdc, [In] RasterOps rop2);
 
@@ -6002,7 +6001,7 @@ namespace Lsj.Util.Win32
         /// Additional stretching modes might also be available depending on the capabilities of the device driver.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetStretchBltMode([In] HDC hdc, [In] StretchBltModes mode);
 
@@ -6089,7 +6088,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [Out] out SIZE lpsz);
 
@@ -6140,7 +6139,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -6226,7 +6225,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowExtEx([In] HDC hdc, [In] int x, [In] int y, [Out] out SIZE lpsz);
 
@@ -6276,7 +6275,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
 
@@ -6342,7 +6341,7 @@ namespace Lsj.Util.Win32
         /// by calling <see cref="SetWorldTransform"/> or <see cref="ModifyWorldTransform"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWorldTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWorldTransform([In] HDC hdc, [In] in XFORM lpxf);
 
@@ -6461,7 +6460,7 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StretchBlt([In] HDC hdcDest, [In] int xDest, [In] int yDest, [In] int wDest, [In] int hDest, [In] HDC hdcSrc,
             [In] int xSrc, [In] int ySrc, [In] int wSrc, [In] int hSrc, [In] RasterCodes rop);
@@ -6625,7 +6624,7 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int StretchDIBits([In] HDC hdc, [In] int xDest, [In] int yDest, [In] int DestWidth, [In] int DestHeight, [In] int xSrc,
             [In] int ySrc, [In] int SrcWidth, [In] int SrcHeight, [In] IntPtr lpBits, [In] in BITMAPINFO lpbmi,

@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// Interface of Direct3D11CaptureFrame, See: <see href="https://learn.microsoft.com/en-us/uwp/api/windows.graphics.capture.direct3d11captureframe"/>
     /// </para>
     /// </summary>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 17763)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1809)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 8, IID = "fa50c623-38da-4b32-acf3-fa9734ad800e",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IDirect3D11CaptureFrame

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -79,6 +80,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiber", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID ConvertThreadToFiber([In] LPVOID lpParameter);
 
@@ -114,6 +116,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiberEx", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID ConvertThreadToFiberEx([In] LPVOID lpParameter, [In] DWORD dwFlags);
 
@@ -158,6 +161,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFiber", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID CreateFiber([In] SIZE_T dwStackSize, [In] LPFIBER_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter);
 
@@ -211,6 +215,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFiberEx", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID CreateFiberEx([In] SIZE_T dwStackCommitSize, [In] SIZE_T dwStackReserveSize, [In] DWORD dwFlags,
             [In] LPFIBER_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter);
@@ -235,7 +240,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFiber", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFiber", ExactSpelling = true)]
         public static extern void DeleteFiber([In] LPVOID lpFiber);
 
         /// <summary>
@@ -267,6 +273,7 @@ namespace Lsj.Util.Win32
         /// FLS indexes are not valid across process boundaries.
         /// A DLL cannot assume that an index assigned in one process is valid in another process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD FlsAlloc([In] PFLS_CALLBACK_FUNCTION lpCallback);
 
@@ -295,6 +302,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FlsFree"/> function does not free memory blocks whose addresses have been stored in the FLS slots associated with the FLS index.
         /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsFree", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlsFree([In] DWORD dwFlsIndex);
 
@@ -321,6 +329,7 @@ namespace Lsj.Util.Win32
         /// A fiber specifies an FLS index in a call to FlsSetValue to store a value in its slot.
         /// The thread specifies the same index in a subsequent call to <see cref="FlsSetValue"/> to retrieve the stored value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsGetValue", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID FlsGetValue([In] DWORD dwFlsIndex);
 
@@ -353,6 +362,7 @@ namespace Lsj.Util.Win32
         /// A thread specifies an FLS index in a call to <see cref="FlsSetValue"/> to store a value in its slot.
         /// The thread specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsSetValue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlsSetValue([In] DWORD dwFlsIndex, [In] PVOID lpFlsData);
 
@@ -409,7 +419,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadAFiber", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadAFiber", ExactSpelling = true)]
         public static extern BOOL IsThreadAFiber();
 
         /// <summary>
@@ -438,7 +449,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToFiber", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToFiber", ExactSpelling = true)]
         public static extern void SwitchToFiber([In] LPVOID lpFiber);
     }
 }

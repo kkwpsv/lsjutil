@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -98,7 +99,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipLoadImageFromFile", ExactSpelling = true)]
-        public static extern GpStatus GdipLoadImageFromFile([In] string filename, [Out] out IntPtr image);
+        public static extern GpStatus GdipLoadImageFromFile([In] LPCWSTR filename, [Out] out IntPtr image);
 
         /// <summary>
         /// <para>

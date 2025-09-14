@@ -144,7 +144,7 @@ namespace Lsj.Util.Win32
         /// the only two functions that can be used to generate a CLSID for an OLE 1 object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromProgID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CLSIDFromProgID([In] string lpszProgID, [Out] out CLSID lpclsid);
+        public static extern HRESULT CLSIDFromProgID([In] LPCOLESTR lpszProgID, [Out] out CLSID lpclsid);
 
         /// <summary>
         /// <para>
@@ -168,7 +168,7 @@ namespace Lsj.Util.Win32
         /// <see cref="REGDB_E_READREGDB"/>: The registry could not be opened for reading.
         /// </returns>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromString", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CLSIDFromString([In] string lpsz, [Out] out CLSID lpclsid);
+        public static extern HRESULT CLSIDFromString([In] LPCOLESTR lpsz, [Out] out CLSID lpclsid);
 
         /// <summary>
         /// <para>
@@ -422,7 +422,7 @@ namespace Lsj.Util.Win32
         /// that causes any new marshaled calls to return <see cref="CO_E_OBJNOTCONNECTED"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoDisconnectObject([MarshalAs(UnmanagedType.IUnknown)][In] object pUnk, [In] DWORD dwReserved);
+        public static extern HRESULT CoDisconnectObject([In] P<IUnknown> pUnk, [In] DWORD dwReserved);
 
         /// <summary>
         /// <para>
@@ -600,9 +600,8 @@ namespace Lsj.Util.Win32
         /// providing the least possible network traffic.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
-            [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] STGM grfMode,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
+        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid, [In] P<IUnknown> punkOuter,
+            [In] CLSCTX dwClsCtx, [In] STGM grfMode, [In] LPOLESTR pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -670,9 +669,8 @@ namespace Lsj.Util.Win32
         /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromIStorage", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
-              [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount,
-              [Out] MULTI_QI[] pResults);
+        public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid,
+            [In] P<IUnknown> punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -697,7 +695,7 @@ namespace Lsj.Util.Win32
         /// each process must have its own allocator.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetMalloc([In] DWORD dwMemContext, [MarshalAs(UnmanagedType.Interface)][Out] out IMalloc ppMalloc);
+        public static extern HRESULT CoGetMalloc([In] DWORD dwMemContext, [Out] out P<IMalloc> ppMalloc);
 
         /// <summary>
         /// <para>
@@ -805,7 +803,7 @@ namespace Lsj.Util.Win32
         /// In this case, each containing object must call <see cref="CreateItemMoniker"/> and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateItemMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateItemMoniker([In] LPCOLESTR lpszDelim, [In] LPCOLESTR lpszItem, [Out] out LP<IMoniker> ppmk);
+        public static extern HRESULT CreateItemMoniker([In] LPCOLESTR lpszDelim, [In] LPCOLESTR lpszItem, [Out] out P<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -1173,7 +1171,7 @@ namespace Lsj.Util.Win32
         /// For debugging purposes, it may be useful to keep a count of the number of external locks (and unlocks) set on the application.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoLockObjectExternal", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoLockObjectExternal([In] in LP<IUnknown> pUnk, [In] BOOL fLock, [In] BOOL fLastUnlockReleases);
+        public static extern HRESULT CoLockObjectExternal([In] in P<IUnknown> pUnk, [In] BOOL fLock, [In] BOOL fLastUnlockReleases);
 
         /// <summary>
         /// <para>
@@ -1324,8 +1322,8 @@ namespace Lsj.Util.Win32
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoQueryProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [Out] out DWORD pwAuthnSvc,
-            [Out] out DWORD pAuthzSvc, [Out] out string pServerPrincName, [Out] out DWORD pAuthnLevel, [Out] out DWORD pImpLevel,
+        public static extern HRESULT CoQueryProxyBlanket([In] P<IUnknown> pProxy, [Out] out DWORD pwAuthnSvc, [Out] out DWORD pAuthzSvc,
+            [Out] out LPOLESTR pServerPrincName, [Out] out DWORD pAuthnLevel, [Out] out DWORD pImpLevel,
             [Out] out RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [Out] out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
 
         /// <summary>
@@ -1386,8 +1384,7 @@ namespace Lsj.Util.Win32
         /// If the COM object application runs in the system account with no registry key, COM treats the objects application identity as Launching User.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In] object pUnk,
-            [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
+        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [In] P<IUnknown> pUnk, [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
 
         /// <summary>
         /// <para>
@@ -1437,7 +1434,7 @@ namespace Lsj.Util.Win32
         /// Failure to do this may cause the object reference held by the marshaled packet in the stream to be leaked.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoReleaseMarshalData", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoReleaseMarshalData([In] IStream pStm);
+        public static extern HRESULT CoReleaseMarshalData([In] P<IStream> pStm);
 
         /// <summary>
         /// <para>
@@ -1607,8 +1604,8 @@ namespace Lsj.Util.Win32
         /// calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [In] DWORD dwAuthnSvc,
-            [In] DWORD dwAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In] string pServerPrincName, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel,
+        public static extern HRESULT CoSetProxyBlanket([In] P<IUnknown> pProxy, [In] DWORD dwAuthnSvc, [In] DWORD dwAuthzSvc,
+            [In] LPOLESTR pServerPrincName, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel,
             [In] RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>
@@ -2180,9 +2177,7 @@ namespace Lsj.Util.Win32
         /// as an OLE1/DDE link designator having filename|item syntax.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "MkParseDisplayName", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT MkParseDisplayName([MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string szUserName, [Out] out ULONG pchEaten,
-            [MarshalAs(UnmanagedType.Interface)][Out] out IMoniker ppmk);
+        public static extern HRESULT MkParseDisplayName([In] P<IBindCtx> pbc, [In] LPOLESTR szUserName, [Out] out ULONG pchEaten, [Out] out P<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -2408,9 +2403,8 @@ namespace Lsj.Util.Win32
         /// It is used to implement insert file operations.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [MarshalAs(UnmanagedType.LPWStr)][In] in string lpszFileName,
-            [In] in IID riid, [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] P<IOleClientSite> pClientSite,
-            [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [In] LPCOLESTR lpszFileName, [In] in IID riid,
+            [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -2804,9 +2798,8 @@ namespace Lsj.Util.Win32
         /// For more information on these flags, see <see cref="STGM"/> Constants.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgCreateStorageEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT StgCreateStorageEx([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
-            [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs, [In] in STGOPTIONS pStgOptions,
-            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+        public static extern HRESULT StgCreateStorageEx([In] LPWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
+            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
 
         /// <summary>
         /// <para>
@@ -2917,10 +2910,8 @@ namespace Lsj.Util.Win32
                 "to take advantage of the enhanced and Windows Structured Storage features." +
                 "This function, StgOpenStorage, still exists for compatibility with applications running on Windows 2000.")]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT StgOpenStorage([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
-            [MarshalAs(UnmanagedType.Interface)][In] IStorage pstgPriority, [In] STGM grfMode,
-            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)][In] string[] snbExclude,
-            [In] DWORD reserved, [MarshalAs(UnmanagedType.Interface)][Out] out IStorage ppstgOpen);
+        public static extern HRESULT StgOpenStorage([In] LPWSTR pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
+            [In] IntPtr[] snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstgOpen);
 
         /// <summary>
         /// <para>
@@ -3036,9 +3027,8 @@ namespace Lsj.Util.Win32
         /// because the <see cref="StgOpenStorageEx"/> call must create a snapshot copy of the entire storage object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorageEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT StgOpenStorageEx([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
-            [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs, [In] in STGOPTIONS pStgOptions,
-            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+        public static extern HRESULT StgOpenStorageEx([In] LPCWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
+            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
 
         /// <summary>
         /// <para>

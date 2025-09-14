@@ -411,7 +411,7 @@ namespace Lsj.Util.Win32
         /// This includes any call to <see cref="SHAddToRecentDocs"/>.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][In] string AppID);
+        public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([In] LPCWSTR AppID);
 
         /// <summary>
         /// <para>
@@ -1020,8 +1020,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int SHCreateDirectoryEx([In] HWND hwnd, [MarshalAs(UnmanagedType.LPWStr)][In] string pszPath,
-            [In] in SECURITY_ATTRIBUTES psa);
+        public static extern int SHCreateDirectoryEx([In] HWND hwnd, [In] LPCWSTR pszPath, [In] in SECURITY_ATTRIBUTES psa);
 
         /// <summary>
         /// <para>
@@ -1220,9 +1219,8 @@ namespace Lsj.Util.Win32
         /// If no Explorer window is open, <see cref="ShellExecute"/> launches a new one.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteW", ExactSpelling = true, SetLastError = true)]
-        public static extern HINSTANCE ShellExecute([In] HWND hwnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpOperation,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpFile, [MarshalAs(UnmanagedType.LPWStr)][In] string lpParameters,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpDirectory, [In] ShowWindowCommands nShowCmd);
+        public static extern HINSTANCE ShellExecute([In] HWND hwnd, [In] LPCWSTR lpOperation, [In] LPCWSTR lpFile, [In] LPCWSTR lpParameters,
+            [In] LPCWSTR lpDirectory, [In] ShowWindowCommands nShowCmd);
 
         /// <summary>
         /// <para>
@@ -1451,7 +1449,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetDesktopFolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetDesktopFolder([MarshalAs(UnmanagedType.Interface)][Out] out IShellFolder ppshf);
+        public static extern HRESULT SHGetDesktopFolder([Out] out P<IShellFolder> ppshf);
 
         /// <summary>
         /// <para>
@@ -1594,8 +1592,8 @@ namespace Lsj.Util.Win32
         /// For details on equating this value with a specific Windows version, see Using the Windows Headers.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD_PTR SHGetFileInfo([MarshalAs(UnmanagedType.LPWStr)][In] string pszPath, [In] FileAttributes dwFileAttributes,
-            [In][Out] ref SHFILEINFO psfi, [In] UINT cbFileInfo, [In] ShellGetFileInfoFlags uFlags);
+        public static extern DWORD_PTR SHGetFileInfo([In] LPCWSTR pszPath, [In] FileAttributes dwFileAttributes, [In][Out] ref SHFILEINFO psfi,
+            [In] UINT cbFileInfo, [In] ShellGetFileInfoFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -1871,8 +1869,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="CoTaskMemFree"/> on *<paramref name="ppszName"/> to free the memory.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNameFromIDList", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetNameFromIDList([In] LPCITEMIDLIST pidl, [In] SIGDN sigdnName,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] out string ppszName);
+        public static extern HRESULT SHGetNameFromIDList([In] LPCITEMIDLIST pidl, [In] SIGDN sigdnName, [Out] out LPWSTR ppszName);
 
         /// <summary>
         /// <para>

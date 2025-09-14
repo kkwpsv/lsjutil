@@ -14,11 +14,6 @@ namespace Lsj.Util.Win32
     public static class Constants
     {
         /// <summary>
-        /// ANYSIZE_ARRAY
-        /// </summary>
-        public const int ANYSIZE_ARRAY = 1;
-
-        /// <summary>
         /// AC_SRC_OVER
         /// </summary>
         public const byte AC_SRC_OVER = 0;
@@ -37,6 +32,16 @@ namespace Lsj.Util.Win32
         /// AD_CLOCKWISE
         /// </summary>
         public const int AD_CLOCKWISE = 2;
+
+        /// <summary>
+        /// ANYSIZE_ARRAY
+        /// </summary>
+        public const int ANYSIZE_ARRAY = 1;
+
+        /// <summary>
+        /// ATTACH_PARENT_PROCESS
+        /// </summary>
+        public const uint ATTACH_PARENT_PROCESS = unchecked((uint)-1);
 
         /// <summary>
         /// AUDIT_ALLOW_NO_PRIVILEGE
@@ -67,6 +72,16 @@ namespace Lsj.Util.Win32
         /// CHILDID_SELF
         /// </summary>
         public const uint CHILDID_SELF = 0;
+
+        /// <summary>
+        /// CONSOLE_TEXTMODE_BUFFER
+        /// </summary>
+        public const uint CONSOLE_TEXTMODE_BUFFER = 1;
+
+        /// <summary>
+        /// DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION
+        /// </summary>
+        public const uint DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION = 1;
 
         /// <summary>
         /// DM_SPECVERSION
@@ -548,6 +563,11 @@ namespace Lsj.Util.Win32
         public readonly static IntPtr NULL = IntPtr.Zero;
 
         /// <summary>
+        /// NUMA_NO_PREFERRED_NODE
+        /// </summary>
+        public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
+
+        /// <summary>
         /// <para>
         /// An Open or Save As dialog box sends the <see cref="SHAREVISTRING"/> registered message to your hook procedure,
         /// OFNHookProc, if a sharing violation occurs for the selected file when the user clicks the OK button.
@@ -653,6 +673,22 @@ namespace Lsj.Util.Win32
         /// SOCKET_ERROR
         /// </summary>
         public const int SOCKET_ERROR = -1;
+
+        /// <summary>
+        /// STD_INPUT_HANDLE
+        /// </summary>
+        public const uint STD_INPUT_HANDLE = unchecked((uint)-10);
+
+        /// <summary>
+        /// STD_OUTPUT_HANDLE
+        /// </summary>
+        public const uint STD_OUTPUT_HANDLE = unchecked((uint)-11);
+
+        /// <summary>
+        /// STD_ERROR_HANDLE 
+        /// </summary>
+        public const uint STD_ERROR_HANDLE = unchecked((uint)-12);
+
 
         /// <summary>
         /// STILL_ACTIVE

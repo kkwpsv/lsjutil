@@ -1,15 +1,15 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ButtonControlMessages;
 using static Lsj.Util.Win32.Enums.ButtonCheckStates;
+using static Lsj.Util.Win32.Enums.ButtonControlMessages;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
-using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.ComboBoxStyles;
 using static Lsj.Util.Win32.Enums.DialogDirectoryListFlags;
@@ -22,6 +22,7 @@ using static Lsj.Util.Win32.Enums.ScrollBarConstants;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
 using static Lsj.Util.Win32.Enums.ScrollInfoFlags;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Gdi32;
@@ -181,7 +182,7 @@ namespace Lsj.Util.Win32
         /// The directory listing displays long filenames, if any.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirList([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDListBox,
+        public static extern int DlgDirList([In] HWND hDlg, [In] LPWSTR lpPathSpec, [In] int nIDListBox,
             [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
 
         /// <summary>
@@ -274,7 +275,7 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirListComboBox([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDComboBox,
+        public static extern int DlgDirListComboBox([In] HWND hDlg, [In] LPWSTR lpPathSpec, [In] int nIDComboBox,
              [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
 
         /// <summary>

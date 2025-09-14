@@ -177,8 +177,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ChangeMenu([In] HMENU hMenu, [In] UINT cmd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszNewItem,
-            [In] UINT cmdInsert, [In] MenuFlags flags);
+        public static extern BOOL ChangeMenu([In] HMENU hMenu, [In] UINT cmd, [In] LPCWSTR lpszNewItem, [In] UINT cmdInsert, [In] MenuFlags flags);
 
         /// <summary>
         /// <para>
@@ -1104,7 +1103,7 @@ namespace Lsj.Util.Win32
         /// to destroy the menu and free memory that the loaded menu occupied.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU LoadMenu([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpMenuName);
+        public static extern HMENU LoadMenu([In] HINSTANCE hInstance, [In] LPCWSTR lpMenuName);
 
         /// <summary>
         /// <para>

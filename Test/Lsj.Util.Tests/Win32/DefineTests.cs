@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -41,53 +42,82 @@ namespace Lsj.Util.Tests.Win32
         [TestMethod]
         public void TestMethods()
         {
+            var apis = ReadFromFiles();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
-            var failed = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
+            var wrongEntrypoints = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
+            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, WindowsVersion Version)>();
+            var hasMarshalAsAttributeMethods = new List<MethodInfo>();
+            var hasStringParameterMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
             {
-                if (item.Method.Name == item.Attribute.EntryPoint || item.Method.Name + "W" == item.Attribute.EntryPoint ||
-                    "K32" + item.Method.Name == item.Attribute.EntryPoint || "K32" + item.Method.Name + "W" == item.Attribute.EntryPoint)
+                var entryPoint = item.Attribute.EntryPoint;
+                if (item.Method.Name == entryPoint || item.Method.Name + "W" == entryPoint ||
+                    "K32" + item.Method.Name == entryPoint || "K32" + item.Method.Name + "W" == entryPoint)
                 {
-                    if (Kernel32.GetProcAddress(Kernel32.LoadLibrary(item.Attribute.Value), item.Attribute.EntryPoint) == IntPtr.Zero)
+                    if (Kernel32.GetProcAddress(Kernel32.LoadLibrary(item.Attribute.Value), entryPoint) == IntPtr.Zero)
                     {
                         if (item.Attribute.Value == "Wlanapi.dll")
                         {
-                            continue;
                         }
-                        if (item.Attribute.Value.StartsWith("D3DX9"))
+                        else if (item.Attribute.Value.StartsWith("D3DX9"))
                         {
-                            continue;
                         }
-                        if (newApis.Contains(item.Attribute.EntryPoint))
+                        else if (newApis.Contains(entryPoint))
                         {
-                            continue;
                         }
-                        failed.Add(item);
+                        else
+                        {
+                            wrongEntrypoints.Add(item);
+                        }
                     }
                 }
                 else
                 {
-                    failed.Add(item);
+                    wrongEntrypoints.Add(item);
                 }
 
-                if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>() == null)
+                if (apis.TryGetValue(entryPoint!, out var version))
                 {
-                    if (!missingWindowsVersionRequirementWhiteList.Contains(item.Method.Name))
+                    if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>()?.Version != version)
                     {
-                        missingWindowsVersionRequirementMethods.Add(item.Method);
+                        wrongWindowsVersionRequirementMethods.Add((item.Method, version));
                     }
                 }
-            }
-            if (failed.Any())
-            {
-                Assert.Fail(Environment.NewLine + string.Concat(failed.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} entrypoint error." + Environment.NewLine)));
+                else
+                {
+                    if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>() == null)
+                    {
+                        if (!missingWindowsVersionRequirementWhiteList.Contains(item.Method.Name))
+                        {
+                            missingWindowsVersionRequirementMethods.Add(item.Method);
+                        }
+                    }
+                }
+
+                if (item.Method.GetParameters().Any(x => x.GetCustomAttribute<MarshalAsAttribute>() != null))
+                {
+                    hasMarshalAsAttributeMethods.Add(item.Method);
+                }
+
+                if (item.Method.GetParameters().Any(x => x.ParameterType == typeof(string)))
+                {
+                    hasStringParameterMethods.Add(item.Method);
+                }
             }
 
-            if (missingWindowsVersionRequirementMethods.Any())
+            var fails = new List<string>();
+
+            fails.AddRange(wrongEntrypoints.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} entrypoint error."));
+            fails.AddRange(wrongWindowsVersionRequirementMethods.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} windows version requirement should be {item.Version}."));
+            fails.AddRange(missingWindowsVersionRequirementMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing windows version requirement."));
+            fails.AddRange(hasMarshalAsAttributeMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has marshalas attribute."));
+            fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
+
+            if (fails.Any())
             {
-                Assert.Fail(Environment.NewLine + string.Concat(missingWindowsVersionRequirementMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing windows version requirements." + Environment.NewLine)));
+                Assert.Fail(Environment.NewLine + string.Join(Environment.NewLine, fails));
             }
         }
 
@@ -181,20 +211,68 @@ namespace Lsj.Util.Tests.Win32
                 }
             }
 
-            if (missingIIDInterfaces.Any())
+
+            var fails = new List<string>();
+
+            fails.AddRange(missingIIDInterfaces.Select(item => $"{item.Name} missing IID in IIDs"));
+            fails.AddRange(wrongIIDInterfaces.Select(item => $"{item.Name} has wrong IID"));
+            fails.AddRange(wrongBeginVTableSlotIndexInterfaces.Select(item => $"{item.Name} has wrong BeginVTableSlotIndex"));
+
+            if (fails.Any())
             {
-                Assert.Fail(Environment.NewLine + string.Concat(missingIIDInterfaces.Select(item => $"{item.Name} missing IID in IIDs" + Environment.NewLine)));
+                Assert.Fail(Environment.NewLine + string.Join(Environment.NewLine, fails));
+            }
+        }
+
+        private Dictionary<string, WindowsVersion> ReadFromFiles()
+        {
+            var result = new Dictionary<string, WindowsVersion>();
+
+
+            var dataDir = GetDataDir();
+            var apiDir = Path.Combine(dataDir, "apis");
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "NT40")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = WindowsVersion.WindowsNT40;
+                    }
+                }
             }
 
-            if (wrongIIDInterfaces.Any())
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "2000")).EnumerateFiles())
             {
-                Assert.Fail(Environment.NewLine + string.Concat(wrongIIDInterfaces.Select(item => $"{item.Name} has wrong IID" + Environment.NewLine)));
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = WindowsVersion.Windows2000;
+                    }
+                }
             }
 
-            if (wrongBeginVTableSlotIndexInterfaces.Any())
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XP")).EnumerateFiles())
             {
-                Assert.Fail(Environment.NewLine + string.Concat(wrongBeginVTableSlotIndexInterfaces.Select(item => $"{item.Name} has wrong BeginVTableSlotIndex" + Environment.NewLine)));
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = WindowsVersion.WindowsXP;
+                    }
+                }
             }
+
+            return result;
+        }
+
+        private static string GetDataDir()
+        {
+            return new DirectoryInfo(Path.Combine(typeof(DefineTests).Assembly.Location, "..", "..", "..", "..", "..", "Data")).FullName;
         }
     }
 }

@@ -232,7 +232,7 @@ namespace Lsj.Util.Win32
         /// Windows 95: The system can support a maximum of 16,364 window handles.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePropertySheetPageW", ExactSpelling = true)]
         public static extern HPROPSHEETPAGE CreatePropertySheetPage([In] in PROPSHEETPAGE constPropSheetPagePointer);
 
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPropertySheetPage", ExactSpelling = true)]
         public static extern BOOL DestroyPropertySheetPage([In] HPROPSHEETPAGE unnamedParam1);
 
@@ -302,7 +302,7 @@ namespace Lsj.Util.Win32
         /// then is later called with the <see cref="ICC_HOTKEY_CLASS"/> flag,
         /// the result is that both the up-down and hot key common control classes are registered and available to the application.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitCommonControlsEx", ExactSpelling = true)]
         public static extern BOOL InitCommonControlsEx([In] in INITCOMMONCONTROLSEX picce);
 

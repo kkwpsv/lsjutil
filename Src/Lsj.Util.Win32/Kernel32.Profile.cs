@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
@@ -78,6 +79,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPrivateProfileIntW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetPrivateProfileInt([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] INT nDefault, [In] LPWSTR lpFileName);
 
@@ -183,6 +185,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPrivateProfileStringW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetPrivateProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpDefault,
             [In] LPWSTR lpReturnedString, [In] DWORD nSize, [In] LPWSTR lpFileName);
@@ -244,7 +247,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileIntW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileIntW", ExactSpelling = true)]
         public static extern UINT GetProfileInt([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] INT nDefault);
 
         /// <summary>
@@ -334,7 +338,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileStringW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProfileStringW", ExactSpelling = true)]
         public static extern DWORD GetProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpDefault,
             [In] LPWSTR lpReturnedString, [In] DWORD nSize);
 
@@ -418,6 +423,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WritePrivateProfileStringW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WritePrivateProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName,
             [In] LPWSTR lpString, [In] LPWSTR lpFileName);
@@ -486,6 +492,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteProfileStringW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteProfileString([In] LPWSTR lpAppName, [In] LPWSTR lpKeyName, [In] LPWSTR lpString);
     }

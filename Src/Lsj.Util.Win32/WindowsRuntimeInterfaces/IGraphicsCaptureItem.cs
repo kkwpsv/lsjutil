@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// Interface of GraphicsCaptureItem, See: <see href="https://learn.microsoft.com/en-us/uwp/api/windows.graphics.capture.graphicscaptureitem"/>
     /// </para>
     /// </summary>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 17763)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1809)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 9, IID = "79c3f95b-31f7-4ec2-a464-632ef5d30760",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IGraphicsCaptureItem

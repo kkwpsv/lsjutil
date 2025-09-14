@@ -27,21 +27,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
-        /// DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION
-        /// </summary>
-        public const uint DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION = 1;
-
-        /// <summary>
-        /// NUMA_NO_PREFERRED_NODE
-        /// </summary>
-        public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
-
-        /// <summary>
         /// <para>
         /// An application-defined callback function that processes enumerated code page information
         /// provided by the <see cref="EnumSystemCodePages"/> function.
         /// The <see cref="CODEPAGE_ENUMPROC"/> type defines a pointer to this callback function.
-        /// EnumCodePagesProc is a placeholder for the application-defined function name.
+        /// <see cref="EnumCodePagesProc"/> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
@@ -54,13 +44,13 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An EnumCodePagesProc function can carry out any desired task.
+        /// An <see cref="EnumCodePagesProc"/> function can carry out any desired task.
         /// The application registers this function by passing its address to the <see cref="EnumSystemCodePages"/> function.
         /// When an application is using this function to determine an appropriate code page for saving data, it should use Unicode when possible.
         /// Other code pages are not as portable as Unicode between vendors or operating systems,
         /// due to different implementations of the associated standards.
         /// </remarks>
-        public delegate BOOL Codepageenumproc([In] LPWSTR lpCodePageString);
+        public delegate BOOL EnumCodePagesProc([In] LPWSTR lpCodePageString);
 
 
         /// <summary>
@@ -98,6 +88,7 @@ namespace Lsj.Util.Win32
         /// If a null activation context handle is pushed onto the stack, thereby activating it,
         /// the default settings in the original manifest override all activation contexts that are lower on the stack.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ActivateActCtx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ActivateActCtx([In] HANDLE hActCtx, [Out] out ULONG_PTR lpCookie);
 
@@ -139,6 +130,7 @@ namespace Lsj.Util.Win32
         /// In Windows 7, <see cref="Beep"/> was rewritten to pass the beep to the default sound device for the session.
         /// This is normally the sound card, except when run under Terminal Services, in which case the beep is rendered on the client.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Beep([In] DWORD dwFreq, [In] DWORD dwDuration);
 
@@ -165,6 +157,7 @@ namespace Lsj.Util.Win32
         /// If any undefined bits are not set to 0, the call to <see cref="CreateActCtx"/> that creates the activation context fails and returns an invalid parameter error code.
         /// The handle returned from <see cref="CreateActCtx"/> is passed in a call to <see cref="ActivateActCtx"/> to activate the context for the current thread.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateActCtxW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateActCtx([In][Out] ref ACTCTX pActCtx);
 
@@ -208,6 +201,7 @@ namespace Lsj.Util.Win32
         /// The deactivation of activation contexts must occur in the reverse order of activation.
         /// It can be understood as popping an activation context from a stack.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeactivateActCtx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeactivateActCtx([In] DWORD dwFlags, [In] ULONG_PTR ulCookie);
 
@@ -225,7 +219,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The function returns the decoded pointer.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodePointer", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodePointer", ExactSpelling = true)]
         public static extern PVOID DecodePointer([In] PVOID Ptr);
 
         /// <summary>
@@ -246,7 +241,8 @@ namespace Lsj.Util.Win32
         /// Using <see cref="EncodeSystemPointer"/>/<see cref="DecodeSystemPointer"/> is faster than using <see cref="EncodePointer"/>/<see cref="DecodePointer"/>,
         /// but the encoded system pointers are more vulnerable to attack because the value can be predicted on a per-machine basis.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodeSystemPointer", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecodeSystemPointer", ExactSpelling = true)]
         public static extern PVOID DecodeSystemPointer([In] PVOID Ptr);
 
         /// <summary>
@@ -270,7 +266,8 @@ namespace Lsj.Util.Win32
         /// The secret used by <see cref="EncodePointer"/> is different for each process.
         /// A pointer must be decoded before it can be used.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodePointer", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodePointer", ExactSpelling = true)]
         public static extern PVOID EncodePointer([In] PVOID Ptr);
 
         /// <summary>
@@ -296,7 +293,8 @@ namespace Lsj.Util.Win32
         /// Using <see cref="EncodeSystemPointer"/>/<see cref="DecodeSystemPointer"/> is faster than using <see cref="EncodePointer"/>/<see cref="DecodePointer"/>,
         /// but the encoded system pointers are more vulnerable to attack because the value can be predicted on a per-machine basis.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodeSystemPointer", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodeSystemPointer", ExactSpelling = true)]
         public static extern PVOID EncodeSystemPointer([In] PVOID Ptr);
 
         /// <summary>
@@ -339,6 +337,7 @@ namespace Lsj.Util.Win32
         /// Other code pages are not as portable as Unicode between vendors or operating systems,
         /// due to different implementations of the associated standards.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemCodePagesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemCodePages([In] CODEPAGE_ENUMPROC lpCodePageEnumProc, [In] EnumSystemCodePagesFlags dwFlags);
 
@@ -414,6 +413,7 @@ namespace Lsj.Util.Win32
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark ("?").
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDateFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDateFormat([In] LCID Locale, [In] GetDateFormatFlags dwFlags, [In] in SYSTEMTIME lpDate,
             [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate);
@@ -427,6 +427,9 @@ namespace Lsj.Util.Win32
         /// Note
         /// This function can format data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-getdateformatex"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -531,6 +534,7 @@ namespace Lsj.Util.Win32
         /// Beginning in Windows 8:
         /// <see cref="GetDateFormatEx"/> is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDateFormatEx", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDateFormatEx([In] LCID Locale, [In] GetDateFormatFlags dwFlags, [In] in SYSTEMTIME lpDate,
             [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate, [In] LPCWSTR lpCalendar);
@@ -598,6 +602,7 @@ namespace Lsj.Util.Win32
         /// Starting with Windows 8:
         /// GetTimeFormat is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTimeFormat([In] LCID Locale, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
             [In] LPWSTR lpTimeStr, [In] int cchTime);
@@ -707,6 +712,7 @@ namespace Lsj.Util.Win32
         /// Beginning in Windows 8:
         /// <see cref="GetTimeFormatEx"/> is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatEx", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTimeFormatEx([In] LPCWSTR lpLocaleName, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
             [In] LPWSTR lpTimeStr, [In] int cchTime);
@@ -742,6 +748,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadCodePtr([In] FARPROC lpfn);
 
@@ -788,7 +795,8 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true)]
         public static extern BOOL IsBadReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
 
         /// <summary>
@@ -838,7 +846,8 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", ExactSpelling = true)]
         public static extern BOOL IsBadStringPtr([In] IntPtr lpsz, UINT_PTR ucchMax);
 
         /// <summary>
@@ -886,11 +895,12 @@ namespace Lsj.Util.Win32
         /// call it inside a critical region of code that allows only one thread to access the memory being checked.
         /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadWritePtr", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadWritePtr", ExactSpelling = true)]
         public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
 
         /// <summary>
-        /// MakeProcInstance
+        /// 
         /// </summary>
         /// <param name="lpProc"></param>
         /// <param name="hInstance"></param>
@@ -921,7 +931,8 @@ namespace Lsj.Util.Win32
         /// If the result is a negative half integer, it is rounded down.
         /// If either an overflow occurred or nDenominator was 0, the return value is -1.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true)]
         public static extern int MulDiv([In] int nNumber, [In] int nNumerator, [In] int nDenominator);
 
         /// <summary>
@@ -945,6 +956,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceCounter([Out] out LARGE_INTEGER lpPerformanceCount);
 
@@ -972,6 +984,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
 
@@ -1028,8 +1041,9 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In] string lpCmdLine, [In] ShowWindowCommands uCmdShow);
+        public static extern UINT WinExec([In] LPCSTR lpCmdLine, [In] ShowWindowCommands uCmdShow);
 
         /// <summary>
         /// Retrieves the session identifier of the console session. 

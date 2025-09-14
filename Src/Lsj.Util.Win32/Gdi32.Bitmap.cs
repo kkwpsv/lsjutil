@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmap([In] int nWidth, [In] int nHeight, [In] UINT nPlanes, [In] UINT nBitCount, [In] IntPtr lpBits);
 
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmapIndirect([In] in BITMAP pbm);
 
@@ -278,7 +278,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateCompatibleBitmap([In] HDC hdc, [In] int nWidth, [In] int nHeight);
 
@@ -421,7 +421,7 @@ namespace Lsj.Util.Win32
         /// The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBitmap([In] HDC hdc, [In] in BITMAPINFOHEADER pbmih, [In] CreateDIBitmapFlags flInit,
             [In] IntPtr pjBits, [In] in BITMAPINFO pbmi, [In] UINT iUsage);
@@ -584,7 +584,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableUsages usage,
             [Out] out IntPtr ppvBits, [In] HANDLE hSection, [In] DWORD offset);
@@ -623,7 +623,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateCompatibleBitmap function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDiscardableBitmap([In] HDC hdc, [In] int cx, [In] int cy);
 
@@ -651,7 +651,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetDIBits function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetBitmapBits([In] HBITMAP hbit, [In] LONG cb, [In] LPVOID lpvBits);
 
@@ -683,7 +683,7 @@ namespace Lsj.Util.Win32
         /// The function returns a data structure that contains fields for the height and width of the bitmap, in .01-mm units.
         /// If those dimensions have not yet been set, the structure that is returned will have zeros in those fields.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBitmapDimensionEx([In] HBITMAP hbit, [Out] out SIZE lpsize);
 
@@ -728,7 +728,7 @@ namespace Lsj.Util.Win32
         /// but they do have associated color masks.
         /// Call the <see cref="GetObject"/> function to retrieve those color masks.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBColorTable", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDIBColorTable([In] HDC hdc, [In] UINT iStart, [In] UINT cEntries, [Out] RGBQUAD[] prgbq);
 
@@ -915,7 +915,7 @@ namespace Lsj.Util.Win32
         /// the origin for a top-down DIB is the upper-left corner.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] LPVOID lpvBits,
             [In] in BITMAPINFO lpbmi, [In] UINT usage);

@@ -142,8 +142,7 @@ namespace Lsj.Util.Win32
         /// that is created in a noninteractive window station, in kilobytes.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDESK CreateDesktop([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDevice, [In] in DEVMODE pDevmode,
+        public static extern HDESK CreateDesktop([In] LPCWSTR lpszDesktop, [In] LPCWSTR lpszDevice, [In] in DEVMODE pDevmode,
             [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
@@ -218,9 +217,8 @@ namespace Lsj.Util.Win32
         /// To retrieve the size of the desktop heap, call the <see cref="GetUserObjectInformation"/> function with <see cref="UOI_HEAPSIZE"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDESK CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDevice, [In] in DEVMODE pDevmode, [In] DWORD dwFlags,
-            [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa, [In] ULONG ulHeapSize, [In] PVOID pvoid);
+        public static extern HDESK CreateDesktopEx([In] LPCWSTR lpszDesktop, [In] LPCWSTR lpszDevice, [In] in DEVMODE pDevmode,
+            [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa, [In] ULONG ulHeapSize, [In] PVOID pvoid);
 
         /// <summary>
         /// <para>
@@ -267,8 +265,7 @@ namespace Lsj.Util.Win32
         /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWINSTA CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In] string lpwinsta, [In] DWORD dwFlags,
-            [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
+        public static extern HWINSTA CreateWindowStation([In] LPCWSTR lpwinsta, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
         /// <para>
@@ -454,8 +451,7 @@ namespace Lsj.Util.Win32
         /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenDesktopW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDESK OpenDesktop([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop, [In] DWORD dwFlags,
-            [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
+        public static extern HDESK OpenDesktop([In] LPCWSTR lpszDesktop, [In] DWORD dwFlags, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -487,8 +483,7 @@ namespace Lsj.Util.Win32
         /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWINSTA OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)][In] string lpszWinSta, [In] BOOL fInherit,
-            [In] ACCESS_MASK dwDesiredAccess);
+        public static extern HWINSTA OpenWindowStation([In] LPCWSTR lpszWinSta, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>

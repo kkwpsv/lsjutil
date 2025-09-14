@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// The bitmap must be deleted independently.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteObject([In] HGDIOBJ hObject);
 
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// or if the converted logical coordinates exceed 32 bits.
         /// In the case of such an overflow, the results for all the points are undefined.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DPtoLP([In] HDC hdc, [In][Out] POINT[] lppt, [In] int c);
 
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// When an application calls the <see cref="DrawEscape"/> function,
         /// the data identified by <paramref name="cjIn"/> and <paramref name="lpIn"/> is passed directly to the specified display driver.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEscape", ExactSpelling = true, SetLastError = true)]
         public static extern int DrawEscape([In] HDC hdc, [In] int iEscape, [In] int cjIn, [In] LPCSTR lpIn);
 
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// the function returns zero without calling the callback function.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumObjects([In] HDC hdc, [In] ObjTypes nType, [In] GOBJENUMPROC lpFunc, [In] LPARAM lParam);
 
@@ -303,7 +303,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
         public static extern int Escape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjIn, [In] IntPtr pvIn, [In] LPVOID pvOut);
 
@@ -721,7 +721,7 @@ namespace Lsj.Util.Win32
         /// therefore applications must ensure that EMF recording is turned off for those jobs using the escape.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtEscape", ExactSpelling = true, SetLastError = true)]
         public static extern int ExtEscape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjInput, [In] LPCSTR lpInData,
             [In] int cjOutput, [In] LPSTR lpOutData);
@@ -802,7 +802,7 @@ namespace Lsj.Util.Win32
         /// This prevents collisions of the GDI objects (device contexts, metafiles, and so on).
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiFlush", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GdiFlush();
 
@@ -846,7 +846,7 @@ namespace Lsj.Util.Win32
         /// In order to completely disable batching, call <see cref="GdiSetBatchLimit"/> (1) during the initialization of each thread.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiGetBatchLimit", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GdiGetBatchLimit();
 
@@ -894,7 +894,7 @@ namespace Lsj.Util.Win32
         /// In order to completely disable batching, call <see cref="GdiSetBatchLimit"/> (1) during the initialization of each thread.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiSetBatchLimit", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GdiSetBatchLimit([In] DWORD dw);
 
@@ -957,7 +957,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetNearestColor([In] HDC hdc, [In] COLORREF color);
 
@@ -1110,7 +1110,7 @@ namespace Lsj.Util.Win32
         /// the <see cref="LOGFONT"/> indicates the font is vertical, but Windows will paint it horizontally.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetObject([In] HANDLE h, [In] int c, [In] LPVOID pv);
 

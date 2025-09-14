@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxgi1_6/nn-dxgi1_6-idxgifactory7"/>
     /// </para>
     /// </summary>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 17763)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
     [ComInterface(IID = "a4966eed-76db-44da-84c1-ee9a7afb20a8", BeginVTableSlotIndex = 30, EndVTableSlotIndex = 31,
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2),
             typeof(IDXGIFactory3),typeof(IDXGIFactory4), typeof(IDXGIFactory5), typeof(IDXGIFactory6)])]

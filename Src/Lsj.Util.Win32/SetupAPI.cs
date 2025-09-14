@@ -530,7 +530,7 @@ namespace Lsj.Util.Win32
         /// However, the device information element is added as a new member of the set anyway.
         /// </remarks>
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiOpenDeviceInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetupDiOpenDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] string DeviceInstanceId, [In] HWND hwndParent,
+        public static extern BOOL SetupDiOpenDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] LPCWSTR DeviceInstanceId, [In] HWND hwndParent,
             [In] SetupDiOpenDeviceInfoFlags OpenFlags, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
     }
 }

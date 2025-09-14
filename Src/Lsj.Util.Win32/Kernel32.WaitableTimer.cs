@@ -250,8 +250,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenWaitableTimer([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName);
+        public static extern HANDLE OpenWaitableTimer([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpTimerName);
 
         /// <summary>
         /// <para>

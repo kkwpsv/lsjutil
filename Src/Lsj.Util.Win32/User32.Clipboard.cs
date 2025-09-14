@@ -1,12 +1,13 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
+using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
@@ -291,7 +292,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClipboardFormat", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetPriorityClipboardFormat([MarshalAs(UnmanagedType.LPArray)][In] StandardClipboardFormats[] paFormatPriorityList, [In] int cFormats);
+        public static extern int GetPriorityClipboardFormat([In] StandardClipboardFormats[] paFormatPriorityList, [In] int cFormats);
 
         /// <summary>
         /// <para>
@@ -371,7 +372,7 @@ namespace Lsj.Util.Win32
         /// When registered clipboard formats are placed on or retrieved from the clipboard, they must be in the form of an <see cref="HGLOBAL"/> value.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClipboardFormatW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT RegisterClipboardFormat([MarshalAs(UnmanagedType.LPWStr)][In] string lpszFormat);
+        public static extern UINT RegisterClipboardFormat([In] LPCWSTR lpszFormat);
 
         /// <summary>
         /// <para>

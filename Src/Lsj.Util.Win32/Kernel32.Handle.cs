@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
@@ -73,6 +74,7 @@ namespace Lsj.Util.Win32
         /// Instead, use the <see cref="RegCloseKey"/> function.
         /// <see cref="CloseHandle"/> does not close the handle to the registry key, but does not return an error to indicate this failure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseHandle([In] HANDLE hObject);
 
@@ -229,6 +231,7 @@ namespace Lsj.Util.Win32
         /// Set <paramref name="lpTargetHandle"/> to NULL.
         /// Set <paramref name="dwOptions"/> to <see cref="DUPLICATE_CLOSE_SOURCE"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DuplicateHandle([In] HANDLE hSourceProcessHandle, [In] HANDLE hSourceHandle, [In] HANDLE hTargetProcessHandle,
             [Out] out HANDLE lpTargetHandle, [In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] DuplicateHandleOptions dwOptions);
@@ -257,6 +260,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetHandleInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetHandleInformation([In] HANDLE hObject, [Out] out HANDLE_FLAG lpdwFlags);
 
@@ -284,6 +288,7 @@ namespace Lsj.Util.Win32
         /// <see cref="HANDLE_FLAG_INHERIT"/>, <see cref="HANDLE_FLAG_PROTECT_FROM_CLOSE"/>
         /// </param>
         /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetHandleInformation([In] HANDLE hObject, [In] HANDLE_FLAG dwMask, [In] HANDLE_FLAG dwFlags);
     }

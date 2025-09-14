@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
@@ -168,6 +169,7 @@ namespace Lsj.Util.Win32
         /// This can cause the same side effects mentioned in the previous paragraph.
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateRemoteThread([In] HANDLE hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
             [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags, [Out] out DWORD lpThreadId);
@@ -265,6 +267,7 @@ namespace Lsj.Util.Win32
         /// This can cause the same side effects mentioned in the previous paragraph.
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateRemoteThreadEx([In] HANDLE hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
             [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags,
@@ -363,6 +366,7 @@ namespace Lsj.Util.Win32
         /// this requires the use of the multithreaded version of the CRT.
         /// If a thread created using <see cref="CreateThread"/> calls the CRT, the CRT may terminate the process in low - memory conditions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateThread([In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] SIZE_T dwStackSize,
             [In] LPTHREAD_START_ROUTINE lpStartAddress, [In] LPVOID lpParameter, [In] ThreadCreationFlags dwCreationFlags, [Out] out DWORD lpThreadId);
@@ -407,7 +411,8 @@ namespace Lsj.Util.Win32
         /// Otherwise, it is safe to call <see cref="CreateThread"/> and <see cref="ExitThread"/> from a thread in a DLL that links to the static CRT.
         /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true)]
         public static extern void ExitThread([In] DWORD dwExitCode);
 
         /// <summary>
@@ -427,7 +432,8 @@ namespace Lsj.Util.Win32
         /// within the processor group to which the logical processor is assigned.
         /// Use the <see cref="GetCurrentProcessorNumberEx"/> function to retrieve the processor group and number of the current processor.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessorNumber", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessorNumber", ExactSpelling = true)]
         public static extern DWORD GetCurrentProcessorNumber();
 
         /// <summary>
@@ -446,6 +452,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the <paramref name="ProcNumber"/> parameter contains the group and processor number
         /// of the processor on which the calling thread is running.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessorNumberEx", ExactSpelling = true, SetLastError = true)]
         public static extern void GetCurrentProcessorNumberEx([Out] out PROCESSOR_NUMBER ProcNumber);
 
@@ -481,7 +488,8 @@ namespace Lsj.Util.Win32
         /// Some access rights including <see cref="THREAD_SET_THREAD_TOKEN"/> and <see cref="THREAD_GET_CONTEXT"/> may not be present,
         /// leading to unexpected failures.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", ExactSpelling = true)]
         public static extern HANDLE GetCurrentThread();
 
         /// <summary>
@@ -498,7 +506,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Until the thread terminates, the thread identifier uniquely identifies the thread throughout the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
         public static extern DWORD GetCurrentThreadId();
 
         /// <summary>
@@ -519,7 +528,8 @@ namespace Lsj.Util.Win32
         /// It is possible for user-mode code to execute in stack memory that is outside the region allocated by the system when the thread was created.
         /// Callers can use the <see cref="GetCurrentThreadStackLimits"/> function to verify that the current stack pointer is within the returned limits.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadStackLimits", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadStackLimits", ExactSpelling = true)]
         public static extern void GetCurrentThreadStackLimits([Out] out ULONG_PTR LowLimit, [Out] out ULONG_PTR HighLimit);
 
         /// <summary>
@@ -561,6 +571,7 @@ namespace Lsj.Util.Win32
         /// To avoid this problem, callers should call the <see cref="GetExitCodeThread"/> function only after the thread has been confirmed to have exited.
         /// Use the <see cref="WaitForSingleObject"/> function with a wait duration of zero to determine whether a thread has exited.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetExitCodeThread([In] HANDLE hThread, [Out] out DWORD lpExitCode);
 
@@ -587,6 +598,7 @@ namespace Lsj.Util.Win32
         /// Until a process terminates, its process identifier uniquely identifies it on the system.
         /// For more information about access rights, see Thread Security and Access Rights.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIdOfThread", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessIdOfThread([In] HANDLE Thread);
 
@@ -594,6 +606,9 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Retrieves the context of the specified thread.
         /// A 64-bit application can retrieve the context of a WOW64 thread using the <see cref="Wow64GetThreadContext"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadcontext"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">
@@ -622,6 +637,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="GetThreadContext"/>.
         /// If you call <see cref="GetThreadContext"/> for the current thread, the function returns successfully; however, the context returned is not valid.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadContext([In] HANDLE hThread, [Out] out CONTEXT lpContext);
 
@@ -651,6 +667,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetThreadId([In] HANDLE Thread);
 
@@ -675,6 +692,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns <see cref="FALSE"/>.
         /// To get extended error information, use <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadIdealProcessorEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadIdealProcessorEx([In] HANDLE hThread, [Out] out PROCESSOR_NUMBER lpIdealProcessor);
 
@@ -709,6 +727,7 @@ namespace Lsj.Util.Win32
         /// For a table that shows the base-priority levels for each combination of priority class and thread priority value,
         /// refer to the <see cref="SetPriorityClass"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", ExactSpelling = true, SetLastError = true)]
         public static extern int GetThreadPriority([In] HANDLE hThread);
 
@@ -737,6 +756,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadPriorityBoost([In] HANDLE hThread, [Out] out BOOL pDisablePriorityBoost);
 
@@ -784,6 +804,7 @@ namespace Lsj.Util.Win32
         /// That is the number of 100-nanosecond units in one second.
         /// To retrieve the number of CPU clock cycles used by the threads, use the <see cref="QueryThreadCycleTime"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadTimes([In] HANDLE hThread, [Out] out FILETIME lpCreationTime, [Out] out FILETIME lpExitTime,
             [Out] out FILETIME lpKernelTime, [Out] out FILETIME lpUserTime);
@@ -821,6 +842,7 @@ namespace Lsj.Util.Win32
         /// The handle is granted access to the thread object only to the extent it was specified in the <paramref name="dwDesiredAccess"/> parameter.
         /// When you are finished with the handle, be sure to close it by using the <see cref="CloseHandle"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenThread([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] DWORD dwThreadId);
 
@@ -855,6 +877,7 @@ namespace Lsj.Util.Win32
         /// The behavior of each CPU is described in the documentation provided by the CPU vendor.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryThreadCycleTime([In] HANDLE ThreadHandle, [Out] out ULONG64 CycleTime);
 
@@ -892,6 +915,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResumeThread", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD ResumeThread([In] HANDLE hThread);
 
@@ -933,6 +957,7 @@ namespace Lsj.Util.Win32
         /// If the new thread affinity mask does not specify the processor that is currently running the thread,
         /// the thread is rescheduled on one of the allowable processors.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD_PTR SetThreadAffinityMask([In] HANDLE hThread, [In] DWORD_PTR dwThreadAffinityMask);
 
@@ -969,6 +994,7 @@ namespace Lsj.Util.Win32
         /// Do not try to set the context for a running thread; the results are unpredictable.
         /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="SetThreadContext"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadContext([In] HANDLE hThread, [In] in CONTEXT lpContext);
 
@@ -1006,6 +1032,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadIdealProcessor", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SetThreadIdealProcessor([In] HANDLE hThread, [In] DWORD dwIdealProcessor);
 
@@ -1043,6 +1070,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadIdealProcessorEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadIdealProcessorEx([In] HANDLE hThread, [In] in PROCESSOR_NUMBER lpIdealProcessor,
             [Out] out PROCESSOR_NUMBER lpPreviousIdealProcessor);
@@ -1115,6 +1143,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps.
         /// Windows Phone 8.1:Windows Phone Store apps may call this function but it has no effect.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadPriority([In] HANDLE hThread, ThreadPriorityFlags nPriority);
 
@@ -1148,6 +1177,7 @@ namespace Lsj.Util.Win32
         /// the thread's priority is not boosted.
         /// To restore normal behavior, call <see cref="SetThreadPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadPriorityBoost([In] HANDLE hThread, [In] BOOL bDisablePriorityBoost);
 
@@ -1184,6 +1214,7 @@ namespace Lsj.Util.Win32
         /// To set the stack guarantee for a fiber, you must first call the <see cref="SwitchToFiber"/> function to execute the fiber.
         /// After you set the guarantee for this fiber, it is used by the fiber no matter which thread executes the fiber.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadStackGuarantee", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadStackGuarantee([In][Out] ref ULONG StackSizeInBytes);
 
@@ -1215,6 +1246,7 @@ namespace Lsj.Util.Win32
         /// When using the <see cref="SetThreadToken"/> function to impersonate, you must have the impersonate privileges
         /// and make sure that the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
 
@@ -1269,7 +1301,8 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", ExactSpelling = true)]
         public static extern void Sleep([In] DWORD dwMilliseconds);
 
         /// <summary>
@@ -1351,7 +1384,8 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", ExactSpelling = true)]
         public static extern DWORD SleepEx([In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
         /// <summary>
@@ -1388,6 +1422,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SuspendThread([In] HANDLE hThread);
 
@@ -1419,7 +1454,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", ExactSpelling = true)]
         public static extern BOOL SwitchToThread();
 
         /// <summary>

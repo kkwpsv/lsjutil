@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// You can obtain an instance of the <see cref="IInputPaneInterop"/> interface by calling
     /// the <see cref="IUnknown.QueryInterface"/> method on the activation factory instance for the InputPane class.
     /// </remarks>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 14393)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 6, IID = "75CF2C57-9195-4931-8332-F0B409E916AF",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IInputPaneInterop

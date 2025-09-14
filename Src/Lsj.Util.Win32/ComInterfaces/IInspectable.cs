@@ -46,11 +46,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A <see cref="IUnknown.QueryInterface"/> call on any <see cref="IID"/> in the <paramref name="iids"/> array must succeed.
         /// The caller is responsible for freeing the <see cref="IID"/> array by using the <see cref="CoTaskMemFree"/> function.
         /// </remarks>
-        public HRESULT GetIids([Out] out ULONG iidCount, [Out] out LP<IID> iids)
+        public HRESULT GetIids([Out] out ULONG iidCount, [Out] out P<IID> iids)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out ULONG, out LP<IID>, HRESULT>)_vTable[3])(thisPtr, out iidCount, out iids);
+                return ((delegate* unmanaged[Stdcall]<void*, out ULONG, out P<IID>, HRESULT>)_vTable[3])(thisPtr, out iidCount, out iids);
             }
         }
 

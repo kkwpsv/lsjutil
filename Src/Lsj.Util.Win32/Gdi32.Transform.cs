@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32
         /// For example, <paramref name="lpxf1"/> can point to the same <see cref="XFORM"/> structure as <paramref name="lpxfOut"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CombineTransform([Out] out XFORM lpxfOut, [In] in XFORM lpxf1, [In] in XFORM lpxf2);
     }

@@ -655,7 +655,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see the Remarks section of the <see cref="CreateFile2"/> topic.
         /// </para>
         /// </summary>
-        public LP<SECURITY_ATTRIBUTES> lpSecurityAttributes;
+        public P<SECURITY_ATTRIBUTES> lpSecurityAttributes;
 
         /// <summary>
         /// <para>

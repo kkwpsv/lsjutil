@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardState", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetKeyboardState([MarshalAs(UnmanagedType.LPArray)][Out] BYTE[] lpKeyState);
+        public static extern BOOL GetKeyboardState([Out] BYTE[] lpKeyState);
 
         /// <summary>
         /// <para>
@@ -806,7 +806,7 @@ namespace Lsj.Util.Win32
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendInput", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SendInput([In] UINT cInputs, [MarshalAs(UnmanagedType.LPArray)][In] INPUT[] pInputs, [In] int cbSize);
+        public static extern UINT SendInput([In] UINT cInputs, [In] INPUT[] pInputs, [In] int cbSize);
 
         /// <summary>
         /// <para>
@@ -1032,8 +1032,7 @@ namespace Lsj.Util.Win32
         /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true, SetLastError = true)]
-        public static extern int ToAscii([In] UINT uVirtKey, [In] UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In] BYTE[] lpKeyState,
-            [Out] out WORD lpChar, [In] UINT uFlags);
+        public static extern int ToAscii([In] UINT uVirtKey, [In] UINT uScanCode, [In] BYTE[] lpKeyState, [Out] out WORD lpChar, [In] UINT uFlags);
 
         /// <summary>
         /// <para>

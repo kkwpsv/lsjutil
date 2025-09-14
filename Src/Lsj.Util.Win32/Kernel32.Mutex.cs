@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -113,6 +114,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateMutex([In] in SECURITY_ATTRIBUTES lpMutexAttributes, [In] BOOL bInitialOwner, [In] LPCWSTR lpName);
 
@@ -201,6 +203,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexExW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateMutexEx([In] in SECURITY_ATTRIBUTES lpMutexAttributes, [In] LPCWSTR lpName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
@@ -255,8 +258,9 @@ namespace Lsj.Util.Win32
         /// In this situation, it is better to use <see cref="CreateMutex"/> instead of <see cref="OpenMutex"/>,
         /// because <see cref="CreateMutex"/> opens a mutex if it exists and creates it if it does not.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenMutex([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE OpenMutex([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpName);
 
         /// <summary>
         /// <para>
@@ -285,6 +289,7 @@ namespace Lsj.Util.Win32
         /// However, to release its ownership, the thread must call <see cref="ReleaseMutex"/> one time for each time
         /// that it obtained ownership (either through <see cref="CreateMutex"/> or a wait function).
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutex", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReleaseMutex([In] HANDLE hMutex);
     }

@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windows.graphics.directx.direct3d11.interop/ns-windows-graphics-directx-direct3d11-interop-idirect3ddxgiinterfaceaccess"/>
     /// </para>
     /// </summary>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 10240)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1507)]
     [ComInterface(BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, IID = "A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1",
         InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDxgiInterfaceAccess

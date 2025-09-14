@@ -120,7 +120,7 @@ namespace Lsj.Util.Win32
         /// This function is implemented as an inline function in the header and can't be found in any export library or DLL.
         /// It's the same as calling <see cref="MapViewOfFileNuma2"/> with the last parameter set to .
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 15063)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         public static PVOID MapViewOfFile2([In] HANDLE FileMappingHandle, [In] HANDLE ProcessHandle, [In] ULONG64 Offset,
             [In] PVOID BaseAddress, [In] SIZE_T ViewSize, [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection) =>
             MapViewOfFileNuma2(FileMappingHandle, ProcessHandle, Offset, BaseAddress, ViewSize, AllocationType, PageProtection, NUMA_NO_PREFERRED_NODE);
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// Returns the base address of the mapped view, if successful.
         /// Otherwise, returns <see cref="NULL"/> and extended error status is available using <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 15063)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("Kernelbase.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileNuma2", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID MapViewOfFileNuma2([In] HANDLE FileMappingHandle, [In] HANDLE ProcessHandle, [In] ULONG64 Offset,
             [In] PVOID BaseAddress, [In] SIZE_T ViewSize, [In] MemoryAllocationTypes AllocationType,
@@ -388,7 +388,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 17134)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("Kernelbase.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile3", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID MapViewOfFile3([In] HANDLE FileMapping, [In] HANDLE Process, [In] PVOID BaseAddress, [In] ULONG64 Offset,
             [In] SIZE_T ViewSize, [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection,
@@ -459,7 +459,7 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if sucessful.
         /// Otherwise, returns <see cref="FALSE"/> and extended error status is available using <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 15063)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("Kernelbase.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile2", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnmapViewOfFile2([In] HANDLE Process, [In] PVOID BaseAddress, [In] ULONG UnmapFlags);
 

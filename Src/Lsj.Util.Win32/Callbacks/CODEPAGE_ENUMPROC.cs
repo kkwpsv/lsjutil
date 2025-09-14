@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Codepageenumproc(CODEPAGE_ENUMPROC val) => (Codepageenumproc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Codepageenumproc));
+        public static implicit operator EnumCodePagesProc(CODEPAGE_ENUMPROC val) => (EnumCodePagesProc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(EnumCodePagesProc));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator CODEPAGE_ENUMPROC(Codepageenumproc val) => new CODEPAGE_ENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator CODEPAGE_ENUMPROC(EnumCodePagesProc val) => new CODEPAGE_ENUMPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// To move back and forth between <see cref="IDirect3DSurface"/> and <see cref="IDXGISurface"/>,
     /// use the CreateDirect3DSurface and GetDXGIInterface(IDirect3DSurface^, DXGI_TYPE**) functions.
     /// </remarks>
-    [WindowsVersionRequirement(WindowsVersion.Windows10, 10240)]
+    [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1507)]
     [ComInterface(BeginVTableSlotIndex = 6, EndVTableSlotIndex = 6, IID = "0bf4a146-13c1-4694-bee3-7abf15eaf586",
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IDirect3DSurface

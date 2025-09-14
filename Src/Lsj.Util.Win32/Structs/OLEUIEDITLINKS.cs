@@ -130,6 +130,6 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to the container's implementation of the <see cref="IOleUILinkContainer"/> Interface.
         /// The Edit Links dialog box uses this to allow the container to manipulate its links.
         /// </summary>
-        public LP<IOleUILinkContainer> lpOleUILinkContainer;
+        public P<IOleUILinkContainer> lpOleUILinkContainer;
     }
 }

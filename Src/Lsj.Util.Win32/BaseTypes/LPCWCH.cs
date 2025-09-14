@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
-    /// Pointer to <typeparamref name="T"/>.
+    /// LPCWCH
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <remarks>
-    /// This is not supported in method parameters when use .Net Framework
-    /// </remarks>
-    public struct LP<T> where T : struct
+    [StructLayout(LayoutKind.Sequential)]
+    public struct LPCWCH
     {
         private IntPtr _value;
 
@@ -20,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LP<T> val) => val._value;
+        public static implicit operator IntPtr(LPCWCH val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LP<T>(IntPtr val) => new LP<T> { _value = val };
+        public static implicit operator LPCWCH(IntPtr val) => new LPCWCH { _value = val };
     }
 }

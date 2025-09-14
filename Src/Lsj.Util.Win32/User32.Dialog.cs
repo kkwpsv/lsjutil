@@ -1217,6 +1217,6 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetDlgItemText"/> function sends a <see cref="WM_SETTEXT"/> message to the specified control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern BOOL SetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] LPCWSTR lpString);
     }
 }

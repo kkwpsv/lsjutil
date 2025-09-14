@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("Combase.dll", CharSet = CharSet.Unicode, EntryPoint = "RoActivateInstance", ExactSpelling = true)]
-        public static extern HRESULT RoActivateInstance([In] HSTRING activatableClassId, [Out] out LP<IInspectable> instance);
+        public static extern HRESULT RoActivateInstance([In] HSTRING activatableClassId, [Out] out P<IInspectable> instance);
 
         /// <summary>
         /// <para>

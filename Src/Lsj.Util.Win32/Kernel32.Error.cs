@@ -1,6 +1,8 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -39,8 +41,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="ExceptionInfo"></param>
         /// <returns></returns>
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate LONG TOP_LEVEL_EXCEPTION_FILTER([In] in EXCEPTION_POINTERS ExceptionInfo);
+
 
         /// <summary>
         /// <para>
@@ -62,8 +64,9 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", ExactSpelling = true, SetLastError = true)]
-        public static extern void FatalAppExit([In] UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessageText);
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", ExactSpelling = true)]
+        public static extern void FatalAppExit([In] UINT uAction, [In] LPCWSTR lpMessageText);
 
         /// <summary>
         /// <para>
@@ -87,7 +90,8 @@ namespace Lsj.Util.Win32
         /// since it is less disruptive to the normal behavior of the system.
         /// <see cref="GetThreadErrorMode"/> is the call function that corresponds to <see cref="GetErrorMode"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetErrorMode", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetErrorMode", ExactSpelling = true)]
         public static extern ErrorModes GetErrorMode();
 
         /// <summary>
@@ -224,10 +228,12 @@ namespace Lsj.Util.Win32
         /// until one is evaluated as <see cref="EXCEPTION_EXECUTE_HANDLER"/> or <see cref="EXCEPTION_CONTINUE_EXECUTION"/>.
         /// Each filter expression can invoke <see cref="GetExceptionInformation"/> to get exception information.
         /// </remarks>
+
+        public static P<EXCEPTION_POINTERS> GetExceptionInformation() =>
 #if NETSTANDARD2_0
-        public static IntPtr GetExceptionInformation() => throw new NotSupportedException();
+            throw new NotSupportedException();
 #else
-        public static IntPtr GetExceptionInformation() => Marshal.GetExceptionPointers();
+            Marshal.GetExceptionPointers();
 #endif
 
         /// <summary>
@@ -267,6 +273,7 @@ namespace Lsj.Util.Win32
         /// and ensures that your error code does not conflict with any error codes defined by the system.
         /// To convert a system error into an HRESULT value, use the <see cref="HRESULT_FROM_WIN32"/> macro.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         public static SystemErrorCodes GetLastError() => (SystemErrorCodes)Marshal.GetLastWin32Error();
 
         /// <summary>
@@ -285,7 +292,8 @@ namespace Lsj.Util.Win32
         /// A thread inherits the error mode of the process in which it is running.
         /// To change the error mode for the thread, use the <see cref="SetThreadErrorMode"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadErrorMode", ExactSpelling = true)]
         public static extern ErrorModes GetThreadErrorMode();
 
         /// <summary>
@@ -350,9 +358,10 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="GetExceptionInformation"/> function.
         /// A debugger can retrieve these values by calling the <see cref="WaitForDebugEvent"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true)]
         public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
-            [In] DWORD nNumberOfArguments, [MarshalAs(UnmanagedType.LPArray)][In] ULONG_PTR[] lpArguments);
+            [In] DWORD nNumberOfArguments, [In] ULONG_PTR[] lpArguments);
 
         /// <summary>
         /// <para>
@@ -398,7 +407,8 @@ namespace Lsj.Util.Win32
         /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", ExactSpelling = true)]
         public static extern UINT SetErrorMode([In] ErrorModes uMode);
 
         /// <summary>
@@ -409,7 +419,10 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror"/>
         /// </para>
         /// </summary>
-        /// <param name="dwErrCode">The last-error code for the thread.</param>
+        /// <param name="dwErrCode">
+        /// The last-error code for the thread.
+        /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
         public static extern void SetLastError([In] SystemErrorCodes dwErrCode);
 
@@ -452,6 +465,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the process error mode, use the <see cref="GetErrorMode"/> function.
         /// To retrieve the error mode of the calling thread, use the <see cref="GetThreadErrorMode"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadErrorMode([In] ErrorModes dwNewMode, [Out] out ErrorModes lpOldMode);
 
@@ -492,7 +506,8 @@ namespace Lsj.Util.Win32
         /// The exception handler specified by <paramref name="lpTopLevelExceptionFilter"/> is executed in the context of the thread that caused the fault.
         /// This can affect the exception handler's ability to recover from certain exceptions, such as an invalid stack.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUnhandledExceptionFilter", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUnhandledExceptionFilter", ExactSpelling = true)]
         public static extern LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter([In] LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter);
 
         /// <summary>
@@ -525,7 +540,8 @@ namespace Lsj.Util.Win32
         /// in a call to the <see cref="SetErrorMode"/> function.
         /// The system uses <see cref="UnhandledExceptionFilter"/> internally to handle exceptions that occur during process and thread creation.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhandledExceptionFilter", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhandledExceptionFilter", ExactSpelling = true)]
         public static extern LONG UnhandledExceptionFilter([Out] out EXCEPTION_POINTERS ExceptionInfo);
     }
 }

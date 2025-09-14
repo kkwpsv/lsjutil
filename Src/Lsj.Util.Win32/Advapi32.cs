@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// Common reasons for failure include an invalid computer name, an inaccessible computer, or insufficient privilege.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortSystemShutdownW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AbortSystemShutdown([In] LPWSTR lpMachineName);
 
@@ -456,7 +456,7 @@ namespace Lsj.Util.Win32
         /// For more information about impersonation, see Client Impersonation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateLoggedOnUser", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateLoggedOnUser([In] HANDLE hToken);
 
@@ -533,7 +533,7 @@ namespace Lsj.Util.Win32
         /// The SeImpersonatePrivilege privilege is not supported.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateNamedPipeClient([In] HANDLE hNamedPipe);
 
@@ -570,7 +570,7 @@ namespace Lsj.Util.Win32
         /// For this function to succeed, the DACL protecting the process token must grant the <see cref="TOKEN_DUPLICATE"/> right to itself.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateSelf", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateSelf([In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel);
 
@@ -700,7 +700,7 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitiateSystemShutdown([In] LPWSTR lpMachineName, [In] LPWSTR lpMessage, [In] DWORD dwTimeout,
             [In] BOOL bForceAppsClosed, [In] BOOL bRebootAfterShutdown);
@@ -1083,7 +1083,7 @@ namespace Lsj.Util.Win32
         /// by calling the provider's NPLogonNotify entry-point function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LogonUser([In] LPCWSTR lpszUsername, [In] LPCWSTR lpszDomain, [In] LPCWSTR lpszPassword,
             [In] LogonTypes dwLogonType, [In] Logon32Providers dwLogonProvider, [Out] out HANDLE phToken);
@@ -1126,7 +1126,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LookupPrivilegeName"/> function supports only the privileges specified in the Defined Privileges section of Winnt.h.
         /// For a list of values, see Privilege Constants.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LookupPrivilegeName([In] LPCWSTR lpSystemName, [In] in LUID lpLuid, [In] LPWSTR lpName, [In][Out] ref DWORD cchName);
 
@@ -1164,7 +1164,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LookupPrivilegeValue"/> function supports only the privileges specified in the Defined Privileges section of Winnt.h.
         /// For a list of values, see Privilege Constants.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeValueW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LookupPrivilegeValue([In] LPCWSTR lpSystemName, [In] LPCWSTR lpName, [Out] out LUID lpLuid);
 
@@ -1190,7 +1190,7 @@ namespace Lsj.Util.Win32
         /// although it can have other bits set.
         /// If bits other than the generic bits are provided on input, this function does not clear them.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapGenericMask", ExactSpelling = true, SetLastError = true)]
         public static extern void MapGenericMask([In][Out] ref ACCESS_MASK AccessMask, [In] in GENERIC_MAPPING GenericMapping);
 
@@ -1227,7 +1227,7 @@ namespace Lsj.Util.Win32
         /// You should shut down the process if <see cref="RevertToSelf"/> fails.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RevertToSelf", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RevertToSelf();
 
@@ -1354,7 +1354,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorDacl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorDacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] BOOL bDaclPresent,
             [In] in ACL pDacl, [In] BOOL bDaclDefaulted);
@@ -1393,7 +1393,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorGroup", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorGroup([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pGroup, [In] BOOL bGroupDefaulted);
 
@@ -1431,7 +1431,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorOwner", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorOwner([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pOwner, [In] BOOL bOwnerDefaulted);
 
@@ -1478,7 +1478,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorSacl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorSacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
             [In] BOOL bSaclPresent, [In] in ACL pSacl, [In] BOOL bSaclDefaulted);

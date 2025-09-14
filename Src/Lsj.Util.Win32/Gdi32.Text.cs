@@ -304,7 +304,7 @@ namespace Lsj.Util.Win32
         /// due to its ability to handle display of different languages.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtTextOut([In] HDC hdc, [In] int x, [In] int y, [In] ExtTextOutOptions options,
             [In] in RECT lprect, [In] LPCWSTR lpString, [In] uint c, [In] in INT[] lpDx);
@@ -1493,6 +1493,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TextOutW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TextOut([In] HDC hdc, [In] int x, [In] int y, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString, [In] int c);
+        public static extern BOOL TextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString, [In] int c);
     }
 }

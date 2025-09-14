@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -50,8 +51,9 @@ namespace Lsj.Util.Win32
         /// To use this function in an application, call <see cref="GetProcAddress"/> to retrieve the function's address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddDllDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string NewDirectory);
+        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([In] LPCWSTR NewDirectory);
 
         /// <summary>
         /// <para>
@@ -89,51 +91,9 @@ namespace Lsj.Util.Win32
         /// Do not call this function from a DLL that is linked to the static C run-time library (CRT).
         /// The static CRT requires <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications to function properly.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DisableThreadLibraryCalls([In] HMODULE hLibModule);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the process identifier for each process object in the system.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumprocesses"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpidProcess">
-        /// A pointer to an array that receives the list of process identifiers.
-        /// </param>
-        /// <param name="cb">
-        /// The size of the <paramref name="lpidProcess"/> array, in bytes.
-        /// </param>
-        /// <param name="lpcbNeeded">
-        /// The number of bytes returned in the <paramref name="lpidProcess"/> array.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, see <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// It is a good idea to use a large array, because it is hard to predict how many processes there will be
-        /// at the time you call <see cref="EnumProcesses"/>.
-        /// To determine how many processes were enumerated, divide the <paramref name="lpcbNeeded"/> value by sizeof(DWORD).
-        /// There is no indication given when the buffer is too small to store all process identifiers.
-        /// Therefore, if <paramref name="lpcbNeeded"/> equals cb, consider retrying the call with a larger array.
-        /// To obtain process handles for the processes whose identifiers you have just obtained, call the <see cref="OpenProcess"/> function.
-        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
-        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
-        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcesses in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
-        /// If PSAPI_VERSION is 1, this function is defined as <see cref="EnumProcesses"/> in Psapi.h and exported in Psapi.lib and Psapi.dll
-        /// as a wrapper that calls K32EnumProcesses.
-        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
-        /// should always call this function as <see cref="EnumProcesses"/>.
-        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
-        /// To use run-time dynamic linking, load Psapi.dll.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcesses", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] DWORD[] lpidProcess,
-            [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
         /// <summary>
         /// <para>
@@ -191,6 +151,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcessModules", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcessModules([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
@@ -253,6 +214,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcessModulesEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcessModulesEx([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb,
             [Out] out DWORD lpcbNeeded, [In] EnumProcessModulesExFlags dwFilterFlag);
@@ -299,6 +261,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, a race condition can occur.
         /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeLibrary([In] HMODULE hLibModule);
 
@@ -327,6 +290,7 @@ namespace Lsj.Util.Win32
         /// If they were to call <see cref="FreeLibrary"/> and <see cref="ExitThread"/> separately, a race condition would exist.
         /// The library could be unloaded before <see cref="ExitThread"/> is called.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void FreeLibraryAndExitThread([In] HMODULE hLibModule, [In] DWORD dwExitCode);
 
@@ -386,6 +350,7 @@ namespace Lsj.Util.Win32
         /// The global variable _pgmptr is automatically initialized to the full path of the executable file,
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetModuleFileName([In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
@@ -444,6 +409,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
@@ -489,6 +455,7 @@ namespace Lsj.Util.Win32
         /// If the system loads another module, it could reuse the module handle that was recently freed.
         /// Therefore, the first thread would have a handle to a different module than the one intended.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE GetModuleHandle([In] LPWSTR lpModuleName);
 
@@ -550,6 +517,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetModuleHandleEx([In] GetModuleHandleExFlags dwFlags, [In] LPWSTR lpModuleName, [Out] out HMODULE phModule);
 
@@ -615,6 +583,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// For the complete example that contains this code fragment, see Getting the System Version.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern FARPROC GetProcAddress([In] HMODULE hModule, [In] LPCSTR lpProcName);
 
@@ -711,8 +680,9 @@ namespace Lsj.Util.Win32
         /// is in the search path, the malicious version of the DLL may be loaded.
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE LoadLibrary([MarshalAs(UnmanagedType.LPWStr)][In] string lpLibFileName);
+        public static extern HMODULE LoadLibrary([In] LPCWSTR lpLibFileName);
 
         /// <summary>
         /// <para>
@@ -892,8 +862,9 @@ namespace Lsj.Util.Win32
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// For a general discussion of DLL security issues, see Dynamic-Link Library Security.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpLibFileName, [In] HANDLE hFile, [In] LoadLibraryExFlags dwFlags);
+        public static extern HMODULE LoadLibraryEx([In] LPCWSTR lpLibFileName, [In] HANDLE hFile, [In] LoadLibraryExFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -930,8 +901,8 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName, [In] LPVOID lpParameterBlock);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true)]
+        public static extern DWORD LoadModule([In] LPCWSTR lpModuleName, [In] LPVOID lpParameterBlock);
 
         /// <summary>
         /// <para>
@@ -990,8 +961,9 @@ namespace Lsj.Util.Win32
         /// It is not safe to call <see cref="LoadPackagedLibrary"/> from DllMain.
         /// For more information, see the Remarks section in DllMain.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadPackagedLibrary", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE LoadPackagedLibrary([MarshalAs(UnmanagedType.LPWStr)][In] string lpwLibFileName, [In] DWORD Reserved);
+        public static extern HMODULE LoadPackagedLibrary([In] LPCWSTR lpwLibFileName, [In] DWORD Reserved);
 
         /// <summary>
         /// <para>
@@ -1016,7 +988,7 @@ namespace Lsj.Util.Win32
         /// The calling application must set the <see cref="MODULEENTRY32.dwSize"/> member
         /// of <see cref="MODULEENTRY32"/> to the size, in bytes, of the structure.
         /// To retrieve information about other modules associated with the specified process, use the <see cref="Module32Next"/> function.
-        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32FirstW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Module32First([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
 
@@ -1041,6 +1013,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To retrieve information about first module associated with a process, use the <see cref="Module32First"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32NextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Module32Next([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
 
@@ -1066,6 +1039,7 @@ namespace Lsj.Util.Win32
         /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveDllDirectory([In] DLL_DIRECTORY_COOKIE Cookie);
 
@@ -1125,6 +1099,7 @@ namespace Lsj.Util.Win32
         /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDefaultDllDirectories([In] LoadLibraryExFlags DirectoryFlags);
 
@@ -1167,7 +1142,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDllDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName);
+        public static extern BOOL SetDllDirectory([In] LPCWSTR lpPathName);
     }
 }

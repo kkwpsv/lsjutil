@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32
         /// or <see cref="AccessCheckByTypeResultListAndAuditAlarmByHandle"/>, instead of <see cref="AccessCheck"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheck", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheck([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,
             [In] in GENERIC_MAPPING GenericMapping, [In] in PPRIVILEGE_SET PrivilegeSet, [In][Out] ref DWORD PrivilegeSetLength,
@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AccessCheckAndAuditAlarm"/> function fails if the calling thread is not impersonating a client.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckAndAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckAndAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
             [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] ACCESS_MASK DesiredAccess,
@@ -1108,7 +1108,7 @@ namespace Lsj.Util.Win32
         /// but provides no inheritance and no ACE flags.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessAllowedAce", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessAllowedAce([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] ACCESS_MASK AccessMask, [In] PSID pSid);
 
@@ -1574,7 +1574,7 @@ namespace Lsj.Util.Win32
         /// The ACE added by <see cref="AddAccessDeniedAce"/> is not inheritable.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessDeniedAce", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessDeniedAce([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] ACCESS_MASK AccessMask, [In] PSID pSid);
 
@@ -2220,7 +2220,7 @@ namespace Lsj.Util.Win32
         /// the <paramref name="Token"/> parameter must have the <see cref="SE_SECURITY_NAME"/> privilege enabled.
         /// The <see cref="CreatePrivateObjectSecurity"/> function checks this privilege and may generate audits during the process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreatePrivateObjectSecurity([In] PSECURITY_DESCRIPTOR ParentDescriptor, [In] PSECURITY_DESCRIPTOR CreatorDescriptor,
             [Out] PSECURITY_DESCRIPTOR NewDescriptor, [In] BOOL IsDirectoryObject, [In] HANDLE Token, [In] in GENERIC_MAPPING GenericMapping);
@@ -2811,7 +2811,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyPrivateObjectSecurity([In] in PSECURITY_DESCRIPTOR ObjectDescriptor);
 
@@ -2842,7 +2842,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
             [Out] out SECURITY_DESCRIPTOR_CONTROL pControl, [Out] out DWORD lpdwRevision);
@@ -2933,7 +2933,7 @@ namespace Lsj.Util.Win32
         /// The test for this privilege is always performed against the primary token of the calling process,
         /// allowing the calling process to impersonate a client.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectCloseAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ObjectCloseAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] BOOL GenerateOnClose);
 
@@ -3017,7 +3017,7 @@ namespace Lsj.Util.Win32
         /// The test for this privilege is always performed against the primary token of the calling process, not the impersonation token of the thread.
         /// This allows the calling process to impersonate a client during the call.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectOpenAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ObjectOpenAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
             [In] LPCWSTR ObjectName, [In] in SECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,

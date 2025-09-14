@@ -3152,7 +3152,7 @@ namespace Lsj.Util.Win32
         /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemovePropW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE RemoveProp([In] HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern HANDLE RemoveProp([In] HWND hWnd, [In] LPCWSTR lpString);
 
         /// <summary>
         /// <para>
@@ -3822,7 +3822,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowText([In] HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
+        public static extern BOOL SetWindowText([In] HWND hWnd, [In] LPCWSTR lpString);
 
         /// <summary>
         /// 

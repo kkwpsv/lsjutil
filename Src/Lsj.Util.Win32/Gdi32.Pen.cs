@@ -163,7 +163,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePen", ExactSpelling = true, SetLastError = true)]
         public static extern HPEN CreatePen([In] PenStyles iStyle, [In] int cWidth, [In] COLORREF color);
 
@@ -196,7 +196,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HPEN CreatePenIndirect([In] in LOGPEN plpen);
 
@@ -503,7 +503,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtCreatePen", ExactSpelling = true, SetLastError = true)]
         public static extern HPEN ExtCreatePen([In] PenStyles iPenStyle, [In] DWORD cWidth, [In] in LOGBRUSH plbrush, [In] DWORD cStyle, [In] PenStyles[] pstyle);
     }

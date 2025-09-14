@@ -96,8 +96,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCopyKeyW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS SHCopyKey([In] HKEY hkeySrc, [MarshalAs(UnmanagedType.LPWStr)][In] string pszSrcSubKey,
-            [In] HKEY hkeyDest, [In] DWORD fReserved);
+        public static extern LSTATUS SHCopyKey([In] HKEY hkeySrc, [In] LPCWSTR pszSrcSubKey, [In] HKEY hkeyDest, [In] DWORD fReserved);
 
         /// <summary>
         /// <para>
@@ -129,6 +128,6 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDeleteKeyW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS SHDeleteKey([In] HKEY hkey, [MarshalAs(UnmanagedType.LPWStr)][In] string pszSubKey);
+        public static extern LSTATUS SHDeleteKey([In] HKEY hkey, [In] LPCWSTR pszSubKey);
     }
 }

@@ -72,8 +72,8 @@ namespace Lsj.Util.Win32
         /// <see cref="RegFlushKey"/>, however, uses many system resources and should be called only when necessary.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCloseKey", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCloseKey", ExactSpelling = true)]
         public static extern LSTATUS RegCloseKey([In] HKEY hKey);
 
         /// <summary>
@@ -158,8 +158,8 @@ namespace Lsj.Util.Win32
         /// because this bypasses the authentication layer.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegConnectRegistryW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegConnectRegistryW", ExactSpelling = true)]
         public static extern LSTATUS RegConnectRegistry([In] LPCWSTR lpMachineName, [In] HKEY hKey, [Out] out HKEY phkResult);
 
         /// <summary>
@@ -210,8 +210,8 @@ namespace Lsj.Util.Win32
         /// This function also copies the security descriptor for the key.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCopyTreeW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS RegCopyTree([In] HKEY hKeySrc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey, [In] HKEY hKeyDest);
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCopyTreeW", ExactSpelling = true)]
+        public static extern LSTATUS RegCopyTree([In] HKEY hKeySrc, [In] LPCWSTR lpSubKey, [In] HKEY hKeyDest);
 
         /// <summary>
         /// <para>
@@ -308,8 +308,8 @@ namespace Lsj.Util.Win32
             "Applications should use the RegCreateKeyEx function." +
             "However, applications that back up or restore system state including system files" +
             "and registry hives should use the Volume Shadow Copy Service instead of the registry functions.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegCreateKey([In] HKEY hKey, [In] LPCWSTR lpSubKey, [Out] out HKEY phkResult);
 
         /// <summary>
@@ -588,8 +588,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegCreateKeyEx([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] DWORD Reserved, [In] LPCWSTR lpClass,
             [In] RegistryOptions dwOptions, [In] REGSAM samDesired, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes,
             [Out] out HKEY phkResult, [Out] out RegistryKeyDispositions lpdwDisposition);
@@ -845,7 +845,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyTransactedW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegCreateKeyTransactedW", ExactSpelling = true)]
         public static extern LSTATUS RegCreateKeyTransacted([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] DWORD Reserved, [In] LPCWSTR lpClass,
             [In] RegistryOptions dwOptions, [In] REGSAM samDesired, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [Out] out HKEY phkResult,
             [Out] out RegistryKeyDispositions lpdwDisposition, [In] HANDLE hTransaction, PVOID pExtendedParemeter);
@@ -921,8 +921,8 @@ namespace Lsj.Util.Win32
         /// To delete keys recursively, use the <see cref="RegDeleteTree"/> or <see cref="SHDeleteKey"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegDeleteKey([In] HKEY hKey, [In] LPCWSTR lpSubKey);
 
         /// <summary>
@@ -1052,8 +1052,8 @@ namespace Lsj.Util.Win32
         /// On legacy versions of Windows, this API is also exposed by kernel32.dll.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "Windows Vista, Windows XP Professional x64 Edition")]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows Vista, Windows XP Professional x64 Edition")]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegDeleteKeyEx([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] REGSAM samDesired, [In] DWORD Reserved);
 
         /// <summary>
@@ -1185,9 +1185,9 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS RegDeleteKeyTransacted([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
-            [In] REGSAM samDesired, [In] DWORD Reserved, [In] HANDLE hTransaction, [In] PVOID pExtendedParameter);
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyTransactedW", ExactSpelling = true)]
+        public static extern LSTATUS RegDeleteKeyTransacted([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] REGSAM samDesired,
+            [In] DWORD Reserved, [In] HANDLE hTransaction, [In] PVOID pExtendedParameter);
 
         /// <summary>
         /// <para>
@@ -1241,8 +1241,8 @@ namespace Lsj.Util.Win32
         /// or this function will fail with <see cref="ERROR_ACCESS_DENIED"/>.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteTreeW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS RegDeleteTree([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey);
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteTreeW", ExactSpelling = true)]
+        public static extern LSTATUS RegDeleteTree([In] HKEY hKey, [In] LPCWSTR lpSubKey);
 
         /// <summary>
         /// <para>
@@ -1296,9 +1296,9 @@ namespace Lsj.Util.Win32
         /// You can use the <see cref="FormatMessage"/> function
         /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag to get a generic description of the error.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteValueW", ExactSpelling = true, SetLastError = true)]
-        public static extern LSTATUS RegDeleteValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpValueName);
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteValueW", ExactSpelling = true)]
+        public static extern LSTATUS RegDeleteValue([In] HKEY hKey, [In] LPCWSTR lpValueName);
 
         /// <summary>
         /// <para>
@@ -1393,8 +1393,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the RegEnumKeyEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegEnumKey([In] HKEY hKey, [In] DWORD dwIndex, [In] IntPtr lpName, [In] DWORD cchName);
 
         /// <summary>
@@ -1524,8 +1524,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegEnumKeyEx([In] HKEY hKey, [In] DWORD dwIndex, [In] LPWSTR lpName, [In][Out] ref DWORD lpcchName,
             [In] IntPtr lpReserved, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [Out] out FILETIME lpftLastWriteTime);
 
@@ -1685,8 +1685,8 @@ namespace Lsj.Util.Win32
         /// To determine the maximum size of the name and data buffers, use the <see cref="RegQueryInfoKey"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumValueW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumValueW", ExactSpelling = true)]
         public static extern LSTATUS RegEnumValue([In] HKEY hKey, [In] DWORD dwIndex, [In] LPWSTR lpValueName, [In][Out] ref DWORD lpcchValueName,
             [In] IntPtr lpReserved, [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [In][Out] ref DWORD lpcbData);
 
@@ -1764,8 +1764,8 @@ namespace Lsj.Util.Win32
         /// After <see cref="RegFlushKey"/> returns, use <see cref="RegCloseKey"/> to close the handle to the registry key.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegFlushKey", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegFlushKey", ExactSpelling = true)]
         public static extern LSTATUS RegFlushKey([In] HKEY hKey);
 
         /// <summary>
@@ -2166,7 +2166,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegGetValueW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegGetValueW", ExactSpelling = true)]
         public static extern LSTATUS RegGetValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPCWSTR lpValue,
             [In] RegistryRoutineFlags dwFlags, [Out] out RegistryValueTypes pdwType, [In] PVOID pvData, [In][Out] ref DWORD pcbData);
 
@@ -2247,7 +2247,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegLoadAppKeyW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegLoadAppKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegLoadAppKey([In] LPCWSTR lpFile, [Out] out HKEY phkResult, [In] REGSAM samDesired,
             [In] DWORD dwOptions, [In] DWORD Reserved);
 
@@ -2319,8 +2319,8 @@ namespace Lsj.Util.Win32
         /// To load a hive without requiring these special privileges, use the <see cref="RegLoadAppKey"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegLoadKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegLoadKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegLoadKey([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPCWSTR lpFile);
 
         /// <summary>
@@ -2358,7 +2358,7 @@ namespace Lsj.Util.Win32
         /// or the default if the profile is not loaded.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenCurrentUser", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenCurrentUser", ExactSpelling = true)]
         public static extern LSTATUS RegOpenCurrentUser([In] REGSAM samDesired, [Out] out HKEY phkResult);
 
         /// <summary>
@@ -2460,8 +2460,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the RegOpenKeyEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegOpenKey([In] HKEY hKey, [In] LPCWSTR lpSubKey, [Out] out HKEY phkResult);
 
         /// <summary>
@@ -2571,8 +2571,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegOpenKeyEx([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] RegistryOptions ulOptions,
             [In] REGSAM samDesired, [Out] out HKEY phkResult);
 
@@ -2675,7 +2675,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyTransactedW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyTransactedW", ExactSpelling = true)]
         public static extern LSTATUS RegOpenKeyTransacted([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] RegistryOptions ulOptions,
             [In] REGSAM samDesired, [Out] out HKEY phkResult, [In] HANDLE hTransaction, [In] PVOID pExtendedParemeter);
 
@@ -2780,8 +2780,8 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="ERROR_MORE_DATA"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryInfoKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryInfoKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegQueryInfoKey([In] HKEY hKey, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [In] IntPtr lpReserved,
             [Out] out DWORD lpcSubKeys, [Out] out DWORD lpcbMaxSubKeyLen, [Out] out DWORD lpcbMaxClassLen, [Out] out DWORD lpcValues,
             [Out] out DWORD lpcbMaxValueNameLen, [Out] out DWORD lpcbMaxValueLen, [Out] out DWORD lpcbSecurityDescriptor,
@@ -2906,8 +2906,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the RegQueryValueEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueW", ExactSpelling = true)]
         public static extern LSTATUS RegQueryValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] IntPtr lpData, [Out] out LONG lpcbData);
 
         /// <summary>
@@ -3085,8 +3085,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", ExactSpelling = true)]
         public static extern LSTATUS RegQueryValueEx([In] HKEY hKey, [In] LPCWSTR lpValueName, [In] IntPtr lpReserved,
             [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [In][Out] ref DWORD lpcbData);
 
@@ -3165,8 +3165,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Running with Special Privileges.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegReplaceKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegReplaceKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegReplaceKey([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPCWSTR lpNewFile, [In] LPCWSTR lpOldFile);
 
         /// <summary>
@@ -3285,8 +3285,8 @@ namespace Lsj.Util.Win32
         /// the path described by <paramref name="lpFile"/> is relative to the remote computer.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegRestoreKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegRestoreKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegRestoreKey([In] HKEY hKey, [In] LPCWSTR lpFile, [In] RegRestoreKeyFlags dwFlags);
 
         /// <summary>
@@ -3375,8 +3375,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Running with Special Privileges.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSaveKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSaveKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegSaveKey([In] in HKEY hKey, [In] LPCWSTR lpFile, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
@@ -3523,7 +3523,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSaveKeyExW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSaveKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegSaveKeyEx([In] in HKEY hKey, [In] LPCWSTR lpFile,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] RegSaveKeyExFlags Flags);
 
@@ -3559,8 +3559,8 @@ namespace Lsj.Util.Win32
         /// If <paramref name="hKey"/> is one of the predefined keys, use the <see cref="RegCloseKey"/> function to close the predefined key
         /// to ensure that the new security information is in effect the next time the predefined key is referenced.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetKeySecurity", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetKeySecurity", ExactSpelling = true)]
         public static extern LSTATUS RegSetKeySecurity([In] HKEY hKey, [In] SECURITY_INFORMATION SecurityInformation,
             [In] PSECURITY_DESCRIPTOR pSecurityDescriptor);
 
@@ -3627,7 +3627,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetKeyValueW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetKeyValueW", ExactSpelling = true)]
         public static extern LSTATUS RegSetKeyValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPCWSTR lpValueName,
             [In] RegistryValueTypes dwType, [In] LPCVOID lpData, [In] DWORD cbData);
 
@@ -3724,8 +3724,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the RegSetValueEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueW", ExactSpelling = true)]
         public static extern LSTATUS RegSetValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] RegistryValueTypes dwType, [In] LPCWSTR lpData, [In] DWORD cbData);
 
         /// <summary>
@@ -3855,8 +3855,8 @@ namespace Lsj.Util.Win32
         /// Consider using the <see cref="RegSetKeyValue"/> function, which provides a more convenient way to set the value of a registry key.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueExW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueExW", ExactSpelling = true)]
         public static extern LSTATUS RegSetValueEx([In] HKEY hKey, [In] LPWSTR lpValueName,
             [In] DWORD Reserved, [In] RegistryValueTypes dwType, [In] IntPtr lpData, [In] DWORD cbData);
 
@@ -3926,8 +3926,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Running with Special Privileges.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegUnLoadKeyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegUnLoadKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegUnLoadKey([In] in HKEY hKey, [In] LPCWSTR lpSubKey);
     }
 }

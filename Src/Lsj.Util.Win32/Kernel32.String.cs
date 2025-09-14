@@ -20,6 +20,7 @@ using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.CompareStringFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -137,6 +138,7 @@ namespace Lsj.Util.Win32
         /// The ANSI version of the function is declared in Winnls.h, and the Unicode version is declared in Stringapiset.h.
         /// Before Windows 8, both versions were declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringW", ExactSpelling = true, SetLastError = true)]
         public static extern CompareStringResults CompareString([In] LCID Locale, [In] CompareStringFlags dwCmpFlags, [In] LPCWSTR lpString1,
             [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2);
@@ -195,6 +197,7 @@ namespace Lsj.Util.Win32
         /// Starting with Windows 8: <see cref="CompareStringOrdinal"/> is declared in Stringapiset.h.
         /// Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringOrdinal", ExactSpelling = true, SetLastError = true)]
         public static extern int CompareStringOrdinal([In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2,
             [In] int cchCount2, [In] BOOL bIgnoreCase);
@@ -339,6 +342,7 @@ namespace Lsj.Util.Win32
         /// The behavior of sorting can change between Windows releases. For example, there may be new Unicode code points created.
         /// Use <see cref="GetNLSVersionEx"/> to discover if the sort version has changed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
         public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] CompareStringFlags dwCmpFlags,
             [In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
@@ -400,6 +404,7 @@ namespace Lsj.Util.Win32
         /// It makes this call to clear the last error in a thread when it fails to match the search string.
         /// This clears the value returned by <see cref="GetLastError"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindStringOrdinal", ExactSpelling = true, SetLastError = true)]
         public static extern int FindStringOrdinal([In] FindStringFlags dwFindStringOrdinalFlags, [In] LPCWSTR lpStringSource, [In] int cchSource,
             [In] LPCWSTR lpStringValue, [In] int cchValue, [In] BOOL bIgnoreCase);
@@ -489,6 +494,7 @@ namespace Lsj.Util.Win32
         /// The transformations indicated by the <see cref="MAP_FOLDCZONE"/>, <see cref="MAP_PRECOMPOSED"/>, and <see cref="MAP_COMPOSITE"/> flags
         /// use Unicode normalization forms KC, C, and D (through the <see cref="NormalizeString"/> function) to do the mappings.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FoldStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int FoldString([In] StringMappingTransformationFlags dwMapFlags, [In] LPCWSTR lpSrcStr,
             [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
@@ -621,6 +627,7 @@ namespace Lsj.Util.Win32
         /// <see cref="C3_HIGHSURROGATE"/> and <see cref="C3_LOWSURROGATE"/> are listed only for completeness, and should never be provided to this function.
         /// They are relevant only for Unicode.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetStringType([In] CharacterTypeFlags dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
 
@@ -704,6 +711,7 @@ namespace Lsj.Util.Win32
         /// These values are solely determined by Unicode code points, and do not vary on a locale basis.
         /// For example, Greek letters are specified as <see cref="C1_ALPHA"/> for any value of Locale.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetStringTypeEx([In] LCID Locale, [In] DWORD dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
 
@@ -727,9 +735,10 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a pointer to the buffer.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true, SetLastError = true)]
-        public static extern LPWSTR lstrcat([In] LPWSTR lpString1, [In] LPWSTR lpString2);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true)]
+        public static extern LPWSTR lstrcat([In] LPWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
         /// <para>
@@ -769,7 +778,8 @@ namespace Lsj.Util.Win32
         /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", ExactSpelling = true)]
         public static extern int lstrcmp([In] LPCWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
@@ -814,7 +824,8 @@ namespace Lsj.Util.Win32
         /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", ExactSpelling = true)]
         public static extern int lstrcmpi([In] LPCWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
@@ -855,7 +866,8 @@ namespace Lsj.Util.Win32
         /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true)]
         public static extern LPWSTR lstrcpy([In] LPWSTR lpString1, [In] LPCWSTR lpString2);
 
         /// <summary>
@@ -908,7 +920,8 @@ namespace Lsj.Util.Win32
         /// Review Security Considerations: Windows User Interface before continuing.
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true)]
         public static extern LPWSTR lstrcpyn([In] LPWSTR lpString1, [In] LPCWSTR lpString2, [In] int iMaxLength);
 
         /// <summary>
@@ -926,7 +939,8 @@ namespace Lsj.Util.Win32
         /// The function returns the length of the string, in characters.
         /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", ExactSpelling = true)]
         public static extern int lstrlen([In] LPCWSTR lpString);
 #pragma warning restore IDE1006
 
@@ -1088,9 +1102,10 @@ namespace Lsj.Util.Win32
         /// Starting with Windows 8:
         /// <see cref="MultiByteToWideChar"/> is declared in Stringapiset.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
-        public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MultiByteConversionTypes dwFlags, [In] IntPtr lpMultiByteStr,
-            [In] int cbMultiByte, [In] IntPtr lpWideCharStr, [In] int cchWideChar);
+        public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MultiByteConversionTypes dwFlags, [In] LPCCH lpMultiByteStr,
+            [In] int cbMultiByte, [In] LPWSTR lpWideCharStr, [In] int cchWideChar);
 
         /// <summary>
         /// <para>
@@ -1148,9 +1163,9 @@ namespace Lsj.Util.Win32
         /// as defined in Unicode Standard Annex #15: Unicode Normalization Forms.
         /// Normalized strings are typically evaluated with an ordinal comparison.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "NormalizeString", ExactSpelling = true, SetLastError = true)]
-        public static extern int NormalizeString([In] NORM_FORM NormForm, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSrcString,
-            [In] int cwSrcLength, [In] IntPtr lpDstString, [In] int cwDstLength);
+        public static extern int NormalizeString([In] NORM_FORM NormForm, [In] LPCWSTR lpSrcString, [In] int cwSrcLength, [In] LPWSTR lpDstString, [In] int cwDstLength);
 
         /// <summary>
         /// <para>
@@ -1349,8 +1364,9 @@ namespace Lsj.Util.Win32
         /// Some combinations do not convert correctly to code page 1258, and WC_COMPOSITECHECK corrupts data in code page 20269.
         /// As mentioned earlier, it is more reliable to design your application to save and store such data as Unicode.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WideCharToMultiByte", ExactSpelling = true, SetLastError = true)]
-        public static extern int WideCharToMultiByte([In] CodePages CodePage, [In] WideCharConversionTypes dwFlags, [In] IntPtr lpWideCharStr, [In] int cchWideChar,
-            [In] IntPtr lpMultiByteStr, [In] int cbMultiByte, [In] LPCCH lpDefaultChar, [Out] out BOOL lpUsedDefaultChar);
+        public static extern int WideCharToMultiByte([In] CodePages CodePage, [In] WideCharConversionTypes dwFlags, [In] LPCWCH lpWideCharStr, [In] int cchWideChar,
+            [In] LPSTR lpMultiByteStr, [In] int cbMultiByte, [In] LPCCH lpDefaultChar, [Out] out BOOL lpUsedDefaultChar);
     }
 }

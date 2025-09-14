@@ -286,9 +286,9 @@ namespace Lsj.Util.Win32
         /// After restarting the system, the font will no longer be loaded and can be changed.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResource([In] string unnamedParam1);
+        public static extern int AddFontResource([In] LPCWSTR unnamedParam1);
 
         /// <summary>
         /// <para>
@@ -464,7 +464,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResourceEx([In] string name, [In] AddFontResourceExFlags fl, [In] PVOID res);
+        public static extern int AddFontResourceEx([In] LPCWSTR name, [In] AddFontResourceExFlags fl, [In] PVOID res);
 
         /// <summary>
         /// <para>
@@ -1194,7 +1194,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontW", ExactSpelling = true, SetLastError = true)]
         public static extern HFONT CreateFont([In] int cHeight, [In] int cWidth, [In] int cEscapement, [In] int cOrientation, [In] int cWeight,
             [In] DWORD bItalic, [In] DWORD bUnderline, [In] DWORD bStrikeOut, [In] DWORD iCharSet, [In] DWORD iOutPrecision, [In] DWORD iClipPrecision,
@@ -1249,7 +1249,7 @@ namespace Lsj.Util.Win32
         /// recognizes both the English and the localized typeface name, regardless of locale.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", ExactSpelling = true, SetLastError = true)]
         public static extern HFONT CreateFontIndirect([In] in LOGFONT lplf);
 
@@ -1404,7 +1404,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The CreateScalableFontResource function is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateScalableFontResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateScalableFontResource([In] DWORD fdwHidden, [In] LPWSTR lpszFont, [In] LPWSTR lpszFile, [In] LPWSTR lpszPath);
 
@@ -1454,7 +1454,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumFontFamilies([In] IntPtr hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
 
@@ -1666,18 +1666,21 @@ namespace Lsj.Util.Win32
         /// this function returns a list of type 1, OpenType, and TrueType fonts on the system.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumFontFamiliesEx([In] IntPtr hdc, [In] ref LOGFONT lpLogfont, [In] FONTENUMPROC lpProc,
             [In] IntPtr lParam, [In] uint dwFlags);
 
         /// <summary>
         /// <para>
-        /// The EnumFonts function enumerates the fonts available on a specified device.
+        /// The <see cref="EnumFonts"/> function enumerates the fonts available on a specified device.
         /// For each font with the specified typeface name, the <see cref="EnumFonts"/> function retrieves information about that font
         /// and passes it to the application defined callback function.
         /// This callback function can process the font information as desired.
         /// Enumeration continues until there are no more fonts or the callback function returns zero.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-enumfontsw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1712,9 +1715,9 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontsW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFonts([In] IntPtr hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
+        public static extern int EnumFonts([In] HDC hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -1748,7 +1751,7 @@ namespace Lsj.Util.Win32
         /// matching the specified aspect ratio by calling the <see cref="SetMapperFlags"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAspectRatioFilterEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetAspectRatioFilterEx([In] HDC hdc, [Out] out SIZE lpsize);
 
@@ -1807,7 +1810,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharABCWidths([In] HDC hdc, [In] UINT wFirst, [In] UINT wLast, [In][Out] ABC[] lpABC);
 
@@ -1865,7 +1868,7 @@ namespace Lsj.Util.Win32
         /// The ABC widths of the default character are used for characters outside the range of the currently selected font.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsFloatW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharABCWidthsFloat([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [In][Out] ABCFLOAT[] lpABC);
 
@@ -2295,7 +2298,7 @@ namespace Lsj.Util.Win32
         /// whose glyph indexes advance width is less than the width of the leading character.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharacterPlacementW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCharacterPlacement([In] HDC hdc, [In] LPCWSTR lpString, [In] int nCount, [In] int nMaxExtent,
             [In][Out] ref GCP_RESULTS lpResults, [In] GetCharacterPlacementFlags dwFlags);
@@ -2344,7 +2347,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should call the GetCharWidth32 function, which provides more accurate results.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharWidth([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] out int lpBuffer);
 
@@ -2390,7 +2393,7 @@ namespace Lsj.Util.Win32
         /// If a character does not exist in the current font, it is assigned the width of the default character.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidth32W", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharWidth32([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] INT[] lpBuffer);
 
@@ -2435,7 +2438,7 @@ namespace Lsj.Util.Win32
         /// If a character does not exist in the current font, it is assigned the width of the default character.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthFloatW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharWidthFloat([In] HDC hdc, [In] UINT iFirst, [In] UINT iLast, [Out] FLOAT[] lpBuffer);
 
@@ -2538,7 +2541,7 @@ namespace Lsj.Util.Win32
         /// If an application attempts to use this function to retrieve information for a non-TrueType font, an error occurs.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontData", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontData([In] HDC hdc, [In] DWORD dwTable, [In] DWORD dwOffset, [In] PVOID pvBuffer, [In] DWORD cjBuffer);
 
@@ -2646,7 +2649,7 @@ namespace Lsj.Util.Win32
         /// can be passed directly to the <see cref="GetCharacterPlacement"/> function.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontLanguageInfo", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFontLanguageInfo([In] HDC hdc);
 
@@ -2943,7 +2946,7 @@ namespace Lsj.Util.Win32
         /// Additional information on a glyph outlines is located in the TrueType and the OpenType technical specifications.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetGlyphOutline([In] HDC hdc, [In] UINT uChar, [In] GetGlyphOutlineFormats fuFormat,
             [Out] out GLYPHMETRICS lpgm, [In] DWORD cjBuffer, [In] LPVOID pvBuffer, [In] in MAT2 lpmat2);
@@ -2977,7 +2980,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKerningPairsW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetKerningPairs([In] HDC hdc, [In] DWORD nPairs, [In][Out] KERNINGPAIR[] lpKernPair);
 
@@ -3013,7 +3016,7 @@ namespace Lsj.Util.Win32
         /// (including a <see cref="TEXTMETRIC"/> structure).
         /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are in logical units; they depend on the current mapping mode.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOutlineTextMetricsW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetOutlineTextMetrics([In] HDC hdc, [In] UINT cjCopy, [Out] out OUTLINETEXTMETRIC potm);
 

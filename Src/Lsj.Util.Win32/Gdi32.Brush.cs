@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBrushIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateBrushIndirect([In] in LOGBRUSH plbrush);
 
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateDIBPatternBrush([In] HGLOBAL h, [In] DIBColorTableUsages iUsage);
 
@@ -214,7 +214,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableUsages iUsage);
 
@@ -260,7 +260,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateSolidBrush([In] COLORREF color);
 
@@ -373,7 +373,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateHatchBrush([In] HatchStyles iHatch, [In] COLORREF color);
 
@@ -419,7 +419,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreatePatternBrush([In] HBITMAP hbm);
 
@@ -469,7 +469,7 @@ namespace Lsj.Util.Win32
         /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBrushOrgEx([In] HDC hdc, [Out] out POINT lppt);
 

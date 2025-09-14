@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -903,8 +904,7 @@ namespace Lsj.Util.Win32
         /// However, this function affects only the current session. The new colors are not saved when the system terminates.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetSysColors([In] int cElements, [MarshalAs(UnmanagedType.LPArray)][In] INT[] lpaElements,
-            [MarshalAs(UnmanagedType.LPArray)][In] COLORREF[] lpaRgbValues);
+        public static extern BOOL SetSysColors([In] int cElements, [In] INT[] lpaElements, [In] COLORREF[] lpaRgbValues);
 
         /// <summary>
         /// <para>
@@ -1283,7 +1283,6 @@ namespace Lsj.Util.Win32
         /// If you do not want to add Help to a particular control, set its context identifier to -1.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinHelpW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WinHelp([In] HWND hWndMain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszHelp,
-            [In] WinHelpCommands uCommand, [In] ULONG_PTR dwData);
+        public static extern BOOL WinHelp([In] HWND hWndMain, [In] LPCWSTR lpszHelp, [In] WinHelpCommands uCommand, [In] ULONG_PTR dwData);
     }
 }

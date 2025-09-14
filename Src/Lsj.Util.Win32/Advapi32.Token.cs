@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32
         /// You cannot enable a group that has the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenGroups", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustTokenGroups([In] HANDLE TokenHandle, [In] BOOL ResetToDefault, [In] in TOKEN_GROUPS NewState,
             [In] DWORD BufferLength, [Out] out TOKEN_GROUPS PreviousState, [Out] out DWORD ReturnLength);
@@ -286,7 +286,7 @@ namespace Lsj.Util.Win32
         /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustTokenPrivileges([In] HANDLE TokenHandle, [In] BOOL DisableAllPrivileges, [In] in TOKEN_PRIVILEGES NewState,
             [In] DWORD BufferLength, [Out] out TOKEN_PRIVILEGES PreviousState, [Out] out DWORD ReturnLength);
@@ -609,10 +609,8 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRestrictedToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateRestrictedToken([In] HANDLE ExistingTokenHandle, [In] CreateRestrictedTokenFlags Flags,
-            [In] DWORD DisableSidCount, [MarshalAs(UnmanagedType.LPArray)][In] SID_AND_ATTRIBUTES[] SidsToDisable,
-            [In] DWORD DeletePrivilegeCount, [MarshalAs(UnmanagedType.LPArray)][In] LUID_AND_ATTRIBUTES[] PrivilegesToDelete,
-            [In] DWORD RestrictedSidCount, [MarshalAs(UnmanagedType.LPArray)][In] SID_AND_ATTRIBUTES[] SidsToRestrict,
-            [Out] out HANDLE NewTokenHandle);
+            [In] DWORD DisableSidCount, [In] SID_AND_ATTRIBUTES[] SidsToDisable, [In] DWORD DeletePrivilegeCount, [In] LUID_AND_ATTRIBUTES[] PrivilegesToDelete,
+            [In] DWORD RestrictedSidCount, [In] SID_AND_ATTRIBUTES[] SidsToRestrict, [Out] out HANDLE NewTokenHandle);
 
         /// <summary>
         /// <para>
@@ -689,7 +687,7 @@ namespace Lsj.Util.Win32
         /// which requires a primary token.
         /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DuplicateToken([In] HANDLE ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
             [Out] out HANDLE DuplicateTokenHandle);
@@ -801,7 +799,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DuplicateTokenEx"/> function creates a primary token that has the security context of the client.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DuplicateTokenEx([In] HANDLE ExistingTokenHandle, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
             [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out HANDLE DuplicateTokenHandle);
@@ -862,7 +860,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
             [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength, [Out] out DWORD ReturnLength);
@@ -948,7 +946,7 @@ namespace Lsj.Util.Win32
         /// To close the access token handle returned through the <paramref name="TokenHandle"/> parameter, call <see cref="CloseHandle"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenProcessToken([In] HANDLE ProcessHandle, [In] ACCESS_MASK DesiredAccess, [Out] out HANDLE TokenHandle);
 
@@ -1010,53 +1008,9 @@ namespace Lsj.Util.Win32
         /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenThreadToken([In] HANDLE ThreadHandle, [In] ACCESS_MASK DesiredAccess, [In] BOOL OpenAsSelf, [Out] out HANDLE TokenHandle);
-
-        /// <summary>
-        /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
-        /// The information that this function sets replaces existing information.
-        /// The calling process must have appropriate access rights to set the information.
-        /// <para>
-        /// From : https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
-        /// </para>
-        /// </summary>
-        /// <param name="TokenHandle">
-        /// A handle to the access token for which information is to be set.
-        /// </param>
-        /// <param name="TokenInformationClass">
-        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/> enumerated type that identifies the type of information the function sets. 
-        /// The valid values from <see cref="TOKEN_INFORMATION_CLASS"/> are described in the <paramref name="TokenInformation"/> parameter.
-        /// </param>
-        /// <param name="TokenInformation">
-        /// A pointer to a buffer that contains the information set in the access token.
-        /// The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
-        /// </param>
-        /// <param name="TokenInformationLength">
-        /// Specifies the length, in bytes, of the buffer pointed to by <paramref name="TokenInformation"/>.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the function returns a non-zero value.
-        /// </para>
-        /// <para>
-        /// If the function fails, it returns zero. To get extended error information, call <see cref="GetLastError"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
-        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
-        /// </para>
-        /// <para>
-        /// Token-type information can be set only when an access token is created.
-        /// </para>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
 
         /// <summary>
         /// <para>
@@ -1101,8 +1055,52 @@ namespace Lsj.Util.Win32
         /// you must have the impersonate privileges and make sure that
         /// the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
+
+        /// <summary>
+        /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
+        /// The information that this function sets replaces existing information.
+        /// The calling process must have appropriate access rights to set the information.
+        /// <para>
+        /// From : https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token for which information is to be set.
+        /// </param>
+        /// <param name="TokenInformationClass">
+        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/> enumerated type that identifies the type of information the function sets. 
+        /// The valid values from <see cref="TOKEN_INFORMATION_CLASS"/> are described in the <paramref name="TokenInformation"/> parameter.
+        /// </param>
+        /// <param name="TokenInformation">
+        /// A pointer to a buffer that contains the information set in the access token.
+        /// The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
+        /// </param>
+        /// <param name="TokenInformationLength">
+        /// Specifies the length, in bytes, of the buffer pointed to by <paramref name="TokenInformation"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns a non-zero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
+        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
+        /// </para>
+        /// <para>
+        /// Token-type information can be set only when an access token is created.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
     }
 }
