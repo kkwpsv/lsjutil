@@ -265,12 +265,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// if you set the authentication service to default and the authentication information to <see cref="NULL"/>,
         /// you might get a security setting that will not work.
         /// </remarks>
-        public HRESULT SetBlanket([In] P<IUnknown> pProxy, [In] DWORD pAuthnSvc, [In] DWORD pAuthzSvc, [In] StringHandle pServerPrincName,
+        public HRESULT SetBlanket([In] P<IUnknown> pProxy, [In] DWORD pAuthnSvc, [In] DWORD pAuthzSvc, [In] LPOLESTR pServerPrincName,
             [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, StringHandle, DWORD, DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, LPOLESTR, DWORD, DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
                     (thisPtr, pProxy, pAuthnSvc, pAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
             }
         }

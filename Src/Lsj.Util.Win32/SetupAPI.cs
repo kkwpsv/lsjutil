@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -7,8 +8,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConfigurationManagerDeviceCapabilityFlags;
-using static Lsj.Util.Win32.Enums.SetupDeviceRegistryProperties;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
+using static Lsj.Util.Win32.Enums.SetupDeviceRegistryProperties;
 using static Lsj.Util.Win32.Enums.SetupDiGetClassDevsFlags;
 using static Lsj.Util.Win32.Enums.SetupDiOpenDeviceInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -37,6 +38,7 @@ namespace Lsj.Util.Win32
         /// The function returns <see cref="TRUE"/> if it is successful.
         /// Otherwise, it returns <see cref="FALSE"/> and the logged error can be retrieved with a call to <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiDestroyDeviceInfoList", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiDestroyDeviceInfoList([In] HDEVINFO DeviceInfoSet);
 
@@ -88,6 +90,7 @@ namespace Lsj.Util.Win32
         /// when it is no longer needed by calling <see cref="SetupDiDestroyDeviceInfoList"/>.
         /// Call <see cref="SetupDiGetClassDevsEx"/> to retrieve the devices for a class on a remote computer.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetClassDevsW", ExactSpelling = true, SetLastError = true)]
         public static extern HDEVINFO SetupDiGetClassDevs([In] in GUID ClassGuid, [In] LPCWSTR Enumerator,
             [In] HWND hwndParent, [In] SetupDiGetClassDevsFlags Flags);
@@ -126,6 +129,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="SetupDiEnumDeviceInterfaces"/> to get a context structure
         /// for a device interface element (versus a device information element).
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiEnumDeviceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiEnumDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] DWORD MemberIndex, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
 
@@ -222,6 +226,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] IntPtr DeviceInstanceId,
             [In] DWORD DeviceInstanceIdSize, [Out] out DWORD RequiredSize);
@@ -446,6 +451,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceRegistryPropertyW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceRegistryProperty([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
             [In] SetupDeviceRegistryProperties Property, [Out] out RegistryValueTypes PropertyRegDataType, [In] IntPtr PropertyBuffer,
@@ -479,6 +485,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns <see cref="FALSE"/> and the logged error can be retrieved with a call to <see cref="GetLastError"/>.
         /// If a driver has not been selected for the specified device instance, the logged error is <see cref="ERROR_NO_DRIVER_SELECTED"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetSelectedDriverW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetSelectedDriver([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
             [In][Out] ref SP_DRVINFO_DATA DriverInfoData);
@@ -529,6 +536,7 @@ namespace Lsj.Util.Win32
         /// In this case, a call to <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_USER_BUFFER"/>.
         /// However, the device information element is added as a new member of the set anyway.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiOpenDeviceInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiOpenDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] LPCWSTR DeviceInstanceId, [In] HWND hwndParent,
             [In] SetupDiOpenDeviceInfoFlags OpenFlags, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);

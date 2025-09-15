@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
-        public static readonly StringHandle LOCALE_NAME_INVARIANT = "";
+        public const string LOCALE_NAME_INVARIANT = "";
 
         /// <summary>
         /// <para>
@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
-        public static readonly StringHandle LOCALE_NAME_SYSTEM_DEFAULT = "!x-sys-default-locale";
+        public const string LOCALE_NAME_SYSTEM_DEFAULT = "!x-sys-default-locale";
 
         /// <summary>
         /// <para>
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
-        public static readonly StringHandle LOCALE_NAME_USER_DEFAULT = NULL;
+        public const string LOCALE_NAME_USER_DEFAULT = null;
 
 
         /// <summary>
@@ -344,8 +344,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] CompareStringFlags dwCmpFlags,
-            [In] LPCWSTR lpString1, [In] int cchCount1, [In] LPCWSTR lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
+        public static extern CompareStringResults CompareStringEx([In] LPCWSTR lpLocaleName, [In] CompareStringFlags dwCmpFlags,
+            [In] LPCWCH lpString1, [In] int cchCount1, [In] LPCWCH lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
             [In] LPVOID lpReserved, [In] LPARAM lParam);
 
         /// <summary>

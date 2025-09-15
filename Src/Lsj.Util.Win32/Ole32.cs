@@ -31,6 +31,7 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
+using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -62,7 +63,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// COLE_DEFAULT_PRINCIPAL
         /// </summary>
-        public static readonly StringHandle COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
+        public static readonly IntPtr COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
 
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace Lsj.Util.Win32
         /// Instead, the client manipulates the linked objects through the <see cref="IOleLink"/> interface.
         /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT BindMoniker([In] IMoniker pmk, [In] DWORD grfOpt, [In] in Guid iidResult, [Out] out IUnknown ppvResult);
 
@@ -143,6 +145,7 @@ namespace Lsj.Util.Win32
         /// Because of the restrictions placed on OLE 1 CLSID values, <see cref="CLSIDFromProgID"/> and <see cref="CLSIDFromString"/> are
         /// the only two functions that can be used to generate a CLSID for an OLE 1 object.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromProgID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CLSIDFromProgID([In] LPCOLESTR lpszProgID, [Out] out CLSID lpclsid);
 
@@ -167,6 +170,7 @@ namespace Lsj.Util.Win32
         /// <see cref="REGDB_E_CLASSNOTREG"/>: The CLSID corresponding to the class string was not found in the registry.
         /// <see cref="REGDB_E_READREGDB"/>: The registry could not be opened for reading.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromString", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CLSIDFromString([In] LPCOLESTR lpsz, [Out] out CLSID lpclsid);
 
@@ -210,6 +214,7 @@ namespace Lsj.Util.Win32
         /// In this case, calling <see cref="IUnknown.QueryInterface"/> from the b proxy for IID_IA will not retrieve the IA interface on b,
         /// but the one on a, the original proxy with the "default" security settings for the IA interface.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCopyProxy", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoCopyProxy([In] P<IUnknown> pProxy, [Out] P<IUnknown> ppCopy);
 
@@ -236,6 +241,7 @@ namespace Lsj.Util.Win32
         /// To a very high degree of certainty, this function returns a unique value – no other invocation,
         /// on the same or any other system (networked or not), should return the same value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateGuid", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoCreateGuid([Out] out GUID pguid);
 
@@ -301,6 +307,7 @@ namespace Lsj.Util.Win32
         /// The constant <see cref="CLSCTX_ALL"/> is defined as the combination of all four.
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoCreateInstance([In] in CLSID rclsid, [In] P<IUnknown> pUnkOuter,
             [In] CLSCTX dwClsContext, [In] in IID riid, [Out] out LPVOID ppv);
@@ -373,6 +380,7 @@ namespace Lsj.Util.Win32
         /// Those security settings are configurable, on a per-interface basis, with the <see cref="CoSetProxyBlanket"/> function.
         /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid, [In] P<IUnknown> punkOuter,
             [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
@@ -421,6 +429,7 @@ namespace Lsj.Util.Win32
         /// In the meantime, <see cref="CoDisconnectObject"/> sets a flag
         /// that causes any new marshaled calls to return <see cref="CO_E_OBJNOTCONNECTED"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoDisconnectObject([In] P<IUnknown> pUnk, [In] DWORD dwReserved);
 
@@ -525,6 +534,7 @@ namespace Lsj.Util.Win32
         /// To release a class object, use the class object's Release method.
         /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetClassObject([In] in CLSID rclsid, [In] CLSCTX dwClsContext, [In] LPVOID pvReserved,
             [In] in IID riid, [Out] out LPVOID ppv);
@@ -599,6 +609,7 @@ namespace Lsj.Util.Win32
         /// this function will instantiate an object on the computer where <paramref name="pwszName"/> resides,
         /// providing the least possible network traffic.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid, [In] P<IUnknown> punkOuter,
             [In] CLSCTX dwClsCtx, [In] STGM grfMode, [In] LPOLESTR pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
@@ -668,6 +679,7 @@ namespace Lsj.Util.Win32
         /// if the class is registered with the ActivateAtStorage value or has no associated registry information,
         /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromIStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid,
             [In] P<IUnknown> punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
@@ -694,6 +706,7 @@ namespace Lsj.Util.Win32
         /// The pointer to the IMalloc interface pointer received through the <paramref name="ppMalloc"/> parameter cannot be used from a remote process;
         /// each process must have its own allocator.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetMalloc([In] DWORD dwMemContext, [Out] out P<IMalloc> ppMalloc);
 
@@ -750,60 +763,10 @@ namespace Lsj.Util.Win32
         /// or the stub runs the risk that the object, because of some change in state,
         /// might require more memory to marshal than it originally indicated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMarshalSizeMax", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetMarshalSizeMax([Out] out ULONG pulSize, [In] in IID riid, [In] in object pUnk,
             [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] in MSHLFLAGS mshlflags);
-
-        /// <summary>
-        /// <para>
-        /// Creates an item moniker that identifies an object within a containing object (typically a compound document).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objbase/nf-objbase-createitemmoniker"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpszDelim">
-        /// A pointer to a wide character string (two bytes per character) zero-terminated string
-        /// containing the delimiter (typically "!") used to separate this item's display name from the display name of its containing object.
-        /// </param>
-        /// <param name="lpszItem">
-        /// A pointer to a zero-terminated string indicating the containing object's name for the object being identified.
-        /// This name can later be used to retrieve a pointer to the object in a call to <see cref="IOleItemContainer.GetObject"/>.
-        /// </param>
-        /// <param name="ppmk">
-        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the item moniker.
-        /// When successful, the function has called <see cref="ComInterfaces.IUnknown.AddRef"/> on the item moniker
-        /// and the caller is responsible for calling <see cref="ComInterfaces.IUnknown.Release"/>.
-        /// If an error occurs, the supplied interface pointer has a <see cref="NULL"/> value.
-        /// </param>
-        /// <returns>
-        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
-        /// </returns>
-        /// <remarks>
-        /// A moniker provider, which hands out monikers to identify its objects so they are accessible to other parties,
-        /// would call <see cref="CreateItemMoniker"/> to identify its objects with item monikers.
-        /// Item monikers are based on a string, and identify objects that are contained within another object and can be individually identified using a string.
-        /// The containing object must also implement the <see cref="IOleContainer"/> interface.
-        /// Most moniker providers are OLE applications that support linking.
-        /// Applications that support linking to objects smaller than file-based documents,
-        /// such as a server application that allows linking to a selection within a document, should use item monikers to identify the objects.
-        /// Container applications that allow linking to embedded objects use item monikers to identify the embedded objects.
-        /// The <paramref name="lpszItem"/> parameter is the name used by the document to uniquely identify the object.
-        /// For example, if the object being identified is a cell range in a spreadsheet, an appropriate name might be something like "A1:E7."
-        /// An appropriate name when the object being identified is an embedded object might be something like "embedobj1."
-        /// The containing object must provide an implementation of the <see cref="IOleItemContainer"/> interface
-        /// that can interpret this name and locate the corresponding object.
-        /// This allows the item moniker to be bound to the object it identifies.
-        /// Item monikers are not used in isolation. They must be composed with a moniker that identifies the containing object as well.
-        /// For example, if the object being identified is a cell range contained in a file-based document,
-        /// the item moniker identifying that object must be composed with the file moniker identifying that document,
-        /// resulting in a composite moniker that is the equivalent of "C:\work\sales.xls!A1:E7."
-        /// Nested containers are allowed also, as in the case where an object is contained within an embedded object inside another document.
-        /// The complete moniker of such an object would be the equivalent of "C:\work\report.doc!embedobj1!A1:E7."
-        /// In this case, each containing object must call <see cref="CreateItemMoniker"/> and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
-        /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateItemMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateItemMoniker([In] LPCOLESTR lpszDelim, [In] LPCOLESTR lpszItem, [Out] out P<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -867,6 +830,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="pUnk"/> is not <see cref="NULL"/>, checks to see if a marshaler for the object already exists,
         /// creates a new one if necessary, and returns the marshaler's <see cref="IMarshal"/> pointer.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetStandardMarshal", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetStandardMarshal([In] in IID riid, [In] in object pUnk, [In] MSHCTX dwDestContext,
             [In] LPVOID pvDestContext, [In] MSHLFLAGS mshlflags, [Out] out IMarshal ppMarshal);
@@ -914,6 +878,7 @@ namespace Lsj.Util.Win32
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitialize([In] LPVOID pvReserved);
 
@@ -975,6 +940,7 @@ namespace Lsj.Util.Win32
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitializeEx([In] LPVOID pvReserved, [In] COINIT dwCoInit);
 
@@ -1097,6 +1063,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CoInitializeSecurity"/> function returns an error
         /// if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set in <paramref name="dwCapabilities"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitializeSecurity([In] in SECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
             [In] IntPtr pReserved1, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthList, [In] DWORD dwCapabilities, [In] IntPtr pReserved3);
@@ -1170,6 +1137,7 @@ namespace Lsj.Util.Win32
         /// A pseudo-object is created and destroyed.
         /// For debugging purposes, it may be useful to keep a count of the number of external locks (and unlocks) set on the application.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoLockObjectExternal", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoLockObjectExternal([In] in P<IUnknown> pUnk, [In] BOOL fLock, [In] BOOL fLastUnlockReleases);
 
@@ -1238,6 +1206,7 @@ namespace Lsj.Util.Win32
         /// In such situations, if you want to use COM's default marshaling implementation when passing the interface pointer,
         /// you can call <see cref="CoMarshalInterface"/> on the object to do so.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoMarshalInterface", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoMarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] object pUnk,
             [In] DWORD dwDestContext, [In] LPVOID pvDestContext, [In] DWORD mshlflags);
@@ -1321,6 +1290,7 @@ namespace Lsj.Util.Win32
         /// because no proxy is created for such an interface.
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoQueryProxyBlanket([In] P<IUnknown> pProxy, [Out] out DWORD pwAuthnSvc, [Out] out DWORD pAuthzSvc,
             [Out] out LPOLESTR pServerPrincName, [Out] out DWORD pAuthnLevel, [Out] out DWORD pImpLevel,
@@ -1383,6 +1353,7 @@ namespace Lsj.Util.Win32
         /// If not, COM fails the registration.
         /// If the COM object application runs in the system account with no registry key, COM treats the objects application identity as Launching User.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [In] P<IUnknown> pUnk, [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
 
@@ -1433,6 +1404,7 @@ namespace Lsj.Util.Win32
         /// that called <see cref="CoMarshalInterface"/> to marshal the object into the stream.
         /// Failure to do this may cause the object reference held by the marshaled packet in the stream to be leaked.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoReleaseMarshalData", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoReleaseMarshalData([In] P<IStream> pStm);
 
@@ -1460,6 +1432,7 @@ namespace Lsj.Util.Win32
         /// This gives the server a chance to register all of its CLSIDs and get properly set up
         /// before having to deal with activation requests, and possibly shutdown requests.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoResumeClassObjects", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoResumeClassObjects();
 
@@ -1492,6 +1465,7 @@ namespace Lsj.Util.Win32
         /// You must specifically revoke the class object even when you have specified the flags value <see cref="REGCLS_SINGLEUSE"/>
         /// in a call to <see cref="CoRegisterClassObject"/>, indicating that only one application can connect to the class object.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRevokeClassObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoRevokeClassObject([In] DWORD dwRegister);
 
@@ -1603,6 +1577,7 @@ namespace Lsj.Util.Win32
         /// This sequence calls QueryInterface on the proxy to get a pointer to <see cref="IClientSecurity"/>, and with the resulting pointer,
         /// calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoSetProxyBlanket([In] P<IUnknown> pProxy, [In] DWORD dwAuthnSvc, [In] DWORD dwAuthzSvc,
             [In] LPOLESTR pServerPrincName, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel,
@@ -1633,6 +1608,7 @@ namespace Lsj.Util.Win32
         /// Applications should always check the return value from this function, even when requesting small amounts of memory,
         /// because there is no guarantee that the memory will be allocated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID CoTaskMemAlloc([In] SIZE_T cb);
 
@@ -1653,6 +1629,7 @@ namespace Lsj.Util.Win32
         /// The number of bytes freed equals the number of bytes that were originally allocated or reallocated.
         /// After the call, the memory block pointed to by pv is invalid and can no longer be used.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", ExactSpelling = true, SetLastError = true)]
         public static extern void CoTaskMemFree([In] LPVOID pv);
 
@@ -1698,6 +1675,7 @@ namespace Lsj.Util.Win32
         /// The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID CoTaskMemRealloc([In] LPVOID pv, [In] SIZE_T cb);
 
@@ -1751,6 +1729,7 @@ namespace Lsj.Util.Win32
         /// If there is a CLSID assigned to the AutoTreatAs key, that CLSID is assigned to the TreatAs key.
         /// <see cref="CoTreatAsClass"/> does not validate whether an appropriate registry entry for <paramref name="clsidNew"/> currently exists.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTreatAsClass", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoTreatAsClass([In] in CLSID clsidOld, [In] in CLSID clsidNew);
 
@@ -1780,6 +1759,7 @@ namespace Lsj.Util.Win32
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void CoUninitialize();
 
@@ -1838,6 +1818,7 @@ namespace Lsj.Util.Win32
         /// For example, if you are implementing a stub, your implementation would call <see cref="CoUnmarshalInterface"/>
         /// when the stub receives an interface pointer as a parameter in a method call. 
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUnmarshalInterface", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoUnmarshalInterface([In] IStream pStm, [In] in IID riid, [Out] out object ppv);
 
@@ -1878,6 +1859,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="IMoniker.Inverse"/> on that moniker.
         /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAntiMoniker", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateAntiMoniker([Out] out IMoniker ppmk);
 
@@ -1938,6 +1920,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateBindCtx([In] DWORD reserved, [Out] out IBindCtx ppbc);
 
@@ -1963,6 +1946,7 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="IDataAdviseHolder.Advise"/> method, which creates an advisory connection
         /// between the calling object and the data object.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateDataAdviseHolder([Out] out IDataAdviseHolder ppDAHolder);
 
@@ -1993,8 +1977,61 @@ namespace Lsj.Util.Win32
         /// or if an error occurs, the returned pointer is <see langword="null"/>.
         /// </param>
         /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateGenericComposite([In] IMoniker pmkFirst, [In] IMoniker pmkRest, [Out] out IMoniker ppmkComposite);
+
+        /// <summary>
+        /// <para>
+        /// Creates an item moniker that identifies an object within a containing object (typically a compound document).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/objbase/nf-objbase-createitemmoniker"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszDelim">
+        /// A pointer to a wide character string (two bytes per character) zero-terminated string
+        /// containing the delimiter (typically "!") used to separate this item's display name from the display name of its containing object.
+        /// </param>
+        /// <param name="lpszItem">
+        /// A pointer to a zero-terminated string indicating the containing object's name for the object being identified.
+        /// This name can later be used to retrieve a pointer to the object in a call to <see cref="IOleItemContainer.GetObject"/>.
+        /// </param>
+        /// <param name="ppmk">
+        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the item moniker.
+        /// When successful, the function has called <see cref="ComInterfaces.IUnknown.AddRef"/> on the item moniker
+        /// and the caller is responsible for calling <see cref="ComInterfaces.IUnknown.Release"/>.
+        /// If an error occurs, the supplied interface pointer has a <see cref="NULL"/> value.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// A moniker provider, which hands out monikers to identify its objects so they are accessible to other parties,
+        /// would call <see cref="CreateItemMoniker"/> to identify its objects with item monikers.
+        /// Item monikers are based on a string, and identify objects that are contained within another object and can be individually identified using a string.
+        /// The containing object must also implement the <see cref="IOleContainer"/> interface.
+        /// Most moniker providers are OLE applications that support linking.
+        /// Applications that support linking to objects smaller than file-based documents,
+        /// such as a server application that allows linking to a selection within a document, should use item monikers to identify the objects.
+        /// Container applications that allow linking to embedded objects use item monikers to identify the embedded objects.
+        /// The <paramref name="lpszItem"/> parameter is the name used by the document to uniquely identify the object.
+        /// For example, if the object being identified is a cell range in a spreadsheet, an appropriate name might be something like "A1:E7."
+        /// An appropriate name when the object being identified is an embedded object might be something like "embedobj1."
+        /// The containing object must provide an implementation of the <see cref="IOleItemContainer"/> interface
+        /// that can interpret this name and locate the corresponding object.
+        /// This allows the item moniker to be bound to the object it identifies.
+        /// Item monikers are not used in isolation. They must be composed with a moniker that identifies the containing object as well.
+        /// For example, if the object being identified is a cell range contained in a file-based document,
+        /// the item moniker identifying that object must be composed with the file moniker identifying that document,
+        /// resulting in a composite moniker that is the equivalent of "C:\work\sales.xls!A1:E7."
+        /// Nested containers are allowed also, as in the case where an object is contained within an embedded object inside another document.
+        /// The complete moniker of such an object would be the equivalent of "C:\work\report.doc!embedobj1!A1:E7."
+        /// In this case, each containing object must call <see cref="CreateItemMoniker"/> and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateItemMoniker", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateItemMoniker([In] LPCOLESTR lpszDelim, [In] LPCOLESTR lpszItem, [Out] out P<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -2021,6 +2058,7 @@ namespace Lsj.Util.Win32
         /// The OLE-provided implementation does not, however, support <see cref="IOleAdviseHolder.EnumAdvise"/>,
         /// so if you need to use this method, you will need to implement your own advise holder.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateOleAdviseHolder([Out] out IOleAdviseHolder ppOAHolder);
 
@@ -2076,6 +2114,7 @@ namespace Lsj.Util.Win32
         /// call <see cref="IBindCtx.GetRunningObjectTable"/> rather than the <see cref="GetRunningObjectTable"/> function.
         /// This allows future implementations of the <see cref="IBindCtx"/> interface to modify binding behavior.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRunningObjectTable", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetRunningObjectTable([In] DWORD reserved, [Out] out IRunningObjectTable pprot);
 
@@ -2099,6 +2138,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The function converts the interface identifier in a way that guarantees different interface identifiers will always be converted to different strings.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "IIDFromString", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT IIDFromString([In] LPCOLESTR lpsz, [Out] out IID lpiid);
 
@@ -2176,6 +2216,7 @@ namespace Lsj.Util.Win32
         /// If the CLSID represents an OLE 1 class, then the function treats the string following the ProgID
         /// as an OLE1/DDE link designator having filename|item syntax.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "MkParseDisplayName", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT MkParseDisplayName([In] P<IBindCtx> pbc, [In] LPOLESTR szUserName, [Out] out ULONG pchEaten, [Out] out P<IMoniker> ppmk);
 
@@ -2226,6 +2267,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="pClientSite"/> is <see cref="NULL"/>,
         /// you must make a specific call to <see cref="IOleObject.SetClientSite"/> before attempting any operations.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreate", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreate([In] in CLSID rclsid, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC pFormatEtc,
             [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
@@ -2265,6 +2307,7 @@ namespace Lsj.Util.Win32
         /// If the given class does not have a special handler, a call to <see cref="OleCreateDefaultHandler"/> produces the same results
         /// as a call to the <see cref="CoCreateInstance"/> function with the class context parameter assigned the value <see cref="CLSCTX_INPROC_HANDLER"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateDefaultHandler", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid, [In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out LPVOID lplpObj);
 
@@ -2362,6 +2405,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="IOleCache.Uncache"/> to set up exactly what is to be cached.
         /// For <see cref="CF_EMBEDSOURCE"/>, they would then also call <see cref="IOleCache.InitCache"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromData", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateFromData([In] IDataObject pSrcDataObj, [In] in IID riid, [In] OLERENDER renderopt,
             [In] in FORMATETC pFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
@@ -2402,6 +2446,7 @@ namespace Lsj.Util.Win32
         /// which requires a <see cref="IOleObject.DoVerb"/> operation.
         /// It is used to implement insert file operations.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromFile", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [In] LPCOLESTR lpszFileName, [In] in IID riid,
             [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
@@ -2450,6 +2495,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Call <see cref="OleCreateLink"/> to allow a container to create a link to an object.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateLink", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateLink([In] P<IMoniker> pmkLinkSrc, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
             [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
@@ -2494,6 +2540,7 @@ namespace Lsj.Util.Win32
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
         /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleInitialize", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleInitialize([In] LPVOID pvReserved);
 
@@ -2543,6 +2590,7 @@ namespace Lsj.Util.Win32
         /// If successful, the <see cref="IPersistStorage.Load"/> method is invoked for the object.
         /// Queries and returns the interface identified by the <paramref name="riid"/> parameter.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleLoad", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleLoad([In] IStorage pStg, [In] in IID riid, [In] IOleClientSite pClientSite, [Out] out LPVOID ppvObj);
 
@@ -2589,6 +2637,7 @@ namespace Lsj.Util.Win32
         /// or a file (that is, via <see cref="IDataObject.GetDataHere"/>) must be in these formats.
         /// Also, all objects whose default file format is a metafile or DIB must write their data into a CONTENTS stream using these standard formats.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleSave", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleSave([In] IPersistStorage pPS, [In] IStorage pStg, [In] BOOL fSameAsLoad);
 
@@ -2615,6 +2664,7 @@ namespace Lsj.Util.Win32
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
         /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void OleUninitialize();
 
@@ -2668,6 +2718,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TYMED_ISTORAGE"/>    Calls IStorage::Release.
         /// In either case, after the call to <see cref="ReleaseStgMedium"/>, the specified storage medium is invalid and can no longer be used.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseStgMedium", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseStgMedium([In] in STGMEDIUM LPSTGMEDIUM);
 
@@ -2909,6 +2960,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Applications should use the new function, StgOpenStorageEx, instead of StgOpenStorage," +
                 "to take advantage of the enhanced and Windows Structured Storage features." +
                 "This function, StgOpenStorage, still exists for compatibility with applications running on Windows 2000.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgOpenStorage([In] LPWSTR pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
             [In] IntPtr[] snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstgOpen);
@@ -3054,6 +3106,7 @@ namespace Lsj.Util.Win32
         /// to convert a globally unique identifier (GUID) into a string of printable characters.
         /// The caller is responsible for freeing the memory allocated for the string by calling the <see cref="CoTaskMemFree"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromCLSID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StringFromCLSID([In] in CLSID rclsid, [Out] out IntPtr lplpsz);
 
@@ -3079,6 +3132,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the number of characters in the returned string, including the null terminator.
         /// If the buffer is too small to contain the string, the return value is 0.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromGUID2", ExactSpelling = true, SetLastError = true)]
         public static extern int StringFromGUID2([In] in GUID rguid, [Out] LPOLESTR lpsz, [In] int cchMax);
 
@@ -3103,6 +3157,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The caller is responsible for freeing the memory allocated for the string by calling the <see cref="CoTaskMemFree"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromIID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StringFromIID([In] in IID rclsid, [Out] out LPOLESTR lplpsz);
 
@@ -3128,6 +3183,7 @@ namespace Lsj.Util.Win32
         /// so that it can be read by the <see cref="ReadClassStg"/> function.
         /// Container applications typically call this function before calling the <see cref="IPersistStorage.Save"/> method.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteClassStg", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT WriteClassStg([In] P<IStorage> pStg, [In] in CLSID rclsid);
     }

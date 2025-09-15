@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -14,12 +15,12 @@ using static Lsj.Util.Win32.BaseTypes.KNOWNFOLDERID;
 using static Lsj.Util.Win32.BaseTypes.UINT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
+using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.FileAttributes;
-using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
+using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Enums.KF_CATEGORY;
 using static Lsj.Util.Win32.Enums.KNOWN_FOLDER_FLAG;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
@@ -166,8 +167,9 @@ namespace Lsj.Util.Win32
         /// <see cref="CommandLineToArgvW"/> will consider the first argument to be an empty string.
         /// Excess whitespace at the end of <paramref name="lpCmdLine"/> is ignored.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out] out int pNumArgs);
+        public static extern IntPtr CommandLineToArgvW(LPCWSTR lpCmdLine, [Out] out int pNumArgs);
 
         /// <summary>
         /// <para>
@@ -202,6 +204,7 @@ namespace Lsj.Util.Win32
         /// If the index value is between zero and the total number of dropped files, and the <paramref name="lpszFile"/> buffer address is <see cref="NULL"/>,
         /// the return value is the required size, in characters, of the buffer, not including the terminating null character.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] StringBuffer lpszFile, [In] UINT cch);
 
@@ -224,6 +227,7 @@ namespace Lsj.Util.Win32
         /// When it is no longer needed, the caller is responsible for freeing the icon handle
         /// returned by <see cref="DuplicateIcon"/> by calling the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateIcon", ExactSpelling = true, SetLastError = true)]
         public static extern HICON DuplicateIcon([In] HINSTANCE hInst, [In] HICON hIcon);
 
@@ -266,6 +270,7 @@ namespace Lsj.Util.Win32
         /// and the file has an associated executable file, it looks in that executable file for an icon.
         /// Associations with executable files are based on file name extensions and are stored in the per-user part of the registry.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HICON ExtractAssociatedIcon([In] HINSTANCE hInst, [In][Out] LPWSTR pszIconPath, [In][Out] ref WORD piIcon);
 
@@ -304,6 +309,7 @@ namespace Lsj.Util.Win32
         /// When it is no longer needed, you must destroy the icon handle returned by <see cref="ExtractIcon"/>
         /// by calling the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HICON ExtractIcon([In] HINSTANCE hInst, [In] LPWSTR pszExeFileName, [In] UINT nIconIndex);
 
@@ -362,6 +368,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the dimensions of the large and small icons, use this function with the <see cref="SM_CXICON"/>,
         /// <see cref="SM_CYICON"/>, <see cref="SM_CXSMICON"/>, and <see cref="SM_CYSMICON"/> flags.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconExW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT ExtractIconEx([In] LPWSTR lpszFile, [In] int nIconIndex, [Out] HICON[] phiconLarge, [Out] HICON[] phiconSmall, [In] UINT nIcons);
 
@@ -509,6 +516,7 @@ namespace Lsj.Util.Win32
         /// HKEY_CLASSES_ROOT\CLSID\{093C7AAB-5E72-454f-A91D-CA1BC991FCEC}\shellex\NoRecentDocs
         /// This subkey is not present by default on any <see cref="IContextMenu"/> implementation.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHAddToRecentDocs", ExactSpelling = true, SetLastError = true)]
         public static extern void SHAddToRecentDocs([In] SHARD uFlags, [In] LPCVOID pv);
 
@@ -792,6 +800,7 @@ namespace Lsj.Util.Win32
         /// to mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBrowseForFolderW", ExactSpelling = true, SetLastError = true)]
         public static extern LPITEMIDLIST SHBrowseForFolder([In] in BROWSEINFO lpbi);
 
@@ -963,6 +972,7 @@ namespace Lsj.Util.Win32
         /// Note, however, that icon overlay handlers are not reloaded.
         /// The strings pointed to by <paramref name="dwItem1"/> and <paramref name="dwItem2"/> can be either ANSI or Unicode.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHChangeNotify", ExactSpelling = true, SetLastError = true)]
         public static extern void SHChangeNotify([In] ShellChangeNotifyEvents wEventId, [In] ShellChangeNotifyFlags uFlags, [In] LPCVOID dwItem1, [In] LPCVOID dwItem2);
 
@@ -1218,6 +1228,7 @@ namespace Lsj.Util.Win32
         /// If that option is disabled (the default setting), <see cref="ShellExecute"/> uses an open Explorer window rather than launch a new one.
         /// If no Explorer window is open, <see cref="ShellExecute"/> launches a new one.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteW", ExactSpelling = true, SetLastError = true)]
         public static extern HINSTANCE ShellExecute([In] HWND hwnd, [In] LPCWSTR lpOperation, [In] LPCWSTR lpFile, [In] LPCWSTR lpParameters,
             [In] LPCWSTR lpDirectory, [In] ShowWindowCommands nShowCmd);
@@ -1280,6 +1291,7 @@ namespace Lsj.Util.Win32
         /// to support item activation with services from that site.
         /// See Launching Applications(<see cref="ShellExecute"/>, <see cref="ShellExecuteEx"/>, <see cref="SHELLEXECUTEINFO"/>) for more information.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShellExecuteEx([In][Out] ref SHELLEXECUTEINFO pExecInfo);
 
@@ -1415,6 +1427,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFileOperationW", ExactSpelling = true, SetLastError = true)]
         public static extern int SHFileOperation([In] in SHFILEOPSTRUCT lpFileOp);
 
@@ -1429,6 +1442,7 @@ namespace Lsj.Util.Win32
         /// <param name="hNameMappings">
         /// A handle to the file name mapping object to be freed.
         /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFreeNameMappings", ExactSpelling = true, SetLastError = true)]
         public static extern void SHFreeNameMappings([In] HANDLE hNameMappings);
 
@@ -1448,6 +1462,7 @@ namespace Lsj.Util.Win32
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetDesktopFolder", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetDesktopFolder([Out] out P<IShellFolder> ppshf);
 
@@ -1591,6 +1606,7 @@ namespace Lsj.Util.Win32
         /// This version is returned as a hexadecimal value.
         /// For details on equating this value with a specific Windows version, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD_PTR SHGetFileInfo([In] LPCWSTR pszPath, [In] FileAttributes dwFileAttributes, [In][Out] ref SHFILEINFO psfi,
             [In] UINT cbFileInfo, [In] ShellGetFileInfoFlags uFlags);
@@ -1899,6 +1915,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPathFromIDListW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SHGetPathFromIDList([In] LPCITEMIDLIST pidl, [In] IntPtr pszPath);
 
@@ -1971,6 +1988,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [Obsolete("SHGetSpecialFolderLocation is not supported and may be altered or unavailable in the future. Instead, use SHGetFolderLocation.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderLocation", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetSpecialFolderLocation([In] HWND hwnd, [In] CSIDL csidl, [Out] out LPITEMIDLIST ppidl);
 

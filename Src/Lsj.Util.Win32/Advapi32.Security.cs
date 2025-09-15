@@ -2045,7 +2045,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertSecurityDescriptorToStringSecurityDescriptorW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ConvertSecurityDescriptorToStringSecurityDescriptor([In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] DWORD RequestedStringSDRevision,
-            [In] SECURITY_INFORMATION SecurityInformation, [Out] out StringHandle StringSecurityDescriptor, [Out] out ULONG StringSecurityDescriptorLen);
+            [In] SECURITY_INFORMATION SecurityInformation, [Out] out LPWSTR StringSecurityDescriptor, [Out] out ULONG StringSecurityDescriptorLen);
 
         /// <summary>
         /// <para>

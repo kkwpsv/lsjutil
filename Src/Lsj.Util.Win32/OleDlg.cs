@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleDlg.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUIEditLinksW", ExactSpelling = true)]
         public static extern OLEUIResults OleUIEditLinks([In] in OLEUIEDITLINKS unnamedParam1);
     }

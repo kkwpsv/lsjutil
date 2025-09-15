@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -12,17 +13,18 @@ using static Lsj.Util.Win32.Dwmapi;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ChildWindowFromPointExFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.HitTestResults;
-using static Lsj.Util.Win32.Enums.ShellHookCodes;
 using static Lsj.Util.Win32.Enums.LayeredWindowAttributes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Enums.MDITileFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
+using static Lsj.Util.Win32.Enums.ShellHookCodes;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
 using static Lsj.Util.Win32.Enums.SystemCommands;
@@ -34,7 +36,6 @@ using static Lsj.Util.Win32.Enums.WindowDisplayAffinities;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -283,6 +284,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AdjustWindowRect"/> function does not take the <see cref="WS_VSCROLL"/> or <see cref="WS_HSCROLL"/> styles into account.
         /// To account for the scroll bars, call the <see cref="GetSystemMetrics"/> function with <see cref="SM_CXVSCROLL"/> or <see cref="SM_CYHSCROLL"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRect([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu);
 
@@ -325,6 +327,7 @@ namespace Lsj.Util.Win32
         /// For the DPI-aware version of this API, see <see cref="AdjustWindowRectExForDpi"/>.
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectEx([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu, [In] ExtendedWindowStyles dwExStyle);
 
@@ -437,6 +440,7 @@ namespace Lsj.Util.Win32
         /// This function does not detect unowned pop-up windows or windows that do not have the <see cref="WS_VISIBLE"/> style bit set.
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. It is generally not useful.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnyPopup", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AnyPopup();
 
@@ -464,6 +468,7 @@ namespace Lsj.Util.Win32
         /// An application sends the <see cref="WM_MDIICONARRANGE"/> message to the multiple-document interface (MDI) client window
         /// to prompt the client window to arrange its minimized MDI child windows.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ArrangeIconicWindows", ExactSpelling = true, SetLastError = true)]
         public static extern UINT ArrangeIconicWindows([In] HWND hWnd);
 
@@ -498,6 +503,7 @@ namespace Lsj.Util.Win32
         /// (<see cref="BeginDeferWindowPos"/>, <see cref="DeferWindowPos"/>, and <see cref="EndDeferWindowPos"/>).
         /// By specifying the maximum size needed, an application can detect and process failure early in the process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginDeferWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern HDWP BeginDeferWindowPos([In] int nNumWindows);
 
@@ -524,6 +530,7 @@ namespace Lsj.Util.Win32
         /// Calling this function is similar to calling the <see cref="SetWindowPos"/> function to change a window's position in the Z order.
         /// <see cref="BringWindowToTop"/> does not make a window a top-level window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BringWindowToTop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BringWindowToTop([In] HWND hWnd);
 
@@ -640,6 +647,7 @@ namespace Lsj.Util.Win32
         /// If you specify the <see cref="MDITILE_ZORDER"/> flag, <see cref="CascadeWindows"/> arranges the windows in Z order.
         /// Calling <see cref="CascadeWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CascadeWindows", ExactSpelling = true, SetLastError = true)]
         public static extern WORD CascadeWindows([In] HWND hwndParent, [In] MDITileFlags wHow, [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
@@ -676,6 +684,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ChildWindowFromPoint"/> returns the groupbox while <see cref="RealChildWindowFromPoint"/> returns the child window behind the groupbox.
         /// However, both APIs return a static field, even though it, too, returns <see cref="HTTRANSPARENT"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND ChildWindowFromPoint([In] HWND hWndParent, [In] POINT Point);
 
@@ -712,6 +721,7 @@ namespace Lsj.Util.Win32
         /// If more than one child window contains the specified point, the system returns a handle to the first window in the list
         /// that contains the point and meets the criteria specified by <paramref name="flags"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPointEx", ExactSpelling = true, SetLastError = true)]
         public static extern HWND ChildWindowFromPointEx([In] HWND hwnd, [In] POINT pt, [In] ChildWindowFromPointExFlags flags);
 
@@ -734,6 +744,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To destroy a window, an application must use the <see cref="DestroyWindow"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseWindow([In] HWND hWnd);
 
@@ -797,6 +808,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMDIWindowW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND CreateMDIWindow([In] LPCWSTR lpClassName, [In] LPCWSTR lpWindowName, [In] WindowStyles dwStyle,
             [In] int X, [In] int Y, [In] int nWidth, [In] int nHeight, [In] HWND hWndParent, [In] HINSTANCE hInstance, [In] LPARAM lParam);
@@ -1076,6 +1088,7 @@ namespace Lsj.Util.Win32
         /// if one of the controls in the dialog template is not registered,
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND CreateWindowEx([In] ExtendedWindowStyles dwExStyle, [In] LPCWSTR lpClassName,
             [In] LPCWSTR lpWindowName, [In] WindowStyles dwStyle, [In] int x, [In] int y, [In] int nWidth, [In] int nHeight,
@@ -1160,6 +1173,7 @@ namespace Lsj.Util.Win32
         /// Any window (for example, a dialog box) owned by a topmost window is itself made a topmost window to
         /// ensure that all owned windows stay above their owner.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeferWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern HDWP DeferWindowPos([In] HDWP hWinPosInfo, [In] HWND hWnd, [In] HWND hWndInsertAfter, [In] int x, [In] int y,
             [In] int cx, [In] int cy, [In] SetWindowPosFlags uFlags);
@@ -1215,6 +1229,7 @@ namespace Lsj.Util.Win32
         /// If the frame window procedure sizes the MDI client window to a different size,
         /// it should not pass the message to the <see cref="DefWindowProc"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefFrameProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT DefFrameProc([In] HWND hWnd, [In] HWND hWndMDIClient, [In] WindowMessages uMsg,
             [In] WPARAM wParam, [In] LPARAM lParam);

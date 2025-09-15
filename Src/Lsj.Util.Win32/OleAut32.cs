@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -57,6 +58,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="GetTypeInfoOfGuid"/> functions instead of <see cref="CreateDispTypeInfo"/>.
         /// For more information Type Description Interfaces.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDispTypeInfo", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateDispTypeInfo([In] in INTERFACEDATA pidata, [In] LCID lcid, [Out] out P<ITypeInfo> pptinfo);
 
@@ -99,6 +101,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateDispTypeInfo"/> and <see cref="CreateStdDispatch"/> comprise the minimum set of dispatch components
         /// you need to call to expose an object using type information provided by the <see cref="INTERFACEDATA"/> structure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateStdDispatch", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateStdDispatch([In] P<IUnknown> punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
 
@@ -136,6 +139,7 @@ namespace Lsj.Util.Win32
         /// The returned array of DISPIDs contains <see cref="DISPID_UNKNOWN"/> for each entry that corresponds to an unknown name.
         /// Any of the <see cref="ITypeInfo.Invoke"/> errors can also be returned.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispGetIDsOfNames", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT DispGetIDsOfNames([In] in ITypeInfo ptinfo, [In] LPOLESTR[] rgszNames, [In] UINT cNames, [Out] DISPID[] rgdispid);
 
@@ -222,6 +226,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DispInvoke"/> builds a stack frame, coerces parameters using standard coercion rules,
         /// pushes them on the stack, and then calls the correct member function in the VTBL.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispInvoke", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT DispInvoke([In] IntPtr _this, [In] in ITypeInfo ptinfo, [In] DISPID dispidMember, [In] WORD wFlags,
             [In] in DISPPARAMS pparams, [Out] out VARIANT pvarResult, [Out] out EXCEPINFO pexcepinfo, [Out] out UINT puArgErr);
@@ -268,6 +273,7 @@ namespace Lsj.Util.Win32
         /// A day equal to zero resolves as the last day of the previous month.
         /// For example, an invalid dates such as 2/0/2001 will resolve to 1/31/2001.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DosDateTimeToVariantTime", ExactSpelling = true, SetLastError = true)]
         public static extern INT DosDateTimeToVariantTime([In] USHORT wDosDate, [In] USHORT wDosTime, [Out] out DOUBLE pvtime);
 
@@ -292,6 +298,7 @@ namespace Lsj.Util.Win32
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetActiveObject([In] in CLSID rclsid, [In] IntPtr pvReserved, [Out] out LPVOID ppunk);
 
@@ -314,6 +321,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// You can free strings created with <see cref="SysAllocString"/> using <see cref="SysFreeString"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "SysAllocString", ExactSpelling = true, SetLastError = true)]
         public static extern BSTR SysAllocString([In] LPCWSTR psz);
 
@@ -343,6 +351,7 @@ namespace Lsj.Util.Win32
         /// The string <paramref name="psz"/> can contain embedded <see cref="NULL"/> characters, and does not need to end with a <see cref="NULL"/>.
         /// Free the returned string later with <see cref="SysFreeString"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "SysAllocStringByteLen", ExactSpelling = true, SetLastError = true)]
         public static extern BSTR SysAllocStringByteLen([In] LPCSTR psz, [In] UINT len);
 
@@ -371,6 +380,7 @@ namespace Lsj.Util.Win32
         /// Note
         /// This function does not convert a char* string into a Unicode BSTR.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "SysAllocStringLen", ExactSpelling = true, SetLastError = true)]
         public static extern BSTR SysAllocStringLen([In] LPCWSTR strIn, [In] UINT ui);
 
@@ -387,6 +397,7 @@ namespace Lsj.Util.Win32
         /// The previously allocated string.
         /// If this parameter is <see cref="NULL"/>, the function simply returns.
         /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "SysFreeString", ExactSpelling = true, SetLastError = true)]
         public static extern void SysFreeString([In] BSTR bstrString);
 
@@ -432,6 +443,7 @@ namespace Lsj.Util.Win32
         /// Variants containing arrays with outstanding references cannot be cleared.
         /// Attempts to do so will return an <see cref="HRESULT"/> containing <see cref="DISP_E_ARRAYISLOCKED"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "VariantClear", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT VariantClear([In] in VARIANT pvarg);
 
@@ -452,6 +464,7 @@ namespace Lsj.Util.Win32
         /// Unlike <see cref="VariantClear"/>, this function does not interpret the current contents of the <see cref="VARIANT"/>.
         /// Use <see cref="VariantInit"/> to initialize new local variables of type <see cref="VARIANT"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "VariantInit", ExactSpelling = true, SetLastError = true)]
         public static extern void VariantInit([In] in VARIANT pvarg);
 
@@ -491,6 +504,7 @@ namespace Lsj.Util.Win32
         /// A day equal to zero resolves as the last day of the previous month.
         /// For example, an invalid dates such as 2/0/2001 will resolve to 1/31/2001.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "VariantTimeToDosDateTime", ExactSpelling = true, SetLastError = true)]
         public static extern INT VariantTimeToDosDateTime([In] DOUBLE vtime, [Out] out USHORT pwDosDate, [Out] out USHORT pwDosTime);
     }

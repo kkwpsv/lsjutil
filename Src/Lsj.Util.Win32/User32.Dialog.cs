@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// To support keyboard navigation and other dialog box functionality,
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
-        public static HWND CreateDialog(HINSTANCE hInstance, StringHandle lpName, HWND hWndParent, DLGPROC lpDialogFunc) =>
+        public static HWND CreateDialog(HINSTANCE hInstance, LPCWSTR lpName, HWND hWndParent, DLGPROC lpDialogFunc) =>
             CreateDialogParam(hInstance, lpName, hWndParent, lpDialogFunc, IntPtr.Zero);
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Lsj.Util.Win32
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND CreateDialogParam([In] HINSTANCE hInstance, [In] StringHandle lpTemplateName, [In] HWND hWndParent,
+        public static extern HWND CreateDialogParam([In] HINSTANCE hInstance, [In] LPCWSTR lpTemplateName, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace Lsj.Util.Win32
         /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
-        public static INT_PTR DialogBox(HINSTANCE hInstance, StringHandle lpTemplate, HWND hWndParent, DLGPROC lpDialogFunc) =>
+        public static INT_PTR DialogBox(HINSTANCE hInstance, LPCWSTR lpTemplate, HWND hWndParent, DLGPROC lpDialogFunc) =>
             DialogBoxParam(hInstance, lpTemplate, hWndParent, lpDialogFunc, NULL);
 
         /// <summary>
@@ -586,7 +586,7 @@ namespace Lsj.Util.Win32
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern INT_PTR DialogBoxParam([In] HINSTANCE hInstance, [In] StringHandle lpTemplateName, [In] HWND hWndParent,
+        public static extern INT_PTR DialogBoxParam([In] HINSTANCE hInstance, [In] LPCWSTR lpTemplateName, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>

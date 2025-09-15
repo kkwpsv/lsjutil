@@ -528,7 +528,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP3")]
         [DllImport("Wlanapi.dll", CharSet = CharSet.Unicode, EntryPoint = "WlanGetProfile", ExactSpelling = true)]
         public static extern SystemErrorCodes WlanGetProfile([In] HANDLE hClientHandle, [In] in GUID pInterfaceGuid, [In] LPCWSTR strProfileName,
-            [In] PVOID pReserved, [Out] out StringHandle pstrProfileXml, [In][Out] ref WlanProfileFlags pdwFlags, [Out] out WlanAccessRights pdwGrantedAccess);
+            [In] PVOID pReserved, [Out] out LPCWSTR pstrProfileXml, [In][Out] ref WlanProfileFlags pdwFlags, [Out] out WlanAccessRights pdwGrantedAccess);
 
         /// <summary>
         /// <para>
