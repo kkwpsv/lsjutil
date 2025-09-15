@@ -275,7 +275,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Internationalization for Windows Applications for further discussion of localization.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMUILanguage", ExactSpelling = true)]
         public static extern LANGID GetMUILanguage();
 
@@ -324,7 +324,7 @@ namespace Lsj.Util.Win32
         /// The selected language only applies to the process that <see cref="InitMUILanguage"/> is called from.
         /// See Internationalization for Windows Applications for further discussion of localization.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitMUILanguage", ExactSpelling = true)]
         public static extern void InitMUILanguage([In] LANGID uiLang);
     }

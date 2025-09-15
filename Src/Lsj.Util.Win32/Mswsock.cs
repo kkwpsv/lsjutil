@@ -269,7 +269,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Mswsock.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptEx", ExactSpelling = true)]
         public static extern BOOL AcceptEx([In] UIntPtr sListenSocket, [In] UIntPtr sAcceptSocket, [In] PVOID lpOutputBuffer, [In] DWORD dwReceiveDataLength,
                 [In] DWORD dwLocalAddressLength, [In] DWORD dwRemoteAddressLength, [Out] out DWORD lpdwBytesReceived, [In] in OVERLAPPED lpOverlapped);

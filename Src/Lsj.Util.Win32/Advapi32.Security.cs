@@ -348,7 +348,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AccessCheckByType"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByType", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckByType([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID PrincipalSelfSid,
             [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess, [In][Out] OBJECT_TYPE_LIST[] ObjectTypeList, [In] DWORD ObjectTypeListLength,
@@ -520,7 +520,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AccessCheckByTypeAndAuditAlarm"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByTypeAndAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckByTypeAndAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
             [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] PSID PrincipalSelfSid, [In] ACCESS_MASK DesiredAccess,
@@ -654,7 +654,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AccessCheckByTypeResultList"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByTypeResultList", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckByTypeResultList([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID PrincipalSelfSid,
             [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess, [In][Out] OBJECT_TYPE_LIST[] ObjectTypeList, [In] DWORD ObjectTypeListLength,
@@ -816,7 +816,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AccessCheckByTypeResultListAndAuditAlarm"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByTypeResultListAndAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckByTypeResultListAndAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
             [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] PSID PrincipalSelfSid, [In] ACCESS_MASK DesiredAccess,
@@ -990,7 +990,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AccessCheckByTypeResultListAndAuditAlarmByHandle"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByTypeResultListAndAuditAlarmByHandleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AccessCheckByTypeResultListAndAuditAlarmByHandle([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] HANDLE ClientToken,
             [In] LPCWSTR ObjectTypeName, [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] PSID PrincipalSelfSid,
@@ -1274,7 +1274,7 @@ namespace Lsj.Util.Win32
         /// The caller must ensure that ACEs are added to the DACL in the correct order.
         /// For more information, see Order of ACEs in a DACL.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessAllowedAceEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessAllowedAceEx([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] AceFlags AceFlags, [In] ACCESS_MASK AccessMask, [In] PSID pSid);
 
@@ -1461,7 +1461,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Order of ACEs in a DACL.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessAllowedObjectAce", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessAllowedObjectAce([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] AceFlags AceFlags, [In] ACCESS_MASK AccessMask,
             [In] in GUID ObjectTypeGuid, [In] in GUID InheritedObjectTypeGuid, [In] PSID pSid);
@@ -1741,7 +1741,7 @@ namespace Lsj.Util.Win32
         /// The caller must ensure that ACEs are added to the DACL in the correct order.
         /// For more information, see Order of ACEs in a DACL.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessDeniedAceEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessDeniedAceEx([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] AceFlags AceFlags, [In] ACCESS_MASK AccessMask, [In] PSID pSid);
 
@@ -1928,7 +1928,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Order of ACEs in a DACL.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAccessDeniedObjectAce", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddAccessDeniedObjectAce([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] AceFlags AceFlags, [In] ACCESS_MASK AccessMask,
             [In] in GUID ObjectTypeGuid, [In] in GUID InheritedObjectTypeGuid, [In] PSID pSid);
@@ -2042,7 +2042,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Security Descriptor String Format.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertSecurityDescriptorToStringSecurityDescriptorW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ConvertSecurityDescriptorToStringSecurityDescriptor([In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] DWORD RequestedStringSDRevision,
             [In] SECURITY_INFORMATION SecurityInformation, [Out] out StringHandle StringSecurityDescriptor, [Out] out ULONG StringSecurityDescriptorLen);
@@ -2126,7 +2126,7 @@ namespace Lsj.Util.Win32
         /// then <see cref="ConvertStringSecurityDescriptorToSecurityDescriptor"/> converts ace_type to <see cref="ACCESS_ALLOWED_ACE_TYPE"/>.
         /// For information about the ace_type, object_guid, and inherit_object_guid fields, see Ace Strings.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertStringSecurityDescriptorToSecurityDescriptorW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ConvertStringSecurityDescriptorToSecurityDescriptor([In] LPCWSTR StringSecurityDescriptor, [In] DWORD StringSDRevision,
             [Out] out PSECURITY_DESCRIPTOR SecurityDescriptor, [Out] out ULONG SecurityDescriptorSize);
@@ -2686,7 +2686,7 @@ namespace Lsj.Util.Win32
         /// or the caller must specify the <see cref="SEF_AVOID_PRIVILEGE_CHECK"/> flag in <paramref name="AutoInheritFlags"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePrivateObjectSecurityEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreatePrivateObjectSecurityEx([In] PSECURITY_DESCRIPTOR ParentDescriptor, [In] PSECURITY_DESCRIPTOR CreatorDescriptor,
             [Out] PSECURITY_DESCRIPTOR NewDescriptor, [In] in GUID ObjectType, [In] BOOL IsContainerObject, [In] SecurityAutoInheritFlags AutoInheritFlags,
@@ -2783,7 +2783,7 @@ namespace Lsj.Util.Win32
         /// This function works with <see cref="ACL_REVISION"/> and <see cref="ACL_REVISION_DS"/> ACLs.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertToAutoInheritPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ConvertToAutoInheritPrivateObjectSecurity([In] PSECURITY_DESCRIPTOR ParentDescriptor,
             [In] PSECURITY_DESCRIPTOR CurrentSecurityDescriptor, [Out] out PSECURITY_DESCRIPTOR NewSecurityDescriptor, [In] in GUID ObjectType,
@@ -2891,7 +2891,7 @@ namespace Lsj.Util.Win32
         /// To cancel the impersonation call <see cref="RevertToSelf"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateAnonymousToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateAnonymousToken([In] HANDLE ThreadHandle);
 

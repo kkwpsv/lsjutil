@@ -356,7 +356,7 @@ namespace Lsj.Util.Win32
         /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_USER_DEFAULT"/>
         /// is equivalent to a call to <see cref="GetUserDefaultLCID"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertDefaultLocale", ExactSpelling = true)]
         public static extern LCID ConvertDefaultLocale([In] LCID Locale);
 
@@ -401,7 +401,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Remarks for <see cref="EnumCalendarInfoEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumCalendarInfo([In] CALINFO_ENUMPROC lpCalInfoEnumProc, [In] LCID Locale, [In] CALID Calendar, [In] CALTYPE CalType);
 
@@ -565,7 +565,7 @@ namespace Lsj.Util.Win32
         /// Note
         /// To enumerate the date formats for locales with alternate calendars, the application should use <see cref="EnumDateFormatsEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDateFormats([In] DATEFMT_ENUMPROC lpDateFmtEnumProc, [In] LCID Locale, [In] DWORD dwFlags);
 
@@ -691,6 +691,99 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates the code pages that are either installed on or supported by an operating system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCodePageEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// The <see cref="EnumSystemCodePages"/> function enumerates code pages by making repeated calls to this callback function.
+        /// For more information, see <see cref="CODEPAGE_ENUMPROC"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flag specifying the code pages to enumerate.
+        /// This parameter can have one of the following values, which are mutually exclusive.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate only installed code pages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate all supported code pages.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_BADDB"/>.
+        /// The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function enumerates the code pages by passing code page identifiers, one at a time,
+        /// to the specified application-defined callback function.
+        /// This process continues until all installed or supported code page identifiers have been passed to the callback function,
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// When an application is using this function to determine an appropriate code page for saving data, it should use Unicode when possible.
+        /// Other code pages are not as portable as Unicode between vendors or operating systems
+        /// , due to different implementations of the associated standards.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemCodePagesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumSystemCodePages([In] CODEPAGE_ENUMPROC lpCodePageEnumProc, [In] EnumSystemCodePagesFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Enumerates the geographical location identifiers (type GEOID) that are available on the operating system.
         /// <see cref="EnumSystemGeoID"/> is available for use in the operating systems specified in the Requirements section.
         /// It may be altered or unavailable in subsequent versions.
@@ -804,7 +897,7 @@ namespace Lsj.Util.Win32
         /// This continues until all of the installed or supported locale identifiers
         /// have been passed to the callback function or the callback function returns <see cref="FALSE"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemLocales([In] LOCALE_ENUMPROC lpLocaleEnumProc, [In] LCIDFlags dwFlags);
 
@@ -1137,7 +1230,7 @@ namespace Lsj.Util.Win32
         /// Each insert must have a corresponding element in the array.
         /// </param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD FormatMessage([In] FormatMessageFlags dwFlags, [In] LPCVOID lpSource, [In] DWORD dwMessageId,
             [In] DWORD dwLanguageId, [In] LPWSTR lpBuffer, [In] DWORD nSize, [In] IntPtr Arguments);
@@ -1166,7 +1259,7 @@ namespace Lsj.Util.Win32
         /// The ANSI code pages can be different on different computers, or can be changed for a single computer, leading to data corruption.
         /// For the most consistent results, applications should use UTF-8 or UTF-16 when possible.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetACP", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetACP();
 
@@ -1349,7 +1442,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Remarks for <see cref="GetCPInfoEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCPInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCPInfo([In] CodePages CodePage, [Out] out CPINFO lpCPInfo);
 
@@ -1822,7 +1915,7 @@ namespace Lsj.Util.Win32
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocaleInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetLocaleInfo([In] LCID Locale, [In] LCTYPE LCType, [In] LPWSTR lpLCData, [In] int cchData);
 
@@ -2059,7 +2152,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// See Code Page Identifiers for a list of OEM and other code pages.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOEMCP", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetOEMCP();
 
@@ -2131,7 +2224,7 @@ namespace Lsj.Util.Win32
         /// It is set by the Administrator under Control Panel > Clock, Language, and Region > Change date, time, or number formats > Administrative tab.
         /// For more information on language identifiers, see Language Identifier Constants and Strings.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultLangID", ExactSpelling = true)]
         public static extern LANGID GetSystemDefaultLangID();
 
@@ -2152,7 +2245,7 @@ namespace Lsj.Util.Win32
         /// This function can retrieve data from custom locales. Data is not guaranteed to be the same from computer to computer or between runs of an application.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultLCID", ExactSpelling = true)]
         public static extern LCID GetSystemDefaultLCID();
 
@@ -2253,7 +2346,7 @@ namespace Lsj.Util.Win32
         /// set for the creating thread in a call to <see cref="SetThreadLocale"/>.
         /// <see cref="GetThreadLocale"/> and <see cref="SetThreadLocale"/> can be used to modify the locale of the new thread.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadLocale", ExactSpelling = true)]
         public static extern LCID GetThreadLocale();
 
@@ -2494,7 +2587,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The return value is not necessarily the same as that returned by <see cref="GetSystemDefaultLangID"/>, even for a single-user computer.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserDefaultLangID", ExactSpelling = true)]
         public static extern LANGID GetUserDefaultLangID();
 
@@ -2522,7 +2615,7 @@ namespace Lsj.Util.Win32
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserDefaultLCID", ExactSpelling = true)]
         public static extern LCID GetUserDefaultLCID();
 
@@ -2823,7 +2916,7 @@ namespace Lsj.Util.Win32
         /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
         /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsDBCSLeadByte([In] BYTE TestChar);
 
@@ -2870,7 +2963,7 @@ namespace Lsj.Util.Win32
         /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
         /// To back up, the application should use <see cref="CharPrevExA"/> instead of attempting to develop its own algorithm.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByteEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsDBCSLeadByteEx([In] UINT CodePage, [In] BYTE TestChar);
 
@@ -2946,7 +3039,7 @@ namespace Lsj.Util.Win32
         /// A code page is considered valid only if it is installed on the operating system. Unicode is preferred.
         /// Starting with Windows Vista, all code pages that can be installed are loaded by default.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidCodePage", ExactSpelling = true)]
         public static extern BOOL IsValidCodePage([In] UINT CodePage);
 
@@ -3032,7 +3125,7 @@ namespace Lsj.Util.Win32
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidLocale", ExactSpelling = true)]
         public static extern BOOL IsValidLocale([In] LCID Locale, [In] LCIDFlags dwFlags);
 
@@ -3192,7 +3285,7 @@ namespace Lsj.Util.Win32
         /// representing the system default Windows ANSI code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LCMapStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LCMapString([In] LCID Locale, [In] LCMapStringFlags dwMapFlags, [In] LPCWSTR lpSrcStr,
             [In] int cchSrc, [In] LPWSTR lpDestStr, [In] int cchDest);
@@ -3583,7 +3676,7 @@ namespace Lsj.Util.Win32
         /// A custom locale might not have a single, uniform separator character within the date or time format:
         /// for example, a format such as "12/31, 2006" or "03:56'23" might be valid.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocaleInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetLocaleInfo([In] LCID Locale, [In] LCTYPE LCType, [In] LPCWSTR lpLCData);
 
@@ -3669,7 +3762,7 @@ namespace Lsj.Util.Win32
         /// To select the resource that is defined in the .rc file with a LANGUAGE statement,
         /// the application must use the <see cref="FindResourceEx"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadLocale", ExactSpelling = true)]
         public static extern BOOL SetThreadLocale([In] LCID Locale);
 
@@ -3886,7 +3979,7 @@ namespace Lsj.Util.Win32
         /// Typically, an installation program uses this function to translate a language identifier returned by the <see cref="VerQueryValue"/> function.
         /// The text string may be used in a dialog box that asks the user how to proceed in the event of a language conflict.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerLanguageNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD VerLanguageName([In] DWORD wLang, [In] LPWSTR szLang, [In] DWORD cchLang);
     }

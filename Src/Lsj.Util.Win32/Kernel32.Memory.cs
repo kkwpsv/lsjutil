@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AllocateUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages, [In][Out] ULONG_PTR[] PageArray);
 
@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32
         /// To enable the low-fragmentation heap for the default heap of the process,
         /// call the <see cref="HeapSetInformation"/> function with the handle returned by <see cref="GetProcessHeap"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeap", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE GetProcessHeap();
 
@@ -261,7 +261,7 @@ namespace Lsj.Util.Win32
         /// Heap functions should be called only on the default heap of the calling process and on private heaps that the process creates and manages.
         /// To obtain a handle to the process heap of the calling process, use the <see cref="GetProcessHeap"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessHeaps([In] DWORD NumberOfHeaps, [In][Out] HANDLE[] ProcessHeaps);
 
@@ -315,7 +315,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, there may be written pages that you do not detect.
         /// The <see cref="GetWriteWatch"/> function can be useful to profilers, debugging tools, or garbage collectors.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWriteWatch", ExactSpelling = true)]
         public static extern UINT GetWriteWatch([In] DWORD dwFlags, [In] PVOID lpBaseAddress, [In] SIZE_T dwRegionSize, [In] PVOID[] lpAddresses,
             [In][Out] ULONG_PTR[] lpdwCount, [Out] out DWORD lpdwGranularity);
@@ -354,7 +354,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalAlloc(GlobalMemoryFlags uFlags, SIZE_T dwBytes);
 
@@ -364,6 +364,7 @@ namespace Lsj.Util.Win32
         /// <param name="dwMinFree"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T GlobalCompact([In] DWORD dwMinFree);
 
@@ -396,6 +397,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hMem"></param>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", ExactSpelling = true, SetLastError = true)]
         public static extern void GlobalFix([In] HGLOBAL hMem);
 
@@ -430,7 +432,7 @@ namespace Lsj.Util.Win32
         /// New applications should use the heap functions unless documentation states that a global function should be used.
         /// For more information, see Global and Local Functions.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", ExactSpelling = true, SetLastError = true)]
         public static extern GlobalMemoryFlags GlobalFlags([In] HGLOBAL hMem);
 
@@ -468,7 +470,7 @@ namespace Lsj.Util.Win32
         /// If you are debugging the application, <see cref="GlobalFree"/> will enter a breakpoint just before freeing a locked object.
         /// This allows you to verify the intended behavior, then continue execution.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFree", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalFree(HGLOBAL hMem);
 
@@ -497,7 +499,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GlobalLock"/> function converts this handle into a pointer to the memory block,
         /// and <see cref="GlobalHandle"/> converts the pointer back into a handle.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalHandle([In] LPCVOID pMem);
 
@@ -518,7 +520,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID GlobalLock(HGLOBAL hMem);
 
@@ -565,7 +567,7 @@ namespace Lsj.Util.Win32
         /// There is no guarantee that two sequential calls to this function will return the same information.
         /// </remarks>
         [Obsolete("GlobalMemoryStatus can return incorrect information. Use the GlobalMemoryStatusEx function instead.")]
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatus", ExactSpelling = true, SetLastError = true)]
         public static extern void GlobalMemoryStatus([Out] out MEMORYSTATUS lpBuffer);
 
@@ -593,7 +595,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MEMORYSTATUSEX.ullAvailPhys"/> member of the <see cref="MEMORYSTATUSEX"/> structure
         /// at <paramref name="lpBuffer"/> includes memory for all NUMA nodes.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatusEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GlobalMemoryStatusEx([In][Out] ref MEMORYSTATUSEX lpBuffer);
 
@@ -624,7 +626,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalReAlloc(HGLOBAL hMem, SIZE_T dwBytes, GlobalMemoryFlags uFlags);
 
@@ -653,7 +655,7 @@ namespace Lsj.Util.Win32
         /// To verify that the specified object's memory block has not been discarded,
         /// use the <see cref="GlobalFlags"/> function before calling <see cref="GlobalSize"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T GlobalSize([In] HGLOBAL hMem);
 
@@ -662,6 +664,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hMem"></param>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", ExactSpelling = true, SetLastError = true)]
         public static extern void GlobalUnfix([In] HGLOBAL hMem);
 
@@ -702,7 +705,7 @@ namespace Lsj.Util.Win32
         /// A process should not rely on the return value to determine the number of times
         /// it must subsequently call <see cref="GlobalUnlock"/> for a memory object.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GlobalUnlock([In] HGLOBAL hMem);
 
@@ -712,6 +715,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GlobalUnWire([In] HGLOBAL hMem);
 
@@ -721,6 +725,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID GlobalWire([In] HGLOBAL hMem);
 
@@ -751,7 +756,7 @@ namespace Lsj.Util.Win32
         /// If the value is smaller, do not rely on the values of any members whose offsets are greater than this value.
         /// To retrieve information about other heaps in the heap list, use the <see cref="Heap32ListNext"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32ListFirst", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Heap32ListFirst([In] HANDLE hSnapshot, [In][Out] ref HEAPLIST32 lphl);
 
@@ -777,7 +782,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To retrieve information about the first heap in a heap list, use the <see cref="Heap32ListFirst"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32ListNext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Heap32ListNext([In] HANDLE hSnapshot, [In][Out] ref HEAPLIST32 lphl);
 
@@ -903,7 +908,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapCompact", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T HeapCompact([In] HANDLE hHeap, [In] HeapFlags dwFlags);
 
@@ -1000,7 +1005,7 @@ namespace Lsj.Util.Win32
         /// To obtain handles to the default heap and private heaps that are active for the calling process,
         /// use the <see cref="GetProcessHeaps"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapCreate", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE HeapCreate([In] HeapFlags flOptions, [In] SIZE_T dwInitialSize, [In] SIZE_T dwMaximumSize);
 
@@ -1027,7 +1032,7 @@ namespace Lsj.Util.Win32
         /// Processes can call <see cref="HeapDestroy"/> without first calling the <see cref="HeapFree"/> function
         /// to free memory allocated from the heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapDestroy", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapDestroy([In] HANDLE hHeap);
 
@@ -1115,7 +1120,7 @@ namespace Lsj.Util.Win32
         /// Each successful call to <see cref="HeapLock"/> must be matched by a corresponding call to <see cref="HeapUnlock"/>.
         /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapLock([In] HANDLE hHeap);
 
@@ -1398,7 +1403,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> on success, <see cref="FALSE"/> on failure.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 20348)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSummary", ExactSpelling = true)]
         public static extern BOOL HeapSummary([In] HANDLE hHeap, [In] DWORD dwFlags, [Out] out HEAP_SUMMARY lpSummary);
 
@@ -1429,7 +1434,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="HeapUnlock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZE"/> flag,
         /// the results are undefined.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapUnlock([In] HANDLE hHeap);
 
@@ -1505,7 +1510,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapValidate", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapValidate([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
 
@@ -1553,8 +1558,7 @@ namespace Lsj.Util.Win32
         /// since no enumeration state data is maintained outside the contents of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
         /// <see cref="HeapWalk"/> can fail in a multithreaded application if the heap is not locked during the heap enumeration.
         /// </remarks>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapWalk([In] HANDLE hHeap, [In][Out] ref PROCESS_HEAP_ENTRY lpEntry);
 
@@ -1592,7 +1596,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
 
@@ -1602,6 +1606,7 @@ namespace Lsj.Util.Win32
         /// <param name="uMinFree"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalCompact([In] UINT uMinFree);
 
@@ -1658,8 +1663,7 @@ namespace Lsj.Util.Win32
         /// New applications should use the heap functions unless documentation states that a local function should be used.
         /// For more information, see Global and Local Functions.
         /// </remarks>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFlags", ExactSpelling = true, SetLastError = true)]
         public static extern LocalMemoryFlags LocalFlags([In] HLOCAL hMem);
 
@@ -1681,8 +1685,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is equal to a handle to the local memory object.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalFree([In] HLOCAL hMem);
 
@@ -1711,8 +1714,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block,
         /// and <see cref="LocalHandle"/> converts the pointer back into a handle.
         /// </remarks>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalHandle([In] LPCVOID pMem);
 
@@ -1732,8 +1734,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID LocalLock(HLOCAL hMem);
 
@@ -1769,7 +1770,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
 
@@ -1780,6 +1781,7 @@ namespace Lsj.Util.Win32
         /// <param name="cbNewSize"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalShrink([In] HLOCAL hMem, [In] UINT cbNewSize);
 
@@ -1808,7 +1810,7 @@ namespace Lsj.Util.Win32
         /// To verify that the specified object's memory block has not been discarded,
         /// call the <see cref="LocalFlags"/> function before calling <see cref="LocalSize"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalSize([In] HLOCAL hMem);
 
@@ -1847,7 +1849,7 @@ namespace Lsj.Util.Win32
         /// A process should not rely on the return value to determine the number of times
         /// it must subsequently call <see cref="LocalUnlock"/> for the memory block.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LocalUnlock([In] HLOCAL hMem);
 
@@ -1913,7 +1915,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MapUserPhysicalPages([In] PVOID VirtualAddress, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
@@ -1963,7 +1965,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPagesScatter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MapUserPhysicalPagesScatter([In] PVOID[] VirtualAddresses, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
@@ -2001,7 +2003,7 @@ namespace Lsj.Util.Win32
         /// Any process that has a handle with <see cref="PROCESS_VM_READ"/> access can call the function.
         /// The entire area to be read must be accessible, and if it is not accessible, the function fails.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadProcessMemory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadProcessMemory([In] HANDLE hProcess, [In] LPCVOID lpBaseAddress, [In] LPVOID lpBuffer,
             [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesRead);
@@ -2039,7 +2041,7 @@ namespace Lsj.Util.Win32
         /// during the interval between the <see cref="GetWriteWatch"/> and <see cref="ResetWriteWatch"/> calls.
         /// Otherwise, there may be written pages that you not detect.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetWriteWatch", ExactSpelling = true, SetLastError = true)]
         public static extern UINT ResetWriteWatch([In] LPVOID lpBaseAddress, [In] SIZE_T dwRegionSize);
 
@@ -2182,7 +2184,7 @@ namespace Lsj.Util.Win32
         /// for ensuring cache coherency via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID VirtualAlloc([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] MemoryAllocationTypes flAllocationType,
             [In] MemoryProtectionConstants flProtect);
@@ -2319,7 +2321,7 @@ namespace Lsj.Util.Win32
         /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAllocEx", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID VirtualAllocEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
             [In] MemoryAllocationTypes flAllocationType, [In] MemoryProtectionConstants flProtect);
@@ -2543,7 +2545,7 @@ namespace Lsj.Util.Win32
         /// 0 for the <paramref name="dwSize"/> parameter.
         /// <see cref="MEM_RELEASE"/> for the <paramref name="dwFreeType"/> parameter. The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFree", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualFree([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] VirtualFreeTypes dwFreeType);
 
@@ -2634,7 +2636,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MEM_RELEASE"/> for the <paramref name="dwFreeType"/> parameter.
         /// The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFreeEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualFreeEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] VirtualFreeTypes dwFreeType);
 
@@ -2679,7 +2681,7 @@ namespace Lsj.Util.Win32
         /// There is no lock count for virtual pages, so multiple calls to the <see cref="VirtualUnlock"/> function
         /// are never required to unlock a region of pages.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualLock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualLock([In] LPVOID lpAddress, [In] SIZE_T dwSize);
 
@@ -2732,7 +2734,7 @@ namespace Lsj.Util.Win32
         /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualProtect([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] MemoryProtectionConstants flNewProtect,
             [Out] out MemoryProtectionConstants lpflOldProtect);
@@ -2791,7 +2793,7 @@ namespace Lsj.Util.Win32
         /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtectEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualProtectEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
             [In] MemoryProtectionConstants flNewProtect, [Out] out MemoryProtectionConstants lpflOldProtect);
@@ -2852,7 +2854,7 @@ namespace Lsj.Util.Win32
         /// This function reports on a region of pages in the memory of the calling process,
         /// and the <see cref="VirtualQueryEx"/> function reports on a region of pages in the memory of a specified process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualQuery", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T VirtualQuery([In] LPCVOID lpAddress, [Out] out MEMORY_BASIC_INFORMATION lpBuffer, [In] SIZE_T dwLength);
 
@@ -2915,7 +2917,7 @@ namespace Lsj.Util.Win32
         /// to check the Shared bit in the extended working set information for the page.
         /// If the Shared bit is clear, the page is private.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualQueryEx", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T VirtualQueryEx([In] HANDLE hProcess, [In] LPCVOID lpAddress, [Out] out MEMORY_BASIC_INFORMATION lpBuffer,
             [In] SIZE_T dwLength);
@@ -2950,7 +2952,7 @@ namespace Lsj.Util.Win32
         /// sets last error to <see cref="ERROR_NOT_LOCKED"/>, and returns <see cref="FALSE"/>.
         /// Calling <see cref="VirtualUnlock"/> on a range of memory that is not locked releases the pages from the process's working set.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VirtualUnlock([In] LPVOID lpAddress, [In] SIZE_T dwSize);
 
@@ -2994,7 +2996,7 @@ namespace Lsj.Util.Win32
         /// Typically but not always, the process with address space that is being written to is being debugged.
         /// The entire area to be written to must be accessible, and if it is not accessible, the function fails.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteProcessMemory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteProcessMemory([In] HANDLE hProcess, [In] LPVOID lpBaseAddress, [In] LPCVOID lpBuffer,
             [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesWritten);

@@ -3057,7 +3057,7 @@ namespace Lsj.Util.Win32
         /// in the <paramref name="cjBytes"/> parameter or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRasterizerCaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetRasterizerCaps([Out] out RASTERIZER_STATUS lpraststat, [In] UINT cjBytes);
 
@@ -3101,7 +3101,7 @@ namespace Lsj.Util.Win32
         /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextFaceW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTextFace([In] HDC hdc, [In] int c, [In] LPWSTR lpName);
 
@@ -3133,7 +3133,7 @@ namespace Lsj.Util.Win32
         /// Note that <see cref="GetDC"/> returns an uninitialized DC, which has "System" (a bitmap font) as the default font;
         /// thus the need to select a font into the DC.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextMetricsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextMetrics([In] HDC hdc, [Out] out TEXTMETRIC lptm);
 
@@ -3235,7 +3235,7 @@ namespace Lsj.Util.Win32
         /// }
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveFontResource([In] LPCWSTR lpFileName);
 
@@ -3343,7 +3343,7 @@ namespace Lsj.Util.Win32
         /// The remaining bits of the <paramref name="flags"/> parameter must be zero.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapperFlags", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SetMapperFlags([In] HDC hdc, [In] DWORD flags);
     }

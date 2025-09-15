@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="PathUnExpandEnvStrings"/> function.
         /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD ExpandEnvironmentStrings([In] LPWSTR lpSrc, [In] LPWSTR lpDst, [In] DWORD nSize);
 
@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
         /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeEnvironmentStrings([In] LPWCH penv);
 
@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32
         /// to that in the command line that the calling process gives to the <see cref="CreateProcess"/> function.
         /// The operating system may prepend a fully qualified path to an executable name that is provided without a fully qualified path.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCommandLineW", ExactSpelling = true)]
         public static extern LPWSTR GetCommandLine();
 
@@ -144,7 +144,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCurrentDirectory([In] DWORD nBufferLength, [In] LPWSTR lpBuffer);
 
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
         /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", ExactSpelling = true)]
         public static extern LPWCH GetEnvironmentStrings();
 
@@ -204,7 +204,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function can retrieve either a system environment variable or a user environment variable.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetEnvironmentVariable([In] LPCWSTR lpName, [In] LPWSTR lpBuffer, [In] DWORD nSize);
 
@@ -267,7 +267,7 @@ namespace Lsj.Util.Win32
         /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
         /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SearchPathW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SearchPath([In] LPCWSTR lpPath, [In] LPCWSTR lpFileName, [In] LPCWSTR lpExtension,
             [In] DWORD nBufferLength, [In] LPWSTR lpBuffer, [Out] out LPWSTR lpFilePart);
@@ -312,7 +312,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCurrentDirectory([In] LPCWSTR lpPathName);
 
@@ -362,7 +362,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function has no effect on the system environment variables or the environment variables of other processes.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetEnvironmentVariable([In] LPWSTR lpName, [In] LPWSTR lpValue);
 

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -44,6 +45,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWow64Process([In] HANDLE hProcess, [Out] out BOOL Wow64Process);
 

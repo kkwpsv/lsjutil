@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// A critical section object must be deleted before it can be reinitialized.
         /// Initializing a critical section that has already been initialized results in undefined behavior.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSection", ExactSpelling = true)]
         public static extern void InitializeCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
@@ -460,7 +460,7 @@ namespace Lsj.Util.Win32
         /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
         /// For example, the heap manager uses a spin count of roughly 4,000 for its per-heap critical sections.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeCriticalSectionAndSpinCount", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeCriticalSectionAndSpinCount([In][Out] ref CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount);
 
@@ -1349,7 +1349,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD QueueUserAPC([In] PAPCFUNC pfnAPC, [In] HANDLE hThread, [In] ULONG_PTR dwData);
 
@@ -1438,7 +1438,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterWaitForSingleObject([Out] out HANDLE phNewWaitObject, [In] HANDLE hObject, [In] WAITORTIMERCALLBACK Callback,
             [In] PVOID Context, [In] ULONG dwMilliseconds, [In] WorkThreadFlags dwFlags);
@@ -1613,7 +1613,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true)]
         public static extern WaitResult SignalObjectAndWait([In] HANDLE hObjectToSignal, [In] HANDLE hObjectToWaitOn,
             [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
@@ -1816,9 +1816,63 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWait", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterWait([In] HANDLE WaitHandle);
+
+        /// <summary>
+        /// <para>
+        /// Cancels a registered wait operation issued by the <see cref="RegisterWaitForSingleObject"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-unregisterwaitex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="WaitHandle">
+        /// The wait handle.
+        /// This handle is returned by the <see cref="RegisterWaitForSingleObject"/> function.
+        /// </param>
+        /// <param name="CompletionEvent">
+        /// A handle to the event object to be signaled when the wait operation has been unregistered.
+        /// This parameter can be <see cref="NULL"/>.
+        /// If this parameter is <see cref="INVALID_HANDLE_VALUE"/>, the function waits for all callback functions to complete before returning.
+        /// If this parameter is <see cref="NULL"/>, the function marks the timer for deletion and returns immediately.
+        /// However, most callers should wait for the callback function to complete so they can perform any needed cleanup.
+        /// If the caller provides this event and the function succeeds or the function fails with <see cref="ERROR_IO_PENDING"/>,
+        /// do not close the event until it is signaled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You cannot make a blocking call to <see cref="UnregisterWaitEx"/> from within a callback function for the same wait operation.
+        /// Otherwise, the callback will be waiting for itself to finish.
+        /// In general, a blocking call to <see cref="UnregisterWaitEx"/> creates a dependency between the current thread and the callback,
+        /// so to make a blocking unregister call on another wait operation, you must ensure that the callback functions do not depend on
+        /// one another and that the second wait operation does not also perform a blocking unregister call on the first operation.
+        /// Be careful when making a blocking <see cref="UnregisterWaitEx"/> call on a persistent thread.
+        /// If the wait operation being unregistered was created with <see cref="WT_EXECUTEINPERSISTENTTHREAD"/>, a deadlock may occur.
+        /// After making non-blocking call to <see cref="UnregisterWaitEx"/>,
+        /// no new callback functions associated with <paramref name="WaitHandle"/> can be queued.
+        /// However, there may be pending callback functions already queued to worker threads.
+        /// Under some conditions, the function will fail with <see cref="ERROR_IO_PENDING"/> if <paramref name="CompletionEvent"/> is <see cref="NULL"/>.
+        /// This indicates that there are outstanding callback functions. Those callbacks either will execute or are in the middle of executing.
+        /// If <paramref name="CompletionEvent"/> is a handle to an event provided by the caller, it is possible for the function to succeed,
+        /// fail with <see cref="ERROR_IO_PENDING"/>, or fail with a different error code.
+        /// If the function succeeds, or if the function fails with <see cref="ERROR_IO_PENDING"/>,
+        /// the caller should always wait until the event is signaled to close the event.
+        /// If the function fails with a different error code, it is not necessary to wait until the event is signaled to close the event.
+        /// Windows XP: If <paramref name="CompletionEvent"/> is a handle to an event provided by the caller
+        /// and the function fails with <see cref="ERROR_IO_PENDING"/>, the caller should wait until the event is signaled to close the event.
+        /// This behavior changed starting with Windows Vista.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWaitEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterWaitEx([In] HANDLE WaitHandle, [In] HANDLE CompletionEvent);
 
         /// <summary>
         /// <para>
@@ -1912,7 +1966,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjects"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForMultipleObjects([In] DWORD nCount, [In] HANDLE[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds);
 
@@ -2017,7 +2071,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjectsEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForMultipleObjectsEx([In] DWORD nCount, [In] IntPtr[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
@@ -2080,7 +2134,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
         /// rather than <see cref="WaitForSingleObject"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForSingleObject([In] HANDLE hHandle, [In] DWORD dwMilliseconds);
 
@@ -2153,7 +2207,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForSingleObjectEx"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObjectEx", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForSingleObjectEx([In] HANDLE hHandle, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 

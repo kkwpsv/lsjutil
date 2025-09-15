@@ -186,7 +186,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Other Windows-based applications should call the WNetAddConnection2 or the WNetAddConnection3 function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Mpr.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetAddConnectionW", ExactSpelling = true)]
         public static extern SystemErrorCodes WNetAddConnection([In] LPCWSTR lpRemoteName, [In] LPCWSTR lpPassword, [In] LPCWSTR lpLocalName);
 
@@ -298,7 +298,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The WNetCancelConnection function is provided for compatibility with 16-bit versions of Windows." +
             " Other Windows-based applications should call the WNetCancelConnection2 function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Mpr.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetCancelConnectionW", ExactSpelling = true)]
         public static extern SystemErrorCodes WNetCancelConnection([In] LPCWSTR lpName, [In] BOOL fForce);
 
@@ -428,7 +428,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         [DllImport("Mpr.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetGetConnectionW", ExactSpelling = true)]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static extern SystemErrorCodes WNetGetConnection([In] LPCWSTR lpLocalName, [In] LPWSTR lpRemoteName, [In][Out] ref DWORD lpnLength);
     }
 }

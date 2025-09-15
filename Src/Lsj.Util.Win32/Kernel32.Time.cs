@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
@@ -36,6 +37,7 @@ namespace Lsj.Util.Win32
         /// use the following sequence of functions in place of using <see cref="FileTimeToLocalFileTime"/>:
         /// <see cref="FileTimeToSystemTime"/>, <see cref="SystemTimeToTzSpecificLocalTime"/>, <see cref="SystemTimeToFileTime"/>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToLocalFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FileTimeToLocalFileTime([In] in FILETIME lpFileTime, [Out] out FILETIME lpLocalFileTime);
 
@@ -59,6 +61,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FileTimeToSystemTime([In] in FILETIME lpFileTime, [Out] out SYSTEMTIME lpSystemTime);
 
@@ -129,6 +132,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="TIME_ZONE_INFORMATION.StandardName"/> and <see cref="TIME_ZONE_INFORMATION.DaylightName"/> members
         /// of the resultant <see cref="TIME_ZONE_INFORMATION"/> structure are localized according to the current user default UI language.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetTimeZoneInformation([Out] out TIME_ZONE_INFORMATION lpTimeZoneInformation);
 
@@ -232,6 +236,7 @@ namespace Lsj.Util.Win32
         /// UTC = local time + bias
         /// The bias is the difference, in minutes, between UTC and local time.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetTimeZoneInformation([In] in TIME_ZONE_INFORMATION lpTimeZoneInformation);
 
@@ -259,6 +264,7 @@ namespace Lsj.Util.Win32
         /// Certain situations, such as the additional day added in a leap year, can result in application logic unexpectedly creating an invalid date.
         /// For more information on avoiding these issues, see leap year readiness.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemTimeToFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemTimeToFileTime([In] in SYSTEMTIME lpSystemTime, [Out] out FILETIME lpFileTime);
 
@@ -295,6 +301,7 @@ namespace Lsj.Util.Win32
         /// The time zone uses a different UTC offset for the old and new years.
         /// The UTC time to be converted and the calculated local time are in different years.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemTimeToTzSpecificLocalTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemTimeToTzSpecificLocalTime([In] in TIME_ZONE_INFORMATION lpTimeZoneInformation,
             [In] in SYSTEMTIME lpUniversalTime, [Out] out SYSTEMTIME lpLocalTime);
@@ -327,6 +334,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// <see cref="TzSpecificLocalTimeToSystemTime"/> takes into account whether daylight saving time (DST) is in effect for the local time to be converted.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TzSpecificLocalTimeToSystemTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TzSpecificLocalTimeToSystemTime([In] in TIME_ZONE_INFORMATION lpTimeZoneInformation,
             [In] in SYSTEMTIME lpLocalTime, [Out] out SYSTEMTIME lpUniversalTime);

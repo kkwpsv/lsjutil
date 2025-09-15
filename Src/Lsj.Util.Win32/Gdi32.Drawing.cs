@@ -1250,7 +1250,7 @@ namespace Lsj.Util.Win32
         /// On monochrome screens, the <see cref="InvertRgn"/> function makes white pixels black and black pixels white.
         /// On color screens, this inversion is dependent on the type of technology used to generate the colors for the screen.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvertRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -1300,7 +1300,7 @@ namespace Lsj.Util.Win32
         /// only if the default transformations and mapping modes are used.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineDDA", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineDDA([In] int xStart, [In] int yStart, [In] int xEnd, [In] int yEnd, [In] LINEDDAPROC lpProc, [In] LPARAM data);
 
@@ -1337,7 +1337,7 @@ namespace Lsj.Util.Win32
         /// If <see cref="LineTo"/> succeeds, the current position is set to the specified ending point.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineTo([In] HDC hdc, [In] int x, [In] int y);
 
@@ -1373,7 +1373,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="MoveToEx"/> function affects all drawing functions.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveToEx([In] HDC hdc, [In] int x, [In] int y, [In][Out] ref POINT lppt);
 
@@ -1400,7 +1400,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PaintRgn([In] HDC hdc, [In] HRGN hrgn);
 
@@ -1458,7 +1458,7 @@ namespace Lsj.Util.Win32
         /// The current position is neither used nor updated by the <see cref="Pie"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Pie([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom,
             [In] int xr1, [In] int yr1, [In] int xr2, [In] int yr2);
@@ -1508,7 +1508,7 @@ namespace Lsj.Util.Win32
         /// This function draws lines by using the current pen.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezier", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyBezier([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -1553,7 +1553,7 @@ namespace Lsj.Util.Win32
         /// This function draws lines by using the current pen.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezierTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyBezierTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -1685,7 +1685,7 @@ namespace Lsj.Util.Win32
         /// This function updates the current position.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyDraw", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyDraw([In] HDC hdc, [In] POINT[] apt, [In] BYTE[] aj, [In] int cpt);
 
@@ -1729,7 +1729,7 @@ namespace Lsj.Util.Win32
         /// Remember to connect the line segments.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polygon([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
@@ -1764,7 +1764,7 @@ namespace Lsj.Util.Win32
         /// Unlike the <see cref="LineTo"/> or <see cref="PolylineTo"/> functions,
         /// the <see cref="Polyline"/> function neither uses nor updates the current position.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polyline([In] HDC hdc, [In] POINT[] apt, [In] int cpt);
 
@@ -1810,7 +1810,7 @@ namespace Lsj.Util.Win32
         /// If the line segments drawn by this function form a closed figure, the figure is not filled.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolylineTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolylineTo([In] HDC hdc, [In] POINT[] apt, [In] DWORD cpt);
 
@@ -1859,7 +1859,7 @@ namespace Lsj.Util.Win32
         /// Note, it is best to have a polygon in only one of the groups.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyPolygon([In] HDC hdc, [In] POINT[] apt, [In] INT[] asz, [In] int csz);
 
@@ -1902,7 +1902,7 @@ namespace Lsj.Util.Win32
         /// The current position is neither used nor updated by this function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolyline", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyPolyline([In] HDC hdc, [In] POINT[] apt, [In] DWORD[] asz, [In] DWORD csz);
 
@@ -1949,7 +1949,7 @@ namespace Lsj.Util.Win32
         /// If a <see cref="PS_NULL"/> pen is used, the dimensions of the rectangle are 1 pixel less in height and 1 pixel less in width.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Rectangle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Rectangle([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom);
 
@@ -1994,7 +1994,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The current position is neither used nor updated by this function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RoundRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RoundRect([In] HDC hdc, [In] int left, [In] int top, [In] int right, [In] int bottom, [In] int width, [In] int height);
 
@@ -2098,7 +2098,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetArcDirection", ExactSpelling = true, SetLastError = true)]
         public static extern int SetArcDirection([In] HDC hdc, [In] int dir);
 
@@ -2167,7 +2167,7 @@ namespace Lsj.Util.Win32
         /// The direction of each edge of the polygon is important.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetPolyFillMode([In] HDC hdc, [In] PolyFillModes mode);
 
@@ -2200,7 +2200,7 @@ namespace Lsj.Util.Win32
         /// and stroking and filling the path separately, except that the filled region will not overlap the stroked region even if the pen is wide.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokeAndFillPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StrokeAndFillPath([In] HDC hdc);
 
@@ -2230,7 +2230,7 @@ namespace Lsj.Util.Win32
         /// <see cref="StrokePath"/> will not attempt to close the path by drawing a straight line
         /// from the first point on the path to the last point on the path.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StrokePath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StrokePath([In] HDC hdc);
 
@@ -2268,7 +2268,7 @@ namespace Lsj.Util.Win32
         /// As such, no Bézier curves remain in the path after <see cref="WidenPath"/> is called.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WidenPath", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WidenPath([In] HDC hdc);
     }

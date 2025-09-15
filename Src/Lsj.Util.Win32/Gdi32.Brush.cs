@@ -534,7 +534,7 @@ namespace Lsj.Util.Win32
         /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetBrushOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
     }

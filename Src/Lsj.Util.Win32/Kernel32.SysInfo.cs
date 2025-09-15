@@ -131,7 +131,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To set the current local date and time, use the <see cref="SetLocalTime"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocalTime", ExactSpelling = true)]
         public static extern void GetLocalTime([Out] out SYSTEMTIME lpSystemTime);
 
@@ -601,7 +601,7 @@ namespace Lsj.Util.Win32
         /// Applications should not create files in the system directory.
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
@@ -699,7 +699,7 @@ namespace Lsj.Util.Win32
         /// <param name="lpSystemInfo">
         /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
         /// </param>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", ExactSpelling = true)]
         public static extern void GetSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
 
@@ -720,7 +720,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To set the current system date and time, use the <see cref="SetSystemTime"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTime", ExactSpelling = true)]
         public static extern void GetSystemTime([Out] out SYSTEMTIME lpSystemTime);
 
@@ -775,7 +775,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetSystemTimeAdjustment"/> function lets a caller enable or disable periodic time adjustment,
         /// and set the value of the adjusting increment.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSystemTimeAdjustment([Out] out DWORD lpTimeAdjustment, [Out] out DWORD lpTimeIncrement,
             [Out] out BOOL lpTimeAdjustmentDisabled);
@@ -791,7 +791,7 @@ namespace Lsj.Util.Win32
         /// <param name="lpSystemTimeAsFileTime">
         /// A pointer to a <see cref="FILETIME"/> structure to receive the current system date and time in UTC format.
         /// </param>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAsFileTime", ExactSpelling = true)]
         public static extern void GetSystemTimeAsFileTime([Out] out FILETIME lpSystemTimeAsFileTime);
 
@@ -863,7 +863,7 @@ namespace Lsj.Util.Win32
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
         /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount", ExactSpelling = true)]
         public static extern DWORD GetTickCount();
 
@@ -926,7 +926,7 @@ namespace Lsj.Util.Win32
         /// by comparing the required system version with the current system version for you.
         /// </remarks>
         [Obsolete("GetVersion may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersion", ExactSpelling = true)]
         public static extern DWORD GetVersion();
 
@@ -978,7 +978,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetVersionEx"/> reports the operating system that is selected for application compatibility.
         /// </remarks>
         [Obsolete("GetVersionEx may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersionExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVersionEx([In] in OSVERSIONINFO lpVersionInformation);
 
@@ -1027,7 +1027,7 @@ namespace Lsj.Util.Win32
         /// this function returns the path of the system Windows directory, just as the <see cref="GetSystemWindowsDirectory"/> function does.
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetWindowsDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
@@ -1060,7 +1060,7 @@ namespace Lsj.Util.Win32
         /// If the HAL does not support detection of the feature,
         /// whether or not the hardware supports the feature, the return value is also <see cref="FALSE"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessorFeaturePresent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsProcessorFeaturePresent(ProcessFeatures ProcessorFeature);
 
@@ -1136,7 +1136,7 @@ namespace Lsj.Util.Win32
         /// Therefore, to ensure the correct result, call <see cref="SetLocalTime"/> a second time,
         /// now that the first call has updated the daylight saving time setting.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocalTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetLocalTime([In] in SYSTEMTIME lpSystemTime);
 
@@ -1207,7 +1207,7 @@ namespace Lsj.Util.Win32
         /// and then to disable the privilege after the <see cref="SetSystemTimeAdjustment"/> call.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSystemTimeAdjustment([In] DWORD dwTimeAdjustment, [In] BOOL bTimeAdjustmentDisabled);
 

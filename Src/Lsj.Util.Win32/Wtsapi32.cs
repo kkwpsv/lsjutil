@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -64,7 +63,7 @@ namespace Lsj.Util.Win32
         /// See LocalSystem account for information about the privileges associated with that account.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Wtsapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSQueryUserToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WTSQueryUserToken([In] DWORD SessionId, [Out] out HANDLE phToken);
 

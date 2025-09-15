@@ -347,7 +347,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckTokenMembership([In] HANDLE TokenHandle, [In] PSID SidToCheck, [Out] out BOOL IsMember);
 
@@ -606,7 +606,7 @@ namespace Lsj.Util.Win32
         /// If necessary, switch between desktops for your application purposes.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRestrictedToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateRestrictedToken([In] HANDLE ExistingTokenHandle, [In] CreateRestrictedTokenFlags Flags,
             [In] DWORD DisableSidCount, [In] SID_AND_ATTRIBUTES[] SidsToDisable, [In] DWORD DeletePrivilegeCount, [In] LUID_AND_ATTRIBUTES[] PrivilegesToDelete,
@@ -895,7 +895,7 @@ namespace Lsj.Util.Win32
         /// If a token does not have any restricting SIDs, <see cref="IsTokenRestricted"/> returns <see cref="FALSE"/>,
         /// even though the token was created by a call to <see cref="CreateRestrictedToken"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTokenRestricted", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsTokenRestricted([In] HANDLE TokenHandle);
 

@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32
         /// If the job or any of its parent jobs in the job chain is terminating when <see cref="AssignProcessToJobObject"/> is called, the function fails.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later. For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AssignProcessToJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AssignProcessToJobObject([In] HANDLE hJob, [In] HANDLE hProcess);
 
@@ -149,7 +149,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateJobObjectW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateJobObject([In] in SECURITY_ATTRIBUTES lpJobAttributes, [In] LPCWSTR lpName);
 
@@ -230,7 +230,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenJobObjectW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenJobObject([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpName);
 
@@ -330,7 +330,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryInformationJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength, [Out] out DWORD lpReturnLength);
@@ -429,7 +429,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetInformationJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetInformationJobObject([In] HANDLE hJob, [In] JobObjectInformationClasses JobObjectInformationClass,
             [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength);
@@ -469,7 +469,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateJobObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TerminateJobObject([In] HANDLE hJob, [In] UINT uExitCode);
     }

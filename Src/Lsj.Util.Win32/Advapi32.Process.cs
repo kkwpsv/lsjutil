@@ -937,7 +937,7 @@ namespace Lsj.Util.Win32
         /// CreateProcessWithLogonW(NULL, szCmdline, /*...*/);
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithLogonW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateProcessWithLogonW([In] LPCWSTR lpUsername, [In] LPCWSTR lpDomain, [In] LPCWSTR lpPassword,
             [In] LogonFlags dwLogonFlags, [In] LPCWSTR lpApplicationName, [In] LPWSTR lpCommandLine, [In] ProcessCreationFlags dwCreationFlags,

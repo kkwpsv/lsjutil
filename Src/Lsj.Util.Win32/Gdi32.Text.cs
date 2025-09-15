@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextAlign", ExactSpelling = true, SetLastError = true)]
         public static extern TextAlignments GetTextAlign([In] HDC hdc);
 
@@ -553,7 +553,7 @@ namespace Lsj.Util.Win32
         /// that the <see cref="TextOut"/> or <see cref="ExtTextOut"/> functions add to each character as a line is written.
         /// The spacing is used to expand lines of text.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTextCharacterExtra([In] HDC hdc);
 
@@ -581,7 +581,7 @@ namespace Lsj.Util.Win32
         /// The text color defines the foreground color of characters drawn
         /// by using the <see cref="TextOut"/> or <see cref="ExtTextOut"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetTextColor([In] HDC hdc);
 
@@ -681,7 +681,7 @@ namespace Lsj.Util.Win32
         /// which returns the width of each individual character rounded to logical units.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentExPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextExtentExPoint([In] HDC hdc, [In] LPCWSTR lpszString, [In] int cchString,
             [In] int nMaxExtent, [Out] out INT lpnFit, [Out] INT[] lpnDx, [Out] out SIZE lpSize);
@@ -802,9 +802,9 @@ namespace Lsj.Util.Win32
         /// The calculated string width takes into account the intercharacter spacing set by the <see cref="SetTextCharacterExtra"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should call the GetTextExtentPoint32 function, which provides more accurate results.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextExtentPoint([In] HDC hdc, [In] LPCWSTR lpString, [In] int c, [Out] out SIZE lpsz);
 
@@ -890,7 +890,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetTextExtentPoint32"/> doesn't consider "\n" (new line) or "\r\n" (carriage return and new line) characters when it computes the height of a text string.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextExtentPoint32([In] HDC hdc, [In] LPCWSTR lpString, [In] int c, [Out] out SIZE psizl);
 
@@ -1005,7 +1005,7 @@ namespace Lsj.Util.Win32
         /// due to its ability to handle display of different languages.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyTextOut([In] HDC hdc, [In] in POLYTEXT[] ppt, [In] int nstrings);
 
@@ -1192,7 +1192,7 @@ namespace Lsj.Util.Win32
         /// If you must use this flag, you can unset and reset it as necessary to avoid the problem.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextAlign", ExactSpelling = true, SetLastError = true)]
         public static extern TextAlignments SetTextAlign([In] HDC hdc, [In] TextAlignments align);
 
@@ -1227,7 +1227,7 @@ namespace Lsj.Util.Win32
         /// applications should call <see cref="ExtTextOut"/> and use its lpDx parameter to supply widths.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
         public static extern int SetTextCharacterExtra([In] HDC hdc, [In] int extra);
 
@@ -1257,7 +1257,7 @@ namespace Lsj.Util.Win32
         /// The text color is used to draw the face of each character written by the <see cref="TextOut"/> and <see cref="ExtTextOut"/> functions.
         /// The text color is also used in converting bitmaps from color to monochrome and vice versa.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetTextColor([In] HDC hdc, [In] COLORREF color);
 
@@ -1316,7 +1316,7 @@ namespace Lsj.Util.Win32
         /// The term can be cleared by calling <see cref="SetTextJustification"/> with <paramref name="extra"/> set to zero.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextJustification", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetTextJustification([In] HDC hdc, [In] int extra, [In] int count);
 
@@ -1491,7 +1491,7 @@ namespace Lsj.Util.Win32
         /// FillRect(hdc, &amp;r, GetStockObject(GRAY_BRUSH));
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString, [In] int c);
     }

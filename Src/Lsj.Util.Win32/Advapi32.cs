@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// SMB 3.0 does not support EFS on shares with continuous availability capability.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecryptFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DecryptFile([In] LPCWSTR lpFileName, [In] DWORD dwReserved);
 
@@ -284,7 +284,7 @@ namespace Lsj.Util.Win32
         /// SMB 3.0 does not support EFS on shares with continuous availability capability.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EncryptFile([In] LPCWSTR lpFileName);
 
@@ -840,7 +840,7 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitiateSystemShutdownEx([In] LPWSTR lpMachineName, [In] LPWSTR lpMessage, [In] DWORD dwTimeout,
             [In] BOOL bForceAppsClosed, [In] BOOL bRebootAfterShutdown, [In] SystemShutdownReasonCodes dwReason);
@@ -1264,7 +1264,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="SetSecurityDescriptorControl"/> function specifies the control bit or bits to modify, and whether the bits are on or off.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
             [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsOfInterest, [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsToSet);

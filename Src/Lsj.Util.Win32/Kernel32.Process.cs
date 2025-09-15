@@ -335,7 +335,7 @@ namespace Lsj.Util.Win32
         /// CreateProcess(NULL, szCmdline, /*...*/);
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateProcess([In] LPCWSTR lpApplicationName, [In] LPWSTR lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
             [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] BOOL bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
@@ -396,7 +396,7 @@ namespace Lsj.Util.Win32
         /// Note that you can use the <see cref="QueryFullProcessImageName"/> function to retrieve the full name of an executable image
         /// for both 32- and 64-bit processes from a 32-bit process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateToolhelp32Snapshot", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateToolhelp32Snapshot([In] Toolhelp32SnapshotFlags dwFlags, [In] DWORD th32ProcessID);
 
@@ -534,7 +534,7 @@ namespace Lsj.Util.Win32
         /// Exiting a process does not necessarily remove the process object from the operating system.
         /// A process object is deleted when the last handle to the process is closed.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", ExactSpelling = true)]
         public static extern void ExitProcess([In] UINT uExitCode);
 
@@ -565,7 +565,7 @@ namespace Lsj.Util.Win32
         /// Applications should call <see cref="FlushInstructionCache"/> if they generate or modify code in memory.
         /// The CPU cannot detect the change, and may execute the old code it cached.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlushInstructionCache([In] HANDLE hProcess, [In] LPCVOID lpBaseAddress, [In] SIZE_T dwSize);
 
@@ -613,7 +613,7 @@ namespace Lsj.Util.Win32
         /// Calling the <see cref="CloseHandle"/> function with a pseudo handle has no effect.
         /// If the pseudo handle is duplicated by <see cref="DuplicateHandle"/>, the duplicate handle must be closed.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", ExactSpelling = true)]
         public static extern HANDLE GetCurrentProcess();
 
@@ -631,7 +631,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Until the process terminates, the process identifier uniquely identifies the process throughout the system.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessId", ExactSpelling = true)]
         public static extern DWORD GetCurrentProcessId();
 
@@ -671,7 +671,7 @@ namespace Lsj.Util.Win32
         /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
         /// which could put the application into an infinite loop.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetExitCodeProcess([In] HANDLE hProcess, [Out] out DWORD lpExitCode);
 
@@ -738,7 +738,7 @@ namespace Lsj.Util.Win32
         /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
         /// Priority class is maintained by the executive, so all processes have a priority class that can be queried.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", ExactSpelling = true, SetLastError = true)]
         public static extern ProcessPriorityClasses GetPriorityClass([In] HANDLE hProcess);
 
@@ -773,7 +773,7 @@ namespace Lsj.Util.Win32
         /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessAffinityMask([In] HANDLE hProcess, [Out] out DWORD_PTR lpProcessAffinityMask,
             [Out] out DWORD_PTR lpSystemAffinityMask);
@@ -1064,7 +1064,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessPriorityBoost([In] HANDLE hProcess, [Out] out BOOL pDisablePriorityBoost);
 
@@ -1118,7 +1118,7 @@ namespace Lsj.Util.Win32
         /// That is the number of 100-nanosecond units in one second.
         /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessTimes([In] HANDLE hProcess, [Out] out FILETIME lpCreationTime, [Out] out FILETIME lpExitTime,
             [Out] out FILETIME lpKernelTime, [Out] out FILETIME lpUserTime);
@@ -1150,7 +1150,7 @@ namespace Lsj.Util.Win32
         /// Linker programs set this value.
         /// If this function is called from a 32-bit application running on WOW64, the specified process must be a 32-bit process or the function fails.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessVersion", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessVersion([In] DWORD ProcessId);
 
@@ -1169,7 +1169,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="STARTUPINFO"/> structure was specified by the process that created the calling process.
         /// It can be used to specify properties associated with the main window of the calling process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern void GetStartupInfo([Out] out STARTUPINFO lpStartupInfo);
 
@@ -1258,7 +1258,7 @@ namespace Lsj.Util.Win32
         /// such as the wait functions, provided the appropriate access rights were requested.
         /// When you are finished with the handle, be sure to close it using the <see cref="CloseHandle"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenProcess([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] DWORD dwProcessId);
 
@@ -1286,7 +1286,7 @@ namespace Lsj.Util.Win32
         /// The calling application must set the <see cref="PROCESSENTRY32.dwSize"/> member of <see cref="PROCESSENTRY32"/> to the size, in bytes, of the structure.
         /// To retrieve information about other processes recorded in the same snapshot, use the <see cref="Process32Next"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32FirstW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Process32First([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
@@ -1312,7 +1312,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To retrieve information about the first process recorded in a snapshot, use the <see cref="Process32First"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32NextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Process32Next([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
@@ -1341,7 +1341,7 @@ namespace Lsj.Util.Win32
         /// Callers must hold the <see cref="PROCESS_QUERY_INFORMATION"/> access right for the specified process.
         /// For more information, see Process Security and Access Rights.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ProcessIdToSessionId", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ProcessIdToSessionId([In] DWORD dwProcessId, [Out] out DWORD pSessionId);
 
@@ -1577,7 +1577,7 @@ namespace Lsj.Util.Win32
         /// After a process ends background processing mode, it resets all threads in the process;
         /// however, it is not possible for the process to know which threads were already in background processing mode.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetPriorityClass([In] HANDLE hProcess, [In] ProcessPriorityClasses dwPriorityClass);
 
@@ -1619,7 +1619,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SetThreadAffinityMask"/> function to set the affinity mask for individual threads in multiple groups.
         /// This effectively changes the group assignment of the process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessAffinityMask([In] HANDLE hProcess, [In] DWORD_PTR dwProcessAffinityMask);
 
@@ -1798,7 +1798,7 @@ namespace Lsj.Util.Win32
         /// This setting affects all existing threads and any threads subsequently created by the process.
         /// To restore normal behavior, call <see cref="SetProcessPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessPriorityBoost([In] HANDLE hProcess, [In] BOOL bDisablePriorityBoost);
 
@@ -1838,7 +1838,7 @@ namespace Lsj.Util.Win32
         /// They get notified of shutdown or logoff through the callback function installable via <see cref="SetConsoleCtrlHandler"/>.
         /// They also get notified in the order specified by the <paramref name="dwLevel"/> parameter.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessShutdownParameters", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessShutdownParameters([In] DWORD dwLevel, [In] DWORD dwFlags);
 
@@ -1910,7 +1910,7 @@ namespace Lsj.Util.Win32
         /// Thus, you must use the <see cref="SetProcessWorkingSetSize"/> function carefully.
         /// You must always consider the performance of the whole system when you are designing an application.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWorkingSetSize([In] HANDLE hProcess, [In] SIZE_T dwMinimumWorkingSetSize, [In] SIZE_T dwMaximumWorkingSetSize);
 
@@ -1997,7 +1997,7 @@ namespace Lsj.Util.Win32
         /// If you need to be sure the process has terminated, call the <see cref="WaitForSingleObject"/> function with a handle to the process.
         /// A process cannot prevent itself from being terminated.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TerminateProcess([In] HANDLE hProcess, [In] UINT uExitCode);
 

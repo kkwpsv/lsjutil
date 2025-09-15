@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -71,6 +72,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelWaitableTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CancelWaitableTimer([In] HANDLE hTimer);
 
@@ -137,6 +139,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateWaitableTimer([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] BOOL bManualReset, [In] LPCWSTR lpTimerName);
 
@@ -249,6 +252,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenWaitableTimer([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpTimerName);
 
@@ -340,6 +344,7 @@ namespace Lsj.Util.Win32
         /// How precise you can change the resolution depends on which hardware clock the particular API uses.
         /// For more information, check your hardware documentation.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWaitableTimer([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
             [In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] BOOL fResume);

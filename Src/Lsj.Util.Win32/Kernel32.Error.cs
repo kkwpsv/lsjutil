@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", ExactSpelling = true)]
         public static extern void FatalAppExit([In] UINT uAction, [In] LPCWSTR lpMessageText);
 
@@ -358,7 +358,7 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="GetExceptionInformation"/> function.
         /// A debugger can retrieve these values by calling the <see cref="WaitForDebugEvent"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true)]
         public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
             [In] DWORD nNumberOfArguments, [In] ULONG_PTR[] lpArguments);
@@ -407,7 +407,7 @@ namespace Lsj.Util.Win32
         /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", ExactSpelling = true)]
         public static extern UINT SetErrorMode([In] ErrorModes uMode);
 
@@ -422,7 +422,7 @@ namespace Lsj.Util.Win32
         /// <param name="dwErrCode">
         /// The last-error code for the thread.
         /// </param>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
         public static extern void SetLastError([In] SystemErrorCodes dwErrCode);
 
@@ -506,7 +506,7 @@ namespace Lsj.Util.Win32
         /// The exception handler specified by <paramref name="lpTopLevelExceptionFilter"/> is executed in the context of the thread that caused the fault.
         /// This can affect the exception handler's ability to recover from certain exceptions, such as an invalid stack.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUnhandledExceptionFilter", ExactSpelling = true)]
         public static extern LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter([In] LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter);
 
@@ -540,7 +540,7 @@ namespace Lsj.Util.Win32
         /// in a call to the <see cref="SetErrorMode"/> function.
         /// The system uses <see cref="UnhandledExceptionFilter"/> internally to handle exceptions that occur during process and thread creation.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhandledExceptionFilter", ExactSpelling = true)]
         public static extern LONG UnhandledExceptionFilter([Out] out EXCEPTION_POINTERS ExceptionInfo);
     }

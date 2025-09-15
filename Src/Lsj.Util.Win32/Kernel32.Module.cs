@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// Do not call this function from a DLL that is linked to the static C run-time library (CRT).
         /// The static CRT requires <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications to function properly.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DisableThreadLibraryCalls([In] HMODULE hLibModule);
 
@@ -261,7 +261,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, a race condition can occur.
         /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeLibrary([In] HMODULE hLibModule);
 
@@ -290,7 +290,7 @@ namespace Lsj.Util.Win32
         /// If they were to call <see cref="FreeLibrary"/> and <see cref="ExitThread"/> separately, a race condition would exist.
         /// The library could be unloaded before <see cref="ExitThread"/> is called.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void FreeLibraryAndExitThread([In] HMODULE hLibModule, [In] DWORD dwExitCode);
 
@@ -350,7 +350,7 @@ namespace Lsj.Util.Win32
         /// The global variable _pgmptr is automatically initialized to the full path of the executable file,
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetModuleFileName([In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
@@ -455,7 +455,7 @@ namespace Lsj.Util.Win32
         /// If the system loads another module, it could reuse the module handle that was recently freed.
         /// Therefore, the first thread would have a handle to a different module than the one intended.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE GetModuleHandle([In] LPWSTR lpModuleName);
 
@@ -583,7 +583,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// For the complete example that contains this code fragment, see Getting the System Version.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern FARPROC GetProcAddress([In] HMODULE hModule, [In] LPCSTR lpProcName);
 
@@ -680,7 +680,7 @@ namespace Lsj.Util.Win32
         /// is in the search path, the malicious version of the DLL may be loaded.
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE LoadLibrary([In] LPCWSTR lpLibFileName);
 
@@ -862,7 +862,7 @@ namespace Lsj.Util.Win32
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// For a general discussion of DLL security issues, see Dynamic-Link Library Security.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE LoadLibraryEx([In] LPCWSTR lpLibFileName, [In] HANDLE hFile, [In] LoadLibraryExFlags dwFlags);
 
@@ -901,6 +901,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true)]
         public static extern DWORD LoadModule([In] LPCWSTR lpModuleName, [In] LPVOID lpParameterBlock);
 
@@ -988,7 +989,8 @@ namespace Lsj.Util.Win32
         /// The calling application must set the <see cref="MODULEENTRY32.dwSize"/> member
         /// of <see cref="MODULEENTRY32"/> to the size, in bytes, of the structure.
         /// To retrieve information about other modules associated with the specified process, use the <see cref="Module32Next"/> function.
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32FirstW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Module32First([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
 
@@ -1013,7 +1015,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To retrieve information about first module associated with a process, use the <see cref="Module32First"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32NextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Module32Next([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
 

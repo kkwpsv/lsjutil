@@ -186,7 +186,7 @@ namespace Lsj.Util.Win32
         /// 0:  First file time is equal to second file time.
         /// 1:  First file time is later than second file time.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern LONG CompareFileTime([In] in FILETIME lpFileTime1, [In] in FILETIME lpFileTime2);
 
@@ -250,7 +250,7 @@ namespace Lsj.Util.Win32
         /// Symbolic link behavior—If the source file is a symbolic link, the actual file copied is the target of the symbolic link.
         /// If the destination file already exists and is a symbolic link, the target of the symbolic link is overwritten by the source file
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFile([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] BOOL bFailIfExists);
 
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32
         /// To use <see cref="TransmitFile"/>, you must write a Winsock client application that sends the file from the source computer
         /// as well as a Winsock server application that uses other Winsock functions to receive the file on the remote computer.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
             [In] LPVOID lpData, [In] P<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags);
@@ -469,7 +469,7 @@ namespace Lsj.Util.Win32
         /// To support inheritance functions that query the security descriptor of this object may heuristically determine
         /// and report that inheritance is in effect. See Automatic Propagation of Inheritable ACEs for more information.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateDirectory([In] LPCWSTR lpPathName, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
@@ -533,146 +533,9 @@ namespace Lsj.Util.Win32
         /// To support inheritance functions that query the security descriptor of this object can heuristically determine and report
         /// that inheritance is in effect. For more information, see Automatic Propagation of Inheritable ACEs.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateDirectoryEx([In] LPCWSTR lpTemplateDirectory, [In] LPCWSTR lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
-
-        /// <summary>
-        /// <para>
-        /// Establishes a hard link between an existing file and a new file.
-        /// This function is only supported on the NTFS file system, and only for files, not directories.
-        /// To perform this operation as a transacted operation, use the <see cref="CreateHardLinkTransacted"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createhardlinkw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpFileName">
-        /// The name of the new file.
-        /// This parameter may include the path but cannot specify the name of a directory.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
-        /// For more information, see Naming a File.
-        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
-        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
-        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
-        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </param>
-        /// <param name="lpExistingFileName">
-        /// The name of the existing file.
-        /// This parameter may include the path cannot specify the name of a directory.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
-        /// For more information, see Naming a File.
-        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
-        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
-        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
-        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </param>
-        /// <param name="lpSecurityAttributes">
-        /// Reserved; must be <see cref="NULL"/>.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// The maximum number of hard links that can be created with this function is 1023 per file.
-        /// If more than 1023 links are created for a file, an error results.
-        /// If you pass a name longer than <see cref="MAX_PATH"/> characters to
-        /// the <paramref name="lpFileName"/> or <paramref name="lpExistingFileName"/> parameter of the ANSI version of this function
-        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
-        /// </returns>
-        /// <remarks>
-        /// Any directory entry for a file that is created with <see cref="CreateFile"/> or <see cref="CreateHardLink"/> is a hard link to an associated file.
-        /// An additional hard link that is created with the <see cref="CreateHardLink"/> function allows you to have multiple directory entries for a file,
-        /// that is, multiple hard links to the same file, which can be different names in the same directory, or the same or different names in different directories.
-        /// However, all hard links to a file must be on the same volume.
-        /// Because hard links are only directory entries for a file, many changes to that file are instantly visible to applications
-        /// that access it through the hard links that reference it.
-        /// However, the directory entry size and attribute information is updated only for the link through which the change was made.
-        /// The security descriptor belongs to the file to which a hard link points.
-        /// The link itself is only a directory entry, and does not have a security descriptor.
-        /// Therefore, when you change the security descriptor of a hard link, you a change the security descriptor of the underlying file,
-        /// and all hard links that point to the file allow the newly specified access.
-        /// You cannot give a file different security descriptors on a per-hard-link basis.
-        /// This function does not modify the security descriptor of the file to be linked to,
-        /// even if security descriptor information is passed in the <paramref name="lpSecurityAttributes"/> parameter.
-        /// Use <see cref="DeleteFile"/> to delete hard links.
-        /// You can delete them in any order regardless of the order in which they are created.
-        /// Flags, attributes, access, and sharing that are specified in CreateFile operate on a per-file basis.
-        /// That is, if you open a file that does not allow sharing, another application cannot share the file by creating a new hard link to the file.
-        /// When you create a hard link on the NTFS file system, the file attribute information
-        /// in the directory entry is refreshed only when the file is opened, or when <see cref="GetFileInformationByHandle"/> is called with the handle of a specific file.
-        /// Symbolic link behavior—If the path points to a symbolic link, the function creates a hard link to the target.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHardLinkW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateHardLink([In] LPCWSTR lpFileName, [In] LPCWSTR lpExistingFileName, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
-
-        /// <summary>
-        /// <para>
-        /// Creates a symbolic link.
-        /// To perform this operation as a transacted operation, use the <see cref="CreateSymbolicLinkTransacted"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpSymlinkFileName">
-        /// The symbolic link to be created.
-        /// This parameter may include the path.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
-        /// For more information, see Naming a File.
-        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
-        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </param>
-        /// <param name="lpTargetFileName">
-        /// The name of the target for the symbolic link to be created.
-        /// If lpTargetFileName has a device name associated with it, the link is treated as an absolute link; otherwise, the link is treated as a relative link.
-        /// This parameter may include the path.
-        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
-        /// For more information, see Naming a File.
-        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
-        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
-        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Indicates whether the link target, <paramref name="lpTargetFileName"/>, is a directory.
-        /// 0x0:
-        /// The link target is a file.
-        /// <see cref="SYMBOLIC_LINK_FLAG_DIRECTORY"/>:
-        /// The link target is a directory.
-        /// <see cref="SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE"/>:
-        /// Specify this flag to allow creation of symbolic links when the process is not elevated.
-        /// Developer Mode must first be enabled on the machine before this option will function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Symbolic links can either be absolute or relative links.
-        /// Absolute links are links that specify each portion of the path name;
-        /// relative links are determined relative to where relative–link specifiers are in a specified path.
-        /// Relative links are specified using the following conventions:
-        /// Dot (. and ..) conventions—for example, "..\" resolves the path relative to the parent directory.
-        /// Names with no slashes (\\)—for example, "tmp" resolves the path relative to the current directory.
-        /// Root relative—for example, "\Windows\System32" resolves to "current drive:\Windows\System32".
-        /// Current working directory–relative—for example, if the current working directory is C:\Windows\System32, "C:File.txt" resolves to "C:\Windows\System32\File.txt".
-        /// Note  If you specify a current working directory–relative link, it is created as an absolute link,
-        /// due to the way the current working directory is processed based on the user and the thread.
-        /// To remove a symbolic link, delete the file (using <see cref="DeleteFile"/> or similar APIs)
-        /// or remove the directory (using <see cref="RemoveDirectory"/> or similar APIs) depending on what type of symbolic link is used.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSymbolicLinkW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOLEAN CreateSymbolicLink([In] LPCWSTR lpSymlinkFileName, [In] LPCWSTR lpTargetFileName, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -1039,7 +902,7 @@ namespace Lsj.Util.Win32
         /// which means all pipe instances are currently connected, CreateFile fails with <see cref="ERROR_PIPE_BUSY"/>.
         /// For more information, see Pipes.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateFile([In] LPCWSTR lpFileName, [In] ACCESS_MASK dwDesiredAccess, [In] FileShareModes dwShareMode,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
@@ -1151,6 +1014,143 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Establishes a hard link between an existing file and a new file.
+        /// This function is only supported on the NTFS file system, and only for files, not directories.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateHardLinkTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createhardlinkw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the new file.
+        /// This parameter may include the path but cannot specify the name of a directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpExistingFileName">
+        /// The name of the existing file.
+        /// This parameter may include the path cannot specify the name of a directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// If you pass a name longer than MAX_PATH characters to the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateHardLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The maximum number of hard links that can be created with this function is 1023 per file.
+        /// If more than 1023 links are created for a file, an error results.
+        /// If you pass a name longer than <see cref="MAX_PATH"/> characters to
+        /// the <paramref name="lpFileName"/> or <paramref name="lpExistingFileName"/> parameter of the ANSI version of this function
+        /// or to the Unicode version of this function without prepending "\\?\" to the path, the function returns <see cref="ERROR_PATH_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// Any directory entry for a file that is created with <see cref="CreateFile"/> or <see cref="CreateHardLink"/> is a hard link to an associated file.
+        /// An additional hard link that is created with the <see cref="CreateHardLink"/> function allows you to have multiple directory entries for a file,
+        /// that is, multiple hard links to the same file, which can be different names in the same directory, or the same or different names in different directories.
+        /// However, all hard links to a file must be on the same volume.
+        /// Because hard links are only directory entries for a file, many changes to that file are instantly visible to applications
+        /// that access it through the hard links that reference it.
+        /// However, the directory entry size and attribute information is updated only for the link through which the change was made.
+        /// The security descriptor belongs to the file to which a hard link points.
+        /// The link itself is only a directory entry, and does not have a security descriptor.
+        /// Therefore, when you change the security descriptor of a hard link, you a change the security descriptor of the underlying file,
+        /// and all hard links that point to the file allow the newly specified access.
+        /// You cannot give a file different security descriptors on a per-hard-link basis.
+        /// This function does not modify the security descriptor of the file to be linked to,
+        /// even if security descriptor information is passed in the <paramref name="lpSecurityAttributes"/> parameter.
+        /// Use <see cref="DeleteFile"/> to delete hard links.
+        /// You can delete them in any order regardless of the order in which they are created.
+        /// Flags, attributes, access, and sharing that are specified in CreateFile operate on a per-file basis.
+        /// That is, if you open a file that does not allow sharing, another application cannot share the file by creating a new hard link to the file.
+        /// When you create a hard link on the NTFS file system, the file attribute information
+        /// in the directory entry is refreshed only when the file is opened, or when <see cref="GetFileInformationByHandle"/> is called with the handle of a specific file.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function creates a hard link to the target.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHardLinkW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CreateHardLink([In] LPCWSTR lpFileName, [In] LPCWSTR lpExistingFileName, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Creates a symbolic link.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateSymbolicLinkTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createsymboliclinkw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSymlinkFileName">
+        /// The symbolic link to be created.
+        /// This parameter may include the path.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpTargetFileName">
+        /// The name of the target for the symbolic link to be created.
+        /// If lpTargetFileName has a device name associated with it, the link is treated as an absolute link; otherwise, the link is treated as a relative link.
+        /// This parameter may include the path.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (CreateSymbolicLinkW),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Indicates whether the link target, <paramref name="lpTargetFileName"/>, is a directory.
+        /// 0x0:
+        /// The link target is a file.
+        /// <see cref="SYMBOLIC_LINK_FLAG_DIRECTORY"/>:
+        /// The link target is a directory.
+        /// <see cref="SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE"/>:
+        /// Specify this flag to allow creation of symbolic links when the process is not elevated.
+        /// Developer Mode must first be enabled on the machine before this option will function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Symbolic links can either be absolute or relative links.
+        /// Absolute links are links that specify each portion of the path name;
+        /// relative links are determined relative to where relative–link specifiers are in a specified path.
+        /// Relative links are specified using the following conventions:
+        /// Dot (. and ..) conventions—for example, "..\" resolves the path relative to the parent directory.
+        /// Names with no slashes (\\)—for example, "tmp" resolves the path relative to the current directory.
+        /// Root relative—for example, "\Windows\System32" resolves to "current drive:\Windows\System32".
+        /// Current working directory–relative—for example, if the current working directory is C:\Windows\System32, "C:File.txt" resolves to "C:\Windows\System32\File.txt".
+        /// Note  If you specify a current working directory–relative link, it is created as an absolute link,
+        /// due to the way the current working directory is processed based on the user and the thread.
+        /// To remove a symbolic link, delete the file (using <see cref="DeleteFile"/> or similar APIs)
+        /// or remove the directory (using <see cref="RemoveDirectory"/> or similar APIs) depending on what type of symbolic link is used.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSymbolicLinkW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOLEAN CreateSymbolicLink([In] LPCWSTR lpSymlinkFileName, [In] LPCWSTR lpTargetFileName, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Defines, redefines, or deletes MS-DOS device names.
         /// </para>
         /// <para>
@@ -1190,7 +1190,7 @@ namespace Lsj.Util.Win32
         /// If the caller is running in the "LocalSystem" context, the function creates the device name in the Global MS-DOS device namespace.
         /// For more information, see Defining an MS DOS Device Name and File Names, Paths, and Namespaces.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefineDosDeviceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DefineDosDevice([In] DefineDosDeviceFlags dwFlags, [In] LPCWSTR lpDeviceName, [In] LPCWSTR lpTargetPath);
 
@@ -1243,7 +1243,7 @@ namespace Lsj.Util.Win32
         /// If the path points to a symbolic link, the symbolic link is deleted, not the target.
         /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FILE_FLAG_DELETE_ON_CLOSE"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteFile([In] LPCWSTR lpFileName);
 
@@ -1269,7 +1269,7 @@ namespace Lsj.Util.Win32
         /// If the <paramref name="lpszVolumeMountPoint"/> parameter is a directory that is not a mounted folder, the function does nothing.
         /// The directory is not deleted.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint);
 
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// by the <paramref name="hFindFile"/> parameter cannot be used in subsequent calls to the <see cref="FindNextFile"/>,
         /// <see cref="FindNextFileNameW"/>, <see cref="FindNextStreamW"/>, or <see cref="FindClose"/> functions.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindClose", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindClose([In] HANDLE hFindFile);
 
@@ -1322,7 +1322,7 @@ namespace Lsj.Util.Win32
         /// to either the <see cref="FindNextChangeNotification"/> or <see cref="FindCloseChangeNotification"/> function.
         /// Change notifications can also be used in the wait functions.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindCloseChangeNotification", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindCloseChangeNotification([In] HANDLE hChangeHandle);
 
@@ -1369,7 +1369,7 @@ namespace Lsj.Util.Win32
         /// If an application has registered to receive change notifications for a directory that contains symbolic links,
         /// the application is only notified when the symbolic links have been changed, not the target files.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstChangeNotificationW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstChangeNotification([In] LPCWSTR lpPathName, [In] BOOL bWatchSubtree, [In] FileNotifyFilters dwNotifyFilter);
 
@@ -1453,7 +1453,7 @@ namespace Lsj.Util.Win32
         /// For more information, see File System Redirector.
         /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFile([In] LPCWSTR lpFileName, [Out] out WIN32_FIND_DATA lpFindFileData);
 
@@ -1554,7 +1554,7 @@ namespace Lsj.Util.Win32
         /// For more information, see File System Redirector.
         /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileExW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileEx([In] LPCWSTR lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
             [In] LPVOID lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter, [In] FindFirstFileExFlags dwAdditionalFlags);
@@ -1667,7 +1667,7 @@ namespace Lsj.Util.Win32
         /// that are returned by these functions and the order of the volumes that are on the computer.
         /// In particular, do not assume any correlation between volume order and drive letters as assigned by the BIOS (if any) or the Disk Administrator.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstVolume([In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
 
@@ -1707,7 +1707,7 @@ namespace Lsj.Util.Win32
         /// You should not assume any correlation between the order of the mounted folders that are returned by these functions
         /// and the order of the mounted folders that are returned by other functions or tools.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstVolumeMountPoint([In] LPCWSTR lpszRootPathName, [In] LPWSTR lpszVolumeMountPoint, [In] DWORD cchBufferLength);
 
@@ -1737,7 +1737,7 @@ namespace Lsj.Util.Win32
         /// An application may miss a change notification if it uses <see cref="FindNextChangeNotification"/> when there is a change request outstanding.
         /// When <paramref name="hChangeHandle"/> is no longer needed, close it by using the <see cref="FindCloseChangeNotification"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextChangeNotification", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindNextChangeNotification([In] HANDLE hChangeHandle);
 
@@ -1781,7 +1781,7 @@ namespace Lsj.Util.Win32
         /// If there is a transaction bound to the file enumeration handle,
         /// then the files that are returned are subject to transaction isolation rules.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindNextFile([In] HANDLE hFindFile, [Out] out WIN32_FIND_DATA lpFindFileData);
 
@@ -1873,7 +1873,7 @@ namespace Lsj.Util.Win32
         /// that are returned by these functions and the order of the volumes that are on the computer.
         /// In particular, do not assume any correlation between volume order and drive letters as assigned by the BIOS (if any) or the Disk Administrator.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindNextVolume([In] HANDLE hFindVolume, [In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
 
@@ -1912,7 +1912,7 @@ namespace Lsj.Util.Win32
         /// You should not assume any correlation between the order of the mounted folders that are returned
         /// with these functions and the order of the mounted folders that are returned by other functions or tools.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindNextVolumeMountPoint([In] HANDLE hFindVolumeMountPoint, [In] LPWSTR lpszVolumeMountPoint,
             [In] DWORD cchBufferLength);
@@ -1939,7 +1939,7 @@ namespace Lsj.Util.Win32
         /// After the <see cref="FindVolumeClose"/> function is called, the handle <paramref name="hFindVolume"/> cannot be used
         /// in subsequent calls to either <see cref="FindNextVolume"/> or <see cref="FindVolumeClose"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindVolumeClose", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindVolumeClose([In] HANDLE hFindVolume);
 
@@ -1971,7 +1971,7 @@ namespace Lsj.Util.Win32
         /// They do not return drive letters or volume GUID paths.
         /// For information about enumerating the volume GUID paths for a volume, see Enumerating Volume GUID Paths.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindVolumeMountPointClose", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FindVolumeMountPointClose([In] HANDLE hFindVolumeMountPoint);
 
@@ -2016,7 +2016,7 @@ namespace Lsj.Util.Win32
         /// When opening a volume with <see cref="CreateFile"/>, the lpFileName string should be the following form: \.&lt;i&gt;x: or \?\Volume{GUID}.
         /// Do not use a trailing backslash in the volume name, because that indicates the root directory of a drive.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushFileBuffers", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlushFileBuffers([In] HANDLE hFile);
 
@@ -2068,7 +2068,7 @@ namespace Lsj.Util.Win32
         /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
         /// Symbolic link behavior—If the path points to a symbolic link, the function returns the file size of the target.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetCompressedFileSize([In] LPCWSTR lpFileName, [Out] out DWORD lpFileSizeHigh);
 
@@ -2119,7 +2119,7 @@ namespace Lsj.Util.Win32
         /// that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetDiskFreeSpace([In] LPCWSTR lpRootPathName, [Out] out DWORD lpSectorsPerCluster, [Out] out DWORD lpBytesPerSector,
             [Out] out DWORD lpNumberOfFreeClusters, [Out] out DWORD lpTotalNumberOfClusters);
@@ -2176,7 +2176,7 @@ namespace Lsj.Util.Win32
         /// that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetDiskFreeSpaceEx([In] LPCWSTR lpDirectoryName, [Out] out ULARGE_INTEGER lpFreeBytesAvailableToCaller,
             [Out] out ULARGE_INTEGER lpTotalNumberOfBytes, [Out] out ULARGE_INTEGER lpTotalNumberOfFreeBytes);
@@ -2201,7 +2201,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DRIVE_UNKNOWN"/>, <see cref="DRIVE_NO_ROOT_DIR"/>, <see cref="DRIVE_REMOVABLE"/>, <see cref="DRIVE_FIXED"/>,
         /// <see cref="DRIVE_REMOTE"/>, <see cref="DRIVE_CDROM"/>, <see cref="DRIVE_RAMDISK"/>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDriveTypeW", ExactSpelling = true)]
         public static extern DriveTypes GetDriveType([In] LPCWSTR lpRootPathName);
 
@@ -2251,7 +2251,7 @@ namespace Lsj.Util.Win32
         /// and the file is still open when the transaction attempts to open it,
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesW", ExactSpelling = true, SetLastError = true)]
         public static extern FileAttributes GetFileAttributes([In] LPCWSTR lpFileName);
 
@@ -2306,7 +2306,7 @@ namespace Lsj.Util.Win32
         /// and the file is still open when the transaction attempts to open it,
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileAttributesEx([In] LPCWSTR lpFileName, [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation);
 
@@ -2345,7 +2345,7 @@ namespace Lsj.Util.Win32
         /// then the function returns the compressed file size of the isolated file view.
         /// For more information, see About Transactional NTFS.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileInformationByHandle([In] HANDLE hFile, [Out] out BY_HANDLE_FILE_INFORMATION lpFileInformation);
 
@@ -2454,7 +2454,7 @@ namespace Lsj.Util.Win32
         /// Because of this behavior, it is recommended that you use <see cref="GetFileSizeEx"/> instead.
         /// Transacted Operations:  If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSize", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFileSize([In] HANDLE hFile, [Out] out DWORD lpFileSizeHigh);
 
@@ -2483,8 +2483,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Transacted Operations:
         /// If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSizeEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileSizeEx([In] HANDLE hFile, [Out] out LARGE_INTEGER lpFileSize);
 
@@ -2535,7 +2534,7 @@ namespace Lsj.Util.Win32
         /// If you rename or delete a file, then restore it shortly thereafter, Windows searches the cache for file information to restore.
         /// Cached information includes its short/long name pair and creation time.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileTime([In] HANDLE hFile, [Out] out FILETIME lpCreationTime,
             [Out] out FILETIME lpLastAccessTime, [Out] out FILETIME lpLastWriteTime);
@@ -2559,7 +2558,7 @@ namespace Lsj.Util.Win32
         /// If the function returned <see cref="FILE_TYPE_UNKNOWN"/> due to an error in calling <see cref="GetFileType"/>,
         /// <see cref="GetLastError"/> will return the error code.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileType", ExactSpelling = true, SetLastError = true)]
         public static extern FileTypes GetFileType([In] HANDLE hFile);
 
@@ -2695,7 +2694,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetFullPathName([In] LPCWSTR lpFileName, [In] DWORD nBufferLength, [In] LPWSTR lpBuffer, [Out] out LPWSTR lpFilePart);
 
@@ -2713,7 +2712,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDrives", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLogicalDrives();
 
@@ -2751,7 +2750,7 @@ namespace Lsj.Util.Win32
         /// If a drive exists in both namespaces, this function will return the entry in the Local MS-DOS Device namespace.
         /// For more information, see Defining an MS DOS Device Name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDriveStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLogicalDriveStrings([In] DWORD nBufferLength, [In] LPWSTR lpBuffer);
 
@@ -2813,7 +2812,7 @@ namespace Lsj.Util.Win32
         /// or total lengths longer than 12 characters.
         /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLongPathName([In] LPCWSTR lpszShortPath, [In] LPWSTR lpszLongPath, [In] DWORD cchBuffer);
 
@@ -2872,7 +2871,7 @@ namespace Lsj.Util.Win32
         /// This check can be skipped for directory components that already meet the requirements of a short name.
         /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShortPathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetShortPathName([In] LPCWSTR lpszLongPath, [In] LPWSTR lpszShortPath, [In] DWORD cchBuffer);
 
@@ -2938,7 +2937,7 @@ namespace Lsj.Util.Win32
         /// To avoid problems resulting when converting an ANSI string, an application should call
         /// the <see cref="CreateFile"/> function to create a temporary file.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetTempFileName([In] LPCWSTR lpPathName, [In] LPCWSTR lpPrefixString, [In] UINT uUnique, [In] LPWSTR lpTempFileName);
 
@@ -2979,7 +2978,7 @@ namespace Lsj.Util.Win32
         /// The application should verify the existence of the path and adequate access rights to the path prior to any use for file I/O operations.
         /// Symbolic link behavior—If the path points to a symbolic link, the temp path name maintains any symbolic links.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempPathW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetTempPath([In] DWORD nBufferLength, [In] LPWSTR lpBuffer);
 
@@ -3062,7 +3061,7 @@ namespace Lsj.Util.Win32
         /// If the volume supports file system transactions,
         /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVolumeInformation([In] LPCWSTR lpRootPathName, [In] LPWSTR lpVolumeNameBuffer,
             [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength,
@@ -3160,7 +3159,7 @@ namespace Lsj.Util.Win32
         /// such as <see cref="SetVolumeMountPoint"/> and <see cref="FindFirstVolumeMountPoint"/> that require a volume GUID path as an input parameter.
         /// For more information about volume GUID paths, see Naming A Volume.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVolumeNameForVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint, [In] LPWSTR lpszVolumeName, [In] DWORD cchBufferLength);
 
@@ -3215,7 +3214,7 @@ namespace Lsj.Util.Win32
         /// and then make sure that the buffer size is at least the same size as the full path that <see cref="GetFullPathName"/> returns.
         /// If the output buffer is more than one character too short, the function will fail and return an error.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumePathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVolumePathName([In] LPCWSTR lpszFileName, [In] LPWSTR lpszVolumePathName, [In] DWORD cchBufferLength);
 
@@ -3250,6 +3249,7 @@ namespace Lsj.Util.Win32
         /// If the buffer is not large enough to hold the complete list, the error code is <see cref="ERROR_MORE_DATA"/> 
         /// and the <paramref name="lpcchReturnLength"/> parameter receives the required buffer size.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumePathNamesForVolumeNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVolumePathNamesForVolumeName([In] LPCWSTR lpszVolumeName, [In] LPWSTR lpszVolumePathNames,
             [In] DWORD cchBufferLength, [Out] out DWORD lpcchReturnLength);
@@ -3279,7 +3279,7 @@ namespace Lsj.Util.Win32
         /// Therefore, if it is daylight saving time, this function will take daylight saving time into account,
         /// even if the time you are converting is in standard time.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LocalFileTimeToFileTime([In] in FILETIME lpLocalFileTime, [Out] out FILETIME lpFileTime);
 
@@ -3336,7 +3336,7 @@ namespace Lsj.Util.Win32
         /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
         /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LockFile([In] HANDLE hFile, [In] DWORD dwFileOffsetLow, [In] DWORD dwFileOffsetHigh,
             [In] DWORD nNumberOfBytesToLockLow, [In] DWORD nNumberOfBytesToLockHigh);
@@ -3409,7 +3409,7 @@ namespace Lsj.Util.Win32
         /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
         /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LockFileEx([In] HANDLE hFile, [In] LockFileExFlags dwFlags, [In] DWORD dwReserved, [In] DWORD nNumberOfBytesToLockLow,
             [In] DWORD nNumberOfBytesToLockHigh, [In] in OVERLAPPED lpOverlapped);
@@ -3521,7 +3521,7 @@ namespace Lsj.Util.Win32
         /// If you request delete permission at the time you create the file, you can delete or rename the file with that handle but not with any other handle.
         /// For more information, see File Security and Access Rights.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] MoveFileFlags dwFlags);
 
@@ -3616,7 +3616,7 @@ namespace Lsj.Util.Win32
         /// However, you can then create a file, and you will get all the access you request on the handle returned to you at the time you create the file.
         /// If you requested delete permission at the time you created the file, you could delete or rename the file with that handle but not with any other.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileWithProgressW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveFileWithProgress([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName,
             [In] LPPROGRESS_ROUTINE lpProgressRoutine, [In] LPVOID lpData, [In] MoveFileFlags dwFlags);
@@ -3680,7 +3680,7 @@ namespace Lsj.Util.Win32
         /// or call <see cref="DeleteFile"/> without first opening the file or directory for deletion.
         /// </remarks>
         [Obsolete]
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "OpenFile", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE OpenFile([In] LPCSTR lpFileName, [In][Out] ref OFSTRUCT lpReOpenBuff, [In] OpenFileFlags uStyle);
 
@@ -3716,7 +3716,7 @@ namespace Lsj.Util.Win32
         /// The system does not use or validate these values.
         /// In particular, the <paramref name="lpOverlapped"/> parameter need not point to an <see cref="OVERLAPPED"/> structure.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PostQueuedCompletionStatus([In] HANDLE CompletionPort, [In] DWORD dwNumberOfBytesTransferred,
             [In] ULONG_PTR dwCompletionKey, [In][Out] ref OVERLAPPED lpOverlapped);
@@ -3776,7 +3776,7 @@ namespace Lsj.Util.Win32
         /// For more information on the Global and Local MS-DOS Device namespaces and changes to the accessibility of MS-DOS device names,
         /// see Defining an MS DOS Device Name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDosDeviceW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD QueryDosDevice([In] LPCWSTR lpDeviceName, [In] LPWSTR lpTargetPath, [In] DWORD ucchMax);
 
@@ -3877,7 +3877,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ReadDirectoryChangesW"/> fails with <see cref="ERROR_NOACCESS"/> when the buffer is not aligned on a <see cref="DWORD"/> boundary.
         /// If you opened the file using the short name, you can receive change notifications for the short name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadDirectoryChangesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadDirectoryChangesW([In] HANDLE hDirectory, [In] LPVOID lpBuffer, [In] DWORD nBufferLength, [In] BOOL bWatchSubtree,
             [In] FileNotifyFilters dwNotifyFilter, [Out] out DWORD lpBytesReturned, [In][Out] ref OVERLAPPED lpOverlapped,
@@ -4035,7 +4035,7 @@ namespace Lsj.Util.Win32
         /// A transacted read handle is guaranteed to show the same view of a file for the duration of the handle.
         /// For more information, see About Transactional NTFS.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadFile([In] HANDLE hFile, [In] LPVOID lpBuffer, [In] DWORD nNumberOfBytesToRead,
             [Out] out DWORD lpNumberOfBytesWritten, [In] in OVERLAPPED lpOverlapped);
@@ -4130,7 +4130,7 @@ namespace Lsj.Util.Win32
         /// A transacted read handle is guaranteed to show the same view of a file for the duration of the handle.
         /// For additional information, see About Transactional NTFS.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadFileEx([In] HANDLE hFile, [In] LPVOID lpBuffer, [In] DWORD nNumberOfBytesToRead,
             [In] in OVERLAPPED lpOverlapped, [In] LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
@@ -4204,7 +4204,7 @@ namespace Lsj.Util.Win32
         /// this can break large-address aware applications running on systems configured with 4-Gigabyte Tuning or running on under WOW64 on 64-bit Windows.
         /// Therefore, use the PtrToPtr64 macro when assigning pointers to <see cref="FILE_SEGMENT_ELEMENT.Buffer"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFileScatter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadFileScatter([In] HANDLE hFile, [In] FILE_SEGMENT_ELEMENT[] aSegmentArray, [In] DWORD nNumberOfBytesToRead,
             [In] in DWORD lpReserved, [In][Out] ref OVERLAPPED lpOverlapped);
@@ -4241,7 +4241,7 @@ namespace Lsj.Util.Win32
         /// the function removes directory junctions regardless of the state of the target object.
         /// For more information on junctions, see Hard Links and Junctions.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveDirectory([In] LPCWSTR lpPathName);
 
@@ -4404,7 +4404,7 @@ namespace Lsj.Util.Win32
         /// However, you can then create a file, and you will get all the access you request on the handle returned to you at the time you create the file.
         /// If you requested delete permission at the time you created the file, you could delete or rename the file with that handle but not with any other.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceFileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReplaceFile([In] LPCWSTR lpReplacedFileName, [In] LPCWSTR lpReplacementFileName, [In] LPCWSTR lpBackupFileName,
             [In] ReplaceFileFlags dwReplaceFlags, [In] LPVOID lpExclude, [In] LPVOID lpReserved);
@@ -4444,7 +4444,7 @@ namespace Lsj.Util.Win32
         /// <see cref="UnmapViewOfFile"/> must be called first to unmap all views
         /// and call <see cref="CloseHandle"/> to close the file mapping object before you can call <see cref="SetEndOfFile"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEndOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetEndOfFile([In] HANDLE hFile);
 
@@ -4507,7 +4507,7 @@ namespace Lsj.Util.Win32
         /// and the file is still open when the transaction attempts to open it,
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileAttributes([In] LPCWSTR lpFileName, [In] FileAttributes dwFileAttributes);
 
@@ -4779,7 +4779,7 @@ namespace Lsj.Util.Win32
         /// You can also use the <see cref="SetFilePointer"/> function to query the current file pointer position.
         /// To do this, specify a move method of <see cref="FILE_CURRENT"/> and a distance of zero.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointer", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SetFilePointer([In] HANDLE hFile, [In] LONG lDistanceToMove, [In][Out] ref LONG lpDistanceToMoveHigh, [In] MoveFilePointerMethods dwMoveMethod);
 
@@ -4851,7 +4851,7 @@ namespace Lsj.Util.Win32
         /// You can also use <see cref="SetFilePointerEx"/> to query the current file pointer position.
         /// To do this, specify a move method of <see cref="FILE_CURRENT"/> and a distance of zero.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFilePointerEx([In] HANDLE hFile, [In] LARGE_INTEGER liDistanceToMove, [Out] out LARGE_INTEGER lpNewFilePointer,
             [In] MoveFilePointerMethods dwMoveMethod);
@@ -4906,7 +4906,7 @@ namespace Lsj.Util.Win32
         /// Therefore, the <see cref="GetFileTime"/> function may not return the same file time information set using <see cref="SetFileTime"/>.
         /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileTime([In] HANDLE hFile, [In] in FILETIME lpCreationTime,
             [In] in FILETIME lpLastAccessTime, [In] in FILETIME lpLastWriteTime);
@@ -5007,6 +5007,7 @@ namespace Lsj.Util.Win32
         /// The number of available file handles.
         /// </returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetHandleCount([In] uint uNumber);
 
@@ -5045,7 +5046,7 @@ namespace Lsj.Util.Win32
         /// For information on how to create and configure mounted folders to ensure that this does not happen,
         /// see Cluster Disk and Drive Connection Problems.
         /// </remark>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetVolumeMountPoint([In] LPCWSTR lpszVolumeMountPoint, [In] LPCWSTR lpszVolumeName);
 
@@ -5091,7 +5092,7 @@ namespace Lsj.Util.Win32
         /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
         /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnlockFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnlockFile([In] HANDLE hFile, [In] DWORD dwFileOffsetLow, [In] DWORD dwFileOffsetHigh,
             [In] DWORD nNumberOfBytesToUnlockLow, [In] DWORD nNumberOfBytesToUnlockHigh);
@@ -5136,7 +5137,7 @@ namespace Lsj.Util.Win32
         /// Two adjacent regions of a file cannot be locked separately and then unlocked using a single region that spans both locked regions.
         /// Locks are released before the <see cref="CloseHandle"/> function is finished processing.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnlockFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnlockFileEx([In] HANDLE hFile, [In] DWORD dwReserved, [In] DWORD nNumberOfBytesToUnlockLow,
             [In] DWORD nNumberOfBytesToUnlockHigh, [In] in OVERLAPPED lpOverlapped);
@@ -5311,7 +5312,7 @@ namespace Lsj.Util.Win32
         /// Transacted Operations
         /// If there is a transaction bound to the file handle, then the file write is transacted.For more information, see About Transactional NTFS.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFile([In] HANDLE hFile, [In] LPCVOID lpBuffer, [In] DWORD nNumberOfBytesToWrite,
             [Out] out DWORD lpNumberOfBytesWritten, [In] in OVERLAPPED lpOverlapped);
@@ -5384,7 +5385,7 @@ namespace Lsj.Util.Win32
         /// the system queues the call to *<paramref name="lpCompletionRoutine"/>, holding the call until the calling thread enters an alertable wait state.
         /// For more information about alertable wait states and overlapped input/output operations, see About Synchronization.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFileEx([In] HANDLE hFile, [In] LPCVOID lpBuffer, [In] DWORD nNumberOfBytesToWrite,
             [In] in OVERLAPPED lpOverlapped, [In] LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
@@ -5464,7 +5465,7 @@ namespace Lsj.Util.Win32
         /// If part of the file specified by hFile is locked by another process,
         /// and the write operation overlaps the locked portion, the <see cref="WriteFileGather"/> function fails.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFileGather", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFileGather([In] HANDLE hFile, [In] FILE_SEGMENT_ELEMENT[] aSegmentArray, [In] DWORD nNumberOfBytesToWrite,
             [In] in DWORD lpReserved, [In][Out] ref OVERLAPPED lpOverlapped);
@@ -5480,6 +5481,7 @@ namespace Lsj.Util.Win32
         /// <param name="lBytes"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern long _hread([In] HFILE hFile, [In] LPVOID lpBuffer, [In] long lBytes);
 
@@ -5491,6 +5493,7 @@ namespace Lsj.Util.Win32
         /// <param name="lBytes"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hwrite", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern long _hwrite([In] HFILE hFile, [In] LPCCH lpBuffer, [In] long lBytes);
 
@@ -5510,6 +5513,7 @@ namespace Lsj.Util.Win32
         /// Handle to file to close.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CloseHandle function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lclose", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE _lclose([In] HFILE hFile);
 
@@ -5543,6 +5547,7 @@ namespace Lsj.Util.Win32
         /// It can open any file, even one already opened by another function.
         /// </remarks>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lcreat", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE _lcreat([In] LPCSTR lpPathName, [In] int iAttribute);
 
@@ -5577,6 +5582,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="_llseek"/> function moves the pointer without reading data, which allows random access to the content of the file.
         /// </remarks>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the SetFilePointer function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_llseek", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern LONG _llseek([In] HFILE hFile, [In] LONG lOffset, [In] int iOrigin);
 
@@ -5603,6 +5609,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a file handle.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE _lopen([In] LPCSTR lpPathName, [In] OpenFileFlags iReadWrite);
 
@@ -5629,6 +5636,7 @@ namespace Lsj.Util.Win32
         /// the function has reached the end of file (EOF) before reading the specified number of bytes.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the ReadFile function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lread", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern UINT _lread([In] HFILE hFile, [In] LPVOID lpBuffer, [In] UINT uBytes);
 
@@ -5653,6 +5661,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, use the <see cref="GetLastError"/> function.
         /// </returns>
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the WriteFile function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lwrite", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern UINT _lwrite([In] HFILE hFile, [In] LPCCH lpBuffer, [In] UINT uBytes);
 #pragma warning restore IDE1006

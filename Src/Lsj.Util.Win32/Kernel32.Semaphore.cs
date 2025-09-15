@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateSemaphore([In] in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In] LONG lInitialCount,
             [In] LONG lMaximumCount, [In] LPCWSTR lpName);
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenSemaphoreW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenSemaphore([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] LPCWSTR lpName);
 
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32
         /// To restore access, call <see cref="ReleaseSemaphore"/> with the release count equal to the number of times
         /// <see cref="WaitForSingleObject"/> was called in the loop.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSemaphore", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReleaseSemaphore([In] HANDLE hSemaphore, [In] LONG lReleaseCount, [Out] out LONG lpPreviousCount);
     }

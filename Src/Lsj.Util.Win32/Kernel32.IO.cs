@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32
         /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
         /// and all completion notifications for the I/O operations occur normally.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CancelIo([In] HANDLE hFile);
 
@@ -231,7 +231,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ClearCommError"/> function fills the status buffer pointed to by the <paramref name="lpStat"/> parameter
         /// with the current status of the communications device specified by the <paramref name="hFile"/> parameter.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClearCommError", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ClearCommError([In] HANDLE hFile, [Out] CommunicationErrorTypes lpErrors, [Out] out COMSTAT lpStat);
 
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32
         /// Therefore, all of these handles must be properly closed to release the I/O completion port and its associated system resources.
         /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateIoCompletionPort([In] HANDLE FileHandle, [In] HANDLE ExistingCompletionPort, [In] ULONG_PTR CompletionKey,
             [In] DWORD NumberOfConcurrentThreads);
@@ -430,7 +430,7 @@ namespace Lsj.Util.Win32
         /// Power Management Control Codes
         /// Volume Management Control Codes
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeviceIoControl([In] HANDLE hDevice, [In] IoControlCodes dwIoControlCode, [In] LPVOID lpInBuffer, [In] DWORD nInBufferSize,
             [In] LPVOID lpOutBuffer, [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesReturned, [In] in OVERLAPPED lpOverlapped);
@@ -458,7 +458,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more information about time-out values for communications devices, see the <see cref="SetCommTimeouts"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCommTimeouts", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCommTimeouts([In] HANDLE hFile, [Out] out COMMTIMEOUTS lpCommTimeouts);
 
@@ -514,7 +514,7 @@ namespace Lsj.Util.Win32
         /// are performed on the same file, named pipe, or communications device.
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetOverlappedResult([In] HANDLE hFile, [In] in OVERLAPPED lpOverlapped,
             [Out] out DWORD lpNumberOfBytesTransferred, [In] BOOL bWait);
@@ -674,7 +674,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetQueuedCompletionStatus([In] HANDLE CompletionPort, [Out] out DWORD lpNumberOfBytesTransferred,
             [Out] out ULONG_PTR lpCompletionKey, [Out] out IntPtr lpOverlapped, [In] DWORD dwMilliseconds);
@@ -794,7 +794,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommConfig", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCommConfig([In] HANDLE hCommDev, [In] IntPtr lpCC, [In] DWORD dwSize);
 
@@ -818,7 +818,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommTimeouts", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCommTimeouts([In] HANDLE hFile, [In] in COMMTIMEOUTS lpCommTimeouts);
 
@@ -877,7 +877,7 @@ namespace Lsj.Util.Win32
         /// while an overlapped <see cref="WaitCommEvent"/> operation is in progress, <see cref="WaitCommEvent"/> returns immediately.
         /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitCommEvent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WaitCommEvent([In] HANDLE hFile, [Out] out CommunicationEventTypes lpEvtMask, [In] in OVERLAPPED lpOverlapped);
     }

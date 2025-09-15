@@ -229,7 +229,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddConsoleAliasW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AddConsoleAlias([In] LPCWSTR Source, [In] LPCWSTR Target, [In] LPCWSTR ExeName);
 
@@ -272,7 +272,7 @@ namespace Lsj.Util.Win32
         /// (by calling the <see cref="CreateProcess"/> function with the <see cref="DETACHED_PROCESS"/> flag).
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocConsole", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AllocConsole();
 
@@ -539,7 +539,7 @@ namespace Lsj.Util.Win32
         /// This maintains that drawing information for simple restoration on process exit.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateConsoleScreenBuffer", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateConsoleScreenBuffer([In] ACCESS_MASK dwDesiredAccess, [In] FileShareModes dwShareMode,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] DWORD dwFlags, [In] LPVOID lpScreenBufferData);
@@ -703,7 +703,7 @@ namespace Lsj.Util.Win32
         /// More information can be found in classic console versus virtual terminal documentation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] WORD wAttribute, [In] DWORD nLength,
             [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
@@ -780,7 +780,7 @@ namespace Lsj.Util.Win32
         /// More information can be found in classic console versus virtual terminal documentation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] WCHAR cCharacter, [In] DWORD nLength,
             [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfCharsWritten);
@@ -825,7 +825,7 @@ namespace Lsj.Util.Win32
         /// Attempting to empty the input queue all at once can destroy state in the queue in an unexpected manner.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushConsoleInputBuffer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlushConsoleInputBuffer([In] HANDLE hConsoleInput);
 
@@ -855,7 +855,7 @@ namespace Lsj.Util.Win32
         /// After a process calls <see cref="FreeConsole"/>, it can call the <see cref="AllocConsole"/> function to create a new console
         /// or <see cref="AttachConsole"/> to attach to another console.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeConsole", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeConsole();
 
@@ -937,7 +937,7 @@ namespace Lsj.Util.Win32
         /// the handler functions for that process are not called. CTRL+BREAK signals always cause the handler functions to be called.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GenerateConsoleCtrlEvent([In] ControlSignalTypes dwCtrlEvent, [In] DWORD dwProcessGroupId);
 
@@ -995,7 +995,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleAlias([In] LPWSTR lpSource, [In] LPWSTR lpTargetBuffer, [In] DWORD TargetBufferLength, [In] LPWSTR lpExeName);
 
@@ -1058,7 +1058,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasesW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleAliases([In] LPWSTR lpAliasBuffer, [In] DWORD AliasBufferLength, [In] LPWSTR lpExeName);
 
@@ -1100,7 +1100,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasesLengthW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleAliasesLength([In] LPWSTR lpExeName);
 
@@ -1154,7 +1154,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasExesW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleAliasExes([In] LPWSTR lpExeNameBuffer, [In] DWORD ExeNameBufferLength);
 
@@ -1193,7 +1193,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleAliasExesLengthW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleAliasExesLength();
 
@@ -1226,7 +1226,7 @@ namespace Lsj.Util.Win32
         /// To set and query a console's output code page, use the <see cref="SetConsoleOutputCP"/> and <see cref="GetConsoleOutputCP"/> functions.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleCP", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetConsoleCP();
 
@@ -1275,7 +1275,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleCursorInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleCursorInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_CURSOR_INFO lpConsoleCursorInfo);
 
@@ -1365,7 +1365,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleDisplayMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleDisplayMode([Out] out DWORD lpModeFlags);
 
@@ -1421,7 +1421,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleFontSize", ExactSpelling = true, SetLastError = true)]
         public static extern COORD GetConsoleFontSize([In] HANDLE hConsoleOutput, [In] DWORD nFont);
 
@@ -1745,7 +1745,7 @@ namespace Lsj.Util.Win32
         /// To change a console's I/O modes, call <see cref="SetConsoleMode"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleMode([In] HANDLE hConsoleHandle, [Out] out ConsoleModes lpMode);
 
@@ -1835,7 +1835,7 @@ namespace Lsj.Util.Win32
         /// To set and query a console's input code page, use the <see cref="SetConsoleCP"/> and <see cref="GetConsoleCP"/> functions.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetConsoleOutputCP();
 
@@ -1942,7 +1942,7 @@ namespace Lsj.Util.Win32
         /// Updates can be received on <see cref="ReadConsoleInput"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleScreenBufferInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetConsoleScreenBufferInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
 
@@ -2097,7 +2097,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleTitleW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetConsoleTitle([In] LPWSTR lpConsoleTitle, [In] DWORD nSize);
 
@@ -2200,7 +2200,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentConsoleFont", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrentConsoleFont([In] HANDLE hConsoleOutput, [In] BOOL bMaximumWindow, [Out] out CONSOLE_FONT_INFO lpConsoleCurrentFont);
 
@@ -2303,7 +2303,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargestConsoleWindowSize", ExactSpelling = true, SetLastError = true)]
         public static extern COORD GetLargestConsoleWindowSize([In] HANDLE hConsoleOutput);
 
@@ -2359,7 +2359,7 @@ namespace Lsj.Util.Win32
         /// To discard all unread records in a console's input buffer, use the <see cref="FlushConsoleInputBuffer"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfConsoleInputEvents", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumberOfConsoleInputEvents([In] HANDLE hConsoleInput, [Out] out DWORD lpcNumberOfEvents);
 
@@ -2410,7 +2410,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfConsoleMouseButtons", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumberOfConsoleMouseButtons([Out] out DWORD lpNumberOfMouseButtons);
 
@@ -2584,7 +2584,7 @@ namespace Lsj.Util.Win32
         /// Graphical user interface (GUI) applications can be started without the standard handles and they will not be automatically filled.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE GetStdHandle([In] DWORD nStdHandle);
 
@@ -2631,7 +2631,7 @@ namespace Lsj.Util.Win32
         /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekConsoleInputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PeekConsoleInput([In] HANDLE hConsoleInput, [In][Out] INPUT_RECORD[] lpBuffer, [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
 
@@ -2726,7 +2726,7 @@ namespace Lsj.Util.Win32
         /// will result in the read will not necessarily waiting for a newline, but returning on a specified character as well.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsole([In] HANDLE hConsoleInput, [Out] LPVOID lpBuffer, [In] DWORD nNumberOfCharsToRead,
             [Out] out DWORD lpNumberOfCharsRead, [In] in CONSOLE_READCONSOLE_CONTROL pInputControl);
@@ -2786,7 +2786,7 @@ namespace Lsj.Util.Win32
         /// Legacy consumers may also use the chcp or mode con cp select= commands, but it is not recommended for new development.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleInput([In] HANDLE hConsoleInput, [Out] out INPUT_RECORD[] lpBuffer,
             [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
@@ -2904,7 +2904,7 @@ namespace Lsj.Util.Win32
         ///     _In_ USHORT wFlags);
         /// </code>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInputExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleInputEx([In] HANDLE hConsoleInput, [Out] INPUT_RECORD[] lpBuffer, [In] DWORD nLength,
             [Out] out DWORD lpNumberOfEventsRead, [In] USHORT wFlags);
@@ -3015,7 +3015,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleOutput([In] HANDLE hConsoleOutput, [Out] CHAR_INFO[] lpBuffer, [In] COORD dwBufferSize,
             [In] COORD dwBufferCoord, [In][Out] ref SMALL_RECT lpReadRegion);
@@ -3083,7 +3083,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleOutputAttribute([In] HANDLE hConsoleOutput, [Out] WORD[] lpAttribute, [In] DWORD nLength,
             [In] COORD dwReadCoord, [Out] out DWORD lpNumberOfAttrsRead);
@@ -3156,7 +3156,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPWSTR lpCharacter, [In] DWORD nLength,
             [In] COORD dwReadCoord, [Out] out DWORD lpNumberOfCharsRead);
@@ -3280,7 +3280,7 @@ namespace Lsj.Util.Win32
         /// The remaining space can be filled by moving the cursor, setting graphical attributes, and writing normal text.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollConsoleScreenBufferW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScrollConsoleScreenBuffer([In] HANDLE hConsoleOutput, [In] in SMALL_RECT lpScrollRectangle,
             [In] in SMALL_RECT lpClipRectangle, [In] COORD dwDestinationOrigin, [In] in CHAR_INFO lpFill);
@@ -3331,7 +3331,7 @@ namespace Lsj.Util.Win32
         /// This maintains that drawing information for simple restoration on process exit.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleActiveScreenBuffer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleActiveScreenBuffer([In] HANDLE hConsoleOutput);
 
@@ -3382,7 +3382,7 @@ namespace Lsj.Util.Win32
         /// To set and retrieve a console's output code page, use the <see cref="SetConsoleOutputCP"/> and <see cref="GetConsoleOutputCP"/> functions.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCP([In] UINT wCodePageID);
 
@@ -3512,7 +3512,7 @@ namespace Lsj.Util.Win32
         /// An example of this is included with the basic handler example linked below.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCtrlHandler", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCtrlHandler([In] PHANDLER_ROUTINE HandlerRoutine, [In] BOOL Add);
 
@@ -3565,7 +3565,7 @@ namespace Lsj.Util.Win32
         /// This API has a virtual terminal equivalent in the cursor visibility section with the <c>^[[?25h</c> and <c>^[[?25l</c> sequences.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCursorInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCursorInfo([In] HANDLE hConsoleOutput, [In] in CONSOLE_CURSOR_INFO lpConsoleCursorInfo);
 
@@ -3623,7 +3623,7 @@ namespace Lsj.Util.Win32
         /// Use of the newline, carriage return, backspace, and tab control sequences can also assist with cursor positioning.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCursorPosition", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCursorPosition([In] HANDLE hConsoleOutput, [In] COORD dwCursorPosition);
 
@@ -3703,7 +3703,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleDisplayMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleDisplayMode([In] HANDLE hConsoleOutput, [In] DWORD dwFlags, [Out] out COORD lpNewScreenBufferDimensions);
 
@@ -4032,7 +4032,7 @@ namespace Lsj.Util.Win32
         /// To determine the current mode of a console input buffer or a screen buffer, use the <see cref="GetConsoleMode"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleMode([In] HANDLE hConsoleHandle, [In] ConsoleModes dwMode);
 
@@ -4089,7 +4089,7 @@ namespace Lsj.Util.Win32
         /// To set and retrieve a console's input code page, use the <see cref="SetConsoleCP"/> and <see cref="GetConsoleCP"/> functions.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleOutputCP([In] UINT wCodePageID);
 
@@ -4193,7 +4193,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleScreenBufferSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleScreenBufferSize([In] HANDLE hConsoleOutput, [In] COORD dwSize);
 
@@ -4245,7 +4245,7 @@ namespace Lsj.Util.Win32
         /// Virtual terminal sequences are recommended for all new and ongoing development.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleTextAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleTextAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes wAttributes);
 
@@ -4297,7 +4297,7 @@ namespace Lsj.Util.Win32
         /// Virtual terminal sequences are recommended for all new and ongoing development.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleTitleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleTitle([In] LPCWSTR lpConsoleTitle);
 
@@ -4376,7 +4376,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleWindowInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleWindowInfo([In] HANDLE hConsoleOutput, [In] BOOL bAbsolute, [In] in SMALL_RECT lpConsoleWindow);
 
@@ -4516,7 +4516,7 @@ namespace Lsj.Util.Win32
         /// in a call to the <see cref="CreateFile"/> function to get a handle to a console's input buffer.
         /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetStdHandle([In] DWORD nStdHandle, [In] HANDLE hHandle);
 
@@ -4595,7 +4595,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="SetCursorPos"/>, <see cref="SetConsoleTextAttribute"/>, and <see cref="GetConsoleCursorInfo"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsole([In] HANDLE hConsoleOutput, [In] IntPtr lpBuffer, [In] DWORD nNumberOfCharsToWrite,
             [Out] out DWORD lpNumberOfCharsWritten, [In] LPVOID lpReserved);
@@ -4661,7 +4661,7 @@ namespace Lsj.Util.Win32
         /// Applications remoting via cross-platform utilities and transports like SSH may not work as expected if using this API.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleInputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleInput([In] HANDLE hConsoleInput, [In] INPUT_RECORD[] lpBuffer, [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsWritten);
 
@@ -4764,7 +4764,7 @@ namespace Lsj.Util.Win32
         /// Virtual terminal sequences are recommended for all new and ongoing development.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutput([In] HANDLE hConsoleOutput, [In] CHAR_INFO[] lpBuffer, [In] COORD dwBufferSize,
             [In] COORD dwBufferCoord, [In] SMALL_RECT lpWriteRegion);
@@ -4835,7 +4835,7 @@ namespace Lsj.Util.Win32
         /// where the individual client application is expected to remember its own drawn state for further manipulation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes[] lpAttribute,
             [In] COORD nLength, [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
@@ -4911,7 +4911,7 @@ namespace Lsj.Util.Win32
         /// where the individual client application is expected to remember its own drawn state for further manipulation.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputCharacterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputCharacter([In] HANDLE hConsoleOutput, [In] LPCWSTR lpCharacter, [In] DWORD nLength,
             [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfCharsWritten);

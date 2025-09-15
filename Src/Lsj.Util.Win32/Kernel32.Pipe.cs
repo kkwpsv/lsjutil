@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32
         /// ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNamedPipeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CallNamedPipe([In] LPCWSTR lpNamedPipeName, [In] LPVOID lpInBuffer,
             [In] DWORD nInBufferSize, [In] LPVOID lpOutBuffer, [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesRead, [In] DWORD nTimeOut);
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process
         /// that's part of the same app. Also, named pipes must use the syntax "\\.\pipe\LOCAL\" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConnectNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ConnectNamedPipe([In] HANDLE hNamedPipe, [In][Out] ref OVERLAPPED lpOverlapped);
 
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateNamedPipe([In] LPWSTR lpName, [In] DWORD dwOpenMode, [In] DWORD dwPipeMode, [In] DWORD nMaxInstances,
             [In] DWORD nOutBufferSize, [In] DWORD nInBufferSize, [In] DWORD nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
@@ -389,7 +389,7 @@ namespace Lsj.Util.Win32
         /// Note that an instance of a pipe may have more than one handle associated with it.
         /// An instance of a pipe is always deleted when the last handle to the instance of the named pipe is closed.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreatePipe([Out] out HANDLE hReadPipe, [Out] out HANDLE hWritePipe, [In] in SECURITY_ATTRIBUTES lpPipeAttributes, [In] DWORD nSize);
 
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process
         /// that's part of the same app. Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DisconnectNamedPipe([In] HANDLE hNamedPipe);
 
@@ -523,7 +523,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeHandleState([In] HANDLE hNamedPipe, [Out] out PipeModes lpState, [Out] out DWORD lpCurInstances,
             [Out] out DWORD lpMaxCollectionCount, [Out] out DWORD lpCollectDataTimeout, [In] IntPtr lpUserName, [In] DWORD nMaxUserNameSize);
@@ -582,7 +582,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeInfo([In] HANDLE hNamedPipe, [Out] DWORD lpFlags, [Out] DWORD lpOutBufferSize,
             [Out] DWORD lpInBufferSize, [Out] DWORD lpMaxInstances);
@@ -651,7 +651,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PeekNamedPipe([In] HANDLE hNamedPipe, [In] LPVOID lpBuffer, [In] DWORD nBufferSize,
             [Out] out DWORD lpBytesRead, [Out] out DWORD lpTotalBytesAvail, [Out] out DWORD lpBytesLeftThisMessage);
@@ -711,7 +711,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetNamedPipeHandleState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetNamedPipeHandleState([In] HANDLE hNamedPipe, [In] in PipeModes lpMode,
             [In] in DWORD lpMaxCollectionCount, [In] in DWORD lpCollectDataTimeout);
@@ -801,7 +801,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TransactNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TransactNamedPipe([In] HANDLE hNamedPipe, [In] LPVOID lpInBuffer, [In] DWORD nInBufferSize, [In] LPVOID lpOutBuffer,
             [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesRead, [In] in OVERLAPPED lpOverlapped);
@@ -846,7 +846,7 @@ namespace Lsj.Util.Win32
         /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
         /// Also, named pipes must use the syntax "\\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitNamedPipeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WaitNamedPipe([In] LPCWSTR lpNamedPipeName, [In] DWORD nTimeOut);
     }

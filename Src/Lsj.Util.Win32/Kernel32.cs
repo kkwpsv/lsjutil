@@ -130,7 +130,7 @@ namespace Lsj.Util.Win32
         /// In Windows 7, <see cref="Beep"/> was rewritten to pass the beep to the default sound device for the session.
         /// This is normally the sound card, except when run under Terminal Services, in which case the beep is rendered on the client.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Beep([In] DWORD dwFreq, [In] DWORD dwDuration);
 
@@ -298,50 +298,6 @@ namespace Lsj.Util.Win32
         public static extern PVOID EncodeSystemPointer([In] PVOID Ptr);
 
         /// <summary>
-        /// <para>
-        /// Enumerates the code pages that are either installed on or supported by an operating system.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpCodePageEnumProc">
-        /// Pointer to an application-defined callback function.
-        /// The <see cref="EnumSystemCodePages"/> function enumerates code pages by making repeated calls to this callback function.
-        /// For more information, see <see cref="CODEPAGE_ENUMPROC"/>.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Flag specifying the code pages to enumerate.
-        /// This parameter can have one of the following values, which are mutually exclusive.
-        /// <see cref="CP_INSTALLED"/>: Enumerate only installed code pages.
-        /// <see cref="CP_SUPPORTED"/>: Enumerate all supported code pages.
-        /// </param>
-        /// <returns>
-        /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
-        /// which can return one of the following error codes:
-        /// <see cref="ERROR_BADDB"/>:
-        /// The function could not access the data.
-        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
-        /// <see cref="ERROR_INVALID_FLAGS"/>:
-        /// The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>:
-        /// Any of the parameter values was invalid.
-        /// </returns>
-        /// <remarks>
-        /// This function enumerates the code pages by passing code page identifiers, one at a time,
-        /// to the specified application-defined callback function.
-        /// This process continues until all installed or supported code page identifiers have been passed to the callback function,
-        /// or the callback function returns <see cref="FALSE"/>.
-        /// When an application is using this function to determine an appropriate code page for saving data, it should use Unicode when possible.
-        /// Other code pages are not as portable as Unicode between vendors or operating systems,
-        /// due to different implementations of the associated standards.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemCodePagesW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumSystemCodePages([In] CODEPAGE_ENUMPROC lpCodePageEnumProc, [In] EnumSystemCodePagesFlags dwFlags);
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="lpProc"></param>
@@ -413,7 +369,7 @@ namespace Lsj.Util.Win32
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark ("?").
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDateFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDateFormat([In] LCID Locale, [In] GetDateFormatFlags dwFlags, [In] in SYSTEMTIME lpDate,
             [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate);
@@ -602,7 +558,7 @@ namespace Lsj.Util.Win32
         /// Starting with Windows 8:
         /// GetTimeFormat is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTimeFormat([In] LCID Locale, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
             [In] LPWSTR lpTimeStr, [In] int cchTime);
@@ -748,7 +704,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadCodePtr([In] FARPROC lpfn);
 
@@ -795,7 +751,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true)]
         public static extern BOOL IsBadReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
 
@@ -846,7 +802,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", ExactSpelling = true)]
         public static extern BOOL IsBadStringPtr([In] IntPtr lpsz, UINT_PTR ucchMax);
 
@@ -895,7 +851,7 @@ namespace Lsj.Util.Win32
         /// call it inside a critical region of code that allows only one thread to access the memory being checked.
         /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadWritePtr", ExactSpelling = true)]
         public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
 
@@ -931,7 +887,7 @@ namespace Lsj.Util.Win32
         /// If the result is a negative half integer, it is rounded down.
         /// If either an overflow occurred or nDenominator was 0, the return value is -1.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true)]
         public static extern int MulDiv([In] int nNumber, [In] int nNumerator, [In] int nDenominator);
 
@@ -956,7 +912,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceCounter([Out] out LARGE_INTEGER lpPerformanceCount);
 
@@ -984,7 +940,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
 
@@ -1041,7 +997,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
         public static extern UINT WinExec([In] LPCSTR lpCmdLine, [In] ShowWindowCommands uCmdShow);
 
@@ -1062,7 +1018,7 @@ namespace Lsj.Util.Win32
         /// The session identifier returned by this function is the identifier of the current physical console session. 
         /// To monitor the state of the current physical console session, use the<see cref="WTSRegisterSessionNotification"/>  function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSGetActiveConsoleSessionId", ExactSpelling = true)]
         public static extern DWORD WTSGetActiveConsoleSessionId();
 

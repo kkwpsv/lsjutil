@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// If <see cref="CreateFile"/> is called to access a non-existent mailslot,
         /// the <see cref="ERROR_FILE_NOT_FOUND"/> error code will be set.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateMailslot([In] LPCWSTR lpName, [In] DWORD nMaxMessageSize, [In] DWORD lReadTimeout,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
@@ -109,7 +109,7 @@ namespace Lsj.Util.Win32
         /// The initial time-out value used by a mailslot for a read operation is typically set
         /// by <see cref="CreateMailslot"/> when the mailslot is created.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMailslotInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMailslotInfo([In] HANDLE hMailslot, [In] DWORD lReadTimeout);
     }

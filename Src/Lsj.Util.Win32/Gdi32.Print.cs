@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32
         /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetAbortProc", ExactSpelling = true, SetLastError = true)]
         public static extern int SetAbortProc([In] HDC hdc, [In] ABORTPROC proc);
 
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// Call the <see cref="GetJob"/> or <see cref="SetJob"/> function and supply this value as one of the required arguments.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartDocW", ExactSpelling = true, SetLastError = true)]
         public static extern int StartDoc([In] HDC hdc, [In] in DOCINFO lpdi);
 
@@ -301,7 +301,7 @@ namespace Lsj.Util.Win32
         /// You do not need to re-select objects and set up the mapping mode again before printing the next
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartPage", ExactSpelling = true, SetLastError = true)]
         public static extern int StartPage([In] HDC hdc);
     }

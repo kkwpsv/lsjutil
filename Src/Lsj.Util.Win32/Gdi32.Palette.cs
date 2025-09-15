@@ -363,7 +363,7 @@ namespace Lsj.Util.Win32
         /// The same is also true for applications with inactive windows.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RealizePalette([In] HDC hdc);
 

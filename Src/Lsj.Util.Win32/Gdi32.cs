@@ -1375,7 +1375,7 @@ namespace Lsj.Util.Win32
         /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ GetStockObject([In] StockObjectIndexes i);
 
@@ -1421,7 +1421,7 @@ namespace Lsj.Util.Win32
         /// from multiple calls to <see cref="LPtoDP"/> even if the parameters that are passed to each call are identical.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LPtoDP([In] HDC hdc, [In][Out] POINT[] lppt, [In] int c);
 
@@ -1540,7 +1540,7 @@ namespace Lsj.Util.Win32
         /// Use <see cref="SetBrushOrgEx"/> to set the origin of a brush.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnrealizeObject([In] HGDIOBJ h);
     }

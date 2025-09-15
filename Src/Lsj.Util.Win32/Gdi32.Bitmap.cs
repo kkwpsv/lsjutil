@@ -951,7 +951,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the SetDIBits function.")]
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", ExactSpelling = true, SetLastError = true)]
         public static extern LONG SetBitmapBits([In] HBITMAP hbm, [In] DWORD cb, [In] IntPtr pvBits);
 
@@ -992,7 +992,7 @@ namespace Lsj.Util.Win32
         /// If the bitmap is a DIB section, the <see cref="SetBitmapDimensionEx"/> function fails.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetBitmapDimensionEx([In] HBITMAP hbm, [In] int w, [In] int h, [Out] out SIZE lpsz);
 
@@ -1043,7 +1043,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBColorTable", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetDIBColorTable([In] HDC hdc, [In] UINT iStart, [In] UINT cEntries, [In] RGBQUAD[] prgbq);
 
@@ -1179,7 +1179,7 @@ namespace Lsj.Util.Win32
         /// rather than in the device context's source color space.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int SetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] IntPtr lpBits,
             [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);

@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32
         /// When associating an input context with a window, an application must remove the association before destroying the input context.
         /// One way to do this is to save the handle and reassociate it to the default input context with the window.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContext", ExactSpelling = true)]
         public static extern HIMC ImmAssociateContext([In] HWND unnamedParam1, [In] HIMC unnamedParam2);
 
@@ -117,7 +117,7 @@ namespace Lsj.Util.Win32
         /// In this case, the <paramref name="unnamedParam2"/> parameter is ignored.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmAssociateContextEx", ExactSpelling = true)]
         public static extern BOOL ImmAssociateContextEx([In] HWND unnamedParam1, [In] HIMC unnamedParam2, [In] ImmAssociateContextExFlags unnamedParam3);
 
@@ -133,7 +133,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns the handle to the new input context if successful, or <see cref="NULL"/> otherwise.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmCreateContext", ExactSpelling = true)]
         public static extern HIMC ImmCreateContext();
 
@@ -155,7 +155,7 @@ namespace Lsj.Util.Win32
         /// However, before calling <see cref="ImmDestroyContext"/>, the application must remove the input context
         /// from any association with windows in the thread by using the <see cref="ImmAssociateContext"/> function.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDestroyContext", ExactSpelling = true)]
         public static extern BOOL ImmDestroyContext([In] HIMC unnamedParam1);
 
@@ -191,7 +191,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmDisableIME", ExactSpelling = true)]
         public static extern BOOL ImmDisableIME([In] DWORD unnamedParam1);
 
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if successful, or 0 otherwise.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetCompositionWindow", ExactSpelling = true)]
         public static extern BOOL ImmGetCompositionWindow([In] HIMC unnamedParam1, [Out] out COMPOSITIONFORM lpCompForm);
 
@@ -235,7 +235,7 @@ namespace Lsj.Util.Win32
         /// The application must call <see cref="ImmReleaseContext"/> when it is finished with the input context.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetContext", ExactSpelling = true)]
         public static extern HIMC ImmGetContext([In] HWND unnamedParam1);
 
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// The window is created based on the IME class.
         /// The application can send the <see cref="WM_IME_CONTROL"/> message to this window.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetDefaultIMEWnd", ExactSpelling = true)]
         public static extern HWND ImmGetDefaultIMEWnd([In] HWND unnamedParam1);
 
@@ -272,7 +272,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if the IME is open, or 0 otherwise.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmGetOpenStatus", ExactSpelling = true)]
         public static extern BOOL ImmGetOpenStatus([In] HIMC unnamedParam1);
 
@@ -290,7 +290,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a nonzero value if successful, or 0 otherwise.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmReleaseContext", ExactSpelling = true)]
         public static extern BOOL ImmReleaseContext([In] HWND unnamedParam1, [In] HIMC unnamedParam2);
 
@@ -313,7 +313,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function causes an <see cref="IMN_SETCOMPOSITIONWINDOW"/> command to be sent to the application.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetCompositionWindow", ExactSpelling = true)]
         public static extern BOOL ImmSetCompositionWindow([In] HIMC unnamedParam1, [In] in COMPOSITIONFORM lpCompForm);
 
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function causes an <see cref="IMN_SETOPENSTATUS"/> command to be sent to the application.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Imm32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImmSetOpenStatus", ExactSpelling = true)]
         public static extern BOOL ImmSetOpenStatus([In] HIMC unnamedParam1, [In] BOOL unnamedParam2);
     }

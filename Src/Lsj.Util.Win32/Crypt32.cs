@@ -101,7 +101,7 @@ namespace Lsj.Util.Win32
         /// {0x88, 0xFF, 0xFF, 0xFF}
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Crypt32.dll", CharSet = CharSet.Unicode, EntryPoint = "CertCompareIntegerBlob", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CertCompareIntegerBlob([In] in CRYPT_INTEGER_BLOB pInt1, [In] in CRYPT_INTEGER_BLOB pInt2);
 
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// When you have finished using the duplicate context,
         /// decrease its reference count by calling the <see cref="CertFreeCertificateContext"/> function.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Crypt32.dll", CharSet = CharSet.Unicode, EntryPoint = "CertDuplicateCertificateContext", ExactSpelling = true)]
         public static extern PCCERT_CONTEXT CertDuplicateCertificateContext([In] in PCCERT_CONTEXT pCertContext);
 
@@ -150,7 +150,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The function always returns nonzero.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Crypt32.dll", CharSet = CharSet.Unicode, EntryPoint = "CertFreeCertificateContext", ExactSpelling = true)]
         public static extern BOOL CertFreeCertificateContext([In] PCCERT_CONTEXT pCertContext);
     }
