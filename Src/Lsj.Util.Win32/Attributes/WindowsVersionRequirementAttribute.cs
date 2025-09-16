@@ -68,23 +68,26 @@ namespace Lsj.Util.Win32.Attributes
             Version = version;
             switch (version)
             {
+                case WindowsVersion.WindowsNT40:
+                    BuildNumber = BuildNumbers.WindowsNT4_0;
+                    break;
                 case WindowsVersion.Windows2000:
-                    BuildNumber = 2195;
+                    BuildNumber = BuildNumbers.Windows2000;
                     break;
                 case WindowsVersion.WindowsXP:
-                    BuildNumber = 2600;
+                    BuildNumber = BuildNumbers.WindowsXP;
                     break;
                 case WindowsVersion.WindowsVista:
-                    BuildNumber = 6000;
+                    BuildNumber = BuildNumbers.WindowsVista;
                     break;
                 case WindowsVersion.Windows7:
-                    BuildNumber = 7600;
+                    BuildNumber = BuildNumbers.Windows7;
                     break;
                 case WindowsVersion.Windows8:
-                    BuildNumber = 9200;
+                    BuildNumber = BuildNumbers.Windows8;
                     break;
                 case WindowsVersion.Windows8_1:
-                    BuildNumber = 9600;
+                    BuildNumber = BuildNumbers.Windows8_1;
                     break;
                 case WindowsVersion.Windows10:
                     BuildNumber = BuildNumbers.Windows10_1507;

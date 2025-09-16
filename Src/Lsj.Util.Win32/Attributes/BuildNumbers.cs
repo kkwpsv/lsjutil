@@ -8,6 +8,20 @@ namespace Lsj.Util.Win32.Attributes
 {
     internal static class BuildNumbers
     {
+        public const int WindowsNT4_0 = 1381;
+
+        public const int Windows2000 = 2195;
+
+        public const int WindowsXP = 2600;
+
+        public const int WindowsVista = 6000;
+
+        public const int Windows7 = 7600;
+
+        public const int Windows8 = 9200;
+
+        public const int Windows8_1 = 9600;
+
         public const int Windows10_1507 = 10240;
 
         public const int Windows10_1511 = 10586;
@@ -42,6 +56,8 @@ namespace Lsj.Util.Win32.Attributes
 
         public const int Windows11_23H2 = 22361;
 
-        public const int Windows12_24H2 = 26100;
+        public const int Windows11_24H2 = 26100;
+
+        public const int Windows11_25H2 = 26200;
     }
 }

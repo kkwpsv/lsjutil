@@ -466,31 +466,42 @@ namespace Lsj.Util.Win32
         /// To release the thread pool, call <see cref="CloseThreadpool"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpool", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_POOL CreateThreadpool([In] PVOID reserved);
 
         /// <summary>
         /// <para>
-        /// Releases the specified work object.
+        /// Creates a cleanup group that applications can use to track one or more thread pool callbacks.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwork"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolcleanupgroup"/>
         /// </para>
         /// </summary>
-        /// <param name="pwk">
-        /// A TP_WORK structure that defines the work object.
-        /// The <see cref="CreateThreadpoolWork"/> function returns this structure.
-        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a TP_CLEANUP_GROUP structure of the newly allocated cleanup group.
+        /// Applications do not modify the members of this structure.
+        /// If function fails, it returns <see cref="NULL"/>.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
         /// <remarks>
-        /// The work object is freed immediately if there are no outstanding callbacks;
-        /// otherwise, the work object is freed asynchronously after the outstanding callbacks complete.
-        /// If there is a cleanup group associated with the work object, it is not necessary to call this function;
-        /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
-        /// wait, and timer objects associated with the cleanup group.
+        /// After creating the cleanup group, call <see cref="SetThreadpoolCallbackCleanupGroup"/> to associate the cleanup group with a callback environment.
+        /// A member is added to the group each time you call one of the following functions:
+        /// <see cref="CreateThreadpoolIo"/>
+        /// <see cref="CreateThreadpoolTimer"/>
+        /// <see cref="CreateThreadpoolWait"/>
+        /// <see cref="CreateThreadpoolWork"/>
+        /// You use one of the following corresponding close functions to remove a member from the group.
+        /// <see cref="CloseThreadpoolIo"/>
+        /// <see cref="CloseThreadpoolTimer"/>
+        /// <see cref="CloseThreadpoolWait"/>
+        /// <see cref="CloseThreadpoolWork"/>
+        /// To close all the callbacks, call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWork", ExactSpelling = true, SetLastError = true)]
-        public static extern void CloseThreadpoolWork([In] PTP_WORK pwk);
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolCleanupGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern PTP_CLEANUP_GROUP CreateThreadpoolCleanupGroup();
 
         /// <summary>
         /// <para>
@@ -530,6 +541,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolIo", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_IO CreateThreadpoolIo([In] HANDLE fl, [In] PTP_WIN32_IO_CALLBACK pfnio, [In] PVOID pv,
             [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
@@ -565,40 +577,9 @@ namespace Lsj.Util.Win32
         /// To set the timer object, call the <see cref="SetThreadpoolTimer"/> function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_TIMER CreateThreadpoolTimer([In] PTP_TIMER_CALLBACK pfnti, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
-
-        /// <summary>
-        /// <para>
-        /// Creates a cleanup group that applications can use to track one or more thread pool callbacks.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolcleanupgroup"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// If the function succeeds, it returns a TP_CLEANUP_GROUP structure of the newly allocated cleanup group.
-        /// Applications do not modify the members of this structure.
-        /// If function fails, it returns <see cref="NULL"/>.
-        /// To retrieve extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// After creating the cleanup group, call <see cref="SetThreadpoolCallbackCleanupGroup"/> to associate the cleanup group with a callback environment.
-        /// A member is added to the group each time you call one of the following functions:
-        /// <see cref="CreateThreadpoolIo"/>
-        /// <see cref="CreateThreadpoolTimer"/>
-        /// <see cref="CreateThreadpoolWait"/>
-        /// <see cref="CreateThreadpoolWork"/>
-        /// You use one of the following corresponding close functions to remove a member from the group.
-        /// <see cref="CloseThreadpoolIo"/>
-        /// <see cref="CloseThreadpoolTimer"/>
-        /// <see cref="CloseThreadpoolWait"/>
-        /// <see cref="CloseThreadpoolWork"/>
-        /// To close all the callbacks, call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolCleanupGroup", ExactSpelling = true, SetLastError = true)]
-        public static extern PTP_CLEANUP_GROUP CreateThreadpoolCleanupGroup();
 
         /// <summary>
         /// <para>
@@ -638,8 +619,33 @@ namespace Lsj.Util.Win32
         /// Windows 8:  <see cref="RegNotifyChangeKeyValue"/> can be called from a work item
         /// by setting the <see cref="REG_NOTIFY_THREAD_AGNOSTIC"/> flag.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolWait", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_WAIT CreateThreadpoolWait([In] PTP_WAIT_CALLBACK pfnwa, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
+        /// Releases the specified work object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwork"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pwk">
+        /// A TP_WORK structure that defines the work object.
+        /// The <see cref="CreateThreadpoolWork"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The work object is freed immediately if there are no outstanding callbacks;
+        /// otherwise, the work object is freed asynchronously after the outstanding callbacks complete.
+        /// If there is a cleanup group associated with the work object, it is not necessary to call this function;
+        /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
+        /// wait, and timer objects associated with the cleanup group.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWork", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolWork([In] PTP_WORK pwk);
 
         /// <summary>
         /// <para>
@@ -672,6 +678,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolWork", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_WORK CreateThreadpoolWork([In] PTP_WORK_CALLBACK pfnwk, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 

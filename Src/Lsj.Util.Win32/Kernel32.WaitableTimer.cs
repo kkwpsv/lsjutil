@@ -202,6 +202,7 @@ namespace Lsj.Util.Win32
         /// The timer object is destroyed when its last handle has been closed.
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateWaitableTimerEx([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] LPCWSTR lpTimerName,
             [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);

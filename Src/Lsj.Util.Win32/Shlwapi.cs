@@ -28,6 +28,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="dwOS"></param>
         /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "IsOS", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsOS([In] OSFeatures dwOS);
 

@@ -94,6 +94,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DYNAMIC_TIME_ZONE_INFORMATION.StandardName"/> and <see cref="DYNAMIC_TIME_ZONE_INFORMATION.DaylightName"/> members
         /// of the resultant <see cref="DYNAMIC_TIME_ZONE_INFORMATION"/> structure are localized according to the current user default UI language.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDynamicTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetDynamicTimeZoneInformation([Out] out DYNAMIC_TIME_ZONE_INFORMATION pTimeZoneInformation);
 

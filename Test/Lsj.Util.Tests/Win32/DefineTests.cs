@@ -47,7 +47,7 @@ namespace Lsj.Util.Tests.Win32
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var wrongEntrypoints = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
-            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, WindowsVersion Version)>();
+            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note))>();
             var hasMarshalAsAttributeMethods = new List<MethodInfo>();
             var hasStringParameterMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
@@ -80,7 +80,9 @@ namespace Lsj.Util.Tests.Win32
 
                 if (apis.TryGetValue(entryPoint!, out var version))
                 {
-                    if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>()?.Version != version)
+                    var attribute = item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>();
+                    if (attribute == null || attribute.Version != version.Version || attribute.BuildNumber != version.BuildNumber ||
+                        (version.Note is string note && attribute.Note?.Contains(note) is not true))
                     {
                         wrongWindowsVersionRequirementMethods.Add((item.Method, version));
                     }
@@ -110,7 +112,7 @@ namespace Lsj.Util.Tests.Win32
             var fails = new List<string>();
 
             fails.AddRange(wrongEntrypoints.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} entrypoint error."));
-            fails.AddRange(wrongWindowsVersionRequirementMethods.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} windows version requirement should be {item.Version}."));
+            fails.AddRange(wrongWindowsVersionRequirementMethods.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} windows version requirement should be {item.Item2.Version} {item.Item2.Note} BuildNumber: {item.Item2.BuildNumber}."));
             fails.AddRange(missingWindowsVersionRequirementMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing windows version requirement."));
             fails.AddRange(hasMarshalAsAttributeMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has marshalas attribute."));
             fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
@@ -224,9 +226,9 @@ namespace Lsj.Util.Tests.Win32
             }
         }
 
-        private Dictionary<string, WindowsVersion> ReadFromFiles()
+        private Dictionary<string, (WindowsVersion Version, int BuildNumber, string? Note)> ReadFromFiles()
         {
-            var result = new Dictionary<string, WindowsVersion>();
+            var result = new Dictionary<string, (WindowsVersion version, int buildNumber, string? note)>();
 
 
             var dataDir = GetDataDir();
@@ -238,7 +240,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = WindowsVersion.WindowsNT40;
+                        result[line] = (WindowsVersion.WindowsNT40, BuildNumbers.WindowsNT4_0, null);
                     }
                 }
             }
@@ -250,7 +252,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = WindowsVersion.Windows2000;
+                        result[line] = (WindowsVersion.Windows2000, BuildNumbers.Windows2000, null);
                     }
                 }
             }
@@ -262,7 +264,43 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = WindowsVersion.WindowsXP;
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XPSP1")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP1");
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XPSP3")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP3");
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "Vista")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null);
                     }
                 }
             }
