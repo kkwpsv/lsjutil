@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
@@ -57,6 +58,7 @@ namespace Lsj.Util.Win32
         /// use the <paramref name="ppszOtherDirs"/> parameter to specify one or more directories to be searched first.
         /// If more than one file has the name specified by <paramref name="pszPath"/>, <see cref="PathFindOnPath"/> returns the first instance it finds.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "PathFindOnPathW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PathFindOnPath([In] LPWSTR pszPath, [In] string[] ppszOtherDirs);
 
@@ -95,6 +97,7 @@ namespace Lsj.Util.Win32
         /// mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCopyKeyW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS SHCopyKey([In] HKEY hkeySrc, [In] LPCWSTR pszSrcSubKey, [In] HKEY hkeyDest, [In] DWORD fReserved);
 
@@ -127,6 +130,7 @@ namespace Lsj.Util.Win32
         /// to mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDeleteKeyW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS SHDeleteKey([In] HKEY hkey, [In] LPCWSTR pszSubKey);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -66,6 +67,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="CheckDlgButton"/> function sends a <see cref="BM_SETCHECK"/> message to the specified button control in the specified dialog box.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckDlgButton", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckDlgButton([In] HWND hDlg, [In] int nIDButton, [In] ButtonCheckStates uCheck);
 
@@ -101,6 +103,7 @@ namespace Lsj.Util.Win32
         /// The position of buttons in the tab order is irrelevant; if a button forms part of a group,
         /// but has an ID outside the specified range,it is not affected by this call.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckRadioButton", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckRadioButton([In] HWND hDlg, [In] int nIDFirstButton, [In] int nIDLastButton, [In] int nIDCheckButton);
 
@@ -181,6 +184,7 @@ namespace Lsj.Util.Win32
         /// The root directory of an NTFS volume has hidden and system attributes.
         /// The directory listing displays long filenames, if any.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirList([In] HWND hDlg, [In] LPWSTR lpPathSpec, [In] int nIDListBox,
             [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
@@ -274,6 +278,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DlgDirListComboBox"/> is supported by the Microsoft Layer for Unicode.
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirListComboBox([In] HWND hDlg, [In] LPWSTR lpPathSpec, [In] int nIDComboBox,
              [In] int nIDStaticPath, [In] DialogDirectoryListFlags uFileType);
@@ -323,6 +328,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DlgDirSelectComboBoxEx"/> is supported by the Microsoft Layer for Unicode (MSLU).
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int cchOut, [In] int idComboBox);
 
@@ -367,6 +373,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DlgDirSelectEx"/> is supported by the Microsoft Layer for Unicode.
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int chCount, [In] int idListBox);
 
@@ -408,6 +415,7 @@ namespace Lsj.Util.Win32
         /// If the arrows are already in the requested state or an error occurs, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableScrollBar", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableScrollBar([In] HWND hWnd, [In] ScrollBarConstants wSBflags, [In] EnableScrollBarFlags wArrows);
 
@@ -497,6 +505,7 @@ namespace Lsj.Util.Win32
         /// This allows <see cref="GetScrollInfo"/> to operate on a custom control that mimics a scroll bar.
         /// If the window does not handle the <see cref="SBM_GETSCROLLINFO"/> message, the <see cref="GetScrollInfo"/> function fails.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetScrollInfo([In] HWND hwnd, [In] ScrollBarConstants nBar, [In][Out] ref SCROLLINFO lpsi);
 
@@ -544,6 +553,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle the <see cref="SBM_GETPOS"/> message, the <see cref="GetScrollPos"/> function fails.
         /// </remarks>
         [Obsolete("The GetScrollPos function is provided for backward compatibility. New applications should use the GetScrollInfo function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollPos", ExactSpelling = true, SetLastError = true)]
         public static extern int GetScrollPos([In] HWND hWnd, [In] ScrollBarConstants nBar);
 
@@ -594,6 +604,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle the <see cref="SBM_GETRANGE"/> message, the <see cref="GetScrollRange"/> function fails.
         /// </remarks>
         [Obsolete("The GetScrollRange function is provided for compatibility only. New applications should use the GetScrollInfo function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollRange", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetScrollRange([In] HWND hWnd, [In] ScrollBarConstants nBar, [Out] out INT lpMinPos, [Out] out INT lpMaxPos);
 
@@ -626,65 +637,9 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="IsDlgButtonChecked"/> function sends a <see cref="BM_GETCHECK"/> message to the specified button control.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDlgButtonChecked", ExactSpelling = true, SetLastError = true)]
         public static extern UINT IsDlgButtonChecked([In] HWND hDlg, [In] int nIDButton);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="ScrollDC"/> function scrolls a rectangle of bits horizontally and vertically.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-scrolldc"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hDC">
-        /// Handle to the device context that contains the bits to be scrolled.
-        /// </param>
-        /// <param name="dx">
-        /// Specifies the amount, in device units, of horizontal scrolling.
-        /// This parameter must be a negative value to scroll to the left.
-        /// </param>
-        /// <param name="dy">
-        /// Specifies the amount, in device units, of vertical scrolling.
-        /// This parameter must be a negative value to scroll up.
-        /// </param>
-        /// <param name="lprcScroll">
-        /// Pointer to a <see cref="RECT"/> structure containing the coordinates of the bits to be scrolled.
-        /// The only bits affected by the scroll operation are bits in the intersection of this rectangle
-        /// and the rectangle specified by <paramref name="lprcClip"/>.
-        /// If <paramref name="lprcScroll"/> is <see langword="null"/>, the entire client area is used.
-        /// </param>
-        /// <param name="lprcClip">
-        /// Pointer to a <see cref="RECT"/> structure containing the coordinates of the clipping rectangle.
-        /// The only bits that will be painted are the bits that remain inside this rectangle after the scroll operation has been completed.
-        /// If <paramref name="lprcClip"/> is <see langword="null"/>, the entire client area is used.
-        /// </param>
-        /// <param name="hrgnUpdate">
-        /// Handle to the region uncovered by the scrolling process.
-        /// <see cref="ScrollDC"/> defines this region; it is not necessarily a rectangle.
-        /// </param>
-        /// <param name="lprcUpdate">
-        /// Pointer to a <see cref="RECT"/> structure that receives the coordinates of the rectangle bounding the scrolling update region.
-        /// This is the largest rectangular area that requires repainting.
-        /// When the function returns, the values in the structure are in client coordinates, regardless of the mapping mode for the specified device context.
-        /// This allows applications to use the update region in a call to the <see cref="InvalidateRgn"/> function, if required.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the <paramref name="lprcUpdate"/> parameter is <see langword="null"/>, the system does not compute the update rectangle.
-        /// If both the <paramref name="hrgnUpdate"/> and <paramref name="lprcUpdate"/> parameters are <see langword="null"/>,
-        /// the system does not compute the update region.
-        /// If <paramref name="hrgnUpdate"/> is not <see langword="null"/>,
-        /// the system proceeds as though it contains a valid handle to the region uncovered by the scrolling process (defined by <see cref="ScrollDC"/>).
-        /// When you must scroll the entire client area of a window, use the <see cref="ScrollWindowEx"/> function.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollDC", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScrollDC([In] HDC hDC, [In] int dx, [In] int dy, [In] in RECT lprcScroll, [In] in RECT lprcClip,
-            [In] HRGN hrgnUpdate, [Out] out RECT lprcUpdate);
 
         /// <summary>
         /// <para>
@@ -743,6 +698,7 @@ namespace Lsj.Util.Win32
         /// call <see cref="UpdateWindow"/> to repaint the window before calling <see cref="ScrollWindow"/>.
         /// </remarks>
         [Obsolete("The ScrollWindow function is provided for backward compatibility. New applications should use the ScrollWindowEx function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScrollWindow([In] HWND hWnd, [In] int XAmount, [In] int YAmount, [In] in RECT lpRect, [In] in RECT lpClipRect);
 
@@ -814,6 +770,7 @@ namespace Lsj.Util.Win32
         /// regardless of whether the window has the <see cref="CS_OWNDC"/> or <see cref="CS_CLASSDC"/> class style.
         /// Use the <see cref="LPtoDP"/> and <see cref="DPtoLP"/> functions to convert to and from logical coordinates, if necessary.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags ScrollWindowEx([In] HWND hWnd, [In] int dx, [In] int dy, [In] in RECT prcScroll, [In] in RECT prcClip,
             [In] HRGN hrgnUpdate, [Out] out RECT prcUpdate, [In] ScrollWindowExFlags flags);
@@ -879,6 +836,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle <see cref="SBM_SETSCROLLINFO"/> (or the optimized <see cref="SBM_SETPOS"/> message
         /// or <see cref="SBM_SETRANGE"/> message), then the <see cref="SetScrollInfo"/> function fails.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollInfo", ExactSpelling = true, SetLastError = true)]
         public static extern int SetScrollInfo([In] HWND hwnd, [In] ScrollBarConstants nBar, [In] in SCROLLINFO lpsi, [In] BOOL redraw);
 
@@ -936,6 +894,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle the <see cref="SBM_SETPOS"/> message, the <see cref="SetScrollPos"/> function fails.
         /// </remarks>
         [Obsolete("The SetScrollPos function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollPos", ExactSpelling = true, SetLastError = true)]
         public static extern int SetScrollPos([In] HWND hWnd, [In] int nBar, [In] int nPos, [In] BOOL bRedraw);
 
@@ -1000,6 +959,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle the <see cref="SBM_SETRANGE"/> message, the <see cref="SetScrollRange"/> function fails.
         /// </remarks>
         [Obsolete("The SetScrollRange function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollRange", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetScrollRange([In] HWND hWnd, [In] int nBar, [In] int nMinPos, [In] int nMaxPos, [In] BOOL bRedraw);
 
@@ -1038,6 +998,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// You should not call this function to hide a scroll bar while processing a scroll bar message.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowScrollBar", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowScrollBar([In] HWND hWnd, [In] int wBar, [In] BOOL bShow);
     }

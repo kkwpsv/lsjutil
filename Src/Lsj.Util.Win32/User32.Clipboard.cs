@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System;
@@ -44,6 +45,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetClipboardViewer"/> function sends a <see cref="WM_CHANGECBCHAIN"/> message to the first window in the clipboard viewer chain.
         /// For an example, see Removing a Window from the Clipboard Viewer Chain.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeClipboardChain", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChangeClipboardChain([In] HWND hWndRemove, [In] HWND hWndNewNext);
 
@@ -65,6 +67,7 @@ namespace Lsj.Util.Win32
         /// This enables other windows to access the clipboard.
         /// Do not place an object on the clipboard after calling <see cref="CloseClipboard"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseClipboard", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseClipboard();
 
@@ -81,6 +84,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CountClipboardFormats", ExactSpelling = true, SetLastError = true)]
         public static extern int CountClipboardFormats();
 
@@ -104,6 +108,7 @@ namespace Lsj.Util.Win32
         /// <see cref="EmptyClipboard"/> succeeds but sets the clipboard owner to <see cref="NULL"/>.
         /// Note that this causes <see cref="SetClipboardData"/> to fail.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EmptyClipboard", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EmptyClipboard();
 
@@ -146,6 +151,7 @@ namespace Lsj.Util.Win32
         /// In the case of such a format, this function enumerates the specified format, then enumerates the formats to which it can be converted.
         /// For more information, see Standard Clipboard Formats and Synthesized Clipboard Formats.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumClipboardFormats", ExactSpelling = true, SetLastError = true)]
         public static extern StandardClipboardFormats EnumClipboardFormats([In] StandardClipboardFormats format);
 
@@ -180,6 +186,7 @@ namespace Lsj.Util.Win32
         /// The format on the clipboard is converted to the requested format on demand.
         /// For more information, see Synthesized Clipboard Formats.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardData", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE GetClipboardData([In] StandardClipboardFormats uFormat);
 
@@ -208,6 +215,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero, indicating that the requested format does not exist or is predefined.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardFormatNameW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetClipboardFormatName([In] StandardClipboardFormats format, [In] IntPtr lpszFormatName, [In] int cchMaxCount);
 
@@ -229,6 +237,7 @@ namespace Lsj.Util.Win32
         /// In general, the clipboard owner is the window that last placed data in clipboard.
         /// The <see cref="EmptyClipboard"/> function assigns clipboard ownership.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardOwner", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetClipboardOwner();
 
@@ -245,6 +254,7 @@ namespace Lsj.Util.Win32
         /// If there is no clipboard viewer, the return value is <see cref="NULL"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardViewer", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetClipboardViewer();
 
@@ -266,6 +276,7 @@ namespace Lsj.Util.Win32
         /// the clipboard is opened but is not associated with a window.
         /// In such a case, <see cref="GetOpenClipboardWindow"/> returns <see cref="NULL"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOpenClipboardWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetOpenClipboardWindow();
 
@@ -291,6 +302,7 @@ namespace Lsj.Util.Win32
         /// If the clipboard contains data, but not in any of the specified formats, the return value is –1.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClipboardFormat", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPriorityClipboardFormat([In] StandardClipboardFormats[] paFormatPriorityList, [In] int cFormats);
 
@@ -317,6 +329,7 @@ namespace Lsj.Util.Win32
         /// The application would then enable or disable the Paste menu item, depending on the return value.
         /// Applications that recognize more than one clipboard format should use the <see cref="GetPriorityClipboardFormat"/> function for this purpose.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsClipboardFormatAvailable", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsClipboardFormatAvailable([In] StandardClipboardFormats format);
 
@@ -345,6 +358,7 @@ namespace Lsj.Util.Win32
         /// If an application calls <see cref="OpenClipboard"/> with hwnd set to <see cref="NULL"/>,
         /// <see cref="EmptyClipboard"/> sets the clipboard owner to <see cref="NULL"/>; this causes <see cref="SetClipboardData"/> to fail.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenClipboard", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenClipboard([In] HWND hWndNewOwner);
 
@@ -371,6 +385,7 @@ namespace Lsj.Util.Win32
         /// Registered clipboard formats are identified by values in the range 0xC000 through 0xFFFF.
         /// When registered clipboard formats are placed on or retrieved from the clipboard, they must be in the form of an <see cref="HGLOBAL"/> value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClipboardFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RegisterClipboardFormat([In] LPCWSTR lpszFormat);
 
@@ -418,6 +433,7 @@ namespace Lsj.Util.Win32
         /// For example, if the <see cref="CF_OEMTEXT"/> format is on the clipboard, a window can retrieve data in the <see cref="CF_TEXT"/> format.
         /// The format on the clipboard is converted to the requested format on demand. For more information, see Synthesized Clipboard Formats.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClipboardData", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE SetClipboardData([In] StandardClipboardFormats uFormat, [In] HANDLE hMem);
 
@@ -450,6 +466,7 @@ namespace Lsj.Util.Win32
         /// New applications should use more robust techniques such as the clipboard sequence number or the registration of a clipboard format listener.
         /// For further details on these alternatives techniques, see Monitoring Clipboard Contents.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClipboardViewer", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetClipboardViewer([In] HWND hWndNewViewer);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -41,6 +42,7 @@ namespace Lsj.Util.Win32
         /// before relinquishing control to another application.
         /// The calling process must have <see cref="WINSTA_WRITEATTRIBUTES"/> access to the window station.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClipCursor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ClipCursor([In] in RECT lpRect);
 
@@ -114,6 +116,7 @@ namespace Lsj.Util.Win32
         /// The output returned is in terms of physical coordinates, and is not affected by the DPI of the calling thread.
         /// Note that the cursor created may still be scaled to match the DPI of any given window it is drawn into.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR CreateCursor([In] HINSTANCE hInst, [In] int xHotSpot, [In] int yHotSpot, [In] int nWidth, [In] int nHeight,
             [In] IntPtr pvANDPlane, [In] IntPtr pvXORPlane);
@@ -146,6 +149,7 @@ namespace Lsj.Util.Win32
         /// <see cref="LoadImage"/> (if you use the <see cref="LR_SHARED"/> flag)
         /// <see cref="CopyImage"/> (if you use the <see cref="LR_COPYRETURNORG"/> flag and the hImage parameter is a shared cursor)
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyCursor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyCursor([In] HCURSOR hCursor);
 
@@ -172,6 +176,7 @@ namespace Lsj.Util.Win32
         /// it must later release the cursor by using <see cref="ClipCursor"/> before relinquishing control to another application.
         /// The calling process must have <see cref="WINSTA_READATTRIBUTES"/> access to the window station.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipCursor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetClipCursor([Out] out RECT lpRect);
 
@@ -188,6 +193,7 @@ namespace Lsj.Util.Win32
         /// The return value is the handle to the current cursor.
         /// If there is no cursor, the return value is <see cref="NULL"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursor", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR GetCursor();
 
@@ -208,6 +214,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCursorInfo([In][Out] ref CURSORINFO pci);
 
@@ -234,6 +241,7 @@ namespace Lsj.Util.Win32
         /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/>
         /// returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCursorPos([Out] out POINT lpPoint);
 
@@ -274,6 +282,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function (with LR_DEFAULTSIZE and LR_LOADFROMFILE flags set).")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR LoadCursor([In] HINSTANCE hInstance, [In] LPWSTR lpCursorName);
 
@@ -309,6 +318,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [Obsolete("This function has been superseded by the LoadImage function (with LR_DEFAULTSIZE and LR_LOADFROMFILE flags set).")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorFromFileW", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR LoadCursorFromFile([In] LPCWSTR lpFileName);
 
@@ -342,6 +352,7 @@ namespace Lsj.Util.Win32
         /// The cursor is not shown on the screen if the internal cursor display count is less than zero.
         /// This occurs if the application uses the <see cref="ShowCursor"/> function to hide the cursor more times than to show the cursor.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursor", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR SetCursor([In] HCURSOR hCursor);
 
@@ -373,6 +384,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="OpenInputDesktop"/> to determine whether the current desktop is the input desktop.
         /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/> returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCursorPos([In] int X, [In] int Y);
 
@@ -444,6 +456,7 @@ namespace Lsj.Util.Win32
         /// For an application to use any of the OCR_ constants,
         /// the constant OEMRESOURCE must be defined before the Windows.h header file is included.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemCursor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSystemCursor([In] HCURSOR hcur, [In] DWORD id);
 
@@ -469,6 +482,7 @@ namespace Lsj.Util.Win32
         /// If a mouse is installed, the initial display count is 0.
         /// If no mouse is installed, the display count is –1.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", ExactSpelling = true, SetLastError = true)]
         public static extern int ShowCursor([In] BOOL bShow);
     }

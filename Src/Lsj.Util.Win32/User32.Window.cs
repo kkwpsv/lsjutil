@@ -368,6 +368,7 @@ namespace Lsj.Util.Win32
         /// the next time the user generates input, unless the input is directed at that process,
         /// or the next time a process calls <see cref="AllowSetForegroundWindow"/>, unless that process is specified.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllowSetForegroundWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AllowSetForegroundWindow([In] DWORD dwProcessId);
 
@@ -420,6 +421,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AnimateWindow"/> supports RTL windows.
         /// Avoid animating a window that has a drop shadow because it produces visually distracting, jerky animations.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AnimateWindow([In] HWND hWnd, [In] DWORD dwTime, [In] AnimateWindowFlags dwFlags);
 
@@ -1286,6 +1288,7 @@ namespace Lsj.Util.Win32
         /// Handles window menu commands: <see cref="SC_NEXTWINDOW"/>, <see cref="SC_PREVWINDOW"/>,
         /// <see cref="SC_MOVE"/>, <see cref="SC_SIZE"/>, and <see cref="SC_MAXIMIZE"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefMDIChildProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT DefMDIChildProc([In] HWND hWnd, [In] UINT uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
 
@@ -1313,6 +1316,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is the result of the message processing and depends on the message.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefWindowProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT DefWindowProc([In] HWND hWnd, [In] WindowMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
 
@@ -1333,6 +1337,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is not intended for general use. " +
             "It may be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeregisterShellHookWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeregisterShellHookWindow([In] HWND hwnd);
 
@@ -1362,6 +1367,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyWindow([In] HWND hwnd);
 
@@ -1378,6 +1384,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// After calling <see cref="DisableProcessWindowsGhosting"/>, the ghosting feature is disabled for the duration of the process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableProcessWindowsGhosting", ExactSpelling = true, SetLastError = true)]
         public static extern void DisableProcessWindowsGhosting();
 
@@ -1420,6 +1427,7 @@ namespace Lsj.Util.Win32
         /// An application can use this function to enable or disable a control in a dialog box.
         /// A disabled control cannot receive the keyboard focus, nor can a user gain access to it.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableWindow([In] HWND hWnd, [In] BOOL bEnable);
 
@@ -1445,6 +1453,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EndDeferWindowPos"/> function sends the <see cref="WM_WINDOWPOSCHANGING"/> and <see cref="WM_WINDOWPOSCHANGED"/> messages
         /// to each window identified in the internal structure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDeferWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndDeferWindowPos([In] HDWP hWinPosInfo);
 
@@ -1473,6 +1482,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndTask", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndTask([In] HWND hWnd, [In] BOOL fShutDown, [In] BOOL fForce);
 
@@ -1505,6 +1515,7 @@ namespace Lsj.Util.Win32
         /// A child window that is moved or repositioned in the Z order during the enumeration process will be properly enumerated.
         /// The function does not enumerate a child window that is destroyed before being enumerated or that is created during the enumeration process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumChildWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumChildWindows([In] HWND hWndParent, [In] WNDENUMPROC lpEnumFunc, [In] LPARAM lParam);
 
@@ -1533,6 +1544,7 @@ namespace Lsj.Util.Win32
         /// An application can remove only those properties it has added.
         /// It must not remove properties added by other applications or by the system itself.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumPropsW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumProps([In] HWND hWnd, [In] PROPENUMPROC lpEnumFunc);
 
@@ -1563,6 +1575,7 @@ namespace Lsj.Util.Win32
         /// An application can remove only those properties it has added.
         /// It must not remove properties added by other applications or by the system itself.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumPropsExW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumPropsEx([In] HWND hWnd, [In] PROPENUMPROCEX lpEnumFunc, [In] LPARAM lParam);
 
@@ -1602,6 +1615,7 @@ namespace Lsj.Util.Win32
         /// If the callback function returns <see cref="FALSE"/> on any enumerated window,
         /// or if there are no windows found in the thread specified by <paramref name="dwThreadId"/>, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumThreadWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumThreadWindows([In] DWORD dwThreadId, [In] WNDENUMPROC lpfn, [In] LPARAM lParam);
 
@@ -1628,6 +1642,7 @@ namespace Lsj.Util.Win32
         /// In this case, the callback function should call <see cref="SetLastError"/> to obtain a meaningful error code
         /// to be returned to the caller of <see cref="EnumWindows"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumWindows([In] WNDENUMPROC lpEnumFunc, [In] LPARAM lParam);
 
@@ -1664,6 +1679,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindWindow"/> calls the <see cref="GetWindowText"/> function to retrieve the window name for comparison.
         /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND FindWindow([In] LPCWSTR lpClassName, [In] LPCWSTR lpWindowName);
 
@@ -1717,6 +1733,7 @@ namespace Lsj.Util.Win32
         /// Note that 0x8000 is the atom for a menu class.
         /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND FindWindowEx([In] HWND hWndParent, [In] HWND hWndChildAfter, [In] LPCWSTR lpszClass, [In] LPCWSTR lpszWindow);
 
@@ -1751,6 +1768,7 @@ namespace Lsj.Util.Win32
         /// Typically, a window is flashed to inform the user that the window requires attention but that it does not currently have the keyboard focus.
         /// The <see cref="FlashWindow"/> function flashes the window only once; for repeated flashing, the application should create a system timer.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlashWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlashWindow([In] HWND hWnd, [In] BOOL bInvert);
 
@@ -1776,6 +1794,7 @@ namespace Lsj.Util.Win32
         /// When a window flashes, it appears to change from inactive to active status.
         /// An inactive caption bar changes to an active caption bar; an active caption bar changes to an inactive caption bar.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlashWindowEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlashWindowEx([In] in FLASHWINFO pfwi);
 
@@ -1818,6 +1837,7 @@ namespace Lsj.Util.Win32
         /// To select an application from the list, continue to hold ALT down and press TAB to move through the list.
         /// Add SHIFT to reverse direction through the list.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAltTabInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetAltTabInfo([In] HWND hwnd, [In] int iItem, [In][Out] ref ALTTABINFO pati,
             [Out] LPWSTR pszItemText, [In] UINT cchItemText);
@@ -1841,6 +1861,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is the handle to the ancestor window.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAncestor", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetAncestor([In] HWND hwnd, [In] GetAncestorFlags gaFlags);
 
@@ -1876,6 +1897,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("The GetClassInfo function has been superseded by the GetClassInfoEx function." +
             "You can still use GetClassInfo, however, if you do not need information about the class small icon.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetClassInfo([In] HINSTANCE hInstance, [In] LPCWSTR lpClassName, [Out] out WNDCLASS lpWndClass);
 
@@ -1911,6 +1933,7 @@ namespace Lsj.Util.Win32
         /// Class atoms are created using the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function,
         /// not the <see cref="GlobalAddAtom"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetClassInfoEx([In] HINSTANCE hInstance, [In] LPCWSTR lpszClass, out WNDCLASSEX lpWndClass);
 
@@ -1977,6 +2000,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassNameW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetClassName([In] HWND hWnd, [In] IntPtr lpClassName, [In] int nMaxCount);
 
@@ -2010,6 +2034,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is deprecated for any use other than nIndex set to GCW_ATOM." +
             "The function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetClassLongPtr or GetClassLongPtr function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassWord", ExactSpelling = true, SetLastError = true)]
         public static extern WORD GetClassWord([In] HWND hWnd, [In] GetClassLongIndexes nIndex);
 
@@ -2040,6 +2065,7 @@ namespace Lsj.Util.Win32
         /// In conformance with conventions for the <see cref="RECT"/> structure, the bottom-right coordinates of the returned rectangle are exclusive.
         /// In other words, the pixel at (right, bottom) lies immediately outside the rectangle.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClientRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetClientRect([In] HWND hWnd, [Out] out RECT lpRect);
 
@@ -2056,6 +2082,7 @@ namespace Lsj.Util.Win32
         /// The return value is a handle to the foreground window.
         /// The foreground window can be <see cref="NULL"/> in certain circumstances, such as when a window is losing activation.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetForegroundWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetForegroundWindow();
 
@@ -2108,6 +2135,7 @@ namespace Lsj.Util.Win32
         /// are logical coordinates in terms of the window associated with the caret.
         /// They are not virtualized into the mode of the calling thread.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGUIThreadInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetGUIThreadInfo([In] DWORD idThread, [In][Out] ref GUITHREADINFO pgui);
 
@@ -2129,6 +2157,7 @@ namespace Lsj.Util.Win32
         /// The window identified by <paramref name="hWnd"/> does not own any pop-up windows.
         /// The window identifies by <paramref name="hWnd"/> is not a top-level window, or it is owned by another window.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLastActivePopup", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetLastActivePopup([In] HWND hWnd);
 
@@ -2178,6 +2207,7 @@ namespace Lsj.Util.Win32
         /// The function will fail if the layered window was setup with <see cref="UpdateLayeredWindow"/>.
         /// For more information, see Using Layered Windows.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLayeredWindowAttributes", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetLayeredWindowAttributes([In] HWND hwnd, [Out] out COLORREF pcrKey, [Out] out BYTE pbAlpha,
             [Out] out LayeredWindowAttributes pdwFlags);
@@ -2240,6 +2270,7 @@ namespace Lsj.Util.Win32
         /// To obtain the parent window and not the owner, instead of using <see cref="GetParent"/>,
         /// use <see cref="GetAncestor"/> with the <see cref="GA_PARENT"/> flag.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetParent([In] HWND hWnd);
 
@@ -2265,6 +2296,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetProcessDefaultLayout"/> function lets you know
         /// if the default layout has changed, from using <see cref="SetProcessDefaultLayout"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessDefaultLayout", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessDefaultLayout([Out] out DWORD pdwDefaultLayout);
 
@@ -2290,6 +2322,7 @@ namespace Lsj.Util.Win32
         /// If the property list contains the string, the return value is the associated data handle.
         /// Otherwise, the return value is <see cref="NULL"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPropW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE GetProp([In] HWND hWnd, [In] LPWSTR lpString);
 
@@ -2314,6 +2347,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTitleBarInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTitleBarInfo([In] HWND hwnd, [In][Out] ref TITLEBARINFO pti);
 
@@ -2335,6 +2369,7 @@ namespace Lsj.Util.Win32
         /// If the specified window has no child windows, the return value is <see cref="NULL"/>.
         /// To get extended error information, use the <see cref="GetLastError"/> function.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTopWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetTopWindow([In] HWND hWnd);
 
@@ -2366,6 +2401,7 @@ namespace Lsj.Util.Win32
         /// An application that calls <see cref="GetWindow"/> to perform this task risks being caught in an infinite loop
         /// or referencing a handle to a window that has been destroyed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetWindow([In] HWND hWnd, [In] GetWindowCommands uCmd);
 
@@ -2419,6 +2455,7 @@ namespace Lsj.Util.Win32
         /// Note that you must set the <see cref="WINDOWINFO.cbSize"/> member to <code>sizeof(WINDOWINFO)</code> before calling this function.
         /// </param>
         /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowInfo([In] HWND hwnd, [In][Out] ref WINDOWINFO pwi);
 
@@ -2486,6 +2523,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowPlacement([In] HWND hWnd, [In][Out] ref WINDOWPLACEMENT lpwndpl);
 
@@ -2507,6 +2545,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowRect([In] HWND hwnd, [Out] out RECT lpRect);
 
@@ -2539,6 +2578,7 @@ namespace Lsj.Util.Win32
         /// The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
         /// To set the window region of a window, call the <see cref="SetWindowRgn"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRgn", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags GetWindowRgn([In] HWND hWnd, [In] HRGN hRgn);
 
@@ -2567,6 +2607,7 @@ namespace Lsj.Util.Win32
         /// the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
         /// This function cannot retrieve the text of an edit control in another application.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetWindowText([In] HWND hWnd, [In] IntPtr lpString, [In] int nMaxCount);
 
@@ -2605,6 +2646,7 @@ namespace Lsj.Util.Win32
         /// To obtain the exact length of the text, use the <see cref="WM_GETTEXT"/>, <see cref="LB_GETTEXT"/>,
         /// or <see cref="CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLengthW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetWindowTextLength([In] HWND hWnd);
 
@@ -2626,6 +2668,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is the identifier of the thread that created the window.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetWindowThreadProcessId([In] HWND hWnd, [Out] out DWORD lpdwProcessId);
 
@@ -2636,6 +2679,7 @@ namespace Lsj.Util.Win32
         /// <param name="nIndex"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowWord", ExactSpelling = true, SetLastError = true)]
         public static extern WORD GetWindowWord([In] HWND hWnd, [In] GetWindowLongIndexes nIndex);
 
@@ -2672,6 +2716,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is not intended for general use. " +
             "It may be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InternalGetWindowText", ExactSpelling = true, SetLastError = true)]
         public static extern int InternalGetWindowText([In] HWND hWnd, [In] LPWSTR pString, [In] int cchMaxCount);
 
@@ -2695,6 +2740,7 @@ namespace Lsj.Util.Win32
         /// If the window is a child or descendant window of the specified parent window, the return value is <see cref="TRUE"/>.
         /// If the window is not a child or descendant window of the specified parent window, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsChild", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsChild([In] HWND hWndParent, [In] HWND hWnd);
 
@@ -2718,6 +2764,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The Windows timeout criteria of 5 seconds is subject to change.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsHungAppWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsHungAppWindow([In] HWND hwnd);
 
@@ -2736,6 +2783,7 @@ namespace Lsj.Util.Win32
         /// If the window is iconic, the return value is <see cref="TRUE"/>.
         /// If the window is not iconic, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsIconic", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsIconic([In] HWND hWnd);
 
@@ -2759,6 +2807,7 @@ namespace Lsj.Util.Win32
         /// because the window could be destroyed after this function was called.
         /// Further, because window handles are recycled the handle could even point to a different window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindow([In] HWND hWnd);
 
@@ -2780,6 +2829,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// A child window receives input only if it is both enabled and visible.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowEnabled", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindowEnabled([In] HWND hWnd);
 
@@ -2808,6 +2858,7 @@ namespace Lsj.Util.Win32
         /// the system translates that message into a Unicode message before calling the window procedure.
         /// The system calls <see cref="IsWindowUnicode"/> to determine whether to translate the message.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowUnicode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindowUnicode([In] HWND hWnd);
 
@@ -2836,6 +2887,7 @@ namespace Lsj.Util.Win32
         /// Any drawing to a window with the <see cref="WS_VISIBLE"/> style will not be displayed
         /// if the window is obscured by other windows or is clipped by its parent window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindowVisible([In] HWND hWnd);
 
@@ -2854,6 +2906,7 @@ namespace Lsj.Util.Win32
         /// If the window is zoomed, the return value is <see cref="TRUE"/>.
         /// If the window is not zoomed, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsZoomed", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsZoomed([In] HWND hWnd);
 
@@ -2882,6 +2935,7 @@ namespace Lsj.Util.Win32
         /// This function is provided so applications can prevent other applications from making a foreground change
         /// that can interrupt its interaction with the user.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockSetForegroundWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LockSetForegroundWindow([In] LockSetForegroundWindowFlags uLockCode);
 
@@ -2931,6 +2985,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MoveWindow"/> sends the <see cref="WM_WINDOWPOSCHANGING"/>, <see cref="WM_WINDOWPOSCHANGED"/>,
         /// <see cref="WM_MOVE"/>, <see cref="WM_SIZE"/>, and <see cref="WM_NCCALCSIZE"/> messages to the window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveWindow([In] HWND hWnd, [In] int X, [In] int Y, [In] int nWidth, [In] int nHeight, [In] BOOL bRepaint);
 
@@ -2953,6 +3008,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// <see cref="OpenIcon"/> sends a <see cref="WM_QUERYOPEN"/> message to the given window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenIcon([In] HWND hWnd);
 
@@ -2982,6 +3038,7 @@ namespace Lsj.Util.Win32
         /// behind a groupbox, whereas <see cref="ChildWindowFromPoint"/> returns the groupbox.
         /// However, both APIs return a static field, even though it, too, returns <see cref="HTTRANSPARENT"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND RealChildWindowFromPoint([In] HWND hwndParent, [In] POINT ptParentClientCoords);
 
@@ -3007,6 +3064,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealGetWindowClassW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RealGetWindowClass([In] HWND hwnd, [In] LPWSTR ptszClassName, [In] UINT cchClassNameMax);
 
@@ -3043,6 +3101,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The RegisterClass function has been superseded by the RegisterClassEx function." +
             "You can still use RegisterClass, however, if you do not need to set the class small icon.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM RegisterClass([In] in WNDCLASS lpWndClass);
 
@@ -3064,6 +3123,7 @@ namespace Lsj.Util.Win32
         /// <see cref="UnregisterClass"/> functions and the IActiveIMMap::FilterClientWindows method.
         /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM RegisterClassEx([In] in WNDCLASSEX Arg1);
 
@@ -3130,6 +3190,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is not intended for general use. " +
             "It may be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterShellHookWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterShellHookWindow([In] HWND hwnd);
 
@@ -3166,6 +3227,7 @@ namespace Lsj.Util.Win32
         /// A process can only call this function on a window belonging to a process of lesser or equal integrity level.
         /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemovePropW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE RemoveProp([In] HWND hWnd, [In] LPCWSTR lpString);
 
@@ -3249,6 +3311,7 @@ namespace Lsj.Util.Win32
         /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASS.cbClsExtra"/> member
         /// of the <see cref="WNDCLASS"/> structure used with the <see cref="RegisterClass"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the SetClassLong function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassWord", ExactSpelling = true, SetLastError = true)]
         public static extern WORD SetClassWord([In] HWND hWnd, [In] GetClassLongIndexes nIndex, [In] WORD wNewWord);
@@ -3276,6 +3339,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="SetDoubleClickTime"/> function alters the double-click time for all windows in the system.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDoubleClickTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDoubleClickTime([In] UINT Arg1);
 
@@ -3317,6 +3381,7 @@ namespace Lsj.Util.Win32
         /// unless that process is specified.
         /// The foreground process can disable calls to <see cref="SetForegroundWindow"/> by calling the <see cref="LockSetForegroundWindow"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetForegroundWindow([In] IntPtr hWnd);
 
@@ -3365,6 +3430,7 @@ namespace Lsj.Util.Win32
         /// subsequent <see cref="UpdateLayeredWindow"/> calls will fail until the layering style bit is cleared and set again.
         /// For more information, see Using Layered Windows.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLayeredWindowAttributes", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetLayeredWindowAttributes([In] HWND hwnd, [In] COLORREF crKey, [In] BYTE bAlpha, [In] LayeredWindowAttributes dwFlags);
 
@@ -3414,6 +3480,7 @@ namespace Lsj.Util.Win32
         /// Windows 10 (1703 and later): Forced reset (of child window's process)
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetParent([In] HWND hWndChild, [In] HWND hWndNewParent);
 
@@ -3456,8 +3523,49 @@ namespace Lsj.Util.Win32
         /// It mirrors only the mirrored window's DCs.
         /// To mirror any DC, use the <see cref="SetLayout"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDefaultLayout", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessDefaultLayout([In] DWORD dwDefaultLayout);
+
+        /// <summary>
+        /// <para>
+        /// Adds a new entry or changes an existing entry in the property list of the specified window.
+        /// The function adds a new entry to the list if the specified character string does not exist already in the list.
+        /// The new entry contains the string and the handle.
+        /// Otherwise, the function replaces the string's current handle with the specified handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setpropw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose property list receives the new entry.
+        /// </param>
+        /// <param name="lpString">
+        /// A null-terminated string or an atom that identifies a string.
+        /// If this parameter is an atom, it must be a global atom created by a previous call to the <see cref="GlobalAddAtom"/> function.
+        /// The atom must be placed in the low-order word of lpString; the high-order word must be zero.
+        /// </param>
+        /// <param name="hData">
+        /// A handle to the data to be copied to the property list.
+        /// The data handle can identify any value useful to the application.
+        /// </param>
+        /// <returns>
+        /// If the data handle and string are added to the property list, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before a window is destroyed (that is, before it returns from processing the <see cref="WM_NCDESTROY"/> message),
+        /// an application must remove all entries it has added to the property list.
+        /// The application must use the <see cref="RemoveProp"/> function to remove the entries.
+        /// <see cref="SetProp"/> is subject to the restrictions of User Interface Privilege Isolation (UIPI).
+        /// A process can only call this function on a window belonging to a process of lesser or equal integrity level.
+        /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProp([In] HWND hWnd, [In] LPCWSTR lpString, [In] HANDLE hData);
 
         /// <summary>
         /// <para>
@@ -3551,6 +3659,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowPlacement([In] HWND hWnd, [In] in WINDOWPLACEMENT lpwndpl);
 
@@ -3576,6 +3685,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowPos([In] HWND hWnd, [In] HWND hWndInsertAfter, [In] int X, [In] int Y,
             [In] int cx, [In] int cy, [In] SetWindowPosFlags uFlags);
@@ -3618,47 +3728,9 @@ namespace Lsj.Util.Win32
         /// In particular, do not delete this region handle. The system deletes the region handle when it no longer needed.
         /// To obtain the window region of a window, call the <see cref="GetWindowRgn"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int SetWindowRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bRedraw);
-
-        /// <summary>
-        /// <para>
-        /// Adds a new entry or changes an existing entry in the property list of the specified window.
-        /// The function adds a new entry to the list if the specified character string does not exist already in the list.
-        /// The new entry contains the string and the handle.
-        /// Otherwise, the function replaces the string's current handle with the specified handle.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setpropw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWnd">
-        /// A handle to the window whose property list receives the new entry.
-        /// </param>
-        /// <param name="lpString">
-        /// A null-terminated string or an atom that identifies a string.
-        /// If this parameter is an atom, it must be a global atom created by a previous call to the <see cref="GlobalAddAtom"/> function.
-        /// The atom must be placed in the low-order word of lpString; the high-order word must be zero.
-        /// </param>
-        /// <param name="hData">
-        /// A handle to the data to be copied to the property list.
-        /// The data handle can identify any value useful to the application.
-        /// </param>
-        /// <returns>
-        /// If the data handle and string are added to the property list, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Before a window is destroyed (that is, before it returns from processing the <see cref="WM_NCDESTROY"/> message),
-        /// an application must remove all entries it has added to the property list.
-        /// The application must use the <see cref="RemoveProp"/> function to remove the entries.
-        /// <see cref="SetProp"/> is subject to the restrictions of User Interface Privilege Isolation (UIPI).
-        /// A process can only call this function on a window belonging to a process of lesser or equal integrity level.
-        /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetProp([In] HWND hWnd, [In] LPCWSTR lpString, [In] HANDLE hData);
 
         /// <summary>
         /// 
@@ -3667,6 +3739,7 @@ namespace Lsj.Util.Win32
         /// <param name="pfnFilterProc"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookW", ExactSpelling = true, SetLastError = true)]
         public static extern HHOOK SetWindowsHook([In] int nFilterType, [In] HOOKPROC pfnFilterProc);
 
@@ -3816,6 +3889,7 @@ namespace Lsj.Util.Win32
         /// This behavior is similar to what happens when there is an architecture mismatch between the hook DLL and the target application process,
         /// for example, when the hook DLL is 32-bit and the application process 64-bit.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", ExactSpelling = true, SetLastError = true)]
         public static extern HHOOK SetWindowsHookEx([In] int idHook, [In] HOOKPROC lpfn, [In] HINSTANCE hmod, [In] DWORD dwThreadId);
 
@@ -3836,6 +3910,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowTextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowText([In] HWND hWnd, [In] LPCWSTR lpString);
 
@@ -3847,6 +3922,7 @@ namespace Lsj.Util.Win32
         /// <param name="wNewWord"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowWord", ExactSpelling = true, SetLastError = true)]
         public static extern WORD SetWindowWord([In] HWND hWnd, [In] GetWindowLongIndexes nIndex, [In] WORD wNewWord);
 
@@ -3876,6 +3952,7 @@ namespace Lsj.Util.Win32
         /// subsequently calling <see cref="ShowOwnedPopups"/> with the <paramref name="fShow"/> parameter
         /// set to <see cref="TRUE"/> does not cause the window to be shown.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowOwnedPopups", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowOwnedPopups([In] HWND hWnd, [In] BOOL fShow);
 
@@ -3901,6 +3978,7 @@ namespace Lsj.Util.Win32
         /// If the window was previously visible, the return value is <see cref="TRUE"/>.
         /// If the window was previously hidden, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowWindow([In] HWND hWnd, [In] ShowWindowCommands nCmdShow);
 
@@ -3927,6 +4005,7 @@ namespace Lsj.Util.Win32
         /// An application can use this function to avoid becoming nonresponsive
         /// while waiting for a nonresponsive application to finish processing a show-window event.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindowAsync", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowWindowAsync([In] HWND hWnd, [In] ShowWindowCommands nCmdShow);
 
@@ -3950,6 +4029,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is not intended for general use. " +
             "It may be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThisWindow", ExactSpelling = true, SetLastError = true)]
         public static extern void SwitchToThisWindow([In] HWND hwnd, [In] BOOL fUnknown);
 
@@ -3996,9 +4076,10 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Calling <see cref="TileWindows"/> causes all maximized windows to be restored to their previous size.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TileWindows", ExactSpelling = true, SetLastError = true)]
         public static extern WORD TileWindows([In] HWND hwndParent, [In] MDITileFlags wHow,
-    [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
+            [In] in RECT lpRect, [In] UINT cKids, [In] HWND[] lpKids);
 
         /// <summary>
         /// 
@@ -4007,6 +4088,7 @@ namespace Lsj.Util.Win32
         /// <param name="pfnFilterProc"></param>
         /// <returns></returns>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHook", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnhookWindowsHook([In] int nCode, [In] HOOKPROC pfnFilterProc);
 
@@ -4031,6 +4113,7 @@ namespace Lsj.Util.Win32
         /// The hook procedure can be in the state of being called by another thread even after <see cref="UnhookWindowsHookEx"/> returns.
         /// If the hook procedure is not being called concurrently, the hook procedure is removed immediately before <see cref="UnhookWindowsHookEx"/> returns.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnhookWindowsHookEx([In] HHOOK hhk);
 
@@ -4065,6 +4148,7 @@ namespace Lsj.Util.Win32
         /// Class atoms are special atoms returned only by <see cref="RegisterClass"/> and <see cref="RegisterClassEx"/>.
         /// No window classes registered by a DLL are unregistered when the .dll is unloaded.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterClassW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterClass([In] LPWSTR lpClassName, [In] HINSTANCE hInstance);
 
@@ -4121,6 +4205,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UpdateLayeredWindow([In] HWND hwnd, [In] HDC hdcDst, [In] in POINT pptDst, [In] in SIZE psize,
             [In] HDC hdcSrc, [In] in POINT pptSrc, [In] COLORREF crKey, [In] in BLENDFUNCTION pblend, [In] UpdateLayeredWindowFlags dwFlags);
@@ -4202,6 +4287,7 @@ namespace Lsj.Util.Win32
         /// For example, the parent process should use the <see cref="WaitForInputIdle"/> function
         /// before trying to find a window associated with the child process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForInputIdle", ExactSpelling = true, SetLastError = true)]
         public static extern WaitResult WaitForInputIdle([In] HANDLE hProcess, [In] DWORD dwMilliseconds);
 
@@ -4226,6 +4312,7 @@ namespace Lsj.Util.Win32
         /// even if the point is within the window.
         /// An application should use the <see cref="ChildWindowFromPoint"/> function for a nonrestrictive search.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND WindowFromPoint([In] POINT Point);
 

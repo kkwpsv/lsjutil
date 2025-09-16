@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -30,6 +31,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopyRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc);
 
@@ -58,6 +60,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EqualRect([In] in RECT lprc1, [In] in RECT lprc2);
 
@@ -91,6 +94,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IntersectRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
 
@@ -126,6 +130,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InflateRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InflateRect([In][Out] RECT lprc, [In] int dx, [In] int dy);
 
@@ -151,6 +156,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsRectEmpty", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsRectEmpty([In] in RECT lprc);
 
@@ -182,6 +188,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetRect([In][Out] ref RECT lprc, [In] int dx, [In] int dy);
 
@@ -213,6 +220,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PtInRect([In] in RECT lprc, [In] POINT pt);
 
@@ -246,6 +254,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetRect([In][Out] ref RECT lprc, [In] int xLeft, [In] int yTop, [In] int xRight, [In] int yBottom);
 
@@ -269,6 +278,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectEmpty", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetRectEmpty([In][Out] ref RECT lprc);
 
@@ -307,6 +317,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SubtractRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SubtractRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
 
@@ -340,6 +351,7 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnionRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnionRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
     }

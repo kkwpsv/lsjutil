@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -10,8 +11,8 @@ using static Lsj.Util.Win32.Enums.DrawIconFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.ResourceTypes;
-using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.StandardCursors;
+using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Gdi32;
@@ -86,6 +87,7 @@ namespace Lsj.Util.Win32
         /// The system automatically deletes the resource when its process terminates, however,
         /// calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CopyImage([In] HANDLE h, [In] ImageTypes type, [In] int cx, [In] int cy, [In] LoadResourceFlags flags);
 
@@ -210,6 +212,7 @@ namespace Lsj.Util.Win32
         /// The system automatically deletes these resources when the process that created them terminates;
         /// however, calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadImageW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE LoadImage([In] HINSTANCE hInst, [In] LPCWSTR name, [In] ImageTypes type,
             [In] int cx, [In] int cy, [In] LoadResourceFlags fuLoad);

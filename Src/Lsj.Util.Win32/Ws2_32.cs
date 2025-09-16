@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ws2_32.dll", CharSet = CharSet.Unicode, EntryPoint = "closesocket", ExactSpelling = true)]
         public static extern int closesocket([In] SOCKET s);
     }

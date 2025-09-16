@@ -550,6 +550,7 @@ namespace Lsj.Util.Win32
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBindToParent", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHBindToParent([In] LPCITEMIDLIST pidl, [In][Out] ref IID riid,
             [Out] out object ppv, [Out] out LPCITEMIDLIST ppidlLast);
@@ -1029,6 +1030,7 @@ namespace Lsj.Util.Win32
         /// to mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
         public static extern int SHCreateDirectoryEx([In] HWND hwnd, [In] LPCWSTR pszPath, [In] in SECURITY_ATTRIBUTES psa);
 
@@ -1721,6 +1723,7 @@ namespace Lsj.Util.Win32
         /// This function is a superset of <see cref="SHGetSpecialFolderLocation"/>, included with earlier versions of the Shell.
         /// </remarks>
         [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderLocation", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetFolderLocation([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] DWORD dwFlags,
             [Out] out LPITEMIDLIST ppidl);
@@ -1800,6 +1803,7 @@ namespace Lsj.Util.Win32
             "The CSIDL value is translated to its associated KNOWNFOLDERID and then SHGetKnownFolderPath is called." +
             "New applications should use the known folder system rather than the older CSIDL system," +
             "which is supported only for backward compatibility.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] IntPtr pszPath);
 
@@ -2028,6 +2032,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [Obsolete("SHGetSpecialFolderPath is not supported. Instead, use SHGetFolderPath.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderPathW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [In] IntPtr pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
 

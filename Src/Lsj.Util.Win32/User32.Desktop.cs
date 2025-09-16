@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -9,9 +10,9 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
-using static Lsj.Util.Win32.Enums.UserObjectInformationIndexes;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.UserObjectInformationIndexes;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -50,6 +51,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CloseDesktop"/> function will fail if any thread in the calling process is using the specified desktop handle or
         /// if the handle refers to the initial desktop of the calling process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseDesktop([In] HDESK hDesktop);
 
@@ -75,6 +77,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="CloseWindowStation"/> function will fail if the handle being closed is for the window station assigned to the calling process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindowStation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseWindowStation([In] HWINSTA hWinSta);
 
@@ -141,6 +144,7 @@ namespace Lsj.Util.Win32
         /// The third "SharedSection" value is the size of the desktop heap needed for each desktop
         /// that is created in a noninteractive window station, in kilobytes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopW", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK CreateDesktop([In] LPCWSTR lpszDesktop, [In] LPCWSTR lpszDevice, [In] in DEVMODE pDevmode,
             [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
@@ -264,6 +268,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", ExactSpelling = true, SetLastError = true)]
         public static extern HWINSTA CreateWindowStation([In] LPCWSTR lpwinsta, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
 
@@ -300,6 +305,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnumDesktopWindows"/> function repeatedly invokes the <paramref name="lpfn"/> callback function
         /// until the last top-level window is enumerated or the callback function returns <see langword="false"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDesktopWindows([In] HDESK hDesktop, [In] WNDENUMPROC lpfn, [In] LPARAM lParam);
 
@@ -316,6 +322,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is a handle to the desktop window.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDesktopWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetDesktopWindow();
 
@@ -341,6 +348,7 @@ namespace Lsj.Util.Win32
         /// A service application is created with an associated window station and desktop,
         /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
         public static extern HWINSTA GetProcessWindowStation();
 
@@ -371,6 +379,7 @@ namespace Lsj.Util.Win32
         /// A service application is created with an associated window station and desktop,
         /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK GetThreadDesktop([In] DWORD dwThreadId);
 
@@ -408,6 +417,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="true"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetUserObjectInformation([In] IntPtr hObj, [In] UserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
             [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
@@ -450,40 +460,9 @@ namespace Lsj.Util.Win32
         /// <see cref="WRITE_DAC"/>, or <see cref="WRITE_OWNER"/> standard access rights,
         /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenDesktopW", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK OpenDesktop([In] LPCWSTR lpszDesktop, [In] DWORD dwFlags, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
-
-        /// <summary>
-        /// <para>
-        /// Opens the specified window station.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-openwindowstationw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpszWinSta">
-        /// The name of the window station to be opened.
-        /// Window station names are case-insensitive.
-        /// This window station must belong to the current session.
-        /// </param>
-        /// <param name="fInherit">
-        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
-        /// Otherwise, the processes do not inherit this handle.
-        /// </param>
-        /// <param name="dwDesiredAccess">
-        /// The access to the window station.
-        /// For a list of access rights, see Window Station Security and Access Rights.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the handle to the specified window station.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWINSTA OpenWindowStation([In] LPCWSTR lpszWinSta, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -521,8 +500,42 @@ namespace Lsj.Util.Win32
         /// <see cref="WRITE_DAC"/>, or <see cref="WRITE_OWNER"/> standard access rights,
         /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenInputDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK OpenInputDesktop([In] DWORD dwFlags, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// Opens the specified window station.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-openwindowstationw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszWinSta">
+        /// The name of the window station to be opened.
+        /// Window station names are case-insensitive.
+        /// This window station must belong to the current session.
+        /// </param>
+        /// <param name="fInherit">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the window station.
+        /// For a list of access rights, see Window Station Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the specified window station.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWINSTA OpenWindowStation([In] LPCWSTR lpszWinSta, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -545,6 +558,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWindowStation([In] HWINSTA hWinSta);
 
@@ -575,6 +589,7 @@ namespace Lsj.Util.Win32
         /// By opening a desktop window, a service makes itself vulnerable to attack from the logged-on user,
         /// whose application could send malicious messages to the service's desktop window and affect its ability to function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadDesktop([In] HDESK hDesktop);
 
@@ -606,6 +621,7 @@ namespace Lsj.Util.Win32
         /// Processes that are associated with a secured desktop include custom UserInit processes.
         /// Such calls typically fail with an "access denied" error.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SwitchDesktop([In] HDESK hDesktop);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -6,18 +7,18 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.DialogBoxMessages;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.BaseTypes.LANGID;
 
 namespace Lsj.Util.Win32
 {
@@ -271,6 +272,7 @@ namespace Lsj.Util.Win32
         /// All of the other variable-length arrays in the template must be aligned on <see cref="WORD"/> boundaries.
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogIndirectParamW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND CreateDialogIndirectParam([In] HINSTANCE hInstance, [In] in DLGTEMPLATE lpTemplate, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
@@ -325,6 +327,7 @@ namespace Lsj.Util.Win32
         /// To support keyboard navigation and other dialog box functionality,
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", ExactSpelling = true, SetLastError = true)]
         public static extern HWND CreateDialogParam([In] HINSTANCE hInstance, [In] LPCWSTR lpTemplateName, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
@@ -367,6 +370,7 @@ namespace Lsj.Util.Win32
         /// must be set to at least <see cref="DLGWINDOWEXTRA"/>.
         /// The <see cref="DefDlgProc"/> function must not be called by a dialog box procedure; doing so results in recursive execution.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefDlgProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT DefDlgProc([In] HWND hDlg, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
@@ -531,6 +535,7 @@ namespace Lsj.Util.Win32
         /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxIndirectParamW", ExactSpelling = true, SetLastError = true)]
         public static extern INT_PTR DialogBoxIndirectParam([In] HINSTANCE hInstance, [In] in DLGTEMPLATE lpTemplateName, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
@@ -585,6 +590,7 @@ namespace Lsj.Util.Win32
         /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", ExactSpelling = true, SetLastError = true)]
         public static extern INT_PTR DialogBoxParam([In] HINSTANCE hInstance, [In] LPCWSTR lpTemplateName, [In] HWND hWndParent,
             [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
@@ -621,6 +627,7 @@ namespace Lsj.Util.Win32
         /// If the flag is set, the system ends the message loop, destroys the dialog box, and uses the value in <paramref name="nResult"/>
         /// as the return value from the function that created the dialog box.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndDialog([In] HWND hDlg, [In] INT_PTR nResult);
 
@@ -664,6 +671,7 @@ namespace Lsj.Util.Win32
         /// templateunitY = MulDiv(pixelY, 8, baseunitY);
         /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDialogBaseUnits", ExactSpelling = true, SetLastError = true)]
         public static extern long GetDialogBaseUnits();
 
@@ -691,6 +699,7 @@ namespace Lsj.Util.Win32
         /// Although <see cref="GetDlgCtrlID"/> may return a value if <paramref name="hWnd"/> is a handle to a top-level window,
         /// top-level windows cannot have identifiers and such a return value is never valid.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgCtrlID", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDlgCtrlID([In] HWND hWnd);
 
@@ -719,6 +728,7 @@ namespace Lsj.Util.Win32
         /// (as specified by the hMenu parameter in the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function that created the child window),
         /// <see cref="GetDlgItem"/> returns a valid handle to the child window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItem", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetDlgItem([In] HWND hDlg, [In] int nIDDlgItem);
 
@@ -764,6 +774,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDlgItemInt"/> function returns zero if the translated value is
         /// greater than <see cref="int.MaxValue"/> (for signed numbers) or <see cref="uint.MaxValue"/> (for unsigned numbers).
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemInt", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDlgItemInt([In] HWND hDlg, [In] int nIDDlgItem, [Out] out BOOL lpTranslated, [In] BOOL bSigned);
 
@@ -797,6 +808,7 @@ namespace Lsj.Util.Win32
         /// If the string is as long or longer than the buffer, the buffer will contain the truncated string with a terminating null character.
         /// The <see cref="GetDlgItemText"/> function sends a <see cref="WM_GETTEXT"/> message to the control.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] IntPtr lpString, [In] int cchMax);
 
@@ -843,6 +855,7 @@ namespace Lsj.Util.Win32
         /// If the search for the next control in the group encounters a window with the <see cref="WS_EX_CONTROLPARENT"/> style,
         /// the system recursively searches the window's children.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNextDlgGroupItem", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetNextDlgGroupItem([In] HWND hDlg, [In] HWND hCtl, [In] BOOL bPrevious);
 
@@ -878,6 +891,7 @@ namespace Lsj.Util.Win32
         /// If the search for the next control with the <see cref="WS_TABSTOP"/> style encounters a window with the <see cref="WS_EX_CONTROLPARENT"/> style,
         /// the system recursively searches the window's children.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNextDlgTabItem", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetNextDlgTabItem([In] HWND hDlg, [In] HWND hCtl, [In] BOOL bPrevious);
 
@@ -914,6 +928,7 @@ namespace Lsj.Util.Win32
         /// These messages are defined in the Winuser.h header file as <see cref="WM_USER"/> and <see cref="WM_USER"/> + 1,
         /// so conflicts are possible with application-defined messages having the same values.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDialogMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsDialogMessage([In] HWND hDlg, [In] in MSG lpMsg);
 
@@ -949,6 +964,7 @@ namespace Lsj.Util.Win32
         /// If the dialog box template has the <see cref="DS_SETFONT"/> or <see cref="DS_SHELLFONT"/> style,
         /// the base units are the average width and height, in pixels, of the characters in the font specified by the template.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapDialogRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MapDialogRect([In] HWND hDlg, [In][Out] ref RECT lpRect);
 
@@ -1018,6 +1034,7 @@ namespace Lsj.Util.Win32
         /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
         /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxW", ExactSpelling = true, SetLastError = true)]
         public static extern int MessageBox([In] HWND hWnd, [In] LPCWSTR lpText, [In] LPCWSTR lpCaption, [In] MessageBoxFlags uType);
 
@@ -1078,6 +1095,7 @@ namespace Lsj.Util.Win32
         /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
         /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxExW", ExactSpelling = true, SetLastError = true)]
         public static extern int MessageBoxEx([In] HWND hWnd, [In] LPCWSTR lpText, [In] LPCWSTR lpCaption, [In] MessageBoxFlags uType, [In] LANGID wLanguageId);
 
@@ -1117,6 +1135,7 @@ namespace Lsj.Util.Win32
         /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <see cref="MSGBOXPARAMS.hwndOwner"/> parameter.
         /// The <see cref="MSGBOXPARAMS.hwndOwner"/> parameter should not identify a child window, such as a control in a dialog box.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxIndirectW", ExactSpelling = true, SetLastError = true)]
         public static extern int MessageBoxIndirect([In] in MSGBOXPARAMS lpmbp);
 
@@ -1152,6 +1171,7 @@ namespace Lsj.Util.Win32
         /// Using <see cref="SendDlgItemMessage"/> is identical to retrieving a handle to the specified control
         /// and calling the <see cref="SendMessage"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendDlgItemMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT SendDlgItemMessage([In] HWND hDlg, [In] int nIDDlgItem, [In] WindowMessages Msg, [In] WPARAM wParam,
             [In] LPARAM lParam);
@@ -1188,6 +1208,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To set the new text, this function sends a <see cref="WM_SETTEXT"/> message to the specified control.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDlgItemInt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDlgItemInt([In] HWND hDlg, [In] int nIDDlgItem, [In] UINT uValue, [In] BOOL bSigned);
 
@@ -1216,6 +1237,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="SetDlgItemText"/> function sends a <see cref="WM_SETTEXT"/> message to the specified control.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] LPCWSTR lpString);
     }

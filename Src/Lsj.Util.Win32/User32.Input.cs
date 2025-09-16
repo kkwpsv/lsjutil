@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -7,11 +8,11 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
 using static Lsj.Util.Win32.Enums.MouseEventFlags;
+using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -67,6 +68,7 @@ namespace Lsj.Util.Win32
         /// is reset after a call to <see cref="AttachThreadInput"/>.
         /// You cannot attach a thread to a thread in another desktop.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachThreadInput", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AttachThreadInput([In] DWORD idAttach, [In] DWORD idAttachTo, [In] BOOL fAttach);
 
@@ -86,6 +88,7 @@ namespace Lsj.Util.Win32
         /// To get the handle to the foreground window, you can use <see cref="GetForegroundWindow"/>.
         /// To get the window handle to the active window in the message queue for another thread, use <see cref="GetGUIThreadInfo"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetActiveWindow();
 
@@ -135,6 +138,7 @@ namespace Lsj.Util.Win32
         /// These left- and right-distinguishing constants are only available when you call the <see cref="GetKeyboardState"/>,
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAsyncKeyState", ExactSpelling = true, SetLastError = true)]
         public static extern SHORT GetAsyncKeyState([In] int vKey);
 
@@ -156,6 +160,7 @@ namespace Lsj.Util.Win32
         /// However, it is possible that another thread or process has captured the mouse.
         /// To get a handle to the capture window on another thread, use the <see cref="GetGUIThreadInfo"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCapture", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetCapture();
 
@@ -174,6 +179,7 @@ namespace Lsj.Util.Win32
         /// The return value specifies the current double-click time, in milliseconds.
         /// The maximum return value is 5000 milliseconds.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDoubleClickTime", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDoubleClickTime();
 
@@ -196,8 +202,25 @@ namespace Lsj.Util.Win32
         /// You can associate your thread's message queue with the windows owned by another thread by using the <see cref="AttachThreadInput"/> function.
         /// To get the window with the keyboard focus on the foreground queue or the queue of another thread, use the <see cref="GetGUIThreadInfo"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFocus", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetFocus();
+
+        /// <summary>
+        /// <para>
+        /// Determines whether there are mouse-button or keyboard messages in the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getinputstate"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the queue contains one or more new mouse-button or keyboard messages, the return value is <see cref="TRUE"/>.
+        /// If there are no new mouse-button or keyboard messages in the queue, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetInputState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetInputState();
 
         /// <summary>
         /// <para>
@@ -213,6 +236,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetOEMCP function to retrieve the OEM code-page identifier for the system.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetKBCodePage();
 
@@ -255,6 +279,7 @@ namespace Lsj.Util.Win32
         /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetKeyboardState([Out] BYTE[] lpKeyState);
 
@@ -299,6 +324,7 @@ namespace Lsj.Util.Win32
         /// 7: Hardware dependent and specified by the OEM
         /// When a single USB keyboard is connected to the computer, this function returns the code 81.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", ExactSpelling = true, SetLastError = true)]
         public static extern int GetKeyboardType([In] int nTypeFlag);
 
@@ -341,6 +367,7 @@ namespace Lsj.Util.Win32
         /// The name of a character key is the character itself.
         /// The names of dead keys are spelled out in full.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetKeyNameText([In] LONG lParam, [In] IntPtr lpString, [In] int cchSize);
 
@@ -387,6 +414,7 @@ namespace Lsj.Util.Win32
         /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyState", ExactSpelling = true, SetLastError = true)]
         public static extern SHORT GetKeyState([In] int nVirtKey);
 
@@ -467,6 +495,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetRawInputData"/> gets the raw input one <see cref="RAWINPUT"/> structure at a time.
         /// In contrast, <see cref="GetRawInputBuffer"/> gets an array of <see cref="RAWINPUT"/> structures.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputData", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetRawInputData([In] HRAWINPUT hRawInput, [In] UINT uiCommand, [In] LPVOID pData,
             [In][Out] ref UINT pcbSize, [In] UINT cbSizeHeader);
@@ -538,6 +567,7 @@ namespace Lsj.Util.Win32
         /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT MapVirtualKey([In] UINT uCode, [In] MapVirtualKeyTypes uMapType);
 
@@ -654,6 +684,7 @@ namespace Lsj.Util.Win32
         /// and the DLL returns the extra information.
         /// </remarks>
         [Obsolete("This function has been superseded. Use SendInput instead.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "mouse_event", ExactSpelling = true, SetLastError = true)]
         public static extern void mouse_event([In] MouseEventFlags dwFlags, [In] DWORD dx, [In] DWORD dy, [In] DWORD dwData, [In] ULONG_PTR dwExtraInfo);
 #pragma warning restore IDE1006
@@ -691,6 +722,7 @@ namespace Lsj.Util.Win32
         /// The NUMLOCK key must be on.
         /// This function is implemented using the <see cref="VkKeyScan"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD OemKeyScan([In] WORD wOemChar);
 
@@ -739,6 +771,7 @@ namespace Lsj.Util.Win32
         /// as it may interfere with any raw input processing logic already present in applications that load it.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterRawInputDevices", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterRawInputDevices([In] RAWINPUTDEVICE[] pRawInputDevices, [In] UINT uiNumDevices, [In] UINT cbSize);
 
@@ -760,6 +793,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application calls this function after calling the <see cref="SetCapture"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseCapture", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReleaseCapture();
 
@@ -805,6 +839,7 @@ namespace Lsj.Util.Win32
         /// to application launch shortcut keysthat are handled by the shell.
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendInput", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SendInput([In] UINT cInputs, [In] INPUT[] pInputs, [In] int cbSize);
 
@@ -831,6 +866,7 @@ namespace Lsj.Util.Win32
         /// the active window status of the calling thread is set to <paramref name="hWnd"/>.
         /// Otherwise, the active window status of the calling thread is set to <see cref="NULL"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetActiveWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetActiveWindow([In] HWND hWnd);
 
@@ -864,6 +900,7 @@ namespace Lsj.Util.Win32
         /// This function cannot be used to capture mouse input meant for another process.
         /// When the mouse is captured, menu hotkeys and other keyboard accelerators do not work.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCapture", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetCapture([In] HWND hWnd);
 
@@ -897,6 +934,7 @@ namespace Lsj.Util.Win32
         /// By using the <see cref="AttachThreadInput"/> function, a thread can attach its input processing to another thread.
         /// This allows a thread to call <see cref="SetFocus"/> to set the keyboard focus to a window attached to another thread's message queue.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFocus", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetFocus([In] HWND hWnd);
 
@@ -924,6 +962,7 @@ namespace Lsj.Util.Win32
         /// or SCROLL LOCK (or the Japanese KANA) indicator lights on the keyboard.
         /// These can be set or cleared using <see cref="SendInput"/> to simulate keystrokes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKeyboardState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetKeyboardState([In] BYTE[] lpKeyState);
 
@@ -982,6 +1021,7 @@ namespace Lsj.Util.Win32
         /// Although an application is free to call the function, the mouse is a shared resource and
         /// reversing the meaning of its buttons affects all applications.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwapMouseButton", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SwapMouseButton([In] BOOL fSwap);
 
@@ -1031,6 +1071,7 @@ namespace Lsj.Util.Win32
         /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on)
         /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true, SetLastError = true)]
         public static extern int ToAscii([In] UINT uVirtKey, [In] UINT uScanCode, [In] BYTE[] lpKeyState, [Out] out WORD lpChar, [In] UINT uFlags);
 
@@ -1067,6 +1108,7 @@ namespace Lsj.Util.Win32
         /// The application must call <see cref="TrackMouseEvent"/> when the mouse reenters its window
         /// if it requires further tracking of mouse hover behavior.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackMouseEvent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TrackMouseEvent([In] in TRACKMOUSEEVENT lpEventTrack);
 
@@ -1102,6 +1144,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function has been superseded by the VkKeyScanEx function." +
             "You can still use VkKeyScan, however, if you do not need to specify a keyboard layout.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", ExactSpelling = true, SetLastError = true)]
         public static extern SHORT VkKeyScan([In] WCHAR ch);
     }

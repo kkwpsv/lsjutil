@@ -2848,6 +2848,7 @@ namespace Lsj.Util.Win32
         /// unless <see cref="STGM_DELETEONRELEASE"/> was specified for the <paramref name="grfMode"/> parameter.
         /// For more information on these flags, see <see cref="STGM"/> Constants.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgCreateStorageEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgCreateStorageEx([In] LPWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
             [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
@@ -3078,6 +3079,7 @@ namespace Lsj.Util.Win32
         /// (for example, the <paramref name="grfMode"/> parameter specifies <see cref="STGM_SHARE_DENY_WRITE"/>) can be time-consuming
         /// because the <see cref="StgOpenStorageEx"/> call must create a snapshot copy of the entire storage object.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorageEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgOpenStorageEx([In] LPCWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
             [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);

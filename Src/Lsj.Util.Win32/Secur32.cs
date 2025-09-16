@@ -422,7 +422,7 @@ namespace Lsj.Util.Win32
         /// Also, the server can use the <see cref="ImpersonateSecurityContext"/> function to impersonate the user.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", ExactSpelling = true)]
         public static extern SECURITY_STATUS AcceptSecurityContext([In] IntPtr phCredential, [In] IntPtr phContext, [In] IntPtr pInput,
             [In] uint fContextReq, [In] uint TargetDataRep, [In] IntPtr phNewContext, [In] IntPtr pOutput, [Out] out uint pfContextAttr,

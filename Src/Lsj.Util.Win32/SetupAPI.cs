@@ -185,6 +185,7 @@ namespace Lsj.Util.Win32
         /// such as <see cref="CreateFile"/> (described in Microsoft Windows SDK documentation) to get a handle to the interface.
         /// See Overview of Device Interface Classes for more info.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiEnumDeviceInterfaces", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiEnumDeviceInterfaces([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
             [In] in GUID InterfaceClassGuid, [In] DWORD MemberIndex, [In][Out] ref SP_DEVICE_INTERFACE_DATA DeviceInterfaceData);
@@ -294,6 +295,7 @@ namespace Lsj.Util.Win32
         /// this function fails, <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
         /// and the <paramref name="DeviceInfoData"/> structure is filled with information about the device that exposes the interface.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInterfaceDetailW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceInterfaceDetail([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVICE_INTERFACE_DATA DeviceInterfaceData,
             [In][Out] ref SP_DEVICE_INTERFACE_DETAIL_DATA DeviceInterfaceDetailData, [In] DWORD DeviceInterfaceDetailDataSize,

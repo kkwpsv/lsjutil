@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -10,10 +11,10 @@ using static Lsj.Util.Win32.BaseTypes.HWND;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DrawEdgeBorderTypes;
 using static Lsj.Util.Win32.Enums.DrawEdgeTypes;
-using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.DrawFrameControlStates;
 using static Lsj.Util.Win32.Enums.DrawFrameControlTypes;
 using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.PrintWindowFlags;
@@ -23,9 +24,9 @@ using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TextAlignments;
+using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -97,6 +98,7 @@ namespace Lsj.Util.Win32
         /// DPI Virtualization
         /// This API does not participate in DPI virtualization. The output returned is always in terms of physical pixels.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
         public static extern HDC BeginPaint([In] HWND hWnd, [Out] out PAINTSTRUCT lpPaint);
 
@@ -126,6 +128,7 @@ namespace Lsj.Util.Win32
         /// Similarly, a screen coordinate to the left of a client area has a negative x-coordinate.
         /// All coordinates are device coordinates.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClientToScreen", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ClientToScreen([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
@@ -190,6 +193,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEdge", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawEdge([In] HDC hdc, [In] in RECT qrc, [In] DrawEdgeTypes edge, [In] DrawEdgeBorderTypes grfFlags);
 
@@ -221,6 +225,7 @@ namespace Lsj.Util.Win32
         /// This is handled by the <see cref="SPI_SETFOCUSBORDERWIDTH"/> and
         /// <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawFocusRect([In] HDC hDC, [In] in RECT lprc);
 
@@ -274,6 +279,7 @@ namespace Lsj.Util.Win32
         /// The application can then use the associated bitmap as the hbmMask parameter to the MaskBlt function,
         /// or it can use the device context as a parameter to the <see cref="BitBlt"/> function using ROPs such as <see cref="SRCAND"/> and <see cref="SRCINVERT"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFrameControl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawFrameControl([In] HDC unnamedParam1, [In] in RECT unnamedParam2,
             [In] DrawFrameControlTypes unnamedParam3, [In] DrawFrameControlStates unnamedParam4);
@@ -327,6 +333,7 @@ namespace Lsj.Util.Win32
         /// If the selected font is too large for the specified rectangle, the <see cref="DrawText"/> function does not attempt to substitute a smaller font.
         /// The text alignment mode for the device context must include the <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/> flags.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", ExactSpelling = true, SetLastError = true)]
         public static extern int DrawText([In] HDC hdc, [In] LPCWSTR lpchText, [In] int cchText,
             [In] in RECT lprc, [In] DrawTextFormatFlags format);
@@ -386,6 +393,7 @@ namespace Lsj.Util.Win32
         /// can lead to mismatches that result in compilation or runtime errors.
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextExW", ExactSpelling = true, SetLastError = true)]
         public static extern int DrawTextEx([In] HDC hdc, [In] LPCWSTR lpchText, [In] int cchText,
             [In] in RECT lprc, [In] DrawTextFormatFlags format, [In] in DRAWTEXTPARAMS lpdtp);
@@ -412,6 +420,7 @@ namespace Lsj.Util.Win32
         /// If the caret was hidden by <see cref="BeginPaint"/>, <see cref="EndPaint"/> restores the caret to the screen.
         /// <see cref="EndPaint"/> releases the display device context that <see cref="BeginPaint"/> retrieved.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndPaint([In] HWND hWnd, [In] in PAINTSTRUCT lpPaint);
 
@@ -437,6 +446,7 @@ namespace Lsj.Util.Win32
         /// <see cref="NULLREGION"/>: Region is empty.
         /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeUpdateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int ExcludeUpdateRgn([In] HDC hDC, [In] HWND hWnd);
 
@@ -475,6 +485,7 @@ namespace Lsj.Util.Win32
         /// When filling the specified rectangle, <see cref="FillRect"/> does not include the rectangle's right and bottom sides.
         /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", ExactSpelling = true, SetLastError = true)]
         public static extern int FillRect([In] HDC hDC, [In] in RECT lprc, [In] HBRUSH hbr);
 
@@ -506,6 +517,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="RECT.bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
         /// or if the right member is less than the left member, the function does not draw the rectangle.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", ExactSpelling = true, SetLastError = true)]
         public static extern int FrameRect([In] HDC hDC, [In][Out] ref RECT lprc, [In] HBRUSH hbr);
 
@@ -529,6 +541,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the DC for the specified window's client area.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDC", ExactSpelling = true, SetLastError = true)]
         public static extern HDC GetDC([In] HWND hwnd);
 
@@ -573,6 +586,7 @@ namespace Lsj.Util.Win32
         /// The function returns a handle to a DC that belongs to the window's class if <see cref="CS_CLASSDC"/>,
         /// <see cref="CS_OWNDC"/> or <see cref="CS_PARENTDC"/> was specified as a style in the <see cref="WNDCLASS"/> structure when the class was registered.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCEx", ExactSpelling = true, SetLastError = true)]
         public static extern HDC GetDCEx([In] HWND hWnd, [In] HRGN hrgnClip, [In] GetDCExFlags flags);
 
@@ -621,6 +635,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
         /// by the first value in the array to which <paramref name="lpnTabStopPositions"/> points.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetTabbedTextExtent([In] HDC hdc, [In] LPCWSTR lpString, [In] int chCount, [In] int nTabPositions, [In] INT[] lpnTabStopPositions);
 
@@ -655,6 +670,7 @@ namespace Lsj.Util.Win32
         /// After painting is complete, the <see cref="ReleaseDC"/> function must be called to release the device context.
         /// Not releasing the window device context has serious effects on painting requested by applications.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDC", ExactSpelling = true, SetLastError = true)]
         public static extern HDC GetWindowDC([In] HWND hWnd);
 
@@ -692,6 +708,7 @@ namespace Lsj.Util.Win32
         /// <see cref="BeginPaint"/> automatically validates the update region, so any call to <see cref="GetUpdateRect"/> made immediately
         /// after the call to <see cref="BeginPaint"/> retrieves an empty update region.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetUpdateRect([In] HWND hWnd, [In][Out] ref RECT lpRect, [In] BOOL bErase);
 
@@ -725,6 +742,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="BeginPaint"/> function automatically validates the update region,
         /// so any call to <see cref="GetUpdateRgn"/> made immediately after the call to <see cref="BeginPaint"/> retrieves an empty update region.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int GetUpdateRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bErase);
 
@@ -793,6 +811,7 @@ namespace Lsj.Util.Win32
         /// to set the text color to the color value and then draw the string directly.
         /// If the retrieved color is black, the application must call <see cref="GrayString"/> to gray the text.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GrayStringW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GrayString([In] HDC hDC, [In] HBRUSH hBrush, [In] GRAYSTRINGPROC lpOutputFunc, [In] LPARAM lpData, [In] int nCount,
             [In] int X, [In] int Y, [In] int nWidth, [In] int nHeight);
@@ -833,6 +852,7 @@ namespace Lsj.Util.Win32
         /// If the <paramref name="bErase"/> parameter is <see cref="TRUE"/> for any part of the update region,
         /// the background is erased in the entire region, not just in the specified part.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvalidateRect([In] HWND hWnd, [In] in RECT lpRect, [In] BOOL bErase);
 
@@ -872,6 +892,7 @@ namespace Lsj.Util.Win32
         /// If the <paramref name="bErase"/> parameter is <see cref="TRUE"/> for any part of the update region,
         /// the background in the entire region is erased, not just in the specified part.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvalidateRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bErase);
 
@@ -899,6 +920,7 @@ namespace Lsj.Util.Win32
         /// On color screens, the inversion depends on how colors are generated for the screen.
         /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvertRect([In] HDC hDC, [In] in RECT lprc);
 
@@ -916,6 +938,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the handle to the specified bitmap.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP LoadBitmap([In] HINSTANCE hInstance, [In] LPCWSTR lpBitmapName);
 
@@ -953,6 +976,7 @@ namespace Lsj.Util.Win32
         /// LockWindowUpdate does not make the specified window invisible and does not clear the <see cref="WS_VISIBLE"/> style bit.
         /// A locked window cannot be moved.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockWindowUpdate", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LockWindowUpdate([In] HWND hWndLock);
 
@@ -1018,6 +1042,7 @@ namespace Lsj.Util.Win32
         ///  MapWindowPoints(hWnd1, hWnd2, &amp;pt[1], 1);
         /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
         public static extern int MapWindowPoints([In] HWND hWndFrom, [In] HWND hWndTo, [In][Out] POINT[] lpPoints, [In] UINT cPoints);
 
@@ -1054,6 +1079,7 @@ namespace Lsj.Util.Win32
         /// if the <see cref="PW_CLIENTONLY"/> flag is specified, a <see cref="WM_PRINTCLIENT"/> message.
         /// For more information, see <see cref="WM_PRINT"/> and <see cref="WM_PRINTCLIENT"/>. 
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PrintWindow([In] HWND hwnd, [In] HDC hdcBlt, [In] PrintWindowFlags nFlags);
 
@@ -1103,6 +1129,7 @@ namespace Lsj.Util.Win32
         /// the desktop window does not receive a <see cref="WM_PAINT"/> message.
         /// To repaint the desktop, an application uses the <see cref="RDW_ERASE"/> flag to generate a <see cref="WM_ERASEBKGND"/> message.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RedrawWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RedrawWindow([In] HWND hWnd, [In] in RECT lprcUpdate, [In] HRGN hrgnUpdate, [In] RedrawWindowFlags flags);
 
@@ -1134,6 +1161,7 @@ namespace Lsj.Util.Win32
         /// instead, it must use the <see cref="DeleteDC"/> function.
         /// <see cref="ReleaseDC"/> must be called from the same thread that called <see cref="GetDC"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", ExactSpelling = true, SetLastError = true)]
         public static extern int ReleaseDC([In] HWND hWnd, [In] HDC hDC);
 
@@ -1166,8 +1194,67 @@ namespace Lsj.Util.Win32
         /// Instead, use <see cref="MapWindowPoints"/>.
         /// For more information, see "Window Layout and Mirroring" in Window Features.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScreenToClient", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScreenToClient([In] HWND hWnd, [In][Out] ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ScrollDC"/> function scrolls a rectangle of bits horizontally and vertically.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-scrolldc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// Handle to the device context that contains the bits to be scrolled.
+        /// </param>
+        /// <param name="dx">
+        /// Specifies the amount, in device units, of horizontal scrolling.
+        /// This parameter must be a negative value to scroll to the left.
+        /// </param>
+        /// <param name="dy">
+        /// Specifies the amount, in device units, of vertical scrolling.
+        /// This parameter must be a negative value to scroll up.
+        /// </param>
+        /// <param name="lprcScroll">
+        /// Pointer to a <see cref="RECT"/> structure containing the coordinates of the bits to be scrolled.
+        /// The only bits affected by the scroll operation are bits in the intersection of this rectangle
+        /// and the rectangle specified by <paramref name="lprcClip"/>.
+        /// If <paramref name="lprcScroll"/> is <see langword="null"/>, the entire client area is used.
+        /// </param>
+        /// <param name="lprcClip">
+        /// Pointer to a <see cref="RECT"/> structure containing the coordinates of the clipping rectangle.
+        /// The only bits that will be painted are the bits that remain inside this rectangle after the scroll operation has been completed.
+        /// If <paramref name="lprcClip"/> is <see langword="null"/>, the entire client area is used.
+        /// </param>
+        /// <param name="hrgnUpdate">
+        /// Handle to the region uncovered by the scrolling process.
+        /// <see cref="ScrollDC"/> defines this region; it is not necessarily a rectangle.
+        /// </param>
+        /// <param name="lprcUpdate">
+        /// Pointer to a <see cref="RECT"/> structure that receives the coordinates of the rectangle bounding the scrolling update region.
+        /// This is the largest rectangular area that requires repainting.
+        /// When the function returns, the values in the structure are in client coordinates, regardless of the mapping mode for the specified device context.
+        /// This allows applications to use the update region in a call to the <see cref="InvalidateRgn"/> function, if required.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lprcUpdate"/> parameter is <see langword="null"/>, the system does not compute the update rectangle.
+        /// If both the <paramref name="hrgnUpdate"/> and <paramref name="lprcUpdate"/> parameters are <see langword="null"/>,
+        /// the system does not compute the update region.
+        /// If <paramref name="hrgnUpdate"/> is not <see langword="null"/>,
+        /// the system proceeds as though it contains a valid handle to the region uncovered by the scrolling process (defined by <see cref="ScrollDC"/>).
+        /// When you must scroll the entire client area of a window, use the <see cref="ScrollWindowEx"/> function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollDC", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ScrollDC([In] HDC hDC, [In] int dx, [In] int dy, [In] in RECT lprcScroll, [In] in RECT lprcClip,
+            [In] HRGN hrgnUpdate, [Out] out RECT lprcUpdate);
 
         /// <summary>
         /// <para>
@@ -1227,6 +1314,7 @@ namespace Lsj.Util.Win32
         /// on subsequent calls to the <see cref="TabbedTextOut"/> function, using the current position instead.
         /// Note For Windows Vista and later, <see cref="TabbedTextOut"/> ignores text alignment when it draws text.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern LONG TabbedTextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString,
             [In] int chCount, [In] int nTabPositions, [In] INT[] lpnTabStopPositions, [In] int nTabOrigin);
@@ -1250,6 +1338,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UpdateWindow([In] HWND hWnd);
 
@@ -1281,6 +1370,7 @@ namespace Lsj.Util.Win32
         /// if a portion of the update region must be validated before the next <see cref="WM_PAINT"/> message is generated.
         /// The system continues to generate <see cref="WM_PAINT"/> messages until the current update region is validated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ValidateRect([In] HWND hWnd, [In] in RECT lpRect);
 
@@ -1311,6 +1401,7 @@ namespace Lsj.Util.Win32
         /// Neither the <see cref="ValidateRect"/> nor <see cref="ValidateRgn"/> function should be called
         /// if a portion of the update region must be validated before the next <see cref="WM_PAINT"/> message is generated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ValidateRgn([In] HWND hWnd, [In] HRGN hRgn);
     }

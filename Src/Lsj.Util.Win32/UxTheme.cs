@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32
         /// To find out if a themed font is defined, you can call <see cref="GetThemeFont"/>
         /// or <see cref="GetThemePropertyOrigin"/>with <see cref="TMT_FONT"/> as the property identifier.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("UxTheme.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawThemeText", ExactSpelling = true)]
         public static extern HRESULT DrawThemeText([In] HTHEME hTheme, [In] HDC hdc, [In] int iPartId, [In] int iStateId, [In] LPCWSTR pszText,
             [In] int cchText, [In] DrawTextFormatFlags dwTextFlags, [In] DWORD dwTextFlags2, [In] in RECT pRect);

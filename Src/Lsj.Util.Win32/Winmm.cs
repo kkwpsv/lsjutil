@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32
         /// Setting a higher resolution does not improve the accuracy of the high-resolution performance counter.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeBeginPeriod", ExactSpelling = true)]
         public static extern MMRESULT timeBeginPeriod([In] UINT uPeriod);
 
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// An application can make multiple <see cref="timeBeginPeriod"/> calls as long as each call is matched with a call to <see cref="timeEndPeriod"/>.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeEndPeriod", ExactSpelling = true)]
         public static extern MMRESULT timeEndPeriod([In] UINT uPeriod);
 
@@ -145,7 +145,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeGetDevCaps", ExactSpelling = true)]
         public static extern MMRESULT timeGetDevCaps([Out] out TIMECAPS ptc, [In] UINT cbtc);
 
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// when increasing the volume level from 0x5000 to 0x6000 as it is from 0x4000 to 0x5000.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutGetVolume", ExactSpelling = true)]
         public static extern MMRESULT waveOutGetVolume([In] HWAVEOUT hwo, [Out] out DWORD pdwVolume);
 
@@ -605,7 +605,7 @@ namespace Lsj.Util.Win32
         /// In that case, no callback mechanism is used.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutOpen", ExactSpelling = true)]
         public static extern MMRESULT waveOutOpen([Out] out HWAVEOUT phwo, [In] UINT uDeviceID, [In] in WAVEFORMATEX pwfx,
             [In] DWORD_PTR dwCallback, [In] DWORD_PTR dwInstance, [In] DWORD fdwOpen);

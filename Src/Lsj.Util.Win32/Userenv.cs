@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32
         /// To load a user's profile, call the <see cref="LoadUserProfile"/> function.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateEnvironmentBlock([Out] out LPVOID lpEnvironment, [In] HANDLE hToken, [In] BOOL bInherit);
 
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyEnvironmentBlock([In] LPVOID lpEnvironment);
 
@@ -164,7 +164,7 @@ namespace Lsj.Util.Win32
         /// It is not sufficient for the caller to merely impersonate the administrator or LocalSystem account.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadUserProfileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LoadUserProfile([In] HANDLE hToken, [In] in PROFILEINFO lpProfileInfo);
 
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32
         /// For more information about calling functions that require administrator privileges, see Running with Special Privileges.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "UnloadUserProfile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnloadUserProfile([In] HANDLE hToken, [In] HANDLE hProfile);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
@@ -212,6 +213,7 @@ namespace Lsj.Util.Win32
         /// to enable the SeShutdownPrivilege privilege.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExitWindowsEx([In] ExitWindowsExFlags uFlags, [In] SystemShutdownReasonCodes dwReason);
 
@@ -260,6 +262,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetMonitorInfo([In] HMONITOR hMonitor, [In][Out] ref MONITORINFOEX lpmi);
 
@@ -275,6 +278,7 @@ namespace Lsj.Util.Win32
         /// The return value is the handle of the Shell's desktop window.
         /// If no Shell process is present, the return value is <see cref="NULL"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShellWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetShellWindow();
 
@@ -315,6 +319,7 @@ namespace Lsj.Util.Win32
         /// because <see cref="GetSysColorBrush"/> returns a cached brush, instead of allocating a new one.
         /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetSysColor([In] SystemColors nIndex);
 
@@ -351,6 +356,7 @@ namespace Lsj.Util.Win32
         /// Although you don't need to delete the logical brush that <see cref="GetSysColorBrush"/> returns,
         /// no harm occurs by calling <see cref="DeleteObject"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH GetSysColorBrush([In] SystemColors nIndex);
 
@@ -370,6 +376,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the requested system metric or configuration setting.
         /// If the function fails, the return value is 0. <see cref="GetLastError"/> does not provide extended error information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", ExactSpelling = true, SetLastError = true)]
         public static extern int GetSystemMetrics([In] SystemMetricIndexes smIndex);
 
@@ -413,6 +420,7 @@ namespace Lsj.Util.Win32
         /// The correct way to get this access is to enable the SE_SECURITY_NAME privilege in the caller's current token,
         /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested,
             [In] in SECURITY_DESCRIPTOR pSID, [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
@@ -440,45 +448,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Enables a Dynamic Data Exchange (DDE) server application to impersonate a DDE client application's security context.
-        /// This protects secure server data from unauthorized DDE clients.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dde/nf-dde-impersonateddeclientwindow"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hWndClient">
-        /// A handle to the DDE client window to be impersonated.
-        /// The client window must have established a DDE conversation
-        /// with the server window identified by the <paramref name="hWndServer"/> parameter.
-        /// </param>
-        /// <param name="hWndServer">
-        /// A handle to the DDE server window.
-        /// An application must create the server window before calling this function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// An application should call the <see cref="RevertToSelf"/> function
-        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
-        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
-        /// Security Considerations
-        /// Using this function incorrectly might compromise the security of your program.
-        /// It is very important to check the return value of the call.
-        /// If the function fails for any reason, the client is not impersonated
-        /// and any subsequent client request is made in the security context of the calling process.
-        /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
-        /// the user may be able to perform actions that would otherwise be disallowed.
-        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateDdeClientWindow([In] HWND hWndClient, [In] HWND hWndServer);
-
-        /// <summary>
-        /// <para>
         /// Determines whether the calling thread is already a GUI thread.
         /// It can also optionally convert the thread to a GUI thread.
         /// </para>
@@ -497,6 +466,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="bConvert"/> is <see cref="TRUE"/> and the function cannot successfully convert the thread to a GUI thread,
         /// <see cref="IsGUIThread"/> returns <see cref="ERROR_NOT_ENOUGH_MEMORY"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsGUIThread", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsGUIThread([In] BOOL bConvert);
 
@@ -527,6 +497,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="KillTimer"/> function does not remove <see cref="WM_TIMER"/> messages already posted to the message queue.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "KillTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL KillTimer([In] HWND hWnd, [In] UINT_PTR uIDEvent);
 
@@ -622,6 +593,7 @@ namespace Lsj.Util.Win32
         /// Note To send a beep to a remote client, use the <see cref="Beep"/> function.
         /// The <see cref="Beep"/> function is redirected to the client, whereas <see cref="MessageBeep"/> is not.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBeep", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MessageBeep([In] MessageBoxFlags uType);
 
@@ -644,6 +616,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HMONITOR MonitorFromWindow([In] HWND hwnd, [In] MonitorDefaultFlags dwFlags);
 
@@ -693,6 +666,7 @@ namespace Lsj.Util.Win32
         /// When you call <see cref="NotifyWinEvent"/>, you should be prepared to handle these calls, if they occur.
         /// If you need to do extra setup to allow for this, you should do so before you call <see cref="NotifyWinEvent"/>, not after.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "NotifyWinEvent", ExactSpelling = true, SetLastError = true)]
         public static extern void NotifyWinEvent([In] EventConstants @event, [In] HWND hwnd, [In] LONG idObject, [In] LONG idChild);
 
@@ -903,6 +877,7 @@ namespace Lsj.Util.Win32
         /// If you are writing an application to enable the user to change the colors, then it is appropriate to use this function.
         /// However, this function affects only the current session. The new colors are not saved when the system terminates.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSysColors([In] int cElements, [In] INT[] lpaElements, [In] COLORREF[] lpaRgbValues);
 
@@ -961,6 +936,7 @@ namespace Lsj.Util.Win32
         /// The timers are distinct.
         /// <see cref="SetTimer"/> can reuse timer IDs in the case where <paramref name="hWnd"/> is NULL.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTimer", ExactSpelling = true, SetLastError = true)]
         public static extern UINT_PTR SetTimer([In] HWND hWnd, [In] UINT_PTR nIDEvent, [In] UINT uElapse, [In] TIMERPROC lpTimerFunc);
 
@@ -1044,6 +1020,7 @@ namespace Lsj.Util.Win32
         /// This behavior is similar to what happens when there is an architecture mismatch between the hook DLL and the target application process,
         /// for example, when the hook DLL is 32-bit and the application process 64-bit.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWinEventHook", ExactSpelling = true, SetLastError = true)]
         public static extern HWINEVENTHOOK SetWinEventHook([In] EventConstants eventMin, [In] EventConstants eventMax, [In] HMODULE hmodWinEventProc,
             [In] WINEVENTPROC pfnWinEventProc, [In] DWORD idProcess, [In] DWORD idThread, [In] SetWinEventHookFlags dwFlags);
@@ -1128,6 +1105,7 @@ namespace Lsj.Util.Win32
         /// For the DPI-aware version of this API, see <see cref="SystemParametersInfoForDpi"/>.
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemParametersInfo([In] SystemParametersInfoParameters uiAction, [In] UINT uiParam,
             [In] PVOID pvParam, [In] SystemParametersInfoFlags fWinIni);
@@ -1161,6 +1139,7 @@ namespace Lsj.Util.Win32
         /// Although unloading does not occur immediately, the hook function is not called after <see cref="UnhookWinEvent"/> returns.
         /// For more information on <see cref="WINEVENT_INCONTEXT"/>, see In-Context Hook Functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWinEvent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnhookWinEvent([In] HWINEVENTHOOK hWinEventHook);
 
@@ -1282,6 +1261,7 @@ namespace Lsj.Util.Win32
         /// The array must be terminated by a pair of zeros {0,0}.
         /// If you do not want to add Help to a particular control, set its context identifier to -1.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinHelpW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WinHelp([In] HWND hWndMain, [In] LPCWSTR lpszHelp, [In] WinHelpCommands uCommand, [In] ULONG_PTR dwData);
     }

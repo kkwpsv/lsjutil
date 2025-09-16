@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
@@ -38,6 +39,7 @@ namespace Lsj.Util.Win32
         /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerW", ExactSpelling = true, SetLastError = false)]
         public static extern LPWSTR CharLower([In] LPWSTR lpszStart);
 
@@ -68,6 +70,7 @@ namespace Lsj.Util.Win32
         /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapSting"/>.
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerBuffW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD CharLowerBuff([In] LPWSTR lpsz, [In] DWORD cchLength);
 
@@ -96,6 +99,7 @@ namespace Lsj.Util.Win32
         /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯",
         /// will advance five code points, not one, and so on.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextW", ExactSpelling = true, SetLastError = true)]
         public static extern LPWSTR CharNext([In] LPCWSTR lpsz);
 
@@ -128,6 +132,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// <see cref="CharNextExA"/> specifies a code-page to use, whereas CharNext (if called as an ANSI function) uses the system default code-page.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextExA", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CharNextExA([In] WORD CodePage, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
 
@@ -156,7 +161,7 @@ namespace Lsj.Util.Win32
         /// will advance two code points, not one.
         /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        ///         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
 
         /// <summary>
@@ -191,6 +196,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// <see cref="CharPrevExA"/> specifies a code-page to use, whereas <see cref="CharPrev"/> (if called as an ANSI function) uses the system default code-page.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CharPrevExA([In] WORD CodePage, [In] IntPtr lpStart, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
 
@@ -218,6 +224,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
         /// </returns>
         [Obsolete("Do not use. See Security Considerations.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CharToOem([In] LPCWSTR pSrc, [In] IntPtr pDst);
 
@@ -251,6 +258,7 @@ namespace Lsj.Util.Win32
         /// when it encounters a null character in the buffer pointed to by <paramref name="lpszSrc"/>.
         /// The <see cref="CharToOemBuff"/> function converts all <paramref name="cchDstLength"/> characters.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemBuffW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CharToOemBuff([In] LPCWSTR lpszSrc, [In] IntPtr lpszDst, [In] DWORD cchDstLength);
 
@@ -280,6 +288,7 @@ namespace Lsj.Util.Win32
         /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharUpperW", ExactSpelling = true, SetLastError = false)]
         public static extern LPWSTR CharUpper([In] LPWSTR lpsz);
 
@@ -309,6 +318,7 @@ namespace Lsj.Util.Win32
         /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharUpperBuffW", ExactSpelling = true, SetLastError = false)]
         public static extern DWORD CharUpperBuff([In] LPWSTR lpsz, [In] DWORD cchLength);
 
@@ -329,6 +339,7 @@ namespace Lsj.Util.Win32
         /// If the character is not alphabetical, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharAlpha([In] WCHAR ch);
 
@@ -349,6 +360,7 @@ namespace Lsj.Util.Win32
         /// If the character is not alphanumeric, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharAlphaNumeric([In] WCHAR ch);
 
@@ -369,6 +381,7 @@ namespace Lsj.Util.Win32
         /// If the character is not lowercase, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharLower([In] WCHAR ch);
 
@@ -389,6 +402,7 @@ namespace Lsj.Util.Win32
         /// If the character is not uppercase, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharUpper([In] WCHAR ch);
 
@@ -434,6 +448,7 @@ namespace Lsj.Util.Win32
         /// However, resource tables can contain null characters.
         /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [In] IntPtr lpBuffer, [In] int cchBufferMax);
 
@@ -461,6 +476,7 @@ namespace Lsj.Util.Win32
         /// In this case the function returns zero and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
         /// </returns>
         [Obsolete("Do not use. See Security Considerations.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemToCharW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OemToChar([In] LPCSTR pSrc, [In] LPWSTR pDst);
 
@@ -495,6 +511,7 @@ namespace Lsj.Util.Win32
         /// when it encounters a null character in the buffer pointed to by <paramref name="lpszSrc"/>.
         /// The <see cref="OemToCharBuff"/> function converts all <paramref name="cchDstLength"/> characters.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemToCharBuffW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OemToCharBuff([In] LPCSTR lpszSrc, [In] LPWSTR lpszDst, [In] DWORD cchDstLength);
     }

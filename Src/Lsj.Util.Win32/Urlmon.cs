@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
@@ -53,6 +54,7 @@ namespace Lsj.Util.Win32
         /// and "file://" URIs are interpreted correctly with regard to percent encoded octets; and that the result is equivalent to the input.
         /// To correctly extract a Windows file path from the result of <see cref="CreateURLMoniker"/>, use the <see cref="PathCreateFromUrl"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMoniker", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateURLMoniker([In] IMoniker pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk);
 
@@ -96,6 +98,7 @@ namespace Lsj.Util.Win32
         /// however, such a base moniker cannot be combined with a relative URL.
         /// Any attempt to do so will fail with <see cref="E_INVALIDARG"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMonikerEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateURLMonikerEx([In] P<IMoniker> pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk, [In] DWORD dwFlags);
     }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
@@ -34,6 +35,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpAccelDst"/> is <see langword="null"/>, the return value specifies the number of accelerator-table entries in the original table.
         /// Otherwise, it specifies the number of accelerator-table entries that were copied.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
         public static extern int CopyAcceleratorTable([In] HACCEL hAccelSrc, [Out] ACCEL[] lpAccelDst, [In] int cAccelEntries);
 
@@ -61,6 +63,7 @@ namespace Lsj.Util.Win32
         /// Before an application closes, it can use the <see cref="DestroyAcceleratorTable"/> function to destroy any accelerator tables
         /// that it created by using the <see cref="CreateAcceleratorTable"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
         public static extern HACCEL CreateAcceleratorTable([In] ACCEL[] paccel, [In] int cAccel);
 
@@ -82,6 +85,7 @@ namespace Lsj.Util.Win32
         /// the function will return a nonzero value only when <see cref="DestroyAcceleratorTable"/> has been called an equal number of times.
         /// If the function fails, the return value is zero.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyAcceleratorTable([In] HACCEL hAccel);
 
@@ -111,6 +115,7 @@ namespace Lsj.Util.Win32
         /// If the accelerator table has not yet been loaded, the function loads it from the specified executable file.
         /// Accelerator tables loaded from resources are freed automatically when the application terminates.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadAcceleratorsW", ExactSpelling = true, SetLastError = true)]
         public static extern HACCEL LoadAccelerators([In] HINSTANCE hInstance, [In] LPCWSTR lpTableName);
 
@@ -165,6 +170,7 @@ namespace Lsj.Util.Win32
         /// However, if an accelerator keystroke occurs that does not match any of the items in the window's menu or in the window menu,
         /// the function sends a <see cref="WM_COMMAND"/> message, even if the window is minimized.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateAcceleratorW", ExactSpelling = true, SetLastError = true)]
         public static extern int TranslateAccelerator([In] HWND hWnd, [In] HACCEL hAccTable, [In][Out] ref MSG lpMsg);
     }

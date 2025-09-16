@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -10,8 +11,8 @@ using static Lsj.Util.Win32.Enums.DrawIconFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.ResourceTypes;
-using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.StandardCursors;
+using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Gdi32;
@@ -42,6 +43,7 @@ namespace Lsj.Util.Win32
         /// If the other module is freed, the application icon will still be able to use the icon.
         /// Before closing, an application must call the <see cref="DestroyIcon"/> function to free any system resources associated with the icon.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyIcon", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CopyIcon([In] HICON hIcon);
 
@@ -94,6 +96,7 @@ namespace Lsj.Util.Win32
         /// 1               1               Reverse screen
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIcon([In] HINSTANCE hInstance, [In] int nWidth, [In] int nHeight, [In] BYTE cPlanes, [In] BYTE cBitsPixel,
             [In] IntPtr lpbANDbits, [In] IntPtr lpbXORbits);
@@ -138,6 +141,7 @@ namespace Lsj.Util.Win32
         /// passing <code>LR_DEFAULTSIZE|LR_SHARED</code> as flags.
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIconFromResource([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer);
 
@@ -204,6 +208,7 @@ namespace Lsj.Util.Win32
         /// and icon browsers to examine and use resources throughout the system.
         /// You should call DestroyIcon for icons created with <see cref="CreateIconFromResourceEx"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIconFromResourceEx([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
             [In] int cxDesired, [In] int cyDesired, [In] LoadResourceFlags Flags);
@@ -232,6 +237,7 @@ namespace Lsj.Util.Win32
         /// The application must continue to manage the original bitmaps and delete them when they are no longer necessary.
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIconIndirect([In] in ICONINFO piconinfo);
 
@@ -264,6 +270,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateIconFromResource"/>
         /// <see cref="CreateIconFromResourceEx"/> (if you use the <see cref="LR_SHARED"/> flag)
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyIcon([In] HICON hIcon);
 
@@ -300,6 +307,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DrawIcon"/> draws the icon or cursor using the width and height specified by the system metric values for icons;
         /// for more information, see <see cref="GetSystemMetrics"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawIcon([In] HDC hDC, [In] int X, [In] int Y, [In] HICON hIcon);
 
@@ -373,6 +381,7 @@ namespace Lsj.Util.Win32
         /// To duplicate <code>DrawIcon (hDC, X, Y, hIcon)</code>, call <see cref="DrawIconEx"/> as follows:
         /// <code>DrawIconEx (hDC, X, Y, hIcon, 0, 0, 0, NULL, DI_NORMAL | DI_COMPAT | DI_DEFAULTSIZE); </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIconEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawIconEx([In] HDC hdc, [In] int xLeft, [In] int yTop, [In] HICON hIcon, [In] int cxWidth, [In] int cyWidth,
             [In] UINT istepIfAniCur, [In] HBRUSH hbrFlickerFreeDraw, [In] DrawIconFlags diFlags);
@@ -429,6 +438,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// The output returned is not affected by the DPI of the calling thread. 
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetIconInfo([In] HICON hIcon, [Out] out ICONINFO piconinfo);
 
@@ -485,6 +495,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function (with LR_DEFAULTSIZE and LR_SHARED flags set).")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HICON LoadIcon([In] HINSTANCE hInstance, [In] LPCWSTR lpIconName);
 
@@ -527,6 +538,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LoadIcon"/>, <see cref="LoadCursor"/>, and <see cref="LoadImage"/> functions
         /// use this function to search the specified resource data for the icon or cursor that best fits the current display device.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern int LookupIconIdFromDirectory([In] IntPtr presbits, [In] BOOL fIcon);
 
@@ -581,6 +593,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LoadIcon"/>, <see cref="LoadImage"/>, and <see cref="LoadCursor"/> functions use this function
         /// to search the specified resource data for the icon or cursor that best fits the current display device.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
         public static extern int LookupIconIdFromDirectoryEx([In] IntPtr presbits, [In] BOOL fIcon, [In] int cxDesired,
             [In] int cyDesired, [In] LoadResourceFlags Flags);
@@ -645,6 +658,7 @@ namespace Lsj.Util.Win32
         /// you can call the function using <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/>.
         /// </remarks>
         [Obsolete("This function is not intended for general use. It may be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT PrivateExtractIcons([In] LPCWSTR szFileName, [In] int nIconIndex, [In] int cxIcon, [In] int cyIcon,
             [Out] HICON[] phicon, [Out] out UINT piconid, [In] UINT nIcons, [In] LoadResourceFlags flags);

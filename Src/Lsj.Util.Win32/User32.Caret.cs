@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -60,6 +61,7 @@ namespace Lsj.Util.Win32
         /// The width and height parameters are interpreted as logical sizes in terms of the window in question.
         /// The calling thread is not taken into consideration.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateCaret([In] HWND hWnd, [In] HBITMAP hBitmap, [In] int nWidth, [In] int nHeight);
 
@@ -83,6 +85,7 @@ namespace Lsj.Util.Win32
         /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
         /// For an example, see Destroying a Caret
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyCaret();
 
@@ -100,6 +103,7 @@ namespace Lsj.Util.Win32
         /// A return value is zero indicates that the function has failed.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCaretBlinkTime", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetCaretBlinkTime();
 
@@ -126,6 +130,7 @@ namespace Lsj.Util.Win32
         /// The returned values are interpreted as logical sizes in terms of the window in question.
         /// The calling thread is not taken into consideration.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCaretPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCaretPos([Out] out POINT lpPoint);
 
@@ -154,6 +159,7 @@ namespace Lsj.Util.Win32
         /// If your application calls <see cref="HideCaret"/> five times in a row,
         /// it must also call <see cref="ShowCaret"/> five times before the caret is displayed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "HideCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HideCaret([In] HWND hWnd);
 
@@ -184,6 +190,7 @@ namespace Lsj.Util.Win32
         /// This is due to the multithreaded environment, where deactivation of your application is not synchronized with the activation of another application.
         /// This feature allows the system to activate another application even if the current application is not responding.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCaretBlinkTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCaretBlinkTime([In] UINT uMSeconds);
 
@@ -219,6 +226,7 @@ namespace Lsj.Util.Win32
         /// The provided position is interpreted as logical coordinates in terms of the window associated with the caret.
         /// The calling thread is not taken into consideration.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCaretPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetCaretPos([In] int X, [In] int Y);
 
@@ -249,6 +257,7 @@ namespace Lsj.Util.Win32
         /// The system provides one caret per queue. A window should create a caret only when it has the keyboard focus or is active.
         /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowCaret([In] HWND hWnd);
     }

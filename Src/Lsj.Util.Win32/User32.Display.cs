@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -7,8 +8,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ChangeDisplaySettingsFlags;
-using static Lsj.Util.Win32.Enums.DisplayChangeResults;
 using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
+using static Lsj.Util.Win32.Enums.DisplayChangeResults;
 using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
 using static Lsj.Util.Win32.Enums.EnumDisplayDevicesFlags;
 using static Lsj.Util.Win32.Enums.QueryDisplayConfigFlags;
@@ -151,6 +152,7 @@ namespace Lsj.Util.Win32
         /// and contains only values supported by the display driver, use the <see cref="DEVMODE"/> returned by the <see cref="EnumDisplaySettings"/> function.
         /// When the display mode is changed dynamically, the <see cref="WM_DISPLAYCHANGE"/> message is sent to all running applications with the following message parameters.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsW", ExactSpelling = true, SetLastError = true)]
         public static extern DisplayChangeResults ChangeDisplaySettings([In] in DEVMODE lpDevMode, [In] ChangeDisplaySettingsFlags dwFlags);
 
@@ -250,6 +252,7 @@ namespace Lsj.Util.Win32
         /// ChangeDisplaySettingsEx(NULL, NULL, NULL, 0, NULL);
         /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsExW", ExactSpelling = true, SetLastError = true)]
         public static extern DisplayChangeResults ChangeDisplaySettingsEx([In] LPCWSTR lpszDeviceName, [In] in DEVMODE lpDevMode, [In] HWND hwnd,
             [In] ChangeDisplaySettingsFlags dwFlags, [In] LPVOID lParam);
@@ -395,6 +398,7 @@ namespace Lsj.Util.Win32
         /// Note that <see cref="DISPLAY_DEVICE.DeviceName"/> changes with each call for monitor information, so you must save the adapter name.
         /// The function fails when there are no more monitors for the adapter.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDisplayDevices([In] LPCWSTR lpDevice, [In] DWORD iDevNum, [In][Out] ref DISPLAY_DEVICE lpDisplayDevice,
             [In] EnumDisplayDevicesFlags dwFlags);
@@ -462,6 +466,7 @@ namespace Lsj.Util.Win32
         /// Use device context coordinates for the clipping rectangle.
         /// The callback function receives a handle to a DC for the specific display monitor.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayMonitors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDisplayMonitors([In] HDC hdc, [In] in RECT lprcClip, [In] MONITORENUMPROC lpfnEnum, [In] LPARAM dwData);
 
@@ -524,6 +529,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// The output given is always in terms of physical pixels, and is not related to the calling context.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplaySettingsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDisplaySettings([In] LPCWSTR lpszDeviceName, [In] DWORD iModeNum, [Out] out DEVMODE lpDevMode);
 
@@ -598,6 +604,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// The output given is always in terms of physical pixels, and is not related to the calling context.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplaySettingsExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDisplaySettingsEx([In] LPCWSTR lpszDeviceName, [In] DWORD iModeNum, [In][Out] ref DEVMODE lpDevMode, [In] DWORD dwFlags);
 
