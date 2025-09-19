@@ -56,6 +56,7 @@ namespace Lsj.Util.Tests.Win32
             var hasMarshalAsAttributeMethods = new List<MethodInfo>();
             var hasStringParameterMethods = new List<MethodInfo>();
             var hasObjectParameterMethods = new List<MethodInfo>();
+            var hasRawComInterfaceParameterMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
             {
                 var entryPoint = item.Attribute.EntryPoint;
@@ -125,6 +126,11 @@ namespace Lsj.Util.Tests.Win32
                 {
                     hasObjectParameterMethods.Add(item.Method);
                 }
+
+                if (item.Method.GetParameters().Any(x => x.ParameterType.HasAttribute<ComInterfaceAttribute>()))
+                {
+                    hasRawComInterfaceParameterMethods.Add(item.Method);
+                }
             }
 
             var fails = new List<string>();
@@ -136,6 +142,7 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(hasMarshalAsAttributeMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has marshalas attribute."));
             fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
             fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
+            fails.AddRange(hasRawComInterfaceParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has raw COM interface parameter."));
 
             if (fails.Any())
             {
@@ -561,6 +568,18 @@ namespace Lsj.Util.Tests.Win32
                     if (!result.ContainsKey(line))
                     {
                         result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "11_22H2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_22H2, null);
                     }
                 }
             }
