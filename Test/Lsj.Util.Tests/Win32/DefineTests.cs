@@ -325,6 +325,18 @@ namespace Lsj.Util.Tests.Win32
                 }
             }
 
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XPKB959426")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "KB959426");
+                    }
+                }
+            }
+
             foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "Vista")).EnumerateFiles())
             {
                 var lines = File.ReadAllLines(file.FullName);
@@ -345,6 +357,30 @@ namespace Lsj.Util.Tests.Win32
                     if (!result.ContainsKey(line))
                     {
                         result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "VistaSP1KB2533623")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, "KB2533623");
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "VistaPlatformUpdateSupplement")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, "Platform Update Supplement");
                     }
                 }
             }
@@ -397,6 +433,54 @@ namespace Lsj.Util.Tests.Win32
                 }
             }
 
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1511")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1511, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1607")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1607, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1703")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1703, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1709")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1709, null);
+                    }
+                }
+            }
+
             foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1803")).EnumerateFiles())
             {
                 var lines = File.ReadAllLines(file.FullName);
@@ -405,6 +489,90 @@ namespace Lsj.Util.Tests.Win32
                     if (!result.ContainsKey(line))
                     {
                         result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1809")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1809, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1903")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_21H1")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H1, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_21H2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H2, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_22H2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_22H2, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "11")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "11_23H2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_23H2, null);
                     }
                 }
             }

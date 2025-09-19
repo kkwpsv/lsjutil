@@ -958,7 +958,7 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("Kernelbase.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc2", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID VirtualAlloc2([In] HANDLE Process, [In] PVOID BaseAddress, [In] SIZE_T Size,
             [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection,
@@ -1405,7 +1405,7 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("Kernelbase.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc2FromApp", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID VirtualAlloc2FromApp([In] HANDLE Process, [In] PVOID BaseAddress, [In] SIZE_T Size, [In] MemoryAllocationTypes AllocationType,
             [In] MemoryProtectionConstants PageProtection, [In] MEM_EXTENDED_PARAMETER[] ExtendedParameters, [In] ULONG ParameterCount);

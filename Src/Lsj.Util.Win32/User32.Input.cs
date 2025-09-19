@@ -531,6 +531,7 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if the specified feedback setting is configured on the specified window.
         /// Otherwise, it returns <see cref="FALSE"/> (and config won't be modified).
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowFeedbackSetting", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowFeedbackSetting([In] HWND hwnd, [In] FEEDBACK_TYPE feedback, [In] DWORD dwFlags,
             [In][Out] ref UINT32 pSize, [In] PVOID config);
@@ -995,6 +996,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful; otherwise, returns <see cref="FALSE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowFeedbackSetting", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowFeedbackSetting([In] HWND hwnd, [In] FEEDBACK_TYPE feedback, [In] DWORD dwFlags,
             [In] UINT32 size, [In] PVOID configuration);

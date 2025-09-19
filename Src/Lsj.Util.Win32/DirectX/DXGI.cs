@@ -298,7 +298,7 @@ namespace Lsj.Util.Win32.DirectX
         /// You can find more information on how Dynamic Refresh Rate works in the Compositor clock topic.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows11, 22502)]
+        [WindowsVersionRequirement(WindowsVersion.Windows11, BuildNumbers.Windows11_23H2)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDisableVBlankVirtualization", ExactSpelling = true)]
         public static extern HRESULT DXGIDisableVBlankVirtualization();
 

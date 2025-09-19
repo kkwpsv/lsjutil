@@ -366,6 +366,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
             "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
             "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChangeWindowMessageFilter([In] WindowMessages message, [In] MessageFilterActions dwFlag);
 
@@ -421,6 +422,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
             "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
             "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChangeWindowMessageFilterEx([In] HWND hwnd, [In] WindowMessages message,
             [In] MessageFilterActions action, [In][Out] ref CHANGEFILTERSTRUCT pChangeFilterStruct);

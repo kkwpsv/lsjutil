@@ -295,6 +295,7 @@ namespace Lsj.Util.Win32
         /// The caller can obtain names for the adapter, the source, and the target.
         /// The caller can also call <see cref="DisplayConfigGetDeviceInfo"/> to obtain the best resolution of the connected display device.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisplayConfigGetDeviceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes DisplayConfigGetDeviceInfo([In][Out] ref DISPLAYCONFIG_DEVICE_INFO_HEADER requestPacket);
 
@@ -339,6 +340,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DisplayConfigSetDeviceInfo"/> fails if the <see cref="DISPLAYCONFIG_DEVICE_INFO_HEADER.type"/> member
         /// of <see cref="DISPLAYCONFIG_DEVICE_INFO_HEADER"/> is set to one of the DISPLAYCONFIG_DEVICE_INFO_GET_XXX values.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisplayConfigSetDeviceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes DisplayConfigSetDeviceInfo([In] in  DISPLAYCONFIG_DEVICE_INFO_HEADER setPacket);
 
@@ -666,6 +668,7 @@ namespace Lsj.Util.Win32
         /// so that it has the space to add the additional source and target modes
         /// after calling <see cref="QueryDisplayConfig"/> and before calling <see cref="SetDisplayConfig"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDisplayConfigBufferSizes", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes GetDisplayConfigBufferSizes([In] QueryDisplayConfigFlags flags,
             [Out] out UINT32 numPathArrayElements, [Out] out UINT32 numModeInfoArrayElements);
@@ -811,6 +814,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// All sizes in the <see cref="DEVMODE"/> structure are in terms of physical pixels, and are not related to the calling context.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryDisplayConfig", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes QueryDisplayConfig([In] QueryDisplayConfigFlags flags, [In][Out] ref UINT32 numPathArrayElements,
             [Out] DISPLAYCONFIG_PATH_INFO[] pathArray, [In][Out] ref UINT32 numModeInfoArrayElements, [Out] DISPLAYCONFIG_MODE_INFO[] modeInfoArray,
@@ -1005,6 +1009,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// All sizes in the DEVMODE structure are in terms of physical pixels, and are not related to the calling context.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDisplayConfig", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes SetDisplayConfig([In] UINT32 numPathArrayElements, [In] DISPLAYCONFIG_PATH_INFO[] pathArray,
             [In] UINT32 numModeInfoArrayElements, [In] DISPLAYCONFIG_MODE_INFO[] modeInfoArray, [In] SetDisplayConfigFlags flags);

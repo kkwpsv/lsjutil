@@ -599,6 +599,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// <see cref="TPM_WORKAREA"/> is supported for the <see cref="TrackPopupMenu"/> and <see cref="TrackPopupMenuEx"/> functions.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CalculatePopupWindowPosition", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CalculatePopupWindowPosition([In] in POINT anchorPoint, [In] in SIZE windowSize, [In] TrackPopupMenuFlags flags,
             [In] in RECT excludeRect, [Out] out RECT popupWindowPosition);
@@ -2436,6 +2437,7 @@ namespace Lsj.Util.Win32
         /// and other necessary functions such as <see cref="DwmIsCompositionEnabled"/>, will strictly protect windowed content,
         /// as in the case where someone takes a photograph of the screen.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDisplayAffinity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowDisplayAffinity([In] HWND hWnd, [Out] out WindowDisplayAffinities pdwAffinity);
 
@@ -3612,6 +3614,7 @@ namespace Lsj.Util.Win32
         /// Setting the display affinity to <see cref="WDA_EXCLUDEFROMCAPTURE"/> on previous version of Windows
         /// will behave as if <see cref="WDA_MONITOR"/> is applied.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowDisplayAffinity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowDisplayAffinity([In] HWND hWnd, [In] WindowDisplayAffinities dwAffinity);
 
@@ -4246,6 +4249,7 @@ namespace Lsj.Util.Win32
         /// An application should also process the message and re-create its layered windows when the display's color depth changes.
         /// For more information, see Layered Windows.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindowIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UpdateLayeredWindowIndirect([In] HWND hwnd, [In] in UPDATELAYEREDWINDOWINFO pULWInfo);
 
@@ -4335,6 +4339,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WindowFromPhysicalPoint"/> function does not retrieve a handle to a hidden or disabled window,
         /// even if the point is within the window.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromPhysicalPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND WindowFromPhysicalPoint([In] POINT Point);
     }

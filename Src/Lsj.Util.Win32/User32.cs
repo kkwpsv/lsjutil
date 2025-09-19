@@ -235,6 +235,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// <see langword="true"/> if the method succeeds, otherwise <see langword="false"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetAutoRotationState([In][Out] ref AR_STATE pState);
 
@@ -547,6 +548,7 @@ namespace Lsj.Util.Win32
         /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
         /// In those cases, use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> and <see cref="LogicalToPhysicalPointForPerMonitorDPI"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogicalToPhysicalPoint", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LogicalToPhysicalPoint([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
@@ -718,6 +720,7 @@ namespace Lsj.Util.Win32
         /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
         /// In those cases, use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> and <see cref="LogicalToPhysicalPointForPerMonitorDPI"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PhysicalToLogicalPoint", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PhysicalToLogicalPoint([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
@@ -750,6 +753,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr RegisterPowerSettingNotification([In] HANDLE hRecipient, [In] in GUID PowerSettingGuid,
             [In] RegisterPowerSettingNotificationFlags Flags);
@@ -840,6 +844,7 @@ namespace Lsj.Util.Win32
         /// otherwise the application could behave unpredictably and could be vulnerable to security exploits.
         /// For more info, see <see cref="SetUserObjectInformation"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCoalescableTimer", ExactSpelling = true, SetLastError = true)]
         public static extern UINT_PTR SetCoalescableTimer([In] HWND hWnd, [In] UINT_PTR nIDEvent, [In] UINT uElapse,
             [In] TIMERPROC lpTimerFunc, [In] ULONG uToleranceDelay);
@@ -1043,6 +1048,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Set the notification behavior by calling <see cref="SystemParametersInfo"/> with the <see cref="SPI_SETSOUNDSENTRY"/> value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SoundSentry", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SoundSentry();
 

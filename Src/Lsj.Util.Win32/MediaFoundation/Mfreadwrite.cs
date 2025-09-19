@@ -1,17 +1,11 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
-using Lsj.Util.Win32.MediaFoundation.Enums;
-using System.Resources;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.DirectX.D3D11;
-using static Lsj.Util.Win32.DirectX.Enums.D3D11_CREATE_DEVICE_FLAG;
-using static Lsj.Util.Win32.MediaFoundation.Constants;
-using static Lsj.Util.Win32.MediaFoundation.Enums.MediaFoundationStartupFlags;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.MediaFoundation.Mfplat;
 
 namespace Lsj.Util.Win32.MediaFoundation
 {
@@ -57,7 +51,7 @@ namespace Lsj.Util.Win32.MediaFoundation
         /// This function is available on Windows Vista if Platform Update Supplement for Windows Vista is installed.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, Note = "Platform Update Supplement")]
         [DllImport("Mfreadwrite.dll", CharSet = CharSet.Unicode, EntryPoint = "MFCreateSourceReaderFromURL", ExactSpelling = true)]
         public static extern HRESULT MFCreateSourceReaderFromURL([In] LPCWSTR pwszURL, P<IMFAttributes> pAttributes,
             [Out] out P<IMFSourceReader> ppSourceReader);

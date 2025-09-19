@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32
         /// To use this function in an application, call <see cref="GetProcAddress"/> to retrieve the function's address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddDllDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([In] LPCWSTR NewDirectory);
 
@@ -1041,7 +1041,7 @@ namespace Lsj.Util.Win32
         /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveDllDirectory([In] DLL_DIRECTORY_COOKIE Cookie);
 
@@ -1101,7 +1101,7 @@ namespace Lsj.Util.Win32
         /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDefaultDllDirectories([In] LoadLibraryExFlags DirectoryFlags);
 

@@ -83,6 +83,7 @@ namespace Lsj.Util.Win32
         /// The architecture of the target process.
         /// Optionally, the architecture of the host system.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process2", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWow64Process2([In] HANDLE hProcess, [Out] out USHORT pProcessMachine, [Out] out USHORT pNativeMachine);
 

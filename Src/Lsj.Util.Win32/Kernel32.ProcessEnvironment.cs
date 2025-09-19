@@ -331,9 +331,9 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns <see cref="S_OK"/> on success.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetEnvironmentStrings([In] LPWCH NewEnvironment);
-
 
         /// <summary>
         /// <para>

@@ -1357,6 +1357,7 @@ namespace Lsj.Util.Win32
         /// Setting the handle for a wait object replaces the previous handle, if any.
         /// You must re-register the event with the wait object before signaling it each time to trigger the wait callback.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolWait", ExactSpelling = true, SetLastError = true)]
         public static extern void SetThreadpoolWait([In] PTP_WAIT pwa, [In] HANDLE h, [In] in FILETIME pftTimeout);

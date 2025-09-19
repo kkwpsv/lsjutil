@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -36,6 +37,7 @@ namespace Lsj.Util.Win32
         /// using one of the <see cref="PostMessage"/> or <see cref="SendMessage"/> classes of API functions,
         /// the handle is transferred with the message and need not be closed by the application.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseGestureInfoHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseGestureInfoHandle([In] HGESTUREINFO hGestureInfo);
 
@@ -62,6 +64,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="CloseTouchInputHandle"/> will not free memory associated with values retrieved in a call to <see cref="GetTouchInputInfo"/>.
         /// Values in structures passed to <see cref="GetTouchInputInfo"/> will be valid until you delete them.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseTouchInputHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseTouchInputHandle([In] HTOUCHINPUT hTouchInput);
 
@@ -105,6 +108,7 @@ namespace Lsj.Util.Win32
         /// 0x00000001
         /// If specified, <see cref="GetGestureConfig"/> returns consolidated configuration for the specified window and its parent window chain.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureConfig", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetGestureConfig([In] HWND hwnd, [In] DWORD dwReserved, [In] DWORD dwFlags, [In] in UINT pcIDs,
             [In][Out] GESTURECONFIG[] pGestureConfig, [In] UINT cbSize);
@@ -135,6 +139,7 @@ namespace Lsj.Util.Win32
         /// This function is reserved for future use and should only be used for testing.
         /// Windows 7 gestures do not use extra arguments.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureExtraArgs", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetGestureExtraArgs([In] HGESTUREINFO hGestureInfo, [In] UINT cbExtraArgs, [In] IntPtr pExtraArgs);
 
@@ -166,6 +171,7 @@ namespace Lsj.Util.Win32
         /// or is forwarded using one of the <see cref="PostMessage"/> or <see cref="SendMessage"/> classes of API functions,
         /// the handle is transferred with the message and need not be closed by the application.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetGestureInfo([In] HGESTUREINFO hGestureInfo, [Out] out GESTUREINFO pGestureInfo);
 
@@ -206,6 +212,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="CloseTouchInputHandle"/> will not free memory associated with values retrieved in a call to <see cref="GetTouchInputInfo"/>.
         /// Values in structures passed to <see cref="GetTouchInputInfo"/> will be valid until you delete them.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTouchInputInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTouchInputInfo([In] HTOUCHINPUT hTouchInput, [In] UINT cInputs, [Out] TOUCHINPUT[] pInputs, [In] int cbSize);
 
@@ -237,6 +244,7 @@ namespace Lsj.Util.Win32
         /// Setting this flag enables palm detection and will prevent some <see cref="WM_TOUCH"/> messages from being sent to your application.
         /// This is useful if you do not want to receive <see cref="WM_TOUCH"/> messages that are from palm contact.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTouchWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsTouchWindow([In] HWND hwnd, [Out] out TouchWindowFlags pulFlags);
 
@@ -279,6 +287,7 @@ namespace Lsj.Util.Win32
         /// and palm detection is not performed before the packets are sent to your application.
         /// Enabling <see cref="TWF_WANTPALM"/> is most useful if you want minimal latencies when processing <see cref="WM_TOUCH"/> messages.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterTouchWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterTouchWindow([In] HWND hwnd, [In] TouchWindowFlags ulFlags);
 
@@ -354,6 +363,7 @@ namespace Lsj.Util.Win32
         /// Note
         /// Calling <see cref="SetGestureConfig"/> will change the gesture configuration for the lifetime of the Window, not just for the next gesture.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetGestureConfig", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetGestureConfig([In] HWND hwnd, [In] DWORD dwReserved, [In] UINT cIDs, [In] GESTURECONFIG[] pGestureConfig, [In] UINT cbSize);
 
@@ -378,6 +388,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="UnregisterTouchWindow"/> function succeeds
         /// even if the specified window was not previously registered as being touch-capable.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterTouchWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterTouchWindow([In] HWND hwnd);
     }

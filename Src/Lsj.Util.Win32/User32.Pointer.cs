@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
@@ -38,6 +39,7 @@ namespace Lsj.Util.Win32
         /// If the current state is not equal to the specified state, the call fails.
         /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableMouseInPointer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableMouseInPointer([In] BOOL fEnable);
 
@@ -56,6 +58,7 @@ namespace Lsj.Util.Win32
         /// An address of a <see cref="UINT32"/> to receive the tablet cursor identifier, if any, associated with the specified pointer.
         /// </param>
         /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerCursorId", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerCursorId([In] UINT32 pointerId, [Out] out UINT32 cursorId);
 
@@ -78,6 +81,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns <see cref="FALSE"/>.
         /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevice", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerDevice([In] HANDLE device, [Out] out POINTER_DEVICE_INFO pointerDevice);
 
@@ -103,6 +107,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
         /// If the function fails, call the <see cref="GetLastError"/> function for more information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDeviceCursors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerDeviceCursors([In] HANDLE device, [In][Out] ref UINT32 cursorCount, [Out] POINTER_DEVICE_CURSOR_INFO[] deviceCursors);
 
@@ -132,6 +137,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
         /// If the function fails, call the <see cref="GetLastError"/> function for more information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDeviceProperties", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerDeviceProperties([In] HANDLE device, [In][Out] ref UINT32 propertyCount,
             [Out] POINTER_DEVICE_PROPERTY[] pointerProperties);
@@ -158,6 +164,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
         /// If the function fails, call the <see cref="GetLastError"/> function for more information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDeviceRects", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerDeviceRects([In] HANDLE device, [Out] out RECT pointerDeviceRect, [Out] out RECT displayRect);
 
@@ -190,6 +197,7 @@ namespace Lsj.Util.Win32
         /// 2560 total contacts per system session, regardless of the number of attached devices.
         /// For example, 10 pointer devices with 256 contacts each, 20 pointer devices with 128 contacts each, and so on.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevices", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerDevices([In][Out] ref UINT32 deviceCount, [Out] POINTER_DEVICE_INFO[] pointerDevices);
 
@@ -253,6 +261,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFrameInfo([In] UINT32 pointerId, [In][Out] ref UINT32 pointerCount, [Out] POINTER_INFO[] pointerInfo);
 
@@ -325,6 +334,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFrameInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount,
             [In][Out] ref UINT32 pointerCount, [Out] POINTER_INFO[] pointerInfo);
@@ -389,6 +399,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFramePenInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFramePenInfo([In] UINT32 pointerId, [In][Out] ref UINT32 pointerCount, [Out] POINTER_PEN_INFO[] penInfo);
 
@@ -465,6 +476,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFramePenInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFramePenInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount,
             [In][Out] ref UINT32 pointerCount, [Out] POINTER_PEN_INFO[] penInfo);
@@ -529,6 +541,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameTouchInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFrameTouchInfo([In] UINT32 pointerId, [In][Out] ref UINT32 pointerCount, [Out] POINTER_TOUCH_INFO[] touchInfo);
 
@@ -605,6 +618,7 @@ namespace Lsj.Util.Win32
         /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameTouchInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerFrameTouchInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount,
             [In][Out] ref UINT32 pointerCount, [Out] POINTER_TOUCH_INFO[] touchInfo);
@@ -643,6 +657,7 @@ namespace Lsj.Util.Win32
         /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerInfo([In] UINT32 pointerId, [Out] out POINTER_INFO pointerInfo);
 
@@ -695,6 +710,7 @@ namespace Lsj.Util.Win32
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
         /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount, [Out] POINTER_INFO[] pointerInfo);
 
@@ -759,6 +775,7 @@ namespace Lsj.Util.Win32
         /// (or the first <see cref="POINTER_INFO"/> structure in the array returned by <see cref="GetPointerInfoHistory"/>),
         /// the function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInputTransform", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerInputTransform([In] UINT32 pointerId, [In] UINT32 historyCount, [Out] INPUT_TRANSFORM[] inputTransform);
 
@@ -796,6 +813,7 @@ namespace Lsj.Util.Win32
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
         /// If the specified pointer is not of type <see cref="PT_PEN"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerPenInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerPenInfo([In] UINT32 pointerId, [Out] out POINTER_PEN_INFO penInfo);
 
@@ -849,6 +867,7 @@ namespace Lsj.Util.Win32
         /// If the specified pointer is not of type <see cref="PT_PEN"/>,
         /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerPenInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerPenInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount, [Out] POINTER_PEN_INFO[] penInfo);
 
@@ -886,6 +905,7 @@ namespace Lsj.Util.Win32
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
         /// If the specified pointer is not of type <see cref="PT_TOUCH"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerTouchInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerTouchInfo([In] UINT32 pointerId, [Out] out POINTER_TOUCH_INFO touchInfo);
 
@@ -939,6 +959,7 @@ namespace Lsj.Util.Win32
         /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
         /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerTouchInfoHistory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerTouchInfoHistory([In] UINT32 pointerId, [In][Out] ref UINT32 entriesCount, [Out] POINTER_TOUCH_INFO[] touchInfo);
 
@@ -967,6 +988,7 @@ namespace Lsj.Util.Win32
         /// Note
         /// This function will never return with the generic <see cref="PT_POINTER"/> type.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerType", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerType([In] UINT32 pointerId, [Out] out POINTER_INPUT_TYPE pointerType);
 
@@ -997,6 +1019,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
         /// If the function fails, call the <see cref="GetLastError"/> function for more information.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawPointerDeviceData", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetRawPointerDeviceData([In] UINT32 pointerId, [In] UINT32 historyCount, [In] UINT32 propertiesCount,
             [In] POINTER_DEVICE_PROPERTY[] pProperties, [Out] LONG[] pValues);
@@ -1015,6 +1038,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// By default, touch prediction is activated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUnpredictedMessagePos", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetUnpredictedMessagePos();
 
@@ -1040,6 +1064,7 @@ namespace Lsj.Util.Win32
         /// If the current state is not equal to the specified state, the call fails.
         /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsMouseInPointerEnabled", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsMouseInPointerEnabled();
 
@@ -1065,6 +1090,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns <see cref="FALSE"/>.
         /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPointerDeviceNotifications", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RegisterPointerDeviceNotifications([In] HWND window, [In] BOOL notifyRange);
 
@@ -1113,6 +1139,7 @@ namespace Lsj.Util.Win32
         /// If the calling thread does not own the window to which the pointer message has been delivered,
         /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SkipPointerFrameMessages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SkipPointerFrameMessages([In] UINT32 pointerId);
     }

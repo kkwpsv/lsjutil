@@ -220,6 +220,7 @@ namespace Lsj.Util.Win32
         /// The default size of the desktop heap depends on factors such as hardware architecture.
         /// To retrieve the size of the desktop heap, call the <see cref="GetUserObjectInformation"/> function with <see cref="UOI_HEAPSIZE"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopExW", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK CreateDesktopEx([In] LPCWSTR lpszDesktop, [In] LPCWSTR lpszDevice, [In] in DEVMODE pDevmode,
             [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa, [In] ULONG ulHeapSize, [In] PVOID pvoid);

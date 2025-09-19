@@ -263,6 +263,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For a description of the difference between logical coordinates and physical coordinates, see <see cref="PhysicalToLogicalPoint"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPhysicalCursorPos([Out] out POINT lpPoint);
 
@@ -409,6 +410,7 @@ namespace Lsj.Util.Win32
         /// For a description of the difference between logical coordinates and physical coordinates, see <see cref="PhysicalToLogicalPoint"/>.
         /// <see cref="GetLastError"/> can be called to get more information about any error that is generated.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPhysicalCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetPhysicalCursorPos([In] int X, [In] int Y);
 

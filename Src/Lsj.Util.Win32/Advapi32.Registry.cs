@@ -1052,7 +1052,7 @@ namespace Lsj.Util.Win32
         /// On legacy versions of Windows, this API is also exposed by kernel32.dll.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows Vista, Windows XP Professional x64 Edition")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "Windows Vista, Windows XP Professional x64 Edition")]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegDeleteKeyEx([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] REGSAM samDesired, [In] DWORD Reserved);
 
@@ -1362,7 +1362,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// <para>
-        /// If the function succeeds, the return value is ERROR_SUCCESS.
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
         /// </para>
         /// <para>
         /// If the function fails, the return value is a system error code.

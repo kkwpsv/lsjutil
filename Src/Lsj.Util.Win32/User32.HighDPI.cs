@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -54,6 +55,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectExForDpi", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectExForDpi([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu,
             [In] ExtendedWindowStyles dwExStyle, [In] UINT dpi);
@@ -81,6 +83,7 @@ namespace Lsj.Util.Win32
         /// <see cref="AreDpiAwarenessContextsEqual"/> ignores informational flags and determines if the values are equal.
         /// You can't use a direct bitwise comparison because of these informational flags.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreDpiAwarenessContextsEqual", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AreDpiAwarenessContextsEqual([In] DPI_AWARENESS_CONTEXT dpiContextA, [In] DPI_AWARENESS_CONTEXT dpiContextB);
 
@@ -129,6 +132,7 @@ namespace Lsj.Util.Win32
         /// }
         /// </code>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableNonClientDpiScaling", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableNonClientDpiScaling([In] HWND hwnd);
 
@@ -151,6 +155,7 @@ namespace Lsj.Util.Win32
         /// For example, it includes both the current and the inherited <see cref="DPI_AWARENESS"/>.
         /// This method retrieves the <see cref="DPI_AWARENESS"/> from the structure.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAwarenessFromDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS GetAwarenessFromDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
@@ -169,6 +174,7 @@ namespace Lsj.Util.Win32
         /// The flags set on the given window.
         /// If passed an invalid handle, this function will return zero, and set its last error to <see cref="ERROR_INVALID_HANDLE"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDialogControlDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS GetDialogControlDpiChangeBehavior([In] HWND hWnd);
 
@@ -192,6 +198,7 @@ namespace Lsj.Util.Win32
         /// It can be difficult to distinguish between a return value of <see cref="DDC_DEFAULT"/> and the error case, which is zero.
         /// To determine between the two, it is recommended that you call <see cref="GetLastError"/> to check the error.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDialogDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DIALOG_DPI_CHANGE_BEHAVIORS GetDialogDpiChangeBehavior([In] HWND hDlg);
 
@@ -210,6 +217,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The <see cref="DPI_AWARENESS_CONTEXT"/> for the specified process.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1903)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiAwarenessContextForProcess", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetDpiAwarenessContextForProcess([In] HANDLE hProcess);
 
@@ -231,6 +239,7 @@ namespace Lsj.Util.Win32
         /// For any other <see cref="DPI_AWARENESS"/> value, the return value will be the actual system DPI.
         /// You should not cache the system DPI, but should use <see cref="GetDpiForSystem"/> whenever you need the system DPI value.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForSystem", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDpiForSystem();
 
@@ -256,6 +265,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DPI_AWARENESS_SYSTEM_AWARE"/>: The system DPI.
         /// <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/>: The DPI of the monitor where the window is located.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDpiForWindow([In] HWND hwnd);
 
@@ -279,6 +289,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2"/> will return a value of 0 for their DPI.
         /// This is because the DPI of a per-monitor-aware window can change, and the actual DPI cannot be returned without the window's HWND.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiFromDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDpiFromDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
@@ -305,6 +316,7 @@ namespace Lsj.Util.Win32
         /// That is because the current context always assumes a DPI of 96.
         /// For any other <see cref="DPI_AWARENESS"/> value, the return value will be the actual system DPI of the given process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDpiForProcess", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemDpiForProcess([In] HANDLE hProcess);
 
@@ -331,6 +343,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetricsForDpi", ExactSpelling = true, SetLastError = true)]
         public static extern int GetSystemMetricsForDpi([In] SystemMetricIndexes nIndex, [In] UINT dpi);
 
@@ -350,6 +363,7 @@ namespace Lsj.Util.Win32
         /// If <see cref="SetThreadDpiAwarenessContext"/> was never called for this thread,
         /// then the return value will equal the default <see cref="DPI_AWARENESS_CONTEXT"/> for the process.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetThreadDpiAwarenessContext();
 
@@ -368,6 +382,7 @@ namespace Lsj.Util.Win32
         /// This API returns the hosting behavior set by an earlier call of <see cref="SetThreadDpiHostingBehavior"/>,
         /// or <see cref="DPI_HOSTING_BEHAVIOR_DEFAULT"/> if no earlier call has been made.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_HOSTING_BEHAVIOR GetThreadDpiHostingBehavior();
 
@@ -391,6 +406,7 @@ namespace Lsj.Util.Win32
         /// The return value of <see cref="GetWindowDpiAwarenessContext"/> is not affected by the <see cref="DPI_AWARENESS"/> of the current thread.
         /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter. 
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
 
@@ -414,6 +430,7 @@ namespace Lsj.Util.Win32
         /// as set by a call to <see cref="SetThreadDpiHostingBehavior"/>.
         /// This is a permanent value and cannot be changed after the window is created, even if the thread's hosting behavior is changed.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_HOSTING_BEHAVIOR GetWindowDpiHostingBehavior([In] HWND hwnd);
 
@@ -434,6 +451,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// True if the call is successful.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InheritWindowMonitor", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InheritWindowMonitor([In] HWND hwnd, [In] HWND hwndInherit);
 
@@ -451,6 +469,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("IsProcessDPIAware is available for use in the operating systems specified in the Requirements section. " +
             "It may be altered or unavailable in subsequent versions. Instead, use GetProcessDPIAwareness.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessDPIAware", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsProcessDPIAware();
 
@@ -473,6 +492,7 @@ namespace Lsj.Util.Win32
         /// You should make sure a context is valid before using <see cref="SetThreadDpiAwarenessContext"/> to that context.
         /// An input value of <see cref="NULL"/> is considered to be an invalid context and will result in a return value of <see cref="FALSE"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsValidDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
@@ -528,6 +548,7 @@ namespace Lsj.Util.Win32
         /// Since an application with a PROCESS_DPI_AWARENESS value of PROCESS_PER_MONITOR_AWARE uses the actual DPI of the monitor,
         /// physical and logical coordinates are the same for this app.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogicalToPhysicalPointForPerMonitorDPI", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LogicalToPhysicalPointForPerMonitorDPI([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
@@ -576,7 +597,8 @@ namespace Lsj.Util.Win32
         /// it could call <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> for the corners
         /// of its rect and pass in the handle to the PROCESS_DPI_UNAWARE app's window.
         /// This will return points based on the other app's awareness that can be used to create a rect.
-        /// /// </remarks>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PhysicalToLogicalPointForPerMonitorDPI", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PhysicalToLogicalPointForPerMonitorDPI([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
@@ -614,6 +636,7 @@ namespace Lsj.Util.Win32
         /// This API influences individual controls within dialogs.
         /// The dialog-wide per-monitor DPI scaling behavior is controlled by <see cref="SetDialogDpiChangeBehavior"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDialogControlDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDialogControlDpiChangeBehavior([In] HWND hWnd, [In] DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS mask,
             [In] DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS values);
@@ -653,6 +676,7 @@ namespace Lsj.Util.Win32
         /// It is not an error to call this API outside of Per Monitor v2 contexts,
         /// though the flags will have no effect on the behavior of the specified dialog until the context is changed to Per Monitor v2.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDialogDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDialogDpiChangeBehavior([In] HWND hDlg, [In] DIALOG_DPI_CHANGE_BEHAVIORS mask,
             [In] DIALOG_DPI_CHANGE_BEHAVIORS values);
@@ -677,6 +701,7 @@ namespace Lsj.Util.Win32
         [Obsolete("It is recommended that you set the process-default DPI awareness via application manifest, not an API call. " +
             "See Setting the default DPI awareness for a process for more information. " +
             "Setting the process-default DPI awareness via API call can lead to unexpected application behavior.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDPIAware", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessDPIAware();
 
@@ -718,6 +743,7 @@ namespace Lsj.Util.Win32
         /// This is true regardless of whether you set the DPI awareness in the manifest or by using this API.
         /// If the DPI awareness level is not set, the default value is <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
@@ -744,6 +770,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The previous value set for the thread before calling this API.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows11)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadCursorCreationScaling", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetThreadCursorCreationScaling([In] UINT cursorDpi);
 
@@ -767,6 +794,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Use this API to change the <see cref="DPI_AWARENESS_CONTEXT"/> for the thread from the default value for the app.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT SetThreadDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT dpiContext);
 
@@ -806,6 +834,7 @@ namespace Lsj.Util.Win32
         /// Enabling mixed hosting behavior will not automatically adjust the thread's <see cref="DPI_AWARENESS_CONTEXT"/> to be compatible with legacy content.
         /// The thread's awareness context must still be manually changed before new windows are created to host such content.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_HOSTING_BEHAVIOR SetThreadDpiHostingBehavior([In] DPI_HOSTING_BEHAVIOR value);
 
@@ -856,6 +885,7 @@ namespace Lsj.Util.Win32
         /// For <paramref name="uiAction"/> values that contain strings within their associated structures,
         /// only Unicode (LOGFONTW) strings are supported in this function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoForDpi", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemParametersInfoForDpi([In] SystemParametersInfoParameters uiAction, [In] UINT uiParam,
             [In] PVOID pvParam, [In] SystemParametersInfoFlags fWinIni, [In] UINT dpi);

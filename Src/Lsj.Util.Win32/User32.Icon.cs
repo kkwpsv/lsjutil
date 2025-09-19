@@ -471,6 +471,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization.
         /// The output returned is not affected by the DPI of the calling thread. 
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfoExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetIconInfoEx([In] HICON hIcon, [Out] out ICONINFOEX piconinfo);
 

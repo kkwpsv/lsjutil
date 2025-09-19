@@ -1082,6 +1082,7 @@ namespace Lsj.Util.Win32
         /// It is the responsibility of the caller to free the icon resources created through this function when they are no longer needed.
         /// This can be done through the <see cref="DestroyIcon"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDefExtractIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHDefExtractIcon([In] LPCWSTR pszIconFile, [In] int iIndex, [In] UINT uFlags,
             [Out] out HICON phiconLarge, [Out] out HICON phiconSmall, [In] UINT nIconSize);
@@ -1617,66 +1618,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves the path of a known folder as an <see cref="ITEMIDLIST"/> structure.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderidlist"/>
-        /// </para>
-        /// </summary>
-        /// <param name="rfid">
-        /// A reference to the <see cref="KNOWNFOLDERID"/> that identifies the folder.
-        /// The folders associated with the known folder IDs might not exist on a particular system.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Flags that specify special retrieval options.
-        /// This value can be 0; otherwise, it is one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
-        /// </param>
-        /// <param name="hToken">
-        /// An access token used to represent a particular user.
-        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
-        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
-        /// that can have multiple users but are treated as belonging to a single user.
-        /// The most commonly used folder of this type is Documents.
-        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
-        /// It must have appropriate security privileges for the particular user,
-        /// including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>, and the user's registry hive must be currently mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the hToken parameter a value of -1 indicates the Default User.
-        /// This allows clients of <see cref="SHGetKnownFolderIDList"/> to find folder locations (such as the Desktop folder) for the Default User.
-        /// The Default User user profile is duplicated when any new user account is created,
-        /// and includes special folders such as Documents and Desktop.
-        /// Any items added to the Default User folder also appear in any new user account.
-        /// Note that access to the Default User folders requires administrator privileges.
-        /// </param>
-        /// <param name="ppidl">
-        /// When this method returns, contains a pointer to the PIDL of the folder.
-        /// This parameter is passed uninitialized.
-        /// The caller is responsible for freeing the returned PIDL when it is no longer needed by calling ILFree.
-        /// </param>
-        /// <returns>
-        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
-        /// <see cref="E_INVALIDARG"/>:
-        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
-        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
-        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
-        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
-        /// </returns>
-        /// <remarks>
-        /// This function replaces <see cref="SHGetFolderLocation"/>.
-        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderIDList"/>.
-        /// Callers using this function must have at least User privileges.
-        /// Some known folders, for example, the Documents folder, are per-user.
-        /// Each user has a different path for the Documents folder.
-        /// If hToken is <see cref="NULL"/>, the API tries to access the current user's instance of the folder.
-        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token,
-        /// and attempts to access that user's instance of the folder.
-        /// </remarks>
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderIDList", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetKnownFolderIDList([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
-            [In] HANDLE hToken, [Out] out LPITEMIDLIST ppidl);
-
-        /// <summary>
-        /// <para>
         /// Deprecated. Retrieves the path of a folder as an ITEMIDLIST structure.
         /// </para>
         /// <para>
@@ -1809,6 +1750,68 @@ namespace Lsj.Util.Win32
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] IntPtr pszPath);
 
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the path of a known folder as an <see cref="ITEMIDLIST"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderidlist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rfid">
+        /// A reference to the <see cref="KNOWNFOLDERID"/> that identifies the folder.
+        /// The folders associated with the known folder IDs might not exist on a particular system.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags that specify special retrieval options.
+        /// This value can be 0; otherwise, it is one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
+        /// </param>
+        /// <param name="hToken">
+        /// An access token used to represent a particular user.
+        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
+        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
+        /// that can have multiple users but are treated as belonging to a single user.
+        /// The most commonly used folder of this type is Documents.
+        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
+        /// It must have appropriate security privileges for the particular user,
+        /// including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>, and the user's registry hive must be currently mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// Assigning the hToken parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetKnownFolderIDList"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created,
+        /// and includes special folders such as Documents and Desktop.
+        /// Any items added to the Default User folder also appear in any new user account.
+        /// Note that access to the Default User folders requires administrator privileges.
+        /// </param>
+        /// <param name="ppidl">
+        /// When this method returns, contains a pointer to the PIDL of the folder.
+        /// This parameter is passed uninitialized.
+        /// The caller is responsible for freeing the returned PIDL when it is no longer needed by calling ILFree.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
+        /// <see cref="E_INVALIDARG"/>:
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </returns>
+        /// <remarks>
+        /// This function replaces <see cref="SHGetFolderLocation"/>.
+        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// Callers using this function must have at least User privileges.
+        /// Some known folders, for example, the Documents folder, are per-user.
+        /// Each user has a different path for the Documents folder.
+        /// If hToken is <see cref="NULL"/>, the API tries to access the current user's instance of the folder.
+        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token,
+        /// and attempts to access that user's instance of the folder.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderIDList", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHGetKnownFolderIDList([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
+            [In] HANDLE hToken, [Out] out LPITEMIDLIST ppidl);
+
         /// <summary>
         /// <para>
         /// Retrieves the full path of a known folder identified by the folder's <see cref="KNOWNFOLDERID"/>.
@@ -1861,6 +1864,7 @@ namespace Lsj.Util.Win32
         /// This function replaces <see cref="SHGetFolderPath"/>.
         /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderPath"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
             [In] HANDLE hToken, [Out] out string ppszPath);
@@ -1890,6 +1894,7 @@ namespace Lsj.Util.Win32
         /// It is the responsibility of the caller to free the string pointed to by <paramref name="ppszName"/> when it is no longer needed.
         /// Call <see cref="CoTaskMemFree"/> on *<paramref name="ppszName"/> to free the memory.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNameFromIDList", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetNameFromIDList([In] LPCITEMIDLIST pidl, [In] SIGDN sigdnName, [Out] out LPWSTR ppszName);
 
@@ -1968,6 +1973,7 @@ namespace Lsj.Util.Win32
         /// System.AppUserModel.RelaunchDisplayNameResource
         /// System.AppUserModel.RelaunchIconResource
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPropertyStoreForWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetPropertyStoreForWindow([In] HWND hwnd, [In] in IID riid, [Out] out IntPtr ppv);
 
@@ -2066,6 +2072,7 @@ namespace Lsj.Util.Win32
         /// If this function returns an icon handle in the <see cref="SHSTOCKICONINFO.hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] ShellGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
 
@@ -2127,6 +2134,7 @@ namespace Lsj.Util.Win32
         /// This function cannot be called on folders of type <see cref="KF_CATEGORY_FIXED"/> and <see cref="KF_CATEGORY_VIRTUAL"/>.
         /// To call this function on a folder of type <see cref="KF_CATEGORY_COMMON"/>, the calling application must be running with elevated privileges.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHSetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHSetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
             [In] HANDLE hToken, [In] LPCWSTR pszPath);

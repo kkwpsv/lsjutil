@@ -1959,7 +1959,7 @@ namespace Lsj.Util.Win32
         /// It is not possible to permanently disable safe search mode.
         /// This function does not modify the system registry.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "KB959426")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSearchPathMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSearchPathMode([In] SearchPathModes Flags);
 
