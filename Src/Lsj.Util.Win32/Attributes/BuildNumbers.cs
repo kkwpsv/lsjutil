@@ -16,7 +16,13 @@ namespace Lsj.Util.Win32.Attributes
 
         public const int WindowsVista = 6000;
 
+        public const int WindowsVistaSP1 = 6001;
+
+        public const int WindowsVistaSP2 = 6002;
+
         public const int Windows7 = 7600;
+
+        public const int Windows7SP1 = 7601;
 
         public const int Windows8 = 9200;
 

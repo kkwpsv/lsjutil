@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -47,6 +48,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembershipEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CheckTokenMembershipEx([In] HANDLE TokenHandle, [In] PSID SidToCheck,
             [In] CheckTokenMembershipExFlags Flags, [Out] out BOOL IsMember);

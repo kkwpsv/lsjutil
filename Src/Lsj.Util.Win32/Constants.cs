@@ -69,9 +69,34 @@ namespace Lsj.Util.Win32
         public const int CCHFORMNAME = 32;
 
         /// <summary>
+        /// CF_EMBEDSOURCE
+        /// </summary>
+        public const string CF_EMBEDSOURCE = "Embed Source";
+
+        /// <summary>
+        /// CF_EMBEDDEDOBJECT
+        /// </summary>
+        public const string CF_EMBEDDEDOBJECT = "Embedded Object";
+
+        /// <summary>
+        /// CF_FILENAME
+        /// </summary>
+        public const string CF_FILENAME = "FileName";
+
+        /// <summary>
         /// CHILDID_SELF
         /// </summary>
         public const uint CHILDID_SELF = 0;
+
+        /// <summary>
+        /// COLE_DEFAULT_AUTHINFO
+        /// </summary>
+        public static readonly IntPtr COLE_DEFAULT_AUTHINFO = (IntPtr)(-1);
+
+        /// <summary>
+        /// COLE_DEFAULT_PRINCIPAL
+        /// </summary>
+        public static readonly IntPtr COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
 
         /// <summary>
         /// CONSOLE_TEXTMODE_BUFFER

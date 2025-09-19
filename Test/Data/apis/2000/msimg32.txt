@@ -1,5 +1,5 @@
+vSetDdrawflag
 AlphaBlend
 DllInitialize
 GradientFill
 TransparentBlt
-vSetDdrawflag

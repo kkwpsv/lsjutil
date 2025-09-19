@@ -1,0 +1,12 @@
+MagGetColorEffect
+MagGetImageScalingCallback
+MagGetWindowFilterList
+MagGetWindowSource
+MagGetWindowTransform
+MagInitialize
+MagSetColorEffect
+MagSetImageScalingCallback
+MagSetWindowFilterList
+MagSetWindowSource
+MagSetWindowTransform
+MagUninitialize

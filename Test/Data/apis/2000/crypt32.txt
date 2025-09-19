@@ -1,3 +1,8 @@
+ChainWlxLogoffEvent
+CryptLoadSip
+PFXExportCertStore
+PFXImportCertStore
+PFXIsPFXBlob
 CertAddCRLContextToStore
 CertAddCRLLinkToStore
 CertAddCTLContextToStore
@@ -107,7 +112,6 @@ CertVerifyRevocation
 CertVerifySubjectCertificateContext
 CertVerifyTimeValidity
 CertVerifyValidityNesting
-ChainWlxLogoffEvent
 CreateFileU
 CryptAcquireCertificatePrivateKey
 CryptAcquireContextU
@@ -152,7 +156,6 @@ CryptImportPublicKeyInfoEx
 CryptInitOIDFunctionSet
 CryptInstallDefaultContext
 CryptInstallOIDFunctionAddress
-CryptLoadSip
 CryptMemAlloc
 CryptMemFree
 CryptMemRealloc
@@ -247,10 +250,7 @@ I_CryptUninstallAsn1Module
 I_CryptUninstallOssGlobal
 I_CryptUnregisterSmartCardStore
 I_CryptWalkAllLruCacheEntries
-PFXExportCertStore
 PFXExportCertStoreEx
-PFXImportCertStore
-PFXIsPFXBlob
 PFXVerifyPassword
 RegCreateHKCUKeyExU
 RegCreateKeyExU

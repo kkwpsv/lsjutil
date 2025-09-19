@@ -170,6 +170,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="TIME_ZONE_INFORMATION.StandardName"/> and <see cref="TIME_ZONE_INFORMATION.DaylightName"/> members
         /// of the resultant <see cref="TIME_ZONE_INFORMATION"/> structure are localized according to the current user default UI language.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeZoneInformationForYear", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTimeZoneInformationForYear([In] USHORT wYear, [In] in DYNAMIC_TIME_ZONE_INFORMATION pdtzi, [Out] out TIME_ZONE_INFORMATION ptzi);
 
@@ -197,6 +198,7 @@ namespace Lsj.Util.Win32
         /// and then to disable the privilege after the <see cref="SetDynamicTimeZoneInformation"/> call.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDynamicTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDynamicTimeZoneInformation([In] in DYNAMIC_TIME_ZONE_INFORMATION lpTimeZoneInformation);
 

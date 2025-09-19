@@ -93,7 +93,7 @@ ImmSetCompositionStringA
 ImmSetCompositionStringW
 ImmSetCompositionWindow
 ImmSetConversionStatus
-(forwarded
+ImmSetHotKey
 ImmSetOpenStatus
 ImmSetStatusWindowPos
 ImmShowSoftKeyboard

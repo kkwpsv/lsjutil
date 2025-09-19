@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// </summary>
     /// <remarks>
     /// To optimize network performance, most remote activation functions take an array of <see cref="MULTI_QI"/> structures rather than
-    /// just a single IID as input and a single pointer to the requested interface on the object as output, as do local activation functions.
+    /// just a single <see cref="IID"/> as input and a single pointer to the requested interface on the object as output, as do local activation functions.
     /// This allows a set of pointers to interfaces to be returned from the same object in a single round-trip to the server.
     /// In network scenarios, requesting multiple interfaces at the time of object construction can save considerable time over
     /// using a number of calls to QueryInterface for unique interfaces, each of which would require a round-trip to the server.
@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to an interface identifier.
         /// </summary>
-        public IntPtr pIID;
+        public P<IID> pIID;
 
         /// <summary>
         /// A pointer to the interface requested in <see cref="pIID"/>.

@@ -126,6 +126,7 @@ namespace Lsj.Util.Win32
         /// Some functions, such as <see cref="CreateProcessAsUser"/>, do their work on another thread,
         /// which is not affected by the state of file system redirection in the calling thread.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64DisableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Wow64DisableWow64FsRedirection([Out] out PVOID OldValue);
 
@@ -168,6 +169,7 @@ namespace Lsj.Util.Win32
         /// Some functions, such as <see cref="CreateProcessAsUser"/>, do their work on another thread,
         /// which is not affected by the state of file system redirection in the calling thread.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64EnableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
         public static extern BOOLEAN Wow64EnableWow64FsRedirection([In] BOOLEAN Wow64FsEnableRedirection);
 
@@ -195,6 +197,7 @@ namespace Lsj.Util.Win32
         /// to the <see cref="Wow64RevertWow64FsRedirection"/> function.
         /// This will ensure redirection is re-enabled and frees associated system resources.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64RevertWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Wow64RevertWow64FsRedirection([In] PVOID OlValue);
 
@@ -233,6 +236,7 @@ namespace Lsj.Util.Win32
         /// It is not supported on 32-bit Windows; such calls fail and set the last error code to <see cref="ERROR_INVALID_FUNCTION"/>.
         /// A 32-bit application can call this function on a WOW64 thread; the result is the same as calling the <see cref="SuspendThread"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64SuspendThread", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD Wow64SuspendThread([In] HANDLE hThread);
     }

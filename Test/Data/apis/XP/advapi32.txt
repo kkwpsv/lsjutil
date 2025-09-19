@@ -1,3 +1,4 @@
+I_ScGetCurrentGroupStateW
 A_SHAFinal
 A_SHAInit
 A_SHAUpdate
@@ -290,7 +291,6 @@ GetTrusteeTypeW
 GetUserNameA
 GetUserNameW
 GetWindowsAccountDomainSid
-I_ScGetCurrentGroupStateW
 I_ScIsSecurityProcess
 I_ScPnPGetServiceName
 I_ScSendTSMessage
@@ -359,8 +359,8 @@ LsaICLookupNames
 LsaICLookupNamesWithCreds
 LsaICLookupSids
 LsaICLookupSidsWithCreds
-LsaLookupNames
 LsaLookupNames2
+LsaLookupNames
 LsaLookupPrivilegeDisplayName
 LsaLookupPrivilegeName
 LsaLookupPrivilegeValue
@@ -400,10 +400,10 @@ MD4Update
 MD5Final
 MD5Init
 MD5Update
-MSChapSrvChangePassword
 MSChapSrvChangePassword2
-MakeAbsoluteSD
+MSChapSrvChangePassword
 MakeAbsoluteSD2
+MakeAbsoluteSD
 MakeSelfRelativeSD
 MapGenericMask
 NotifyBootConfigStatus

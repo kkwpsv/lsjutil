@@ -448,7 +448,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EmptyWorkingSet", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EmptyWorkingSet([In] HANDLE hProcess);
 
@@ -491,7 +491,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcesses", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumProcesses([In][Out] DWORD[] lpidProcess, [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
@@ -706,7 +706,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetPerformanceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPerformanceInfo([In][Out] ref PERFORMANCE_INFORMATION pPerformanceInformation, [In] DWORD cb);
 
@@ -880,7 +880,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [In] IntPtr lpImageFileName, [In] DWORD nSize);
 
@@ -924,7 +924,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessMemoryInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessMemoryInfo([In] HANDLE Process, [Out] out PROCESS_MEMORY_COUNTERS ppsmemCounters, [In] DWORD cb);
 
@@ -1403,7 +1403,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "Windows Vista with SP1")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessAffinityUpdateMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryProcessAffinityUpdateMode([In] HANDLE hProcess, [Out] out DWORD lpdwFlags);
 
@@ -1481,7 +1481,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32QueryWorkingSet", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryWorkingSet([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
 
@@ -1525,7 +1525,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with "–DPSAPI_VERSION=1".
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32QueryWorkingSetEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryWorkingSetEx([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
 
@@ -1654,7 +1654,7 @@ namespace Lsj.Util.Win32
         /// Child processes do not inherit the affinity update mode of the parent process.
         /// The affinity update mode must be explicitly set for each child process.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, Note = "Windows Vista with SP1")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityUpdateMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessAffinityUpdateMode([In] HANDLE hProcess, [In] DWORD dwFlags);
 
@@ -1764,7 +1764,7 @@ namespace Lsj.Util.Win32
         /// only if it is applied before all of the images in a process have been loaded.
         /// ASLR mitigation policies cannot be made less restrictive after they have been applied.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessMitigationPolicy", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessMitigationPolicy([In] PROCESS_MITIGATION_POLICY MitigationPolicy, [In] PVOID lpBuffer, [In] SIZE_T dwLength);
 

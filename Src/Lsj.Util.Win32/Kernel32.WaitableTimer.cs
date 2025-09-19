@@ -437,6 +437,7 @@ namespace Lsj.Util.Win32
         /// To use a timer to schedule an event for a window, use the <see cref="SetTimer"/> function.
         /// APIs that deal with timers use various different hardware clocks.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWaitableTimerEx([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
             [In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] in REASON_CONTEXT WakeContext, [In] ULONG TolerableDelay);

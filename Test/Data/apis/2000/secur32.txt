@@ -1,3 +1,5 @@
+SecDeleteUserModeContext
+SecInitUserModeContext
 AcceptSecurityContext
 AcquireCredentialsHandleA
 AcquireCredentialsHandleW
@@ -60,9 +62,7 @@ SaslInitializeSecurityContextA
 SaslInitializeSecurityContextW
 SealMessage
 SecCacheSspiPackages
-SecDeleteUserModeContext
 SecGetLocaleSpecificEncryptionRules
-SecInitUserModeContext
 SecpFreeMemory
 SecpTranslateName
 SecpTranslateNameEx

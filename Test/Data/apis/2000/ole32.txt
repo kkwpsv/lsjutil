@@ -1,3 +1,11 @@
+PropVariantChangeType
+StgConvertPropertyToVariant
+StgConvertVariantToProperty
+StgPropertyLengthAsVariant
+WdtpInterfacePointer_UserFree
+WdtpInterfacePointer_UserMarshal
+WdtpInterfacePointer_UserSize
+WdtpInterfacePointer_UserUnmarshal
 BindMoniker
 CLIPFORMAT_UserFree
 CLIPFORMAT_UserMarshal
@@ -242,7 +250,6 @@ ProgIDFromCLSID
 PropStgNameToFmtId
 PropSysAllocString
 PropSysFreeString
-PropVariantChangeType
 PropVariantClear
 PropVariantCopy
 ReadClassStg
@@ -264,8 +271,6 @@ STGMEDIUM_UserUnmarshal
 SetConvertStg
 SetDocumentBitStg
 SetErrorInfo
-StgConvertPropertyToVariant
-StgConvertVariantToProperty
 StgCreateDocfile
 StgCreateDocfileOnILockBytes
 StgCreatePropSetStg
@@ -281,7 +286,6 @@ StgOpenStorage
 StgOpenStorageEx
 StgOpenStorageOnHandle
 StgOpenStorageOnILockBytes
-StgPropertyLengthAsVariant
 StgSetTimes
 StringFromCLSID
 StringFromGUID2
@@ -291,10 +295,6 @@ UtConvertDvtd16toDvtd32
 UtConvertDvtd32toDvtd16
 UtGetDvtd16Info
 UtGetDvtd32Info
-WdtpInterfacePointer_UserFree
-WdtpInterfacePointer_UserMarshal
-WdtpInterfacePointer_UserSize
-WdtpInterfacePointer_UserUnmarshal
 WriteClassStg
 WriteClassStm
 WriteFmtUserTypeStg

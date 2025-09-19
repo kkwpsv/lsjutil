@@ -1,0 +1,7 @@
+DXGIDumpJournal
+CreateDXGIFactory
+DXGID3D10CreateDevice
+DXGID3D10CreateLayeredDevice
+DXGID3D10GetLayeredDeviceSize
+DXGID3D10RegisterLayers
+DXGIReportAdapterConfiguration

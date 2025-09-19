@@ -1,8 +1,9 @@
+CDLGetLongPathNameA
+CDLGetLongPathNameW
+IsJITInProgress
 AsyncGetClassBits
 AsyncInstallDistributionUnit
 BindAsyncMoniker
-CDLGetLongPathNameA
-CDLGetLongPathNameW
 CoGetClassObjectFromURL
 CoInstall
 CoInternetCombineUrl
@@ -43,7 +44,6 @@ HlinkNavigateString
 HlinkSimpleNavigateToMoniker
 HlinkSimpleNavigateToString
 IsAsyncMoniker
-IsJITInProgress
 IsLoggingEnabledA
 IsLoggingEnabledW
 IsValidURL

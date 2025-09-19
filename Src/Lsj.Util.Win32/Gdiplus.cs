@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// <param name="hdc">Device context.</param>
         /// <param name="graphics">Graphics object.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipCreateFromHDC", ExactSpelling = true)]
         public static extern GpStatus GdipCreateFromHDC([In] HDC hdc, [Out] out IntPtr graphics);
 
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="image">Image object.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDisposeImage", ExactSpelling = true)]
         public static extern GpStatus GdipDisposeImage([In] IntPtr image);
 
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32
         /// <param name="x">X postion.</param>
         /// <param name="y">Y position.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImage", ExactSpelling = true)]
         public static extern GpStatus GdipDrawImage([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y);
 
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32
         /// <param name="x">X postion.</param>
         /// <param name="y">Y position.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageI", ExactSpelling = true)]
         public static extern GpStatus GdipDrawImageI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y);
 
@@ -72,7 +72,7 @@ namespace Lsj.Util.Win32
         /// <param name="height">Height.</param>
         /// <param name="width">Width.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRect", ExactSpelling = true)]
         public static extern GpStatus GdipDrawImageRect([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y, [In] float width, [In] float height);
 
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// <param name="height">Height.</param>
         /// <param name="width">Width.</param>
         /// <returns></returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRectI", ExactSpelling = true)]
         public static extern GpStatus GdipDrawImageRectI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y, [In] int width, [In] int height);
 
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// </returns>
         /// </summary>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipLoadImageFromFile", ExactSpelling = true)]
         public static extern GpStatus GdipLoadImageFromFile([In] LPCWSTR filename, [Out] out IntPtr image);
 
@@ -132,7 +132,7 @@ namespace Lsj.Util.Win32
         /// so the operating system doesn't retain the pointer for the generic family object past the object's lifetime.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusShutdown", ExactSpelling = true)]
         public static extern void GdiplusShutdown([In] ULONG_PTR token);
 
@@ -207,7 +207,7 @@ namespace Lsj.Util.Win32
         /// For info about how to use dynamic data exchange (DDE) with GDI+, see Special CWinApp Services.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusStartup", ExactSpelling = true)]
         public static extern GpStatus GdiplusStartup([Out] out ULONG_PTR token, [In] in GdiplusStartupInput input, [Out] out GdiplusStartupOutput output);
     }

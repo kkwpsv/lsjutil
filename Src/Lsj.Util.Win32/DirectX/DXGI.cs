@@ -90,6 +90,7 @@ namespace Lsj.Util.Win32.DirectX
         ///  Instead, Windows Store apps use the <see cref="CreateDXGIFactory1"/> function.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDXGIFactory", ExactSpelling = true)]
         public static extern HRESULT CreateDXGIFactory([In] in IID riid, [Out] out P<IDXGIFactory> ppFactory);
 
@@ -297,7 +298,7 @@ namespace Lsj.Util.Win32.DirectX
         /// You can find more information on how Dynamic Refresh Rate works in the Compositor clock topic.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, 22502)]
+        [WindowsVersionRequirement(WindowsVersion.Windows11, 22502)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIDisableVBlankVirtualization", ExactSpelling = true)]
         public static extern HRESULT DXGIDisableVBlankVirtualization();
 

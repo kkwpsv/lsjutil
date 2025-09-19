@@ -393,6 +393,7 @@ namespace Lsj.Util.Win32
         /// An application can only retrieve an AppUserModelID that has been explicitly set. System-assigned default AppUserModelIDs cannot be retrieved.
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out] out IntPtr AppID);
 
@@ -417,6 +418,7 @@ namespace Lsj.Util.Win32
         /// before the application presents any UI or makes any manipulation of its Jump Lists.
         /// This includes any call to <see cref="SHAddToRecentDocs"/>.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([In] LPCWSTR AppID);
 

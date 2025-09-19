@@ -226,8 +226,8 @@ GetAltTabInfo
 GetAltTabInfoA
 GetAltTabInfoW
 GetAncestor
-GetAppCompatFlags
 GetAppCompatFlags2
+GetAppCompatFlags
 GetAsyncKeyState
 GetCapture
 GetCaretBlinkTime

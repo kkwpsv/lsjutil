@@ -1,3 +1,4 @@
+PlaySoundA
 CloseDriver
 DefDriverProc
 DriverCallback
@@ -9,7 +10,6 @@ MigrateSoundEvents
 NotifyCallbackData
 OpenDriver
 PlaySound
-PlaySoundA
 PlaySoundW
 SendDriverMessage
 WOW32DriverCallback

@@ -1,3 +1,6 @@
+I_ScGetCurrentGroupStateW
+I_ScIsSecurityProcess
+IsInSandbox
 AbortSystemShutdownA
 AbortSystemShutdownW
 AccessCheck
@@ -243,8 +246,6 @@ GetTrusteeTypeA
 GetTrusteeTypeW
 GetUserNameA
 GetUserNameW
-I_ScGetCurrentGroupStateW
-I_ScIsSecurityProcess
 I_ScPnPGetServiceName
 I_ScSetServiceBitsA
 I_ScSetServiceBitsW
@@ -260,7 +261,6 @@ InitiateSystemShutdownExA
 InitiateSystemShutdownExW
 InitiateSystemShutdownW
 InstallApplication
-IsInSandbox
 IsProcessRestricted
 IsTextUnicode
 IsTokenRestricted
@@ -337,8 +337,8 @@ LsaSetSystemAccessAccount
 LsaSetTrustedDomainInfoByName
 LsaSetTrustedDomainInformation
 LsaStorePrivateData
-MakeAbsoluteSD
 MakeAbsoluteSD2
+MakeAbsoluteSD
 MakeSelfRelativeSD
 MapGenericMask
 NotifyBootConfigStatus

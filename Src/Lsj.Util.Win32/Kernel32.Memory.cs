@@ -855,7 +855,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID HeapAlloc([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] SIZE_T dwBytes);
 
@@ -1088,7 +1088,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HeapFree([In] DWORD hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem);
 
@@ -1258,7 +1258,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID HeapReAlloc([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem, [In] SIZE_T dwBytes);
 
@@ -1378,7 +1378,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T HeapSize([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
 
@@ -2457,7 +2457,7 @@ namespace Lsj.Util.Win32
         /// It can also release a reserved page, making it a free page.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAllocExNuma", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID VirtualAllocExNuma([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
             [In] MemoryAllocationTypes flAllocationType, [In] MemoryProtectionConstants flProtect, [In] DWORD nndPreferred);

@@ -204,7 +204,6 @@ GdiDescribePixelFormat
 GdiDllInitialize
 GdiEndDocEMF
 GdiEndPageEMF
-GdiEntry1
 GdiEntry10
 GdiEntry11
 GdiEntry12
@@ -212,6 +211,7 @@ GdiEntry13
 GdiEntry14
 GdiEntry15
 GdiEntry16
+GdiEntry1
 GdiEntry2
 GdiEntry3
 GdiEntry4

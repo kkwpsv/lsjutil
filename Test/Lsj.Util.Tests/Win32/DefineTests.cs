@@ -36,7 +36,11 @@ namespace Lsj.Util.Tests.Win32
             "D3DCompile",
             "D3DXCheckVersion",
             "D3DXCreateBuffer",
-            "CreateDXGIFactory",
+        };
+
+        private static List<string> missingAPIDataWhiteList = new List<string>
+        {
+            "DXGIGetDebugInterface",
         };
 
         [TestMethod]
@@ -47,9 +51,11 @@ namespace Lsj.Util.Tests.Win32
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var wrongEntrypoints = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
+            var missingAPIDataMethods = new List<MethodInfo>();
             var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note))>();
             var hasMarshalAsAttributeMethods = new List<MethodInfo>();
             var hasStringParameterMethods = new List<MethodInfo>();
+            var hasObjectParameterMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
             {
                 var entryPoint = item.Attribute.EntryPoint;
@@ -96,6 +102,13 @@ namespace Lsj.Util.Tests.Win32
                             missingWindowsVersionRequirementMethods.Add(item.Method);
                         }
                     }
+                    else
+                    {
+                        if (!missingAPIDataWhiteList.Contains(item.Method.Name))
+                        {
+                            missingAPIDataMethods.Add(item.Method);
+                        }
+                    }
                 }
 
                 if (item.Method.GetParameters().Any(x => x.GetCustomAttribute<MarshalAsAttribute>() != null))
@@ -107,15 +120,22 @@ namespace Lsj.Util.Tests.Win32
                 {
                     hasStringParameterMethods.Add(item.Method);
                 }
+
+                if (item.Method.GetParameters().Any(x => x.ParameterType == typeof(object)))
+                {
+                    hasObjectParameterMethods.Add(item.Method);
+                }
             }
 
             var fails = new List<string>();
 
             fails.AddRange(wrongEntrypoints.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} entrypoint error."));
+            fails.AddRange(missingAPIDataMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing in api data."));
             fails.AddRange(wrongWindowsVersionRequirementMethods.Select(item => $"{item.Method.DeclaringType!.Name} {item.Method.Name} windows version requirement should be {item.Item2.Version} {item.Item2.Note} BuildNumber: {item.Item2.BuildNumber}."));
             fails.AddRange(missingWindowsVersionRequirementMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} missing windows version requirement."));
             fails.AddRange(hasMarshalAsAttributeMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has marshalas attribute."));
             fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
+            fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
 
             if (fails.Any())
             {
@@ -281,6 +301,18 @@ namespace Lsj.Util.Tests.Win32
                 }
             }
 
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XPSP2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP2");
+                    }
+                }
+            }
+
             foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "XPSP3")).EnumerateFiles())
             {
                 var lines = File.ReadAllLines(file.FullName);
@@ -301,6 +333,78 @@ namespace Lsj.Util.Tests.Win32
                     if (!result.ContainsKey(line))
                     {
                         result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "VistaSP1")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "7")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows7, BuildNumbers.Windows7, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "8")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows8, BuildNumbers.Windows8, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "8.1")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows8_1, BuildNumbers.Windows8_1, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1507, null);
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1803")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null);
                     }
                 }
             }

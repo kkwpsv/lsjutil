@@ -171,7 +171,7 @@ namespace Lsj.Util.Win32
         /// If a critical section is deleted while it is still owned,
         /// the state of the threads waiting for ownership of the deleted critical section is undefined.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteCriticalSection", ExactSpelling = true)]
         public static extern void DeleteCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
@@ -253,7 +253,7 @@ namespace Lsj.Util.Win32
         /// If a critical section is deleted while it is still owned,
         /// the state of the threads waiting for ownership of the deleted critical section is undefined.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterCriticalSection", ExactSpelling = true)]
         public static extern void EnterCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
@@ -1263,7 +1263,7 @@ namespace Lsj.Util.Win32
         /// that were allocated when the critical section object was initialized.
         /// After this function has been called, the critical section object can no longer be used for synchronization.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LeaveCriticalSection", ExactSpelling = true)]
         public static extern void LeaveCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 
@@ -1519,7 +1519,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0403 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCriticalSectionSpinCount", ExactSpelling = true)]
         public static extern DWORD SetCriticalSectionSpinCount([In] in CRITICAL_SECTION lpCriticalSection, [In] DWORD dwSpinCount);
 
@@ -1786,7 +1786,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryEnterCriticalSection", ExactSpelling = true)]
         public static extern BOOL TryEnterCriticalSection([In][Out] ref CRITICAL_SECTION lpCriticalSection);
 

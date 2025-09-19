@@ -15,8 +15,6 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Winmm
     {
-
-
         /// <summary>
         /// <para>
         /// The <see cref="timeBeginPeriod"/> function requests a minimum resolution for periodic timers.

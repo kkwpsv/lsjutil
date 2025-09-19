@@ -1,3 +1,7 @@
+WdtpInterfacePointer_UserFree
+WdtpInterfacePointer_UserMarshal
+WdtpInterfacePointer_UserSize
+WdtpInterfacePointer_UserUnmarshal
 BindMoniker
 CLIPFORMAT_UserFree
 CLIPFORMAT_UserMarshal
@@ -248,10 +252,6 @@ UtConvertDvtd16toDvtd32
 UtConvertDvtd32toDvtd16
 UtGetDvtd16Info
 UtGetDvtd32Info
-WdtpInterfacePointer_UserFree
-WdtpInterfacePointer_UserMarshal
-WdtpInterfacePointer_UserSize
-WdtpInterfacePointer_UserUnmarshal
 WriteClassStg
 WriteClassStm
 WriteFmtUserTypeStg
