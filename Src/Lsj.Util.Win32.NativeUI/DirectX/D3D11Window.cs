@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                     return -1;
                 }
 
-                if (!OnAfterInitD3D11())
+                if (!OnAfterInitD3D11(hWnd))
                 {
                     return -1;
                 }
@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// On after init D3D11
         /// </summary>
         /// <returns></returns>
-        protected virtual bool OnAfterInitD3D11()
+        protected virtual bool OnAfterInitD3D11(HWND hWnd)
         {
             return true;
         }
