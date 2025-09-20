@@ -64,37 +64,32 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                 }
 
                 P<IDXGIAdapter> adapter = (P<IDXGIAdapter>)pAdapter;
-                result = adapter.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIFactory, out var pFactory);
+                result = adapter.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIFactory2, out var pFactory);
                 adapter.AsIUnknown().Value.Release();
                 if (!result)
                 {
                     return -1;
                 }
 
-                P<IDXGIFactory> factory = (P<IDXGIFactory>)pFactory;
-                var desc = new DXGI_SWAP_CHAIN_DESC
+                P<IDXGIFactory2> factory = (P<IDXGIFactory2>)pFactory;
+                var desc = new DXGI_SWAP_CHAIN_DESC1
                 {
                     BufferCount = 1,
                     BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-                    BufferDesc = new DXGI_MODE_DESC
-                    {
-                        Format = DXGI_FORMAT_R8G8B8A8_UNORM,
-                    },
-                    Windowed = true,
-                    OutputWindow = hWnd,
+                    Format = DXGI_FORMAT_R8G8B8A8_UNORM,
                     SampleDesc = new DXGI_SAMPLE_DESC
                     {
                         Count = 1,
                     }
                 };
-                result = factory.Value.CreateSwapChain(device.AsIUnknown(), desc, out var swapChain);
+                result = factory.Value.CreateSwapChainForHwnd(device.AsIUnknown(), hWnd, desc, NullRef<DXGI_SWAP_CHAIN_FULLSCREEN_DESC>(), NULL, out var swapChain);
                 factory.AsIUnknown().Value.Release();
                 if (!result)
                 {
                     return -1;
                 }
 
-                DXGISwapChain = swapChain;
+                DXGISwapChain = swapChain.AsIUnknown().ToInterface<IDXGISwapChain>(IIDs.IID_IDXGISwapChain1, true, true);
 
                 if (!CreateRenderTarget())
                 {
