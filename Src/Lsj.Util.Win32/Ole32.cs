@@ -2757,26 +2757,35 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns <see cref="IntPtr.Zero"/>.
         /// </returns>
         /// <remarks>
-        /// This function changes the size of a previously allocated memory block in the same way that IMalloc::Realloc does.
-        /// It is not necessary to call the <see cref="CoGetMalloc"/> function to get a pointer
-        /// to the OLE allocator before calling <see cref="CoTaskMemRealloc"/>.
-        /// The <paramref name="pv"/> parameter points to the beginning of the memory block.
-        /// If <paramref name="pv"/> is <see cref="IntPtr.Zero"/>, <see cref="CoTaskMemRealloc"/> allocates a new memory block
-        /// in the same way as the <see cref="CoTaskMemAlloc"/> function.
-        /// If <paramref name="pv"/> is not <see cref="IntPtr.Zero"/>, it should be a pointer returned by a prior call to <see cref="CoTaskMemAlloc"/>.
-        /// The <paramref name="cb"/> parameter specifies the size of the new block.
+        /// <para>
+        /// This function changes the size of a previously allocated memory block in the same way that <see cref="IMalloc.Realloc"/> does.
+        /// It is not necessary to call the <see cref="CoGetMalloc"/> function to get a pointer
+        /// to the OLE allocator before calling <see cref="CoTaskMemRealloc"/>.
+        /// </para>
+        /// <para>
+        /// The <paramref name="pv"/> parameter points to the beginning of the memory block.
+        /// If <paramref name="pv"/> is <see cref="NULL"/>, <see cref="CoTaskMemRealloc"/> allocates a new memory block
+        /// in the same way as the <see cref="CoTaskMemAlloc"/> function.
+        /// If <paramref name="pv"/> is not <see cref="NULL"/>, it should be a pointer returned by a prior call to <see cref="CoTaskMemAlloc"/>.
+        /// </para>
+        /// <para>
+        /// The <paramref name="cb"/> parameter specifies the size of the new block.
         /// The contents of the block are unchanged up to the shorter of the new and old sizes,
         /// although the new block can be in a different location.
-        /// Because the new block can be in a different memory location, the pointer returned by <see cref="CoTaskMemRealloc"/> is not guaranteed
-        /// to be the pointer passed through the <paramref name="pv"/> argument.
-        /// If <paramref name="pv"/> is not <see cref="IntPtr.Zero"/> and <paramref name="cb"/> is 0,
-        /// then the memory pointed to by <paramref name="pv"/> is freed.
-        /// <see cref="CoTaskMemRealloc"/> returns a void pointer to the reallocated (and possibly moved) memory block.
-        /// The return value is <see cref="IntPtr.Zero"/> if the size is 0 and the buffer argument is not <see cref="IntPtr.Zero"/>,
+        /// Because the new block can be in a different memory location, the pointer returned by <see cref="CoTaskMemRealloc"/> is not guaranteed
+        /// to be the pointer passed through the <paramref name="pv"/> argument.
+        /// If <paramref name="pv"/> is not <see cref="NULL"/> and <paramref name="cb"/> is 0, then the memory pointed to by <paramref name="pv"/> is freed.
+        /// </para>
+        /// <para>
+        /// <see cref="CoTaskMemRealloc"/> returns a void pointer to the reallocated (and possibly moved) memory block.
+        /// The return value is <see cref="NULL"/> if the size is 0 and the buffer argument is not <see cref="NULL"/>,
         /// or if there is not enough memory available to expand the block to the specified size.
         /// In the first case, the original block is freed; in the second case, the original block is unchanged.
+        /// </para>
+        /// <para>
         /// The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
-        /// To get a pointer to a type other than void, use a type cast on the return value.
+        /// To get a pointer to a type other than void, use a type cast on the return value.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
@@ -2799,38 +2808,116 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see cref="CLSID_NULL"/>, in which case any existing emulation for <paramref name="clsidOld"/> is removed.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function can return the standard return values <see cref="E_INVALIDARG"/>, as well as the following values.
-        /// <see cref="S_OK"/>: The emulation was successfully established or removed.
-        /// <see cref="REGDB_E_CLASSNOTREG"/>: The clsidOld parameter is not properly registered in the registration database.
-        /// <see cref="REGDB_E_READREGDB"/>: Error reading from registration database.
-        /// <see cref="REGDB_E_WRITEREGDB"/>: Error writing to registration database.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_OK"/>
+        /// </term>
+        /// <term>
+        /// The emulation was successfully established or removed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="REGDB_E_CLASSNOTREG"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="clsidOld"/> parameter is not properly registered in the registration database.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="REGDB_E_READREGDB"/>
+        /// </term>
+        /// <term>
+        /// Error reading from registration database.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="REGDB_E_WRITEREGDB"/>
+        /// </term>
+        /// <term>
+        /// Error writing to registration database.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function sets the TreatAs entry in the registry for the specified object, allowing the object to be emulated by another application.
-        /// Emulation allows an application to open and edit an object of a different format, while retaining the original format of the object.
-        /// After this entry is set, whenever any function such as <see cref="CoGetClassObject"/> specifies the object's original CLSID (<paramref name="clsidOld"/>),
-        /// it is transparently forwarded to the new CLSID (<paramref name="clsidNew"/>), thus launching the application associated with the TreatAs CLSID.
-        /// When the object is saved, it can be saved in its native format, which may result in loss of edits not supported by the original format.
-        /// If your application supports emulation, call <see cref="CoTreatAsClass"/> in the following situations:
+        /// <para>
+        /// This function sets the TreatAs entry in the registry for the specified object,
+        /// allowing the object to be emulated by another application.
+        /// Emulation allows an application to open and edit an object of a different format,
+        /// while retaining the original format of the object.
+        /// After this entry is set, whenever any function such as <see cref="CoGetClassObject"/>
+        /// specifies the object's original CLSID (<paramref name="clsidOld"/>),
+        /// it is transparently forwarded to the new CLSID (<paramref name="clsidNew"/>),
+        /// thus launching the application associated with the TreatAs CLSID.
+        /// When the object is saved, it can be saved in its native format,
+        /// which may result in loss of edits not supported by the original format.
+        /// </para>
+        /// <para>
+        /// If your application supports emulation, call <see cref="CoTreatAsClass"/> in the following situations:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// In response to an end-user request (through a conversion dialog box) that a specified object be treated as an object of a different class
-        /// (an object created under one application be run under another application, while retaining the original format information)
-        /// In a setup program, to register that one class of objects be treated as objects of a different class
+        /// (an object created under one application be run under another application, while retaining the original format information).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// In a setup program, to register that one class of objects be treated as objects of a different class.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// An example of the first case is that an end user might wish to edit a spreadsheet created by one application
         /// using a different application that can read and write the spreadsheet format of the original application.
-        /// For an application that supports emulation, <see cref="CoTreatAsClass"/> can be called to implement a Treat As option in a conversion dialog box.
-        /// An example of the use of <see cref="CoTreatAsClass"/> in a setup program would be in an updated version of an application.
-        /// When the application is updated, the objects created with the earlier version can be activated and treated as objects of the new version,
-        /// while retaining the previous format information.
-        /// This would allow you to give the user the option to convert when they save, or to save it in the previous format,
-        /// possibly losing format information not available in the older version.
-        /// One result of setting an emulation is that when you enumerate verbs, as in the <see cref="IOleObject.EnumVerbs"/> method implementation in the default handler,
-        /// this would enumerate the verbs from <paramref name="clsidNew"/> instead of <paramref name="clsidOld"/>.
-        /// To ensure that existing emulation information is removed when you install an application, your setup programs should call <see cref="CoTreatAsClass"/>,
-        /// setting the <paramref name="clsidNew"/> parameter to <see cref="CLSID_NULL"/> to remove any existing emulation for the classes they install.
-        /// If there is no CLSID assigned to the AutoTreatAs key in the registry,
-        /// setting <paramref name="clsidNew"/> and <paramref name="clsidOld"/> to the same value removes the TreatAs entry, so there is no emulation.
-        /// If there is a CLSID assigned to the AutoTreatAs key, that CLSID is assigned to the TreatAs key.
-        /// <see cref="CoTreatAsClass"/> does not validate whether an appropriate registry entry for <paramref name="clsidNew"/> currently exists.
+        /// For an application that supports emulation,
+        /// <see cref="CoTreatAsClass"/> can be called to implement a Treat As option in a conversion dialog box.
+        /// </para>
+        /// <para>
+        /// An example of the use of <see cref="CoTreatAsClass"/> in a setup program would be in an updated version of an application.
+        /// When the application is updated, the objects created with the earlier version
+        /// can be activated and treated as objects of the new version, while retaining the previous format information.
+        /// This would allow you to give the user the option to convert when they save,
+        /// or to save it in the previous format, possibly losing format information not available in the older version.
+        /// </para>
+        /// <para>
+        /// One result of setting an emulation is that when you enumerate verbs,
+        /// as in the <see cref="IOleObject.EnumVerbs"/> method implementation in the default handler,
+        /// this would enumerate the verbs from <paramref name="clsidNew"/> instead of <paramref name="clsidOld"/>.
+        /// </para>
+        /// <para>
+        /// To ensure that existing emulation information is removed when you install an application,
+        /// your setup programs should call <see cref="CoTreatAsClass"/>,
+        /// setting the <paramref name="clsidNew"/> parameter to <see cref="CLSID_NULL"/> to remove any existing emulation for the classes they install.
+        /// </para>
+        /// <para>
+        /// If there is no <see cref="CLSID"/> assigned to the AutoTreatAs key in the registry,
+        /// setting <paramref name="clsidNew"/> and <paramref name="clsidOld"/> to the same value removes the TreatAs entry, so there is no emulation.
+        /// If there is a <see cref="CLSID"/> assigned to the AutoTreatAs key, that CLSID is assigned to the TreatAs key.
+        /// </para>
+        /// <para>
+        /// <see cref="CoTreatAsClass"/> does not validate whether an appropriate registry entry for <paramref name="clsidNew"/> currently exists.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTreatAsClass", ExactSpelling = true, SetLastError = true)]
@@ -2846,21 +2933,31 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <remarks>
-        /// A thread must call <see cref="CoUninitialize"/> once for each successful call it
-        /// has made to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> function, including any call that returns <see cref="S_FALSE"/>.
-        /// Only the <see cref="CoUninitialize"/> call corresponding to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> call
-        /// that initialized the library can close it.
-        /// Calls to <see cref="OleInitialize"/> must be balanced by calls to <see cref="OleUninitialize"/>.
-        /// The <see cref="OleUninitialize"/> function calls <see cref="CoUninitialize"/> internally,
-        /// so applications that call <see cref="OleUninitialize"/> do not also need to call <see cref="CoUninitialize"/>.
-        /// <see cref="CoUninitialize"/> should be called on application shutdown, as the last call made to the COM library
-        /// after the application hides its main windows and falls through its main message loop.
-        /// If there are open conversations remaining, <see cref="CoUninitialize"/> starts a modal message loop and dispatches any pending messages
-        /// from the containers or server for this COM application.
-        /// By dispatching the messages, <see cref="CoUninitialize"/> ensures that the application does not quit
-        /// before receiving all of its pending messages. Non-COM messages are discarded.
+        /// <para>
+        /// A thread must call <see cref="CoUninitialize"/> once for each successful call
+        /// it has made to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> function,
+        /// including any call that returns <see cref="S_FALSE"/>.
+        /// Only the <see cref="CoUninitialize"/> call corresponding to the <see cref="CoInitialize"/>
+        /// or <see cref="CoInitializeEx"/> call that initialized the library can close it.
+        /// </para>
+        /// <para>
+        /// Calls to <see cref="OleInitialize"/> must be balanced by calls to <see cref="OleUninitialize"/>.
+        /// The <see cref="OleUninitialize"/> function calls <see cref="CoUninitialize"/> internally,
+        /// so applications that call <see cref="OleUninitialize"/> do not also need to call <see cref="CoUninitialize"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="CoUninitialize"/> should be called on application shutdown,
+        /// as the last call made to the COM library after the application hides its main windows and falls through its main message loop.
+        /// If there are open conversations remaining, <see cref="CoUninitialize"/> starts a modal message loop
+        /// and dispatches any pending messages from the containers or server for this COM application.
+        /// By dispatching the messages, <see cref="CoUninitialize"/> ensures
+        /// that the application does not quit before receiving all of its pending messages.
+        /// Non-COM messages are discarded.
+        /// </para>
+        /// <para>
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
-        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
@@ -2887,39 +2984,117 @@ namespace Lsj.Util.Win32
         /// Upon successful return, *<paramref name="ppv"/> contains the requested interface pointer for the unmarshaled interface.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function can return the standard return value <see cref="E_FAIL"/>,
-        /// errors returned by <see cref="CoCreateInstance"/>, and the following values.
-        /// <see cref="S_OK"/>: The interface pointer was unmarshaled successfully.
-        /// <see cref="STG_E_INVALIDPOINTER"/>: <paramref name="pStm"/> is an invalid pointer.
-        /// <see cref="CO_E_NOTINITIALIZED"/>:
-        /// The <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function
-        /// was not called on the current thread before this function was called.
-        /// <see cref="CO_E_OBJNOTCONNECTED"/>:
+        /// errors returned by <see cref="CoCreateInstance"/>, and the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_OK"/>
+        /// </term>
+        /// <term>
+        /// The interface pointer was unmarshaled successfully.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="STG_E_INVALIDPOINTER"/>
+        /// </term>
+        /// <term>
+        /// <paramref name="pStm"/> is an invalid pointer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CO_E_NOTINITIALIZED"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function was not called on the current thread before this function was called.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CO_E_OBJNOTCONNECTED"/>
+        /// </term>
+        /// <term>
         /// The object application has been disconnected from the remoting system
-        /// (for example, as a result of a call to the <see cref="CoDisconnectObject"/> function).
-        /// <see cref="REGDB_E_CLASSNOTREG"/>: An error occurred reading the registration database. 
-        /// <see cref="E_NOINTERFACE"/>: The final QueryInterface of this function for the requested interface returned <see cref="E_NOINTERFACE"/>. 
+        /// (for example, as a result of a call to the <see cref="CoDisconnectObject"/> function).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="REGDB_E_CLASSNOTREG"/>
+        /// </term>
+        /// <term>
+        /// An error occurred reading the registration database.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="E_NOINTERFACE"/>
+        /// </term>
+        /// <term>
+        /// The final <see cref="IUnknown.QueryInterface"/> of this function for the requested interface returned <see cref="E_NOINTERFACE"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Important  
+        /// <para>
+        /// Important  
+        /// </para>
+        /// <para>
         /// Security Note: Calling this method with untrusted data is a security risk.
-        /// Call this method only with trusted data. For more information, see Untrusted Data Security Risks.
-        /// The <see cref="CoUnmarshalInterface"/> function performs the following tasks:
+        /// Call this method only with trusted data.
+        /// </para>
+        /// <para>
+        /// The <see cref="CoUnmarshalInterface"/> function performs the following tasks:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// Reads from the stream the CLSID to be used to create an instance of the proxy.
-        /// Gets an <see cref="IMarshal"/> pointer to the proxy that is to do the unmarshaling.
-        /// If the object uses COM's default marshaling implementation, the pointer thus obtained is to an instance of the generic proxy object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Gets an <see cref="IMarshal"/> pointer to the proxy that is to do the unmarshaling.
+        /// If the object uses COM's default marshaling implementation,
+        /// the pointer thus obtained is to an instance of the generic proxy object.
         /// If the marshaling is occurring between two threads in the same process,
         /// the pointer is to an instance of the in-process free threaded marshaler.
-        /// If the object provides its own marshaling code, <see cref="CoUnmarshalInterface"/> calls the <see cref="CoCreateInstance"/> function,
+        /// If the object provides its own marshaling code,
+        /// <see cref="CoUnmarshalInterface"/> calls the <see cref="CoCreateInstance"/> function,
         /// passing the CLSID it read from the marshaling stream.
-        /// <see cref="CoCreateInstance"/> creates an instance of the object's proxy
-        /// and returns an <see cref="IMarshal"/> interface pointer to the proxy.
-        /// Using whichever <see cref="IMarshal"/> interface pointer it has acquired,
-        /// the function then calls <see cref="IMarshal.UnmarshalInterface"/> and, if appropriate, <see cref="IMarshal.ReleaseMarshalData"/>.
+        /// <see cref="CoCreateInstance"/> creates an instance of the object's proxy and returns an <see cref="IMarshal"/> interface pointer to the proxy.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Using whichever IMarshal interface pointer it has acquired,
+        /// the function then calls <see cref="IMarshal.UnmarshalInterface"/> and, if appropriate, <see cref="IMarshal.ReleaseMarshalData"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The primary caller of this function is COM itself, from within interface proxies or stubs that unmarshal an interface pointer.
-        /// There are, however, some situations in which you might call <see cref="CoUnmarshalInterface"/>.
-        /// For example, if you are implementing a stub, your implementation would call <see cref="CoUnmarshalInterface"/>
-        /// when the stub receives an interface pointer as a parameter in a method call. 
+        /// There are, however, some situations in which you might call <see cref="CoUnmarshalInterface"/>.
+        /// For example, if you are implementing a stub, your implementation would call <see cref="CoUnmarshalInterface"/>
+        /// when the stub receives an interface pointer as a parameter in a method call.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUnmarshalInterface", ExactSpelling = true, SetLastError = true)]
@@ -2936,35 +3111,58 @@ namespace Lsj.Util.Win32
         /// <param name="ppmk">
         /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the new anti-moniker.
         /// When successful, the function has called AddRef on the anti-moniker and the caller is responsible for calling Release.
-        /// When an error occurs, the anti-moniker pointer is <see langword="null"/>.
+        /// When an error occurs, the anti-moniker pointer is <see cref="NULL"/>
         /// </param>
         /// <returns>
         /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
-        /// You would call this function only if you are writing your own moniker class (implementing the <see cref="IMoniker"/> interface).
+        /// <para>
+        /// You would call this function only if you are writing your own moniker class (implementing the <see cref="IMoniker"/> interface).
         /// If you are writing a new moniker class that has no internal structure,
-        /// you can use <see cref="CreateAntiMoniker"/> in your implementation of the <see cref="IMoniker.Inverse"/> method,
-        /// and then check for an anti-moniker in your implementation of <see cref="IMoniker.ComposeWith"/>.
+        /// you can use <see cref="CreateAntiMoniker"/> in your implementation of the <see cref="IMoniker.Inverse"/> method,
+        /// and then check for an anti-moniker in your implementation of <see cref="IMoniker.ComposeWith"/>.
+        /// </para>
+        /// <para>
         /// Like the ".." directory, which acts as the inverse to any directory name just preceding it in a path,
         /// an anti-moniker acts as the inverse of a simple moniker that precedes it in a composite moniker.
         /// An anti-moniker is used as the inverse of simple monikers with no internal structure.
-        /// For example, the system-provided implementations of file monikers, item monikers,
-        /// and pointer monikers all use anti-monikers as their inverse;
-        /// consequently, an anti-moniker composed to the right of one of these monikers composes to nothing.
+        /// For example, the system-provided implementations of file monikers, item monikers, and pointer monikers
+        /// all use anti-monikers as their inverse; consequently, an anti-moniker composed to the right of one of these monikers composes to nothing.
+        /// </para>
+        /// <para>
         /// A moniker client (an object that is using a moniker to bind to another object) typically does not know the class of a given moniker,
         /// so the client cannot be sure that an anti-moniker is the inverse.
-        /// Therefore, to get the inverse of a moniker, you would call <see cref="IMoniker.Inverse"/> rather than <see cref="CreateAntiMoniker"/>.
+        /// Therefore, to get the inverse of a moniker, you would call <see cref="IMoniker.Inverse"/> rather than <see cref="CreateAntiMoniker"/>.
+        /// </para>
+        /// <para>
         /// To remove the last piece of a composite moniker, you would do the following:
-        /// Call <see cref="IMoniker.Enum"/> on the composite, specifying <see cref="FALSE"/> as the first parameter.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Call <see cref="IMoniker.Enum"/> on the composite, specifying <see cref="FALSE"/> as the first parameter.
         /// This creates an enumerator that returns the component monikers in reverse order.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Use the enumerator to retrieve the last piece of the composite.
-        /// Call <see cref="IMoniker.Inverse"/> on that moniker.
-        /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call <see cref="IMoniker.Inverse"/> on that moniker.
+        /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAntiMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateAntiMoniker([Out] out IMoniker ppmk);
+        public static extern HRESULT CreateAntiMoniker([Out] out P<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -2980,21 +3178,50 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="ppbc">
         /// Address of an <see cref="IBindCtx"/> pointer variable that receives the interface pointer to the new bind context object.
-        /// When the function is successful, the caller is responsible for calling <see cref="Marshal.ReleaseComObject(object)"/> on the bind context.
-        /// A <see langword="null"/> value for the bind context indicates that an error occurred.
+        /// When the function is successful, the caller is responsible for calling <see cref="IUnknown.Release"/> on the bind context.
+        /// A <see cref="NULL"/> value for the bind context indicates that an error occurred.
         /// </param>
         /// <returns>
         /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
-        /// CreateBindCtx is most commonly used in the process of binding a moniker
+        /// <para>
+        /// <see cref="CreateBindCtx"/> is most commonly used in the process of binding a moniker
         /// (locating and getting a pointer to an interface by identifying it through a moniker), as in the following steps:
-        /// Get a pointer to a bind context by calling the <see cref="CreateBindCtx"/> function.
-        /// Call the <see cref="IMoniker.BindToObject"/> on the moniker, retrieving an interface pointer to the object to which the moniker refers.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Get a pointer to a bind context by calling the <see cref="CreateBindCtx"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call the <see cref="IMoniker.BindToObject"/> method on the moniker,
+        /// retrieving an interface pointer to the object to which the moniker refers.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Release the bind context.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Use the interface pointer.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Release the interface pointer.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following code fragment illustrates these steps.
+        /// </para>
         /// <code>
         /// // pMnk is an IMoniker * that points to a previously acquired moniker 
         /// IInterface* pInterface;
@@ -3007,25 +3234,35 @@ namespace Lsj.Util.Win32
         /// // pInterface now points to the object; safe to use pInterface 
         /// pInterface-&gt;Release();
         /// </code>
-        /// Bind contexts are also used in other methods of the <see cref="IMoniker"/> interface besides <see cref="IMoniker.BindToObject"/>
-        /// and in the <see cref="MkParseDisplayName"/> function.
+        /// <para>
+        /// Bind contexts are also used in other methods of the <see cref="IMoniker"/> interface
+        /// besides <see cref="IMoniker.BindToObject"/> and in the <see cref="MkParseDisplayName"/> function.
+        /// </para>
+        /// <para>
         /// A bind context retains references to the objects that are bound during the binding operation,
         /// causing the bound objects to remain active (keeping the object's server running) until the bind context is released.
         /// Reusing a bind context when subsequent operations bind to the same object can improve performance.
-        /// You should, however, release the bind context as soon as possible, because you could be keeping the objects activated unnecessarily.
-        /// A bind context contains a <see cref="BIND_OPTS"/> structure, which contains parameters that apply to all steps in a binding operation.
-        /// When you create a bind context using <see cref="CreateBindCtx"/>, the fields of the <see cref="BIND_OPTS"/> structure are initialized as follows.
+        /// You should, however, release the bind context as soon as possible,
+        /// because you could be keeping the objects activated unnecessarily.
+        /// </para>
+        /// <para>
+        /// A bind context contains a <see cref="BIND_OPTS"/> structure, which contains parameters that apply to all steps in a binding operation.
+        /// When you create a bind context using <see cref="CreateBindCtx"/>,
+        /// the fields of the <see cref="BIND_OPTS"/> structure are initialized as follows.
+        /// </para>
         /// <code>
         /// cbStruct = sizeof(BIND_OPTS) 
         /// grfFlags = 0 
         /// grfMode = STGM_READWRITE 
         /// dwTickCountDeadline = 0
         /// </code>
-        /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
+        /// <para>
+        /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateBindCtx([In] DWORD reserved, [Out] out IBindCtx ppbc);
+        public static extern HRESULT CreateBindCtx([In] DWORD reserved, [Out] out P<IBindCtx> ppbc);
 
         /// <summary>
         /// <para>
@@ -3039,8 +3276,30 @@ namespace Lsj.Util.Win32
         /// Address of an <see cref="IDataAdviseHolder"/> pointer variable that receives the interface pointer to the new advise holder object.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory for the operation.
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_OUTOFMEMORY"/>
+        /// </term>
+        /// <term>
+        /// Insufficient memory for the operation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Call <see cref="CreateDataAdviseHolder"/> in your implementation of <see cref="IDataObject.DAdvise"/> to get a pointer
@@ -3051,7 +3310,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateDataAdviseHolder([Out] out IDataAdviseHolder ppDAHolder);
+        public static extern HRESULT CreateDataAdviseHolder([Out] out P<IDataAdviseHolder> ppDAHolder);
 
         /// <summary>
         /// <para>
@@ -3062,7 +3321,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="pmkFirst">
-        /// A pointer to the moniker to be composed to the left of the moniker that pmkRest points to.
+        /// A pointer to the moniker to be composed to the left of the moniker that <paramref name="pmkRest"/> points to.
         /// Can point to any kind of moniker, including a generic composite.
         /// </param>
         /// <param name="pmkRest">
@@ -3070,19 +3329,76 @@ namespace Lsj.Util.Win32
         /// Can point to any kind of moniker compatible with the type of the <paramref name="pmkRest"/> moniker, including a generic composite.
         /// </param>
         /// <param name="ppmkComposite">
-        /// The address of an <see cref="IMoniker"/> pointer variable that receives the interface pointer to the composite moniker object
+        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the composite moniker object
         /// that is the result of composing <paramref name="pmkFirst"/> and <paramref name="pmkRest"/>.
         /// This object supports the OLE composite moniker implementation of <see cref="IMoniker"/>.
-        /// When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release.
-        /// If either <paramref name="pmkFirst"/> or <paramref name="pmkRest"/> are <see langword="null"/>,
-        /// the supplied pointer is the one that is non-NULL.
-        /// If both <paramref name="pmkFirst"/> and <paramref name="pmkRest"/> are <see langword="null"/>,
-        /// or if an error occurs, the returned pointer is <see langword="null"/>.
+        /// When successful, the function has called <see cref="IUnknown.AddRef"/> on the moniker and the caller is responsible for calling Release.
+        /// If either <paramref name="pmkFirst"/> or <paramref name="pmkRest"/> are <see cref="NULL"/>,
+        /// the supplied pointer is the one that is non-<see cref="NULL"/>.
+        /// If both <paramref name="pmkFirst"/> and <paramref name="pmkRest"/> are <see cref="NULL"/>,
+        /// or if an error occurs, the returned pointer is <see cref="NULL"/>.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// <para>
+        /// This function can return the standard return value <see cref="E_OUTOFMEMORY"/>, as well as the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_OK"/>
+        /// </term>
+        /// <term>
+        /// The input monikers were composed successfully.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MK_E_SYNTAX"/>
+        /// </term>
+        /// <term>
+        /// The two monikers could not be composed due to an error in the syntax of a path
+        /// (for example, if both <paramref name="pmkFirst"/> and <paramref name="pmkRest"/> are file monikers based on absolute paths).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// <see cref="CreateGenericComposite"/> joins two monikers into one.
+        /// The moniker classes being joined can be different, subject only to the rules of composition.
+        /// Call this function only if you are writing a new moniker class by implementing the <see cref="IMoniker"/> interface,
+        /// within an implementation of <see cref="IMoniker.ComposeWith"/> that includes generic composition capability.
+        /// </para>
+        /// <para>
+        /// Moniker providers should call <see cref="IMoniker.ComposeWith"/> to compose two monikers together.
+        /// Implementations of <see cref="IMoniker.ComposeWith"/> should (as do OLE implementations) attempt,
+        /// when reasonable for the class, to perform non-generic compositions first, in which two monikers of the same class are combined.
+        /// If this is not possible, the implementation can call <see cref="CreateGenericComposite"/> to do a generic composition,
+        /// which combines two monikers of different classes, within the rules of composition.
+        /// You can define new types of non-generic compositions if you write a new moniker class.
+        /// </para>
+        /// <para>
+        /// During the process of composing the two monikers, <see cref="CreateGenericComposite"/> makes all possible simplifications.
+        /// Consider the example where <paramref name="pmkFirst"/> is the generic composite moniker, A + B + C,
+        /// and <paramref name="pmkRest"/> is the generic composite moniker, C -1 + B -1 + Z (where C -1 is the inverse of C).
+        /// The function first composes C to C -1, which composes to nothing.
+        /// Then it composes B and B -1 to nothing.
+        /// Finally, it composes A to Z, and supplies a pointer to the generic composite moniker, A + Z.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateGenericComposite([In] IMoniker pmkFirst, [In] IMoniker pmkRest, [Out] out IMoniker ppmkComposite);
+        public static extern HRESULT CreateGenericComposite([In] P<IMoniker> pmkFirst, [In] P<IMoniker> pmkRest, [Out] out P<IMoniker> ppmkComposite);
 
         /// <summary>
         /// <para>
@@ -3102,35 +3418,49 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="ppmk">
         /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the item moniker.
-        /// When successful, the function has called <see cref="ComInterfaces.IUnknown.AddRef"/> on the item moniker
-        /// and the caller is responsible for calling <see cref="ComInterfaces.IUnknown.Release"/>.
+        /// When successful, the function has called <see cref="IUnknown.AddRef"/> on the item moniker
+        /// and the caller is responsible for calling <see cref="IUnknown.Release"/>.
         /// If an error occurs, the supplied interface pointer has a <see cref="NULL"/> value.
         /// </param>
         /// <returns>
         /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A moniker provider, which hands out monikers to identify its objects so they are accessible to other parties,
-        /// would call <see cref="CreateItemMoniker"/> to identify its objects with item monikers.
-        /// Item monikers are based on a string, and identify objects that are contained within another object and can be individually identified using a string.
-        /// The containing object must also implement the <see cref="IOleContainer"/> interface.
+        /// would call <see cref="CreateItemMoniker"/> to identify its objects with item monikers.
+        /// Item monikers are based on a string, and identify objects that are contained
+        /// within another object and can be individually identified using a string.
+        /// The containing object must also implement the <see cref="IOleContainer"/> interface.
+        /// </para>
+        /// <para>
         /// Most moniker providers are OLE applications that support linking.
-        /// Applications that support linking to objects smaller than file-based documents,
-        /// such as a server application that allows linking to a selection within a document, should use item monikers to identify the objects.
+        /// Applications that support linking to objects smaller than file-based documents, such as a server application
+        /// that allows linking to a selection within a document, should use item monikers to identify the objects.
         /// Container applications that allow linking to embedded objects use item monikers to identify the embedded objects.
-        /// The <paramref name="lpszItem"/> parameter is the name used by the document to uniquely identify the object.
-        /// For example, if the object being identified is a cell range in a spreadsheet, an appropriate name might be something like "A1:E7."
+        /// </para>
+        /// <para>
+        /// The <paramref name="lpszItem"/> parameter is the name used by the document to uniquely identify the object.
+        /// For example, if the object being identified is a cell range in a spreadsheet,
+        /// an appropriate name might be something like "A1:E7."
         /// An appropriate name when the object being identified is an embedded object might be something like "embedobj1."
-        /// The containing object must provide an implementation of the <see cref="IOleItemContainer"/> interface
+        /// The containing object must provide an implementation of the <see cref="IOleItemContainer"/> interface
         /// that can interpret this name and locate the corresponding object.
         /// This allows the item moniker to be bound to the object it identifies.
-        /// Item monikers are not used in isolation. They must be composed with a moniker that identifies the containing object as well.
+        /// </para>
+        /// <para>
+        /// Item monikers are not used in isolation.
+        /// They must be composed with a moniker that identifies the containing object as well.
         /// For example, if the object being identified is a cell range contained in a file-based document,
         /// the item moniker identifying that object must be composed with the file moniker identifying that document,
         /// resulting in a composite moniker that is the equivalent of "C:\work\sales.xls!A1:E7."
+        /// </para>
+        /// <para>
         /// Nested containers are allowed also, as in the case where an object is contained within an embedded object inside another document.
         /// The complete moniker of such an object would be the equivalent of "C:\work\report.doc!embedobj1!A1:E7."
-        /// In this case, each containing object must call <see cref="CreateItemMoniker"/> and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
+        /// In this case, each containing object must call <see cref="CreateItemMoniker"/>
+        /// and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateItemMoniker", ExactSpelling = true, SetLastError = true)]
@@ -3163,7 +3493,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateOleAdviseHolder([Out] out IOleAdviseHolder ppOAHolder);
+        public static extern HRESULT CreateOleAdviseHolder([Out] out P<IOleAdviseHolder> ppOAHolder);
 
         /// <summary>
         /// <para>
@@ -3175,10 +3505,18 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hr">
         /// The status code.
-        /// This value can be an <see cref="HRESULT"/> or an SCODE.
+        /// This value can be an <see cref="HRESULT"/> or an <see cref="SCODE"/>.
         /// A negative number indicates failure.
         /// </param>
         /// <returns></returns>
+        /// <remarks>
+        /// <para>
+        /// This macro is defined as follows:
+        /// </para>
+        /// <code>
+        /// #define FAILED(hr) (((HRESULT)(hr)) &lt; 0)
+        /// </code>
+        /// </remarks>
         public static bool FAILED(HRESULT hr) => hr;
 
         /// <summary>
@@ -3195,27 +3533,35 @@ namespace Lsj.Util.Win32
         /// <param name="pprot">
         /// The address of an <see cref="IRunningObjectTable"/>* pointer variable that receives the interface pointer to the local ROT.
         /// When the function is successful, the caller is responsible for calling Release on the interface pointer.
-        /// If an error occurs, *pprot is undefined.
+        /// If an error occurs, *<paramref name="pprot"/> is undefined.
         /// </param>
         /// <returns>
         /// This function can return the standard return values <see cref="E_UNEXPECTED"/> and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Each workstation has a local ROT that maintains a table of the objects that have been registered as running on that computer.
-        /// This function returns an <see cref="IRunningObjectTable"/> interface pointer, which provides access to that table.
-        /// Moniker providers, which hand out monikers that identify objects so they are accessible to others,
-        /// should call <see cref="GetRunningObjectTable"/>.
+        /// This function returns an <see cref="IRunningObjectTable"/> interface pointer, which provides access to that table.
+        /// </para>
+        /// <para>
+        /// Moniker providers, which hand out monikers that identify objects so they are accessible to others, should call <see cref="GetRunningObjectTable"/>.
         /// Use the interface pointer returned by this function to register your objects when they begin running,
         /// to record the times that those objects are modified, and to revoke their registrations when they stop running.
-        /// See the <see cref="IRunningObjectTable"/> interface for more information.
+        /// See the <see cref="IRunningObjectTable"/> interface for more information.
+        /// </para>
+        /// <para>
         /// Compound-document link sources are the most common example of moniker providers.
         /// These include server applications that support linking to their documents (or portions of a document)
         /// and container applications that support linking to embeddings within their documents.
         /// Server applications that do not support linking can also use the ROT
         /// to cooperate with container applications that support linking to embeddings.
-        /// If you are implementing the <see cref="IMoniker"/> interface to write a new moniker class, and you need an interface pointer to the ROT,
-        /// call <see cref="IBindCtx.GetRunningObjectTable"/> rather than the <see cref="GetRunningObjectTable"/> function.
-        /// This allows future implementations of the <see cref="IBindCtx"/> interface to modify binding behavior.
+        /// </para>
+        /// <para>
+        /// If you are implementing the <see cref="IMoniker"/> interface to write a new moniker class,
+        /// and you need an interface pointer to the ROT,
+        /// call <see cref="IBindCtx.GetRunningObjectTable"/> rather than the <see cref="GetRunningObjectTable"/> function.
+        /// This allows future implementations of the <see cref="IBindCtx"/> interface to modify binding behavior.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRunningObjectTable", ExactSpelling = true, SetLastError = true)]
@@ -3239,7 +3585,15 @@ namespace Lsj.Util.Win32
         /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>, and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The function converts the interface identifier in a way that guarantees different interface identifiers will always be converted to different strings.
+        /// </para>
+        /// <para>
+        /// The IID format is {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}.
+        /// </para>
+        /// <para>
+        /// Passing <see cref="NULL"/> results in <see cref="GUID_NULL"/> value.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "IIDFromString", ExactSpelling = true, SetLastError = true)]
@@ -3248,7 +3602,9 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Converts a string into a moniker that identifies the object named by the string.
-        /// This function is the inverse of the <see cref="IMoniker.GetDisplayName"/> operation,
+        /// </para>
+        /// <para>
+        /// This function is the inverse of the <see cref="IMoniker.GetDisplayName"/> operation,
         /// which retrieves the display name associated with a moniker.
         /// </para>
         /// <para>
@@ -3269,55 +3625,119 @@ namespace Lsj.Util.Win32
         /// <param name="ppmk">
         /// The address of the <see cref="IMoniker"/>* pointer variable that receives the interface pointer
         /// to the moniker that was built from <paramref name="szUserName"/>.
-        /// When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release.
+        /// When successful, the function has called <see cref="IUnknown.AddRef"/> on the moniker
+        /// and the caller is responsible for calling <see cref="IUnknown.Release"/>.
         /// If an error occurs, the specified interface pointer will contain as much of the moniker
         /// that the method was able to create before the error occurred.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function can return the standard return value <see cref="E_OUTOFMEMORY"/>, as well as the following values.
-        /// <see cref="S_OK"/>: The parse operation was successful and the moniker was created.
-        /// <see cref="MK_E_SYNTAX"/>: Error in the syntax of a file name or an error in the syntax of the resulting composite moniker.
-        /// This function can also return any of the error values returned by <see cref="IMoniker.BindToObject"/>,
-        /// <see cref="IOleItemContainer.GetObject"/>, or <see cref="IParseDisplayName.ParseDisplayName"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_OK"/>
+        /// </term>
+        /// <term>
+        /// The parse operation was successful and the moniker was created.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MK_E_SYNTAX"/>
+        /// </term>
+        /// <term>
+        /// Error in the syntax of a file name or an error in the syntax of the resulting composite moniker.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This function can also return any of the error values returned by <see cref="IMoniker.BindToObject"/>,
+        /// <see cref="IOleItemContainer.GetObject"/>, or <see cref="IParseDisplayName.ParseDisplayName"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="MkParseDisplayName"/> function parses a human-readable name into a moniker that can be used to identify a link source.
+        /// <para>
+        /// The <see cref="MkParseDisplayName"/> function parses a human-readable name into a moniker that can be used to identify a link source.
         /// The resulting moniker can be a simple moniker (such as a file moniker),
         /// or it can be a generic composite made up of the component moniker pieces.
-        /// For example, the display name "c:\mydir\somefile!item 1" could be parsed into the following generic composite moniker:
-        /// FileMoniker based on "c:\mydir\somefile") + (ItemMoniker based on "item 1").
-        /// The most common use of <see cref="MkParseDisplayName"/> is in the implementation of the standard Links dialog box,
+        /// For example, the display name "c:\mydir\somefile!item 1"
+        /// </para>
+        /// <para>
+        /// could be parsed into the following generic composite moniker: FileMoniker based on "c:\mydir\somefile") + (ItemMoniker based on "item 1").
+        /// </para>
+        /// <para>
+        /// The most common use of <see cref="MkParseDisplayName"/> is in the implementation of the standard Links dialog box,
         /// which allows an end user to specify the source of a linked object by typing in a string.
-        /// You may also need to call <see cref="MkParseDisplayName"/> if your application supports a macro language
+        /// You may also need to call <see cref="MkParseDisplayName"/> if your application supports a macro language
         /// that permits remote references (reference to elements outside of the document).
+        /// </para>
+        /// <para>
         /// Parsing a display name often requires activating the same objects that would be activated during a binding operation,
         /// so it can be just as expensive (in terms of performance) as binding.
         /// Objects that are bound during the parsing operation are cached in the bind context passed to the function.
-        /// If you plan to bind the moniker returned by <see cref="MkParseDisplayName"/>, it is best to do so immediately after the function returns,
-        /// using the same bind context, which removes the need to activate objects a second time.
-        /// <see cref="MkParseDisplayName"/> parses as much of the display name as it understands into a moniker.
-        /// The function then calls <see cref="IMoniker.ParseDisplayName"/> on the newly created moniker, passing the remainder of the display name.
-        /// The moniker returned by <see cref="IMoniker.ParseDisplayName"/> is composed onto the end of the existing moniker and,
-        /// if any of the display name remains unparsed, <see cref="IMoniker.ParseDisplayName"/> is called on the result of the composition.
+        /// If you plan to bind the moniker returned by <see cref="MkParseDisplayName"/>,
+        /// it is best to do so immediately after the function returns, using the same bind context, which removes the need to activate objects a second time.
+        /// </para>
+        /// <para>
+        /// <see cref="MkParseDisplayName"/> parses as much of the display name as it understands into a moniker.
+        /// The function then calls <see cref="IMoniker.ParseDisplayName"/> on the newly created moniker, passing the remainder of the display name.
+        /// The moniker returned by <see cref="IMoniker.ParseDisplayName"/> is composed onto the end of the existing moniker and,
+        /// if any of the display name remains unparsed, <see cref="IMoniker.ParseDisplayName"/> is called on the result of the composition.
         /// This process is repeated until the entire display name has been parsed.
-        /// <see cref="MkParseDisplayName"/> attempts the following strategies to parse the beginning of the display name,
+        /// </para>
+        /// <para>
+        /// <see cref="MkParseDisplayName"/> attempts the following strategies to parse the beginning of the display name,
         /// using the first one that succeeds:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// The function looks in the Running Object Table for file monikers corresponding to all prefixes of the display name
-        /// that consist solely of valid file name characters. This strategy can identify documents that are as yet unsaved.
+        /// that consist solely of valid file name characters.
+        /// This strategy can identify documents that are as yet unsaved.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The function checks the maximal prefix of the display name, which consists solely of valid file name characters,
         /// to see if an OLE 1 document is registered by that name.
         /// In this case, the returned moniker is an internal moniker provided by the OLE 1 compatibility layer of OLE 2.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The function consults the file system to check whether a prefix of the display name matches an existing file.
         /// The file name can be drive-absolute, drive-relative, working-directory relative, or begin with an explicit network share name.
         /// This is the common case.
-        /// If the initial character of the display name is '@', the function finds the longest string immediately following it
-        /// that conforms to the legal ProgID syntax.
-        /// The function converts this string to a <see cref="CLSID"/> using the <see cref="CLSIDFromProgID"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the initial character of the display name is '@',
+        /// the function finds the longest string immediately following it that conforms to the legal ProgID syntax.
+        /// The function converts this string to a CLSID using the <see cref="CLSIDFromProgID"/> function.
         /// If the CLSID represents an OLE 2 class, the function loads the corresponding class object
-        /// and asks for an <see cref="IParseDisplayName"/> interface pointer.
-        /// The resulting <see cref="IParseDisplayName"/> interface is then given the whole string to parse, starting with the '@'.
-        /// If the CLSID represents an OLE 1 class, then the function treats the string following the ProgID
-        /// as an OLE1/DDE link designator having filename|item syntax.
+        /// and asks for an <see cref="IParseDisplayName"/> interface pointer.
+        /// The resulting <see cref="IParseDisplayName"/> interface is then given the whole string to parse, starting with the '@'.
+        /// If the CLSID represents an OLE 1 class, then the function treats the string
+        /// following the ProgID as an OLE1/DDE link designator having <c>filename|item</c> syntax.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "MkParseDisplayName", ExactSpelling = true, SetLastError = true)]
@@ -3332,43 +3752,99 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ole2/nf-ole2-olecreate"/>
         /// </para>
         /// </summary>
-        /// <param name="rclsid"></param>
-        /// <param name="riid"></param>
-        /// <param name="renderopt"></param>
-        /// <param name="pFormatEtc"></param>
-        /// <param name="pClientSite"></param>
-        /// <param name="pStg"></param>
-        /// <param name="ppvObj"></param>
+        /// <param name="rclsid">
+        /// <see cref="CLSID"/> of the embedded object that is to be created.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface, usually <see cref="IID_IOleObject"/>
+        /// (defined in the OLE headers as the interface identifier for <see cref="IOleObject"/>),
+        /// through which the caller will communicate with the new object.
+        /// </param>
+        /// <param name="renderopt">
+        /// A value from the enumeration <see cref="OLERENDER"/>,
+        /// indicating the locally cached drawing capabilities the newly created object is to have.
+        /// The <see cref="OLERENDER"/> value chosen affects the possible values for the <paramref name="pFormatEtc"/> parameter.
+        /// </param>
+        /// <param name="pFormatEtc">
+        /// Depending on which of the <see cref="OLERENDER"/> flags is used as the value of renderopt,
+        /// pointer to one of the <see cref="FORMATETC"/> enumeration values.
+        /// Refer to the <see cref="OLERENDER"/> enumeration for restrictions.
+        /// This parameter, along with the <paramref name="renderopt"/> parameter, specifies what the new object can cache initially.
+        /// </param>
+        /// <param name="pClientSite">
+        /// If you want <see cref="OleCreate"/> to call <see cref="IOleObject.SetClientSite"/>,
+        /// pointer to the <see cref="IOleClientSite"/> interface on the container.
+        /// The value may be <see cref="NULL"/>, in which case you must specifically call <see cref="IOleObject.SetClientSite"/> before attempting operations.
+        /// </param>
+        /// <param name="pStg">
+        /// Pointer to an instance of the <see cref="IStorage"/> interface on the storage object.
+        /// This parameter may not be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppvObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer.
+        /// </param>
         /// <returns>
+        /// <para>
         /// This function returns <see cref="S_OK"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
-        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory for the operation.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_OUTOFMEMORY"/>
+        /// </term>
+        /// <term>
+        /// Insufficient memory for the operation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="OleCreate"/> function creates a new embedded object, and is typically called to implement the menu item Insert New Object.
-        /// When <see cref="OleCreate"/> returns, the object it has created is blank (contains no data),
-        /// unless <paramref name="renderopt"/> is <see cref="OLERENDER_DRAW"/> or <see cref="OLERENDER_FORMAT"/>, and is loaded.
-        /// Containers typically then call the <see cref="OleRun"/> function or <see cref="IOleObject.DoVerb"/> to show the object for initial editing.
-        /// The <paramref name="rclsid"/> parameter specifies the CLSID of the requested object.
+        /// <para>
+        /// The <see cref="OleCreate"/> function creates a new embedded object, and is typically called to implement the menu item Insert New Object.
+        /// When <see cref="OleCreate"/> returns, the object it has created is blank (contains no data),
+        /// unless <paramref name="renderopt"/> is <see cref="OLERENDER_DRAW"/> or <see cref="OLERENDER_FORMAT"/>, and is loaded.
+        /// Containers typically then call the <see cref="OleRun"/> function or <see cref="IOleObject.DoVerb"/> to show the object for initial editing.
+        /// </para>
+        /// <para>
+        /// The <paramref name="rclsid"/> parameter specifies the CLSID of the requested object.
         /// CLSIDs of registered objects are stored in the system registry.
         /// When an application user selects Insert Object, a selection box allows the user to select the type of object desired from those in the registry.
-        /// When <see cref="OleCreate"/> is used to implement the Insert Object menu item,
-        /// the CLSID associated with the selected item is assigned to the rclsid parameter of <see cref="OleCreate"/>.
-        /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the new object.
-        /// Upon successful return, the <paramref name="ppvObj"/> parameter holds a pointer to the requested interface.
+        /// When <see cref="OleCreate"/> is used to implement the Insert Object menu item,
+        /// the CLSID associated with the selected item is assigned to the rclsid parameter of <see cref="OleCreate"/>.
+        /// </para>
+        /// <para>
+        /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the new object.
+        /// Upon successful return, the <paramref name="ppvObj"/> parameter holds a pointer to the requested interface.
+        /// </para>
+        /// <para>
         /// The created object's cache contains information that allows a presentation of a contained object when the container is opened.
-        /// Information about what should be cached is passed in the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> values.
-        /// When <see cref="OleCreate"/> returns, the created object's cache is not necessarily filled.
+        /// Information about what should be cached is passed in the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> values.
+        /// When <see cref="OleCreate"/> returns, the created object's cache is not necessarily filled.
         /// Instead, the cache is filled the first time the object enters the running state.
-        /// The caller can add additional cache control with a call to <see cref="IOleCache.Cache"/>
-        /// after the return of <see cref="OleCreate"/> and before the object is run.
+        /// The caller can add additional cache control with a call to <see cref="IOleCache.Cache"/>
+        /// after the return of <see cref="OleCreate"/> and before the object is run.
         /// If renderopt is <see cref="OLERENDER_DRAW"/> or <see cref="OLERENDER_FORMAT"/>,
-        /// <see cref="OleCreate"/> requires that the object support the <see cref="IOleCache"/> interface.
-        /// There is no such requirement for any other value of <paramref name="renderopt"/>.
-        /// If <paramref name="pClientSite"/> is non-NULL, <see cref="OleCreate"/>
-        /// calls <see cref="IOleObject.SetClientSite"/> through the <paramref name="pClientSite"/> pointer.
-        /// <see cref="IOleClientSite"/> is the primary interface by which an object requests services from its container.
-        /// If <paramref name="pClientSite"/> is <see cref="NULL"/>,
-        /// you must make a specific call to <see cref="IOleObject.SetClientSite"/> before attempting any operations.
+        /// <see cref="OleCreate"/> requires that the object support the <see cref="IOleCache"/> interface.
+        /// There is no such requirement for any other value of renderopt.
+        /// </para>
+        /// <para>
+        /// If <paramref name="pClientSite"/> is non-<see cref="NULL"/>,
+        /// <see cref="OleCreate"/> calls <see cref="IOleObject.SetClientSite"/> through the <paramref name="pClientSite"/> pointer.
+        /// <see cref="IOleClientSite"/> is the primary interface by which an object requests services from its container.
+        /// If <paramref name="pClientSite"/> is <see cref="NULL"/>,
+        /// you must make a specific call to <see cref="IOleObject.SetClientSite"/> before attempting any operations.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreate", ExactSpelling = true, SetLastError = true)]
@@ -3385,7 +3861,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="clsid">
-        /// CLSID identifying the OLE server to be loaded when the embedded object enters the running state.
+        /// <see cref="CLSID"/> identifying the OLE server to be loaded when the embedded object enters the running state.
         /// </param>
         /// <param name="pUnkOuter">
         /// Pointer to the controlling <see cref="IUnknown"/> interface if the handler is to be aggregated;
@@ -3403,12 +3879,17 @@ namespace Lsj.Util.Win32
         /// This function returns <see cref="NOERROR"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
         /// <remarks>
-        /// <see cref="OleCreateDefaultHandler"/> creates a new instance of the default embedding handler,
-        /// initialized so it creates a local server identified by the <paramref name="clsid"/> parameter when the embedded object enters the running state.
-        /// If you are writing a handler and want to use the services of the default handler, call <see cref="OleCreateDefaultHandler"/>.
-        /// OLE also calls it internally when the CLSID specified in an object creation call is not registered.
-        /// If the given class does not have a special handler, a call to <see cref="OleCreateDefaultHandler"/> produces the same results
-        /// as a call to the <see cref="CoCreateInstance"/> function with the class context parameter assigned the value <see cref="CLSCTX_INPROC_HANDLER"/>.
+        /// <para>
+        /// <see cref="OleCreateDefaultHandler"/> creates a new instance of the default embedding handler,
+        /// initialized so it creates a local server identified by the <paramref name="clsid"/> parameter
+        /// when the embedded object enters the running state.
+        /// If you are writing a handler and want to use the services of the default handler, call <see cref="OleCreateDefaultHandler"/>.
+        /// OLE also calls it internally when the <see cref="CLSID"/> specified in an object creation call is not registered.
+        /// </para>
+        /// <para>
+        /// If the given class does not have a special handler, a call to <see cref="OleCreateDefaultHandler"/> produces the same results
+        /// as a call to the <see cref="CoCreateInstance"/> function with the class context parameter assigned the value <see cref="CLSCTX_INPROC_HANDLER"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateDefaultHandler", ExactSpelling = true, SetLastError = true)]
@@ -3443,70 +3924,152 @@ namespace Lsj.Util.Win32
         /// <param name="pClientSite">
         /// Pointer to an instance of <see cref="IOleClientSite"/>,
         /// the primary interface through which the object will request services from its container.
-        /// This parameter can be <see langword="null"/>.
+        /// This parameter can be <see cref="NULL"/>.
         /// </param>
         /// <param name="pStg">
         /// Pointer to the <see cref="IStorage"/> interface on the storage object.
-        /// This parameter may not be <see langword="null"/>.
+        /// This parameter may not be <see cref="NULL"/>.
         /// </param>
         /// <param name="ppvObj">
         /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
         /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer on the newly created object.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="OLE_E_STATIC"/>: Indicates OLE can create only a static object.
-        /// <see cref="DV_E_FORMATETC"/>: No acceptable formats are available for object creation.
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OLE_E_STATIC"/>
+        /// </term>
+        /// <term>
+        /// Indicates OLE can create only a static object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DV_E_FORMATETC"/>
+        /// </term>
+        /// <term>
+        /// No acceptable formats are available for object creation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="OleCreateFromData"/> function creates an embedded object
-        /// from a data transfer object supporting the <see cref="IDataObject"/> interface.
+        /// <para>
+        /// The <see cref="OleCreateFromData"/> function creates an embedded object
+        /// from a data transfer object supporting the <see cref="IDataObject"/> interface.
         /// The data object in this case is either the type retrieved from the clipboard
-        /// with a call to the <see cref="OleGetClipboard"/> function or is part of an OLE drag-and-drop operation
-        /// (the data object is passed to a call to <see cref="IDropTarget.Drop"/>).
-        /// If either the FileName or FileNameW clipboard format(<see cref="CF_FILENAME"/>) is present in the data transfer object,
+        /// with a call to the <see cref="OleGetClipboard"/> function or is part of an OLE drag-and-drop operation
+        /// (the data object is passed to a call to <see cref="IDropTarget.Drop"/>).
+        /// </para>
+        /// <para>
+        /// If either the FileName or FileNameW clipboard format (<see cref="CF_FILENAME"/>) is present in the data transfer object,
         /// and <see cref="CF_EMBEDDEDOBJECT"/> or <see cref="CF_EMBEDSOURCE"/> do not exist,
-        /// <see cref="OleCreateFromData"/> first attempts to create a package containing the indicated file.
+        /// <see cref="OleCreateFromData"/> first attempts to create a package containing the indicated file.
         /// Generally, it takes the first available format.
-        /// If <see cref="OleCreateFromData"/> cannot create a package, it tries to create an object using the <see cref="CF_EMBEDDEDOBJECT"/> format.
-        /// If that format is not available, <see cref="OleCreateFromData"/> tries to create it with the <see cref="CF_EMBEDSOURCE"/> format.
-        /// If neither of these formats is available and the data transfer object supports the <see cref="IPersistStorage"/> interface,
-        /// <see cref="OleCreateFromData"/> calls the object's <see cref="IPersistStorage.Save"/> to have the object save itself.
+        /// </para>
+        /// <para>
+        /// If <see cref="OleCreateFromData"/> cannot create a package, it tries to create an object using the <see cref="CF_EMBEDDEDOBJECT"/> format.
+        /// If that format is not available, <see cref="OleCreateFromData"/> tries to create it with the <see cref="CF_EMBEDSOURCE"/> format.
+        /// If neither of these formats is available and the data transfer object supports the <see cref="IPersistStorage"/> interface,
+        /// <see cref="OleCreateFromData"/> calls the object's <see cref="IPersistStorage.Save"/> to have the object save itself.
+        /// </para>
+        /// <para>
         /// If an existing linked object is selected, then copied, it appears on the clipboard as just another embeddable object.
-        /// Consequently, a paste operation that invokes <see cref="OleCreateFromData"/> may create a linked object. After the paste operation,
-        /// the container should call the QueryInterface function, requesting <see cref="IID_IOleLink"/>
-        /// (defined in the OLE headers as the interface identifier for <see cref="IOleLink"/>), to determine if a linked object was created.
-        /// Use the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> parameters
-        /// to control the caching capability of the newly created object.
+        /// Consequently, a paste operation that invokes <see cref="OleCreateFromData"/> may create a linked object.
+        /// After the paste operation, the container should call the <see cref="IUnknown.QueryInterface"/> function,
+        /// requesting <see cref="IID_IOleLink"/> (defined in the OLE headers as the interface identifier for <see cref="IOleLink"/>),
+        /// to determine if a linked object was created.
+        /// </para>
+        /// <para>
+        /// Use the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> parameters to control the caching capability of the newly created object.
         /// For general information about using the interaction of these parameters to determine what is to be cached,
-        /// refer to the <see cref="OLERENDER"/> enumeration.
-        /// There are, however, some additional specific effects of these parameters on the way <see cref="OleCreateFromData"/> initializes the cache.
-        /// When <see cref="OleCreateFromData"/> uses either the <see cref="CF_EMBEDDEDOBJECT"/>
-        /// or the <see cref="CF_EMBEDSOURCE"/> clipboard format to create the embedded object,
-        /// the main difference between the two is where the cache-initialization data is stored:
+        /// refer to the <see cref="OLERENDER"/> enumeration.
+        /// There are, however, some additional specific effects of these parameters on the way <see cref="OleCreateFromData"/> initializes the cache.
+        /// </para>
+        /// <para>
+        /// When <see cref="OleCreateFromData"/> uses either the <see cref="CF_EMBEDDEDOBJECT"/> or the <see cref="CF_EMBEDSOURCE"/> clipboard format
+        /// to create the embedded object, the main difference between the two is where the cache-initialization data is stored:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="CF_EMBEDDEDOBJECT"/> indicates that the source is an existing embedded object.
         /// It already has in its cache the appropriate data, and OLE uses this data to initialize the cache of the new object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="CF_EMBEDSOURCE"/> indicates that the source data object
         /// contains the cache-initialization information in formats other than <see cref="CF_EMBEDSOURCE"/>.
-        /// <see cref="OleCreateFromData"/> uses these to initialize the cache of the newly embedded object.
-        /// The renderopt values affect cache initialization as follows.
-        /// <see cref="OLERENDER_DRAW"/> &amp; <see cref="OLERENDER_FORMAT"/>:
+        /// <see cref="OleCreateFromData"/> uses these to initialize the cache of the newly embedded object.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The <paramref name="renderopt"/> values affect cache initialization as follows.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OLERENDER_DRAW"/> &amp; <see cref="OLERENDER_FORMAT"/>
+        /// </term>
+        /// <term>
         /// If the presentation information to be cached is currently present in the appropriate cache-initialization pool, it is used.
         /// (Appropriate locations are in the source data object cache for <see cref="CF_EMBEDDEDOBJECT"/>,
         /// and in the other formats in the source data object for <see cref="CF_EMBEDSOURCE"/>.)
         /// If the information is not present, the cache is initially empty, but will be filled the first time the object is run.
         /// No other formats are cached in the newly created object.
-        /// <see cref="OLERENDER_NONE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OLERENDER_NONE"/>
+        /// </term>
+        /// <term>
         /// Nothing is to be cached in the newly created object.
         /// If the source has the <see cref="CF_EMBEDDEDOBJECT"/> format, any existing cached data that has been copied is removed.
-        /// <see cref="OLERENDER_ASIS"/>:
-        /// If the source has the <see cref="CF_EMBEDDEDOBJECT"/> format,
-        /// the cache of the new object is to contain the same cache data as the source object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OLERENDER_ASIS"/>
+        /// </term>
+        /// <term>
+        /// If the source has the <see cref="CF_EMBEDDEDOBJECT"/> format, the cache of the new object is to contain the same cache data as the source object.
         /// For <see cref="CF_EMBEDSOURCE"/>, nothing is to be cached in the newly created object.
         /// This option should be used by more sophisticated containers.
-        /// After this call, such containers would call <see cref="IOleCache.Cache"/>
-        /// and <see cref="IOleCache.Uncache"/> to set up exactly what is to be cached.
-        /// For <see cref="CF_EMBEDSOURCE"/>, they would then also call <see cref="IOleCache.InitCache"/>.
+        /// After this call, such containers would call <see cref="IOleCache.Cache"/> and <see cref="IOleCache.Uncache"/> to set up exactly what is to be cached.
+        /// For <see cref="CF_EMBEDSOURCE"/>, they would then also call <see cref="IOleCache.InitCache"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromData", ExactSpelling = true, SetLastError = true)]
@@ -3521,33 +4084,118 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ole/nf-ole-olecreatefromfile"/>
         /// </para>
         /// </summary>
-        /// <param name="rclsid"></param>
-        /// <param name="lpszFileName"></param>
-        /// <param name="riid"></param>
-        /// <param name="renderopt"></param>
-        /// <param name="lpFormatEtc"></param>
-        /// <param name="pClientSite"></param>
-        /// <param name="pStg"></param>
-        /// <param name="ppvObj"></param>
+        /// <param name="rclsid">
+        /// This parameter is reserved and must be <see cref="CLSID_NULL"/>.
+        /// </param>
+        /// <param name="lpszFileName">
+        /// Pointer to a string specifying the full path of the file from which the object should be initialized.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface the caller later uses to communicate with the new object
+        /// (usually <see cref="IID_IOleObject"/>, defined in the OLE headers as the interface ID of <see cref="IOleObject"/>).
+        /// </param>
+        /// <param name="renderopt">
+        /// Value from the enumeration <see cref="OLERENDER"/> that indicates
+        /// the locally cached drawing or data-retrieval capabilities the newly created object is to have.
+        /// The <see cref="OLERENDER"/> value chosen affects the possible values for the <paramref name="lpFormatEtc"/> parameter.
+        /// </param>
+        /// <param name="lpFormatEtc">
+        /// Depending on which of the <see cref="OLERENDER"/> flags is used as the value of <paramref name="renderopt"/>,
+        /// pointer to one of the <see cref="FORMATETC"/> enumeration values.
+        /// Refer also to the <see cref="OLERENDER"/> enumeration for restrictions.
+        /// </param>
+        /// <param name="pClientSite">
+        /// Pointer to an instance of <see cref="IOleClientSite"/>,
+        /// the primary interface through which the object will request services from its container.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="pStg">
+        /// Pointer to the <see cref="IStorage"/> interface on the storage object.
+        /// This parameter cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppvObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer on the newly created object.
+        /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="STG_E_FILENOTFOUND"/>: File not bound.
-        /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>: Not able to bind to source.
-        /// <see cref="STG_E_MEDIUMFULL"/>: The medium is full.
-        /// <see cref="DV_E_TYMED"/>: Invalid TYMED.
-        /// <see cref="DV_E_LINDEX"/>: Invalid LINDEX.
-        /// <see cref="DV_E_FORMATETC"/>: Invalid FORMATETC structure.
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="STG_E_FILENOTFOUND"/>
+        /// </term>
+        /// <term>
+        /// File not bound.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>
+        /// </term>
+        /// <term>
+        /// Not able to bind to source.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="STG_E_MEDIUMFULL"/>
+        /// </term>
+        /// <term>
+        /// The medium is full.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DV_E_TYMED"/>
+        /// </term>
+        /// <term>
+        /// Invalid <see cref="TYMED"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DV_E_LINDEX"/>
+        /// </term>
+        /// <term>
+        /// Invalid LINDEX.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DV_E_FORMATETC"/>
+        /// </term>
+        /// <term>
+        /// Invalid <see cref="FORMATETC"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="OleCreateFromFile"/> function creates a new embedded object from the contents of a named file.
+        /// <para>
+        /// The <see cref="OleCreateFromFile"/> function creates a new embedded object from the contents of a named file.
         /// If the ProgID in the registration database contains the PackageOnFileDrop key, it creates a package.
-        /// If not, the function calls the <see cref="GetClassFile"/> function to get the CLSID associated
-        /// with the <paramref name="lpszFileName"/> parameter, and then creates an OLE 2-embedded object associated with that CLSID.
-        /// The <paramref name="rclsid"/> parameter of <see cref="OleCreateFromFile"/> will always be ignored,
-        /// and should be set to <see cref="CLSID_NULL"/>.
+        /// If not, the function calls the <see cref="GetClassFile"/> function to get the <see cref="CLSID"/>
+        /// associated with the <paramref name="lpszFileName"/> parameter, and then creates an OLE 2-embedded object associated with that <see cref="CLSID"/>.
+        /// The <paramref name="rclsid"/> parameter of <see cref="OleCreateFromFile"/> will always be ignored, and should be set to <see cref="CLSID_NULL"/>.
+        /// </para>
+        /// <para>
         /// As for other OleCreateXxx functions, the newly created object is not shown to the user for editing,
-        /// which requires a <see cref="IOleObject.DoVerb"/> operation.
+        /// which requires a <see cref="IOleObject.DoVerb"/> operation.
         /// It is used to implement insert file operations.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromFile", ExactSpelling = true, SetLastError = true)]
@@ -3581,19 +4229,41 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="pClientSite">
         /// Pointer to an instance of <see cref="IOleClientSite"/>, the primary interface through which the object will request services from its container.
-        /// This parameter can be <see cref="NullRef{IOleClientSite}"/>.
+        /// This parameter can be <see cref="NULL"/>.
         /// </param>
         /// <param name="pStg">
         /// Pointer to the <see cref="IStorage"/> interface on the storage object.
-        /// This parameter cannot be <see cref="NullRef{IStorage}"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
         /// </param>
         /// <param name="ppvObj">
         /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
         /// Upon successful return, <paramref name="ppvObj"/> contains the requested interface pointer on the newly created object.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>: Not able to bind to source.
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>
+        /// </term>
+        /// <term>
+        /// Not able to bind to source.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Call <see cref="OleCreateLink"/> to allow a container to create a link to an object.
@@ -3618,30 +4288,100 @@ namespace Lsj.Util.Win32
         /// This parameter is reserved and must be <see cref="NULL"/>.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="S_FALSE"/>: The COM library is already initialized on this apartment.
-        /// <see cref="OLE_E_WRONGCOMPOBJ"/>: The versions of COMPOBJ.DLL and OLE2.DLL on your machine are incompatible with each other.
-        /// <see cref="RPC_E_CHANGED_MODE"/>:
-        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this apartment as multithread apartment (MTA).
-        /// This could also mean that a change from neutral threaded apartment to single threaded apartment occurred. 
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_FALSE"/>
+        /// </term>
+        /// <term>
+        /// The COM library is already initialized on this apartment.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OLE_E_WRONGCOMPOBJ"/>
+        /// </term>
+        /// <term>
+        /// The versions of COMPOBJ.DLL and OLE2.DLL on your machine are incompatible with each other.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="RPC_E_CHANGED_MODE"/>
+        /// </term>
+        /// <term>
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this apartment as multithread apartment (MTA).
+        /// This could also mean that a change from neutral threaded apartment to single threaded apartment occurred.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Applications that use the following functionality must call <see cref="OleInitialize"/> before calling any other function in the COM library:
-        /// Clipboard, Drag and Drop, Object linking and embedding (OLE), In-place activation
-        /// <see cref="OleInitialize"/> calls <see cref="CoInitializeEx"/> internally to initialize the COM library on the current apartment.
-        /// Because OLE operations are not thread-safe, <see cref="OleInitialize"/> specifies the concurrency model as single-thread apartment.
+        /// <para>
+        /// Applications that use the following functionality must call <see cref="OleInitialize"/> before calling any other function in the COM library:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Clipboard
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Drag and Drop
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Object linking and embedding (OLE)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// In-place activation
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <see cref="OleInitialize"/> calls <see cref="CoInitializeEx"/> internally to initialize the COM library on the current apartment.
+        /// Because OLE operations are not thread-safe, <see cref="OleInitialize"/> specifies the concurrency model as single-thread apartment.
+        /// </para>
+        /// <para>
         /// Once the concurrency model for an apartment is set, it cannot be changed.
-        /// A call to <see cref="OleInitialize"/> on an apartment that was previously initialized
-        /// as multithreaded will fail and return <see cref="RPC_E_CHANGED_MODE"/>.
-        /// You need to initialize the COM library on an apartment before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// A call to <see cref="OleInitialize"/> on an apartment that was previously initialized as multithreaded
+        /// will fail and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// </para>
+        /// <para>
+        /// You need to initialize the COM library on an apartment before you call any of the library functions except <see cref="CoGetMalloc"/>,
         /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// </para>
+        /// <para>
         /// Typically, the COM library is initialized on an apartment only once.
         /// Subsequent calls will succeed, as long as they do not attempt to change the concurrency model of the apartment,
         /// but will return <see cref="S_FALSE"/>.
-        /// To close the COM library gracefully, each successful call to <see cref="OleInitialize"/>,
-        /// including those that return <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="OleUninitialize"/>.
+        /// To close the COM library gracefully, each successful call to <see cref="OleInitialize"/>,
+        /// including those that return <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="OleUninitialize"/>.
+        /// </para>
+        /// <para>
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
-        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleInitialize", ExactSpelling = true, SetLastError = true)]
@@ -3669,33 +4409,91 @@ namespace Lsj.Util.Win32
         /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer on the newly loaded object.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="E_NOINTERFACE"/>: The object does not support the specified interface.
-        /// Additionally, this function can return any of the error values returned by the <see cref="IPersistStorage.Load"/> method.
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_NOINTERFACE"/>
+        /// </term>
+        /// <term>
+        /// The object does not support the specified interface.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Additionally, this function can return any of the error values returned by the <see cref="IPersistStorage.Load"/> method.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// OLE containers load objects into memory by calling this function.
-        /// When calling the OleLoad function, the container application passes
-        /// in a pointer to the open storage object in which the nested object is stored.
+        /// When calling the <see cref="OleLoad"/> function, the container application
+        /// passes in a pointer to the open storage object in which the nested object is stored.
         /// Typically, the nested object to be loaded is a child storage object to the container's root storage object.
-        /// Using the OLE information stored with the object, the object handler (usually, the default handler) attempts to load the object.
-        /// On completion of the OleLoad function, the object is said to be in the loaded state with its object application not running.
-        /// Some applications load all of the object's native data. Containers often defer loading the contained objects until required to do so.
+        /// Using the OLE information stored with the object, the object handler (usually, the default handler) attempts to load the object. 
+        /// On completion of the <see cref="OleLoad"/> function, the object is said to be in the loaded state with its object application not running.
+        /// </para>
+        /// <para>
+        /// Some applications load all of the object's native data.
+        /// Containers often defer loading the contained objects until required to do so.
         /// For example, until an object is scrolled into view and needs to be drawn, it does not need to be loaded.
-        /// The <see cref="OleLoad"/> function performs the following steps:
-        /// If necessary, performs an automatic conversion of the object (see the <see cref="OleDoAutoConvert"/> function).
-        /// Gets the <see cref="CLSID"/> from the open storage object by calling the <see cref="IStorage.Stat"/> method.
-        /// Calls the <see cref="CoCreateInstance"/> function to create an instance of the handler.
-        /// If the handler code is not available, the default handler is used (see the <see cref="OleCreateDefaultHandler"/> function).
-        /// Calls the <see cref="IOleObject.SetClientSite"/> method with the <paramref name="pClientSite"/> parameter
-        /// to inform the object of its client site.
-        /// Calls the QueryInterface method for the <see cref="IPersistStorage"/> interface.
-        /// If successful, the <see cref="IPersistStorage.Load"/> method is invoked for the object.
-        /// Queries and returns the interface identified by the <paramref name="riid"/> parameter.
+        /// </para>
+        /// <para>
+        /// The <see cref="OleLoad"/> function performs the following steps:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If necessary, performs an automatic conversion of the object (see the <see cref="OleDoAutoConvert"/> function).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Gets the <see cref="CLSID"/> from the open storage object by calling the <see cref="IStorage.Stat"/> method.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Calls the <see cref="CoCreateInstance"/> function to create an instance of the handler.
+        /// If the handler code is not available, the default handler is used (see the <see cref="OleCreateDefaultHandler"/> function).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Calls the <see cref="IOleObject.SetClientSite"/> method with the <paramref name="pClientSite"/> parameter to inform the object of its client site.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Calls the <see cref="IUnknown.QueryInterface"/> method for the <see cref="IPersistStorage"/> interface.
+        /// If successful, the <see cref="IPersistStorage.Load"/> method is invoked for the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Queries and returns the interface identified by the <paramref name="riid"/> parameter.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleLoad", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleLoad([In] IStorage pStg, [In] in IID riid, [In] IOleClientSite pClientSite, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleLoad([In] P<IStorage> pStg, [In] in IID riid, [In] P<IOleClientSite> pClientSite, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -3717,32 +4515,86 @@ namespace Lsj.Util.Win32
         /// <see cref="FALSE"/> indicates that pStg was loaded or created from a different storage object.
         /// </param>
         /// <returns>
-        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
-        /// <see cref="STGMEDIUM_E_FULL"/>:
+        /// <para>
+        /// This function returns <see cref="S_OK"/> on success.
+        /// Other possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="STGMEDIUM_E_FULL"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// The object could not be saved due to lack of disk space.
-        /// This function can also return any of the error values returned by the <see cref="IPersistStorage.Save"/> method.
+        /// </para>
+        /// <para>
+        /// This function can also return any of the error values returned by the <see cref="IPersistStorage.Save"/> method.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="OleSave"/> helper function handles the common situation in which an object is open in transacted mode
+        /// <para>
+        /// The <see cref="OleSave"/> helper function handles the common situation in which an object is open in transacted mode
         /// and is then to be saved into the specified storage object which uses the OLE-provided compound file implementation.
         /// Transacted mode means that changes to the object are buffered
-        /// until either of the <see cref="IStorage.Commit"/> or <see cref="IStorage.Revert"/> is called.
-        /// Callers can handle other situations by calling the <see cref="IPersistStorage"/> and <see cref="IStorage"/> interfaces directly.
-        /// <see cref="OleSave"/> does the following:
-        /// Calls the <see cref="IPersist.GetClassID"/> method to get the CLSID of the object.
-        /// Writes the CLSID to the storage object using the <see cref="WriteClassStg"/> function.
-        /// Calls the <see cref="IPersistStorage.Save"/> method to save the object.
-        /// If there were no errors on the save; calls the <see cref="IStorage.Commit"/>::Commit method to commit the changes.
+        /// until either of the <see cref="IStorage.Commit"/> or <see cref="IStorage.Revert"/> is called.
+        /// Callers can handle other situations by calling the <see cref="IPersistStorage"/> and <see cref="IStorage"/> interfaces directly.
+        /// </para>
+        /// <para>
+        /// <see cref="OleSave"/> does the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Calls the <see cref="IPersist.GetClassID"/> method to get the CLSID of the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Writes the CLSID to the storage object using the <see cref="WriteClassStg"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Calls the <see cref="IPersistStorage.Save"/> method to save the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If there were no errors on the save; calls the <see cref="IStorage.Commit"/> method to commit the changes.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Static objects are saved into a stream called CONTENTS.
         /// Static metafile objects get saved in "placeable metafile format" and static DIB data gets saved in "DIB file format."
-        /// These formats are defined to be the OLE standards for metafile and DIB.All data transferred using an <see cref="IStream"/> interface
-        /// or a file (that is, via <see cref="IDataObject.GetDataHere"/>) must be in these formats.
+        /// These formats are defined to be the OLE standards for metafile and DIB.
+        /// All data transferred using an <see cref="IStream"/> interface or a file 
+        /// (that is, via <see cref="IDataObject.GetDataHere"/>) must be in these formats.
         /// Also, all objects whose default file format is a metafile or DIB must write their data into a CONTENTS stream using these standard formats.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleSave", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleSave([In] IPersistStorage pPS, [In] IStorage pStg, [In] BOOL fSameAsLoad);
+        public static extern HRESULT OleSave([In] P<IPersistStorage> pPS, [In] P<IStorage> pStg, [In] BOOL fSameAsLoad);
 
         /// <summary>
         /// <para>
@@ -3754,18 +4606,26 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <remarks>
-        /// Call <see cref="OleUninitialize"/> on application shutdown, as the last COM library call,
-        /// if the apartment was initialized with a call to <see cref="OleInitialize"/>.
-        /// <see cref="OleUninitialize"/> calls the <see cref="CoUninitialize"/> function internally to shut down the OLE Component Object(COM) Library.
-        /// If the COM library was initialized on the apartment with a call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
-        /// it must be closed with a call to <see cref="CoUninitialize"/>.
-        /// The <see cref="OleInitialize"/> and <see cref="OleUninitialize"/> calls must be balanced
-        /// if there are multiple calls to the <see cref="OleInitialize"/> function,
-        /// there must be the same number of calls to <see cref="OleUninitialize"/>;
-        /// only the <see cref="OleUninitialize"/> call corresponding to the <see cref="OleInitialize"/> call
+        /// <para>
+        /// Call <see cref="OleUninitialize"/> on application shutdown, as the last COM library call,
+        /// if the apartment was initialized with a call to <see cref="OleInitialize"/>.
+        /// <see cref="OleUninitialize"/> calls the <see cref="CoUninitialize"/> function internally to shut down the OLE Component Object(COM) Library.
+        /// </para>
+        /// <para>
+        /// If the COM library was initialized on the apartment with a call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// it must be closed with a call to <see cref="CoUninitialize"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="OleInitialize"/> and <see cref="OleUninitialize"/> calls must be balanced.
+        /// If there are multiple calls to the <see cref="OleInitialize"/> function,
+        /// there must be the same number of calls to <see cref="OleUninitialize"/>;
+        /// only the <see cref="OleUninitialize"/> call corresponding to the <see cref="OleInitialize"/> call
         /// that actually initialized the library can close it.
+        /// </para>
+        /// <para>
         /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
-        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUninitialize", ExactSpelling = true, SetLastError = true)]
@@ -3783,43 +4643,174 @@ namespace Lsj.Util.Win32
         /// Pointer to the storage medium that is to be freed.
         /// </param>
         /// <remarks>
-        /// The <see cref="ReleaseStgMedium"/> function calls the appropriate method or function to release the specified storage medium.
+        /// <para>
+        /// The <see cref="ReleaseStgMedium"/> function calls the appropriate method or function to release the specified storage medium.
         /// Use this function during data transfer operations where storage medium structures are parameters,
-        /// such as <see cref="IDataObject.GetData"/> or <see cref="IDataObject.SetData"/>.
+        /// such as <see cref="IDataObject.GetData"/> or <see cref="IDataObject.SetData"/>.
         /// In addition to identifying the type of the storage medium,
-        /// this structure specifies the appropriate Release method for releasing the storage medium when it is no longer needed.
-        /// It is common to pass a <see cref="STGMEDIUM"/> from one body of code to another, such as in <see cref="IDataObject.GetData"/>,
+        /// this structure specifies the appropriate <see cref="IUnknown.Release"/> method for releasing the storage medium when it is no longer needed.
+        /// </para>
+        /// <para>
+        /// It is common to pass a <see cref="STGMEDIUM"/> from one body of code to another, such as in <see cref="IDataObject.GetData"/>,
         /// in which the one called can allocate a medium and return it to the caller.
-        /// <see cref="ReleaseStgMedium"/> permits flexibility in whether the receiving body of code owns the medium,
+        /// <see cref="ReleaseStgMedium"/> permits flexibility in whether the receiving body of code owns the medium,
         /// or whether the original provider of the medium still owns it,
         /// in which case the receiving code needs to inform the provider that it can free the medium.
-        /// When the original provider of the medium is responsible for freeing the medium, the provider calls <see cref="ReleaseStgMedium"/>,
-        /// specifying the medium and the appropriate <see cref="IUnknown"/> pointer as the <see cref="STGMEDIUM.pUnkForRelease"/> structure member.
+        /// </para>
+        /// <para>
+        /// When the original provider of the medium is responsible for freeing the medium, the provider calls <see cref="ReleaseStgMedium"/>,
+        /// specifying the medium and the appropriate <see cref="IUnknown"/> pointer as the <see cref="STGMEDIUM.pUnkForRelease"/> structure member.
         /// Depending on the type of storage medium being freed, one of the following actions is taken,
-        /// followed by a call to the IUnknown::Release method on the specified <see cref="IUnknown"/> pointer.
-        /// Medium                          <see cref="ReleaseStgMedium"/> Action
-        /// <see cref="TYMED_HGLOBAL"/>     None.
-        /// <see cref="TYMED_GDI"/>         None.
-        /// <see cref="TYMED_ENHMF"/>       None.
-        /// <see cref="TYMED_MFPICT"/>      None.
-        /// <see cref="TYMED_FILE"/>        Frees the file name string using standard memory management mechanisms.
-        /// <see cref="TYMED_ISTREAM"/>     Calls IStream::Release.
-        /// <see cref="TYMED_ISTORAGE"/>    Calls IStorage::Release.
+        /// followed by a call to the <see cref="IUnknown.Release"/> method on the specified <see cref="IUnknown"/> pointer.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Medium
+        /// </term>
+        /// <term>
+        /// <see cref="ReleaseStgMedium"/> Action
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_HGLOBAL"/>
+        /// </term>
+        /// <term>
+        /// None.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_GDI"/>
+        /// </term>
+        /// <term>
+        /// None.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ENHMF"/>
+        /// </term>
+        /// <term>
+        /// None.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_MFPICT"/>
+        /// </term>
+        /// <term>
+        /// None.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_FILE"/>
+        /// </term>
+        /// <term>
+        /// Frees the file name string using standard memory management mechanisms.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ISTREAM"/>
+        /// </term>
+        /// <term>
+        /// Calls <see cref="IUnknown.Release"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ISTORAGE"/>
+        /// </term>
+        /// <term>
+        /// Calls <see cref="IUnknown.Release"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The provider indicates that the receiver of the medium is responsible for freeing the medium
-        /// by specifying <see cref="NULL"/> for the <see cref="STGMEDIUM.pUnkForRelease"/> structure member.
-        /// Then the receiver calls <see cref="ReleaseStgMedium"/>, which makes a call as described
-        /// in the following table depending on the type of storage medium being freed.
-        /// Medium                          <see cref="ReleaseStgMedium"/> Action
-        /// <see cref="TYMED_HGLOBAL"/>     Calls the <see cref="GlobalFree"/> function on the handle.
-        /// <see cref="TYMED_GDI"/>         Calls the <see cref="DeleteObject"/> function on the handle.
-        /// <see cref="TYMED_ENHMF"/>       Deletes the enhanced metafile.
-        /// <see cref="TYMED_MFPICT"/>      The hMF that it contains is deleted with the <see cref="DeleteMetaFile"/> function;
-        ///                                 then the handle itself is passed to <see cref="GlobalFree"/>.
-        /// <see cref="TYMED_FILE"/>        Frees the disk file by deleting it. 
-        ///                                 Frees the file name string by using the standard memory management mechanisms.
-        /// <see cref="TYMED_ISTREAM"/>     Calls IStream::Release.
-        /// <see cref="TYMED_ISTORAGE"/>    Calls IStorage::Release.
-        /// In either case, after the call to <see cref="ReleaseStgMedium"/>, the specified storage medium is invalid and can no longer be used.
+        /// by specifying <see cref="NULL"/> for the <see cref="STGMEDIUM.pUnkForRelease"/> structure member.
+        /// Then the receiver calls <see cref="ReleaseStgMedium"/>,
+        /// which makes a call as described in the following table depending on the type of storage medium being freed.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Medium
+        /// </term>
+        /// <term>
+        /// <see cref="ReleaseStgMedium"/> Action
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_HGLOBAL"/>
+        /// </term>
+        /// <term>
+        /// Calls the <see cref="GlobalFree"/> function on the handle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_GDI"/>
+        /// </term>
+        /// <term>
+        /// Calls the <see cref="DeleteObject"/> function on the handle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ENHMF"/>
+        /// </term>
+        /// <term>
+        /// Deletes the enhanced metafile.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_MFPICT"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="STGMEDIUM.hMetaFilePict"/> that it contains is deleted with the <see cref="DeleteMetaFile"/> function;
+        /// then the handle itself is passed to <see cref="GlobalFree"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_FILE"/>
+        /// </term>
+        /// <term>
+        /// Frees the disk file by deleting it.
+        /// Frees the file name string by using the standard memory management mechanisms.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ISTREAM"/>
+        /// </term>
+        /// <term>
+        /// Calls <see cref="IUnknown.Release"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TYMED_ISTORAGE"/>
+        /// </term>
+        /// <term>
+        /// Calls <see cref="IUnknown.Release"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In either case, after the call to <see cref="ReleaseStgMedium"/>,
+        /// the specified storage medium is invalid and can no longer be used.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseStgMedium", ExactSpelling = true, SetLastError = true)]
@@ -3827,22 +4818,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object using a provided implementation
-        /// for the <see cref="IStorage"/> or <see cref="IPropertySetStorage"/> interfaces.
-        /// To open an existing file, use the <see cref="StgOpenStorageEx"/> function instead.
-        /// Applications written for Windows 2000, Windows Server 2003 and Windows XP must use <see cref="StgCreateStorageEx"/>
-        /// rather than <see cref="StgCreateDocfile"/> to take advantage of the enhanced Windows 2000 and Windows XP Structured Storage features.
+        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object
+        /// using a provided implementation for the <see cref="IStorage"/> or <see cref="IPropertySetStorage"/> interfaces.
+        /// To open an existing file, use the <see cref="StgOpenStorageEx"/> function instead.
+        /// </para>
+        /// <para>
+        /// Applications written for Windows 2000, Windows Server 2003 and Windows XP must use <see cref="StgCreateStorageEx"/>
+        /// rather than <see cref="StgCreateDocfile"/> to take advantage of the enhanced Windows 2000 and Windows XP Structured Storage features.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/coml2api/nf-coml2api-stgcreatestorageex"/>
         /// </para>
         /// </summary>
         /// <param name="pwcsName">
+        /// <para>
         /// A pointer to the path of the file to create. It is passed uninterpreted to the file system.
-        /// This can be a relative name or <see langword="null"/>.
-        /// If <see langword="null"/>, a temporary file is allocated with a unique name.
-        /// If non-NULL, the string size must not exceed <see cref="MAX_PATH"/> characters.
-        /// Windows 2000: Unlike the <see cref="CreateFile"/> function, you cannot exceed the <see cref="MAX_PATH"/> limit by using the "\?" prefix.
+        /// This can be a relative name or <see cref="NULL"/>.
+        /// If <see cref="NULL"/>, a temporary file is allocated with a unique name.
+        /// If non-<see cref="NULL"/>, the string size must not exceed <see cref="MAX_PATH"/> characters.
+        /// </para>
+        /// <para>
+        /// Windows 2000: Unlike the <see cref="CreateFile"/> function, you cannot exceed the <see cref="MAX_PATH"/> limit by using the "\?" prefix.
+        /// </para>
         /// </param>
         /// <param name="grfMode">
         /// A value that specifies the access mode to use when opening the new storage object.
@@ -3858,14 +4855,40 @@ namespace Lsj.Util.Win32
         /// For more information, see the <see cref="STGFMT"/> enumeration.
         /// </param>
         /// <param name="grfAttrs">
-        /// A value that depends on the value of the <paramref name="stgfmt"/> parameter.
-        /// <see cref="STGFMT_DOCFILE"/>:
+        /// <para>
+        /// A value that depends on the value of the <paramref name="stgfmt"/> parameter.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Parameter Values
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="STGFMT_DOCFILE"/>
+        /// </term>
+        /// <term>
         /// 0, or <see cref="FILE_FLAG_NO_BUFFERING"/>.
-        /// For more information, see <see cref="CreateFile"/>.
-        /// If the sector size of the file, specified in <paramref name="pStgOptions"/>,
+        /// For more information, see <see cref="CreateFile"/>.
+        /// If the sector size of the file, specified in <paramref name="pStgOptions"/>,
         /// is not an integer multiple of the underlying disk's physical sector size, this operation will fail.
-        /// All other values of <paramref name="stgfmt"/>:
-        /// Must be 0. 
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// All other values of <paramref name="stgfmt"/>
+        /// </term>
+        /// <term>
+        /// Must be 0.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pStgOptions">
         /// The <paramref name="pStgOptions"/> parameter is valid only if the stgfmt parameter is set to <see cref="STGFMT_DOCFILE"/>.
@@ -3878,10 +4901,15 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="STGOPTIONS"/>.
         /// </param>
         /// <param name="pSecurityDescriptor">
+        /// <para>
         /// Enables the ACLs to be set when the file is created.
-        /// If not <see cref="NULL"/>, needs to be a pointer to the <see cref="SECURITY_ATTRIBUTES"/> structure.
-        /// See <see cref="CreateFile"/> for information on how to set ACLs on files.
-        /// Windows Server 2003, Windows 2000 Server, Windows XP and Windows 2000 Professional: Value must be <see cref="NULL"/>.
+        /// If not <see cref="NULL"/>, needs to be a pointer to the <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// See <see cref="CreateFile"/> for information on how to set ACLs on files.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003, Windows 2000 Server, Windows XP and Windows 2000 Professional:
+        /// Value must be <see cref="NULL"/>.
+        /// </para>
         /// </param>
         /// <param name="riid">
         /// A value that specifies the interface identifier (IID) of the interface pointer to return.
@@ -3896,60 +4924,84 @@ namespace Lsj.Util.Win32
         /// For more information, see Error Handling Strategies and Handling Unknown Errors.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When an application modifies its file, it usually creates a copy of the original.
-        /// The <see cref="StgCreateStorageEx"/> function is one way for creating a copy.
+        /// The <see cref="StgCreateStorageEx"/> function is one way for creating a copy.
         /// This function works indirectly with the Encrypting File System (EFS) duplication API.
-        /// When you use this function, you will need to set the options for the file storage in the <see cref="STGOPTIONS"/> structure.
-        /// <see cref="StgCreateStorageEx"/> is a superset of the <see cref="StgCreateDocfile"/> function, and should be used by new code.
-        /// Future enhancements to Structured Storage will be exposed through the <see cref="StgCreateStorageEx"/> function.
+        /// When you use this function, you will need to set the options for the file storage in the <see cref="STGOPTIONS"/> structure.
+        /// </para>
+        /// <para>
+        /// <see cref="StgCreateStorageEx"/> is a superset of the <see cref="StgCreateDocfile"/> function, and should be used by new code.
+        /// Future enhancements to Structured Storage will be exposed through the <see cref="StgCreateStorageEx"/> function.
         /// See the following Requirements section for information on supported platforms.
-        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object
-        /// using one of the system-provided, structured-storage implementations.
+        /// </para>
+        /// <para>
+        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object using one of the system-provided, structured-storage implementations.
         /// This function can be used to obtain an <see cref="IStorage"/> compound file implementation,
-        /// an <see cref="IPropertySetStorage"/> compound file implementation, or to obtain an <see cref="IPropertySetStorage"/> NTFS implementation.
+        /// an <see cref="IPropertySetStorage"/> compound file implementation, or to obtain an <see cref="IPropertySetStorage"/> NTFS implementation.
+        /// </para>
+        /// <para>
         /// When a new file is created, the storage implementation used depends on the flag
         /// that you specify and on the type of drive on which the file is stored.
-        /// For more information, see the <see cref="STGFMT"/> enumeration.
-        /// <see cref="StgCreateStorageEx"/> creates the file if it does not exist.
+        /// For more information, see the <see cref="STGFMT"/> enumeration.
+        /// </para>
+        /// <para>
+        /// <see cref="StgCreateStorageEx"/> creates the file if it does not exist.
         /// If it does exist, the use of the <see cref="STGM_CREATE"/>, <see cref="STGM_CONVERT"/>,
-        /// and <see cref="STGM_FAILIFTHERE"/> flags in the grfMode parameter indicate how to proceed.
-        /// For more information on these values, see <see cref="STGM"/> Constants.
-        /// It is not valid, in direct mode, to specify the <see cref="STGM_READ"/> mode in the <paramref name="grfMode"/> parameter
+        /// and <see cref="STGM_FAILIFTHERE"/> flags in the <paramref name="grfMode"/> parameter indicate how to proceed.
+        /// For more information on these values, see STGM Constants.
+        /// It is not valid, in direct mode, to specify the <see cref="STGM_READ"/> mode in the <paramref name="grfMode"/> parameter
         /// (direct mode is indicated by not specifying the <see cref="STGM_TRANSACTED"/> flag).
-        /// This function cannot be used to open an existing file; use the <see cref="StgOpenStorageEx"/> function instead.
-        /// You can use the <see cref="StgCreateStorageEx"/> function to get access to the root storage of a structured-storage document
+        /// This function cannot be used to open an existing file; use the <see cref="StgOpenStorageEx"/> function instead.
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="StgCreateStorageEx"/> function to get access to the root storage of a structured-storage document
         /// or the property set storage of any file that supports property sets.
-        /// See the <see cref="STGFMT"/> documentation for information about which IIDs are supported for different <see cref="STGFMT"/> values.
+        /// See the <see cref="STGFMT"/> documentation for information about which IIDs are supported for different <see cref="STGFMT"/> values.
+        /// </para>
+        /// <para>
         /// When a file is created with this function to access the NTFS property set implementation, special sharing rules apply.
-        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// </para>
+        /// <para>
         /// If a compound file is created in transacted mode (by specifying <see cref="STGM_TRANSACTED"/>)
         /// and read-only mode (by specifying <see cref="STGM_READ"/>), it is possible to make changes to the returned storage object.
-        /// For example, it is possible to call <see cref="IStorage.CreateStream"/>.
-        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
+        /// For example, it is possible to call <see cref="IStorage.CreateStream"/>.
+        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
         /// Therefore, such changes will be lost.
+        /// </para>
+        /// <para>
         /// Specifying <see cref="STGM_SIMPLE"/> provides a much faster implementation of a compound file object in a limited,
         /// but frequently used case involving applications that require a compound file implementation with multiple streams and no storages.
-        /// For more information, see <see cref="STGM"/> Constants.
+        /// For more information, see STGM Constants.
         /// It is not valid to specify that <see cref="STGM_TRANSACTED"/> if <see cref="STGM_SIMPLE"/> is specified.
-        /// The simple mode does not support all the methods on <see cref="IStorage"/>.
-        /// Specifically, in simple mode, supported <see cref="IStorage"/> methods are <see cref="IStorage.CreateStream"/>,
-        /// <see cref="IStorage.Commit"/>, and <see cref="IStorage.SetClass"/> as well as
-        /// the COM <see cref="IUnknown"/> methods of QueryInterface, AddRef and Release.
-        /// In addition, <see cref="SetElementTimes"/> is supported with a NULL name, allowing applications to set times on a root storage.
-        /// All the other methods of <see cref="IStorage"/> return <see cref="STG_E_INVALIDFUNCTION"/>.
-        /// If the <paramref name="grfMode"/> parameter specifies <see cref="STGM_TRANSACTED"/>
-        /// and no file yet exists with the name specified by the <paramref name="pwcsName"/> parameter, the file is created immediately.
-        /// In an access-controlled file system, the caller must have write permissions
-        /// for the file system directory in which the compound file is created.
+        /// </para>
+        /// <para>
+        /// The simple mode does not support all the methods on <see cref="IStorage"/>.
+        /// Specifically, in simple mode, supported <see cref="IStorage"/> methods are <see cref="IStorage.CreateStream"/>,
+        /// <see cref="IStorage.Commit"/>, and <see cref="IStorage.SetClass"/>
+        /// as well as the COM <see cref="IUnknown"/> methods of <see cref="IUnknown.QueryInterface"/>,
+        /// <see cref="IUnknown.AddRef"/> and <see cref="IUnknown.Release"/>.
+        /// In addition, <see cref="IStorage.SetElementTimes"/> is supported with a <see cref="NULL"/> name,
+        /// allowing applications to set times on a root storage.
+        /// All the other methods of <see cref="IStorage"/> return <see cref="STG_E_INVALIDFUNCTION"/>.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="grfMode"/> parameter specifies <see cref="STGM_TRANSACTED"/> and no file yet exists
+        /// with the name specified by the <paramref name="pwcsName"/> parameter, the file is created immediately.
+        /// In an access-controlled file system, the caller must have write permissions for the file system directory in which the compound file is created.
         /// If <see cref="STGM_TRANSACTED"/> is not specified, and <see cref="STGM_CREATE"/> is specified,
         /// an existing file with the same name is destroyed before creating the new file.
-        /// You can also use <see cref="StgCreateStorageEx"/> to create a temporary compound file
-        /// by passing a <see langword="null"/> value for the <paramref name="pwcsName"/> parameter.
-        /// However, these files are temporary only in the sense that
-        /// they have a unique system-provided name – one that is probably meaningless to the user.
+        /// </para>
+        /// <para>
+        /// You can also use <see cref="StgCreateStorageEx"/> to create a temporary compound file
+        /// by passing a <see cref="NULL"/> value for the <paramref name="pwcsName"/> parameter.
+        /// However, these files are temporary only in the sense that they have a unique system-provided name
+        /// – one that is probably meaningless to the user.
         /// The caller is responsible for deleting the temporary file when finished with it,
-        /// unless <see cref="STGM_DELETEONRELEASE"/> was specified for the <paramref name="grfMode"/> parameter.
-        /// For more information on these flags, see <see cref="STGM"/> Constants.
+        /// unless <see cref="STGM_DELETEONRELEASE"/> was specified for the <paramref name="grfMode"/> parameter.
+        /// For more information on these flags, see STGM Constants.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgCreateStorageEx", ExactSpelling = true, SetLastError = true)]
@@ -3968,13 +5020,17 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="pwcsName">
         /// A pointer to the path of the null-terminated Unicode string file that contains the storage object to open.
-        /// This parameter is ignored if the <paramref name="pstgPriority"/> parameter is not <see langword="null"/>.
+        /// This parameter is ignored if the <paramref name="pstgPriority"/> parameter is not <see cref="NULL"/>.
         /// </param>
         /// <param name="pstgPriority">
-        /// A pointer to the <see cref="IStorage"/> interface that should be <see langword="null"/>.
-        /// If not NULL, this parameter is used as described below in the Remarks section.
+        /// <para>
+        /// A pointer to the <see cref="IStorage"/> interface that should be <see cref="NULL"/>.
+        /// If not <see cref="NULL"/>, this parameter is used as described below in the Remarks section.
+        /// </para>
+        /// <para>
         /// After <see cref="StgOpenStorage"/> returns, the storage object
         /// specified in <paramref name="pstgPriority"/> may have been released and should no longer be used.
+        /// </para>
         /// </param>
         /// <param name="grfMode">
         /// Specifies the access mode to use to open the storage object.
@@ -3995,59 +5051,110 @@ namespace Lsj.Util.Win32
         /// For more information, see Error Handling Strategies and Handling Unknown Errors.
         /// </returns>
         /// <remarks>
-        /// The <see cref="StgOpenStorage"/> function opens the specified root storage object according to the access mode
-        /// in the <paramref name="grfMode"/> parameter, and, if successful, supplies an <see cref="IStorage"/> pointer
-        /// to the opened storage object in the <paramref name="ppstgOpen"/> parameter.
+        /// <para>
+        /// The <see cref="StgOpenStorage"/> function opens the specified root storage object
+        /// according to the access mode in the <paramref name="grfMode"/> parameter, and,
+        /// if successful, supplies an <see cref="IStorage"/> pointer to the opened storage object in the <paramref name="ppstgOpen"/> parameter.
+        /// </para>
+        /// <para>
         /// To support the simple mode for saving a storage object with no substorages,
-        /// the <see cref="StgOpenStorage"/> function accepts one of the following two flag combinations
-        /// as valid modes in the <paramref name="grfMode"/> parameter.
-        /// <code>STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
-        /// <code>STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
+        /// the <see cref="StgOpenStorage"/> function accepts one of the following two flag combinations
+        /// as valid modes in the <paramref name="grfMode"/> parameter.
+        /// </para>
+        /// <code>
+        /// STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <code>
+        /// STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <para>
         /// To support the single-writer, multireader, direct mode,
         /// the first flag combination is the valid <paramref name="grfMode"/> parameter for the writer.
         /// The second flag combination is valid for readers.
-        /// <code>STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE</code>
-        /// <code>STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE</code>
+        /// </para>
+        /// <code>
+        /// STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE
+        /// </code>
+        /// <code
+        /// >STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE
+        /// </code>
+        /// <para>
         /// In direct mode, one of the following three combinations are valid.
-        /// <code>STGM_DIRECT | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
-        /// <code>STGM_DIRECT | STGM_READ | STGM_SHARE_DENY_WRITE</code>
-        /// <code>STGM_DIRECT | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
-        /// Note  Opening a storage object in read/write mode without denying write permission to others
+        /// </para>
+        /// <code>
+        /// STGM_DIRECT | STGM_READWRITE | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <code>
+        /// STGM_DIRECT | STGM_READ | STGM_SHARE_DENY_WRITE
+        /// </code>
+        /// <code>
+        /// STGM_DIRECT | STGM_READ | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Opening a storage object in read/write mode without denying write permission to others
         /// (the <paramref name="grfMode"/> parameter specifies <see cref="STGM_SHARE_DENY_WRITE"/>) can be a time-consuming operation
         /// because the <see cref="StgOpenStorage"/> call must make a snapshot of the entire storage object.
+        /// </para>
+        /// <para>
         /// Applications often try to open storage objects with the following access permissions.
-        /// If the application succeeds, it never needs to make a snapshot copy. 
-        /// <code>STGM_READWRITE | STGM_SHARE_DENY_WRITE // transacted versus direct mode omitted for exposition </code>
+        /// If the application succeeds, it never needs to make a snapshot copy.
+        /// </para>
+        /// <code>
+        /// STGM_READWRITE | STGM_SHARE_DENY_WRITE 
+        ///     // transacted versus direct mode omitted for exposition
+        /// </code>
+        /// <para>
         /// The application can revert to using the permissions and make a snapshot copy, if the previous access permissions fail.
         /// The application should prompt the user before making a time-consuming copy.
-        /// <code>STGM_READWRITE // transacted versus direct mode omitted for exposition </code>
+        /// </para>
+        /// <code>
+        /// STGM_READWRITE 
+        ///     // transacted versus direct mode omitted for exposition
+        /// </code>
+        /// <para>
         /// If the document-sharing semantics implied by the access modes are appropriate, the application could try to open the storage as follows.
         /// In this case, if the application succeeds, a snapshot copy will not have been made
         /// (because <see cref="STGM_SHARE_DENY_WRITE"/> was specified, denying others write access).
-        /// <code>STGM_READ | STGM_SHARE_DENY_WRITE// transacted versus direct mode omitted for exposition </code>
+        /// </para>
+        /// <code>
+        /// STGM_READ | STGM_SHARE_DENY_WRITE 
+        ///     // transacted versus direct mode omitted for exposition
+        /// </code>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To reduce the expense of making a snapshot copy, applications can open storage objects in priority mode
-        /// (<paramref name="grfMode"/> specifies <see cref="STGM_PRIORITY"/>).
-        /// The <paramref name="snbExclude"/> parameter specifies a set of element names in this storage object
+        /// (<paramref name="grfMode"/> specifies <see cref="STGM_PRIORITY"/>).
+        /// The <paramref name="snbExclude"/> parameter specifies a set of element names in this storage object
         /// that are to be emptied as the storage object is opened:
         /// streams are set to a length of zero; storage objects have all their elements removed.
         /// By excluding certain streams, the expense of making a snapshot copy can be significantly reduced.
         /// Almost always, this approach is used after first opening the storage object in priority mode,
         /// then completely reading the now-excluded elements into memory.
         /// This earlier priority-mode opening of the storage object should be passed
-        /// through the <paramref name="pstgPriority"/> parameter to remove the exclusion implied by priority mode.
+        /// through the <paramref name="pstgPriority"/> parameter to remove the exclusion implied by priority mode.
         /// The calling application is responsible for rewriting the contents of excluded items before committing.
         /// Thus, this technique is most likely useful only to applications
         /// whose documents do not require constant access to their storage objects while they are active.
-        /// The <paramref name="pstgPriority"/> parameter is intended as a convenience for callers replacing an existing storage object,
+        /// </para>
+        /// <para>
+        /// The <paramref name="pstgPriority"/> parameter is intended as a convenience for callers replacing an existing storage object,
         /// often one opened in priority mode, with a new storage object opened on the same file but in a different mode.
-        /// When <paramref name="pstgPriority"/> is not <see langword="null"/>, it is used to specify the file name
-        /// instead of <paramref name="pwcsName"/>, which is ignored.
-        /// However, it is recommended that applications always pass <see langword="null"/> for <paramref name="pstgPriority"/>
-        /// because <see cref="StgOpenStorage"/> releases the object under some circumstances, and does not release it under other circumstances.
-        /// In particular, if the function returns a failure result, it is not possible for the caller to determine whether or not the storage object was released.
-        /// The functionality of the <paramref name="pstgPriority"/> parameter can be duplicated by the caller in a safer manner
-        /// as shown in the following example:
+        /// When <paramref name="pstgPriority"/> is not <see cref="NULL"/>,
+        /// it is used to specify the file name instead of <paramref name="pwcsName"/>, which is ignored.
+        /// However, it is recommended that applications always pass <see cref="NULL"/> for <paramref name="pstgPriority"/>
+        /// because <see cref="StgOpenStorage"/> releases the object under some circumstances, and does not release it under other circumstances.
+        /// In particular, if the function returns a failure result,
+        /// it is not possible for the caller to determine whether or not the storage object was released.
+        /// </para>
+        /// <para>
+        /// The functionality of the <paramref name="pstgPriority"/> parameter can be duplicated
+        /// by the caller in a safer manner as shown in the following example:
+        /// </para>
         /// <code>
         /// // Replacement for:
         /// HRESULT hr = StgOpenStorage(NULL, pstgPriority, grfMode, NULL, 0, &amp;pstgNew);
@@ -4067,14 +5174,18 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgOpenStorage([In] LPWSTR pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
-            [In] IntPtr[] snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstgOpen);
+            [In] LPOLESTR[] snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstgOpen);
 
         /// <summary>
         /// <para>
         /// The <see cref="StgOpenStorageEx"/> function opens an existing root storage object in the file system.
         /// Use this function to open Compound Files and regular files.
         /// To create a new file, use the <see cref="StgCreateStorageEx"/> function.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To use enhancements, all Windows 2000, Windows XP, and Windows Server 2003 applications
         /// should call <see cref="StgOpenStorageEx"/>, instead of <see cref="StgOpenStorage"/>.
         /// The <see cref="StgOpenStorage"/> function is used for compatibility with Windows 2000 and earlier applications.
@@ -4084,12 +5195,17 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="pwcsName">
+        /// <para>
         /// A pointer to the path of the null-terminated Unicode string file that contains the storage object.
         /// This string size cannot exceed <see cref="MAX_PATH"/> characters.
+        /// </para>
+        /// <para>
         /// Windows Server 2003 and Windows XP/2000:
         /// Unlike the <see cref="CreateFile"/> function, the <see cref="MAX_PATH"/> limit cannot be exceeded by using the "\?" prefix.
+        /// </para>
         /// </param>
         /// <param name="grfMode">
+        /// <para>
         /// A value that specifies the access mode to open the new storage object.
         /// For more information, see <see cref="STGM"/> Constants.
         /// If the caller specifies transacted mode together with <see cref="STGM_CREATE"/> or <see cref="STGM_CONVERT"/>,
@@ -4097,6 +5213,8 @@ namespace Lsj.Util.Win32
         /// If <see cref="IStorage.Commit"/> is not called for the root storage object, previous contents of the file will be restored.
         /// <see cref="STGM_CREATE"/> and <see cref="STGM_CONVERT"/> cannot be combined with the <see cref="STGM_NOSNAPSHOT"/> flag,
         /// because a snapshot copy is required when a file is overwritten or converted in transacted mode.
+        /// </para>
+        /// <para>
         /// If the storage object is opened in direct mode (<see cref="STGM_DIRECT"/>) with access
         /// to either <see cref="STGM_WRITE"/> or <see cref="STGM_READWRITE"/>,
         /// the sharing mode must be <see cref="STGM_SHARE_EXCLUSIVE"/> unless the <see cref="STGM_DIRECT_SWMR"/> mode is specified.
@@ -4105,20 +5223,27 @@ namespace Lsj.Util.Win32
         /// the sharing mode must be either <see cref="STGM_SHARE_EXCLUSIVE"/> or <see cref="STGM_SHARE_DENY_WRITE"/>,
         /// unless <see cref="STGM_PRIORITY"/> or <see cref="STGM_DIRECT_SWMR"/> is specified.
         /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
         /// The mode in which a file is opened can affect implementation performance.
         /// For more information, see Compound File Implementation Limits.
+        /// </para>
         /// </param>
         /// <param name="stgfmt">
         /// A value that specifies the storage file format.
         /// For more information, see the <see cref="STGFMT"/> enumeration.
         /// </param>
         /// <param name="grfAttrs">
+        /// <para>
         /// A value that depends upon the value of the <paramref name="stgfmt"/> parameter.
+        /// </para>
+        /// <para>
         /// <see cref="STGFMT_DOCFILE"/> must be zero(0) or <see cref="FILE_FLAG_NO_BUFFERING"/>.
         /// For more information about this value, see <see cref="CreateFile"/>.
         /// If the sector size of the file, specified in <paramref name="pStgOptions"/>, is not an integer multiple of the physical sector size
         /// of the underlying disk, then this operation will fail.
         /// All other values of <paramref name="stgfmt"/> must be zero.
+        /// </para>
         /// </param>
         /// <param name="pStgOptions">
         /// A pointer to an <see cref="STGOPTIONS"/> structure that contains data about the storage object opened.
@@ -4143,44 +5268,75 @@ namespace Lsj.Util.Win32
         /// For more information, see Error Handling Strategies and Handling Unknown Errors.
         /// </returns>
         /// <remarks>
-        /// StgOpenStorageEx is a superset of the <see cref="StgOpenStorage"/> function, and should be used by new code.
+        /// <para>
+        /// <see cref="StgOpenStorageEx"/> is a superset of the <see cref="StgOpenStorage"/> function, and should be used by new code.
         /// Future enhancements to structured storage will be exposed through this function.
         /// For more information about supported platforms, see the Requirements section.
-        /// The <see cref="StgOpenStorageEx"/> function opens the specified root storage object according to
-        /// the access mode in the <paramref name="grfMode"/> parameter, and, if successful,
-        /// supplies an interface pointer for the opened storage object in the <paramref name="ppObjectOpen"/> parameter.
-        /// This function can be used to obtain an <see cref="IStorage"/> compound file implementation,
-        /// an <see cref="IPropertySetStorage"/> compound file implementation, or an NTFS file system implementation of <see cref="IPropertySetStorage"/>.
-        /// When you open a file, the system selects a structured storage implementation depending on which <see cref="STGFMT"/> flag
+        /// </para>
+        /// <para>
+        /// The <see cref="StgOpenStorageEx"/> function opens the specified root storage object
+        /// according to the access mode in the <paramref name="grfMode"/> parameter, and,
+        /// if successful, supplies an interface pointer for the opened storage object in the <paramref name="ppObjectOpen"/> parameter.
+        /// This function can be used to obtain an <see cref="IStorage"/> compound file implementation,
+        /// an <see cref="IPropertySetStorage"/> compound file implementation, or an NTFS file system implementation of <see cref="IPropertySetStorage"/>.
+        /// </para>
+        /// <para>
+        /// When you open a file, the system selects a structured storage implementation depending on which <see cref="STGFMT"/> flag
         /// you specify on the file type and on the type of drive where the file is stored.
-        /// Use the <see cref="StgOpenStorageEx"/> function to access the root storage of a structured storage document
+        /// </para>
+        /// <para>
+        /// Use the <see cref="StgOpenStorageEx"/> function to access the root storage of a structured storage document
         /// or the property set storage of any file that supports property sets.
-        /// For more information about which interface identifiers (IIDs) are supported
-        /// for the different <see cref="STGFMT"/> values, see <see cref="STGFMT"/>.
+        /// For more information about which interface identifiers (IIDs) are supported for the different <see cref="STGFMT"/> values, see <see cref="STGFMT"/>.
+        /// </para>
+        /// <para>
         /// When a file is opened with this function to access the NTFS property set implementation, special sharing rules apply.
-        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// </para>
+        /// <para>
         /// If a compound file is opened in transacted mode, by specifying <see cref="STGM_TRANSACTED"/>,
         /// and read-only mode, by specifying <see cref="STGM_READ"/>, it is possible to change the returned storage object.
-        /// For example, it is possible to call <see cref="IStorage.CreateStorage"/>.
-        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
+        /// For example, it is possible to call <see cref="IStorage.CreateStream"/>.
+        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
         /// Therefore, such changes will be lost.
-        /// It is not valid to use the <see cref="STGM_CREATE"/>, <see cref="STGM_DELETEONRELEASE"/>,
-        /// or <see cref="STGM_CONVERT"/> flags in the <paramref name="grfMode"/> parameter for this function.
+        /// </para>
+        /// <para>
+        /// It is not valid to use the <see cref="STGM_CREATE"/>, <see cref="STGM_DELETEONRELEASE"/>,
+        /// or <see cref="STGM_CONVERT"/> flags in the <paramref name="grfMode"/> parameter for this function.
+        /// </para>
+        /// <para>
         /// To support the simple mode for saving a storage object with no substorages,
-        /// the <see cref="StgOpenStorageEx"/> function accepts one of the following two flag
-        /// combinations as valid modes in the <paramref name="grfMode"/> parameter:
-        /// <code>STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
-        /// <code>STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
+        /// the <see cref="StgOpenStorageEx"/> function accepts one of the following two flag combinations
+        /// as valid modes in the <paramref name="grfMode"/> parameter:
+        /// </para>
+        /// <code>
+        /// STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <code>
+        /// STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE
+        /// </code>
+        /// <para>
         /// To support the single-writer, multireader, direct mode, the first flag combination
         /// is the valid <paramref name="grfMode"/> parameter for the writer.
         /// The second flag combination is valid for readers.
-        /// <code>STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE</code>
-        /// <code>STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE</code>
+        /// </para>
+        /// <code>
+        /// STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE
+        /// </code>
+        /// <code>
+        /// STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE
+        /// </code>
+        /// <para>
         /// For more information about simple mode and single-writer/multiple-reader modes, see <see cref="STGM"/> Constants.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Opening a transacted mode storage object in read and/or write mode without denying write permissions to others
         /// (for example, the <paramref name="grfMode"/> parameter specifies <see cref="STGM_SHARE_DENY_WRITE"/>) can be time-consuming
         /// because the <see cref="StgOpenStorageEx"/> call must create a snapshot copy of the entire storage object.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorageEx", ExactSpelling = true, SetLastError = true)]
@@ -4207,9 +5363,13 @@ namespace Lsj.Util.Win32
         /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
         /// </returns>
         /// <remarks>
-        /// <see cref="StringFromCLSID"/> calls the <see cref="StringFromGUID2"/> function
+        /// <para>
+        /// <see cref="StringFromCLSID"/> calls the <see cref="StringFromGUID2"/> function
         /// to convert a globally unique identifier (GUID) into a string of printable characters.
-        /// The caller is responsible for freeing the memory allocated for the string by calling the <see cref="CoTaskMemFree"/> function.
+        /// </para>
+        /// <para>
+        /// The caller is responsible for freeing the memory allocated for the string by calling the <see cref="CoTaskMemFree"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromCLSID", ExactSpelling = true, SetLastError = true)]
@@ -4254,7 +5414,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lplpsz">
         /// The address of a pointer variable that receives a pointer to the resulting string.
-        /// The string that represents rclsid includes enclosing braces.
+        /// The string that represents <paramref name="rclsid"/> includes enclosing braces.
         /// </param>
         /// <returns>
         /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
@@ -4275,7 +5435,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="pStg">
-        /// <see cref="IStorage"/> pointer to the storage object that gets a new CLSID.
+        /// <see cref="IStorage"/> pointer to the storage object that gets a new <see cref="CLSID"/>.
         /// </param>
         /// <param name="rclsid">
         /// Pointer to the <see cref="CLSID"/> to be stored with the object.
