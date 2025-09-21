@@ -4,9 +4,9 @@ using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.MMRESULT;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.WaveHeaderFlags;
 using static Lsj.Util.Win32.Enums.WinmmCallbackTypes;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
@@ -146,6 +146,78 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeGetDevCaps", ExactSpelling = true)]
         public static extern MMRESULT timeGetDevCaps([Out] out TIMECAPS ptc, [In] UINT cbtc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutClose"/> function closes the given waveform-audio output device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutclose"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// If the function succeeds, the handle is no longer valid after this call.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAVERR_STILLPLAYING"/>
+        /// </term>
+        /// <term>
+        /// There are still buffers in the queue.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The close operation fails if the device is still playing a waveform-audio buffer
+        /// that was previously sent by calling <see cref="waveOutWrite"/>.
+        /// Before calling <see cref="waveOutClose"/>, the application must wait for all buffers to finish playing
+        /// or call the <see cref="waveOutReset"/> function to terminate playback.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutClose", ExactSpelling = true)]
+        public static extern MMRESULT waveOutClose([In] HWAVEOUT hwo);
 
         /// <summary>
         /// <para>
@@ -296,13 +368,14 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="dwCallback">
         /// <para>
-        /// Specifies the callback mechanism. The value must be one of the following:
+        /// Specifies the callback mechanism.
+        /// The value must be one of the following:
         /// </para>
         /// <para>
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// A pointer to a callback function. For the function signature, see <see cref="waveOutProc"/>.
+        /// A pointer to a callback function. For the function signature, waveOutProc.
         /// </description>
         /// </item>
         /// <item>
@@ -595,7 +668,7 @@ namespace Lsj.Util.Win32
         /// The event is signaled whenever the state of the waveform buffer changes.
         /// The application can use <see cref="WaitForSingleObject"/> or <see cref="WaitForMultipleObjects"/> to wait for the event.
         /// When the event is signaled, you can get the current state of the waveform buffer
-        /// by checking the <paramref name="WAVEHDR.dwFlags"/> member of the <see cref="WAVEHDR"/> structure.
+        /// by checking the <see cref="WAVEHDR.dwFlags"/> member of the <see cref="WAVEHDR"/> structure.
         /// (See <see cref="waveOutPrepareHeader"/>.)
         /// </para>
         /// <para>
@@ -607,5 +680,464 @@ namespace Lsj.Util.Win32
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutOpen", ExactSpelling = true)]
         public static extern MMRESULT waveOutOpen([Out] out HWAVEOUT phwo, [In] UINT uDeviceID, [In] in WAVEFORMATEX pwfx,
             [In] DWORD_PTR dwCallback, [In] DWORD_PTR dwInstance, [In] DWORD fdwOpen);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutPause"/> function pauses playback on the given waveform-audio output device.
+        /// The current position is saved.
+        /// Use the <see cref="waveOutRestart"/> function to resume playback from the current position.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutpause"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOTSUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Specified device is synchronous and does not support pausing.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Calling this function when the output is already paused has no effect, and the function returns zero.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutPause", ExactSpelling = true)]
+        public static extern MMRESULT waveOutPause([In] HWAVEOUT hwo);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutPrepareHeader"/> function prepares a waveform-audio data block for playback.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutprepareheader"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <param name="pwh">
+        /// Pointer to a <see cref="WAVEHDR"/> structure that identifies the data block to be prepared.
+        /// </param>
+        /// <param name="cbwh">
+        /// Size, in bytes, of the <see cref="WAVEHDR"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Set the <see cref="WAVEHDR.lpData"/>, <see cref="WAVEHDR.dwBufferLength"/>, and <see cref="WAVEHDR.dwFlags"/> members
+        /// of the <see cref="WAVEHDR"/> structure before calling this function.
+        /// Set the <see cref="WAVEHDR.dwFlags"/> member to zero.
+        /// </para>
+        /// <para>
+        /// The <see cref="WAVEHDR.dwFlags"/>, <see cref="WAVEHDR.dwBufferLength"/>, and <see cref="WAVEHDR.dwLoops"/> members
+        /// of the <see cref="WAVEHDR"/> structure can change between calls to this function and the <see cref="waveOutWrite"/> function.
+        /// If you change the size specified by <see cref="WAVEHDR.dwBufferLength"/> before the call to <see cref="waveOutWrite"/>,
+        /// the new value must be less than the prepared value.
+        /// </para>
+        /// <para>
+        /// If the method succeeds, the <see cref="WHDR_PREPARED"/> flag is set
+        /// in the <see cref="WAVEHDR.dwFlags"/> member of the <see cref="WAVEHDR"/> structure.
+        /// </para>
+        /// <para>
+        /// Preparing a header that has already been prepared has no effect, and the function returns zero.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutPrepareHeader", ExactSpelling = true)]
+        public static extern MMRESULT waveOutPrepareHeader([In] HWAVEOUT hwo, [In] in WAVEHDR pwh, UINT cbwh);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutRestart"/> function resumes playback on a paused waveform-audio output device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutrestart"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOTSUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Specified device is synchronous and does not support pausing.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Calling this function when the output is not paused has no effect, and the function returns zero.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutRestart", ExactSpelling = true)]
+        public static extern MMRESULT waveOutRestart([In] HWAVEOUT hwo);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutReset"/> function stops playback on the given waveform-audio output device and resets the current position to zero.
+        /// All pending playback buffers are marked as done (<see cref="WHDR_DONE"/>) and returned to the application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutreset"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOTSUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Specified device is synchronous and does not support pausing.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// After this function returns, the application can send new playback buffers to the device by calling <see cref="waveOutWrite"/>,
+        /// or close the device by calling <see cref="waveOutClose"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutReset", ExactSpelling = true)]
+        public static extern MMRESULT waveOutReset([In] HWAVEOUT hwo);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutUnprepareHeader"/> function cleans up the preparation performed by the <see cref="waveOutPrepareHeader"/> function.
+        /// This function must be called after the device driver is finished with a data block.
+        /// You must call this function before freeing the buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutunprepareheader"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <param name="pwh">
+        /// Pointer to a <see cref="WAVEHDR"/> structure identifying the data block to be cleaned up.
+        /// </param>
+        /// <param name="cbwh">
+        /// Size, in bytes, of the <see cref="WAVEHDR"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAVERR_STILLPLAYING"/>
+        /// </term>
+        /// <term>
+        /// The data block pointed to by the <paramref name="pwh"/> parameter is still in the queue.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <remarks>
+        /// <para>
+        /// This function complements <see cref="waveOutPrepareHeader"/>.
+        /// You must call this function before freeing the buffer.
+        /// After passing a buffer to the device driver with the <see cref="waveOutWrite"/> function,
+        /// you must wait until the driver is finished with the buffer before calling <see cref="waveOutUnprepareHeader"/>.
+        /// </para>
+        /// <para>
+        /// Unpreparing a buffer that has not been prepared has no effect, and the function returns zero.
+        /// </para>
+        /// </remarks>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutUnprepareHeader", ExactSpelling = true)]
+        public static extern MMRESULT waveOutUnprepareHeader([In] HWAVEOUT hwo, [In] in WAVEHDR pwh, UINT cbwh);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutWrite"/> function sends a data block to the given waveform-audio output device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutwrite"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to the waveform-audio output device.
+        /// </param>
+        /// <param name="pwh">
+        /// Pointer to a <see cref="WAVEHDR"/> structure containing information about the data block.
+        /// </param>
+        /// <param name="cbwh">
+        /// Size, in bytes, of the <see cref="WAVEHDR"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise.
+        /// Possible error values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_INVALHANDLE"/>
+        /// </term>
+        /// <term>
+        /// Specified device handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NODRIVER"/>
+        /// </term>
+        /// <term>
+        /// No device driver is present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MMSYSERR_NOMEM"/>
+        /// </term>
+        /// <term>
+        /// Unable to allocate or lock memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAVERR_UNPREPARED"/>
+        /// </term>
+        /// <term>
+        /// The data block pointed to by the <paramref name="pwh"/> parameter hasn't been prepared.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When the buffer is finished, the <see cref="WHDR_DONE"/> bit is set
+        /// in the <see cref="WAVEHDR.dwFlags"/> member of the <see cref="WAVEHDR"/> structure.
+        /// </para>
+        /// <para>
+        /// The buffer must be prepared with the <see cref="waveOutPrepareHeader"/> function before it is passed to <see cref="waveOutWrite"/>.
+        /// Unless the device is paused by calling the <see cref="waveOutPause"/> function,
+        /// playback begins when the first data block is sent to the device.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutWrite", ExactSpelling = true)]
+        public static extern MMRESULT waveOutWrite([In] HWAVEOUT hwo, [In] in WAVEHDR pwh, UINT cbwh);
     }
 }
