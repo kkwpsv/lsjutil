@@ -98,6 +98,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ID3D11Texture2D = "6f15aaf2-d208-4e89-9ab4-489535d34f9c";
 
         /// <summary>
+        /// IID_ID3D11VideoContext
+        /// </summary>
+        public static readonly IID IID_ID3D11VideoContext = "61F21C45-3C0E-4a74-9CEA-67100D9AD5E4";
+
+        /// <summary>
         /// IID_ID3D11VideoDevice
         /// </summary>
         public static readonly IID IID_ID3D11VideoDevice = "10EC4D5B-975A-4689-B9E4-D0AAC30FE333";
@@ -578,9 +583,19 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMFAttributes = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
 
         /// <summary>
+        /// IID_IMFDXGIBuffer
+        /// </summary>
+        public static readonly IID IID_IMFDXGIBuffer = "e7174cfa-1c9e-48b1-8866-626226bfc258";
+
+        /// <summary>
         /// IID_IMFDXGIDeviceManager
         /// </summary>
         public static readonly IID IID_IMFDXGIDeviceManager = "eb533d5d-2db6-40f8-97a9-494692014f07";
+
+        /// <summary>
+        /// IID_IMFMediaBuffer
+        /// </summary>
+        public static readonly IID IID_IMFMediaBuffer = "045FA593-8799-42b8-BC8D-8968C6453507";
 
         /// <summary>
         /// IID_IMFMediaType

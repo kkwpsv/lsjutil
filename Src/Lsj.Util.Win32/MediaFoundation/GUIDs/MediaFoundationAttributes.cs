@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.MediaFoundation.Mfapi;
 using static Lsj.Util.Win32.MediaFoundation.Mfreadwrite;
@@ -13,6 +14,87 @@ namespace Lsj.Util.Win32.MediaFoundation.GUIDs
     /// </summary>
     public static class MediaFoundationAttributes
     {
+        /// <summary>
+        /// <para>
+        /// Number of bits per audio sample in an audio media type.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="UINT32"/>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-mt-audio-bits-per-sample-attribute"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This attribute corresponds to the <see cref="WAVEFORMATEX.wBitsPerSample"/> member of the <see cref="WAVEFORMATEX"/> structure.
+        /// </para>
+        /// <para>
+        /// If some bits contain padding, set the <see cref="MF_MT_AUDIO_VALID_BITS_PER_SAMPLE"/> attribute
+        /// to specify the number of bits of valid audio data in each sample.
+        /// </para>
+        /// <para>
+        /// If the audio contains 8 bits per sample, the audio samples are unsigned values.
+        /// (Each audio sample has the range 0–255.)
+        /// If the audio contains 16 bits per sample or higher, the audio samples are signed values.
+        /// </para>
+        /// <para>
+        /// The GUID constant for this attribute is exported from mfuuid.lib.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        public static readonly GUID MF_MT_AUDIO_BITS_PER_SAMPLE = (GUID)"f2deb57f-40fa-4764-aa33-ed4f2d1ff669";
+
+        /// <summary>
+        /// <para>
+        /// Number of audio channels in an audio media type.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="UINT32"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This attribute corresponds to the <see cref="nChannels"/> member of the <see cref="WAVEFORMATEX"/> structure.
+        /// </para>
+        /// <para>
+        /// The GUID constant for this attribute is exported from mfuuid.lib.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        public static readonly GUID MF_MT_AUDIO_NUM_CHANNELS = (GUID)"37e48bf5-645e-4c5b-89de-ada9e29b696a";
+
+        /// <summary>
+        /// <para>
+        /// Number of audio samples per second in an audio media type.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="UINT32"/>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-mt-audio-samples-per-second-attribute"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This attribute corresponds to the <see cref="WAVEFORMATEX.nSamplesPerSec"/> member of the <see cref="WAVEFORMATEX"/> structure.
+        /// </para>
+        /// <para>
+        /// The GUID constant for this attribute is exported from mfuuid.lib.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        public static readonly GUID MF_MT_AUDIO_SAMPLES_PER_SECOND = (GUID)"5faeeae7-0290-4c31-9e8a-c534f68d9dba";
+
         /// <summary>
         /// <para>
         /// Width and height of a video frame, in pixels.

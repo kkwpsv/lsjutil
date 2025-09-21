@@ -16,7 +16,6 @@ namespace Lsj.Util.Win32.MediaFoundation.GUIDs
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/video-subtype-guids"/>
     /// </para>
     /// </summary>
-
     public static class VideoSubtypeGUIDs
     {
         /// <summary>
