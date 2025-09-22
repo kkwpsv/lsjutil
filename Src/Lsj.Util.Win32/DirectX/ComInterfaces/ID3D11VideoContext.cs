@@ -17,6 +17,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_OUTPUT_RATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_STEREO_FORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -393,6 +394,31 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the alpha fill mode for data that the video processor writes to the render target.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="AlphaFillMode">
+        /// The alpha fill mode, specified as a <see cref="D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE"/> value.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of an input stream.
+        /// This parameter is used if <paramref name="AlphaFillMode"/> is <see cref="D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE_SOURCE_STREAM"/>.
+        /// Otherwise, the parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// To find out which fill modes the device supports, call the <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/> method.
+        /// If the driver reports the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALPHA_FILL"/> capability, the driver supports all of the fill modes.
+        /// Otherwise, the <paramref name="AlphaFillMode"/> parameter must be <see cref="D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE_OPAQUE"/>.
+        /// </para>
+        /// <para>
+        /// The default fill mode is <see cref="D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE_OPAQUE"/>.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetOutputAlphaFillMode([In] P<ID3D11VideoProcessor> pVideoProcessor,
             [In] D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE AlphaFillMode, [In] UINT StreamIndex)
         {
@@ -403,6 +429,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the amount of downsampling to perform on the output.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="Enable">
+        /// If <see cref="TRUE"/>, downsampling is enabled.
+        /// Otherwise, downsampling is disabled and the <paramref name="Size"/> member is ignored.
+        /// </param>
+        /// <param name="Size">
+        /// The sampling size.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// Downsampling is sometimes used to reduce the quality of premium content
+        /// when other forms of content protection are not available. By default, downsampling is disabled.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="Enable"/> parameter is <see cref="TRUE"/>,
+        /// the driver downsamples the composed image to the specified size, and then scales it back to the size of the target rectangle.
+        /// </para>
+        /// <para>
+        /// The width and height of <paramref name="Size"/> must be greater than zero.
+        /// If the size is larger than the target rectangle, downsampling does not occur.
+        /// </para>
+        /// <para>
+        /// To use this feature, the driver must support downsampling, indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_CONSTRICTION"/> capability flag.
+        /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetOutputConstriction([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] BOOL Enable, [In] SIZE Size)
         {
             fixed (void* thisPtr = &this)
@@ -411,6 +469,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Specifies whether the video processor produces stereo video frames.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="Enable">
+        /// If <see cref="TRUE"/>, stereo output is enabled.
+        /// Otherwise, the video processor produces mono video frames.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// By default, the video processor produces mono video frames.
+        /// </para>
+        /// <para>
+        /// To use this feature, the driver must support stereo video,
+        /// indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_STEREO"/> capability flag.
+        /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetOutputStereoMode([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] BOOL Enable)
         {
             fixed (void* thisPtr = &this)
@@ -419,6 +498,29 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets a driver-specific video processing state.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="pExtensionGuid">
+        /// A pointer to a <see cref="GUID"/> that identifies the operation.
+        /// The meaning of this <see cref="GUID"/> is defined by the graphics driver.
+        /// </param>
+        /// <param name="DataSize">
+        /// The size of the <paramref name="pData"/> buffer, in bytes.
+        /// </param>
+        /// <param name="pData">
+        /// A pointer to a buffer that contains private state data.
+        /// The method passes this buffer directly to the driver without validation.
+        /// It is the responsibility of the driver to validate the data.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
         public HRESULT VideoProcessorSetOutputExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] in GUID pExtensionGuid,
             [In] UINT DataSize, [In] IntPtr pData)
         {
@@ -596,6 +698,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Specifies whether an input stream on the video processor contains interlaced or progressive frames.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="FrameFormat">
+        /// A <see cref="D3D11_VIDEO_FRAME_FORMAT"/> value that specifies the interlacing.
+        /// </param>
         public void VideoProcessorSetStreamFrameFormat([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] D3D11_VIDEO_FRAME_FORMAT FrameFormat)
         {
             fixed (void* thisPtr = &this)
@@ -605,6 +722,21 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the color space for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pColorSpace">
+        /// A pointer to a <see cref="D3D11_VIDEO_PROCESSOR_COLOR_SPACE"/> structure that specifies the color space.
+        /// </param>
         public void VideoProcessorSetStreamColorSpace([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] in D3D11_VIDEO_PROCESSOR_COLOR_SPACE pColorSpace)
         {
             fixed (void* thisPtr = &this)
@@ -614,6 +746,71 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the rate at which the video processor produces output frames for an input stream.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="OutputRate">
+        /// The output rate, specified as a <see cref="D3D11_VIDEO_PROCESSOR_OUTPUT_RATE"/> value.
+        /// </param>
+        /// <param name="RepeatFrame">
+        /// <para>
+        /// Specifies how the driver performs frame-rate conversion, if required.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// Repeat frames.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// Interpolate frames.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pCustomRate">
+        /// A pointer to a <see cref="DXGI_RATIONAL"/> structure.
+        /// If <paramref name="OutputRate"/> is <see cref="D3D11_VIDEO_PROCESSOR_OUTPUT_RATE_CUSTOM"/>, this parameter specifies the exact output rate.
+        /// Otherwise, this parameter is ignored and can be <see cref="NULL"/>.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// The standard output rates are normal frame-rate (<see cref="D3D11_VIDEO_PROCESSOR_OUTPUT_RATE_NORMAL"/>)
+        /// and half frame-rate (<see cref="D3D11_VIDEO_PROCESSOR_OUTPUT_RATE_HALF"/>).
+        /// In addition, the driver might support custom rates for rate conversion or inverse telecine.
+        /// To get the list of custom rates, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCustomRate"/>.
+        /// </para>
+        /// <para>
+        /// Depending on the output rate, the driver might need to convert the frame rate.
+        /// If so, the value of <paramref name="RepeatFrame"/> controls whether the driver creates interpolated frames or simply repeats input frames.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamOutputRate([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] D3D11_VIDEO_PROCESSOR_OUTPUT_RATE OutputRate, [In] BOOL RepeatFrame, [In] in DXGI_RATIONAL pCustomRate)
         {
@@ -624,6 +821,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the source rectangle for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether to apply the source rectangle.
+        /// </param>
+        /// <param name="pRect">
+        /// A pointer to a <see cref="RECT"/> structure that specifies the source rectangle.
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// The source rectangle is the portion of the input surface that is blitted to the destination surface.
+        /// The source rectangle is given in pixel coordinates, relative to the input surface.
+        /// </para>
+        /// <para>
+        /// If this method is never called, or if the <paramref name="Enable"/> parameter is <see cref="FALSE"/>,
+        /// the video processor reads from the entire input surface.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamSourceRect([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] BOOL Enable, [In] in RECT pRect)
         {
             fixed (void* thisPtr = &this)
@@ -633,6 +859,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the destination rectangle for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether to apply the destination rectangle.
+        /// </param>
+        /// <param name="pRect">
+        /// A pointer to a <see cref="RECT"/> structure that specifies the destination rectangle.
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// The destination rectangle is the portion of the output surface that receives the blit for this stream.
+        /// The destination rectangle is given in pixel coordinates, relative to the output surface.
+        /// </para>
+        /// <para>
+        /// The default destination rectangle is an empty rectangle (0, 0, 0, 0).
+        /// If this method is never called, or if the <paramref name="Enable"/> parameter is <see cref="FALSE"/>, no data is written from this stream.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamDestRect([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] BOOL Enable, [In] in RECT pRect)
         {
             fixed (void* thisPtr = &this)
@@ -642,6 +897,85 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the planar alpha for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether alpha blending is enabled.
+        /// </param>
+        /// <param name="Alpha">
+        /// The planar alpha value. The value can range from 0.0 (transparent) to 1.0 (opaque).
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// To use this feature, the driver must support stereo video,
+        /// indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALHPA_STREAM"/> capability flag.
+        /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// </para>
+        /// <para>
+        /// Alpha blending is disabled by default.
+        /// </para>
+        /// <para>
+        /// For each pixel, the destination color value is computed as follows:
+        /// </para>
+        /// <para>
+        /// <c>Cd = Cs * (As * Ap * Ae) + Cd * (1.0 - As * Ap * Ae)</c>
+        /// </para>
+        /// <para>
+        /// where:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <c>Cd</c> = The color value of the destination pixel
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <c>Cs</c> = The color value of the source pixel
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <c>As</c> = The per-pixel source alpha
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <c>Ap</c> = The planar alpha value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <c>Ae</c> = The palette-entry alpha value, or 1.0 (see Note)
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Palette-entry alpha values apply only to palettized color formats,
+        /// and only when the device supports the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALPHA_PALETTE"/> capability.
+        /// Otherwise, this factor equals 1.0.
+        /// </para>
+        /// <para>
+        /// The destination alpha value is computed according to the alpha fill mode.
+        /// For more information, see <see cref="VideoProcessorSetOutputAlphaFillMode"/>.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamAlpha([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] BOOL Enable, [In] FLOAT Alpha)
         {
             fixed (void* thisPtr = &this)
@@ -651,6 +985,42 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the color-palette entries for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Count">
+        /// The number of elements in the <paramref name="pEntries"/> array.
+        /// </param>
+        /// <param name="pEntries">
+        /// A pointer to an array of palette entries.
+        /// For RGB streams, the palette entries use the <see cref="DXGI_FORMAT_B8G8R8A8"/> representation.
+        /// For YCbCr streams, the palette entries use the <see cref="DXGI_FORMAT_AYUV"/> representation.
+        /// The caller allocates the array.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This method applies only to input streams that have a palettized color format.
+        /// Palettized formats with 4 bits per pixel (bpp) use the first 16 entries in the list. Formats with 8 bpp use the first 256 entries.
+        /// </para>
+        /// <para>
+        /// If a pixel has a palette index greater than the number of entries, the device treats the pixel as white with opaque alpha.
+        /// For full-range RGB, this value is (255, 255, 255, 255); for YCbCr the value is (255, 235, 128, 128).
+        /// </para>
+        /// <para>
+        /// If the driver does not report the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALPHA_PALETTE"/> capability flag,
+        /// every palette entry must have an alpha value of 0xFF (opaque).
+        /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamPalette([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] UINT Count, [In] UINT[] pEntries)
         {
             fixed (void* thisPtr = &this)
@@ -660,6 +1030,42 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the pixel aspect ratio for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether the <paramref name="pSourceAspectRatio"/> and <paramref name="pDestinationAspectRatio"/> parameters contain valid values.
+        /// Otherwise, the pixel aspect ratios are unspecified.
+        /// </param>
+        /// <param name="pSourceAspectRatio">
+        /// A pointer to a <see cref="DXGI_RATIONAL"/> structure that contains the pixel aspect ratio of the source rectangle.
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter can be <see cref="NullRef{DXGI_RATIONAL}"/>.
+        /// </param>
+        /// <param name="pDestinationAspectRatio">
+        /// A pointer to a <see cref="DXGI_RATIONAL"/> structure that contains the pixel aspect ratio of the destination rectangle.
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter can be <see cref="NullRef{DXGI_RATIONAL}"/>.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This function can only be called if the driver reports the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_PIXEL_ASPECT_RATIO"/> capability.
+        /// If this capability is not set, this function will have no effect.
+        /// </para>
+        /// <para>
+        /// Pixel aspect ratios of the form 0/n and n/0 are not valid.
+        /// </para>
+        /// <para>
+        /// The default pixel aspect ratio is 1:1 (square pixels).
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamPixelAspectRatio([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] BOOL Enable, [In] in DXGI_RATIONAL pSourceAspectRatio, [In] in DXGI_RATIONAL pDestinationAspectRatio)
         {
@@ -670,6 +1076,57 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the luma key for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether luma keying is enabled.
+        /// </param>
+        /// <param name="Lower">
+        /// The lower bound for the luma key.
+        /// The valid range is [0…1].
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </param>
+        /// <param name="Upper">
+        /// The upper bound for the luma key.
+        /// The valid range is [0…1].
+        /// If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// To use this feature, the driver must support luma keying, indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_LUMA_KEY"/> capability flag.
+        /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// In addition, if the input format is RGB, the device must support the <see cref="D3D11_VIDEO_PROCESSOR_FORMAT_CAPS_RGB_LUMA_KEY"/> capability.
+        /// </para>
+        /// <para>
+        /// The values of <paramref name="Lower"/> and <paramref name="Upper"/> give the lower and upper bounds of the luma key,
+        /// using a nominal range of [0...1]. Given a format with n bits per channel, these values are converted to luma values as follows:
+        /// </para>
+        /// <para>
+        /// <c>val = f * ((1 &lt;&lt; n)-1)</c>
+        /// </para>
+        /// <para>
+        /// Any pixel whose luma value falls within the upper and lower bounds (inclusive) is treated as transparent.
+        /// </para>
+        /// <para>
+        /// For example, if the pixel format uses 8-bit luma, the upper bound is calculated as follows:
+        /// </para>
+        /// <para>
+        /// <c>BYTE Y = BYTE(max(min(1.0, Upper), 0.0) * 255.0)</c>
+        /// </para>
+        /// <para>
+        /// Note that the value is clamped to the range [0...1] before multiplying by 255.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamLumaKey([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] BOOL Enable, [In] FLOAT Lower, [In] FLOAT Upper)
         {
@@ -680,6 +1137,121 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Enables or disables stereo 3D video for an input stream on the video processor.
+        /// In addition, this method specifies the layout of the video frames in memory.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether stereo 3D is enabled for this stream.
+        /// If the value is <see cref="FALSE"/>, the remaining parameters of this method are ignored.
+        /// </param>
+        /// <param name="Format">
+        /// Specifies the layout of the two stereo views in memory, as a <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT"/> value.
+        /// </param>
+        /// <param name="LeftViewFrame0">
+        /// <para>
+        /// If <see cref="TRUE"/>, frame 0 contains the left view. Otherwise, frame 0 contains the right view.
+        /// </para>
+        /// <para>
+        /// This parameter is ignored for the following stereo formats:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO_OFFSET"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="BaseViewFrame0">
+        /// <para>
+        /// If <see cref="TRUE"/>, frame 0 contains the base view. Otherwise, frame 1 contains the base view.
+        /// </para>
+        /// <para>
+        /// This parameter is ignored for the following stereo formats:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO_OFFSET"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// When <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_SEPARATE"/> is used and the application wants to convert the stereo data to mono, it can either:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Specify the base view as a mono input.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Specify both resources and allow the driver to do the conversion from the base view.
+        /// In this case, <see cref="D3D11_VIDEO_PROCESSOR_STREAM.pInputSurface"/> is considered frame 0
+        /// and <see cref="D3D11_VIDEO_PROCESSOR_STREAM.pInputSurfaceRight"/> is considered frame 1.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="FlipMode">
+        /// A flag from the <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE"/> enumeration, specifying whether one of the views is flipped.
+        /// </param>
+        /// <param name="MonoOffset">
+        /// <para>
+        /// For <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO_OFFSET"/> format,
+        /// this parameter specifies how to generate the left and right views:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If <paramref name="MonoOffset"/> is positive, the right view is shifted to the right by that many pixels,
+        /// and the left view is shifted to the left by the same amount.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <paramref name="MonoOffset"/> is negative, the right view is shifted to the left by that many pixels,
+        /// and the left view is shifted to right by the same amount.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="Format"/> is not <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO_OFFSET"/>, this parameter must be zero.
+        /// </para>
+        /// </param>
         public void VideoProcessorSetStreamStereoFormat([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] BOOL Enable,
             [In] D3D11_VIDEO_PROCESSOR_STEREO_FORMAT Format, [In] BOOL LeftViewFrame0, [In] BOOL BaseViewFrame0,
             [In] D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE FlipMode, [In] int MonoOffset)
@@ -692,6 +1264,27 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Enables or disables automatic processing features on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// If <see cref="TRUE"/>, automatic processing features are enabled.
+        /// If <see cref="FALSE"/>, the driver disables any extra video processing that it might be performing.
+        /// </param>
+        /// <remarks>
+        /// By default, the driver might perform certain processing tasks automatically during the video processor blit.
+        /// This method enables the application to disable these extra video processing features.
+        /// For example, if you provide your own pixel shader for the video processor, you might want to disable the driver's automatic processing.
+        /// </remarks>
         public void VideoProcessorSetStreamAutoProcessingMode([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [In] BOOL Enable)
         {
             fixed (void* thisPtr = &this)
@@ -700,6 +1293,38 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Enables or disables an image filter for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Filter">
+        /// <para>
+        /// The filter, specified as a <see cref="D3D11_VIDEO_PROCESSOR_FILTER"/> value.
+        /// </para>
+        /// <para>
+        /// To query which filters the driver supports, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
+        /// </para>
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies whether to enable the filter.
+        /// </param>
+        /// <param name="Level">
+        /// <para>
+        /// The filter level. If <paramref name="Enable"/> is <see cref="FALSE"/>, this parameter is ignored.
+        /// </para>
+        /// <para>
+        /// To find the valid range of levels for a specified filter,
+        /// call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorFilterRange"/>.
+        /// </para>
+        /// </param>
         public void VideoProcessorSetStreamFilter([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] D3D11_VIDEO_PROCESSOR_FILTER Filter, [In] BOOL Enable, [In] int Level)
         {
@@ -710,6 +1335,34 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets a driver-specific state on a video processing stream.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pExtensionGuid">
+        /// A pointer to a <see cref="GUID"/> that identifies the operation.
+        /// The meaning of this <see cref="GUID"/> is defined by the graphics driver.
+        /// </param>
+        /// <param name="DataSize">
+        /// The size of the <paramref name="pData"/> buffer, in bytes.
+        /// </param>
+        /// <param name="pData">
+        /// A pointer to a buffer that contains private state data.
+        /// The method passes this buffer directly to the driver without validation.
+        /// It is the responsibility of the driver to validate the data.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
         public HRESULT VideoProcessorSetStreamExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] in GUID pExtensionGuid, [In] UINT DataSize, [In] IntPtr pData)
         {
@@ -832,6 +1485,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the source rectangle for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pEnabled">
+        /// Receives the value <see cref="TRUE"/> if the source rectangle is enabled, or <see cref="FALSE"/> otherwise.
+        /// </param>
+        /// <param name="pRect">
+        /// A pointer to a <see cref="RECT"/> structure that receives the source rectangle.
+        /// </param>
         public void VideoProcessorGetStreamSourceRect([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [Out] out BOOL pEnabled, [Out] out RECT pRect)
         {
@@ -934,6 +1605,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the pixel aspect ratio for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pEnabled">
+        /// Receives the value <see cref="TRUE"/> if the pixel aspect ratio is specified.
+        /// Otherwise, receives the value <see cref="FALSE"/>.
+        /// </param>
+        /// <param name="pSourceAspectRatio">
+        /// A pointer to a <see cref="DXGI_RATIONAL"/> structure.
+        /// If *<paramref name="pEnabled"/> is <see cref="TRUE"/>, this parameter receives the pixel aspect ratio of the source rectangle.
+        /// </param>
+        /// <param name="pDestinationAspectRatio">
+        /// A pointer to a <see cref="DXGI_RATIONAL"/> structure.
+        /// If *<paramref name="pEnabled"/> is <see cref="TRUE"/>, this parameter receives the pixel aspect ratio of the destination rectangle.
+        /// </param>
+        /// <remarks>
+        /// When the method returns, if *<paramref name="pEnabled"/> is <see cref="TRUE"/>,
+        /// the <paramref name="pSourceAspectRatio"/> and <paramref name="pDestinationAspectRatio"/> parameters contain the pixel aspect ratios.
+        /// Otherwise, the default pixel aspect ratio is 1:1 (square pixels).
+        /// </remarks>
         public void VideoProcessorGetStreamPixelAspectRatio([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [Out] out BOOL pEnabled, [Out] out DXGI_RATIONAL pSourceAspectRatio, [Out] out DXGI_RATIONAL pDestinationAspectRatio)
         {
@@ -975,6 +1675,99 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the stereo 3D format for an input stream on the video processor
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pEnabled">
+        /// Receives the value <see cref="TRUE"/> if stereo 3D is enabled for this stream, or <see cref="FALSE"/> otherwise.
+        /// If the value is <see cref="FALSE"/>, ignore the remaining parameters.
+        /// </param>
+        /// <param name="pFormat">
+        /// Receives a <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT"/> value that specifies the layout of the two stereo views in memory.
+        /// </param>
+        /// <param name="pLeftViewFrame0">
+        /// <para>
+        /// Receives a Boolean value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// Frame 0 contains the left view.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// Frame 0 contains the right view.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pBaseViewFrame0">
+        /// <para>
+        /// Receives a Boolean value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// Frame 0 contains the base view.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// Frame 1 contains the base view.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pFlipMode">
+        /// Receives a <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE"/> value.
+        /// This value specifies whether one of the views is flipped.
+        /// </param>
+        /// <param name="pMonoOffset">
+        /// Receives the pixel offset used for <see cref="D3D11_VIDEO_PROCESSOR_STEREO_FORMAT_MONO_OFFSET"/> format.
+        /// This parameter is ignored for other stereo formats.
+        /// </param>
         public void VideoProcessorGetStreamStereoFormat([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex, [Out] out BOOL pEnabled,
             [Out] out D3D11_VIDEO_PROCESSOR_STEREO_FORMAT pFormat, [Out] out BOOL pLeftViewFrame0, [Out] out BOOL pBaseViewFrame0,
             [Out] out D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE pFlipMode, [Out] out int pMonoOffset)
@@ -1629,6 +2422,35 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Sets the stream rotation for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="Enable">
+        /// Specifies if the stream is to be rotated in a clockwise orientation.
+        /// </param>
+        /// <param name="Rotation">
+        /// Specifies the rotation of the stream.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This is an optional state and the application should only use it
+        /// if <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ROTATION"/> is reported in <see cref="D3D11_VIDEO_PROCESSOR_CAPS.FeatureCaps"/>.
+        /// </para>
+        /// <para>
+        /// The stream source rectangle will be specified in the pre-rotation coordinates (typically landscape)
+        /// and the stream destination rectangle will be specified in the post-rotation coordinates (typically portrait).
+        /// The application must update the stream destination rectangle correctly when using a rotation value other than 0° and 180°.
+        /// </para>
+        /// </remarks>
         public void VideoProcessorSetStreamRotation([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [In] BOOL Enable, [In] D3D11_VIDEO_PROCESSOR_ROTATION Rotation)
         {
@@ -1639,6 +2461,24 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             }
         }
 
+        /// <summary>
+        /// Gets the stream rotation for an input stream on the video processor.
+        /// </summary>
+        /// <param name="pVideoProcessor">
+        /// A pointer to the <see cref="ID3D11VideoProcessor"/> interface.
+        /// To get this pointer, call <see cref="ID3D11VideoDevice.CreateVideoProcessor"/>.
+        /// </param>
+        /// <param name="StreamIndex">
+        /// The zero-based index of the input stream.
+        /// To get the maximum number of streams, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>
+        /// and check the <see cref="D3D11_VIDEO_PROCESSOR_CAPS.MaxStreamStates"/> structure member.
+        /// </param>
+        /// <param name="pEnable">
+        /// Specifies if the stream is rotated.
+        /// </param>
+        /// <param name="pRotation">
+        /// Specifies the rotation of the stream in a clockwise orientation.
+        /// </param>
         public void VideoProcessorGetStreamRotation([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
             [Out] out BOOL pEnable, [Out] out D3D11_VIDEO_PROCESSOR_ROTATION pRotation)
         {
