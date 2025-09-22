@@ -144,6 +144,10 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// <inheritdoc/>
         protected override LRESULT OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
         {
+            if (sizingType == WindowSizingTypes.SIZE_MINIMIZED)
+            {
+                return 0;
+            }
             if (DXGISwapChain != NULL && D3D11DeviceContext != NULL)
             {
                 D3D11DeviceContext.Value.OMSetRenderTargets(0, null, NULL);
