@@ -88,6 +88,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ID3D11DeviceContext = "c0bfa96c-e089-44fb-8eaf-26f8796190da";
 
         /// <summary>
+        /// IID_ID3D11Multithread
+        /// </summary>
+        public static readonly IID IID_ID3D11Multithread = "9B7E4E00-342C-4106-A19F-4F2704F689F0";
+
+        /// <summary>
         /// IID_ID3D11Resource
         /// </summary>
         public static readonly IID IID_ID3D11Resource = "dc8e63f3-d12b-4952-b47b-5e45026a862d";
