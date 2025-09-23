@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -61,6 +62,33 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPhysicalMonitors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyPhysicalMonitors([In] DWORD dwPhysicalMonitorArraySize, [In] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
+
+        /// <summary>
+        /// <para>
+        /// Creates an instance of the Direct3D Device Manager.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/dxva2api/nf-dxva2api-dxva2createdirect3ddevicemanager9"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pResetToken">
+        /// Receives a token that identifies this instance of the Direct3D device manager.
+        /// Use this token when calling <see cref="IDirect3DDeviceManager9.ResetDevice"/>.
+        /// </param>
+        /// <param name="ppDeviceManager">
+        /// Receives a pointer to the <see cref="IDirect3DDeviceManager9"/> interface.
+        /// The caller must release the interface.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// Windows Store apps must use <see cref="IMFDXGIDeviceManager"/> and Direct3D 11 Video APIs.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "DXVA2CreateDirect3DDeviceManager9", ExactSpelling = true)]
+        public static extern HRESULT DXVA2CreateDirect3DDeviceManager9([Out]out UINT pResetToken, [Out] out P<IDirect3DDeviceManager9> ppDeviceManager);
 
         /// <summary>
         /// <para>
