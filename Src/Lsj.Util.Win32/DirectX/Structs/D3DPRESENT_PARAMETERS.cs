@@ -226,6 +226,6 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// The maximum rate at which the swap chain's back buffers can be presented to the front buffer.
         /// For a detailed explanation of the modes and the intervals that are supported, see <see cref="D3DPRESENT"/>.
         /// </summary>
-        public UINT PresentationInterval;
+        public D3DPRESENT PresentationInterval;
     }
 }
