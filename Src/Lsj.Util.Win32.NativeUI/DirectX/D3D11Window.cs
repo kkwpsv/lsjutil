@@ -21,23 +21,22 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// <summary>
         /// The D3D11 device
         /// </summary>
-        public P<ID3D11Device> D3D11Device { get; private set; }
+        public P<ID3D11Device> Device { get; private set; }
 
         /// <summary>
         /// The immediate context
         /// </summary>
-        public P<ID3D11DeviceContext> D3D11DeviceContext { get; private set; }
+        public P<ID3D11DeviceContext> DeviceContext { get; private set; }
 
         /// <summary>
         /// The render target view
         /// </summary>
-        public P<ID3D11RenderTargetView> D3D11RenderTargetView { get; private set; }
+        public P<ID3D11RenderTargetView> RenderTargetView { get; private set; }
 
         /// <summary>
         /// The swap chain
         /// </summary>
-        public P<IDXGISwapChain> DXGISwapChain { get; private set; }
-
+        public P<IDXGISwapChain> SwapChain { get; private set; }
 
         /// <inheritdoc/>
         protected override LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam, ref CREATESTRUCT createStruct)
@@ -50,10 +49,10 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                     return -1;
                 }
 
-                D3D11Device = device;
+                Device = device;
 
-                D3D11Device.Value.GetImmediateContext(out var deviceContext);
-                D3D11DeviceContext = deviceContext;
+                Device.Value.GetImmediateContext(out var deviceContext);
+                DeviceContext = deviceContext;
 
                 var dxgiDevice = device.AsIUnknown().ToInterface<IDXGIDevice>(IIDs.IID_IDXGIDevice, false, true);
                 var result = dxgiDevice.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIAdapter, out var pAdapter);
@@ -89,7 +88,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                     return -1;
                 }
 
-                DXGISwapChain = swapChain.AsIUnknown().ToInterface<IDXGISwapChain>(IIDs.IID_IDXGISwapChain1, true, true);
+                SwapChain = swapChain.AsIUnknown().ToInterface<IDXGISwapChain>(IIDs.IID_IDXGISwapChain1, true, true);
 
                 if (!CreateRenderTarget())
                 {
@@ -121,21 +120,21 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// <inheritdoc/>
         protected override LRESULT OnDestroy(HWND hWnd, WPARAM wParam, LPARAM lParam)
         {
-            if (D3D11Device != NULL)
+            if (Device != NULL)
             {
-                D3D11Device.AsIUnknown().Value.Release();
+                Device.AsIUnknown().Value.Release();
             }
-            if (D3D11DeviceContext != NULL)
+            if (DeviceContext != NULL)
             {
-                D3D11DeviceContext.AsIUnknown().Value.Release();
+                DeviceContext.AsIUnknown().Value.Release();
             }
-            if (D3D11RenderTargetView != NULL)
+            if (RenderTargetView != NULL)
             {
-                D3D11RenderTargetView.AsIUnknown().Value.Release();
+                RenderTargetView.AsIUnknown().Value.Release();
             }
-            if (DXGISwapChain != NULL)
+            if (SwapChain != NULL)
             {
-                DXGISwapChain.AsIUnknown().Value.Release();
+                SwapChain.AsIUnknown().Value.Release();
             }
 
             return base.OnDestroy(hWnd, wParam, lParam);
@@ -148,15 +147,15 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
             {
                 return 0;
             }
-            if (DXGISwapChain != NULL && D3D11DeviceContext != NULL)
+            if (SwapChain != NULL && DeviceContext != NULL)
             {
-                D3D11DeviceContext.Value.OMSetRenderTargets(0, null, NULL);
-                if (D3D11RenderTargetView != NULL)
+                DeviceContext.Value.OMSetRenderTargets(0, null, NULL);
+                if (RenderTargetView != NULL)
                 {
-                    D3D11RenderTargetView.AsIUnknown().Value.Release();
+                    RenderTargetView.AsIUnknown().Value.Release();
                 }
-                D3D11RenderTargetView = NULL;
-                DXGISwapChain.Value.ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+                RenderTargetView = NULL;
+                SwapChain.Value.ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
                 CreateRenderTarget();
             }
             return 0;
@@ -164,7 +163,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
 
         private bool CreateRenderTarget()
         {
-            var result = DXGISwapChain.Value.GetBuffer(0, IIDs.IID_ID3D11Texture2D, out var pTexture);
+            var result = SwapChain.Value.GetBuffer(0, IIDs.IID_ID3D11Texture2D, out var pTexture);
             if (!result)
             {
                 return false;
@@ -173,15 +172,15 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
 
             texture.Value.GetDesc(out var textureDesc);
 
-            result = D3D11Device.Value.CreateRenderTargetView(texture.AsP<ID3D11Resource>(), NullRef<D3D11_RENDER_TARGET_VIEW_DESC>(), out var renderTargetView);
+            result = Device.Value.CreateRenderTargetView(texture.AsP<ID3D11Resource>(), NullRef<D3D11_RENDER_TARGET_VIEW_DESC>(), out var renderTargetView);
             texture.AsIUnknown().Value.Release();
             if (!result)
             {
                 return false;
             }
 
-            D3D11RenderTargetView = renderTargetView;
-            D3D11DeviceContext.Value.OMSetRenderTargets(1, [renderTargetView], NULL);
+            RenderTargetView = renderTargetView;
+            DeviceContext.Value.OMSetRenderTargets(1, [renderTargetView], NULL);
 
             var viewport = new D3D11_VIEWPORT
             {
@@ -192,7 +191,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                 TopLeftX = 0,
                 TopLeftY = 0,
             };
-            D3D11DeviceContext.Value.RSSetViewports(1, [viewport]);
+            DeviceContext.Value.RSSetViewports(1, [viewport]);
             return true;
         }
 
