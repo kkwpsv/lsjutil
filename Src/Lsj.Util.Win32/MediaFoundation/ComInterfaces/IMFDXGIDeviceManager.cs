@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// without calling <see cref="UnlockDevice"/> in between.
         /// </para>
         /// </remarks>
-        public HRESULT LockDevice([In] HANDLE hDevice, [In] in IID riid, out IntPtr ppUnkDevice, [In] BOOL fBlock)
+        public HRESULT LockDevice([In] HANDLE hDevice, [In] in IID riid, [Out] out IntPtr ppUnkDevice, [In] BOOL fBlock)
         {
             fixed (void* thisPtr = &this)
             {
