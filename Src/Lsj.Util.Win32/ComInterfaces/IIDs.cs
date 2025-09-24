@@ -193,6 +193,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDirect3DDevice9On12 = "e7fda234-b589-4049-940d-8878977531c8";
 
         /// <summary>
+        /// IID_IDirect3DDeviceManager9
+        /// </summary>
+        public static readonly IID IID_IDirect3DDeviceManager9 = "a0cade0f-06d5-4cf4-a1c7-f3cdd725aa75";
+
+        /// <summary>
         /// IID_IDirect3DDxgiInterfaceAccess
         /// </summary>
         public static readonly IID IID_IDirect3DDxgiInterfaceAccess = "A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1";
