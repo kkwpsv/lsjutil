@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CSIDL;
@@ -24,6 +23,7 @@ using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Enums.KF_CATEGORY;
 using static Lsj.Util.Win32.Enums.KNOWN_FOLDER_FLAG;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
+using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.ShellChangeNotifyEvents;
 using static Lsj.Util.Win32.Enums.ShellChangeNotifyFlags;
 using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
@@ -63,12 +63,33 @@ namespace Lsj.Util.Win32
         /// <see cref="BFFM_INITIALIZED"/>, <see cref="BFFM_IUNKNOWN"/>, <see cref="BFFM_SELCHANGED"/>, <see cref="BFFM_VALIDATEFAILED"/>
         /// </param>
         /// <param name="lParam">
-        /// A value whose meaning depends on the event specified in uMsg as follows:
-        /// <see cref="BFFM_INITIALIZED"/>: Not used, value is <see cref="NULL"/>.
-        /// <see cref="BFFM_IUNKNOWN"/>: A pointer to an <see cref="IUnknown"/> interface.
-        /// <see cref="BFFM_SELCHANGED"/>: A PIDL that identifies the newly selected item.
-        /// <see cref="BFFM_VALIDATEFAILED"/>: A pointer to a string that contains the invalid name.
-        /// An application can use this data in an error dialog informing the user that the name was not valid.
+        /// <para>
+        /// The dialog box event that generated the message. One of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="BFFM_INITIALIZED"/>
+        /// </para>
+        /// <para>
+        /// The dialog box has finished initializing.
+        /// </para>
+        /// <para>
+        /// <see cref="BFFM_IUNKNOWN"/>
+        /// </para>
+        /// <para>
+        /// An <see cref="IUnknown"/> interface is available to the dialog box.
+        /// </para>
+        /// <para>
+        /// <see cref="BFFM_SELCHANGED"/>
+        /// </para>
+        /// <para>
+        /// The selection has changed in the dialog box.
+        /// </para>
+        /// <para>
+        /// <see cref="BFFM_VALIDATEFAILED"/>
+        /// </para>
+        /// <para>
+        /// The user typed an invalid name into the dialog's edit box. A nonexistent folder is considered an invalid name.
+        /// </para>
         /// </param>
         /// <param name="lpData">
         /// An application-defined value that was specified in the <see cref="BROWSEINFO.lParam"/> member
@@ -79,46 +100,140 @@ namespace Lsj.Util.Win32
         /// For that flag, returns zero to dismiss the dialog or nonzero to keep the dialog displayed.
         /// </returns>
         /// <remarks>
-        /// To attach your BrowseCallbackProc to a dialog, specify its address in the <see cref="BROWSEINFO.lpfn"/> member
-        /// of the <see cref="BROWSEINFO"/> structure used in a <see cref="SHBrowseForFolder"/> call.
-        /// BrowseCallbackProc can also send messages to the dialog box through SendMessage, to control these aspects:
-        /// OK button enabled/disabled
-        /// OK button text
+        /// <para>
+        /// To attach your <see cref="BrowseCallbackProc"/> to a dialog, specify its address
+        /// in the <see cref="BROWSEINFO.lpfn"/> member of the <see cref="BROWSEINFO"/> structure used in a <see cref="SHBrowseForFolder"/> call.
+        /// </para>
+        /// <para>
+        /// <see cref="BrowseCallbackProc"/> can also send messages to the dialog box through <see cref="SendMessage"/>,
+        /// to control these aspects:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// OK button enabled/disabled
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// OK button text
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Selected folder
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Expanded folder
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Status text
-        /// Set the SendMessage function's Msg parameter to one of the following values,
-        /// providing additional information in the wParam and lParam parameters as indicated for each message type.
-        /// Remarks
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Set the <see cref="SendMessage"/> function's Msg parameter to one of the following values,
+        /// providing additional information in the wParam and lParam parameters as indicated for each message type.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
         /// Msg
+        /// </term>
+        /// <term>
         /// Meaning
+        /// </term>
+        /// <term>
         /// wParam
+        /// </term>
+        /// <term>
         /// lParam
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
         /// <see cref="BFFM_ENABLEOK"/>
-        /// Enables or disables the dialog box's OK button.
+        /// </term>
+        /// <term>
+        /// Enables or disables the dialog box's OK button.
+        /// </term>
+        /// <term>
         /// Not used.
+        /// </term>
+        /// <term>
         /// To enable, set to a nonzero value. To disable, set to zero.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="BFFM_SETOKTEXT"/>
-        /// Version 6.0 or later. Sets the text that is displayed on the dialog box's OK button.
+        /// </term>
+        /// <term>
+        /// Version 6.0 or later. Sets the text that is displayed on the dialog box's OK button.
+        /// </term>
+        /// <term>
         /// Not used.
+        /// </term>
+        /// <term>
         /// A pointer to a null-terminated Unicode string that contains the desired text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="BFFM_SETSELECTION"/>
-        /// Specifies the path of a folder to select.
-        /// The path can be specified as a string or a PIDL.
-        /// <see cref="TRUE"/> to use a string; <see cref="FALSE"/> to use a PIDL.
+        /// </term>
+        /// <term>
+        /// Specifies the path of a folder to select. The path can be specified as a string or a PIDL.
+        /// </term>
+        /// <term>
+        /// <see cref="TRUE"/> to use a string; <see cref="FALSE"/> to use a PIDL.
+        /// </term>
+        /// <term>
         /// The string or PIDL that specifies the path.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
         /// <see cref="BFFM_SETEXPANDED"/>
-        /// Version 6.0 or later.
-        /// Specifies the path of a folder to expand in the Browse dialog box.
+        /// </term>
+        /// <term>
+        /// Version 6.0 or later.
+        /// Specifies the path of a folder to expand in the Browse dialog box.
         /// The path can be specified as a Unicode string or a PIDL.
-        /// <see cref="TRUE"/> to use a string; <see cref="FALSE"/> to use a PIDL.
+        /// </term>
+        /// <term>
+        /// <see cref="TRUE"/> to use a string; <see cref="FALSE"/> to use a PIDL.
+        /// </term>
+        /// <term>
         /// The string or PIDL that specifies the path.
-        /// <see cref="BFFM_SETSTATUSTEXT"/> Sets the status text.
-        /// Set the BrowseCallbackProc lpData parameter to point to a null-terminated string with the desired text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BFFM_SETSTATUSTEXT"/>
+        /// </term>
+        /// <term>
+        /// Sets the status text.
+        /// Set the <see cref="BrowseCallbackProc"/> <paramref name="lpData"/> parameter to point to a null-terminated string with the desired text.
+        /// </term>
+        /// <term>
         /// Not used.
+        /// </term>
+        /// <term>
         /// A pointer to a null-terminated string that contains the desired text.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
-        public delegate int Bffcallback([In] HWND hwnd, [In] BrowseForFolderMessages uMsg, [In] LPARAM lParam, [In] LPARAM lpData);
+        public delegate int BrowseCallbackProc([In] HWND hwnd, [In] BrowseForFolderMessages uMsg, [In] LPARAM lParam, [In] LPARAM lpData);
 
 
         /// <summary>
@@ -138,34 +253,74 @@ namespace Lsj.Util.Win32
         /// Pointer to an int that receives the number of array elements returned, similar to argc.
         /// </param>
         /// <returns>
-        /// A pointer to an array of LPWSTR values, similar to argv.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// A pointer to an array of <see cref="LPWSTR"/> values, similar to argv.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The address returned by <see cref="CommandLineToArgvW"/> is the address of the first element in an array of LPWSTR values;
-        /// the number of pointers in this array is indicated by <paramref name="pNumArgs"/>.
-        /// Each pointer to a null-terminated Unicode string represents an individual argument found on the command line.
-        /// <see cref="CommandLineToArgvW"/> allocates a block of contiguous memory for pointers to the argument strings,
+        /// <para>
+        /// The address returned by <see cref="CommandLineToArgvW"/> is the address of the first element in an array of <see cref="LPWSTR"/> values;
+        /// the number of pointers in this array is indicated by <paramref name="pNumArgs"/>.
+        /// Each pointer to a null-terminated Unicode string represents an individual argument found on the command line.
+        /// </para>
+        /// <para>
+        /// <see cref="CommandLineToArgvW"/> allocates a block of contiguous memory for pointers to the argument strings,
         /// and for the argument strings themselves; the calling application must free the memory used by the argument list when it is no longer needed.
-        /// To free the memory, use a single call to the <see cref="LocalFree"/> function.
-        /// For more information about the argv and argc argument convention, see Argument Definitions and Parsing C++ Command-Line Arguments.
-        /// The <see cref="GetCommandLine"/> function can be used to get a command line string
-        /// that is suitable for use as the <paramref name="lpCmdLine"/> parameter.
+        /// To free the memory, use a single call to the <see cref="LocalFree"/> function.
+        /// </para>
+        /// <para>
+        /// For more information about the argv and argc argument convention, see Argument Definitions and Parsing C Command-Line Arguments.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetCommandLine"/> function can be used to get a command line string
+        /// that is suitable for use as the <paramref name="lpCmdLine"/> parameter.
+        /// </para>
+        /// <para>
         /// This function accepts command lines that contain a program name; the program name can be enclosed in quotation marks or not.
-        /// <see cref="CommandLineToArgvW"/> has a special interpretation of backslash characters when they are followed by a quotation mark character (").
+        /// </para>
+        /// <para>
+        /// <see cref="CommandLineToArgvW"/> has a special interpretation of backslash characters when they are followed by a quotation mark character (").
         /// This interpretation assumes that any preceding argument is a valid file system path, or else it may behave unpredictably.
-        /// This special interpretation controls the "in quotes" mode tracked by the parser. When this mode is off, whitespace terminates the current argument.
+        /// </para>
+        /// <para>
+        /// This special interpretation controls the "in quotes" mode tracked by the parser.
+        /// When this mode is off, whitespace terminates the current argument.
         /// When on, whitespace is added to the argument like all other characters.
-        /// 2n backslashes followed by a quotation mark produce n backslashes followed by begin/end quote. This does not become part of the parsed argument,
-        /// but toggles the "in quotes" mode.
-        /// (2n) + 1 backslashes followed by a quotation mark again produce n backslashes followed by a quotation mark literal (").
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// 2n backslashes followed by a quotation mark produce n backslashes followed by begin/end quote.
+        /// This does not become part of the parsed argument, but toggles the "in quotes" mode.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// (2n) + 1 backslashes followed by a quotation mark again produce n backslashes followed by a quotation mark literal (").
         /// This does not toggle the "in quotes" mode.
-        /// n backslashes not followed by a quotation mark simply produce n backslashes.
-        /// <see cref="CommandLineToArgvW"/> treats whitespace outside of quotation marks as argument delimiters.
-        /// However, if <paramref name="lpCmdLine"/> starts with any amount of whitespace,
-        /// <see cref="CommandLineToArgvW"/> will consider the first argument to be an empty string.
-        /// Excess whitespace at the end of <paramref name="lpCmdLine"/> is ignored.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// n backslashes not followed by a quotation mark simply produce n backslashes.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Important  
+        /// </para>
+        /// <para>
+        /// <see cref="CommandLineToArgvW"/> treats whitespace outside of quotation marks as argument delimiters.
+        /// However, if <paramref name="lpCmdLine"/> starts with any amount of whitespace,
+        /// <see cref="CommandLineToArgvW"/> will consider the first argument to be an empty string.
+        /// Excess whitespace at the end of <paramref name="lpCmdLine"/> is ignored.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
@@ -197,12 +352,22 @@ namespace Lsj.Util.Win32
         /// The size, in characters, of the <paramref name="lpszFile"/> buffer.
         /// </param>
         /// <returns>
+        /// <para>
         /// A nonzero value indicates a successful call.
-        /// When the function copies a file name to the buffer, the return value is a count of the characters copied, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// When the function copies a file name to the buffer,
+        /// the return value is a count of the characters copied, not including the terminating null character.
+        /// </para>
+        /// <para>
         /// If the index value is 0xFFFFFFFF, the return value is a count of the dropped files.
         /// Note that the index variable itself returns unchanged, and therefore remains 0xFFFFFFFF.
-        /// If the index value is between zero and the total number of dropped files, and the <paramref name="lpszFile"/> buffer address is <see cref="NULL"/>,
-        /// the return value is the required size, in characters, of the buffer, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the index value is between zero and the total number of dropped files,
+        /// and the <paramref name="lpszFile"/> buffer address is <see cref="NULL"/>,
+        /// the return value is the required size, in characters, of the buffer, not including the terminating null character.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true, SetLastError = true)]
@@ -216,7 +381,8 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-duplicateicon"/>
         /// </para>
         /// </summary>
-        /// <param name="hInst"></param>
+        /// <param name="hInst">
+        /// </param>
         /// <param name="hIcon">
         /// Handle to the icon to be duplicated.
         /// </param>
@@ -228,7 +394,7 @@ namespace Lsj.Util.Win32
         /// returned by <see cref="DuplicateIcon"/> by calling the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateIcon", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateIcon", ExactSpelling = true)]
         public static extern HICON DuplicateIcon([In] HINSTANCE hInst, [In] HICON hIcon);
 
         /// <summary>
@@ -243,41 +409,59 @@ namespace Lsj.Util.Win32
         /// A handle to the instance of the calling application.
         /// </param>
         /// <param name="pszIconPath">
+        /// <para>
         /// Pointer to a string that, on entry, specifies the full path and file name of the file that contains the icon.
         /// The function extracts the icon handle from that file, or from an executable file associated with that file.
+        /// </para>
+        /// <para>
         /// When this function returns, if the icon handle was obtained from an executable file
-        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file)
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file)
         /// the function stores the full path and file name of that executable in the buffer pointed to by this parameter.
+        /// </para>
         /// </param>
         /// <param name="piIcon">
-        /// Pointer to a <see cref="WORD"/> value that, on entry, specifies the index of the icon whose handle is to be obtained.
+        /// <para>
+        /// Pointer to a <see cref="WORD"/> value that, on entry, specifies the index of the icon whose handle is to be obtained.
+        /// </para>
+        /// <para>
         /// When the function returns, if the icon handle was obtained from an executable file
-        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file),
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file),
         /// this value points to the icon's index in that file.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is an icon handle.
         /// If the icon is extracted from an associated executable file,
-        /// the function stores the full path and file name of the executable file in the string pointed to by <paramref name="pszIconPath"/>,
-        /// and stores the icon's identifier in the <see cref="WORD"/> pointed to by <paramref name="piIcon"/>.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// the function stores the full path and file name of the executable file in the string pointed to by <paramref name="pszIconPath"/>,
+        /// and stores the icon's identifier in the <see cref="WORD"/> pointed to by <paramref name="piIcon"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When it is no longer needed, the caller is responsible for freeing the icon handle
-        /// returned by <see cref="ExtractAssociatedIcon"/> by calling the <see cref="DestroyIcon"/> function.
-        /// The <see cref="ExtractAssociatedIcon"/> function first looks for the indexed icon in the file specified by <paramref name="piIcon"/>.
-        /// If the function cannot obtain the icon handle from that file,
-        /// and the file has an associated executable file, it looks in that executable file for an icon.
+        /// returned by <see cref="ExtractAssociatedIcon"/> by calling the <see cref="DestroyIcon"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="ExtractAssociatedIcon"/> function first looks for the indexed icon in the file specified by <paramref name="pszIconPath"/>.
+        /// If the function cannot obtain the icon handle from that file, and the file has an associated executable file,
+        /// it looks in that executable file for an icon.
         /// Associations with executable files are based on file name extensions and are stored in the per-user part of the registry.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconW", ExactSpelling = true)]
         public static extern HICON ExtractAssociatedIcon([In] HINSTANCE hInst, [In][Out] LPWSTR pszIconPath, [In][Out] ref WORD piIcon);
 
         /// <summary>
         /// <para>
         /// Gets a handle to an icon from the specified executable file, DLL, or icon file.
-        /// To retrieve an array of handles to large or small icons, use the <see cref="ExtractIconEx"/> function.
+        /// </para>
+        /// <para>
+        /// To retrieve an array of handles to large or small icons, use the <see cref="ExtractIconEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-extracticonw"/>
@@ -290,15 +474,21 @@ namespace Lsj.Util.Win32
         /// Pointer to a null-terminated string that specifies the name of an executable file, DLL, or icon file.
         /// </param>
         /// <param name="nIconIndex">
+        /// <para>
         /// Specifies the zero-based index of the icon to retrieve.
         /// For example, if this value is 0, the function returns a handle to the first icon in the specified file.
+        /// </para>
+        /// <para>
         /// If this value is -1, the function returns the total number of icons in the specified file.
-        /// If the file is an executable file or DLL, the return value is the number of RT_GROUP_ICON resources.
+        /// If the file is an executable file or DLL, the return value is the number of <see cref="RT_GROUP_ICON"/> resources.
         /// If the file is an .ICO file, the return value is 1.
+        /// </para>
+        /// <para>
         /// If this value is a negative number not equal to –1, the function returns a handle to the icon in the specified file
-        /// whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
+        /// whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
         /// For example, you should use –3 to extract the icon whose resource identifier is 3.
-        /// To extract the icon whose resource identifier is 1, use the <see cref="ExtractIconEx"/> function.
+        /// To extract the icon whose resource identifier is 1, use the <see cref="ExtractIconEx"/> function.
+        /// </para>
         /// </param>
         /// <returns>
         /// The return value is a handle to an icon.
@@ -310,7 +500,7 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconW", ExactSpelling = true)]
         public static extern HICON ExtractIcon([In] HINSTANCE hInst, [In] LPWSTR pszExeFileName, [In] UINT nIconIndex);
 
         /// <summary>
@@ -326,16 +516,21 @@ namespace Lsj.Util.Win32
         /// Pointer to a null-terminated string that specifies the name of an executable file, DLL, or icon file from which icons will be extracted.
         /// </param>
         /// <param name="nIconIndex">
+        /// <para>
         /// Specifies the zero-based index of the first icon to extract.
         /// For example, if this value is zero, the function extracts the first icon in the specified file.
-        /// If this value is –1 and <paramref name="phiconLarge"/> and <paramref name="phiconSmall"/> are both <see langword="null"/>,
+        /// </para>
+        /// <para>
+        /// If this value is –1 and <paramref name="phiconLarge"/> and <paramref name="phiconSmall"/> are both <see langword="null"/>,
         /// the function returns the total number of icons in the specified file.
-        /// If the file is an executable file or DLL, the return value is the number of RT_GROUP_ICON resources.
+        /// If the file is an executable file or DLL, the return value is the number of <see cref="RT_GROUP_ICON"/> resources.
         /// If the file is an .ico file, the return value is 1.
-        /// If this value is a negative number and either <paramref name="phiconLarge"/>
-        /// or <paramref name="phiconSmall"/> is not <see langword="null"/>, the function begins by extracting the icon
-        /// whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
+        /// </para>
+        /// <para>
+        /// If this value is a negative number and either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>,
+        /// the function begins by extracting the icon whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
         /// For example, use -3 to extract the icon whose resource identifier is 3.
+        /// </para>
         /// </param>
         /// <param name="phiconLarge">
         /// Pointer to an array of icon handles that receives handles to the large icons extracted from the file.
@@ -349,24 +544,36 @@ namespace Lsj.Util.Win32
         /// The number of icons to extract from the file.
         /// </param>
         /// <returns>
-        /// If the <paramref name="nIconIndex"/> parameter is -1 and both the <paramref name="phiconLarge"/>
-        /// and <paramref name="phiconSmall"/> parameters are <see langword="null"/>,
+        /// <para>
+        /// If the <paramref name="nIconIndex"/> parameter is -1
+        /// and both the <paramref name="phiconLarge"/> and <paramref name="phiconSmall"/> parameters are <see langword="null"/>,
         /// then the return value is the number of icons contained in the specified file.
-        /// If the <paramref name="nIconIndex"/> parameter is any value other than -1 and
-        /// either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>,
+        /// </para>
+        /// <para>
+        /// If the <paramref name="nIconIndex"/> parameter is any value other than -1
+        /// and either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>,
         /// the return value is the number of icons successfully extracted from the file.
-        /// If the function encounters an error, it returns <see cref="UINT_MAX"/>.
-        /// In this case, you can call <see cref="GetLastError"/> to retrieve the error code.
-        /// For example, this function returns <see cref="UINT_MAX"/> if the file specified by <paramref name="lpszFile"/> cannot be found
-        /// while the <paramref name="nIconIndex"/> parameter is any value other than -1 and
-        /// either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>.
-        /// In this case, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/> (2).
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// If the function encounters an error, it returns <see cref="UINT_MAX"/>.
+        /// In this case, you can call <see cref="GetLastError"/> to retrieve the error code.
+        /// For example, this function returns <see cref="UINT_MAX"/> if the file specified by <paramref name="lpszFile"/> cannot be found
+        /// while the <paramref name="nIconIndex"/> parameter is any value other than -1
+        /// and either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>,
+        /// In this case, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/> (2).
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When they are no longer needed, you must destroy all icons extracted by <see cref="ExtractIconEx"/>
-        /// by calling the <see cref="DestroyIcon"/> function.
-        /// To retrieve the dimensions of the large and small icons, use this function with the <see cref="SM_CXICON"/>,
-        /// <see cref="SM_CYICON"/>, <see cref="SM_CXSMICON"/>, and <see cref="SM_CYSMICON"/> flags.
+        /// <para>
+        /// When they are no longer needed, you must destroy all icons extracted by <see cref="ExtractIconEx"/> by calling the <see cref="DestroyIcon"/> function.
+        /// </para>
+        /// <para>
+        /// To retrieve the dimensions of the large and small icons,
+        /// use this function with the <see cref="SM_CXICON"/>, <see cref="SM_CYICON"/>, <see cref="SM_CXSMICON"/>, and <see cref="SM_CYSMICON"/> flags.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconExW", ExactSpelling = true, SetLastError = true)]
@@ -389,12 +596,16 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The AppUserModelID retrieved by this function was set earlier through <see cref="SetCurrentProcessExplicitAppUserModelID"/>.
+        /// </para>
+        /// <para>
         /// An application can only retrieve an AppUserModelID that has been explicitly set. System-assigned default AppUserModelIDs cannot be retrieved.
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true)]
         public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out] out IntPtr AppID);
 
         /// <summary>
@@ -419,7 +630,7 @@ namespace Lsj.Util.Win32
         /// This includes any call to <see cref="SHAddToRecentDocs"/>.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentProcessExplicitAppUserModelID", ExactSpelling = true)]
         public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([In] LPCWSTR AppID);
 
         /// <summary>
@@ -435,91 +646,236 @@ namespace Lsj.Util.Win32
         /// A value from the <see cref="SHARD"/> enumeration that indicates the form of the information pointed to by the <paramref name="pv"/> parameter.
         /// </param>
         /// <param name="pv">
-        /// A pointer to data that identifies the item that has been accessed.
-        /// The item can be specified in this parameter in one of the following forms:
+        /// <para>
+        /// A pointer to data that identifies the item that has been accessed. The item can be specified in this parameter in one of the following forms:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// A null-terminated string that contains the path and file name of the item.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// A PIDL that identifies the item's file object.
-        /// Windows 7 and later only. A <see cref="SHARDAPPIDINFO"/>, <see cref="SHARDAPPIDINFOIDLIST"/>,
-        /// or <see cref="SHARDAPPIDINFOLINK"/> structure that identifies the item through an AppUserModelID.
-        /// See Application User Model IDs (AppUserModelIDs) for more information.
-        /// Windows 7 and later only. An <see cref="IShellLink"/> object that identifies the item through a shortcut.
-        /// Set this parameter to <see cref="NULL"/> to clear all usage data on all items.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Windows 7 and later only.
+        /// A <see cref="SHARDAPPIDINFO"/>, <see cref="SHARDAPPIDINFOIDLIST"/>, or <see cref="SHARDAPPIDINFOLINK"/> structure
+        /// that identifies the item through an AppUserModelID.
+        /// See Application User Model IDs (AppUserModelIDs) for more information.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Windows 7 and later only.
+        /// An <see cref="IShellLink"/> object that identifies the item through a shortcut.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Set this parameter to <see cref="NULL"/> to clear all usage data on all items.
+        /// </para>
         /// </param>
         /// <remarks>
-        /// The usage statistics gathered through calls to this method are used
-        /// to determine lists of items accessed most recently and most frequently.
-        /// These lists are seen in the Start menu and, in Windows 7 and later, in an application's Jump List.
+        /// <para>
+        /// The usage statistics gathered through calls to this method are used to determine lists of items accessed most recently and most frequently.
+        /// These lists are seen in the Start menu and, in Windows 7 and later, in an application's Jump List.
+        /// </para>
+        /// <para>
         /// When this method is called, it affects the following areas:
-        /// Updates the Recent and Frequent lists for the associated application's Jump List.
-        /// Adds a shortcut to the user's Recent folder (<see cref="FOLDERID_Recent"/>, <see cref="CSIDL_RECENT"/>).
-        /// This is reflected in the My Recent Documents (Windows XP) and Recent Items (Windows Vista and later) menu in the Start menu.
-        /// Adds a shortcut to the Classic Start menu's Documents submenu.
-        /// (Note that the Classic Start menu option is not available in Windows 7 and later.)
-        /// Items represented by an <see cref="IShellLink"/> are not added to the Recent folder,
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Updates the Recent and Frequent lists for the associated application's Jump List.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Adds a shortcut to the user's Recent folder (<see cref="FOLDERID_Recent"/>, <see cref="CSIDL_RECENT"/>).
+        /// This is reflected in the My Recent Documents (Windows XP) and Recent Items (Windows Vista and later) menu in the Start menu.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Adds a shortcut to the Classic Start menu's Documents submenu.
+        /// (Note that the Classic Start menu option is not available in Windows 7 and later.)
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Items represented by an <see cref="IShellLink"/> are not added to the Recent folder,
         /// although they are reflected in an application's Jump List.
-        /// In some cases, notably when a user opens an item through Windows Explorer or uses the common file dialog to open,
-        /// save, or create a file, the Shell calls <see cref="SHAddToRecentDocs"/> on behalf of the application.
-        /// An application that has a custom UI for selecting items should call <see cref="SHAddToRecentDocs"/> explicitly
-        /// to ensure accurate statistics.
+        /// </para>
+        /// <para>
+        /// In some cases, notably when a user opens an item through Windows Explorer or uses the common file dialog to open, save, or create a file,
+        /// the Shell calls <see cref="SHAddToRecentDocs"/> on behalf of the application.
+        /// An application that has a custom UI for selecting items should call <see cref="SHAddToRecentDocs"/> explicitly to ensure accurate statistics.
         /// Duplicate calls are accounted for by the system so there is no risk of skewing the data by doing so.
-        /// Executable(.exe) files are filtered from the recently used documents list in Windows XP and later versions.
-        /// Although <see cref="SHAddToRecentDocs"/> will accept the path of an executable file, that file will not appear in the Recent Items list.
-        /// Folders are also accepted by <see cref="SHAddToRecentDocs"/>, but appear only in the Jump List for the Windows Explorer taskbar button.
+        /// </para>
+        /// <para>
+        /// Executable (.exe) files are filtered from the recently used documents list in Windows XP and later versions.
+        /// Although <see cref="SHAddToRecentDocs"/> will accept the path of an executable file, that file will not appear in the Recent Items list.
+        /// </para>
+        /// <para>
+        /// Folders are also accepted by <see cref="SHAddToRecentDocs"/>, but appear only in the Jump List for the Windows Explorer taskbar button.
         /// Folders do not appear in any other application's Jump List.
-        /// In certain cases, <see cref="SHAddToRecentDocs"/> attempts to register an application to handle a file type
-        /// that it is not registered to handle.
+        /// </para>
+        /// <para>
+        /// In certain cases, <see cref="SHAddToRecentDocs"/> attempts to register an application
+        /// to handle a file type that it is not registered to handle.
         /// This occurs under these circumstances:
-        /// An application explicitly calls <see cref="SHAddToRecentDocs"/> with a file type that it is not registered to handle.
-        /// This also applies to calls made to <see cref="SHAddToRecentDocs"/> by the common file dialog on behalf of the application,
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// An application explicitly calls <see cref="SHAddToRecentDocs"/> with a file type that it is not registered to handle.
+        /// This also applies to calls made to <see cref="SHAddToRecentDocs"/> by the common file dialog on behalf of the application,
         /// but only when the dialog is used to open a file, not when it is used to save one.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The user drops a file of a type that the application is not registered to handle on the application's taskbar button.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// This registration is done per-user.
+        /// </para>
+        /// <para>
         /// A set of requirements must be met for the registration to be accomplished successfully:
-        /// The application must be registered under HKEY_CLASSES_ROOT\Applications.
-        /// That registration cannot include the NoOpenWith value. See File Types for more details on NoOpenWith.
-        /// That registration cannot supply data under a SupportedTypes subkey. See File Types for more details on the SupportedTypes subkey.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The application must be registered under <c>HKEY_CLASSES_ROOT\Applications</c>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// That registration cannot include the NoOpenWith value.
+        /// See File Types for more details on NoOpenWith.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// That registration cannot supply data under a <c>SupportedTypes</c> subkey.
+        /// See File Types for more details on the <c>SupportedTypes</c> subkey.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
         /// The application's executable file cannot be listed in the KillList value found here:
-        /// HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\FileAssociation\KillList
-        /// Note Third party applications should not modify the KillList value. It should be regarded as read-only.
-        /// The application's HKEY_CLASSES_ROOT\Applications registration must have a set of default verbs defined
-        /// under a HKEY_CLASSES_ROOT\Applications\ExampleApp.exe\shell subkey.
-        /// If <see cref="SHAddToRecentDocs"/> is attempting the registration as the result of a drag-and-drop onto the taskbar button,
-        /// the shell subkey is created if it does not already exist, as long as the existing application registration does not contain 
-        /// a NoOpenWith value and the application's executable is not listed in the KillList value.
+        /// </para>
+        /// <code>
+        /// HKEY_LOCAL_MACHINE
+        ///    Software
+        ///       Microsoft
+        ///          Windows
+        ///             CurrentVersion
+        ///                Explorer
+        ///                   FileAssociation
+        ///                      KillList
+        /// </code>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Third party applications should not modify the KillList value. It should be regarded as read-only.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// The application's <c>HKEY_CLASSES_ROOT\Applications</c> registration must have a set of default verbs
+        /// defined under a <c>HKEY_CLASSES_ROOT\Applications\ExampleApp.exe\shell</c> subkey.
+        /// </para>
+        /// <para>
+        /// If <see cref="SHAddToRecentDocs"/> is attempting the registration as the result of a drag-and-drop onto the taskbar button,
+        /// the <c>shell</c> subkey is created if it does not already exist, as long as the existing application registration
+        /// does not contain a NoOpenWith value and the application's executable is not listed in the KillList value.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Suppressing Calls to <see cref="SHAddToRecentDocs"/>
-        /// In versions of Windows before Windows 7, a file type could set the <see cref="FTA_NoRecentDocs"/> flag
-        /// to prevent that file type from being added to the Recent folder.
-        /// This mechanism is also supported under Windows 7 and later.See File Types for more information.
-        /// <see cref="SHAddToRecentDocs"/> tracks document usage statistics through the verbs that are invoked to access those documents.
-        /// Verbs supplied by registered <see cref="IContextMenu"/> handlers are tracked,
-        /// those items appear in My Recent Documents (Windows XP) and Recent Items (Windows Vista).
-        /// In Windows 7, the parent folders of the documents appear in the Jump List for the Windows Explorer taskbar button.
-        /// However, the documents accessed through those <see cref="IContextMenu"/> verbs do not appear in application Jump Lists.
-        /// For those items to appear in an application's Jump List, an application must call <see cref="SHAddToRecentDocs"/> explicitly.
-        /// Prior to Windows 7, only the open verb resulted in a call to <see cref="SHAddToRecentDocs"/>.
-        /// In Windows 7 and later, other verbs can also generate usage statistics.
+        /// </para>
+        /// <para>
+        /// In versions of Windows before Windows 7, a file type could set the <see cref="FTA_NoRecentDocs"/> flag
+        /// to prevent that file type from being added to the Recent folder.
+        /// This mechanism is also supported under Windows 7 and later.
+        /// See File Types for more information.
+        /// </para>
+        /// <para>
+        /// <see cref="SHAddToRecentDocs"/> tracks document usage statistics through the verbs that are invoked to access those documents.
+        /// Verbs supplied by registered <see cref="IContextMenu"/> handlers are tracked,
+        /// those items appear in My Recent Documents (Windows XP) and Recent Items (Windows Vista).
+        /// In Windows 7, the parent folders of the documents appear in the Jump List for the Windows Explorer taskbar button.
+        /// However, the documents accessed through those <see cref="IContextMenu"/> verbs do not appear in application Jump Lists.
+        /// For those items to appear in an application's Jump List, an application must call <see cref="SHAddToRecentDocs"/> explicitly.
+        /// </para>
+        /// <para>
+        /// Prior to Windows 7, only the <c>open</c> verb resulted in a call to <see cref="SHAddToRecentDocs"/>.
+        /// In Windows 7 and later, other verbs can also generate usage statistics.
         /// This information is used to make a Jump List's destinations more complete and accurate.
-        /// However, some classes of file type association registrations or individual <see cref="IContextMenu"/> implementations
+        /// </para>
+        /// <para>
+        /// However, some classes of file type association registrations or individual <see cref="IContextMenu"/> implementations
         /// are not appropriate for this sort of tracking.
         /// The point of usage tracking is to generate a list of items that the user is likely to want to access again.
-        /// If a particular verb—delete, for instance—is inherently invoked on an item that the user will not access again,
+        /// If a particular verb—<c>delete</c>, for instance—is inherently invoked on an item that the user will not access again,
         /// or is a secondary action such as a virus scan on a file, that verb is not appropriate for tracking.
         /// File type classes should remove themselves from this tracking through the registry entry NoRecentDocs.
-        /// NoRecentDocs is of type REG_SZ and has no associated data.
-        /// Its presence is all that is required to prevent the call to <see cref="SHAddToRecentDocs"/>.
-        /// For example, context menu extensions and static verbs registered under <see cref="HKEY_CLASSES_ROOT"/> in classes
+        /// NoRecentDocs is of type <see cref="REG_SZ"/> and has no associated data.
+        /// Its presence is all that is required to prevent the call to <see cref="SHAddToRecentDocs"/>.
+        /// </para>
+        /// <para>
+        /// For example, context menu extensions and static verbs registered under <see cref="HKEY_CLASSES_ROOT"/> in classes
         /// such as "*", "AllFileSystemObjects", or "Folder" should not be tracked.
-        /// In cases such as these, the NoRecentDocs entry is added to the root of the class key
-        /// as shown here to suppress tracking of documents launched through any verb or extension registered to that class:
-        /// HKEY_CLASSES_ROOT\AllFileSystemObjects\NoRecentDocs
-        /// The NoRecentDocs entry is assigned by default to the*, AllFileSystemObjects, Folder, Directory, and DesktopBackground class subkeys.
-        /// Individual <see cref="IContextMenu"/> implementations can opt out of tracking by adding a NoRecentDocs subkey
-        /// to its Component Object Model(COM) object's registration, in its shellex subkey, as shown here:
-        /// HKEY_CLASSES_ROOT\CLSID\{093C7AAB-5E72-454f-A91D-CA1BC991FCEC}\shellex\NoRecentDocs
-        /// This subkey is not present by default on any <see cref="IContextMenu"/> implementation.
+        /// In cases such as these, the NoRecentDocs entry is added to the root of the class key as shown here
+        /// to suppress tracking of documents launched through any verb or extension registered to that class:
+        /// </para>
+        /// <code>
+        /// HKEY_CLASSES_ROOT
+        ///    AllFileSystemObjects
+        ///       NoRecentDocs
+        /// </code>
+        /// <para>
+        /// The NoRecentDocs entry is assigned by default to the *, <c>AllFileSystemObjects</c>, <c>Folder</c>,
+        /// <c>Directory</c>, and <c>DesktopBackground</c> class subkeys.
+        /// </para>
+        /// <para>
+        /// Individual <see cref="IContextMenu"/> implementations can opt out of tracking by adding a NoRecentDocs subkey
+        /// to its Component Object Model (COM) object's registration, in its <c>shellex</c> subkey, as shown here:
+        /// </para>
+        /// <code>
+        /// HKEY_CLASSES_ROOT
+        ///    CLSID
+        ///       {093C7AAB-5E72-454f-A91D-CA1BC991FCEC}
+        ///          shellex
+        ///             NoRecentDocs
+        /// </code>
+        /// <para>
+        /// This subkey is not present by default on any <see cref="IContextMenu"/> implementation.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHAddToRecentDocs", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHAddToRecentDocs", ExactSpelling = true)]
         public static extern void SHAddToRecentDocs([In] SHARD uFlags, [In] LPCVOID pv);
 
         /// <summary>
@@ -541,19 +897,25 @@ namespace Lsj.Util.Win32
         /// You must release the object when you are finished.
         /// </param>
         /// <param name="ppidlLast">
+        /// <para>
         /// The item's PIDL relative to the parent folder.
         /// This PIDL can be used with many of the methods supported by the parent folder's interfaces.
         /// If you set <paramref name="ppidlLast"/> to <see cref="NullRef{LPCITEMIDLIST}"/>, the PIDL is not returned.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="SHBindToParent"/> does not allocate a new PIDL; it simply receives a pointer through this parameter.
         /// Therefore, you are not responsible for freeing this resource.
+        /// </para>
         /// </param>
         /// <returns>
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBindToParent", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBindToParent", ExactSpelling = true)]
         public static extern HRESULT SHBindToParent([In] LPCITEMIDLIST pidl, [In][Out] ref IID riid,
             [Out] out object ppv, [Out] out LPCITEMIDLIST ppidlLast);
 
@@ -569,66 +931,122 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="BROWSEINFO"/> structure that contains information used to display the dialog box.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a PIDL that specifies the location of the selected folder relative to the root of the namespace.
-        /// If the user chooses the Cancel button in the dialog box, the return value is <see cref="NULL"/>.
+        /// If the user chooses the Cancel button in the dialog box, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
         /// It is possible that the PIDL returned is that of a folder shortcut rather than a folder.
         /// For a full discussion of this case, see the Remarks section.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// For Windows Vista or later, it is recommended that you use <see cref="IFileDialog"/>
+        /// <para>
+        /// For Windows Vista or later, it is recommended that you use <see cref="IFileDialog"/>
         /// with the <see cref="FOS_PICKFOLDERS"/> option rather than the <see cref="SHBrowseForFolder"/> function.
         /// This uses the Open Files dialog in pick folders mode and is the preferred implementation.
-        /// You must initialize Component Object Model (COM) before you call <see cref="SHBrowseForFolder"/>.
-        /// If you initialize COM using <see cref="CoInitializeEx"/>,
-        /// you must set the <see cref="COINIT_APARTMENTTHREADED"/> flag in its dwCoInit parameter.
-        /// You can also use <see cref="CoInitialize"/> or <see cref="OleInitialize"/>, which always use apartment threading.
-        /// If you require drag-and-drop functionality,
-        /// <see cref="OleInitialize"/> is recommended because it initializes the required OLE as well as COM.
-        /// Note If COM is initialized using <see cref="CoInitializeEx"/> with the <see cref="COINIT_MULTITHREADED"/> flag,
-        /// <see cref="SHBrowseForFolder"/> fails if the calling application
-        /// uses the <see cref="BIF_USENEWUI"/> or <see cref="BIF_NEWDIALOGSTYLE"/> flag in the <see cref="BROWSEINFO"/> structure.
-        /// It is the responsibility of the calling application to call <see cref="CoTaskMemFree"/> 
-        /// to free the IDList returned by <see cref="SHBrowseForFolder"/> when it is no longer needed.
-        /// There are two styles of dialog box available. The older style is displayed by default and is not resizable. 
-        /// The newer style provides a number of additional features, including drag-and-drop capability within the dialog box,
-        /// reordering, deletion, shortcut menus, the ability to create new folders, and other shortcut menu commands.
+        /// </para>
+        /// <para>
+        /// You must initialize Component Object Model (COM) before you call <see cref="SHBrowseForFolder"/>.
+        /// If you initialize COM using <see cref="CoInitializeEx"/>,
+        /// you must set the <see cref="COINIT_APARTMENTTHREADED"/> flag in its dwCoInit parameter.
+        /// You can also use <see cref="CoInitialize"/> or <see cref="OleInitialize"/>, which always use apartment threading.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// If COM is initialized using <see cref="CoInitializeEx"/> with the <see cref="COINIT_MULTITHREADED"/> flag,
+        /// <see cref="SHBrowseForFolder"/> fails if the calling application
+        /// uses the <see cref="BIF_USENEWUI"/> or <see cref="BIF_NEWDIALOGSTYLE"/> flag in the <see cref="BROWSEINFO"/> structure.
+        /// It is the responsibility of the calling application to call <see cref="CoTaskMemFree"/> to free the IDList
+        /// returned by <see cref="SHBrowseForFolder"/> when it is no longer needed.
+        /// </para>
+        /// <para>
+        /// There are two styles of dialog box available.
+        /// The older style is displayed by default and is not resizable.
+        /// The newer style provides a number of additional features, including drag-and-drop capability
+        /// within the dialog box, reordering, deletion, shortcut menus, the ability to create new folders, and other shortcut menu commands.
         /// Initially, it is larger than the older dialog box, but the user can resize it.
-        /// To specify a dialog box using the newer style, set the <see cref="BIF_USENEWUI"/> flag
-        /// in the <see cref="BROWSEINFO.ulFlags"/> member of the <see cref="BROWSEINFO"/> structure.
-        /// If you implement a callback function, specified in the <see cref="BROWSEINFO.lpfn"/> member
-        /// of the <see cref="BROWSEINFO"/> structure, you receive a handle to the dialog box.
+        /// To specify a dialog box using the newer style, set the <see cref="BIF_USENEWUI"/> flag
+        /// in the <see cref="BROWSEINFO.ulFlags"/> member of the <see cref="BROWSEINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// If you implement a callback function, specified in the <see cref="BROWSEINFO.lpfn"/> member
+        /// of the <see cref="BROWSEINFO"/> structure, you receive a handle to the dialog box.
         /// One use of this window handle is to modify the layout or contents of the dialog box.
         /// Because it is not resizable, modifying the older style dialog box is relatively straightforward.
         /// Modifying the newer style dialog box is much more difficult, and not recommended.
         /// Not only does it have a different size and layout than the old style,
         /// but its dimensions and the positions of its controls change every time it is resized by the user.
-        /// If the <see cref="BIF_RETURNONLYFSDIRS"/> flag is set in the <see cref="BROWSEINFO.ulFlags"/> member
-        /// of the <see cref="BROWSEINFO"/> structure, the OK button remains enabled for "\server" items, 
-        /// as well as "\server\share" and directory items.
-        /// However, if the user selects a "\server" item, passing the PIDL
-        /// returned by <see cref="SHBrowseForFolder"/> to <see cref="SHGetPathFromIDList"/> fails.
+        /// </para>
+        /// <para>
+        /// If the <see cref="BIF_RETURNONLYFSDIRS"/> flag is set in the <see cref="BROWSEINFO.ulFlags"/> member
+        /// of the <see cref="BROWSEINFO"/> structure, the OK button remains enabled for "\server" items, as well as "\server\share" and directory items.
+        /// However, if the user selects a "\server" item,
+        /// passing the PIDL returned by <see cref="SHBrowseForFolder"/> to <see cref="SHGetPathFromIDList"/> fails.
+        /// </para>
+        /// <para>
         /// Custom Filtering
-        /// As of Windows XP, <see cref="SHBrowseForFolder"/> supports custom filtering on the contents of the dialog box.
+        /// </para>
+        /// <para>
+        /// As of Windows XP, <see cref="SHBrowseForFolder"/> supports custom filtering on the contents of the dialog box.
         /// To create a custom filter, follow these steps.
-        /// Set the <see cref="BIF_NEWDIALOGSTYLE"/> flag in the <see cref="BROWSEINFO.ulFlags"/> member
-        /// of the <see cref="BROWSEINFO"/> structure pointed to by the <paramref name="lpbi"/> parameter.
-        /// Specify a callback function in the <see cref="BROWSEINFO.lpfn"/> member of that same <see cref="BROWSEINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Set the <see cref="BIF_NEWDIALOGSTYLE"/> flag in the <see cref="BROWSEINFO.ulFlags"/> member
+        /// of the <see cref="BROWSEINFO"/> structure pointed to by the <paramref name="lpbi"/> parameter.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Specify a callback function in the <see cref="BROWSEINFO.lpfn"/> member of that same <see cref="BROWSEINFO"/> structure.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Code the callback function to receive the <see cref="BFFM_INITIALIZED"/> and <see cref="BFFM_IUNKNOWN"/> messages.
-        /// On receipt of the <see cref="BFFM_IUNKNOWN"/> message, the callback function's lParam parameter
-        /// contains a pointer to the dialog box's implementation of <see cref="IUnknown"/>.
-        /// Call QueryInterface on that <see cref="IUnknown"/> to obtain a pointer to an instance of <see cref="IFolderFilterSite"/>.
-        /// Create an object that implements <see cref="IFolderFilter"/>.
-        /// Call <see cref="IFolderFilterSite.SetFilter"/>, passing to it a pointer to your <see cref="IFolderFilter"/>.
-        /// <see cref="IFolderFilter"/> methods can then be used to include and exclude items from the tree.
-        /// Once the filter is created, the <see cref="IFolderFilterSite"/> interface is no longer needed.
-        /// Call IFolderFilterSite::Release if you have no further use for it.
+        /// On receipt of the <see cref="BFFM_IUNKNOWN"/> message,
+        /// the callback function's lParam parameter contains a pointer to the dialog box's implementation of <see cref="IUnknown"/>.
+        /// Call <see cref="IUnknown.QueryInterface"/> on that <see cref="IUnknown"/> to obtain a pointer to an instance of <see cref="IFolderFilterSite"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Create an object that implements <see cref="IFolderFilter"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call <see cref="IFolderFilterSite.SetFilter"/>, passing to it a pointer to your <see cref="IFolderFilter"/>.
+        /// <see cref="IFolderFilter"/> methods can then be used to include and exclude items from the tree.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Once the filter is created, the <see cref="IFolderFilterSite"/> interface is no longer needed.
+        /// Call <see cref="IFolderFilterSite.Release"/> if you have no further use for it.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Dealing With Shortcuts
-        /// Note  This section applies to only Windows 2000 and earlier systems.By default
-        /// , Windows XP and later systems return the PIDL of a shortcut's target rather than the shortcut itself,
-        /// as long as the <see cref="BIF_NOTRANSLATETARGETS"/> flag is not set in the <see cref="BROWSEINFO"/> structure.
-        /// If <see cref="SHBrowseForFolder"/> returns a PIDL to a shortcut,
-        /// sending that PIDL to <see cref="SHGetPathFromIDList"/> returns the path of the shortcut itself rather than the path of its target.
-        /// The path to the shortcut's target can be obtained by using the <see cref="IShellLink"/> interface as shown in this example.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This section applies to only Windows 2000 and earlier systems.
+        /// By default, Windows XP and later systems return the PIDL of a shortcut's target rather than the shortcut itself,
+        /// as long as the <see cref="BIF_NOTRANSLATETARGETS"/> flag is not set in the <see cref="BROWSEINFO"/> structure.
+        /// If <see cref="SHBrowseForFolder"/> returns a PIDL to a shortcut,
+        /// sending that PIDL to <see cref="SHGetPathFromIDList"/> returns the path of the shortcut itself rather than the path of its target.
+        /// The path to the shortcut's target can be obtained by using the <see cref="IShellLink"/> interface as shown in this example.
+        /// </para>
         /// <code>
         /// #include
         /// // Macros for interface casts
@@ -817,150 +1235,284 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="wEventId">
+        /// <para>
         /// Describes the event that has occurred.
         /// Typically, only one event is specified at a time.
-        /// If more than one event is specified, the values contained in the <paramref name="dwItem1"/>
-        /// and <paramref name="dwItem2"/> parameters must be the same, respectively, for all specified events.
+        /// If more than one event is specified, the values contained in the <paramref name="dwItem1"/> and <paramref name="dwItem2"/> parameters
+        /// must be the same, respectively, for all specified events.
         /// This parameter can be one or more of the following values:
-        /// <see cref="SHCNE_ALLEVENTS"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_ALLEVENTS"/>
+        /// </para>
+        /// <para>
         /// All events have occurred.
-        /// <see cref="SHCNE_ASSOCCHANGED"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_ASSOCCHANGED"/>
+        /// </para>
+        /// <para>
         /// A file type association has changed.
-        /// <see cref="SHCNF_IDLIST"/> must be specified in the <paramref name="uFlags"/> parameter.
-        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are not used and must be <see cref="NULL"/>.
+        /// <see cref="SHCNF_IDLIST"/> must be specified in the <paramref name="uFlags"/> parameter.
+        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are not used and must be <see cref="NULL"/>.
         /// This event should also be sent for registered protocols.
-        /// <see cref="SHCNE_ATTRIBUTES"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_ATTRIBUTES"/>
+        /// </para>
+        /// <para>
         /// The attributes of an item or folder have changed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the item or folder that has changed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_CREATE"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the item or folder that has changed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_CREATE"/>
+        /// </para>
+        /// <para>
         /// A nonfolder item has been created.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the item that was created.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_DELETE"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the item that was created.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_DELETE"/>
+        /// </para>
+        /// <para>
         /// A nonfolder item has been deleted.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the item that was deleted.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_DRIVEADD"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the item that was deleted.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_DRIVEADD"/>
+        /// </para>
+        /// <para>
         /// A drive has been added.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the root of the drive that was added.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_DRIVEADDGUI"/>:
-        /// Windows XP and later: Not used.
-        /// <see cref="SHCNE_DRIVEREMOVED"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the root of the drive that was added.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_DRIVEADDGUI"/>
+        /// </para>
+        /// <para>
+        /// Windows XP and later: Not used.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_DRIVEREMOVED"/>
+        /// </para>
+        /// <para>
         /// A drive has been removed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the root of the drive that was removed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_EXTENDED_EVENT"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the root of the drive that was removed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_EXTENDED_EVENT"/>
+        /// </para>
+        /// <para>
         /// Not currently used.
-        /// <see cref="SHCNE_FREESPACE"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_FREESPACE"/>
+        /// </para>
+        /// <para>
         /// The amount of free space on a drive has changed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the root of the drive on which the free space changed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_MEDIAINSERTED"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the root of the drive on which the free space changed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_MEDIAINSERTED"/>
+        /// </para>
+        /// <para>
         /// Storage media has been inserted into a drive.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the root of the drive that contains the new media.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_MEDIAREMOVED"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the root of the drive that contains the new media.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_MEDIAREMOVED"/>
+        /// </para>
+        /// <para>
         /// Storage media has been removed from a drive.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the root of the drive from which the media was removed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_MKDIR"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the root of the drive from which the media was removed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_MKDIR"/>
+        /// </para>
+        /// <para>
         /// A folder has been created.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the folder that was created.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_NETSHARE"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the folder that was created.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_NETSHARE"/>
+        /// </para>
+        /// <para>
         /// A folder on the local computer is being shared via the network.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the folder that is being shared.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_NETUNSHARE"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the folder that is being shared.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_NETUNSHARE"/>
+        /// </para>
+        /// <para>
         /// A folder on the local computer is no longer being shared via the network.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the folder that is no longer being shared.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_RENAMEFOLDER"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the folder that is no longer being shared.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_RENAMEFOLDER"/>
+        /// </para>
+        /// <para>
         /// The name of a folder has changed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the previous PIDL or name of the folder.
-        /// <paramref name="dwItem2"/> contains the new PIDL or name of the folder.
-        /// <see cref="SHCNE_RENAMEITEM"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the previous PIDL or name of the folder.
+        /// <paramref name="dwItem2"/> contains the new PIDL or name of the folder.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_RENAMEITEM"/>
+        /// </para>
+        /// <para>
         /// The name of a nonfolder item has changed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the previous PIDL or name of the item.
-        /// <paramref name="dwItem2"/> contains the new PIDL or name of the item.
-        /// <see cref="SHCNE_RMDIR"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the previous PIDL or name of the item.
+        /// <paramref name="dwItem2"/> contains the new PIDL or name of the item.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_RMDIR"/>
+        /// </para>
+        /// <para>
         /// A folder has been removed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the folder that was removed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_SERVERDISCONNECT"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the folder that was removed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_SERVERDISCONNECT"/>
+        /// </para>
+        /// <para>
         /// The computer has disconnected from a server.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the server from which the computer was disconnected.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_UPDATEDIR"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the server from which the computer was disconnected.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_UPDATEDIR"/>
+        /// </para>
+        /// <para>
         /// The contents of an existing folder have changed, but the folder still exists and has not been renamed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the folder that has changed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// If a folder has been created, deleted, or renamed, use <see cref="SHCNE_MKDIR"/>,
-        /// <see cref="SHCNE_RMDIR"/>, or <see cref="SHCNE_RENAMEFOLDER"/>, respectively.
-        /// <see cref="SHCNE_UPDATEIMAGE"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the folder that has changed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// If a folder has been created, deleted, or renamed,
+        /// use <see cref="SHCNE_MKDIR"/>, <see cref="SHCNE_RMDIR"/>, or <see cref="SHCNE_RENAMEFOLDER"/>, respectively.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_UPDATEIMAGE"/>
+        /// </para>
+        /// <para>
         /// An image in the system image list has changed.
-        /// <see cref="SHCNF_DWORD"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem2"/> contains the index in the system image list that has changed.
-        /// <paramref name="dwItem1"/> is not used and should be <see cref="NULL"/>.
-        /// <see cref="SHCNE_UPDATEITEM"/>:
+        /// <see cref="SHCNF_DWORD"/> must be specified in <paramref name="uFlags"/>.
+        /// </para>
+        /// <para>
+        /// <paramref name="dwItem2"/> contains the index in the system image list that has changed.
+        /// <paramref name="dwItem1"/> is not used and should be <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_UPDATEITEM"/>
+        /// </para>
+        /// <para>
         /// An existing item (a folder or a nonfolder) has changed, but the item still exists and has not been renamed.
-        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
-        /// <paramref name="dwItem1"/> contains the item that has changed.
-        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
-        /// If a nonfolder item has been created, deleted, or renamed, use <see cref="SHCNE_CREATE"/>,
-        /// <see cref="SHCNE_DELETE"/>, or <see cref="SHCNE_RENAMEITEM"/>, respectively, instead.
-        /// <see cref="SHCNE_DISKEVENTS"/>:
+        /// <see cref="SHCNF_IDLIST"/> or <see cref="SHCNF_PATH"/> must be specified in <paramref name="uFlags"/>.
+        /// <paramref name="dwItem1"/> contains the item that has changed.
+        /// <paramref name="dwItem2"/> is not used and should be <see cref="NULL"/>.
+        /// If a nonfolder item has been created, deleted, or renamed,
+        /// use <see cref="SHCNE_CREATE"/>, <see cref="SHCNE_DELETE"/>, or <see cref="SHCNE_RENAMEITEM"/>, respectively, instead.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_DISKEVENTS"/>
+        /// </para>
+        /// <para>
         /// Specifies a combination of all of the disk event identifiers.
-        /// <see cref="SHCNE_GLOBALEVENTS"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_GLOBALEVENTS"/>
+        /// </para>
+        /// <para>
         /// Specifies a combination of all of the global event identifiers.
-        /// <see cref="SHCNE_INTERRUPT"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNE_INTERRUPT"/>
+        /// </para>
+        /// <para>
         /// The specified event occurred as a result of a system interrupt.
         /// As this value modifies other event values, it cannot be used alone.
+        /// </para>
         /// </param>
         /// <param name="uFlags">
-        /// Flags that, when combined bitwise with <see cref="SHCNF_TYPE"/>,
-        /// indicate the meaning of the <paramref name="dwItem1"/> and <paramref name="dwItem2"/> parameters.
-        /// The <paramref name="uFlags"/> parameter must be one of the following values.
-        /// <see cref="SHCNF_DWORD"/>:
-        /// The <paramref name="dwItem1"/> and <paramref name="dwItem2"/> parameters are <see cref="DWORD"/> values.
-        /// <see cref="SHCNF_IDLIST"/>:
-        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of <see cref="ITEMIDLIST"/> structures
+        /// <para>
+        /// Flags that, when combined bitwise with <see cref="SHCNF_TYPE"/>,
+        /// indicate the meaning of the <paramref name="dwItem1"/> and <paramref name="dwItem2"/> parameters.
+        /// The <paramref name="uFlags"/> parameter must be one of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_DWORD"/>
+        /// </para>
+        /// <para>
+        /// The <paramref name="dwItem1"/> and <paramref name="dwItem2"/> parameters are <see cref="DWORD"/> values.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_IDLIST"/>
+        /// </para>
+        /// <para>
+        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of <see cref="ITEMIDLIST"/> structures
         /// that represent the item(s) affected by the change.
-        /// Each <see cref="ITEMIDLIST"/> must be relative to the desktop folder.
-        /// <see cref="SHCNF_PATH"/>:
-        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of null-terminated strings
-        /// of maximum length <see cref="MAX_PATH"/> that contain the full path names of the items affected by the change.
-        /// <see cref="SHCNF_PRINTER"/>:
-        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of null-terminated strings
+        /// Each <see cref="ITEMIDLIST"/> must be relative to the desktop folder.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_PATH"/>
+        /// </para>
+        /// <para>
+        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of null-terminated strings
+        /// of maximum length <see cref="MAX_PATH"/> that contain the full path names of the items affected by the change.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_PRINTER"/>
+        /// </para>
+        /// <para>
+        /// <paramref name="dwItem1"/> and <paramref name="dwItem2"/> are the addresses of null-terminated strings
         /// that represent the friendly names of the printer(s) affected by the change.
-        /// <see cref="SHCNF_FLUSH"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_FLUSH"/>
+        /// </para>
+        /// <para>
         /// The function should not return until the notification has been delivered to all affected components.
         /// As this flag modifies other data-type flags, it cannot be used by itself.
-        /// <see cref="SHCNF_FLUSHNOWAIT"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_FLUSHNOWAIT"/>
+        /// </para>
+        /// <para>
         /// The function should begin delivering notifications to all affected components
         /// but should return as soon as the notification process has begun.
         /// As this flag modifies other data-type flags, it cannot by used by itself.
-        /// This flag includes <see cref="SHCNF_FLUSH"/>.
-        /// <see cref="SHCNF_NOTIFYRECURSIVE"/>:
+        /// This flag includes <see cref="SHCNF_FLUSH"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SHCNF_NOTIFYRECURSIVE"/>
+        /// </para>
+        /// <para>
         /// Notify clients registered for all children.
+        /// </para>
         /// </param>
         /// <param name="dwItem1">
         /// Optional. First event-dependent value.
@@ -969,21 +1521,23 @@ namespace Lsj.Util.Win32
         /// Optional. Second event-dependent value.
         /// </param>
         /// <remarks>
-        /// Applications that register new handlers of any type must call <see cref="SHChangeNotify"/>
-        /// with the <see cref="SHCNE_ASSOCCHANGED"/> flag to instruct the Shell to invalidate the icon and thumbnail cache.
+        /// <para>
+        /// Applications that register new handlers of any type must call <see cref="SHChangeNotify"/> with the <see cref="SHCNE_ASSOCCHANGED"/> flag
+        /// to instruct the Shell to invalidate the icon and thumbnail cache.
         /// This will also load new icon and thumbnail handlers that have been registered.
         /// Note, however, that icon overlay handlers are not reloaded.
-        /// The strings pointed to by <paramref name="dwItem1"/> and <paramref name="dwItem2"/> can be either ANSI or Unicode.
+        /// </para>
+        /// <para>
+        /// The strings pointed to by <paramref name="dwItem1"/> and <paramref name="dwItem2"/> can be either ANSI or Unicode.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHChangeNotify", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHChangeNotify", ExactSpelling = true)]
         public static extern void SHChangeNotify([In] ShellChangeNotifyEvents wEventId, [In] ShellChangeNotifyFlags uFlags, [In] LPCVOID dwItem1, [In] LPCVOID dwItem2);
 
         /// <summary>
         /// <para>
         /// Creates a new file system folder, with optional security attributes.
-        /// This function is available through Windows XP Service Pack 2 (SP2) and Windows Server 2003.
-        /// It might be altered or unavailable in subsequent versions of Windows.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shcreatedirectoryexw"/>
@@ -1002,38 +1556,101 @@ namespace Lsj.Util.Win32
         /// Set this parameter to <see cref="NullRef{SECURITY_ATTRIBUTES}"/> if no security attributes need to be set.
         /// </param>
         /// <returns>
-        /// Returns <see cref="ERROR_SUCCESS"/> if successful. If the operation fails, other error codes can be returned, including those listed here.
-        /// For values not specifically listed, see System Error Codes.
-        /// <see cref="ERROR_BAD_PATHNAME"/>:
-        /// The <paramref name="pszPath"/> parameter was set to a relative path.
-        /// <see cref="ERROR_FILENAME_EXCED_RANGE"/>:
-        /// The path pointed to by <paramref name="pszPath"/> is too long.
-        /// <see cref="ERROR_PATH_NOT_FOUND"/>:
-        /// The system cannot find the path pointed to by <paramref name="pszPath"/>. The path may contain an invalid entry.
-        /// <see cref="ERROR_FILE_EXISTS"/>:
+        /// <para>
+        /// Returns <see cref="ERROR_SUCCESS"/> if successful.
+        /// If the operation fails, other error codes can be returned, including those listed here.
+        /// For values not specifically listed, see System Error Codes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_BAD_PATHNAME"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="pszPath"/> parameter was set to a relative path.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FILENAME_EXCED_RANGE"/>
+        /// </term>
+        /// <term>
+        /// The path pointed to by <paramref name="pszPath"/> is too long.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The system cannot find the path pointed to by <paramref name="pszPath"/>. The path may contain an invalid entry.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FILE_EXISTS"/>
+        /// </term>
+        /// <term>
         /// The directory exists.
-        /// <see cref="ERROR_ALREADY_EXISTS"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ALREADY_EXISTS"/>
+        /// </term>
+        /// <term>
         /// The directory exists.
-        /// <see cref="ERROR_CANCELLED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_CANCELLED"/>
+        /// </term>
+        /// <term>
         /// The user canceled the operation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function creates a file system folder whose fully qualified path is given by <paramref name="pszPath"/>.
+        /// <para>
+        /// This function creates a file system folder whose fully qualified path is given by <paramref name="pszPath"/>.
         /// If one or more of the intermediate folders do not exist, they are created as well.
-        /// <see cref="SHCreateDirectoryEx"/> also verifies that the files are visible.
+        /// <see cref="SHCreateDirectoryEx"/> also verifies that the files are visible.
         /// If they are not visible, expect one of the following:
-        /// If <paramref name="hwnd"/> is set to a valid window handle,
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If <paramref name="hwnd"/> is set to a valid window handle,
         /// a message box is displayed warning the user that he or she might not be able to access the files.
-        /// If the user chooses not to proceed, the function returns <see cref="ERROR_CANCELLED"/>.
-        /// If <paramref name="hwnd"/> is set to <see cref="NULL"/>, no user interface is displayed and the function returns <see cref="ERROR_CANCELLED"/>.
-        /// The shlobj_core.h header defines <see cref="SHCreateDirectoryEx"/> as an alias which automatically selects
-        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead
-        /// to mismatches that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
+        /// If the user chooses not to proceed, the function returns <see cref="ERROR_CANCELLED"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <paramref name="hwnd"/> is set to <see cref="NULL"/>,
+        /// no user interface is displayed and the function returns <see cref="ERROR_CANCELLED"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
+        [Obsolete("This function is available through Windows XP Service Pack 2 (SP2) and Windows Server 2003. " +
+            "It might be altered or unavailable in subsequent versions of Windows.")]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHCreateDirectoryExW", ExactSpelling = true)]
         public static extern int SHCreateDirectoryEx([In] HWND hwnd, [In] LPCWSTR pszPath, [In] in SECURITY_ATTRIBUTES psa);
 
         /// <summary>
@@ -1041,7 +1658,7 @@ namespace Lsj.Util.Win32
         /// Provides a default handler to extract an icon from a file.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shdefextracticonw"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shdefextracticonw"/>
         /// </para>
         /// </summary>
         /// <param name="pszIconFile">
@@ -1054,10 +1671,16 @@ namespace Lsj.Util.Win32
         /// If this is a negative number, it refers to the icon's resource ID.
         /// </param>
         /// <param name="uFlags">
+        /// <para>
         /// A flag that controls the icon extraction.
-        /// <see cref="GIL_SIMULATEDOC"/>:
+        /// </para>
+        /// <para>
+        /// <see cref="GIL_SIMULATEDOC"/>
+        /// </para>
+        /// <para>
         /// Overlays the extracted icon on the default document icon to create the final icon.
         /// This icon can be used when no more appropriate icon can be found or retrieved.
+        /// </para>
         /// </param>
         /// <param name="phiconLarge">
         /// A pointer to an <see cref="HICON"/> that, when this function returns successfully,
@@ -1073,17 +1696,52 @@ namespace Lsj.Util.Win32
         /// Size is measured in pixels. Pass 0 to specify default large and small sizes.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function can return one of these values.
-        /// <see cref="S_OK"/>: Success.
-        /// <see cref="S_FALSE"/>: The requested icon is not present.
-        /// <see cref="E_FAIL"/>: The file cannot be accessed, or is being accessed through a slow link.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="S_OK"/>
+        /// </term>
+        /// <term>
+        /// Success.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="S_FALSE"/>
+        /// </term>
+        /// <term>
+        /// The requested icon is not present.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="E_FAIL"/>
+        /// </term>
+        /// <term>
+        /// The file cannot be accessed, or is being accessed through a slow link.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// It is the responsibility of the caller to free the icon resources created through this function when they are no longer needed.
         /// This can be done through the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDefExtractIconW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDefExtractIconW", ExactSpelling = true)]
         public static extern HRESULT SHDefExtractIcon([In] LPCWSTR pszIconFile, [In] int iIndex, [In] UINT uFlags,
             [Out] out HICON phiconLarge, [Out] out HICON phiconSmall, [In] UINT nIconSize);
 
@@ -1100,141 +1758,298 @@ namespace Lsj.Util.Win32
         /// This value can be <see cref="NULL"/> if the operation is not associated with a window.
         /// </param>
         /// <param name="lpOperation">
-        /// A pointer to a null-terminated string, referred to in this case as a verb, that specifies the action to be performed.
+        /// <para>
+        /// A pointer to a null-terminated string, referred to in this case as a verb, that specifies the action to be performed.
         /// The set of available verbs depends on the particular file or folder.
         /// Generally, the actions available from an object's shortcut menu are available verbs.
         /// The following verbs are commonly used:
-        /// edit:
-        /// Launches an editor and opens the document for editing. If <paramref name="lpFile"/> is not a document file, the function will fail.
-        /// explore:
-        /// Explores a folder specified by <paramref name="lpFile"/>.
-        /// find:
-        /// Initiates a search beginning in the directory specified by <paramref name="lpDirectory"/>.
-        /// open:
-        /// Opens the item specified by the <paramref name="lpFile"/> parameter. The item can be a file or folder.
-        /// print:
-        /// Prints the file specified by <paramref name="lpFile"/>. If <paramref name="lpFile"/> is not a document file, the function fails.
-        /// runas:
+        /// </para>
+        /// <para>
+        /// edit
+        /// </para>
+        /// <para>
+        /// Launches an editor and opens the document for editing.
+        /// If <paramref name="lpFile"/> is not a document file, the function will fail.
+        /// </para>
+        /// <para>
+        /// explore
+        /// </para>
+        /// <para>
+        /// Explores a folder specified by <paramref name="lpFile"/>.
+        /// </para>
+        /// <para>
+        /// find
+        /// </para>
+        /// <para>
+        /// Initiates a search beginning in the directory specified by <paramref name="lpDirectory"/>.
+        /// </para>
+        /// <para>
+        /// open
+        /// </para>
+        /// <para>
+        /// Opens the item specified by the <paramref name="lpFile"/> parameter.
+        /// The item can be a file or folder.
+        /// </para>
+        /// <para>
+        /// print
+        /// </para>
+        /// <para>
+        /// Prints the file specified by <paramref name="lpFile"/>.
+        /// If <paramref name="lpFile"/> is not a document file, the function fails.
+        /// </para>
+        /// <para>
+        /// runas
+        /// </para>
+        /// <para>
         /// Launches an application as Administrator.
-        /// User Account Control (UAC) will prompt the user for consent to run the application elevated or enter
-        /// the credentials of an administrator account used to run the application.
-        /// <see langword="null"/>:
+        /// User Account Control (UAC) will prompt the user for consent to run the application elevated
+        /// or enter the credentials of an administrator account used to run the application.
+        /// </para>
+        /// <para>
+        /// <see cref="NULL"/>
+        /// </para>
+        /// <para>
         /// The default verb is used, if available.
         /// If not, the "open" verb is used. If neither verb is available, the system uses the first verb listed in the registry.
+        /// </para>
         /// </param>
         /// <param name="lpFile">
-        /// A pointer to a null-terminated string that specifies the file or object on which to execute the specified verb.
+        /// <para>
+        /// A pointer to a null-terminated string that specifies the file or object on which to execute the specified verb.
         /// To specify a Shell namespace object, pass the fully qualified parse name.
-        /// Note that not all verbs are supported on all objects. For example, not all document types support the "print" verb.
-        /// If a relative path is used for the <paramref name="lpDirectory"/> parameter do not use a relative path for <paramref name="lpFile"/>.
+        /// Note that not all verbs are supported on all objects.
+        /// For example, not all document types support the "print" verb.
+        /// If a relative path is used for the <paramref name="lpDirectory"/> parameter do not use a relative path for <paramref name="lpFile"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpFile"/> specifies an executable file and "open" or "runas" verbs are used in <paramref name="lpOperation"/>,
+        /// the command line string of the launched process includes a trailing whitespace character.
+        /// </para>
         /// </param>
         /// <param name="lpParameters">
         /// If <paramref name="lpFile"/> specifies an executable file, this parameter is a pointer to a null-terminated string
         /// that specifies the parameters to be passed to the application.
         /// The format of this string is determined by the verb that is to be invoked.
-        /// If <paramref name="lpFile"/> specifies a document file, <paramref name="lpParameters"/> should be <see langword="null"/>.
+        /// If <paramref name="lpFile"/> specifies a document file, <paramref name="lpParameters"/> should be <see cref="NULL"/>.
         /// </param>
         /// <param name="lpDirectory">
         /// A pointer to a null-terminated string that specifies the default (working) directory for the action.
-        /// If this value is <see langword="null"/>, the current working directory is used.
+        /// If this value is <see cref="NULL"/> the current working directory is used.
         /// If a relative path is provided at <paramref name="lpFile"/>, do not use a relative path for <paramref name="lpDirectory"/>.
         /// </param>
         /// <param name="nShowCmd">
         /// The flags that specify how an application is to be displayed when it is opened.
-        /// If <paramref name="lpFile"/> specifies a document file, the flag is simply passed to the associated application.
+        /// If <paramref name="lpFile"/> specifies a document file, the flag is simply passed to the associated application.
         /// It is up to the application to decide how to handle it.
-        /// These values are defined in Winuser.h.
-        /// <see cref="SW_HIDE"/>:
-        /// Hides the window and activates another window.
-        /// <see cref="SW_MAXIMIZE"/>:
-        /// Maximizes the specified window.
-        /// <see cref="SW_MINIMIZE"/>:
-        /// Minimizes the specified window and activates the next top-level window in the z-order.
-        /// <see cref="SW_RESTORE"/>:
-        /// Activates and displays the window. If the window is minimized or maximized, Windows restores it to its original size and position.
-        /// An application should specify this flag when restoring a minimized window.
-        /// <see cref="SW_SHOW"/>:
-        /// Activates the window and displays it in its current size and position.
-        /// <see cref="SW_SHOWDEFAULT"/>:
-        /// Sets the show state based on the SW_ flag specified in the <see cref="STARTUPINFO"/> structure
-        /// passed to the <see cref="CreateProcess"/> function by the program that started the application.
-        /// An application should call <see cref="ShowWindow"/> with this flag to set the initial show state of its main window.
-        /// <see cref="SW_SHOWMAXIMIZED"/>:
-        /// Activates the window and displays it as a maximized window.
-        /// <see cref="SW_SHOWMINIMIZED"/>:
-        /// Activates the window and displays it as a minimized window.
-        /// <see cref="SW_SHOWMINNOACTIVE"/>:
-        /// Displays the window as a minimized window. The active window remains active.
-        /// <see cref="SW_SHOWNA"/>:
-        /// Displays the window in its current state. The active window remains active.
-        /// <see cref="SW_SHOWNOACTIVATE"/>:
-        /// Displays a window in its most recent size and position. The active window remains active.
-        /// <see cref="SW_SHOWNORMAL"/>:
-        /// Activates and displays a window. If the window is minimized or maximized, Windows restores it to its original size and position.
-        /// An application should specify this flag when displaying the window for the first time.
+        /// It can be any of the values that can be specified in the nCmdShow parameter for the <see cref="ShowWindow"/> function.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, it returns a value greater than 32.
         /// If the function fails, it returns an error value that indicates the cause of the failure.
         /// The return value is cast as an <see cref="HINSTANCE"/> for backward compatibility with 16-bit Windows applications.
-        /// It is not a true <see cref="HINSTANCE"/>, however. It can be cast only to an int and compared to either 32 or the following error codes below.
-        /// 0: The operating system is out of memory or resources.
-        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
-        /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
-        /// <see cref="ERROR_BAD_FORMAT"/>: The.exe file is invalid (non-Win32 .exe or error in .exe image).
-        /// <see cref="SE_ERR_ACCESSDENIED"/>: The operating system denied access to the specified file.
-        /// <see cref="SE_ERR_ASSOCINCOMPLETE"/>: The file name association is incomplete or invalid.
-        /// <see cref="SE_ERR_DDEBUSY"/>: The DDE transaction could not be completed because other DDE transactions were being processed.
-        /// <see cref="SE_ERR_DDEFAIL"/>: The DDE transaction failed.
-        /// <see cref="SE_ERR_DDETIMEOUT"/>: The DDE transaction could not be completed because the request timed out.
-        /// <see cref="SE_ERR_DLLNOTFOUND"/>: The specified DLL was not found.
-        /// <see cref="SE_ERR_FNF"/>: The specified file was not found.
-        /// <see cref="SE_ERR_NOASSOC"/>:
+        /// It is not a true <see cref="HINSTANCE"/>, however.
+        /// It can be cast only to an <see cref="INT_PTR"/> and compared to either 32 or the following error codes below.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The operating system is out of memory or resources.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The specified file was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The specified path was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_BAD_FORMAT"/>
+        /// </term>
+        /// <term>
+        /// The .exe file is invalid (non-Win32 .exe or error in .exe image).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_ACCESSDENIED"/>
+        /// </term>
+        /// <term>
+        /// The operating system denied access to the specified file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_ASSOCINCOMPLETE"/>
+        /// </term>
+        /// <term>
+        /// The file name association is incomplete or invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDEBUSY"/>
+        /// </term>
+        /// <term>
+        /// The DDE transaction could not be completed because other DDE transactions were being processed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDEFAIL"/>
+        /// </term>
+        /// <term>
+        /// The DDE transaction failed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDETIMEOUT"/>
+        /// </term>
+        /// <term>
+        /// The DDE transaction could not be completed because the request timed out.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DLLNOTFOUND"/>
+        /// </term>
+        /// <term>
+        /// The specified DLL was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_FNF"/>
+        /// </term>
+        /// <term>
+        /// The specified file was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_NOASSOC"/>
+        /// </term>
+        /// <term>
         /// There is no application associated with the given file name extension.
         /// This error will also be returned if you attempt to print a file that is not printable.
-        /// <see cref="SE_ERR_OOM"/>: There was not enough memory to complete the operation.
-        /// <see cref="SE_ERR_PNF"/>: The specified path was not found.
-        /// <see cref="SE_ERR_SHARE"/>: A sharing violation occurred.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_OOM"/>
+        /// </term>
+        /// <term>
+        /// There was not enough memory to complete the operation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_PNF"/>
+        /// </term>
+        /// <term>
+        /// The specified path was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_SHARE"/>
+        /// </term>
+        /// <term>
+        /// A sharing violation occurred.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Call <see cref="GetLastError"/> for extended error information.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Because <see cref="ShellExecute"/> can delegate execution to Shell extensions
         /// (data sources, context menu handlers, verb implementations)
         /// that are activated using Component Object Model (COM), COM should be initialized before <see cref="ShellExecute"/> is called.
         /// Some Shell extensions require the COM single-threaded apartment (STA) type.
         /// In that case, COM should be initialized as shown here:
+        /// </para>
         /// <code>
         /// CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
         /// </code>
-        /// There are certainly instances where <see cref="ShellExecute"/> does not use one of these types of Shell extension
+        /// <para>
+        /// There are certainly instances where <see cref="ShellExecute"/> does not use one of these types of Shell extension
         /// and those instances would not require COM to be initialized at all.
-        /// Nonetheless, it is good practice to always initalize COM before using this function.
+        /// Nonetheless, it is good practice to always initialize COM before using this function.
+        /// </para>
+        /// <para>
         /// This method allows you to execute any commands in a folder's shortcut menu or stored in the registry.
+        /// </para>
+        /// <para>
         /// To open a folder, use either of the following calls:
+        /// </para>
         /// <code>
         /// ShellExecute(handle, NULL, &lt;fully_qualified_path_to_folder&gt;, NULL, NULL, SW_SHOWNORMAL);
         /// </code>
+        /// <para>
         /// or
+        /// </para>
         /// <code>
         /// ShellExecute(handle, "open", &lt;fully_qualified_path_to_folder&gt;, NULL, NULL, SW_SHOWNORMAL);
         /// </code>
+        /// <para>
         /// To explore a folder, use the following call:
+        /// </para>
         /// <code>
         /// ShellExecute(handle, "explore", &lt;fully_qualified_path_to_folder&gt;, NULL, NULL, SW_SHOWNORMAL);
         /// </code>
+        /// <para>
         /// To launch the Shell's Find utility for a directory, use the following call.
+        /// </para>
         /// <code>
         /// ShellExecute(handle, "find", &lt;fully_qualified_path_to_folder&gt;, NULL, NULL, 0);
         /// </code>
-        /// If <paramref name="lpOperation"/> is <see langword="null"/>, the function opens the file specified by <paramref name="lpFile"/>.
-        /// If <paramref name="lpOperation"/> is "open" or "explore", the function attempts to open or explore the folder.
-        /// To obtain information about the application that is launched as a result of calling <see cref="ShellExecute"/>, use <see cref="ShellExecuteEx"/>.
+        /// <para>
+        /// If <paramref name="lpOperation"/> is <see cref="NULL"/>, the function opens the file specified by <paramref name="lpFile"/>.
+        /// If <paramref name="lpOperation"/> is "open" or "explore", the function attempts to open or explore the folder.
+        /// </para>
+        /// <para>
+        /// To obtain information about the application that is launched
+        /// as a result of calling <see cref="ShellExecute"/>, use <see cref="ShellExecuteEx"/>.
+        /// </para>
+        /// <para>
         /// Note
-        /// The Launch folder windows in a separate process setting in Folder Options affects <see cref="ShellExecute"/>.
-        /// If that option is disabled (the default setting), <see cref="ShellExecute"/> uses an open Explorer window rather than launch a new one.
-        /// If no Explorer window is open, <see cref="ShellExecute"/> launches a new one.
+        /// </para>
+        /// <para>
+        /// The Launch folder windows in a separate process setting in Folder Options affects <see cref="ShellExecute"/>.
+        /// If that option is disabled (the default setting), <see cref="ShellExecute"/> uses an open Explorer window rather than launch a new one.
+        /// If no Explorer window is open, <see cref="ShellExecute"/> launches a new one.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteW", ExactSpelling = true)]
         public static extern HINSTANCE ShellExecute([In] HWND hwnd, [In] LPCWSTR lpOperation, [In] LPCWSTR lpFile, [In] LPCWSTR lpParameters,
             [In] LPCWSTR lpDirectory, [In] ShowWindowCommands nShowCmd);
 
@@ -1250,51 +2065,143 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="SHELLEXECUTEINFO"/> structure that contains and receives information about the application being executed.
         /// </param>
         /// <returns>
-        /// Returns <see langword="true"/> if successful; otherwise, <see langword="false"/>.
-        /// Call <see cref="GetLastError"/> for extended error information.
+        /// Returns <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// Call <see cref="GetLastError"/> for extended error information.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Because <see cref="ShellExecuteEx"/> can delegate execution to Shell extensions (data sources, context menu handlers, verb implementations)
         /// that are activated using Component Object Model (COM), COM should be initialized before <see cref="ShellExecuteEx"/> is called.
         /// Some Shell extensions require the COM single-threaded apartment (STA) type.
         /// In that case, COM should be initialized as shown here:
+        /// </para>
         /// <code>
         /// CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
         /// </code>
-        /// There are instances where <see cref="ShellExecuteEx"/> does not use one of these types of Shell extension and those instances
-        /// would not require COM to be initialized at all.
-        /// Nonetheless, it is good practice to always initalize COM before using this function.
-        /// When DLLs are loaded into your process, you acquire a lock known as a loader lock.
-        /// The DllMain function always executes under the loader lock.
-        /// It is important that you do not call <see cref="ShellExecuteEx"/> while you hold a loader lock.
-        /// Because <see cref="ShellExecuteEx"/> is extensible, you could load code that does not function properly in the presence of a loader lock,
-        /// risking a deadlock and therefore an unresponsive thread.
-        /// With multiple monitors, if you specify an HWND and set the <see cref="SHELLEXECUTEINFO.lpVerb"/> member 
-        /// of the <see cref="SHELLEXECUTEINFO"/> structure pointed to by <paramref name="pExecInfo"/> to "Properties",
-        /// any windows created by <see cref="ShellExecuteEx"/> might not appear in the correct position.
-        /// If the function succeeds, it sets the <see cref="SHELLEXECUTEINFO.hInstApp"/> member
-        /// of the <see cref="SHELLEXECUTEINFO"/> structure to a value greater than 32.
-        /// If the function fails, <see cref="SHELLEXECUTEINFO.hInstApp"/> is set to the SE_ERR_XXX error value that best indicates the cause of the failure.
-        /// Although <see cref="SHELLEXECUTEINFO.hInstApp"/> is declared as an HINSTANCE for compatibility with 16-bit Windows applications,
-        /// it is not a true HINSTANCE.
-        /// It can be cast only to an int and can be compared only to either the value 32 or the SE_ERR_XXX error codes.
-        /// The SE_ERR_XXX error values are provided for compatibility with <see cref="ShellExecute"/>.
-        /// To retrieve more accurate error information, use <see cref="GetLastError"/>.
+        /// <para>
+        /// There are instances where <see cref="ShellExecuteEx"/> does not use one of these types of Shell extension
+        /// and those instances would not require COM to be initialized at all.
+        /// Nonetheless, it is good practice to always initialize COM before using this function.
+        /// </para>
+        /// <para>
+        /// When DLLs are loaded into your process, you acquire a lock known as a loader lock.
+        /// The DllMain function always executes under the loader lock.
+        /// It is important that you do not call <see cref="ShellExecuteEx"/> while you hold a loader lock.
+        /// Because <see cref="ShellExecuteEx"/> is extensible, you could load code that does not function properly
+        /// in the presence of a loader lock, risking a deadlock and therefore an unresponsive thread.
+        /// </para>
+        /// <para>
+        /// With multiple monitors, if you specify an <see cref="HWND"/> and set the <see cref="SHELLEXECUTEINFO.lpVerb"/> member
+        /// of the <see cref="SHELLEXECUTEINFO"/> structure pointed to by <paramref name="pExecInfo"/> to "Properties",
+        /// any windows created by <see cref="ShellExecuteEx"/> might not appear in the correct position.
+        /// </para>
+        /// <para>
+        /// If the function succeeds, it sets the <see cref="SHELLEXECUTEINFO.hInstApp"/> member
+        /// of the <see cref="SHELLEXECUTEINFO"/> structure to a value greater than 32.
+        /// If the function fails, <see cref="SHELLEXECUTEINFO.hInstApp"/> is set to the SE_ERR_XXX error value that best indicates the cause of the failure.
+        /// Although <see cref="SHELLEXECUTEINFO.hInstApp"/> is declared as an <see cref="HINSTANCE"/>
+        /// for compatibility with 16-bit Windows applications, it is not a true <see cref="HINSTANCE"/>.
+        /// It can be cast only to an <see cref="int"/> and can be compared only to either the value 32 or the SE_ERR_XXX error codes.
+        /// </para>
+        /// <para>
+        /// The SE_ERR_XXX error values are provided for compatibility with <see cref="ShellExecute"/>.
+        /// To retrieve more accurate error information, use <see cref="GetLastError"/>.
         /// It may return one of the following values.
-        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
-        /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
-        /// <see cref="ERROR_DDE_FAIL"/>: The Dynamic Data Exchange(DDE) transaction failed.
-        /// <see cref="ERROR_NO_ASSOCIATION"/>: There is no application associated with the specified file name extension.
-        /// <see cref="ERROR_ACCESS_DENIED"/>: Access to the specified file is denied.
-        /// <see cref="ERROR_DLL_NOT_FOUND"/>: One of the library files necessary to run the application can't be found.
-        /// <see cref="ERROR_CANCELLED"/>: The function prompted the user for additional information, but the user canceled the request.
-        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>: There is not enough memory to perform the specified action.
-        /// <see cref="ERROR_SHARING_VIOLATION"/>: A sharing violation occurred.
-        /// Opening items from a URL You can register your application to activate when passed URLs.
-        /// You can also specify which protocols your application supports. See Application Registration for more info.
-        /// Site chain support As of Windows 8, you can provide a site chain pointer to the <see cref="ShellExecuteEx"/> function 
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Error
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The specified file was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The specified path was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_DDE_FAIL"/>
+        /// </term>
+        /// <term>
+        /// The Dynamic Data Exchange (DDE) transaction failed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NO_ASSOCIATION"/>
+        /// </term>
+        /// <term>
+        /// There is no application associated with the specified file name extension.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// Access to the specified file is denied.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_DLL_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// One of the library files necessary to run the application can't be found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_CANCELLED"/>
+        /// </term>
+        /// <term>
+        /// The function prompted the user for additional information, but the user canceled the request.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// There is not enough memory to perform the specified action.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SHARING_VIOLATION"/>
+        /// </term>
+        /// <term>
+        /// A sharing violation occurred.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Opening items from a URL You can register your application to activate when passed URLs.
+        /// You can also specify which protocols your application supports.
+        /// See Application Registration for more info.
+        /// </para>
+        /// <para>
+        /// Site chain support As of Windows 8, you can provide a site chain pointer to the <see cref="ShellExecuteEx"/> function
         /// to support item activation with services from that site.
-        /// See Launching Applications(<see cref="ShellExecute"/>, <see cref="ShellExecuteEx"/>, <see cref="SHELLEXECUTEINFO"/>) for more information.
+        /// See Launching Applications (ShellExecute, ShellExecuteEx, SHELLEXECUTEINFO) for more information.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = true, SetLastError = true)]
@@ -1315,125 +2222,442 @@ namespace Lsj.Util.Win32
         /// You are responsible for validating the value. If you do not validate it, you will experience unexpected results.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns zero if successful; otherwise nonzero.
         /// Applications normally should simply check for zero or nonzero.
-        /// It is good practice to examine the value of the <see cref="SHFILEOPSTRUCT.fAnyOperationsAborted"/> member of the <see cref="SHFILEOPSTRUCT"/>.
-        /// <see cref="SHFileOperation"/> can return 0 for success if the user cancels the operation.
-        /// If you do not check <see cref="SHFILEOPSTRUCT.fAnyOperationsAborted"/> as well as the return value,
+        /// </para>
+        /// <para>
+        /// It is good practice to examine the value of the <see cref="SHFILEOPSTRUCT.fAnyOperationsAborted"/> member of the <see cref="SHFILEOPSTRUCT"/>.
+        /// <see cref="SHFileOperation"/> can return 0 for success if the user cancels the operation.
+        /// If you do not check <see cref="SHFILEOPSTRUCT.fAnyOperationsAborted"/> as well as the return value,
         /// you cannot know that the function accomplished the full task you asked of it and you might proceed under incorrect assumptions.
-        /// Do not use GetLastError with the return values of this function.
+        /// </para>
+        /// <para>
+        /// Do not use <see cref="GetLastError"/> with the return values of this function.
+        /// </para>
+        /// <para>
         /// To examine the nonzero values for troubleshooting purposes, they largely map to those defined in Winerror.h.
         /// However, several of its possible return values are based on pre-Win32 error codes,
         /// which in some cases overlap the later Winerror.h values without matching their meaning.
-        /// Those particular values are detailed here, and for these specific values only these meanings should be accepted over the Winerror.h codes.
+        /// Those particular values are detailed here, and for these specific values only these meanings should be accepted over the Winerror.h codes.
         /// However, these values are provided with these warnings:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// These are pre-Win32 error codes and are no longer supported or defined in any public header file.
         /// To use them, you must either define them yourself or compare against the numerical value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// These error codes are subject to change and have historically done so.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// These values are provided only as an aid in debugging.
         /// They should not be regarded as definitive.
-        /// DE_SAMEFILE         0x71
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Error Code
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_SAMEFILE"/>
+        /// </term>
+        /// <term>
+        /// 0x71
+        /// </term>
+        /// <term>
         /// The source and destination files are the same file.
-        /// DE_MANYSRC1DEST 	0x72
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_MANYSRC1DEST"/>
+        /// </term>
+        /// <term>
+        /// 0x72
+        /// </term>
+        /// <term>
         /// Multiple file paths were specified in the source buffer, but only one destination file path.
-        /// DE_DIFFDIR 	        0x73
-        /// Rename operation was specified but the destination path is a different directory. Use the move operation instead.
-        /// DE_ROOTDIR 	        0x74
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DIFFDIR"/>
+        /// </term>
+        /// <term>
+        /// 0x73
+        /// </term>
+        /// <term>
+        /// Rename operation was specified but the destination path is a different directory.
+        /// Use the move operation instead.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_ROOTDIR"/>
+        /// </term>
+        /// <term>
+        /// 0x74
+        /// </term>
+        /// <term>
         /// The source is a root directory, which cannot be moved or renamed.
-        /// DE_OPCANCELLED 	    0x75
-        /// The operation was canceled by the user, or silently canceled if the appropriate flags were supplied to SHFileOperation.
-        /// DE_DESTSUBTREE 	    0x76
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_OPCANCELLED"/>
+        /// </term>
+        /// <term>
+        /// 0x75
+        /// </term>
+        /// <term>
+        /// The operation was canceled by the user, or silently canceled if the appropriate flags were supplied to <see cref="SHFileOperation"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DESTSUBTREE"/>
+        /// </term>
+        /// <term>
+        /// 0x76
+        /// </term>
+        /// <term>
         /// The destination is a subtree of the source.
-        /// DE_ACCESSDENIEDSRC 	0x78
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_ACCESSDENIEDSRC"/>
+        /// </term>
+        /// <term>
+        /// 0x78
+        /// </term>
+        /// <term>
         /// Security settings denied access to the source.
-        /// DE_PATHTOODEEP 	    0x79
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_PATHTOODEEP"/>
+        /// </term>
+        /// <term>
+        /// 0x79
+        /// </term>
+        /// <term>
         /// The source or destination path exceeded or would exceed <see cref="MAX_PATH"/>.
-        /// DE_MANYDEST 	    0x7A
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_MANYDEST"/>
+        /// </term>
+        /// <term>
+        /// 0x7A
+        /// </term>
+        /// <term>
         /// The operation involved multiple destination paths, which can fail in the case of a move operation.
-        /// DE_INVALIDFILES 	0x7C
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_INVALIDFILES"/>
+        /// </term>
+        /// <term>
+        /// 0x7C
+        /// </term>
+        /// <term>
         /// The path in the source or destination or both was invalid.
-        /// DE_DESTSAMETREE 	0x7D
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DESTSAMETREE"/>
+        /// </term>
+        /// <term>
+        /// 0x7D
+        /// </term>
+        /// <term>
         /// The source and destination have the same parent folder.
-        /// DE_FLDDESTISFILE 	0x7E
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_FLDDESTISFILE"/>
+        /// </term>
+        /// <term>
+        /// 0x7E
+        /// </term>
+        /// <term>
         /// The destination path is an existing file.
-        /// DE_FILEDESTISFLD 	0x80
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_FILEDESTISFLD"/>
+        /// </term>
+        /// <term>
+        /// 0x80
+        /// </term>
+        /// <term>
         /// The destination path is an existing folder.
-        /// DE_FILENAMETOOLONG 	0x81
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_FILENAMETOOLONG"/>
+        /// </term>
+        /// <term>
+        /// 0x81
+        /// </term>
+        /// <term>
         /// The name of the file exceeds <see cref="MAX_PATH"/>.
-        /// DE_DEST_IS_CDROM 	0x82
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DEST_IS_CDROM"/>
+        /// </term>
+        /// <term>
+        /// 0x82
+        /// </term>
+        /// <term>
         /// The destination is a read-only CD-ROM, possibly unformatted.
-        /// DE_DEST_IS_DVD 	    0x83
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DEST_IS_DVD"/>
+        /// </term>
+        /// <term>
+        /// 0x83
+        /// </term>
+        /// <term>
         /// The destination is a read-only DVD, possibly unformatted.
-        /// DE_DEST_IS_CDRECORD 0x84
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_DEST_IS_CDRECORD"/>
+        /// </term>
+        /// <term>
+        /// 0x84
+        /// </term>
+        /// <term>
         /// The destination is a writable CD-ROM, possibly unformatted.
-        /// DE_FILE_TOO_LARGE 	0x85
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_FILE_TOO_LARGE"/>
+        /// </term>
+        /// <term>
+        /// 0x85
+        /// </term>
+        /// <term>
         /// The file involved in the operation is too large for the destination media or file system.
-        /// DE_SRC_IS_CDROM 	0x86
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_SRC_IS_CDROM"/>
+        /// </term>
+        /// <term>
+        /// 0x86
+        /// </term>
+        /// <term>
         /// The source is a read-only CD-ROM, possibly unformatted.
-        /// DE_SRC_IS_DVD 	    0x87
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_SRC_IS_DVD"/>
+        /// </term>
+        /// <term>
+        /// 0x87
+        /// </term>
+        /// <term>
         /// The source is a read-only DVD, possibly unformatted.
-        /// DE_SRC_IS_CDRECORD 	0x88
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_SRC_IS_CDRECORD"/>
+        /// </term>
+        /// <term>
+        /// 0x88
+        /// </term>
+        /// <term>
         /// The source is a writable CD-ROM, possibly unformatted.
-        /// DE_ERROR_MAX 	    0xB7
-        /// MAX_PATH was exceeded during the operation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DE_ERROR_MAX"/>
+        /// </term>
+        /// <term>
+        /// 0xB7
+        /// </term>
+        /// <term>
+        /// <see cref="MAX_PATH"/> was exceeded during the operation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// </term>
+        /// <term>
         /// 0x402
+        /// </term>
+        /// <term>
         /// An unknown error occurred.
         /// This is typically due to an invalid path in the source or destination.
-        /// This error does not occur on Windows Vista and later.
-        /// ERRORONDEST 	    0x10000
+        /// This error does not occur on Windows Vista and later.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERRORONDEST"/>
+        /// </term>
+        /// <term>
+        /// 0x10000
+        /// </term>
+        /// <term>
         /// An unspecified error occurred on the destination.
-        /// DE_ROOTDIR | ERRORONDEST 	0x10074
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>DE_ROOTDIR | ERRORONDEST</c>
+        /// </term>
+        /// <term>
+        /// 0x10074
+        /// </term>
+        /// <term>
         /// Destination is a root directory and cannot be renamed.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// You should use fully qualified path names with this function.
-        /// Using it with relative path names is not thread safe.
-        /// With two exceptions, you cannot use <see cref="SHFileOperation"/> to move special folders
+        /// <para>
+        /// You should use fully qualified path names with this function. Using it with relative path names is not thread safe.
+        /// </para>
+        /// <para>
+        /// With two exceptions, you cannot use <see cref="SHFileOperation"/> to move special folders
         /// from a local drive to a remote computer by specifying a network path.
-        /// The exceptions are the My Documents (<see cref="CSIDL_PERSONAL"/>, <see cref="CSIDL_MYDOCUMENTS"/>)
-        /// and My Pictures folders (<see cref="CSIDL_MYPICTURES"/>).
-        /// When used to delete a file, <see cref="SHFileOperation"/> permanently deletes the file
-        /// unless you set the <see cref="FOF_ALLOWUNDO"/> flag in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
-        /// of the <see cref="SHFILEOPSTRUCT"/> structure pointed to by <paramref name="lpFileOp"/>.
+        /// The exceptions are the My Documents (<see cref="CSIDL_PERSONAL"/>, <see cref="CSIDL_MYDOCUMENTS"/>)
+        /// and My Pictures folders (<see cref="CSIDL_MYPICTURES"/>).
+        /// </para>
+        /// <para>
+        /// When used to delete a file, <see cref="SHFileOperation"/> permanently deletes the file
+        /// unless you set the <see cref="FOF_ALLOWUNDO"/> flag in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
+        /// of the <see cref="SHFILEOPSTRUCT"/> structure pointed to by <paramref name="lpFileOp"/>.
         /// Setting that flag sends the file to the Recycle Bin.
-        /// If you want to simply delete a file and guarantee that it is not placed in the Recycle Bin, use <see cref="DeleteFile"/>.
-        /// If a copy callback handler is exposed and registered, <see cref="SHFileOperation"/> calls it
-        /// unless you set a flag such as <see cref="FOF_NOCONFIRMATION"/> in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
-        /// of the structure pointed to by <paramref name="lpFileOp"/>.
-        /// See <see cref="ICopyHook.CopyCallback"/> for details on implementing copy callback handlers.
-        /// File deletion is recursive unless you set the <see cref="FOF_NORECURSION"/> flag in <paramref name="lpFileOp"/>.
+        /// If you want to simply delete a file and guarantee that it is not placed in the Recycle Bin, use <see cref="DeleteFile"/>.
+        /// </para>
+        /// <para>
+        /// If a copy callback handler is exposed and registered, <see cref="SHFileOperation"/> calls it
+        /// unless you set a flag such as <see cref="FOF_NOCONFIRMATION"/> in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
+        /// of the structure pointed to by <paramref name="lpFileOp"/>.
+        /// See <see cref="ICopyHook.CopyCallback"/> for details on implementing copy callback handlers.
+        /// </para>
+        /// <para>
+        /// File deletion is recursive unless you set the <see cref="FOF_NORECURSION"/> flag in <paramref name="lpFileOp"/>.
+        /// </para>
+        /// <para>
         /// Connecting Files
-        /// With Windows 2000 or later, it is possible to connect an HTML file with a folder
+        /// </para>
+        /// <para>
+        /// With Windows 2000 or later, it is possible to connect an HTML file with a folder
         /// that contains related files such as Graphics Interchange Format (GIF) images or style sheets.
-        /// If file connection is enabled, when you move or copy the HTML file, the connected folder and all of its files are also moved or copied.
+        /// If file connection is enabled, when you move or copy the HTML file,
+        /// the connected folder and all of its files are also moved or copied.
         /// Conversely, if you move the folder with the related files, the HTML file is also moved.
-        /// The HTML file must have a .htm or .html extension. You create the connection to the related files
-        /// by placing the folder that contains them into the same folder as the HTML file.
-        /// The name of the folder that contains the connected files must be the same as the name of the HTML file followed by "_files" or ".files"
-        /// (this is case sensitive; for example, ".Files" does not work).
+        /// </para>
+        /// <para>
+        /// The HTML file must have a .htm or .html extension.
+        /// You create the connection to the related files by placing the folder that contains them into the same folder as the HTML file.
+        /// The name of the folder that contains the connected files must be the same as the name of the HTML file
+        /// followed by "_files" or ".files" (this is case sensitive; for example, ".Files" does not work).
         /// An example is given here.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// Create a file named Test.htm in the C:\Files directory (C:\Files\Test.htm).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Create a new folder named Test.files in the C:\Files directory (C:\Files\Test.files).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Populate the folder with a few files. Any file placed in this folder is connected to Test.htm.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Move or copy the Test.htm file to the C:\Files2 directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Note that the Test.files directory is now found in the C:\Files2 directory as well.
-        /// File connection is enabled by default. It can be disabled by adding a <see cref="REG_DWORD"/> entry, NoFileFolderConnection, as shown here:
-        /// HKEY_CURRENT_USER\ Software\Microsoft\Windows\CurrentVersion\Explorer\NoFileFolderConnection
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// File connection is enabled by default.
+        /// It can be disabled by adding a <see cref="REG_DWORD"/> entry, NoFileFolderConnection, as shown here:
+        /// </para>
+        /// <code>
+        /// HKEY_CURRENT_USER
+        ///    Software
+        ///       Microsoft
+        ///          Windows
+        ///             CurrentVersion
+        ///                Explorer
+        ///                   NoFileFolderConnection
+        /// </code>
+        /// <para>
         /// Setting NoFileFolderConnection to 1 disables file connection.
         /// If the value is set to zero or is missing, file connection is enabled.
+        /// </para>
+        /// <para>
         /// To move only the specified files and none of the connected files,
-        /// set the <see cref="FOF_NO_CONNECTED_ELEMENTS"/> flag in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
-        /// of the structure pointed to by <paramref name="lpFileOp"/>.
-        /// Note that the use of a folder with a name like "MyFile_files" to define a connection may not be valid for localized versions of Windows.
+        /// set the <see cref="FOF_NO_CONNECTED_ELEMENTS"/> flag in the <see cref="SHFILEOPSTRUCT.fFlags"/> member
+        /// of the structure pointed to by <paramref name="lpFileOp"/>.
+        /// </para>
+        /// <para>
+        /// Note that the use of a folder with a name like "MyFile_files"
+        /// to define a connection may not be valid for localized versions of Windows.
         /// The term "files" may need to be replaced by the equivalent word in the local language.
-        /// The shellapi.h header defines SHFileOperation as an alias which automatically selects the ANSI or Unicode version of this function
-        /// based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
-        /// mismatches that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFileOperationW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFileOperationW", ExactSpelling = true)]
         public static extern int SHFileOperation([In] in SHFILEOPSTRUCT lpFileOp);
 
         /// <summary>
@@ -1448,7 +2672,7 @@ namespace Lsj.Util.Win32
         /// A handle to the file name mapping object to be freed.
         /// </param>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFreeNameMappings", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFreeNameMappings", ExactSpelling = true)]
         public static extern void SHFreeNameMappings([In] HANDLE hNameMappings);
 
         /// <summary>
@@ -1461,38 +2685,46 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="ppshf">
         /// When this method returns, receives an <see cref="IShellFolder"/> interface pointer for the desktop folder.
-        /// The calling application is responsible for eventually freeing the interface by calling its IUnknown::Release method.
+        /// The calling application is responsible for eventually freeing the interface by calling its <see cref="IUnknown.Release"/> method.
         /// </param>
         /// <returns>
         /// If this function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetDesktopFolder", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetDesktopFolder", ExactSpelling = true)]
         public static extern HRESULT SHGetDesktopFolder([Out] out P<IShellFolder> ppshf);
 
         /// <summary>
         /// <para>
-        /// Contains information about a file object.
+        /// Retrieves information about an object in the file system, such as a file, folder, directory, or drive root.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetfileinfow"/>
         /// </para>
         /// </summary>
         /// <param name="pszPath">
-        /// A pointer to a null-terminated string of maximum length <see cref="MAX_PATH"/> that contains the path and file name.
+        /// <para>
+        /// A pointer to a null-terminated string of maximum length <see cref="MAX_PATH"/> that contains the path and file name.
         /// Both absolute and relative paths are valid.
-        /// If the <paramref name="uFlags"/> parameter includes the <see cref="SHGFI_PIDL"/> flag,
-        /// this parameter must be the address of an ITEMIDLIST (PIDL) structure that contains the list of item identifiers
-        /// that uniquely identifies the file within the Shell's namespace.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="uFlags"/> parameter includes the <see cref="SHGFI_PIDL"/> flag,
+        /// this parameter must be the address of an <see cref="ITEMIDLIST"/> (PIDL) structure
+        /// that contains the list of item identifiers that uniquely identifies the file within the Shell's namespace.
         /// The PIDL must be a fully qualified PIDL. Relative PIDLs are not allowed.
-        /// If the <paramref name="uFlags"/> parameter includes the <see cref="SHGFI_USEFILEATTRIBUTES"/> flag,
-        /// this parameter does not have to be a valid file name.
-        /// The function will proceed as if the file exists with the specified name and
-        /// with the file attributes passed in the <paramref name="dwFileAttributes"/> parameter.
-        /// This allows you to obtain information about a file type by passing just the extension for <paramref name="pszPath"/>
-        /// and passing <see cref="FILE_ATTRIBUTE_NORMAL"/> in <paramref name="dwFileAttributes"/>.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="uFlags"/> parameter includes the <see cref="SHGFI_USEFILEATTRIBUTES"/> flag,
+        /// this parameter does not have to be a valid file name. 
+        /// The function will proceed as if the file exists with the specified name
+        /// and with the file attributes passed in the <paramref name="dwFileAttributes"/> parameter.
+        /// This allows you to obtain information about a file type by passing just the extension for <paramref name="pszPath"/>
+        /// and passing <see cref="FILE_ATTRIBUTE_NORMAL"/> in <paramref name="dwFileAttributes"/>.
+        /// </para>
+        /// <para>
         /// This string can use either short (the 8.3 form) or long file names.
+        /// </para>
         /// </param>
         /// <param name="dwFileAttributes">
         /// A combination of one or more file attribute flags (FILE_ATTRIBUTE_ values as defined in Winnt.h).

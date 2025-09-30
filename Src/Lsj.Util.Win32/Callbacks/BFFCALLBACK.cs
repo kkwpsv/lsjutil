@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Bffcallback(BFFCALLBACK val) => (Bffcallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Bffcallback));
+        public static implicit operator BrowseCallbackProc(BFFCALLBACK val) => (BrowseCallbackProc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(BrowseCallbackProc));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator BFFCALLBACK(Bffcallback val) => new BFFCALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator BFFCALLBACK(BrowseCallbackProc val) => new BFFCALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 
