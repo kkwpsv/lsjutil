@@ -926,7 +926,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessMemoryInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetProcessMemoryInfo([In] HANDLE Process, [Out] out PROCESS_MEMORY_COUNTERS ppsmemCounters, [In] DWORD cb);
+        public static extern BOOL GetProcessMemoryInfo([In] HANDLE Process, [In][Out] ref PROCESS_MEMORY_COUNTERS ppsmemCounters, [In] DWORD cb);
 
         /// <summary>
         /// <para>
