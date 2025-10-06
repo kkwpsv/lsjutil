@@ -29,7 +29,7 @@ using static Lsj.Util.Win32.Enums.ShellChangeNotifyFlags;
 using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
 using static Lsj.Util.Win32.Enums.ShellGetFileInfoFlags;
 using static Lsj.Util.Win32.Enums.ShellGetFolderPathTypes;
-using static Lsj.Util.Win32.Enums.ShowWindowCommands;
+using static Lsj.Util.Win32.Enums.ShellGetStockIconInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
@@ -370,7 +370,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true)]
         public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] StringBuffer lpszFile, [In] UINT cch);
 
         /// <summary>
@@ -1222,7 +1222,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBrowseForFolderW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHBrowseForFolderW", ExactSpelling = true)]
         public static extern LPITEMIDLIST SHBrowseForFolder([In] in BROWSEINFO lpbi);
 
         /// <summary>
@@ -2818,39 +2818,98 @@ namespace Lsj.Util.Win32
         /// This flag cannot be combined with the <see cref="SHGFI_ATTRIBUTES"/>, <see cref="SHGFI_EXETYPE"/>, or <see cref="SHGFI_PIDL"/> flags.
         /// </param>
         /// <returns>
-        /// Returns a value whose meaning depends on the <paramref name="uFlags"/> parameter.
-        /// If <paramref name="uFlags"/> does not contain <see cref="SHGFI_EXETYPE"/> or <see cref="SHGFI_SYSICONINDEX"/>,
+        /// <para>
+        /// Returns a value whose meaning depends on the <paramref name="uFlags"/> parameter.
+        /// </para>
+        /// <para>
+        /// If <paramref name="uFlags"/> does not contain <see cref="SHGFI_EXETYPE"/> or <see cref="SHGFI_SYSICONINDEX"/>,
         /// the return value is nonzero if successful, or zero otherwise.
-        /// If <paramref name="uFlags"/> contains the <see cref="SHGFI_EXETYPE"/> flag, the return value specifies the type of the executable file.
+        /// </para>
+        /// <para>
+        /// If <paramref name="uFlags"/> contains the <see cref="SHGFI_EXETYPE"/> flag,
+        /// the return value specifies the type of the executable file.
         /// It will be one of the following values.
-        /// 0: Nonexecutable file or an error condition. 
-        /// LOWORD = NE or PE and HIWORD = Windows version: Windows application.
-        /// LOWORD = MZ and HIWORD = 0: MS-DOS .exe or .com file
-        /// LOWORD = PE and HIWORD = 0: Console application or .bat file
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Nonexecutable file or an error condition.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// LOWORD = NE or PE and HIWORD = Windows version
+        /// </term>
+        /// <term>
+        /// Windows application.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// LOWORD = MZ and HIWORD = 0
+        /// </term>
+        /// <term>
+        /// MS-DOS .exe or .com file
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// LOWORD = PE and HIWORD = 0
+        /// </term>
+        /// <term>
+        /// Console application or .bat file
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// You should call this function from a background thread. Failure to do so could cause the UI to stop responding.
-        /// If <see cref="SHGetFileInfo"/> returns an icon handle in the <see cref="SHFILEINFO.hIcon"/> member of
-        /// the <see cref="SHFILEINFO"/> structure pointed to by <paramref name="psfi"/>,
-        /// you are responsible for freeing it with <see cref="DestroyIcon"/> when you no longer need it.
-        /// Note Once you have a handle to a system image list, you can use the Image List API to manipulate it like any other image list.
+        /// <para>
+        /// You should call this function from a background thread.
+        /// Failure to do so could cause the UI to stop responding.
+        /// </para>
+        /// <para>
+        /// If <see cref="SHGetFileInfo"/> returns an icon handle in the <see cref="SHFILEINFO.hIcon"/> member
+        /// of the <see cref="SHFILEINFO"/> structure pointed to by <paramref name="psfi"/>,
+        /// you are responsible for freeing it with <see cref="DestroyIcon"/> when you no longer need it.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Once you have a handle to a system image list, you can use the Image List API to manipulate it like any other image list.
         /// Because system image lists are created on a per-process basis, you should treat them as read-only objects.
         /// Writing to a system image list may overwrite or delete one of the system images,
         /// making it unavailable or incorrect for the remainder of the process.
-        /// You must initialize Component Object Model (COM) with CoInitialize or OleInitialize prior to calling <see cref="SHGetFileInfo"/>.
-        /// When you use the <see cref="SHGFI_EXETYPE"/> flag with a Windows application,
+        /// You must initialize Component Object Model (COM) with <see cref="CoInitialize"/> or <see cref="OleInitialize"/> prior to calling <see cref="SHGetFileInfo"/>.
+        /// </para>
+        /// <para>
+        /// When you use the <see cref="SHGFI_EXETYPE"/> flag with a Windows application,
         /// the Windows version of the executable is given in the HIWORD of the return value.
         /// This version is returned as a hexadecimal value.
-        /// For details on equating this value with a specific Windows version, see Using the Windows Headers.
+        /// For details on equating this value with a specific Windows version, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true)]
         public static extern DWORD_PTR SHGetFileInfo([In] LPCWSTR pszPath, [In] FileAttributes dwFileAttributes, [In][Out] ref SHFILEINFO psfi,
             [In] UINT cbFileInfo, [In] ShellGetFileInfoFlags uFlags);
 
         /// <summary>
         /// <para>
-        /// Deprecated. Retrieves the path of a folder as an ITEMIDLIST structure.
+        /// Deprecated. Retrieves the path of a folder as an <see cref="ITEMIDLIST"/> structure.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderlocation"/>
@@ -2864,17 +2923,22 @@ namespace Lsj.Util.Win32
         /// The folders associated with the CSIDLs might not exist on a particular system.
         /// </param>
         /// <param name="hToken">
-        /// An access token that can be used to represent a particular user.
-        /// It is usually set to <see cref="NULL"/>, but it may be needed when there are multiple users
-        /// for those folders that are treated as belonging to a single user.
-        /// The most commonly used folder of this type is My Documents.
-        /// The calling application is responsible for correct impersonation when hToken is non-NULL.
+        /// <para>
+        /// An access token that can be used to represent a particular user.
+        /// It is usually set to <see cref="NULL"/>, but it may be needed
+        /// when there are multiple users for those folders that are treated as belonging to a single user.
+        /// The most commonly used folder of this type is My Documents.
+        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-<see cref="NULL"/>.
         /// It must have appropriate security privileges for the particular user, and the user's registry hive must be currently mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
-        /// This allows clients of <see cref="SHGetFolderLocation"/> to find folder locations (such as the Desktop folder) for the Default User. 
-        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as My Documents and Desktop.
+        /// See Access Control for further discussion of access control issues.
+        /// </para>
+        /// <para>
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetFolderLocation"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created,
+        /// and includes special folders such as My Documents and Desktop.
         /// Any items added to the Default User folder also appear in any new user account.
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
         /// </param>
@@ -2884,22 +2948,58 @@ namespace Lsj.Util.Win32
         /// The calling application is responsible for freeing this resource by calling <see cref="ILFree"/>.
         /// </param>
         /// <returns>
-        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
-        /// <code>HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)</code>: The <see cref="CSIDL"/> in <paramref name="csidl"/> is valid but the folder does not exist.
-        /// <see cref="E_INVALIDARG"/>: The <see cref="CSIDL"/> in <paramref name="csidl"/> is not valid.
+        /// <para>
+        /// Returns S_OK if successful, or an error value otherwise, including the following:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <c>HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)</c>
+        /// </term>
+        /// <term>
+        /// The <see cref="CSIDL"/> in <paramref name="csidl"/> is valid but the folder does not exist.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="CSIDL"/> in <paramref name="csidl"/> is not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// As of Windows Vista, this function is merely a wrapper for <see cref="SHGetKnownFolderIDList"/>.
-        /// The <see cref="CSIDL"/> value is translated to its associated <see cref="KNOWNFOLDERID"/> and <see cref="SHGetKnownFolderIDList"/> is called.
-        /// New applications should use the known folder system rather than the older <see cref="CSIDL"/> system, which is supported only for backward compatibility.
-        /// The <see cref="SHGetFolderLocation"/>, <see cref="SHGetFolderPath"/>, <see cref="SHGetSpecialFolderLocation"/>,
-        /// and <see cref="SHGetSpecialFolderPath"/> functions are the preferred ways to obtain handles to folders on systems earlier than Windows Vista.
-        /// Functions such as <see cref="ExpandEnvironmentStrings"/> that use the environment variable names directly, in the form %VariableName%, may not be reliable.
-        /// This function is a superset of <see cref="SHGetSpecialFolderLocation"/>, included with earlier versions of the Shell.
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// As of Windows Vista, this function is merely a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// The CSIDL value is translated to its associated <see cref="KNOWNFOLDERID"/> and <see cref="SHGetKnownFolderIDList"/> is called.
+        /// New applications should use the known folder system rather than the older CSIDL system, which is supported only for backward compatibility.
+        /// The <see cref="SHGetFolderLocation"/>, <see cref="SHGetFolderPath"/>, <see cref="SHGetSpecialFolderLocation"/>,
+        /// and <see cref="SHGetSpecialFolderPath"/> functions are the preferred ways to obtain handles to folders on systems earlier than Windows Vista.
+        /// Functions such as <see cref="ExpandEnvironmentStrings"/> that use the environment variable names directly,
+        /// in the form %VariableName%, may not be reliable.
+        /// </para>
+        /// <para>
+        /// This function is a superset of <see cref="SHGetSpecialFolderLocation"/>, included with earlier versions of the Shell.
+        /// </para>
         /// </remarks>
-        [Obsolete]
+        [Obsolete("Deprecated")]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderLocation", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderLocation", ExactSpelling = true)]
         public static extern HRESULT SHGetFolderLocation([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] DWORD dwFlags,
             [Out] out LPITEMIDLIST ppidl);
 
@@ -2915,44 +3015,71 @@ namespace Lsj.Util.Win32
         /// Reserved.
         /// </param>
         /// <param name="csidl">
-        /// A CSIDL value that identifies the folder whose path is to be retrieved.
+        /// A <see cref="CSIDL"/> value that identifies the folder whose path is to be retrieved.
         /// Only real folders are valid.
         /// If a virtual folder is specified, this function fails.
-        /// You can force creation of a folder by combining the folder's CSIDL with <see cref="CSIDL_FLAG_CREATE"/>.
+        /// You can force creation of a folder by combining the folder's <see cref="CSIDL"/> with <see cref="CSIDL_FLAG_CREATE"/>.
         /// </param>
         /// <param name="hToken">
-        /// An access token that can be used to represent a particular user.
-        /// Microsoft Windows 2000 and earlier: Always set this parameter to <see cref="NULL"/>.
-        /// Windows XP and later: This parameter is usually set to <see cref="NULL"/>, but you might need to assign a non-NULL value
-        /// to <paramref name="hToken"/> for those folders that can have multiple users but are treated as belonging to a single user.
-        /// The most commonly used folder of this type is Documents.
-        /// The calling process is responsible for correct impersonation when <paramref name="hToken"/> is non-NULL.
+        /// <para>
+        /// An access token that can be used to represent a particular user.
+        /// </para>
+        /// <para>
+        /// Microsoft Windows 2000 and earlier: Always set this parameter to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// Windows XP and later: This parameter is usually set to <see cref="NULL"/>,
+        /// but you might need to assign a non-<see cref="NULL"/> value to <paramref name="hToken"/> for those folders
+        /// that can have multiple users but are treated as belonging to a single user.
+        /// The most commonly used folder of this type is Documents.
+        /// </para>
+        /// <para>
+        /// The calling process is responsible for correct impersonation when <paramref name="hToken"/> is non-<see cref="NULL"/>.
         /// The calling process must have appropriate security privileges for the particular user,
         /// including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>, and the user's registry hive must be currently mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the hToken parameter a value of -1 indicates the Default User.
-        /// This enables clients of <see cref="SHGetFolderPath"/> to find folder locations (such as the Desktop folder) for the Default User.
-        /// The Default User user profile is duplicated when any new user account is created,
-        /// and includes special folders such as My Documents and Desktop.
+        /// See Access Control for further discussion of access control issues.
+        /// </para>
+        /// <para>
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This enables clients of <see cref="SHGetFolderPath"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as My Documents and Desktop.
         /// Any items added to the Default User folder also appear in any new user account.
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
+        /// <para>
         /// Flags that specify the path to be returned.
-        /// This value is used in cases where the folder associated with a <see cref="KNOWNFOLDERID"/> (or <see cref="CSIDL"/>) can be moved,
-        /// renamed, redirected, or roamed across languages by a user or administrator.
-        /// The known folder system that underlies <see cref="SHGetFolderPath"/> allows users or administrators
+        /// This value is used in cases where the folder associated with a <see cref="KNOWNFOLDERID"/> (or <see cref="CSIDL"/>)
+        /// can be moved, renamed, redirected, or roamed across languages by a user or administrator.
+        /// </para>
+        /// <para>
+        /// The known folder system that underlies <see cref="SHGetFolderPath"/> allows users or administrators
         /// to redirect a known folder to a location that suits their needs.
-        /// This is achieved by calling <see cref="IKnownFolderManager.Redirect"/>,
+        /// This is achieved by calling <see cref="IKnownFolderManager.Redirect"/>,
         /// which sets the "current" value of the folder associated with the <see cref="SHGFP_TYPE_CURRENT"/> flag.
-        /// The default value of the folder, which is the location of the folder if a user or administrator had not redirected it elsewhere,
-        /// is retrieved by specifying the <see cref="SHGFP_TYPE_DEFAULT"/> flag.
+        /// </para>
+        /// <para>
+        /// The default value of the folder, which is the location of the folder
+        /// if a user or administrator had not redirected it elsewhere, is retrieved by specifying the <see cref="SHGFP_TYPE_DEFAULT"/> flag.
         /// This value can be used to implement a "restore defaults" feature for a known folder.
-        /// For example, the default value (<see cref="SHGFP_TYPE_DEFAULT"/>)
-        /// for <see cref="FOLDERID_Music"/> (<see cref="CSIDL_MYMUSIC"/>) is "C:\Users\user name\Music".
+        /// </para>
+        /// <para>
+        /// For example, the default value (<see cref="SHGFP_TYPE_DEFAULT"/>) for <see cref="FOLDERID_Music"/> (<see cref="CSIDL_MYMUSIC"/>) is "C:\Users\user name\Music".
         /// If the folder was redirected, the current value (<see cref="SHGFP_TYPE_CURRENT"/>) might be "D:\Music".
         /// If the folder has not been redirected, then <see cref="SHGFP_TYPE_DEFAULT"/> and <see cref="SHGFP_TYPE_CURRENT"/> retrieve the same path.
-        /// <see cref="SHGFP_TYPE_CURRENT"/>: Retrieve the folder's current path.
-        /// <see cref="SHGFP_TYPE_DEFAULT"/>: Retrieve the folder's default path.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGFP_TYPE_CURRENT"/>
+        /// </para>
+        /// <para>
+        /// Retrieve the folder's current path.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGFP_TYPE_DEFAULT"/>
+        /// </para>
+        /// <para>
+        /// Retrieve the folder's default path.
+        /// </para>
         /// </param>
         /// <param name="pszPath">
         /// A pointer to a null-terminated string of length <see cref="MAX_PATH"/> which will receive the path.
@@ -2965,22 +3092,109 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// This function is a superset of <see cref="SHGetSpecialFolderPath"/>.
-        /// Only some <see cref="CSIDL"/> values are supported, including the following:
-        /// <see cref="CSIDL_ADMINTOOLS"/>, <see cref="CSIDL_APPDATA"/>, <see cref="CSIDL_COMMON_ADMINTOOLS"/>,
-        /// <see cref="CSIDL_COMMON_APPDATA"/>, <see cref="CSIDL_COMMON_DOCUMENTS"/>, <see cref="CSIDL_COOKIES"/>,
-        /// <see cref="CSIDL_FLAG_CREATE"/>, <see cref="CSIDL_FLAG_DONT_VERIFY"/>, <see cref="CSIDL_HISTORY"/>,
-        /// <see cref="CSIDL_INTERNET_CACHE"/>, <see cref="CSIDL_LOCAL_APPDATA"/>, <see cref="CSIDL_MYPICTURES"/>,
-        /// <see cref="CSIDL_PERSONAL"/>, <see cref="CSIDL_PROGRAM_FILES"/>, <see cref="CSIDL_PROGRAM_FILES_COMMON"/>,
-        /// <see cref="CSIDL_SYSTEM"/>, <see cref="CSIDL_WINDOWS"/>
+        /// <para>
+        /// This function is a superset of <see cref="SHGetSpecialFolderPath"/>.
+        /// </para>
+        /// <para>
+        /// Only some <see cref="CSIDL"/> values are supported, including the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_ADMINTOOLS"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_APPDATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_COMMON_ADMINTOOLS"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_COMMON_APPDATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_COMMON_DOCUMENTS"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_COOKIES"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_FLAG_CREATE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_FLAG_DONT_VERIFY"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_HISTORY"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_INTERNET_CACHE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_LOCAL_APPDATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_MYPICTURES"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_PERSONAL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_PROGRAM_FILES"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_PROGRAM_FILES_COMMON"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_SYSTEM"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CSIDL_WINDOWS"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("As of Windows Vista, this function is merely a wrapper for SHGetKnownFolderPath." +
             "The CSIDL value is translated to its associated KNOWNFOLDERID and then SHGetKnownFolderPath is called." +
             "New applications should use the known folder system rather than the older CSIDL system," +
             "which is supported only for backward compatibility.")]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] IntPtr pszPath);
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true)]
+        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] LPWSTR pszPath);
 
 
         /// <summary>
@@ -3000,21 +3214,26 @@ namespace Lsj.Util.Win32
         /// This value can be 0; otherwise, it is one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
         /// </param>
         /// <param name="hToken">
-        /// An access token used to represent a particular user.
-        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
-        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
+        /// <para>
+        /// An access token used to represent a particular user.
+        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
+        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
         /// that can have multiple users but are treated as belonging to a single user.
-        /// The most commonly used folder of this type is Documents.
-        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
-        /// It must have appropriate security privileges for the particular user,
-        /// including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>, and the user's registry hive must be currently mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the hToken parameter a value of -1 indicates the Default User.
-        /// This allows clients of <see cref="SHGetKnownFolderIDList"/> to find folder locations (such as the Desktop folder) for the Default User.
-        /// The Default User user profile is duplicated when any new user account is created,
-        /// and includes special folders such as Documents and Desktop.
+        /// The most commonly used folder of this type is Documents.
+        /// </para>
+        /// <para>
+        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
+        /// It must have appropriate security privileges for the particular user, including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>,
+        /// and the user's registry hive must be currently mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// </para>
+        /// <para>
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetKnownFolderIDList"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop.
         /// Any items added to the Default User folder also appear in any new user account.
         /// Note that access to the Default User folders requires administrator privileges.
+        /// </para>
         /// </param>
         /// <param name="ppidl">
         /// When this method returns, contains a pointer to the PIDL of the folder.
@@ -3022,25 +3241,51 @@ namespace Lsj.Util.Win32
         /// The caller is responsible for freeing the returned PIDL when it is no longer needed by calling ILFree.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
-        /// <see cref="E_INVALIDARG"/>:
-        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
-        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
-        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
-        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function replaces <see cref="SHGetFolderLocation"/>.
-        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// <para>
+        /// This function replaces <see cref="SHGetFolderLocation"/>.
+        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// </para>
+        /// <para>
         /// Callers using this function must have at least User privileges.
-        /// Some known folders, for example, the Documents folder, are per-user.
-        /// Each user has a different path for the Documents folder.
-        /// If hToken is <see cref="NULL"/>, the API tries to access the current user's instance of the folder.
-        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token,
+        /// </para>
+        /// <para>
+        /// Some known folders, for example, the Documents folder, are per-user.
+        /// Each user has a different path for the Documents folder.
+        /// If <paramref name="hToken"/> is <see cref="NULL"/>, the API tries to access the current user's instance of the folder.
+        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token,
         /// and attempts to access that user's instance of the folder.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderIDList", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderIDList", ExactSpelling = true)]
         public static extern HRESULT SHGetKnownFolderIDList([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
             [In] HANDLE hToken, [Out] out LPITEMIDLIST ppidl);
 
@@ -3060,20 +3305,25 @@ namespace Lsj.Util.Win32
         /// This value can be 0; otherwise, one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
         /// </param>
         /// <param name="hToken">
-        /// An access token that represents a particular user.
-        /// If this parameter is <see cref="NULL"/>, which is the most common usage, the function requests the known folder for the current user.
-        /// Request a specific user's folder by passing the hToken of that user.
+        /// <para>
+        /// An access token that represents a particular user.
+        /// If this parameter is <see cref="NULL"/>, which is the most common usage, the function requests the known folder for the current user.
+        /// </para>
+        /// <para>
+        /// Request a specific user's folder by passing the <paramref name="hToken"/> of that user.
         /// This is typically done in the context of a service that has sufficient privileges to retrieve the token of a given user.
-        /// That token must be opened with <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/> rights.
-        /// In some cases, you also need to include <see cref="TOKEN_DUPLICATE"/>.
-        /// In addition to passing the user's <paramref name="hToken"/>, the registry hive of that specific user must be mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the hToken parameter a value of -1 indicates the Default User.
-        /// This allows clients of <see cref="SHGetKnownFolderPath"/> to find folder locations (such as the Desktop folder) for the Default User.
-        /// The Default User user profile is duplicated when any new user account is created,
-        /// and includes special folders such as Documents and Desktop.
+        /// That token must be opened with <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/> rights.
+        /// In some cases, you also need to include <see cref="TOKEN_DUPLICATE"/>.
+        /// In addition to passing the user's <paramref name="hToken"/>, the registry hive of that specific user must be mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// </para>
+        /// <para>
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetKnownFolderPath"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop.
         /// Any items added to the Default User folder also appear in any new user account.
         /// Note that access to the Default User folders requires administrator privileges.
+        /// </para>
         /// </param>
         /// <param name="ppszPath">
         /// When this method returns, contains the address of a pointer to a null-terminated Unicode string that specifies the path of the known folder.
@@ -3082,24 +3332,50 @@ namespace Lsj.Util.Win32
         /// The returned path does not include a trailing backslash. For example, "C:\Users" is returned rather than "C:\Users\".
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
-        /// <see cref="E_FAIL"/>:
-        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter references a <see cref="KNOWNFOLDERID"/>
-        /// which does not have a path (such as a folder marked as <see cref="KF_CATEGORY_VIRTUAL"/>).
-        /// <see cref="E_INVALIDARG"/>:
-        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
-        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
-        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
-        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_FAIL"/>
+        /// </term>
+        /// <term>
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> which does not have a path (such as a folder marked as <see cref="KF_CATEGORY_VIRTUAL"/>).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function replaces <see cref="SHGetFolderPath"/>.
         /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderPath"/>.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", ExactSpelling = true)]
         public static extern HRESULT SHGetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
-            [In] HANDLE hToken, [Out] out string ppszPath);
+            [In] HANDLE hToken, [Out] out LPWSTR ppszPath);
 
         /// <summary>
         /// <para>
@@ -3127,7 +3403,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="CoTaskMemFree"/> on *<paramref name="ppszName"/> to free the memory.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNameFromIDList", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNameFromIDList", ExactSpelling = true)]
         public static extern HRESULT SHGetNameFromIDList([In] LPCITEMIDLIST pidl, [In] SIGDN sigdnName, [Out] out LPWSTR ppszName);
 
         /// <summary>
@@ -3149,18 +3425,17 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// If the location specified by the <paramref name="pidl"/> parameter is not part of the file system, this function will fail.
-        /// If the <paramref name="pidl"/> parameter specifies a shortcut,
-        /// the <paramref name="pszPath"/> will contain the path to the shortcut, not to the shortcut's target.
-        /// The shlobj_core.h header defines <see cref="SHGetPathFromIDList"/> as an alias which automatically selects
-        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
-        /// mismatches that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
+        /// <para>
+        /// If the location specified by the <paramref name="pidl"/> parameter is not part of the file system, this function will fail.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="pidl"/> parameter specifies a shortcut,
+        /// the <paramref name="pszPath"/> will contain the path to the shortcut, not to the shortcut's target.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPathFromIDListW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SHGetPathFromIDList([In] LPCITEMIDLIST pidl, [In] IntPtr pszPath);
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPathFromIDListW", ExactSpelling = true)]
+        public static extern BOOL SHGetPathFromIDList([In] LPCITEMIDLIST pidl, [In] LPWSTR pszPath);
 
         /// <summary>
         /// <para>
@@ -3186,27 +3461,52 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An application can use this function to obtain access to a window's property store
-        /// so that it can set an explicit Application User Model ID (AppUserModelID) in the System.AppUserModel.ID property.
+        /// so that it can set an explicit Application User Model ID (AppUserModelID) in the System.AppUserModel.ID property.
+        /// </para>
+        /// <para>
         /// A window's properties must be removed before the window is closed.
         /// If this is not done, the resources used by those properties are not returned to the system.
-        /// A property is removed by setting it to the <see cref="PROPVARIANT"/> type <see cref="VT_EMPTY"/>.
-        /// When a call is made to <see cref="IPropertyStore.SetValue"/> on the object retrieved through <paramref name="ppv"/>,
+        /// A property is removed by setting it to the <see cref="PROPVARIANT"/> type <see cref="VT_EMPTY"/>.
+        /// </para>
+        /// <para>
+        /// When a call is made to <see cref="IPropertyStore.SetValue"/> on the object retrieved through <paramref name="ppv"/>,
         /// the properties and values are immediately stored on the window.
-        /// Therefore, no call to <see cref="IPropertyStore.Commit"/> is needed.
+        /// Therefore, no call to <see cref="IPropertyStore.Commit"/> is needed.
         /// No error occurs if it is called, but it has no effect.
+        /// </para>
+        /// <para>
         /// An application sets AppUserModelIDs on individual windows to control the application's taskbar grouping and Jump List contents.
         /// For instance, a suite application might want to provide a different taskbar button for each of its subfeatures,
         /// with the windows relating to that subfeature grouped under that button.
         /// Without window-level AppUserModelIDs, those windows would all be grouped together under the main process.
-        /// Applications should also use this property store to set these relaunch properties
-        /// so that the system can return the application to that state.
+        /// </para>
+        /// <para>
+        /// Applications should also use this property store to set these relaunch properties so that the system can return the application to that state.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// System.AppUserModel.RelaunchCommand
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// System.AppUserModel.RelaunchDisplayNameResource
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// System.AppUserModel.RelaunchIconResource
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPropertyStoreForWindow", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPropertyStoreForWindow", ExactSpelling = true)]
         public static extern HRESULT SHGetPropertyStoreForWindow([In] HWND hwnd, [In] in IID riid, [Out] out IntPtr ppv);
 
         /// <summary>
@@ -3233,7 +3533,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("SHGetSpecialFolderLocation is not supported and may be altered or unavailable in the future. Instead, use SHGetFolderLocation.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderLocation", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderLocation", ExactSpelling = true)]
         public static extern HRESULT SHGetSpecialFolderLocation([In] HWND hwnd, [In] CSIDL csidl, [Out] out LPITEMIDLIST ppidl);
 
         /// <summary>
@@ -3265,15 +3565,10 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// The Microsoft Internet Explorer 4.0 Desktop Update must be installed for this function to be available.
-        /// The shlobj_core.h header defines <see cref="SHGetSpecialFolderPath"/> as an alias which automatically selects
-        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
-        /// mismatches that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [Obsolete("SHGetSpecialFolderPath is not supported. Instead, use SHGetFolderPath.")]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderPathW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderPathW", ExactSpelling = true)]
         public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [In] IntPtr pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
 
         /// <summary>
@@ -3288,7 +3583,63 @@ namespace Lsj.Util.Win32
         /// One of the values from the <see cref="SHSTOCKICONID"/> enumeration that specifies which icon should be retrieved.
         /// </param>
         /// <param name="uFlags">
+        /// <para>
         /// A combination of zero or more of the following flags that specify which information is requested.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_ICONLOCATION"/>
+        /// </para>
+        /// <para>
+        /// The <see cref="SHSTOCKICONINFO.szPath"/> and <see cref="SHSTOCKICONINFO.iIcon"/> members of the <see cref="SHSTOCKICONINFO"/> structure
+        /// receive the path and icon index of the requested icon, in a format suitable for passing to the <see cref="ExtractIcon"/> function.
+        /// The numerical value of this flag is zero, so you always get the icon location regardless of other flags.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_ICON"/>
+        /// </para>
+        /// <para>
+        /// The <see cref="SHSTOCKICONINFO.hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure receives a handle to the specified icon.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_SYSICONINDEX"/>
+        /// </para>
+        /// <para>
+        /// The <see cref="SHSTOCKICONINFO.iSysImageImage"/> member of the <see cref="SHSTOCKICONINFO"/> structure
+        /// receives the index of the specified icon in the system imagelist.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_LINKOVERLAY"/>
+        /// </para>
+        /// <para>
+        /// Modifies the <see cref="SHGSI_ICON"/> value by causing the function to add the link overlay to the file's icon.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_SELECTED"/>
+        /// </para>
+        /// <para>
+        /// Modifies the <see cref="SHGSI_ICON"/> value by causing the function to blend the icon with the system highlight color.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_LARGEICON"/>
+        /// </para>
+        /// <para>
+        /// Modifies the <see cref="SHGSI_ICON"/> value by causing the function to retrieve the large version of the icon,
+        /// as specified by the <see cref="SM_CXICON"/> and <see cref="SM_CYICON"/> system metrics.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_SMALLICON"/>
+        /// </para>
+        /// <para>
+        /// Modifies the <see cref="SHGSI_ICON"/> value by causing the function to retrieve the small version of the icon,
+        /// as specified by the <see cref="SM_CXSMICON"/> and <see cref="SM_CYSMICON"/> system metrics.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGSI_SHELLICONSIZE"/>
+        /// </para>
+        /// <para>
+        /// Modifies the <see cref="SHGSI_LARGEICON"/> or <see cref="SHGSI_SMALLICON"/> values by causing the function
+        /// to retrieve the Shell-sized icons rather than the sizes specified by the system metrics.
+        /// </para>
         /// </param>
         /// <param name="psii">
         /// A pointer to a <see cref="SHSTOCKICONINFO"/> structure.
@@ -3305,7 +3656,7 @@ namespace Lsj.Util.Win32
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true)]
         public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] ShellGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
 
         /// <summary>
@@ -3317,28 +3668,40 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="rfid">
-        /// A GUID that identifies the known folder.
+        /// A <see cref="GUID"/> that identifies the known folder.
         /// </param>
         /// <param name="dwFlags">
+        /// <para>
         /// Either 0 or the following value.
-        /// <see cref="KF_FLAG_DONT_UNEXPAND"/>:
-        /// If this flag is set, portions of the path referenced by <paramref name="pszPath"/> may be represented by environment strings such as %USERPROFILE%.
+        /// </para>
+        /// <para>
+        /// <see cref="KF_FLAG_DONT_UNEXPAND"/>
+        /// </para>
+        /// <para>
+        /// If this flag is set, portions of the path referenced by <paramref name="pszPath"/> may be represented by environment strings such as <c>%USERPROFILE%</c>.
+        /// </para>
         /// </param>
         /// <param name="hToken">
-        /// An access token used to represent a particular user.
-        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
-        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
+        /// <para>
+        /// An access token used to represent a particular user.
+        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
+        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
         /// that can have multiple users but are treated as belonging to a single user.
-        /// The most commonly used folder of this type is Documents.
-        /// The calling application is responsible for correct impersonation when hToken is non-null.
+        /// The most commonly used folder of this type is Documents.
+        /// </para>
+        /// <para>
+        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
         /// It must have appropriate security privileges for the particular user, including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>,
         /// and the user's registry hive must be currently mounted.
-        /// See Access Control for further discussion of access control issues.
-        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
-        /// This allows clients of <see cref="SHSetKnownFolderPath"/> to set folder locations (such as the Desktop folder) for the Default User.
-        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop.
+        /// See Access Control for further discussion of access control issues.
+        /// </para>
+        /// <para>
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHSetKnownFolderPath"/> to set folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop.
         /// Any items added to the Default User folder also appear in any new user account.
         /// Note that access to the Default User folders requires administrator privileges.
+        /// </para>
         /// </param>
         /// <param name="pszPath">
         /// A pointer to the folder's new path.
@@ -3346,25 +3709,55 @@ namespace Lsj.Util.Win32
         /// This path cannot be of zero length.
         /// </param>
         /// <returns>
-        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
-        /// <see cref="E_INVALIDARG"/>:
-        /// Among other things, this value can indicate that the rfid parameter references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
-        /// Not all KNOWNFOLDERID values are present on all systems.
-        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// <para>
+        /// Returns S_OK if successful, or an error value otherwise, including the following:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="E_INVALIDARG"/>
+        /// </term>
+        /// <term>
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function replaces <see cref="SHSetFolderPath"/>.
-        /// That older function is now simply a wrapper for <see cref="SHSetKnownFolderPath"/>.
+        /// <para>
+        /// This function replaces <see cref="SHSetFolderPath"/>.
+        /// That older function is now simply a wrapper for <see cref="SHSetKnownFolderPath"/>.
+        /// </para>
+        /// <para>
         /// The caller of this function must have Administrator privileges.
         /// To call this function on public known folders, the caller must have Administrator privileges.
         /// For per-user known folders the caller only requires User privileges.
-        /// Some of the known folders, for example, the Documents folder, are per-user.
-        /// Every user has a different path for their Documents folder.
-        /// If <paramref name="hToken"/> is <see cref="NULL"/>, the API tries to access the calling application's instance of the folder,
-        /// which is that of the current user.
-        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token and tries to access that user's instance.
-        /// This function cannot be called on folders of type <see cref="KF_CATEGORY_FIXED"/> and <see cref="KF_CATEGORY_VIRTUAL"/>.
-        /// To call this function on a folder of type <see cref="KF_CATEGORY_COMMON"/>, the calling application must be running with elevated privileges.
+        /// </para>
+        /// <para>
+        /// Some of the known folders, for example, the Documents folder, are per-user.
+        /// Every user has a different path for their Documents folder.
+        /// If <paramref name="hToken"/> is <see cref="NULL"/>, the API tries to access the calling application's instance of the folder, which is that of the current user.
+        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token and tries to access that user's instance.
+        /// </para>
+        /// <para>
+        /// This function cannot be called on folders of type <see cref="KF_CATEGORY_FIXED"/> and <see cref="KF_CATEGORY_VIRTUAL"/>.
+        /// </para>
+        /// <para>
+        /// To call this function on a folder of type <see cref="KF_CATEGORY_COMMON"/>, the calling application must be running with elevated privileges.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHSetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
