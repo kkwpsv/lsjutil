@@ -1090,7 +1090,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL HeapFree([In] DWORD hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem);
+        public static extern BOOL HeapFree([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem);
 
         /// <summary>
         /// <para>
