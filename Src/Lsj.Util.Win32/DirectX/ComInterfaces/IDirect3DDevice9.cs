@@ -1029,12 +1029,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT CreateTexture([In] UINT Width, [In] UINT Height, [In] UINT Levels, [In] DWORD Usage,
+        public HRESULT CreateTexture([In] UINT Width, [In] UINT Height, [In] UINT Levels, [In] D3DUSAGE Usage,
             [In] D3DFORMAT Format, [In] D3DPOOL Pool, [Out] out P<IDirect3DTexture9> ppTexture, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, out P<IDirect3DTexture9>, ref HANDLE, HRESULT>)_vTable[23])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, UINT, D3DUSAGE, D3DFORMAT, D3DPOOL, out P<IDirect3DTexture9>, ref HANDLE, HRESULT>)_vTable[23])
                     (thisPtr, Width, Height, Levels, Usage, Format, Pool, out ppTexture, ref pSharedHandle);
             }
         }
