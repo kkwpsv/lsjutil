@@ -12,12 +12,6 @@ namespace Lsj.Util.Win32
     public partial class Kernel32
     {
         /// <summary>
-        /// FIBER_FLAG_FLOAT_SWITCH
-        /// </summary>
-        public const uint FIBER_FLAG_FLOAT_SWITCH = 0x1;
-
-
-        /// <summary>
         /// <para>
         /// An application-defined function used with the <see cref="CreateFiber"/> function.
         /// It serves as the starting address for a fiber.
@@ -67,18 +61,26 @@ namespace Lsj.Util.Win32
         /// The fiber can retrieve this data by using the <see cref="GetFiberData"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the address of the fiber.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Only fibers can execute other fibers.
-        /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
-        /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
+        /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
+        /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
         /// The thread is now the current fiber.
-        /// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
+        /// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiber", ExactSpelling = true, SetLastError = true)]
@@ -103,18 +105,25 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see cref="FIBER_FLAG_FLOAT_SWITCH"/>, the floating-point state is switched for the fiber.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the address of the fiber.
-        /// If the function fails, the return value is NULL.
-        /// To get extended error information, call GetLastError.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Only fibers can execute other fibers.
-        /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/> or <see cref="ConvertThreadToFiberEx"/>
-        /// to create an area in which to save fiber state information.
-        /// The thread is now the current fiber. The state information for this fiber
-        /// includes the fiber data specified by <paramref name="lpParameter"/>.
+        /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
+        /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
+        /// The thread is now the current fiber. The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiberEx", ExactSpelling = true, SetLastError = true)]
@@ -122,9 +131,12 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Allocates a fiber object, assigns it a stack, and sets up execution to begin at the specified start address, typically the fiber function.
+        /// Allocates a fiber object, assigns it a stack,
+        /// and sets up execution to begin at the specified start address, typically the fiber function.
         /// This function does not schedule the fiber.
-        /// To specify both a commit and reserve stack size, use the <see cref="CreateFiberEx"/> function.
+        /// </para>
+        /// <para>
+        /// To specify both a commit and reserve stack size, use the <see cref="CreateFiberEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createfiber"/>
@@ -145,21 +157,31 @@ namespace Lsj.Util.Win32
         /// The fiber can retrieve this data by using the <see cref="GetFiberData"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the address of the fiber.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The number of fibers a process can create is limited by the available virtual memory.
         /// For example, if you create each fiber with 1 megabyte of reserved stack space, you can create at most 2028 fibers.
         /// If you reduce the default stack size by using the STACKSIZE statement in the module definition (.def) file
-        /// or by using <see cref="CreateFiberEx"/>, you can create more fibers.
-        /// However, your application will have better performance if you use an alternate strategy
-        /// for processing requests instead of creating such a large number of fibers.
-        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function,
-        /// it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
+        /// or by using <see cref="CreateFiberEx"/>, you can create more fibers.
+        /// However, your application will have better performance if you use an alternate strategy for processing requests
+        /// instead of creating such a large number of fibers.
+        /// </para>
+        /// <para>
+        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function,
+        /// it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFiber", ExactSpelling = true, SetLastError = true)]
@@ -185,10 +207,15 @@ namespace Lsj.Util.Win32
         /// For more information, see Thread Stack Size.
         /// </param>
         /// <param name="dwFlags">
-        /// If this parameter is zero, the floating-point state on x86 systems is not switched and data can be corrupted
-        /// if a fiber uses floating-point arithmetic.
-        /// If this parameter is <see cref="FIBER_FLAG_FLOAT_SWITCH"/>, the floating-point state is switched for the fiber.
-        /// Windows XP: The <see cref="FIBER_FLAG_FLOAT_SWITCH"/> flag is not supported.
+        /// <para>
+        /// If this parameter is zero, the floating-point state on x86 systems is not switched
+        /// and data can be corrupted if a fiber uses floating-point arithmetic.
+        /// If this parameter is <see cref="FIBER_FLAG_FLOAT_SWITCH"/>, the floating-point state is switched for the fiber.
+        /// </para>
+        /// <para>
+        /// Windows XP:
+        /// The <see cref="FIBER_FLAG_FLOAT_SWITCH"/> flag is not supported.
+        /// </para>
         /// </param>
         /// <param name="lpStartAddress">
         /// A pointer to the application-defined function to be executed by the fiber and represents the starting address of the fiber.
@@ -200,20 +227,26 @@ namespace Lsj.Util.Win32
         /// The fiber can retrieve this data by using the <see cref="GetFiberData"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the address of the fiber.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The number of fibers a process can create is limited by the available virtual memory.
         /// By default, every fiber has 1 megabyte of reserved stack space.
-        /// Therefore, you can create at most 2028 fibers.
-        /// If you reduce the default stack size, you can create more fibers.
-        /// However, your application will have better performance if you use an alternate strategy for processing requests.
-        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function,
-        /// it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// Therefore, you can create at most 2028 fibers. If you reduce the default stack size, you can create more fibers. However, your application will have better performance if you use an alternate strategy for processing requests.
+        /// </para>
+        /// <para>
+        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function, it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
+        /// </para>
+        /// <para>
+        /// To compile an application that uses this function, define <see cref="_WIN32_WINNT"/> as 0x0400 or later. For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFiberEx", ExactSpelling = true, SetLastError = true)]
@@ -232,13 +265,19 @@ namespace Lsj.Util.Win32
         /// The address of the fiber to be deleted.
         /// </param>
         /// <remarks>
-        /// The DeleteFiber function deletes all data associated with the fiber.
+        /// <para>
+        /// The <see cref="DeleteFiber"/> function deletes all data associated with the fiber.
         /// This data includes the stack, a subset of the registers, and the fiber data.
-        /// If the currently running fiber calls <see cref="DeleteFiber"/>, its thread calls <see cref="ExitThread"/> and terminates.
+        /// </para>
+        /// <para>
+        /// If the currently running fiber calls <see cref="DeleteFiber"/>, its thread calls <see cref="ExitThread"/> and terminates.
         /// However, if a currently running fiber is deleted by another fiber,
         /// the thread running the deleted fiber is likely to terminate abnormally because the fiber stack has been freed.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFiber", ExactSpelling = true)]
@@ -259,19 +298,29 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="PFLS_CALLBACK_FUNCTION"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is an FLS index initialized to zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="FLS_OUT_OF_INDEXES"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The fibers of the process can use the FLS index in subsequent calls to the <see cref="FlsFree"/>,
-        /// <see cref="FlsSetValue"/>, or <see cref="FlsGetValue"/> functions.
+        /// <para>
+        /// The fibers of the process can use the FLS index in subsequent calls to the <see cref="FlsFree"/>,
+        /// <see cref="FlsSetValue"/>, or <see cref="FlsGetValue"/> functions.
+        /// </para>
+        /// <para>
         /// FLS indexes are typically allocated during process or dynamic-link library (DLL) initialization.
         /// After an FLS index has been allocated, each fiber of the process can use it to access its own FLS storage slot.
-        /// To store a value in its FLS slot, a fiber specifies the index in a call to <see cref="FlsSetValue"/>.
-        /// The fiber specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
+        /// To store a value in its FLS slot, a fiber specifies the index in a call to <see cref="FlsSetValue"/>.
+        /// The fiber specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
+        /// </para>
+        /// <para>
         /// FLS indexes are not valid across process boundaries.
         /// A DLL cannot assume that an index assigned in one process is valid in another process.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsAlloc", ExactSpelling = true, SetLastError = true)]
@@ -289,18 +338,27 @@ namespace Lsj.Util.Win32
         /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Freeing an FLS index frees the index for all instances of FLS in the current process.
         /// Freeing an FLS index also causes the associated callback routine to be called for each fiber,
         /// if the corresponding FLS slot contains a non-NULL value.
+        /// </para>
+        /// <para>
         /// If the fibers of the process have allocated memory and stored a pointer to the memory in an FLS slot,
-        /// they should free the memory before calling <see cref="FlsFree"/>.
-        /// The <see cref="FlsFree"/> function does not free memory blocks whose addresses have been stored in the FLS slots associated with the FLS index.
+        /// they should free the memory before calling <see cref="FlsFree"/>.
+        /// The <see cref="FlsFree"/> function does not free memory blocks
+        /// whose addresses have been stored in the FLS slots associated with the FLS index.
         /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsFree", ExactSpelling = true, SetLastError = true)]
@@ -319,9 +377,13 @@ namespace Lsj.Util.Win32
         /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the value stored in the calling fiber's FLS slot associated with the specified index.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
@@ -349,12 +411,42 @@ namespace Lsj.Util.Win32
         /// The value to be stored in the FLS slot for the calling fiber.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// The following errors can be returned.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.
-        /// ERROR_NO_MEMORY: The FLS array has not been allocated.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The index is not in range.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NO_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// The FLS array has not been allocated.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
@@ -435,19 +527,32 @@ namespace Lsj.Util.Win32
         /// The address of the fiber to be scheduled.
         /// </param>
         /// <remarks>
-        /// You create fibers with the <see cref="CreateFiber"/> function.
+        /// <para>
+        /// You create fibers with the <see cref="CreateFiber"/> function.
         /// Before you can schedule fibers associated with a thread,
-        /// you must call <see cref="ConvertThreadToFiber"/> to set up an area in which to save the fiber state information.
+        /// you must call <see cref="ConvertThreadToFiber"/> to set up an area in which to save the fiber state information.
         /// The thread is now the currently executing fiber.
-        /// The <see cref="SwitchToFiber"/> function saves the state information of the current fiber and restores the state of the specified fiber.
-        /// You can call <see cref="SwitchToFiber"/> with the address of a fiber created by a different thread.
+        /// </para>
+        /// <para>
+        /// The <see cref="SwitchToFiber"/> function saves the state information of the current fiber
+        /// and restores the state of the specified fiber.
+        /// You can call <see cref="SwitchToFiber"/> with the address of a fiber created by a different thread.
         /// To do this, you must have the address returned to the other thread
-        /// when it called <see cref="CreateFiber"/> and you must use proper synchronization.
-        /// Avoid making the following call:
-        /// <code>SwitchToFiber( GetCurrentFiber() );</code>
+        /// when it called <see cref="CreateFiber"/> and you must use proper synchronization.
+        /// </para>
+        /// <para>
+        /// Avoid making the following call
+        /// </para>
+        /// <code>
+        /// SwitchToFiber( GetCurrentFiber() );
+        /// </code>
+        /// <para>
         /// This call can cause unpredictable problems.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToFiber", ExactSpelling = true)]

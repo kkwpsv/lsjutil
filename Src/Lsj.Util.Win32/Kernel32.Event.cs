@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CreateEventFlags;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -17,86 +18,139 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Creates or opens a named or unnamed event object.
-        /// To specify an access mask for the object, use the <see cref="CreateEventEx"/> function.
+        /// </para>
+        /// <para>
+        /// To specify an access mask for the object, use the <see cref="CreateEventEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createeventw"/>
         /// </para>
         /// </summary>
         /// <param name="lpEventAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
-        /// If this parameter is <see cref="IntPtr.Zero"/>, the handle cannot be inherited by child processes.
-        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new event.
-        /// If <paramref name="lpEventAttributes"/> is <see cref="IntPtr.Zero"/>, the event gets a default security descriptor.
+        /// <para>
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// If this parameter is <see cref="NULL"/>, the handle cannot be inherited by child processes.
+        /// </para>
+        /// <para>
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new event.
+        /// If <paramref name="lpEventAttributes"/> is <see cref="NULL"/>, the event gets a default security descriptor.
         /// The ACLs in the default security descriptor for an event come from the primary or impersonation token of the creator.
+        /// </para>
         /// </param>
         /// <param name="bManualReset">
-        /// If this parameter is <see langword="true"/>, the function creates a manual-reset event object,
-        /// which requires the use of the <see cref="ResetEvent"/> function to set the event state to nonsignaled.
-        /// If this parameter is <see langword="false"/>, the function creates an auto-reset event object,
+        /// If this parameter is <see cref="TRUE"/>, the function creates a manual-reset event object,
+        /// which requires the use of the <see cref="ResetEvent"/> function to set the event state to nonsignaled.
+        /// If this parameter is <see cref="FALSE"/>, the function creates an auto-reset event object,
         /// and system automatically resets the event state to nonsignaled after a single waiting thread has been released.
         /// </param>
         /// <param name="bInitialState">
-        /// If this parameter is <see langword="true"/>, the initial state of the event object is signaled; otherwise, it is nonsignaled.
+        /// If this parameter is <see cref="TRUE"/>, the initial state of the event object is signaled; otherwise, it is nonsignaled.
         /// </param>
         /// <param name="lpName">
-        /// The name of the event object. The name is limited to <see cref="MAX_PATH"/> characters. Name comparison is case sensitive.
-        /// If <paramref name="lpName"/> matches the name of an existing named event object,
-        /// this function requests the <see cref="EVENT_ALL_ACCESS"/> access right.
-        /// In this case, the <paramref name="bManualReset"/> and <paramref name="bInitialState"/> parameters are ignored
-        /// because they have already been set by the creating process.
-        /// If the <paramref name="lpEventAttributes"/> parameter is not <see cref="IntPtr.Zero"/>,
+        /// <para>
+        /// The name of the event object. The name is limited to <see cref="MAX_PATH"/> characters.
+        /// Name comparison is case sensitive.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpName"/> matches the name of an existing named event object,
+        /// this function requests the <see cref="EVENT_ALL_ACCESS"/> access right.
+        /// In this case, the <paramref name="bManualReset"/> and <paramref name="bInitialState"/> parameters
+        /// are ignored because they have already been set by the creating process.
+        /// If the <paramref name="lpEventAttributes"/> parameter is not <see cref="NULL"/>,
         /// it determines whether the handle can be inherited, but its security-descriptor member is ignored.
-        /// If <paramref name="lpName"/> is <see langword="null"/>, the event object is created without a name.
-        /// If <paramref name="lpName"/> matches the name of another kind of object in the same namespace
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpName"/> is <see cref="NULL"/>, the event object is created without a name.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpName"/> matches the name of another kind of object in the same namespace
         /// (such as an existing semaphore, mutex, waitable timer, job, or file-mapping object),
-        /// the function fails and the <see cref="GetLastError"/> function returns <see cref="ERROR_INVALID_HANDLE"/>.
+        /// the function fails and the <see cref="GetLastError"/> function returns <see cref="ERROR_INVALID_HANDLE"/>.
         /// This occurs because these objects share the same namespace.
+        /// </para>
+        /// <para>
         /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
-        /// The remainder of the name can contain any character except the backslash character ().
-        /// For more information, see Kernel Object Namespaces.
+        /// The remainder of the name can contain any character except the backslash character (\).
+        /// For more information, see Kernel Object Namespaces.
         /// Fast user switching is implemented using Terminal Services sessions.
         /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
-        /// The object can be created in a private namespace. For more information, see Object Namespaces.
+        /// </para>
+        /// <para>
+        /// The object can be created in a private namespace.
+        /// For more information, see Object Namespaces.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the event object.
-        /// If the named event object existed before the function call, the function returns a handle to the existing object
-        /// and <see cref="GetLastError"/> returns <see cref="ERROR_ALREADY_EXISTS"/>.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the named event object existed before the function call, the function returns a handle to the existing object 
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_ALREADY_EXISTS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The handle returned by <see cref="CreateEvent"/> has the <see cref="EVENT_ALL_ACCESS"/> access right;
+        /// <para>
+        /// The handle returned by <see cref="CreateEvent"/> has the <see cref="EVENT_ALL_ACCESS"/> access right;
         /// it can be used in any function that requires a handle to an event object, provided that the caller has been granted access.
         /// If an event is created from a service or a thread that is impersonating a different user,
         /// you can either apply a security descriptor to the event when you create it,
         /// or change the default security descriptor for the creating process by changing its default DACL.
-        /// For more information, see Synchronization Object Security and Access Rights.
-        /// Any thread of the calling process can specify the event-object handle in a call to one of the wait functions.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// Any thread of the calling process can specify the event-object handle in a call to one of the wait functions.
         /// The single-object wait functions return when the state of the specified object is signaled.
         /// The multiple-object wait functions can be instructed to return either when any one or when all of the specified objects are signaled.
         /// When a wait function returns, the waiting thread is released to continue its execution.
-        /// The initial state of the event object is specified by the <paramref name="bInitialState"/> parameter.
-        /// Use the <see cref="SetEvent"/> function to set the state of an event object to signaled.
-        /// Use the <see cref="ResetEvent"/> function to reset the state of an event object to nonsignaled.
-        /// When the state of a manual-reset event object is signaled, it remains signaled until it is explicitly reset
-        /// to nonsignaled by the <see cref="ResetEvent"/> function.
+        /// </para>
+        /// <para>
+        /// The initial state of the event object is specified by the <paramref name="bInitialState"/> parameter.
+        /// Use the <see cref="SetEvent"/> function to set the state of an event object to signaled.
+        /// Use the <see cref="ResetEvent"/> function to reset the state of an event object to nonsignaled.
+        /// </para>
+        /// <para>
+        /// When the state of a manual-reset event object is signaled, it remains signaled until it is explicitly reset to nonsignaled by the <see cref="ResetEvent"/> function.
         /// Any number of waiting threads, or threads that subsequently begin wait operations for the specified event object,
         /// can be released while the object's state is signaled.
+        /// </para>
+        /// <para>
         /// When the state of an auto-reset event object is signaled, it remains signaled until a single waiting thread is released;
         /// the system then automatically resets the state to nonsignaled.
         /// If no threads are waiting, the event object's state remains signaled.
+        /// </para>
+        /// <para>
         /// Multiple processes can have handles of the same event object, enabling use of the object for interprocess synchronization.
         /// The following object-sharing mechanisms are available:
-        /// A child process created by the <see cref="CreateProcess"/> function can inherit a handle to an event object
-        /// if the <paramref name="lpEventAttributes"/> parameter of <see cref="CreateEvent"/> enabled inheritance.
-        /// A process can specify the event-object handle in a call to the <see cref="DuplicateHandle"/> function to create a duplicate handle
-        /// that can be used by another process.
-        /// A process can specify the name of an event object in a call to the <see cref="OpenEvent"/> or <see cref="CreateEvent"/> function.
-        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// A child process created by the <see cref="CreateProcess"/> function can inherit a handle to an event object
+        /// if the <paramref name="lpEventAttributes"/> parameter of <see cref="CreateEvent"/> enabled inheritance.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A process can specify the event-object handle in a call to the <see cref="DuplicateHandle"/> function
+        /// to create a duplicate handle that can be used by another process.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A process can specify the name of an event object in a call to the <see cref="OpenEvent"/> or <see cref="CreateEvent"/> function.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", ExactSpelling = true, SetLastError = true)]
@@ -111,63 +165,155 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpEventAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
-        /// If <paramref name="lpEventAttributes"/> is <see langword="null"/>, the event handle cannot be inherited by child processes.
-        /// The <paramref name="lpEventAttributes"/> member of the structure specifies a security descriptor for the new event.
-        /// If <paramref name="lpEventAttributes"/> is <see langword="null"/>, the event gets a default security descriptor.
+        /// <para>
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// If <paramref name="lpEventAttributes"/> is <see cref="NULL"/>, the event handle cannot be inherited by child processes.
+        /// </para>
+        /// <para>
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new event.
+        /// If <paramref name="lpEventAttributes"/> is <see cref="NULL"/>, the event gets a default security descriptor.
         /// The ACLs in the default security descriptor for an event come from the primary or impersonation token of the creator.
+        /// </para>
         /// </param>
         /// <param name="lpName">
-        /// The name of the event object. The name is limited to <see cref="MAX_PATH"/> characters. Name comparison is case sensitive.
-        /// If <paramref name="lpName"/> is <see langword="null"/>, the event object is created without a name.
-        /// If <paramref name="lpName"/> matches the name of another kind of object in the same namespace
+        /// <para>
+        /// The name of the event object. The name is limited to <see cref="MAX_PATH"/> characters.
+        /// Name comparison is case sensitive.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpName"/> is <see cref="NULL"/>, the event object is created without a name.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpName"/> matches the name of another kind of object in the same namespace
         /// (such as an existing semaphore, mutex, waitable timer, job, or file-mapping object),
-        /// the function fails and the <see cref="GetLastError"/> function returns <see cref="ERROR_INVALID_HANDLE"/>.
+        /// the function fails and the <see cref="GetLastError"/> function returns <see cref="ERROR_INVALID_HANDLE"/>.
         /// This occurs because these objects share the same namespace.
+        /// </para>
+        /// <para>
         /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
-        /// The remainder of the name can contain any character except the backslash character ().
-        /// For more information, see Kernel Object Namespaces.
+        /// The remainder of the name can contain any character except the backslash character (\).
+        /// For more information, see Kernel Object Namespaces.
         /// Fast user switching is implemented using Terminal Services sessions.
         /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
-        /// The object can be created in a private namespace. For more information, see Object Namespaces.
+        /// </para>
+        /// <para>
+        /// The object can be created in a private namespace.
+        /// For more information, see Object Namespaces.
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
-        /// This parameter can be one or more of the following values.
-        /// <see cref="CREATE_EVENT_INITIAL_SET"/>, <see cref="CREATE_EVENT_MANUAL_RESET"/>
+        /// <para>
+        /// This parameter can be 0 or one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CREATE_EVENT_INITIAL_SET"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The initial state of the event object is signaled; otherwise, it is nonsignaled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CREATE_EVENT_MANUAL_RESET"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The event must be manually reset using the <see cref="ResetEvent"/> function.
+        /// Any number of waiting threads, or threads that subsequently begin wait operations for the specified event object,
+        /// can be released while the object's state is signaled.
+        /// </para>
+        /// <para>
+        /// If this flag is not specified, the system automatically resets the event after releasing a single waiting thread.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwDesiredAccess">
         /// The access mask for the event object.
         /// For a list of access rights, see Synchronization Object Security and Access Rights.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the event object.
         /// If the named event object existed before the function call, the function returns a handle to the existing object
-        /// and <see cref="GetLastError"/> returns <see cref="ERROR_ALREADY_EXISTS"/>.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_ALREADY_EXISTS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Any thread of the calling process can specify the event-object handle in a call to one of the wait functions.
+        /// <para>
+        /// Any thread of the calling process can specify the event-object handle in a call to one of the wait functions.
         /// The single-object wait functions return when the state of the specified object is signaled.
         /// The multiple-object wait functions can be instructed to return either when any one or when all of the specified objects are signaled.
         /// When a wait function returns, the waiting thread is released to continue its execution.
-        /// The initial state of the event object is specified by the <paramref name="dwFlags"/> parameter.
-        /// Use the <see cref="SetEvent"/> function to set the state of an event object to signaled.
-        /// Use the <see cref="ResetEvent"/> function to reset the state of an event object to nonsignaled.
-        /// When the state of a manual-reset event object is signaled, it remains signaled until it is explicitly reset
-        /// to nonsignaled by the <see cref="ResetEvent"/> function.
+        /// </para>
+        /// <para>
+        /// The initial state of the event object is specified by the <paramref name="dwFlags"/> parameter.
+        /// Use the <see cref="SetEvent"/> function to set the state of an event object to signaled.
+        /// Use the <see cref="ResetEvent"/> function to reset the state of an event object to nonsignaled.
+        /// </para>
+        /// <para>
+        /// When the state of a manual-reset event object is signaled, it remains signaled
+        /// until it is explicitly reset to nonsignaled by the <see cref="ResetEvent"/> function.
         /// Any number of waiting threads, or threads that subsequently begin wait operations for the specified event object,
         /// can be released while the object's state is signaled.
+        /// </para>
+        /// <para>
         /// Multiple processes can have handles of the same event object, enabling use of the object for interprocess synchronization.
         /// The following object-sharing mechanisms are available:
-        /// A child process created by the <see cref="CreateProcess"/> function can inherit a handle to an event object
-        /// if the <paramref name="lpEventAttributes"/> parameter of <see cref="CreateEvent"/> enabled inheritance.
-        /// A process can specify the event-object handle in a call to the <see cref="DuplicateHandle"/> function
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// A child process created by the <see cref="CreateProcess"/> function can inherit a handle to an event object
+        /// if the <paramref name="lpEventAttributes"/> parameter of <see cref="CreateEvent"/> enabled inheritance.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A process can specify the event-object handle in a call to the <see cref="DuplicateHandle"/> function
         /// to create a duplicate handle that can be used by another process.
-        /// A process can specify the name of an event object in a call to the <see cref="OpenEvent"/> or <see cref="CreateEvent"/> function.
-        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A process can specify the name of an event object in a call to the <see cref="OpenEvent"/> or <see cref="CreateEvent"/> function.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
@@ -188,34 +334,49 @@ namespace Lsj.Util.Win32
         /// For a list of access rights, see Synchronization Object Security and Access Rights.
         /// </param>
         /// <param name="bInheritHandle">
-        /// If this value is <see langword="true"/>, processes created by this process will inherit the handle.
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
         /// Otherwise, the processes do not inherit this handle.
         /// </param>
         /// <param name="lpName">
-        /// The name of the event to be opened.
-        /// Name comparisons are case sensitive.
-        /// This function can open objects in a private namespace.
-        /// For more information, see Object Namespaces.
-        /// Terminal Services:  The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
-        /// The remainder of the name can contain any character except the backslash character (). For more information, see Kernel Object Namespaces.
-        /// Note Fast user switching is implemented using Terminal Services sessions.
+        /// <para>
+        /// The name of the event to be opened. Name comparisons are case sensitive.
+        /// </para>
+        /// <para>
+        /// This function can open objects in a private namespace. For more information, see Object Namespaces.
+        /// </para>
+        /// <para>
+        /// Terminal Services:  The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character (\).
+        /// For more information, see Kernel Object Namespaces.
+        /// </para>
+        /// <para>
+        /// Note  Fast user switching is implemented using Terminal Services sessions.
         /// The first user to log on uses session 0, the next user to log on uses session 1, and so on.
         /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the event object.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="OpenEvent"/> function enables multiple processes to open handles of the same event object.
-        /// The function succeeds only if some process has already created the event by using the <see cref="CreateEvent"/> function.
+        /// <para>
+        /// The <see cref="OpenEvent"/> function enables multiple processes to open handles of the same event object.
+        /// The function succeeds only if some process has already created the event by using the <see cref="CreateEvent"/> function.
         /// The calling process can use the returned handle in any function that requires a handle to an event object,
-        /// subject to the limitations of the access specified in the <paramref name="dwDesiredAccess"/> parameter.
-        /// The handle can be duplicated by using the <see cref="DuplicateHandle"/> function.
-        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// subject to the limitations of the access specified in the <paramref name="dwDesiredAccess"/> parameter.
+        /// </para>
+        /// <para>
+        /// The handle can be duplicated by using the <see cref="DuplicateHandle"/> function.
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenEventW", ExactSpelling = true, SetLastError = true)]
@@ -231,38 +392,57 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hEvent">
-        /// A handle to the event object.
-        /// The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// <para>
+        /// A handle to the event object. The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// </para>
+        /// <para>
         /// The handle must have the <see cref="EVENT_MODIFY_STATE"/> access right.
-        /// For more information, see Synchronization Object Security and Access Rights.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// A thread waiting on a synchronization object can be momentarily removed from the wait state by a kernel-mode APC,
         /// and then returned to the wait state after the APC is complete.
-        /// If the call to <see cref="PulseEvent"/> occurs during the time when the thread has been removed from the wait state,
-        /// the thread will not be released because <see cref="PulseEvent"/> releases only those threads that are waiting at the moment it is called.
-        /// Therefore, <see cref="PulseEvent"/> is unreliable and should not be used by new applications.
-        /// Instead, use condition variables.
+        /// If the call to <see cref="PulseEvent"/> occurs during the time when the thread has been removed from the wait state,
+        /// the thread will not be released because <see cref="PulseEvent"/> releases only those threads that are waiting at the moment it is called.
+        /// Therefore, <see cref="PulseEvent"/> is unreliable and should not be used by new applications.
+        /// Instead, use condition variables.
+        /// </para>
+        /// <para>
         /// For a manual-reset event object, all waiting threads that can be released immediately are released.
         /// The function then resets the event object's state to nonsignaled and returns.
-        /// For an auto-reset event object, the function resets the state to nonsignaled and returns after releasing a single waiting thread,
-        /// even if multiple threads are waiting.
+        /// </para>
+        /// <para>
+        /// For an auto-reset event object, the function resets the state to nonsignaled
+        /// and returns after releasing a single waiting thread, even if multiple threads are waiting.
+        /// </para>
+        /// <para>
         /// If no threads are waiting, or if no thread can be released immediately,
-        /// <see cref="PulseEvent"/> simply sets the event object's state to nonsignaled and returns.
-        /// Note that for a thread using the multiple-object wait functions to wait for all specified objects to be signaled,
-        /// <see cref="PulseEvent"/> can set the event object's state to signaled and reset it to nonsignaled without causing the wait function to return.
+        /// <see cref="PulseEvent"/> simply sets the event object's state to nonsignaled and returns.
+        /// </para>
+        /// <para>
+        /// Note that for a thread using the multiple-object wait functions to wait for all specified objects to be signaled,
+        /// <see cref="PulseEvent"/> can set the event object's state to signaled and reset it to nonsignaled without causing the wait function to return.
         /// This happens if not all of the specified objects are simultaneously signaled.
-        /// Use extreme caution when using <see cref="SignalObjectAndWait"/> and <see cref="PulseEvent"/> with Windows 7,
+        /// </para>
+        /// <para>
+        /// Use extreme caution when using <see cref="SignalObjectAndWait"/> and <see cref="PulseEvent"/> with Windows 7,
         /// since using these APIs among multiple threads can cause an application to deadlock.
-        /// Threads that are signaled by <see cref="SignalObjectAndWait"/> call <see cref="PulseEvent"/> to
-        /// signal the waiting object of the <see cref="SignalObjectAndWait"/> call.
-        /// In some circumstances, the caller of <see cref="SignalObjectAndWait"/> can't receive signal state of the waiting object in time,
-        /// causing a deadlock.
+        /// Threads that are signaled by <see cref="SignalObjectAndWait"/> call <see cref="PulseEvent"/>
+        /// to signal the waiting object of the <see cref="SignalObjectAndWait"/> call.
+        /// In some circumstances, the caller of <see cref="SignalObjectAndWait"/>
+        /// can't receive signal state of the waiting object in time, causing a deadlock.
+        /// </para>
         /// </remarks>
         [Obsolete("This function is unreliable and should not be used. It exists mainly for backward compatibility." +
             " For more information, see Remarks.")]
@@ -279,24 +459,38 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hEvent">
-        /// A handle to the event object.
-        /// The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// <para>
+        /// A handle to the event object. The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// </para>
+        /// <para>
         /// The handle must have the <see cref="EVENT_MODIFY_STATE"/> access right.
-        /// For more information, see Synchronization Object Security and Access Rights.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The state of an event object remains nonsignaled until it is explicitly set to signaled
-        /// by the <see cref="SetEvent"/> or <see cref="PulseEvent"/> function.
-        /// This nonsignaled state blocks the execution of any threads that have specified the event object in a call to one of the wait functions.
-        /// The ResetEvent function is used primarily for manual-reset event objects,
+        /// <para>
+        /// The state of an event object remains nonsignaled
+        /// until it is explicitly set to signaled by the <see cref="SetEvent"/> or <see cref="PulseEvent"/> function.
+        /// This nonsignaled state blocks the execution of any threads
+        /// that have specified the event object in a call to one of the wait functions.
+        /// </para>
+        /// <para>
+        /// The <see cref="ResetEvent"/> function is used primarily for manual-reset event objects,
         /// which must be set explicitly to the nonsignaled state.
         /// Auto-reset event objects automatically change from signaled to nonsignaled after a single waiting thread is released.
+        /// </para>
+        /// <para>
         /// Resetting an event that is already reset has no effect.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetEvent", ExactSpelling = true, SetLastError = true)]
@@ -311,26 +505,41 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hEvent">
-        /// A handle to the event object.
-        /// The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// <para>
+        /// A handle to the event object. The <see cref="CreateEvent"/> or <see cref="OpenEvent"/> function returns this handle.
+        /// </para>
+        /// <para>
         /// The handle must have the <see cref="EVENT_MODIFY_STATE"/> access right.
-        /// For more information, see Synchronization Object Security and Access Rights.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The state of a manual-reset event object remains signaled until it is set explicitly
-        /// to the nonsignaled state by the <see cref="ResetEvent"/> function.
+        /// <para>
+        /// The state of a manual-reset event object remains signaled
+        /// until it is set explicitly to the nonsignaled state by the <see cref="ResetEvent"/> function.
         /// Any number of waiting threads, or threads that subsequently begin wait operations for the specified event object
-        /// by calling one of the wait functions, can be released while the object's state is signaled.
-        /// The state of an auto-reset event object remains signaled until a single waiting thread is released,
-        /// at which time the system automatically sets the state to nonsignaled.
+        /// by calling one of the wait functions, can be released while the object's state is signaled.
+        /// </para>
+        /// <para>
+        /// In contrast, the state of an auto-reset event object remains signaled
+        /// until a single waiting thread is released, at which time the system automatically sets the state to nonsignaled.
         /// If no threads are waiting, the event object's state remains signaled.
+        /// </para>
+        /// <para>
         /// Setting an event that is already set has no effect.
-        /// Windows Store apps can respond to named events and semaphores as described in How to respond to named events and semaphores.
+        /// </para>
+        /// <para>
+        /// Windows Store apps can respond to named events and semaphores as described in How to respond to named events and semaphores.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEvent", ExactSpelling = true, SetLastError = true)]

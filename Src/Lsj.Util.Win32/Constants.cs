@@ -124,9 +124,29 @@ namespace Lsj.Util.Win32
         public const uint DWM_SIT_DISPLAYFRAME = 0x00000001;
 
         /// <summary>
+        /// EXCEPTION_CONTINUE_EXECUTION
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_EXECUTION = unchecked(-1);
+
+        /// <summary>
+        /// EXCEPTION_CONTINUE_SEARCH
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_SEARCH = 0;
+
+        /// <summary>
+        /// EXCEPTION_EXECUTE_HANDLER
+        /// </summary>
+        public const int EXCEPTION_EXECUTE_HANDLER = 1;
+
+        /// <summary>
         /// EXCEPTION_MAXIMUM_PARAMETERS
         /// </summary>
         public const int EXCEPTION_MAXIMUM_PARAMETERS = 15;
+
+        /// <summary>
+        /// FIBER_FLAG_FLOAT_SWITCH
+        /// </summary>
+        public const uint FIBER_FLAG_FLOAT_SWITCH = 0x1;
 
         /// <summary>
         /// <para>
@@ -408,9 +428,19 @@ namespace Lsj.Util.Win32
         public const int INFOTIPSIZE = 1024;
 
         /// <summary>
+        /// INVALID_FILE_SIZE
+        /// </summary>
+        public const uint INVALID_FILE_SIZE = 0xFFFFFFFF;
+
+        /// <summary>
         /// INVALID_HANDLE_VALUE
         /// </summary>
         public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
+
+        /// <summary>
+        /// INVALID_SET_FILE_POINTER
+        /// </summary>
+        public const uint INVALID_SET_FILE_POINTER = unchecked((uint)-1);
 
         /// <summary>
         /// <para>
@@ -593,6 +623,11 @@ namespace Lsj.Util.Win32
         public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
 
         /// <summary>
+        /// OFS_MAXPATHNAME
+        /// </summary>
+        public const int OFS_MAXPATHNAME = 128;
+
+        /// <summary>
         /// <para>
         /// An Open or Save As dialog box sends the <see cref="SHAREVISTRING"/> registered message to your hook procedure,
         /// OFNHookProc, if a sharing violation occurs for the selected file when the user clicks the OK button.
@@ -724,6 +759,21 @@ namespace Lsj.Util.Win32
         /// TRANSACTION_DO_NOT_PROMOTE
         /// </summary>
         public const uint TRANSACTION_DO_NOT_PROMOTE = 0x00000001;
+
+        /// <summary>
+        /// STORAGE_INFO_OFFSET_UNKNOWN 
+        /// </summary>
+        public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
+
+        /// <summary>
+        /// SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 
+        /// </summary>
+        public const uint SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE = 0x2;
+
+        /// <summary>
+        /// SYMBOLIC_LINK_FLAG_DIRECTORY 
+        /// </summary>
+        public const uint SYMBOLIC_LINK_FLAG_DIRECTORY = 0x1;
 
         /// <summary>
         /// USER_TIMER_MAXIMUM
