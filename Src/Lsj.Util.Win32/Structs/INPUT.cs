@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
 using static Lsj.Util.Win32.Enums.KEYEVENTF;
@@ -84,29 +85,21 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The information about a simulated mouse event.
         /// </summary>
-        public MOUSEINPUT mi
-        {
-            get => DUMMYUNIONNAME.mi;
-            set => DUMMYUNIONNAME.mi = value;
-        }
+        [UnscopedRef]
+        public ref MOUSEINPUT mi => ref DUMMYUNIONNAME.mi;
 
         /// <summary>
         /// The information about a simulated keyboard event.
         /// </summary>
-        public KEYBDINPUT ki
-        {
-            get => DUMMYUNIONNAME.ki;
-            set => DUMMYUNIONNAME.ki = value;
-        }
+        [UnscopedRef]
+        public ref KEYBDINPUT ki => ref DUMMYUNIONNAME.ki;
 
         /// <summary>
         /// The information about a simulated hardware event.
         /// </summary>
-        public HARDWAREINPUT hi
-        {
-            get => DUMMYUNIONNAME.hi;
-            set => DUMMYUNIONNAME.hi = value;
-        }
+        [UnscopedRef]
+        public ref HARDWAREINPUT hi => ref DUMMYUNIONNAME.hi;
+
 #pragma warning restore IDE1006
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
