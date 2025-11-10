@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.Enums;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.Memory
@@ -12,10 +13,11 @@ namespace Lsj.Util.Win32.Extensions.Memory
         /// Alloc memory
         /// </summary>
         /// <param name="size"></param>
+        /// <param name="heapFlags"></param>
         /// <returns></returns>
-        public static nint AllocMemory(int size)
+        public static nint AllocMemory(int size, HeapFlags heapFlags = 0)
         {
-            return Kernel32.HeapAlloc(Kernel32.GetProcessHeap(), 0, size);
+            return Kernel32.HeapAlloc(Kernel32.GetProcessHeap(), heapFlags, size);
         }
 
         /// <summary>
@@ -23,11 +25,12 @@ namespace Lsj.Util.Win32.Extensions.Memory
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="struct"></param>
+        /// <param name="heapFlags"></param>
         /// <returns></returns>
-        public static unsafe nint AllocMemoryForUnmanagedStruct<T>(T @struct) where T : unmanaged
+        public static unsafe nint AllocMemoryForUnmanagedStruct<T>(T @struct, HeapFlags heapFlags = 0) where T : unmanaged
         {
             var size = SizeOf<T>();
-            var addr = Kernel32.HeapAlloc(Kernel32.GetProcessHeap(), 0, size);
+            var addr = Kernel32.HeapAlloc(Kernel32.GetProcessHeap(), heapFlags, size);
             Unsafe.CopyBlock((void*)addr, &@struct, (uint)size);
             return addr;
         }
