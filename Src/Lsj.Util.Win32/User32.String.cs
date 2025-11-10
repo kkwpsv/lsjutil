@@ -161,7 +161,8 @@ namespace Lsj.Util.Win32
         /// will advance two code points, not one.
         /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
         /// </remarks>
-        ///         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
 
         /// <summary>
