@@ -8192,6 +8192,7 @@ namespace Lsj.Util.Win32
         /// then the function returns the compressed file size of the isolated file view.
         /// For more information, see About Transactional NTFS.
         /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetFileInformationByHandle([In] HANDLE hFile, [Out] out BY_HANDLE_FILE_INFORMATION lpFileInformation);

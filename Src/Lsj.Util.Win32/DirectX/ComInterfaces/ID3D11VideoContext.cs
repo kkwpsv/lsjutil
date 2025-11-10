@@ -2234,6 +2234,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pRandomNumber">
         /// A pointer to a byte array that receives a random number.
+        /// </param>
         /// <remarks>
         /// <para>
         /// To generate a new session key, perform a bitwise XOR between the previous session key and the random number.

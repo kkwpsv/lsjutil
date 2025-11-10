@@ -1595,7 +1595,6 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
