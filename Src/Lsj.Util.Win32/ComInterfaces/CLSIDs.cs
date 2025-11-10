@@ -18,6 +18,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly CLSID CLSID_FileSaveDialog = "C0B4E2F3-BA21-4773-8DBA-335EC946EB8B";
 
         /// <summary>
+        /// CLSID_MFMediaEngineClassFactory
+        /// </summary>
+        public static readonly CLSID CLSID_MFMediaEngineClassFactory = "b44392da-499b-446b-a4cb-005fead0e6d5";
+
+        /// <summary>
         /// CLSID_NetworkListManager
         /// </summary>
         public static readonly CLSID CLSID_NetworkListManager = "DCB00C01-570F-4A9B-8D69-199FDBA5723B";

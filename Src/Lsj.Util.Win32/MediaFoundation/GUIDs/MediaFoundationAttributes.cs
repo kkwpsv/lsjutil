@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -14,6 +15,80 @@ namespace Lsj.Util.Win32.MediaFoundation.GUIDs
     /// </summary>
     public static class MediaFoundationAttributes
     {
+        /// <summary>
+        /// <para>
+        /// Contains a pointer to the callback interface for the Media Engine.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="IMFMediaEngineNotify"/>* stored as <see cref="IUnknown"/>*
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-media-engine-callback"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The value of this attribute is a pointer to the <see cref="IMFMediaEngineNotify"/> interface, implemented by the application.
+        /// </para>
+        /// <para>
+        /// This attribute is used with the <see cref="IMFMediaEngineClassFactory.CreateInstance"/> method to initialize the Media Engine.
+        /// The attribute is required.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        public static readonly GUID MF_MEDIA_ENGINE_CALLBACK = (GUID)"c60381b8-83a4-41f8-a3d0-de05076849a9";
+
+        /// <summary>
+        /// <para>
+        /// Sets the Microsoft DirectX Graphics Infrastructure (DXGI) Device Manager on the Media Engine.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="IMFDXGIDeviceManager"/>* stored as <see cref="IUnknown"/>*
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-media-engine-dxgi-manager"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The value of this attribute is a pointer to the <see cref="IMFDXGIDeviceManager"/> interface.
+        /// </para>
+        /// <para>
+        /// In frame-server mode, this attribute enables the Media Engine to use hardware acceleration for video decoding and video processing.
+        /// If the attribute is not set, the Media Engine uses software decoding and processing.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        public static readonly GUID MF_MEDIA_ENGINE_DXGI_MANAGER = (GUID)"065702da-1094-486d-8617-ee7cc4ee4648";
+
+        /// <summary>
+        /// <para>
+        /// Sets the render-target format for the Media Engine.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="DXGI_FORMAT"/> stored as <see cref="UINT32"/>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-media-engine-dxgi-manager"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Set this attribute if you create the Media Engine in frame-server mode.
+        /// For more information, see <see cref="IMFMediaEngineClassFactory.CreateInstance"/>.
+        /// The value of the attribute is a <see cref="DXGI_FORMAT"/> value.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        public static readonly GUID MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT = (GUID)"5066893c-8cf9-42bc-8b8a-472212e52726";
+
         /// <summary>
         /// <para>
         /// Number of bits per audio sample in an audio media type.

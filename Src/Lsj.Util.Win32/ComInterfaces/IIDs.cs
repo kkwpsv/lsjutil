@@ -608,6 +608,31 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMFMediaBuffer = "045FA593-8799-42b8-BC8D-8968C6453507";
 
         /// <summary>
+        /// IID_IMFMediaEngine
+        /// </summary>
+        public static readonly IID IID_IMFMediaEngine = "98a1b0bb-03eb-4935-ae7c-93c1fa0e1c93";
+
+        /// <summary>
+        /// IID_IMFMediaEngineClassFactory
+        /// </summary>
+        public static readonly IID IID_IMFMediaEngineClassFactory = "4D645ACE-26AA-4688-9BE1-DF3516990B93";
+
+        /// <summary>
+        /// IID_IMFMediaEngineNotify
+        /// </summary>
+        public static readonly IID IID_IMFMediaEngineNotify = "fee7c112-e776-42b5-9bbf-0048524e2bd5";
+
+        /// <summary>
+        /// IID_IMFMediaError
+        /// </summary>
+        public static readonly IID IID_IMFMediaError = "fc0e10d2-ab2a-4501-a951-06bb1075184c";
+
+        /// <summary>
+        /// IID_IMFMediaTimeRange
+        /// </summary>
+        public static readonly IID IID_IMFMediaTimeRange = "db71a2fc-078a-414e-9df9-8c2531b0aa6c";
+
+        /// <summary>
         /// IID_IMFMediaType
         /// </summary>
         public static readonly IID IID_IMFMediaType = "44ae0fa8-ea31-4109-8d2e-4cae4997c555";
