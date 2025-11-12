@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32.Extensions.COM
                     _delegates[0] = vTable.SetMethod(0, GetMethodInfo(nameof(QueryInterface)));
                     _delegates[1] = vTable.SetMethod(1, GetMethodInfo(nameof(AddRef)));
                     _delegates[2] = vTable.SetMethod(2, GetMethodInfo(nameof(Release)));
-                    InitVTable(vTable);
+                    InitVTable(new VTableInitHelper<TInterface>(vTable, _delegates));
                     _vTable = vTable;
                 }
                 return _vTable.Value;
@@ -114,7 +114,7 @@ namespace Lsj.Util.Win32.Extensions.COM
         /// Init VTable methods
         /// </summary>
         /// <param name="vTable"></param>
-        protected virtual void InitVTable(VTable<TInterface> vTable)
+        protected virtual void InitVTable(VTableInitHelper<TInterface> vTable)
         {
 
         }
@@ -224,6 +224,32 @@ namespace Lsj.Util.Win32.Extensions.COM
             }).ToArray();
 
             return DynamicAssemblyHelper.DefineDelegate(name, retType, parameterTypes).CreateTypeInfo()!;
+        }
+    }
+
+    /// <summary>
+    /// VTable init helper
+    /// </summary>
+    /// <typeparam name="TInterface"></typeparam>
+    public class VTableInitHelper<TInterface> where TInterface : struct
+    {
+        private VTable<TInterface> _vTable;
+        private Delegate[] _delegates;
+
+        internal VTableInitHelper(VTable<TInterface> vTable, Delegate[] delegates)
+        {
+            _vTable = vTable;
+            _delegates = delegates;
+        }
+
+        /// <summary>
+        /// Set method for vtable
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="method"></param>
+        public void SetMethod(int offset, MethodInfo method)
+        {
+            _delegates[offset] = _vTable.SetMethod(offset, method);
         }
     }
 }
