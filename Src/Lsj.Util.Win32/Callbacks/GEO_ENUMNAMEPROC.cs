@@ -16,13 +16,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Geo_EnumNameProc(GEO_ENUMNAMEPROC val) => (Geo_EnumNameProc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Geo_EnumNameProc));
+        public static implicit operator GeoEnumnameproc(GEO_ENUMNAMEPROC val) => (GeoEnumnameproc)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(GeoEnumnameproc));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator GEO_ENUMNAMEPROC(Geo_EnumNameProc val) => new GEO_ENUMNAMEPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator GEO_ENUMNAMEPROC(GeoEnumnameproc val) => new GEO_ENUMNAMEPROC { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

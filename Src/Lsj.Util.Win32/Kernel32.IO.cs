@@ -26,12 +26,15 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
-        /// It is called when the asynchronous input and output (I/O) operation is completed or canceled and the calling thread is in an alertable state
-        /// (by using the <see cref="SleepEx"/>, <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
-        /// or <see cref="WaitForMultipleObjectsEx"/> function with the fAlertable parameter set to <see cref="TRUE"/>).
-        /// The <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/> type defines a pointer to this callback function.
-        /// FileIOCompletionRoutine is a placeholder for the application-defined function name.
+        /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
+        /// It is called when the asynchronous input and output (I/O) operation is completed or canceled
+        /// and the calling thread is in an alertable state (by using the <see cref="SleepEx"/>,
+        /// <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
+        /// or <see cref="WaitForMultipleObjectsEx"/> function with the <c>fAlertable</c> parameter set to <see cref="TRUE"/>).
+        /// </para>
+        /// <para>
+        /// The <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/> type defines a pointer to this callback function.
+        /// <c>FileIOCompletionRoutine</c> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine"/>
@@ -44,24 +47,38 @@ namespace Lsj.Util.Win32
         /// The number of bytes transferred. If an error occurs, this parameter is zero.
         /// </param>
         /// <param name="lpOverlapped">
-        /// A pointer to the <see cref="OVERLAPPED"/> structure specified by the asynchronous I/O function.
-        /// The system does not use the <see cref="OVERLAPPED"/> structure after the completion routine is called,
+        /// <para>
+        /// A pointer to the <see cref="OVERLAPPED"/> structure specified by the asynchronous I/O function.
+        /// </para>
+        /// <para>
+        /// The system does not use the <see cref="OVERLAPPED"/> structure after the completion routine is called,
         /// so the completion routine can deallocate the memory used by the overlapped structure.
+        /// </para>
         /// </param>
         /// <remarks>
-        /// The return value for an asynchronous operation is 0 (<see cref="ERROR_SUCCESS"/>) if the operation completed successfully
-        /// or if the operation completed with a warning.
-        /// To determine whether an I/O operation was completed successfully, check that dwErrorCode is 0,
-        /// call <see cref="GetOverlappedResult"/>, then call <see cref="GetLastError"/>.
-        /// For example, if the buffer was not large enough to receive all of the data from a call to <see cref="ReadFileEx"/>,
-        /// dwErrorCode is set to 0, <see cref="GetOverlappedResult"/> fails, and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// <para>
+        /// The return value for an asynchronous operation is 0 (<see cref="ERROR_SUCCESS"/>)
+        /// if the operation completed successfully or if the operation completed with a warning.
+        /// To determine whether an I/O operation was completed successfully, check that <paramref name="dwErrorCode"/> is 0,
+        /// call <see cref="GetOverlappedResult"/>, then call <see cref="GetLastError"/>.
+        /// For example, if the buffer was not large enough to receive all of the data from a call to <see cref="ReadFileEx"/>,
+        /// <paramref name="dwErrorCode"/> is set to 0, <see cref="GetOverlappedResult"/> fails,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// </para>
+        /// <para>
         /// Returning from this function allows another pending I/O completion routine to be called.
-        /// All waiting completion routines are called before the alertable thread's wait is completed with a return code of <see cref="WAIT_IO_COMPLETION"/>.
+        /// All waiting completion routines are called before the alertable thread's wait is completed
+        /// with a return code of <see cref="WAIT_IO_COMPLETION"/>.
         /// The system may call the waiting completion routines in any order.
         /// They may or may not be called in the order the I/O functions are completed.
+        /// </para>
+        /// <para>
         /// Each time the system calls a completion routine, it uses some of the application's stack.
         /// If the completion routine does additional asynchronous I/O and alertable waits, the stack may grow.
-        /// For more information, see Asynchronous Procedure Calls.
+        /// </para>
+        /// <para>
+        /// For more information, see Asynchronous Procedure Calls.
+        /// </para>
         /// </remarks>
         public delegate void LpoverlappedCompletionRoutine([In] SystemErrorCodes dwErrorCode, [In] DWORD dwNumberOfBytesTransfered, [In] in OVERLAPPED lpOverlapped);
 
@@ -70,33 +87,105 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Cancels all pending input and output (I/O) operations that are issued by the calling thread for the specified file.
         /// The function does not cancel I/O operations that other threads issue for a file handle.
-        /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.
+        /// </para>
+        /// <para>
+        /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-cancelio"/>
         /// </para>
         /// </summary>
         /// <param name="hFile">
+        /// <para>
         /// A handle to the file.
+        /// </para>
+        /// <para>
         /// The function cancels all pending I/O operations for this file handle.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="false"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
         /// The cancel operation for all pending I/O operations issued by the calling thread for the specified file handle was successfully requested.
-        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
-        /// If the function fails, the return value is <see langword="true"/>.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero (0).
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If there are any pending I/O operations in progress for the specified file handle, and they are issued by the calling thread,
-        /// the <see cref="CancelIo"/> function cancels them.
-        /// <see cref="CancelIo"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
-        /// this means that you cannot rely on the state of the handle because you cannot know whether the operation was completed successfully or canceled.
+        /// <para>
+        /// If there are any pending I/O operations in progress for the specified file handle,
+        /// and they are issued by the calling thread, the <see cref="CancelIo"/> function cancels them.
+        /// <see cref="CancelIo"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
+        /// this means that you cannot rely on the state of the handle
+        /// because you cannot know whether the operation was completed successfully or canceled.
+        /// </para>
+        /// <para>
         /// The I/O operations must be issued as overlapped I/O.
-        /// If they are not, the I/O operations do not return to allow the thread to call the <see cref="CancelIo"/> function.
-        /// Calling the <see cref="CancelIo"/> function with a file handle that is not opened with <see cref="FILE_FLAG_OVERLAPPED"/> does nothing.
-        /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
+        /// If they are not, the I/O operations do not return to allow the thread to call the <see cref="CancelIo"/> function.
+        /// Calling the <see cref="CancelIo"/> function with a file handle that is not opened with <see cref="FILE_FLAG_OVERLAPPED"/> does nothing.
+        /// </para>
+        /// <para>
+        /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
         /// and all completion notifications for the I/O operations occur normally.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", ExactSpelling = true, SetLastError = true)]
@@ -115,44 +204,136 @@ namespace Lsj.Util.Win32
         /// A handle to the file.
         /// </param>
         /// <param name="lpOverlapped">
-        /// A pointer to an <see cref="OVERLAPPED"/> data structure that contains the data used for asynchronous I/O.
-        /// If this parameter is <see langword="null"/>, all I/O requests for the hFile parameter are canceled.
-        /// If this parameter is not <see langword="null"/>, only those specific I/O requests that were issued for
-        /// the file with the specified <paramref name="lpOverlapped"/> overlapped structure are marked as canceled,
-        /// meaning that you can cancel one or more requests,
-        /// while the <see cref="CancelIo"/> function cancels all outstanding requests on a file handle.
+        /// <para>
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure that contains the data used for asynchronous I/O.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>, all I/O requests for the <paramref name="hFile"/> parameter are canceled.
+        /// </para>
+        /// <para>
+        /// If this parameter is not <see cref="NULL"/>, only those specific I/O requests that were issued for the file
+        /// with the specified <paramref name="lpOverlapped"/> overlapped structure are marked as canceled,
+        /// meaning that you can cancel one or more requests, while the <see cref="CancelIo"/> function cancels all outstanding requests on a file handle.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
         /// The cancel operation for all pending I/O operations issued by the calling process for the specified file handle was successfully requested.
-        /// The application must not free or reuse the <see cref="OVERLAPPED"/> structure associated with the canceled I/O operations
-        /// until they have completed.
-        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
-        /// If this function cannot find a request to cancel, the return value is <see langword="false"/>,
-        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// The application must not free or reuse the <see cref="OVERLAPPED"/> structure
+        /// associated with the canceled I/O operations until they have completed.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is 0 (zero).
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// <para>
+        /// If this function cannot find a request to cancel, the return value is 0 (zero),
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CancelIoEx"/> function allows you to cancel requests in threads other than the calling thread.
-        /// The <see cref="CancelIo"/> function only cancels requests in the same thread that called the <see cref="CancelIo"/> function.
-        /// <see cref="CancelIoEx"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
-        /// this means that you cannot rely on the state of the handle because you cannot know whether the operation was completed successfully or canceled.
+        /// <para>
+        /// The <see cref="CancelIoEx"/> function allows you to cancel requests in threads other than the calling thread.
+        /// The <see cref="CancelIo"/> function only cancels requests in the same thread that called the <see cref="CancelIo"/> function.
+        /// <see cref="CancelIoEx"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
+        /// this means that you cannot rely on the state of the handle
+        /// because you cannot know whether the operation was completed successfully or canceled.
+        /// </para>
+        /// <para>
         /// If there are any pending I/O operations in progress for the specified file handle,
-        /// the <see cref="CancelIoEx"/> function marks them for cancellation.
-        /// Most types of operations can be canceled immediately;
-        /// other operations can continue toward completion before they are actually canceled and the caller is notified.
-        /// The <see cref="CancelIoEx"/> function does not wait for all canceled operations to complete.
-        /// If the file handle is associated with a completion port,
-        /// an I/O completion packet is not queued to the port if a synchronous operation is successfully canceled.
-        /// For asynchronous operations still pending, the cancel operation will queue an I/O completion packet.
+        /// the <see cref="CancelIoEx"/> function marks them for cancellation.
+        /// Most types of operations can be canceled immediately; other operations can continue toward completion
+        /// before they are actually canceled and the caller is notified.
+        /// The <see cref="CancelIoEx"/> function does not wait for all canceled operations to complete.
+        /// </para>
+        /// <para>
+        /// If the file handle is associated with a completion port, an I/O completion packet is not queued to the port
+        /// if a synchronous operation is successfully canceled. For asynchronous operations still pending,
+        /// the cancel operation will queue an I/O completion packet.
+        /// </para>
+        /// <para>
         /// The operation being canceled is completed with one of three statuses;
-        /// you must check the completion status to determine the completion state.The three statuses are:
+        /// you must check the completion status to determine the completion state.
+        /// The three statuses are:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The operation completed normally.
-        /// This can occur even if the operation was canceled, because the cancel request might not have been submitted in time to cancel the operation.
-        /// The operation was canceled.
-        /// The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
-        /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
+        /// This can occur even if the operation was canceled,
+        /// because the cancel request might not have been submitted in time to cancel the operation.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The operation was canceled. The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", ExactSpelling = true, SetLastError = true)]
@@ -170,26 +351,113 @@ namespace Lsj.Util.Win32
         /// A handle to the thread.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
-        /// If this function cannot find a request to cancel, the return value is <see cref="FALSE"/>,
-        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is 0 (zero).
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// <para>
+        /// If this function cannot find a request to cancel, the return value is 0 (zero),
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The caller must have the <see cref="THREAD_TERMINATE"/> access right.
+        /// <para>
+        /// The caller must have the <see cref="THREAD_TERMINATE"/> access right.
+        /// </para>
+        /// <para>
         /// If there are any pending I/O operations in progress for the specified thread,
-        /// the <see cref="CancelSynchronousIo"/> function marks them for cancellation.
-        /// Most types of operations can be canceled immediately; other operations can continue toward completion
-        /// before they are actually canceled and the caller is notified.
-        /// The <see cref="CancelSynchronousIo"/> function does not wait for all canceled operations to complete.
-        /// For more information, see I/O Completion/Cancellation Guidelines.
-        /// The operation being canceled is completed with one of three statuses; you must check the completion status to determine the completion state.
+        /// the <see cref="CancelSynchronousIo"/> function marks them for cancellation.
+        /// Most types of operations can be canceled immediately;
+        /// other operations can continue toward completion before they are actually canceled and the caller is notified.
+        /// The <see cref="CancelSynchronousIo"/> function does not wait for all canceled operations to complete.
+        /// For more information, see Canceling Pending I/O Operations.
+        /// </para>
+        /// <para>
+        /// The operation being canceled is completed with one of three statuses;
+        /// you must check the completion status to determine the completion state.
         /// The three statuses are:
-        /// The operation completed normally. This can occur even if the operation was canceled,
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The operation completed normally.
+        /// This can occur even if the operation was canceled,
         /// because the cancel request might not have been submitted in time to cancel the operation.
-        /// The operation was canceled. The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
-        /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The operation was canceled.
+        /// The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The operation failed with another error.
+        /// The <see cref="GetLastError"/> function returns the relevant error code.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelSynchronousIo", ExactSpelling = true, SetLastError = true)]
@@ -198,7 +466,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about a communications error and reports the current status of a communications device.
-        /// The function is called when a communications error occurs, and it clears the device's error flag to enable additional input and output (I/O) operations.
+        /// The function is called when a communications error occurs,
+        /// and it clears the device's error flag to enable additional input and output (I/O) operations.
         /// </para>
         /// <para>
         /// <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-clearcommerror"/>
@@ -209,27 +478,118 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateFile"/> function returns this handle.
         /// </param>
         /// <param name="lpErrors">
+        /// <para>
         /// A pointer to a variable that receives a mask indicating the type of error.
         /// This parameter can be one or more of the following values.
-        /// <see cref="CE_BREAK"/>, <see cref="CE_FRAME"/>, <see cref="CE_OVERRUN"/>, <see cref="CE_RXOVER"/>, <see cref="CE_RXPARITY"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CE_BREAK"/>
+        /// </para>
+        /// <para>
+        /// 0x0010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The hardware detected a break condition.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CE_FRAME"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The hardware detected a framing error.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CE_OVERRUN"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A character-buffer overrun has occurred. The next character is lost.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CE_RXOVER"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An input buffer overflow has occurred.
+        /// There is either no room in the input buffer, or a character was received after the end-of-file (EOF) character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CE_RXPARITY"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The hardware detected a parity error.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following values are not supported:
+        /// </para>
         /// </param>
         /// <param name="lpStat">
         /// A pointer to a <see cref="COMSTAT"/> structure in which the device's status information is returned.
         /// If this parameter is <see cref="NullRef{COMSTAT}"/>, no status information is returned.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If a communications port has been set up with a <see cref="TRUE"/> value
-        /// for the <see cref="DCB.fAbortOnError"/> member of the setup <see cref="DCB"/> structure,
-        /// the communications software will terminate all read and write operations on the communications port when a communications error occurs.
-        /// No new read or write operations will be accepted until the application acknowledges
-        /// the communications error by calling the <see cref="ClearCommError"/> function.
-        /// The <see cref="ClearCommError"/> function fills the status buffer pointed to by the <paramref name="lpStat"/> parameter
-        /// with the current status of the communications device specified by the <paramref name="hFile"/> parameter.
+        /// <para>
+        /// If a communications port has been set up with a <see cref="TRUE"/> value
+        /// for the <see cref="DCB.fAbortOnError"/> member of the setup <see cref="DCB"/> structure,
+        /// the communications software will terminate all read and write operations
+        /// on the communications port when a communications error occurs.
+        /// No new read or write operations will be accepted
+        /// until the application acknowledges the communications error by calling the <see cref="ClearCommError"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="ClearCommError"/> function fills the status buffer pointed to by the <paramref name="lpStat"/> parameter
+        /// with the current status of the communications device specified by the <paramref name="hFile"/> parameter.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClearCommError", ExactSpelling = true, SetLastError = true)]
@@ -239,9 +599,16 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Creates an input/output (I/O) completion port and associates it with a specified file handle,
         /// or creates an I/O completion port that is not yet associated with a file handle, allowing association at a later time.
-        /// Associating an instance of an opened file handle with an I/O completion port allows a process to receive notification
-        /// of the completion of asynchronous I/O operations involving that file handle.
-        /// The term file handle as used here refers to a system abstraction that represents an overlapped I/O endpoint, not only a file on disk.
+        /// </para>
+        /// <para>
+        /// Associating an instance of an opened file handle with an I/O completion port allows a process
+        /// to receive notification of the completion of asynchronous I/O operations involving that file handle.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The term file handle as used here refers to a system abstraction that represents an overlapped I/O endpoint, not only a file on disk.
         /// Any system objects that support overlapped I/O—such as network endpoints, TCP sockets, named pipes, and mail slots—can be used as file handles.
         /// For additional information, see the Remarks section.
         /// </para>
@@ -250,84 +617,219 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="FileHandle">
-        /// An open file handle or <see cref="INVALID_HANDLE_VALUE"/>.
+        /// <para>
+        /// An open file handle or <see cref="INVALID_HANDLE_VALUE"/>.
+        /// </para>
+        /// <para>
         /// The handle must be to an object that supports overlapped I/O.
+        /// </para>
+        /// <para>
         /// If a handle is provided, it has to have been opened for overlapped I/O completion.
-        /// For example, you must specify the <see cref="FILE_FLAG_OVERLAPPED"/> flag when using the <see cref="CreateFile"/> function to obtain the handle.
-        /// If <see cref="INVALID_HANDLE_VALUE"/> is specified, the function creates an I/O completion port without associating it with a file handle.
-        /// In this case, the <paramref name="ExistingCompletionPort"/> parameter must be <see cref="IntPtr.Zero"/>
-        /// and the <paramref name="CompletionKey"/> parameter is ignored.
+        /// For example, you must specify the <see cref="FILE_FLAG_OVERLAPPED"/> flag
+        /// when using the <see cref="CreateFile"/> function to obtain the handle.
+        /// </para>
+        /// <para>
+        /// If <see cref="INVALID_HANDLE_VALUE"/> is specified, the function creates an I/O completion port without associating it with a file handle.
+        /// In this case, the <paramref name="ExistingCompletionPort"/> parameter must be <see cref="NULL"/>
+        /// and the <paramref name="CompletionKey"/> parameter is ignored.
+        /// </para>
         /// </param>
         /// <param name="ExistingCompletionPort">
-        /// A handle to an existing I/O completion port or <see cref="IntPtr.Zero"/>.
+        /// <para>
+        /// A handle to an existing I/O completion port or <see cref="NULL"/>.
+        /// </para>
+        /// <para>
         /// If this parameter specifies an existing I/O completion port,
-        /// the function associates it with the handle specified by the <paramref name="FileHandle"/> parameter.
+        /// the function associates it with the handle specified by the <paramref name="FileHandle"/> parameter.
         /// The function returns the handle of the existing I/O completion port if successful; it does not create a new I/O completion port.
-        /// If this parameter is <see cref="IntPtr.Zero"/>, the function creates a new I/O completion port and,
-        /// if the <paramref name="FileHandle"/> parameter is valid, associates it with the new I/O completion port.
-        /// Otherwise no file handle association occurs.
-        /// The function returns the handle to the new I/O completion port if successful.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>, the function creates a new I/O completion port and,
+        /// if the <paramref name="FileHandle"/> parameter is valid, associates it with the new I/O completion port.
+        /// Otherwise no file handle association occurs. The function returns the handle to the new I/O completion port if successful.
+        /// </para>
         /// </param>
         /// <param name="CompletionKey">
         /// The per-handle user-defined completion key that is included in every I/O completion packet for the specified file handle.
         /// For more information, see the Remarks section.
         /// </param>
         /// <param name="NumberOfConcurrentThreads">
+        /// <para>
         /// The maximum number of threads that the operating system can allow to concurrently process I/O completion packets for the I/O completion port.
-        /// This parameter is ignored if the <paramref name="ExistingCompletionPort"/> parameter is not <see cref="IntPtr.Zero"/>.
+        /// This parameter is ignored if the <paramref name="ExistingCompletionPort"/> parameter is not <see cref="NULL"/>.
+        /// </para>
+        /// <para>
         /// If this parameter is zero, the system allows as many concurrently running threads as there are processors in the system.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to an I/O completion port:
-        /// If the <paramref name="ExistingCompletionPort"/> parameter was <see cref="IntPtr.Zero"/>, the return value is a new handle.
-        /// If the <paramref name="ExistingCompletionPort"/> parameter was a valid I/O completion port handle, the return value is that same handle.
-        /// If the <paramref name="FileHandle"/> parameter was a valid handle, that file handle is now associated with the returned I/O completion port.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the <paramref name="ExistingCompletionPort"/> parameter was <see cref="NULL"/>, the return value is a new handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the <paramref name="ExistingCompletionPort"/> parameter was a valid I/O completion port handle, the return value is that same handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the <paramref name="FileHandle"/> parameter was a valid handle,
+        /// that file handle is now associated with the returned I/O completion port.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The I/O system can be instructed to send I/O completion notification packets to I/O completion ports, where they are queued.
-        /// The <see cref="CreateIoCompletionPort"/> function provides this functionality.
+        /// The <see cref="CreateIoCompletionPort"/> function provides this functionality.
+        /// </para>
+        /// <para>
         /// An I/O completion port and its handle are associated with the process that created it and is not sharable between processes.
         /// However, a single handle is sharable between threads in the same process.
-        /// <see cref="CreateIoCompletionPort"/> can be used in three distinct modes:
+        /// </para>
+        /// <para>
+        /// <see cref="CreateIoCompletionPort"/> can be used in three distinct modes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Create only an I/O completion port without associating it with a file handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Associate an existing I/O completion port with a file handle.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Perform both creation and association in a single call.
-        /// To create an I/O completion port without associating it, set the <paramref name="FileHandle"/> parameter to <see cref="INVALID_HANDLE_VALUE"/>,
-        /// the <paramref name="ExistingCompletionPort"/> parameter to <see cref="IntPtr.Zero"/>,
-        /// and the <paramref name="CompletionKey"/> parameter to <see cref="IntPtr.Zero"/> (which is ignored in this case).
-        /// Set the <paramref name="NumberOfConcurrentThreads"/> parameter to the desired concurrency value for the new I/O completion port,
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To create an I/O completion port without associating it,
+        /// set the <paramref name="FileHandle"/> parameter to <see cref="INVALID_HANDLE_VALUE"/>,
+        /// the <paramref name="ExistingCompletionPort"/> parameter to <see cref="NULL"/>,
+        /// and the <paramref name="CompletionKey"/> parameter to zero (which is ignored in this case).
+        /// Set the <paramref name="NumberOfConcurrentThreads"/> parameter to the desired concurrency value for the new I/O completion port,
         /// or zero for the default (the number of processors in the system).
-        /// The handle passed in the <paramref name="FileHandle"/> parameter can be any handle that supports overlapped I/O.
-        /// Most commonly, this is a handle opened by the <see cref="CreateFile"/> function
-        /// using the <see cref="FILE_FLAG_OVERLAPPED"/> flag (for example, files, mail slots, and pipes).
-        /// Objects created by other functions such as socket can also be associated with an I/O completion port.
-        /// For an example using sockets, see <see cref="AcceptEx"/>.
+        /// </para>
+        /// <para>
+        /// The handle passed in the <paramref name="FileHandle"/> parameter can be any handle that supports overlapped I/O.
+        /// Most commonly, this is a handle opened by the <see cref="CreateFile"/> function
+        /// using the <see cref="FILE_FLAG_OVERLAPPED"/> flag (for example, files, mail slots, and pipes).
+        /// Objects created by other functions such as <see cref="socket"/> can also be associated with an I/O completion port.
+        /// For an example using sockets, see <see cref="AcceptEx"/>.
         /// A handle can be associated with only one I/O completion port, and after the association is made,
         /// the handle remains associated with that I/O completion port until it is closed.
-        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
-        /// Multiple file handles can be associated with a single I/O completion port by calling <see cref="CreateIoCompletionPort"/> multiple times
-        /// with the same I/O completion port handle in the <paramref name="ExistingCompletionPort"/> parameter
-        /// and a different file handle in the <paramref name="FileHandle"/> parameter each time.
-        /// Use the <paramref name="CompletionKey"/> parameter to help your application track which I/O operations have completed.
-        /// This value is not used by <see cref="CreateIoCompletionPort"/> for functional control; rather, it is attached to the file handle
-        /// specified in the <paramref name="FileHandle"/> parameter at the time of association with an I/O completion port.
+        /// </para>
+        /// <para>
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </para>
+        /// <para>
+        /// Multiple file handles can be associated with a single I/O completion port by calling <see cref="CreateIoCompletionPort"/> multiple times
+        /// with the same I/O completion port handle in the <paramref name="ExistingCompletionPort"/> parameter
+        /// and a different file handle in the <paramref name="FileHandle"/> parameter each time.
+        /// </para>
+        /// <para>
+        /// Use the <paramref name="CompletionKey"/> parameter to help your application track which I/O operations have completed.
+        /// This value is not used by <see cref="CreateIoCompletionPort"/> for functional control;
+        /// rather, it is attached to the file handle specified in the <paramref name="FileHandle"/> parameter
+        /// at the time of association with an I/O completion port.
         /// This completion key should be unique for each file handle, and it accompanies the file handle throughout the internal completion queuing process.
-        /// It is returned in the <see cref="GetQueuedCompletionStatus"/> function call when a completion packet arrives.
-        /// The <paramref name="CompletionKey"/> parameter is also used
-        /// by the <see cref="PostQueuedCompletionStatus"/> function to queue your own special-purpose completion packets.
-        /// After an instance of an open handle is associated with an I/O completion port, it cannot be used
-        /// in the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function because these functions have their own asynchronous I/O mechanisms.
+        /// It is returned in the <see cref="GetQueuedCompletionStatus"/> function call when a completion packet arrives.
+        /// The <paramref name="CompletionKey"/> parameter is also used by the <see cref="PostQueuedCompletionStatus"/> function
+        /// to queue your own special-purpose completion packets.
+        /// </para>
+        /// <para>
+        /// After an instance of an open handle is associated with an I/O completion port,
+        /// it cannot be used in the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function
+        /// because these functions have their own asynchronous I/O mechanisms.
+        /// </para>
+        /// <para>
         /// It is best not to share a file handle associated with an I/O completion port
-        /// by using either handle inheritance or a call to the <see cref="DuplicateHandle"/> function.
+        /// by using either handle inheritance or a call to the <see cref="DuplicateHandle"/> function.
         /// Operations performed with such duplicate handles generate completion notifications.
         /// Careful consideration is advised.
-        /// The I/O completion port handle and every file handle associated with that particular I/O completion port are known
-        /// as references to the I/O completion port.
+        /// </para>
+        /// <para>
+        /// The I/O completion port handle and every file handle associated with that particular I/O completion port
+        /// are known as references to the I/O completion port.
         /// The I/O completion port is released when there are no more references to it.
         /// Therefore, all of these handles must be properly closed to release the I/O completion port and its associated system resources.
-        /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
+        /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", ExactSpelling = true, SetLastError = true)]
@@ -339,6 +841,9 @@ namespace Lsj.Util.Win32
         /// Sends a control code directly to a specified device driver, causing the corresponding device to perform the corresponding operation.
         /// </para>
         /// <para>
+        /// See the Assign drive letter sample.
+        /// </para>
+        /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol"/>
         /// </para>
         /// </summary>
@@ -347,88 +852,184 @@ namespace Lsj.Util.Win32
         /// To retrieve a device handle, use the <see cref="CreateFile"/> function. For more information, see Remarks.
         /// </param>
         /// <param name="dwIoControlCode">
+        /// <para>
         /// The control code for the operation.
         /// This value identifies the specific operation to be performed and the type of device on which to perform it.
+        /// </para>
+        /// <para>
         /// For a list of the control codes, see Remarks.
-        /// The documentation for each control code provides usage details for the <paramref name="lpInBuffer"/>, <paramref name="nInBufferSize"/>,
-        /// <paramref name="lpOutBuffer"/>, and <paramref name="nOutBufferSize"/> parameters.
+        /// The documentation for each control code provides usage details for the <paramref name="lpInBuffer"/>,
+        /// <paramref name="nInBufferSize"/>, <paramref name="lpOutBuffer"/>, and <paramref name="nOutBufferSize"/> parameters.
+        /// </para>
         /// </param>
         /// <param name="lpInBuffer">
+        /// <para>
         /// A pointer to the input buffer that contains the data required to perform the operation.
-        /// The format of this data depends on the value of the <paramref name="dwIoControlCode"/> parameter.
-        /// This parameter can be <see cref="IntPtr.Zero"/> if <paramref name="dwIoControlCode"/> specifies an operation that does not require input data.
+        /// The format of this data depends on the value of the <paramref name="dwIoControlCode"/> parameter.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NULL"/> if <paramref name="dwIoControlCode"/> specifies an operation that does not require input data.
+        /// </para>
         /// </param>
         /// <param name="nInBufferSize">
         /// The size of the input buffer, in bytes.
         /// </param>
         /// <param name="lpOutBuffer">
+        /// <para>
         /// A pointer to the output buffer that is to receive the data returned by the operation.
-        /// The format of this data depends on the value of the <paramref name="dwIoControlCode"/> parameter.
-        /// This parameter can be <see cref="IntPtr.Zero"/> if <paramref name="dwIoControlCode"/> specifies an operation that does not return data.
+        /// The format of this data depends on the value of the <paramref name="dwIoControlCode"/> parameter.
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NULL"/> if <paramref name="dwIoControlCode"/> specifies an operation that does not return data.
+        /// </para>
         /// </param>
         /// <param name="nOutBufferSize">
         /// The size of the output buffer, in bytes.
         /// </param>
         /// <param name="lpBytesReturned">
+        /// <para>
         /// A pointer to a variable that receives the size of the data stored in the output buffer, in bytes.
-        /// If the output buffer is too small to receive any data, the call fails, <see cref="GetLastError"/> returns
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>, and <paramref name="lpBytesReturned"/> is zero.
+        /// </para>
+        /// <para>
+        /// If the output buffer is too small to receive any data, the call fails,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>, and <paramref name="lpBytesReturned"/> is zero.
+        /// </para>
+        /// <para>
         /// If the output buffer is too small to hold all of the data but can hold some entries, some drivers will return as much data as fits.
-        /// In this case, the call fails, <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>,
-        /// and <paramref name="lpBytesReturned"/> indicates the amount of data received.
-        /// Your application should call <see cref="DeviceIoControl"/> again with the same operation, specifying a new starting point.
-        /// If <paramref name="lpOverlapped"/> is <see cref="IntPtr.Zero"/>, <paramref name="lpBytesReturned"/> cannot be <see langword="null"/>.
-        /// Even when an operation returns no output data and <paramref name="lpOutBuffer"/> is <see cref="IntPtr.Zero"/>,
-        /// <see cref="DeviceIoControl"/> makes use of <paramref name="lpBytesReturned"/>.
-        /// After such an operation, the value of <paramref name="lpBytesReturned"/> is meaningless.
-        /// If <paramref name="lpOverlapped"/> is not <see cref="IntPtr.Zero"/>, <paramref name="lpBytesReturned"/> can be <see langword="null"/>.
-        /// If this parameter is not <see langword="null"/> and the operation returns data, <paramref name="lpBytesReturned"/> is meaningless
-        /// until the overlapped operation has completed.
-        /// To retrieve the number of bytes returned, call <see cref="GetOverlappedResult"/>.
-        /// If <paramref name="hDevice"/> is associated with an I/O completion port, you can retrieve the number of bytes returned
-        /// by calling <see cref="GetQueuedCompletionStatus"/>.
+        /// In this case, the call fails, <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>,
+        /// and <paramref name="lpBytesReturned"/> indicates the amount of data received.
+        /// Your application should call <see cref="DeviceIoControl"/> again with the same operation, specifying a new starting point.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpOverlapped"/> is <see cref="NULL"/>, <paramref name="lpBytesReturned"/> cannot be <see cref="NULL"/>.
+        /// Even when an operation returns no output data and <paramref name="lpOutBuffer"/> is <see cref="NULL"/>,
+        /// <see cref="DeviceIoControl"/> makes use of <paramref name="lpBytesReturned"/>.
+        /// After such an operation, the value of <paramref name="lpBytesReturned"/> is meaningless.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpOverlapped"/> is not <see cref="NULL"/>, <paramref name="lpBytesReturned"/> can be <see cref="NULL"/>.
+        /// If this parameter is not <see cref="NULL"/> and the operation returns data,
+        /// <paramref name="lpBytesReturned"/> is meaningless until the overlapped operation has completed.
+        /// To retrieve the number of bytes returned, call <see cref="GetOverlappedResult"/>.
+        /// If <paramref name="hDevice"/> is associated with an I/O completion port,
+        /// you can retrieve the number of bytes returned by calling <see cref="GetQueuedCompletionStatus"/>.
+        /// </para>
         /// </param>
         /// <param name="lpOverlapped">
-        /// A pointer to an <see cref="OVERLAPPED"/> structure.
-        /// If <paramref name="hDevice"/> was opened without specifying <see cref="FILE_FLAG_OVERLAPPED"/>,
-        /// <paramref name="lpOverlapped"/> is ignored.
-        /// If <paramref name="hDevice"/> was opened with the <see cref="FILE_FLAG_OVERLAPPED"/> flag,
+        /// <para>
+        /// A pointer to an <see cref="OVERLAPPED"/> structure.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hDevice"/> was opened without specifying <see cref="FILE_FLAG_OVERLAPPED"/>, <paramref name="lpOverlapped"/> is ignored.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hDevice"/> was opened with the <see cref="FILE_FLAG_OVERLAPPED"/> flag,
         /// the operation is performed as an overlapped (asynchronous) operation.
-        /// In this case, lpOverlapped must point to a valid <see cref="OVERLAPPED"/> structure that contains a handle to an event object.
+        /// In this case, <paramref name="lpOverlapped"/> must point to a valid <see cref="OVERLAPPED"/> structure that contains a handle to an event object.
         /// Otherwise, the function fails in unpredictable ways.
-        /// For overlapped operations, <see cref="DeviceIoControl"/> returns immediately,
+        /// </para>
+        /// <para>
+        /// For overlapped operations, <see cref="DeviceIoControl"/> returns immediately,
         /// and the event object is signaled when the operation has been completed.
         /// Otherwise, the function does not return until the operation has been completed or an error occurs.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the operation completes successfully, the return value is <see langword="true"/>.
-        /// If the operation fails or is pending, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the operation completes successfully, the return value is nonzero (<see cref="TRUE"/>).
+        /// </para>
+        /// <para>
+        /// If the operation fails or is pending, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// To retrieve a handle to the device, you must call the <see cref="CreateFile"/> function with either the name of a device
-        /// or the name of the driver associated with a device.
+        /// <para>
+        /// To retrieve a handle to the device, you must call the <see cref="CreateFile"/> function
+        /// with either the name of a device or the name of the driver associated with a device.
         /// To specify a device name, use the following format:
-        /// \.&lt;i&gt;DeviceName
-        /// <see cref="DeviceIoControl"/> can accept a handle to a specific device.
-        /// For example, to open a handle to the logical drive A: with <see cref="CreateFile"/>, specify \.\a:.
-        /// Alternatively, you can use the names \.\PhysicalDrive0, \.\PhysicalDrive1, and so on, to open handles to the physical drives on a system.
-        /// You should specify the <see cref="FILE_SHARE_READ"/> and <see cref="FILE_SHARE_WRITE"/> access flags
-        /// when calling <see cref="CreateFile"/> to open a handle to a device driver.
+        /// </para>
+        /// <para>
+        /// \\.\<c>DeviceName</c>
+        /// </para>
+        /// <para>
+        /// <see cref="DeviceIoControl"/> can accept a handle to a specific device.
+        /// For example, to open a handle to the logical drive A: with <see cref="CreateFile"/>, specify \\.\a:.
+        /// Alternatively, you can use the names \\.\PhysicalDrive0, \\.\PhysicalDrive1, and so on, to open handles to the physical drives on a system.
+        /// </para>
+        /// <para>
+        /// You should specify the <see cref="FILE_SHARE_READ"/> and <see cref="FILE_SHARE_WRITE"/> access flags
+        /// when calling <see cref="CreateFile"/> to open a handle to a device driver.
         /// However, when you open a communications resource, such as a serial port, you must specify exclusive access.
-        /// Use the other <see cref="CreateFile"/> parameters as follows when opening a device handle:
-        /// The fdwCreate parameter must specify <see cref="OPEN_EXISTING"/>.
-        /// The hTemplateFile parameter must be <see cref="IntPtr.Zero"/>.
-        /// The fdwAttrsAndFlags parameter can specify <see cref="FILE_FLAG_OVERLAPPED"/> to indicate that the returned handle
-        /// can be used in overlapped (asynchronous) I/O operations.
+        /// Use the other <see cref="CreateFile"/> parameters as follows when opening a device handle:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The <c>fdwCreate</c> parameter must specify <see cref="OPEN_EXISTING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <c>hTemplateFile </c> parameter must be <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <c>fdwAttrsAndFlags </c> parameter can specify <see cref="FILE_FLAG_OVERLAPPED"/>
+        /// to indicate that the returned handle can be used in overlapped (asynchronous) I/O operations.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// For lists of supported control codes, see the following topics:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// CD-ROM Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Communications Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Device Management Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Directory Management Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Disk Management Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// File Management Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Power Management Control Codes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Volume Management Control Codes
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", ExactSpelling = true, SetLastError = true)]
@@ -451,9 +1052,13 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="COMMTIMEOUTS"/> structure in which the time-out information is returned.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// For more information about time-out values for communications devices, see the <see cref="SetCommTimeouts"/> function.
@@ -472,10 +1077,54 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hFile">
+        /// <para>
         /// A handle to the file, named pipe, or communications device.
-        /// This is the same handle that was specified when the overlapped operation was started by a call to the <see cref="ReadFile"/>,
-        /// <see cref="WriteFile"/>, <see cref="ConnectNamedPipe"/>, <see cref="TransactNamedPipe"/>,
-        /// <see cref="DeviceIoControl"/>, or <see cref="WaitCommEvent"/> function.
+        /// This is the same handle that was specified when the overlapped operation was started by a call to any of the following functions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ReadFile"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WriteFile"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ConnectNamedPipe"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="TransactNamedPipe"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DeviceIoControl"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WaitCommEvent"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ReadDirectoryChangesW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LockFileEx"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpOverlapped">
         /// A pointer to an <see cref="OVERLAPPED"/> structure that was specified when the overlapped operation was started.
@@ -487,32 +1136,43 @@ namespace Lsj.Util.Win32
         /// For a <see cref="ConnectNamedPipe"/> or <see cref="WaitCommEvent"/> operation, this value is undefined.
         /// </param>
         /// <param name="bWait">
-        /// If this parameter is <see langword="true"/>, and the Internal member of the <paramref name="lpOverlapped"/> structure
-        /// is <see cref="STATUS_PENDING"/>, the function does not return until the operation has been completed.
-        /// If this parameter is <see langword="false"/> and the operation is still pending,
-        /// the function returns <see langword="false"/> and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// If this parameter is <see cref="TRUE"/>, and the <see cref="OVERLAPPED.Internal"/> member
+        /// of the <paramref name="lpOverlapped"/> structure is <see cref="STATUS_PENDING"/>,
+        /// the function does not return until the operation has been completed.
+        /// If this parameter is <see cref="FALSE"/> and the operation is still pending,
+        /// the function returns <see cref="FALSE"/> and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The results reported by the <see cref="GetOverlappedResult"/> function are those of the specified handle's last overlapped operation
-        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
-        /// A pending operation is indicated when the function that started the operation returns <see langword="false"/>,
-        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
-        /// When an I/O operation is pending, the function that started the operation resets
-        /// the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
+        /// <para>
+        /// The results reported by the <see cref="GetOverlappedResult"/> function are those of the specified handle's last overlapped operation
+        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
+        /// A pending operation is indicated when the function that started the operation returns <see cref="FALSE"/>,
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
+        /// When an I/O operation is pending, the function that started the operation
+        /// resets the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
         /// Then when the pending operation has been completed, the system sets the event object to the signaled state.
-        /// If the <paramref name="bWait"/> parameter is <see langword="true"/>, <see cref="GetOverlappedResult"/> determines
+        /// </para>
+        /// <para>
+        /// If the <paramref name="bWait"/> parameter is <see cref="TRUE"/>, <see cref="GetOverlappedResult"/> determines
         /// whether the pending operation has been completed by waiting for the event object to be in the signaled state.
-        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="IntPtr"/>,
-        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
+        /// </para>
+        /// <para>
+        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="NULL"/>,
+        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
         /// Use of file, named pipe, or communications-device handles for this purpose is discouraged.
-        /// It is safer to use an event object because of the confusion that can occur when multiple simultaneous overlapped operations
-        /// are performed on the same file, named pipe, or communications device.
+        /// It is safer to use an event object because of the confusion that can occur
+        /// when multiple simultaneous overlapped operations are performed on the same file, named pipe, or communications device.
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", ExactSpelling = true, SetLastError = true)]
@@ -545,63 +1205,104 @@ namespace Lsj.Util.Win32
         /// For a <see cref="ConnectNamedPipe"/> or <see cref="WaitCommEvent"/> operation, this value is undefined.
         /// </param>
         /// <param name="dwMilliseconds">
+        /// <para>
         /// The time-out interval, in milliseconds.
-        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
-        /// the function returns immediately and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
-        /// If <paramref name="dwMilliseconds"/> is nonzero and the operation is still in progress, the function waits until the object is signaled,
-        /// an I/O completion routine or APC is queued, or the interval elapses before returning.
-        /// Use <see cref="GetLastError"/> to get extended error information.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
+        /// the function returns immediately and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwMilliseconds"/> is nonzero and the operation is still in progress,
+        /// the function waits until the object is signaled, an I/O completion routine or APC is queued, or the interval elapses before returning.
+        /// Use <see cref="GetLastError"/> to get extended error information.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
         /// the function returns only when the object is signaled or an I/O completion routine or APC is queued.
+        /// </para>
+        /// <para>
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not continue counting down while the computer is asleep.
+        /// </para>
         /// </param>
         /// <param name="bAlertable">
-        /// If this parameter is <see langword="true"/> and the calling thread is in the waiting state,
+        /// <para>
+        /// If this parameter is <see cref="TRUE"/> and the calling thread is in the waiting state,
         /// the function returns when the system queues an I/O completion routine or APC.
-        /// The calling thread then runs the routine or function. Otherwise, the function does not return,
-        /// and the completion routine or APC function is not executed.
-        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function
-        /// in which it was specified has completed.
-        /// The function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>,
+        /// The calling thread then runs the routine or function.
+        /// Otherwise, the function does not return, and the completion routine or APC function is not executed.
+        /// </para>
+        /// <para>
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed.
+        /// The function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see cref="TRUE"/>,
         /// and the calling thread is the thread that initiated the read or write operation.
-        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
-        /// 
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Common error codes include the following:
-        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_IO_INCOMPLETE"/>.
-        /// If <paramref name="dwMilliseconds"/> is nonzero, and an I/O completion routine or APC is queued,
-        /// <see cref="GetLastError"/> returns <see cref="WAIT_IO_COMPLETION"/>.
-        /// If <paramref name="dwMilliseconds"/> is nonzero and the specified timeout interval elapses,
-        /// <see cref="GetLastError"/> returns <see cref="WAIT_TIMEOUT"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>. Common error codes include the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <paramref name="dwMilliseconds"/> is nonzero, and an I/O completion routine or APC is queued,
+        /// <see cref="GetLastError"/> returns <see cref="WAIT_IO_COMPLETION"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <paramref name="dwMilliseconds"/> is nonzero and the specified timeout interval elapses,
+        /// <see cref="GetLastError"/> returns <see cref="WAIT_TIMEOUT"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="GetOverlappedResultEx"/> function differs from <see cref="GetOverlappedResult"/> in the following ways:
-        /// The <paramref name="dwMilliseconds"/> parameter can specify a timeout interval for the operation,
-        /// and the <paramref name="bAlertable"/> parameter can specify that the calling thread should perform an alertable wait.
-        /// The results reported by the <see cref="GetOverlappedResultEx"/> function are those of the specified handle's last overlapped operation
-        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
-        /// A pending operation is indicated when the function that started the operation returns <see langword="false"/>,
-        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
-        /// When an I/O operation is pending, the function that started the operation resets
-        /// the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
+        /// <para>
+        /// The <see cref="GetOverlappedResultEx"/> function differs from <see cref="GetOverlappedResult"/> in the following ways:
+        /// The <paramref name="dwMilliseconds"/> parameter can specify a timeout interval for the operation,
+        /// and the <paramref name="bAlertable"/> parameter can specify that the calling thread should perform an alertable wait.
+        /// </para>
+        /// <para>
+        /// The results reported by the <see cref="GetOverlappedResultEx"/> function are those of the specified handle's last overlapped operation
+        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
+        /// A pending operation is indicated when the function that started the operation returns <see cref="FALSE"/>,
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
+        /// When an I/O operation is pending, the function that started the operation
+        /// resets the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
         /// Then when the pending operation has been completed, the system sets the event object to the signaled state.
-        /// Specify a manual-reset event object in the <see cref="OVERLAPPED"/> structure.
-        /// If an auto-reset event object is used, the event handle must not be specified in any other wait operation in the interval
-        /// between starting the overlapped operation and the call to <see cref="GetOverlappedResultEx"/>.
+        /// </para>
+        /// <para>
+        /// Specify a manual-reset event object in the <see cref="OVERLAPPED"/> structure.
+        /// If an auto-reset event object is used, the event handle must not be specified in any other wait operation
+        /// in the interval between starting the overlapped operation and the call to <see cref="GetOverlappedResultEx"/>.
         /// For example, the event object is sometimes specified in one of the wait functions to wait for the operation's completion.
         /// When the wait function returns, the system sets an auto-reset event's state to nonsignaled,
-        /// and a subsequent call to <see cref="GetOverlappedResultEx"/> with the <paramref name="dwMilliseconds"/> parameter
-        /// set to <see cref="INFINITE"/> causes the function to be blocked indefinitely.
-        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="IntPtr.Zero"/>,
-        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
+        /// and a subsequent call to <see cref="GetOverlappedResultEx"/> with the <paramref name="dwMilliseconds"/> parameter
+        /// set to <see cref="INFINITE"/> causes the function to be blocked indefinitely.
+        /// </para>
+        /// <para>
+        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="NULL"/>,
+        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
         /// Use of file, named pipe, or communications-device handles for this purpose is discouraged.
-        /// It is safer to use an event object because of the confusion that can occur
-        /// when multiple simultaneous overlapped operations are performed on the same file, named pipe, or communications device.
+        /// It is safer to use an event object because of the confusion that can occur when multiple simultaneous overlapped operations
+        /// are performed on the same file, named pipe, or communications device.
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", ExactSpelling = true, SetLastError = true)]
@@ -612,7 +1313,9 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Attempts to dequeue an I/O completion packet from the specified I/O completion port.
         /// If there is no completion packet queued, the function waits for a pending I/O operation associated with the completion port to complete.
-        /// To dequeue multiple I/O completion packets at once, use the <see cref="GetQueuedCompletionStatusEx"/> function.
+        /// </para>
+        /// <para>
+        /// To dequeue multiple I/O completion packets at once, use the <see cref="GetQueuedCompletionStatusEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatus"/>
@@ -630,49 +1333,151 @@ namespace Lsj.Util.Win32
         /// A completion key is a per-file key that is specified in a call to <see cref="CreateIoCompletionPort"/>.
         /// </param>
         /// <param name="lpOverlapped">
-        /// A pointer to a variable that receives the address of the <see cref="OVERLAPPED"/> structure
+        /// <para>
+        /// A pointer to a variable that receives the address of the <see cref="OVERLAPPED"/> structure
         /// that was specified when the completed I/O operation was started.
-        /// Even if you have passed the function a file handle associated with a completion port and a valid <see cref="OVERLAPPED"/> structure,
+        /// </para>
+        /// <para>
+        /// Even if you have passed the function a file handle associated with a completion port and a valid <see cref="OVERLAPPED"/> structure,
         /// an application can prevent completion port notification.
-        /// This is done by specifying a valid event handle for the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure,
-        /// and setting its low-order bit.
-        /// A valid event handle whose low-order bit is set keeps I/O completion from being queued to the completion port.
+        /// This is done by specifying a valid event handle for the <see cref="OVERLAPPED.hEvent"/> member
+        /// of the <see cref="OVERLAPPED"/> structure, and setting its low-order bit.
+        /// A valid event handle whose low-order bit is set prevents the completion of the overlapped I/O
+        /// from enqueing a completion packet to the completion port.
+        /// </para>
         /// </param>
         /// <param name="dwMilliseconds">
+        /// <para>
         /// The number of milliseconds that the caller is willing to wait for a completion packet to appear at the completion port.
-        /// If a completion packet does not appear within the specified time, the function times out,
-        /// returns <see langword="false"/>, and sets <paramref name="lpOverlapped"/> to <see cref="IntPtr.Zero"/>.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will never time out.
-        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// If a completion packet does not appear within the specified time, the function times out, returns <see cref="FALSE"/>,
+        /// and sets *<paramref name="lpOverlapped"/> to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will never time out.
+        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008, and Windows Server 2008 R2:
+        /// The <paramref name="dwMilliseconds"/> value includes time spent in low-power states.
+        /// For example, the timeout continues counting down while the computer is asleep.
+        /// </para>
+        /// <para>
+        /// Windows 8 and newer, Windows Server 2012 and newer:
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not continue counting down while the computer is asleep.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see langword="true"/> if successful or <see langword="false"/> otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// Returns nonzero (<see cref="TRUE"/>) if successful or zero (<see cref="FALSE"/>) otherwise.
+        /// </para>
+        /// <para>
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
         /// For more information, see the Remarks section.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function associates a thread with the specified completion port.
         /// A thread can be associated with at most one completion port.
-        /// If a call to <see cref="GetQueuedCompletionStatus"/> fails because the completion port handle associated with it is closed
-        /// while the call is outstanding, the function returns <see langword="false"/>, <paramref name="lpOverlapped"/> will be <see cref="IntPtr.Zero"/>,
-        /// and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
-        /// Windows Server 2003 and Windows XP:
+        /// </para>
+        /// <para>
+        /// If a call to <see cref="GetQueuedCompletionStatus"/> fails because the completion port handle associated with it is closed
+        /// while the call is outstanding, the function returns <see cref="FALSE"/>, *lpOverlapped will be <see cref="NULL"/>,
+        /// and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
         /// Closing the completion port handle while a call is outstanding will not result in the previously stated behavior.
         /// The function will continue to wait until an entry is removed from the port or until a time-out occurs,
-        /// if specified as a value other than <see cref="INFINITE"/>.
-        /// If the <see cref="GetQueuedCompletionStatus"/> function succeeds,
-        /// it dequeued a completion packet for a successful I/O operation from the completion port and has stored information
-        /// in the variables pointed to by the following parameters: <paramref name="lpNumberOfBytesTransferred"/>,
-        /// <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
-        /// Upon failure (the return value is <see langword="false"/>), those same parameters can contain particular value combinations as follows:
-        /// If <paramref name="lpOverlapped"/> is <see cref="IntPtr.Zero"/>, the function did not dequeue a completion packet from the completion port.
+        /// if specified as a value other than <see cref="INFINITE"/>.
+        /// </para>
+        /// <para>
+        /// If the <see cref="GetQueuedCompletionStatus"/> function succeeds, it dequeued a completion packet for a successful I/O operation
+        /// from the completion port and has stored information in the variables pointed to by the following parameters:
+        /// <paramref name="lpNumberOfBytesTransferred"/>, <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
+        /// Upon failure (the return value is <see cref="FALSE"/>), those same parameters can contain particular value combinations as follows:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If *<paramref name="lpOverlapped"/> is <see cref="NULL"/>, the function did not dequeue a completion packet from the completion port.
         /// In this case, the function does not store information in the variables pointed to
-        /// by the <paramref name="lpNumberOfBytesTransferred"/> and <paramref name="lpCompletionKey"/> parameters, and their values are indeterminate.
-        /// If <paramref name="lpOverlapped"/> is not NULL and the function dequeues a completion packet for a failed I/O operation from the completion port,
-        /// the function stores information about the failed operation in the variables pointed to by <paramref name="lpNumberOfBytesTransferred"/>,
-        /// <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// by the <paramref name="lpNumberOfBytesTransferred"/> and <paramref name="lpCompletionKey"/> parameters, and their values are indeterminate.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If *<paramref name="lpOverlapped"/> is not <see cref="NULL"/>
+        /// and the function dequeues a completion packet for a failed I/O operation from the completion port,
+        /// the function stores information about the failed operation in the variables pointed to
+        /// by <paramref name="lpNumberOfBytesTransferred"/>, <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
@@ -683,7 +1488,9 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Retrieves multiple completion port entries simultaneously.
         /// It waits for pending I/O operations that are associated with the specified completion port to complete.
-        /// To dequeue I/O completion packets one at a time, use the <see cref="GetQueuedCompletionStatus"/> function.
+        /// </para>
+        /// <para>
+        /// To dequeue I/O completion packets one at a time, use the <see cref="GetQueuedCompletionStatus"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatusex"/>
@@ -694,11 +1501,17 @@ namespace Lsj.Util.Win32
         /// To create a completion port, use the <see cref="CreateIoCompletionPort"/> function.
         /// </param>
         /// <param name="lpCompletionPortEntries">
-        /// On input, points to a pre-allocated array of <see cref="OVERLAPPED_ENTRY"/> structures.
-        /// On output, receives an array of <see cref="OVERLAPPED_ENTRY"/> structures that hold the entries.
-        /// The number of array elements is provided by <paramref name="ulNumEntriesRemoved"/>.
+        /// <para>
+        /// On input, points to a pre-allocated array of <see cref="OVERLAPPED_ENTRY"/> structures.
+        /// </para>
+        /// <para>
+        /// On output, receives an array of <see cref="OVERLAPPED_ENTRY"/> structures that hold the entries.
+        /// The number of array elements is provided by <paramref name="ulNumEntriesRemoved"/>.
+        /// </para>
+        /// <para>
         /// The number of bytes transferred during each I/O, the completion key that indicates on which file each I/O occurred,
-        /// and the overlapped structure address used in each original I/O are all returned in the <paramref name="lpCompletionPortEntries"/> array.
+        /// and the overlapped structure address used in each original I/O are all returned in the <paramref name="lpCompletionPortEntries"/> array.
+        /// </para>
         /// </param>
         /// <param name="ulCount">
         /// The maximum number of entries to remove.
@@ -707,41 +1520,132 @@ namespace Lsj.Util.Win32
         /// A pointer to a variable that receives the number of entries actually removed.
         /// </param>
         /// <param name="dwMilliseconds">
+        /// <para>
         /// The number of milliseconds that the caller is willing to wait for a completion packet to appear at the completion port.
-        /// If a completion packet does not appear within the specified time, the function times out and returns <see langword="false"/>.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will never time out.
-        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// If a completion packet does not appear within the specified time, the function times out and returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/> (0xFFFFFFFF), the function will never time out.
+        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008, and Windows Server 2008 R2:
+        /// The <paramref name="dwMilliseconds"/> value includes time spent in low-power states.
+        /// For example, the timeout continues counting down while the computer is asleep.
+        /// </para>
+        /// <para>
+        /// Windows 8 and newer, Windows Server 2012 and newer:
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not continue counting down while the computer is asleep.
+        /// </para>
         /// </param>
         /// <param name="fAlertable">
-        /// If this parameter is <see langword="false"/>, the function does not return until the time-out period has elapsed or an entry is retrieved.
-        /// If the parameter is <see langword="true"/> and there are no available entries, the function performs an alertable wait.
+        /// <para>
+        /// If this parameter is <see cref="FALSE"/>, the function does not return until the time-out period has elapsed or an entry is retrieved.
+        /// </para>
+        /// <para>
+        /// If the parameter is <see cref="TRUE"/> and there are no available entries, the function performs an alertable wait.
         /// The thread returns when the system queues an I/O completion routine or APC to the thread and the thread executes the function.
-        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed,
-        /// and the calling thread is the thread that initiated the operation.
-        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </para>
+        /// <para>
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function
+        /// in which it was specified has completed, and the calling thread is the thread that initiated the operation.
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see langword="true"/> if successful or <see langword="false"/> otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// Returns nonzero (<see cref="TRUE"/>) if successful or zero (<see cref="FALSE"/>) otherwise.
+        /// </para>
+        /// <para>
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function associates a thread with the specified completion port.
         /// A thread can be associated with at most one completion port.
-        /// This function returns <see langword="true"/> when at least one pending I/O is completed,
+        /// </para>
+        /// <para>
+        /// This function returns <see cref="TRUE"/> when at least one pending I/O is completed,
         /// but it is possible that one or more I/O operations failed.
-        /// Note that it is up to the user of this function to check the list of returned entries in the <paramref name="lpCompletionPortEntries"/>
-        /// parameter to determine which of them correspond to any possible failed I/O operations by looking at the status
-        /// contained in the <see cref="OVERLAPPED_ENTRY.lpOverlapped"/> member in each <see cref="OVERLAPPED_ENTRY"/>.
-        /// This function returns <see langword="false"/> when no I/O operation was dequeued.
+        /// Note that it is up to the user of this function to check the list of returned entries
+        /// in the <paramref name="lpCompletionPortEntries"/> parameter to determine which of them correspond to any possible failed I/O operations
+        /// by looking at the status contained in the <see cref="OVERLAPPED_ENTRY.lpOverlapped"/> member in each <see cref="OVERLAPPED_ENTRY"/>.
+        /// </para>
+        /// <para>
+        /// This function returns <see cref="FALSE"/> when no I/O operation was dequeued.
         /// This typically means that an error occurred while processing the parameters to this call,
-        /// or that the <paramref name="CompletionPort"/> handle was closed or is otherwise invalid.
-        /// The <see cref="GetLastError"/> function provides extended error information.
-        /// If a call to <see cref="GetQueuedCompletionStatusEx"/> fails because the handle associated with it is closed,
-        /// the function returns <see langword="false"/> and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
-        /// Server applications may have several threads calling the <see cref="GetQueuedCompletionStatusEx"/> function for the same completion port.
+        /// or that the <paramref name="CompletionPort"/> handle was closed or is otherwise invalid.
+        /// The <see cref="GetLastError"/> function provides extended error information.
+        /// </para>
+        /// <para>
+        /// If a call to <see cref="GetQueuedCompletionStatusEx"/> fails because the handle associated with it is closed,
+        /// the function returns <see cref="FALSE"/> and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
+        /// </para>
+        /// <para>
+        /// Server applications may have several threads calling the <see cref="GetQueuedCompletionStatusEx"/> function for the same completion port.
         /// As I/O operations complete, they are queued to this port in first-in-first-out order.
         /// If a thread is actively waiting on this call, one or more queued requests complete the call for that thread only.
-        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </para>
+        /// <para>
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", ExactSpelling = true, SetLastError = true)]
@@ -761,13 +1665,19 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         /// <remarks>
-        /// Do not call this macro unless the call to <see cref="GetLastError"/> returns <see cref="ERROR_IO_PENDING"/>,
+        /// <para>
+        /// Do not call this macro unless the call to <see cref="GetLastError"/> returns <see cref="ERROR_IO_PENDING"/>,
         /// indicating that the overlapped I/O has started.
-        /// To cancel all pending asynchronous I/O operations, use the <see cref="CancelIo"/> function.
-        /// The <see cref="CancelIo"/> function only cancels operations issued by the calling thread for the specified file handle.
-        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// </para>
+        /// <para>
+        /// To cancel all pending asynchronous I/O operations, use the <see cref="CancelIo"/> function.
+        /// The <see cref="CancelIo"/> function only cancels operations issued by the calling thread for the specified file handle.
+        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// </para>
+        /// <para>
         /// To get more details about a completed I/O operation,
-        /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
+        /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
+        /// </para>
         /// </remarks>
         public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
 
@@ -783,25 +1693,85 @@ namespace Lsj.Util.Win32
         /// A handle to an I/O completion port to which the I/O completion packet is to be posted.
         /// </param>
         /// <param name="dwNumberOfBytesTransferred">
-        /// The value to be returned through the lpNumberOfBytesTransferred parameter of the <see cref="GetQueuedCompletionStatus"/> function.
+        /// The value to be returned through the <paramref name="dwNumberOfBytesTransferred"/> parameter of the <see cref="GetQueuedCompletionStatus"/> function.
         /// </param>
         /// <param name="dwCompletionKey">
-        /// The value to be returned through the lpCompletionKey parameter of the <see cref="GetQueuedCompletionStatus"/> function.
+        /// The value to be returned through the <paramref name="dwCompletionKey"/> parameter of the <see cref="GetQueuedCompletionStatus"/> function.
         /// </param>
         /// <param name="lpOverlapped">
         /// The value to be returned through the <paramref name="lpOverlapped"/> parameter of the <see cref="GetQueuedCompletionStatus"/> function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/> .
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The I/O completion packet will satisfy an outstanding call to the <see cref="GetQueuedCompletionStatus"/> function.
-        /// This function returns with the three values passed as the second, third,
-        /// and fourth parameters of the call to <see cref="PostQueuedCompletionStatus"/>.
-        /// The system does not use or validate these values.
-        /// In particular, the <paramref name="lpOverlapped"/> parameter need not point to an <see cref="OVERLAPPED"/> structure.
+        /// <para>
+        /// The I/O completion packet will satisfy an outstanding call to the <see cref="GetQueuedCompletionStatus"/> function. This function returns with the three values passed as the second, third, and fourth parameters of the call to <see cref="PostQueuedCompletionStatus"/>. The system does not use or validate these values. In particular, the <see cref="lpOverlapped"/> parameter need not point to an <see cref="OVERLAPPED"/> structure.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// CsvFs will do redirected IO for compressed files.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
@@ -827,9 +1797,13 @@ namespace Lsj.Util.Win32
         /// The size of the structure pointed to by <paramref name="lpCC"/>, in bytes.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommConfig", ExactSpelling = true, SetLastError = true)]
@@ -851,9 +1825,13 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="COMMTIMEOUTS"/> structure that contains the new time-out values.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommTimeouts", ExactSpelling = true, SetLastError = true)]
@@ -873,46 +1851,198 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateFile"/> function returns this handle.
         /// </param>
         /// <param name="lpEvtMask">
+        /// <para>
         /// A pointer to a variable that receives a mask indicating the type of event that occurred.
         /// If an error occurs, the value is zero; otherwise, it is one of the following values.
-        /// <see cref="EV_BREAK"/>, <see cref="EV_CTS"/>, <see cref="EV_DSR"/>, <see cref="EV_ERR"/>, <see cref="EV_RING"/>,
-        /// <see cref="EV_RLSD"/>, <see cref="EV_RXCHAR"/>, <see cref="EV_RXFLAG"/>, <see cref="EV_TXEMPTY"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_BREAK"/>
+        /// </para>
+        /// <para>
+        /// 0x0040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A break was detected on input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_CTS"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The CTS (clear-to-send) signal changed state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_DSR"/>
+        /// </para>
+        /// <para>
+        /// 0x0010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The DSR (data-set-ready) signal changed state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_ERR"/>
+        /// </para>
+        /// <para>
+        /// 0x0080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A line-status error occurred.
+        /// Line-status errors are <see cref="CE_FRAME"/>, <see cref="CE_OVERRUN"/>, and <see cref="CE_RXPARITY"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_RING"/>
+        /// </para>
+        /// <para>
+        /// 0x0100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A ring indicator was detected.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_RLSD"/>
+        /// </para>
+        /// <para>
+        /// 0x0020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The RLSD (receive-line-signal-detect) signal changed state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_RXCHAR"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A character was received and placed in the input buffer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_RXFLAG"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The event character was received and placed in the input buffer.
+        /// The event character is specified in the device's <see cref="DCB"/> structure,
+        /// which is applied to a serial port by using the <see cref="SetCommState"/> function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="EV_TXEMPTY"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The last character in the output buffer was sent.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpOverlapped">
-        /// A pointer to an <see cref="OVERLAPPED"/> structure.
-        /// This structure is required if <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>.
-        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
-        /// the <paramref name="lpOverlapped"/> parameter must not be <see cref="NullRef{OVERLAPPED}"/>.
-        /// It must point to a valid <see cref="OVERLAPPED"/> structure.
-        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and
-        /// <paramref name="lpOverlapped"/> is <see cref="NullRef{OVERLAPPED}"/>, the function can incorrectly report that the operation is complete.
-        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and
-        /// <paramref name="lpOverlapped"/> is not <see cref="NullRef{OVERLAPPED}"/>, <see cref="WaitCommEvent"/> is performed as an overlapped operation.
-        /// In this case, the OVERLAPPED structure must contain a handle to a manual-reset event object
-        /// (created by using the <see cref="CreateEvent"/> function).
-        /// If <paramref name="hFile"/> was not opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
-        /// <see cref="WaitCommEvent"/> does not return until one of the specified events or an error occurs.
+        /// <para>
+        /// A pointer to an <see cref="OVERLAPPED"/> structure.
+        /// This structure is required if <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// the <paramref name="lpOverlapped"/> parameter must not be <see cref="NULL"/>.
+        /// It must point to a valid <see cref="OVERLAPPED"/> structure.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and <paramref name="lpOverlapped"/> is <see cref="NULL"/>,
+        /// the function can incorrectly report that the operation is complete.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and <paramref name="lpOverlapped"/> is not <see cref="NULL"/>,
+        /// <see cref="WaitCommEvent"/> is performed as an overlapped operation.
+        /// In this case, the <see cref="OVERLAPPED"/> structure must contain a handle to a manual-reset event object
+        /// (created by using the <see cref="CreateEvent"/> function).
+        /// </para>
+        /// <para>
+        /// If <paramref name="hFile"/> was not opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// <see cref="WaitCommEvent"/> does not return until one of the specified events or an error occurs.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The WaitCommEvent function monitors a set of events for a specified communications resource.
-        /// To set and query the current event mask of a communications resource, use the <see cref="SetCommMask"/> and <see cref="GetCommMask"/> functions.
-        /// If the overlapped operation cannot be completed immediately, the function returns <see cref="FALSE"/> and
-        /// the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>, indicating that the operation is executing in the background.
-        /// When this happens, the system sets the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure
-        /// to the not-signaled state before <see cref="WaitCommEvent"/> returns, and then it sets it to the signaled state
-        /// when one of the specified events or an error occurs.
-        /// The calling process can use one of the wait functions to determine the event object's state
-        /// and then use the <see cref="GetOverlappedResult"/> function to determine the results of the <see cref="WaitCommEvent"/> operation.
-        /// <see cref="GetOverlappedResult"/> reports the success or failure of the operation,
-        /// and the variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to indicate the event that occurred.
-        /// If a process attempts to change the device handle's event mask by using the <see cref="SetCommMask"/> function
-        /// while an overlapped <see cref="WaitCommEvent"/> operation is in progress, <see cref="WaitCommEvent"/> returns immediately.
-        /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
+        /// <para>
+        /// The <see cref="WaitCommEvent"/> function monitors a set of events for a specified communications resource.
+        /// To set and query the current event mask of a communications resource,
+        /// use the <see cref="SetCommMask"/> and <see cref="GetCommMask"/> functions.
+        /// </para>
+        /// <para>
+        /// If the overlapped operation cannot be completed immediately, the function returns <see cref="FALSE"/>
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>,
+        /// indicating that the operation is executing in the background.
+        /// When this happens, the system sets the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure
+        /// to the not-signaled state before <see cref="WaitCommEvent"/> returns,
+        /// and then it sets it to the signaled state when one of the specified events or an error occurs.
+        /// The calling process can use one of the wait functions to determine the event object's state
+        /// and then use the <see cref="GetOverlappedResult"/> function to determine the results of the <see cref="WaitCommEvent"/> operation.
+        /// <see cref="GetOverlappedResult"/> reports the success or failure of the operation,
+        /// and the variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to indicate the event that occurred.
+        /// </para>
+        /// <para>
+        /// If a process attempts to change the device handle's event mask by using the <see cref="SetCommMask"/> function
+        /// while an overlapped <see cref="WaitCommEvent"/> operation is in progress, <see cref="WaitCommEvent"/> returns immediately.
+        /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitCommEvent", ExactSpelling = true, SetLastError = true)]

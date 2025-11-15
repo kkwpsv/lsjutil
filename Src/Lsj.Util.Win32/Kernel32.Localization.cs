@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
@@ -12,6 +13,8 @@ using static Lsj.Util.Win32.BaseTypes.LGRPID;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CALTYPE;
 using static Lsj.Util.Win32.Enums.CodePages;
+using static Lsj.Util.Win32.Enums.CompareStringFlags;
+using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.FindStringFlags;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
@@ -22,7 +25,6 @@ using static Lsj.Util.Win32.Enums.LGRPIDFlags;
 using static Lsj.Util.Win32.Enums.LocaleEnumFlags;
 using static Lsj.Util.Win32.Enums.MUIFlags;
 using static Lsj.Util.Win32.Enums.MUIQueryFlags;
-using static Lsj.Util.Win32.Enums.CompareStringFlags;
 using static Lsj.Util.Win32.Enums.SYSGEOTYPE;
 using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -30,7 +32,6 @@ using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
@@ -38,7 +39,8 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfo"/> function.
+        /// An application-defined callback function that processes enumerated calendar information
+        /// provided by the <see cref="EnumCalendarInfo"/> function.
         /// The <see cref="CALINFO_ENUMPROC"/> type defines a pointer to this callback function.
         /// <see cref="EnumCalendarInfoProc"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -54,17 +56,22 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumCalendarInfoProc"/> function can carry out any desired task.
-        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfo"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumCalendarInfoProc"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfo"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumCalendarInfoProc([In] LPWSTR lpCalendarInfoString);
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfoEx"/> function.
+        /// An application-defined callback function that processes enumerated calendar information
+        /// provided by the <see cref="EnumCalendarInfoEx"/> function.
         /// The <see cref="CALINFO_ENUMPROCEX"/> type defines a pointer to this callback function.
         /// <see cref="EnumCalendarInfoProcEx"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -83,18 +90,28 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumCalendarInfoProcEx"/> function can carry out any desired task.
-        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoEx"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumCalendarInfoProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoEx"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumCalendarInfoProcEx([In] LPWSTR lpCalendarInfoString, [In] CALID Calendar);
 
         /// <summary>
-        /// An application-defined callback function that processes enumerated calendar information provided by the <see cref="EnumCalendarInfoExEx"/> function.
+        /// <para>
+        /// An application-defined callback function that processes enumerated calendar information
+        /// provided by the <see cref="EnumCalendarInfoExEx"/> function.
         /// The <see cref="CALINFO_ENUMPROCEXEX"/> type defines a pointer to this callback function.
         /// <see cref="EnumCalendarInfoProcExEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317808(v=vs.85)"/>
+        /// </para>
         /// </summary>
         /// <param name="lpCalendarInfoString">
         /// Pointer to a buffer containing a null-terminated calendar information string.
@@ -108,17 +125,22 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lParam">
         /// An application-provided input parameter of <see cref="EnumCalendarInfoExEx"/>.
-        /// This value is especially useful for multi-threaded applications, since it can be used to pass thread-specific data to this callback function.
+        /// This value is especially useful for multi-threaded applications,
+        /// since it can be used to pass thread-specific data to this callback function.
         /// </param>
         /// <returns>
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumCalendarInfoProcExEx"/> function can carry out any desired task.
-        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoExEx"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumCalendarInfoProcExEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumCalendarInfoExEx"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumCalendarInfoProcExEx([In] LPWSTR lpCalendarInfoString, [In] CALID Calendar, [In] LPWSTR lpReserved, [In] LPARAM lParam);
 
@@ -140,17 +162,22 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumDateFormatsProc"/> function can carry out any desired task.
-        /// The application registers this function by passing its address to the <see cref="EnumDateFormats"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumDateFormatsProc"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumDateFormats"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumDateFormatsProc([In] LPWSTR lpDateFormatString);
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated date format information provided by the <see cref="EnumDateFormatsEx"/> function.
+        /// An application-defined callback function that processes enumerated date format information
+        /// provided by the <see cref="EnumDateFormatsEx"/> function.
         /// The <see cref="DATEFMT_ENUMPROCEX"/> type defines a pointer to this callback function.
         /// <see cref="EnumDateFormatsProcEx"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -169,17 +196,22 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumDateFormatsProcEx"/> function can carry out any desired task.
-        /// The application registers this function by passing its address to the <see cref="EnumDateFormatsEx"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumDateFormatsProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumDateFormatsEx"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumDateFormatsProcEx([In] LPWSTR lpDateFormatString, [In] CALID CalendarID);
 
         /// <summary>
         /// <para>
-        /// An application-defined function that processes enumerated date format information provided by the <see cref="EnumDateFormatsExEx"/> function.
+        /// An application-defined function that processes enumerated date format information
+        /// provided by the <see cref="EnumDateFormatsExEx"/> function.
         /// The <see cref="DATEFMT_ENUMPROCEXEX"/> type defines a pointer to this callback function.
         /// <see cref="EnumDateFormatsProcExEx"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -189,7 +221,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="lpDateFormatString">
         /// Pointer to a buffer containing a null-terminated date format string.
-        /// This string is a long or short date format, depending on the value of the dwFlags parameter passed to <see cref="EnumDateFormatsExEx"/>.
+        /// This string is a long or short date format, depending on the value
+        /// of the <c>dwFlags</c> parameter passed to <see cref="EnumDateFormatsExEx"/>.
         /// </param>
         /// <param name="CalendarID">
         /// Calendar identifier associated with the specified date format string.
@@ -203,17 +236,22 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="EnumDateFormatsProcExEx"/> function can carry out any desired task.
-        /// An application registers this function by passing its address to the <see cref="EnumDateFormatsExEx"/> function.
-        /// This callback function can process enumerated data from custom locales.
+        /// <para>
+        /// An <see cref="EnumDateFormatsProcExEx"/> function can carry out any desired task.
+        /// An application registers this function by passing its address to the <see cref="EnumDateFormatsExEx"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         public delegate BOOL EnumDateFormatsProcExEx([In] LPWSTR lpDateFormatString, [In] CALID CalendarID, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated geographical location information provided by the <see cref="EnumSystemGeoID"/> function.
+        /// An application-defined callback function that processes enumerated geographical location information
+        /// provided by the <see cref="EnumSystemGeoID"/> function.
         /// The <see cref="GEO_ENUMPROC"/> type defines a pointer to this callback function.
         /// <see cref="EnumGeoInfoProc"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -235,7 +273,8 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated locale information provided by the <see cref="EnumSystemLocales"/> function.
+        /// An application-defined callback function that processes enumerated locale information
+        /// provided by the <see cref="EnumSystemLocales"/> function.
         /// The <see cref="LOCALE_ENUMPROC"/> type defines a pointer to this callback function.
         /// EnumLocalesProc is a placeholder for the application-defined function name.
         /// </para>
@@ -257,7 +296,8 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// An application-defined callback function that processes enumerated locale information provided by the <see cref="EnumSystemLocalesEx"/> function.
+        /// An application-defined callback function that processes enumerated locale information
+        /// provided by the <see cref="EnumSystemLocalesEx"/> function.
         /// The <see cref="LOCALE_ENUMPROCEX"/> type defines a pointer to this callback function.
         /// <see cref="EnumLocalesProcEx"/> is a placeholder for the application-defined function name.
         /// </para>
@@ -269,20 +309,60 @@ namespace Lsj.Util.Win32
         /// Pointer to a buffer containing a null-terminated locale name string.
         /// </param>
         /// <param name="unnamedParam2">
+        /// <para>
         /// Flags defining locale information.
         /// Values for this parameter can include a binary OR of flags, but some flag combinations never occur.
-        /// If the application specifies <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALTERNATE_SORTS"/>,
-        /// it can also specify <see cref="LOCALE_REPLACEMENT"/> so that the <see cref="EnumSystemLocalesEx"/> function can test to see if the locale is a replacement.
+        /// If the application specifies <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALTERNATE_SORTS"/>,
+        /// it can also specify <see cref="LOCALE_REPLACEMENT"/>
+        /// so that the <see cref="EnumSystemLocalesEx"/> function can test to see if the locale is a replacement.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_ALL"/>
-        /// <see cref="LOCALE_ALTERNATE_SORTS"/>; for more information, see <see cref="EnumSystemLocalesEx"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_ALTERNATE_SORTS"/>; for more information, see <see cref="EnumSystemLocalesEx"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_NEUTRALDATA"/>
-        /// <see cref="LOCALE_REPLACEMENT"/> This constant is not a valid input to the dwFlags parameter of <see cref="EnumSystemLocalesEx"/>.
-        /// To enumerate replacement locales, the application should call this function with the Arg2 parameter
-        /// specified as <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALL"/>, then check for this constant in the callback function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_REPLACEMENT"/>
+        /// This constant is not a valid input to the <c>dwFlags</c>parameter of <see cref="EnumSystemLocalesEx"/>.
+        /// To enumerate replacement locales, the application should call this function with the <c>Arg2</c> parameter
+        /// specified as <see cref="LOCALE_WINDOWS"/> or <see cref="LOCALE_ALL"/>, then check for this constant in the callback function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_SUPPLEMENTAL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_WINDOWS"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_NEUTRALDATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_SPECIFICDATA"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="unnamedParam3">
         /// An application-provided input parameter of <see cref="EnumSystemLocalesEx"/>.
@@ -302,7 +382,7 @@ namespace Lsj.Util.Win32
         /// An application-defined callback function that processes enumerated geographical location information
         /// provided by the <see cref="EnumSystemGeoNames"/> function.
         /// The <see cref="GEO_ENUMNAMEPROC"/> type defines a pointer to this callback function.
-        /// <see cref="Geo_EnumNameProc"/> is a placeholder for the application-defined function name.
+        /// <c>Geo_EnumNameProc</c> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nc-winnls-geo_enumnameproc"/>
@@ -314,19 +394,27 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// An <see cref="Geo_EnumNameProc"/> function can carry out any desired task,
-        /// and can use the information passed to it in the data parameter for any desired purpose.
-        /// The application registers this function by passing its address to the <see cref="EnumSystemGeoNames"/> function.
-        /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
-        /// For information about numeric UN M.49 codes, see Standard country or area codes for statistical use (M49).
+        /// <para>
+        /// An <c>Geo_EnumNameProc</c> function can carry out any desired task,
+        /// and can use the information passed to it in the <c>data</c> parameter for any desired purpose.
+        /// The application registers this function by passing its address to the <see cref="EnumSystemGeoNames"/> function.
+        /// </para>
+        /// <para>
+        /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
+        /// For information about numeric UN M.49 codes, see Standard country or area codes for statistical use (M49).
+        /// </para>
         /// </remarks>
-        public delegate BOOL Geo_EnumNameProc([In] LPWSTR unnamedParam1, [In] LPARAM unnamedParam2);
+        public delegate BOOL GeoEnumnameproc([In] LPWSTR unnamedParam1, [In] LPARAM unnamedParam2);
 
 
         /// <summary>
         /// <para>
         /// Converts a default locale value to an actual locale identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function is only provided for converting partial locale identifiers.
         /// Your applications should use locale names instead of identifiers.
         /// The <see cref="LCIDToLocaleName"/> function can be used to convert a locale identifier to a valid locale name.
@@ -339,16 +427,61 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
+        /// <para>
         /// Default locale identifier value to convert.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
-        /// Windows Vista and later: The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns the appropriate locale identifier if successful.
-        /// This function returns the value of the Locale parameter if it does not succeed.
-        /// The function fails when the Locale value is not one of the default values listed above.
+        /// </para>
+        /// <para>
+        /// This function returns the value of the <paramref name="Locale"/> parameter if it does not succeed.
+        /// The function fails when the <paramref name="Locale"/> value is not one of the default values listed above.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_SYSTEM_DEFAULT"/>
@@ -363,12 +496,22 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates calendar information for a specified locale.
+        /// </para>
+        /// <para>
         /// Note
-        /// To receive a calendar identifier in addition to calendar information, the application should use the <see cref="EnumCalendarInfoEx"/> function.
+        /// </para>
+        /// <para>
+        /// To receive a calendar identifier in addition to calendar information,
+        /// the application should use the <see cref="EnumCalendarInfoEx"/> function.
         /// Another reason for preferring this function is that Microsoft is migrating toward the use of locale names
         /// instead of locale identifiers for new locales, for interoperability reasons.
+        /// </para>
+        /// <para>
         /// Note
-        /// Any application that will be run only on Windows Vista and later should use <see cref="EnumCalendarInfoExEx"/> in preference to <see cref="EnumCalendarInfo"/>.
+        /// </para>
+        /// <para>
+        /// Any application that will be run only on Windows Vista and later
+        /// should use <see cref="EnumCalendarInfoExEx"/> in preference to <see cref="EnumCalendarInfo"/>.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumcalendarinfow"/>
@@ -379,10 +522,44 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumCalendarInfoProc"/>.
         /// </param>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale for which to retrieve calendar information.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale for which to retrieve calendar information.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier that specifies the calendar for which information is requested.
@@ -393,10 +570,25 @@ namespace Lsj.Util.Win32
         /// Only one calendar type can be specified per call to this function, except where noted.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call GetLastError, which can return one of the following error codes:
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// See Remarks for <see cref="EnumCalendarInfoEx"/>.
@@ -408,8 +600,13 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates calendar information for a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Note
-        /// Any application that runs only on Windows Vista and later should use <see cref="EnumCalendarInfoExEx"/> in preference to this function.
+        /// </para>
+        /// <para>
+        /// Any application that runs only on Windows Vista and later
+        /// should use <see cref="EnumCalendarInfoExEx"/> in preference to this function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumcalendarinfoexw"/>
@@ -420,11 +617,52 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumCalendarInfoProcEx"/>.
         /// </param>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale for which to retrieve calendar information.
-        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
-        /// Windows Vista and later: The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// <para>
+        /// Locale identifier that specifies the locale for which to retrieve calendar information.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier that specifies the calendar for which information is requested.
@@ -435,24 +673,45 @@ namespace Lsj.Util.Win32
         /// Only one calendar type can be specified per call to this function, except where noted.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function enumerates calendar information for all applicable calendars for the specified locale,
-        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
+        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
         /// The function enumerates the calendar information by calling the specified application-defined callback function.
         /// It passes the callback function a pointer to a buffer containing the requested calendar information.
-        /// This process continues until <see cref="EnumCalendarInfoEx"/> finds the last applicable calendar or the callback function returns <see cref="FALSE"/>.
-        /// This function can enumerate data from custom locales.
+        /// This process continues until <see cref="EnumCalendarInfoEx"/> finds the last applicable calendar
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// This function can enumerate data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoExW", ExactSpelling = true, SetLastError = true)]
@@ -461,10 +720,17 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates calendar information for a locale specified by name.
-        /// Note
+        /// </para>
+        /// <para>
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="EnumCalendarInfo"/> or <see cref="EnumCalendarInfoEx"/>
         /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function can enumerate data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
@@ -477,8 +743,28 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumCalendarInfoProcExEx"/>.
         /// </param>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier that specifies the calendar for which information is requested.
@@ -497,21 +783,39 @@ namespace Lsj.Util.Win32
         /// This value is especially useful for multi-threaded applications.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function enumerates calendar information for all applicable calendars for the specified locale,
-        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
+        /// or for a single requested calendar, depending on the value of the <paramref name="Calendar"/> parameter.
         /// The function enumerates the calendar information by calling the specified application-defined callback function.
         /// It passes the callback function a pointer to a buffer containing the requested calendar information,
         /// a calendar identifier, and an application-defined parameter that is useful for multi-threaded applications.
-        /// This process continues until <see cref="EnumCalendarInfoExEx"/> finds the last applicable calendar or the callback function returns <see cref="FALSE"/>.
-        /// Beginning in Windows 8: If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// This process continues until <see cref="EnumCalendarInfoExEx"/> finds the last applicable calendar or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8: If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumCalendarInfoExEx", ExactSpelling = true, SetLastError = true)]
@@ -521,12 +825,20 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the long date, short date, or year/month formats that are available for a specified locale.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To receive a calendar identifier in addition to date format information,
         /// the application should use the <see cref="EnumDateFormatsEx"/> function.
         /// Another reason for preferring this function is that Microsoft is migrating toward
         /// the use of locale names instead of locale identifiers for new locales, for interoperability reasons.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Any application that will be run only on Windows Vista or later
         /// should use <see cref="EnumDateFormatsExEx"/> in preference to <see cref="EnumDateFormats"/>.
         /// </para>
@@ -539,31 +851,88 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumDateFormatsProc"/>.
         /// </param>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale for which to retrieve date format information.
-        /// You can use the MAKELCID macro to create an identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>,
-        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>, <see cref="LOCALE_INVARIANT"/>,
-        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale for which to retrieve date format information.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
         /// Flag specifying date formats.
         /// For detailed definitions, see the <paramref name="dwFlags"/> parameter of <see cref="EnumDateFormatsExEx"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API is being updated to support the May 2019 Japanese era change.
         /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
         /// See Prepare your application for the Japanese era change for more information.
+        /// </para>
+        /// <para>
         /// For details of operation of this function, see Remarks in <see cref="EnumDateFormatsEx"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To enumerate the date formats for locales with alternate calendars, the application should use <see cref="EnumDateFormatsEx"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsW", ExactSpelling = true, SetLastError = true)]
@@ -572,8 +941,12 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the long date, short date, or year/month formats that are available for a specified locale.
+        /// </para>
+        /// <para>
         /// Note
-        /// Any application that runs only on Windows Vista and later should use EnumDateFormatsExEx in preference to this function.
+        /// </para>
+        /// <para>
+        /// Any application that runs only on Windows Vista and later should use <see cref="EnumDateFormatsExEx"/> in preference to this function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumdateformatsexw"/>
@@ -584,10 +957,52 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumDateFormatsProcEx"/>.
         /// </param>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale for which to retrieve date format information.
-        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
-        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// <para>
+        /// Locale identifier that specifies the locale for which to retrieve date format information.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
         /// </param>
         /// <param name="dwFlags">
@@ -595,31 +1010,59 @@ namespace Lsj.Util.Win32
         /// For detailed definitions, see the dwFlags parameter of <see cref="EnumDateFormatsExEx"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API is being updated to support the May 2019 Japanese era change.
         /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
-        /// See Prepare your application for the Japanese era change for more information.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// </para>
+        /// <para>
         /// The function enumerates the date formats by passing date format string pointers,
         /// one at a time, to the specified application-defined callback function.
-        /// This process continues until <see cref="EnumDateFormatsEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
+        /// This process continues until <see cref="EnumDateFormatsEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
         /// This function enumerates all date formats for the specified locale, including alternate calendars, if any.
         /// However, the calendar identifier is not enumerated along with the date format,
         /// making formats for locales with alternate calendars difficult to use.
-        /// This function can enumerate data from custom locales.
+        /// </para>
+        /// <para>
+        /// This function can enumerate data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
-        /// The application should use <see cref="EnumDateFormatsEx"/> (instead of <see cref="EnumDateFormats"/>)
+        /// </para>
+        /// <para>
+        /// The application should use <see cref="EnumDateFormatsEx"/> (instead of <see cref="EnumDateFormats"/>)
         /// to enumerate date formats for locales with alternate calendars.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsExW", ExactSpelling = true, SetLastError = true)]
@@ -628,10 +1071,18 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the long date, short date, or year/month formats that are available for a locale specified by name.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="EnumDateFormats"/> or <see cref="EnumDateFormatsEx"/>
         /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function can enumerate data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
@@ -644,45 +1095,128 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumDateFormatsProcExEx"/>.
         /// </param>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
+        /// <para>
         /// Flag specifying date formats.
-        /// The application can supply one of the following values or the <see cref="LOCALE_USE_CP_ACP"/> constant.
-        /// <see cref="DATE_SHORTDATE"/>:
+        /// The application can supply one of the following values or the <see cref="LOCALE_USE_CP_ACP"/> constant.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_SHORTDATE"/>
+        /// </term>
+        /// <term>
         /// Use short date formats. This value cannot be used with any of the other flag values.
-        /// <see cref="DATE_LONGDATE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_LONGDATE"/>
+        /// </term>
+        /// <term>
         /// Use long date formats. This value cannot be used with any of the other flag values.
-        /// <see cref="DATE_YEARMONTH"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_YEARMONTH"/>
+        /// </term>
+        /// <term>
         /// Use year/month formats. This value cannot be used with any of the other flag values.
-        /// <see cref="DATE_MONTHDAY"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_MONTHDAY"/>
+        /// </term>
+        /// <term>
         /// Use month/day formats. This value cannot be used with any of the other flag values.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lParam">
         /// An application-provided parameter to pass to the callback function.
         /// This value is especially useful for multi-threaded applications.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_BADDB"/>. The function could not access the data.
         /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API is being updated to support the May 2019 Japanese era change.
         /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
-        /// See Prepare your application for the Japanese era change for more information.
+        /// See Prepare your application for the Japanese era change for more information.
+        /// </para>
+        /// <para>
         /// The function enumerates the date formats by passing date format string pointers, one at a time,
         /// to the specified application-defined callback function, along with an application-defined constant that is useful for multi-threaded applications.
-        /// This process continues until <see cref="EnumDateFormatsExEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// This process continues until <see cref="EnumDateFormatsExEx"/> finds the last date format or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8: If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDateFormatsExEx", ExactSpelling = true, SetLastError = true)]
@@ -784,10 +1318,7 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Enumerates the geographical location identifiers (type GEOID) that are available on the operating system.
-        /// <see cref="EnumSystemGeoID"/> is available for use in the operating systems specified in the Requirements section.
-        /// It may be altered or unavailable in subsequent versions.
-        /// Instead, use <see cref="EnumSystemGeoNames"/>.
+        /// Enumerates the geographical location identifiers (type <see cref="GEOID"/>) that are available on the operating system.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemgeoid"/>
@@ -807,11 +1338,27 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnumSystemGeoID"/> function makes repeated calls to this callback function until it returns <see cref="FALSE"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
+        [Obsolete("EnumSystemGeoID is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions. Instead, use EnumSystemGeoNames.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemGeoID", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemGeoID([In] GEOCLASS GeoClass, [In] GEOID ParentGeoId, [In] GEO_ENUMPROC lpGeoEnumProc);
@@ -829,7 +1376,7 @@ namespace Lsj.Util.Win32
         /// The geographical location class for which to enumerate the available two-letter ISO 3166-1 or numeric UN M.49 codes.
         /// </param>
         /// <param name="geoEnumProc">
-        /// Pointer to the application-defined callback function <see cref="Geo_EnumNameProc"/>.
+        /// Pointer to the application-defined callback function <see cref="GeoEnumnameproc"/>.
         /// The <see cref="EnumSystemGeoNames"/> function calls this callback function for each of the two-letter ISO 3166-1
         /// or numeric UN M.49 codes for geographical locations that are available on the operating system until callback function returns <see cref="FALSE"/>.
         /// </param>
@@ -837,10 +1384,38 @@ namespace Lsj.Util.Win32
         /// Application-specific information to pass to the callback function that the <paramref name="geoEnumProc"/> parameter specifies.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_FLAGS"/>: The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: A parameter value was not valid.
+        /// To get extended error information, call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_FLAGS"/>
+        /// </term>
+        /// <term>
+        /// The values supplied for flags were not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// A parameter value was not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// For information about two-letter ISO 3166-1 codes, see Country Codes - ISO 3166.
@@ -853,7 +1428,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the locales that are either installed on or supported by an operating system.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="EnumSystemLocalesEx"/> function to <see cref="EnumSystemLocales"/>
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
         /// Any application that will be run only on Windows Vista and later should use <see cref="EnumSystemLocalesEx"/>.
@@ -867,35 +1446,78 @@ namespace Lsj.Util.Win32
         /// For more information, see EnumLocalesProc.
         /// </param>
         /// <param name="dwFlags">
-        /// Flags specifying the locale identifiers to enumerate.
-        /// The flags can be used singly or combined using a binary OR.
-        /// If the application specifies 0 for this parameter, the function behaves as for <see cref="LCID_SUPPORTED"/>.
-        /// <see cref="LCID_INSTALLED"/>:
-        /// Enumerate only installed locale identifiers.
-        /// This value cannot be used with <see cref="LCID_SUPPORTED"/>.
-        /// <see cref="LCID_SUPPORTED"/>:
-        /// Enumerate all supported locale identifiers.
-        /// This value cannot be used with <see cref="LCID_INSTALLED"/>.
-        /// <see cref="LCID_ALTERNATE_SORTS"/>:
+        /// <para>
+        /// Flags specifying the locale identifiers to enumerate. The flags can be used singly or combined using a binary OR. If the application specifies 0 for this parameter, the function behaves as for LCID_SUPPORTED.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LCID_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate only installed locale identifiers. This value cannot be used with <see cref="LCID_SUPPORTED"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCID_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate all supported locale identifiers. This value cannot be used with <see cref="LCID_INSTALLED"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCID_ALTERNATE_SORTS"/>
+        /// </term>
+        /// <term>
         /// Enumerate only the alternate sort locale identifiers.
         /// If this value is used with either <see cref="LCID_INSTALLED"/> or <see cref="LCID_SUPPORTED"/>,
         /// the installed or supported locales are retrieved, as well as the alternate sort locale identifiers.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns a <see cref="TRUE"/> value if successful, or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_BADDB"/>:
-        /// The function could not access the data.
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_BADDB"/>. The function could not access the data.
         /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
-        /// <see cref="ERROR_INVALID_FLAGS"/>:
-        /// The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>:
-        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The function enumerates locales by passing locale identifiers, one at a time, to the specified application-defined callback function.
-        /// This continues until all of the installed or supported locale identifiers
-        /// have been passed to the callback function or the callback function returns <see cref="FALSE"/>.
+        /// This continues until all of the installed or supported locale identifiers have been passed to the callback function
+        /// or the callback function returns <see cref="FALSE"/>.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesW", ExactSpelling = true, SetLastError = true)]
@@ -904,7 +1526,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the locales that are either installed on or supported by an operating system.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="EnumSystemLocales"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
@@ -917,14 +1543,45 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="EnumLocalesProcEx"/>.
         /// </param>
         /// <param name="dwFlags">
+        /// <para>
         /// Flags identifying the locales to enumerate.
         /// The flags can be used singly or combined using a binary OR.
-        /// If the application specifies 0 for this parameter, the function behaves as for <see cref="LOCALE_ALL"/>.
+        /// If the application specifies 0 for this parameter, the function behaves as for <see cref="LOCALE_ALL"/>.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_ALL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_ALTERNATE_SORTS"/>; see Remarks
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_NEUTRALDATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_SUPPLEMENTAL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="LOCALE_WINDOWS"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SPECIFICDATA"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lParam">
         /// An application-provided parameter to be passed to the callback function.
@@ -934,25 +1591,48 @@ namespace Lsj.Util.Win32
         /// Reserved; must be <see cref="NULL"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
-        /// which can return one of the following error codes:
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_BADDB"/>. The function could not access the data.
         /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function enumerates locales by passing locale names, one at a time,
-        /// to the application-defined callback function specified by <paramref name="lpLocaleEnumProcEx"/>.
+        /// to the application-defined callback function specified by <paramref name="lpLocaleEnumProcEx"/>.
         /// Enumeration continues until all installed or supported names have been passed to the callback function
-        /// or the callback function returns <see cref="FALSE"/>.
-        /// The choices for the <paramref name="dwFlags"/> parameter are different from those for <see cref="EnumSystemLocales"/>,
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// The choices for the <paramref name="dwFlags"/> parameter are different from those for <see cref="EnumSystemLocales"/>,
         /// which must distinguish between installed and supported locales.
-        /// If <paramref name="dwFlags"/> specifies <see cref="LOCALE_ALTERNATE_SORTS"/>,
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwFlags"/> specifies <see cref="LOCALE_ALTERNATE_SORTS"/>,
         /// the callback function is called for every locale that represents an alternate sort order.
         /// For example, Spanish (Spain) defaults to international sort order, but traditional sort order is available for an alternate sort.
         /// German (Germany) defaults to dictionary sort order, but there is an alternate phone book sort order available.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesEx", ExactSpelling = true, SetLastError = true)]
@@ -961,24 +1641,74 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Locates a Unicode string (wide characters) or its equivalent in another Unicode string for a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// Because strings with very different binary representations can compare as identical, this function can raise certain security concerns.
         /// For more information, see the discussion of comparison functions in Security Considerations: International Features.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="FindNLSStringEx"/> function
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
-        /// Although <see cref="FindNLSString"/> supports custom locales, most applications should use <see cref="FindNLSStringEx"/> for this type of support.
+        /// Although <see cref="FindNLSString"/> supports custom locales,
+        /// most applications should use <see cref="FindNLSStringEx"/> for this type of support.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-findnlsstring"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale.
-        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
-        /// Windows Vista and later: The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// <para>
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFindNLSStringFlags">
         /// Flags specifying details of the find operation.
@@ -1005,14 +1735,36 @@ namespace Lsj.Util.Win32
         /// For details, see the pcchFound parameter of <see cref="FindNLSStringEx"/>.
         /// </param>
         /// <returns>
-        /// Returns a 0-based index into the source string indicated by <paramref name="lpStringSource"/> if successful.
-        /// In combination with the value in <paramref name="pcchFound"/>, this index provides the exact location of the entire found string in the source string.
+        /// <para>
+        /// Returns a 0-based index into the source string indicated by <paramref name="lpStringSource"/> if successful.
+        /// In combination with the value in <paramref name="pcchFound"/>,
+        /// this index provides the exact location of the entire found string in the source string.
         /// A return value of 0 is an error-free index into the source string, and the matching string is in the source string at offset 0.
+        /// </para>
+        /// <para>
         /// The function returns -1 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_FLAGS"/>: The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
-        /// <see cref="ERROR_SUCCESS"/>: The action completed successfully but yielded no results.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_SUCCESS"/>. The action completed successfully but yielded no results.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// See Remarks for <see cref="FindNLSStringEx"/>.
@@ -1025,7 +1777,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Locates a Unicode string (wide characters) or its equivalent in another Unicode string for a locale specified by name.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// Because strings with very different binary representations can compare as identical, this function can raise certain security concerns.
         /// For more information, see the discussion of comparison functions in Security Considerations: International Features.
         /// </para>
@@ -1034,47 +1790,174 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFindNLSStringFlags">
+        /// <para>
         /// Flags specifying details of the find operation.
         /// These flags are mutually exclusive, with <see cref="FIND_FROMSTART"/> being the default.
         /// The application can specify just one of the find flags with any of the filtering flags defined in the next table.
         /// If the application does not specify a flag, the function uses the default comparison for the specified locale.
-        /// As discussed in Handling Sorting in Your Applications, there is no binary comparison mode.
-        /// <see cref="FIND_FROMSTART"/>:
+        /// As discussed in Handling Sorting in Your Applications, there is no binary comparison mode.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="FIND_FROMSTART"/>
+        /// </term>
+        /// <term>
         /// Search the string, starting with the first character of the string.
-        /// <see cref="FIND_FROMEND"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FIND_FROMEND"/>
+        /// </term>
+        /// <term>
         /// Search the string in the reverse direction, starting with the last character of the string.
-        /// <see cref="FIND_STARTSWITH"/>:
-        /// Test to find out if the value specified by <paramref name="lpStringValue"/> is the first value in the source string indicated by <paramref name="lpStringSource"/>.
-        /// <see cref="FIND_ENDSWITH"/>:
-        /// Test to find out if the value specified by <paramref name="lpStringValue"/> is the last value in the source string indicated by <paramref name="lpStringSource"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FIND_STARTSWITH"/>
+        /// </term>
+        /// <term>
+        /// Test to find out if the value specified by <paramref name="lpStringValue"/> is the first value
+        /// in the source string indicated by <paramref name="lpStringSource"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="FIND_ENDSWITH"/>
+        /// </term>
+        /// <term>
+        /// Test to find out if the value specified by <paramref name="lpStringValue"/> is the last value
+        /// in the source string indicated by <paramref name="lpStringSource"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The application can use the filtering flags defined below in combination with a find flag.
-        /// <see cref="LINGUISTIC_IGNORECASE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LINGUISTIC_IGNORECASE"/>
+        /// </term>
+        /// <term>
         /// Ignore case in the search, as linguistically appropriate. For more information, see the Remarks section.
-        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/>:
-        /// Ignore diacritics, as linguistically appropriate.
-        /// For more information, see the Remarks section.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Ignore diacritics, as linguistically appropriate. For more information, see the Remarks section.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This flag does not always produce predictable results when used with decomposed characters,
-        /// that is, characters in which a base character and one or more nonspacing characters each have distinct code point values.
-        /// <see cref="NORM_IGNORECASE"/>:
+        /// that is, characters in which a base character and one or more nonspacing characters each have distinct code point values. 
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORECASE"/>
+        /// </term>
+        /// <term>
         /// Ignore case in the search. For more information, see the Remarks section.
-        /// <see cref="NORM_IGNOREKANATYPE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNOREKANATYPE"/>
+        /// </term>
+        /// <term>
         /// Do not differentiate between hiragana and katakana characters.
         /// Corresponding hiragana and katakana characters compare as equal.
-        /// <see cref="NORM_IGNORENONSPACE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORENONSPACE"/>
+        /// </term>
+        /// <term>
         /// Ignore nonspacing characters. For more information, see the Remarks section.
-        /// <see cref="NORM_IGNORESYMBOLS"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORESYMBOLS"/>
+        /// </term>
+        /// <term>
         /// Ignore symbols and punctuation.
-        /// <see cref="NORM_IGNOREWIDTH"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNOREWIDTH"/>
+        /// </term>
+        /// <term>
         /// Ignore the difference between half-width and full-width characters, for example, C a t == cat.
         /// The full-width form is a formatting distinction used in Chinese and Japanese scripts.
-        /// <see cref="NORM_LINGUISTIC_CASING"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_LINGUISTIC_CASING"/>
+        /// </term>
+        /// <term>
         /// Use linguistic rules for casing, instead of file system rules (default).
         /// For more information, see the Remarks section.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpStringSource">
         /// Pointer to the source string, in which the function searches for the string specified by <paramref name="lpStringValue"/>.
@@ -1093,15 +1976,34 @@ namespace Lsj.Util.Win32
         /// The application specifies -1 if the search string is null-terminated and the function should calculate the size automatically.
         /// </param>
         /// <param name="pcchFound">
+        /// <para>
         /// Pointer to a buffer containing the length of the string that the function finds.
         /// The string can be either longer or shorter than the search string.
         /// If the function fails to find the search string, this parameter is not modified.
-        /// The function can retrieve NULL in this parameter.
+        /// </para>
+        /// <para>
+        /// The function can retrieve <see cref="NULL"/> in this parameter.
         /// In this case, the function makes no indication if the length of the found string differs from the length of the source string.
-        /// Note that the value of pcchFound is often identical to the value provided in <paramref name="cchValue"/>, but can differ in the following cases:
-        /// The value provided in <paramref name="cchValue"/> is negative.
+        /// </para>
+        /// <para>
+        /// Note that the value of <paramref name="pcchFound"/> is often identical to the value
+        /// provided in <paramref name="cchValue"/>, but can differ in the following cases:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The value provided in <paramref name="cchValue"/> is negative.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The strings are equivalent, but have different lengths.
         /// For example, "A" plus "Combining Ring" (U+0041 U+030A) is equivalent to the "A Ring" (U+00c5).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpVersionInformation">
         /// Reserved; must be <see cref="NULL"/>.
@@ -1113,42 +2015,89 @@ namespace Lsj.Util.Win32
         /// Reserved; must be 0.
         /// </param>
         /// <returns>
-        /// Returns a 0-based index into the source string indicated by <paramref name="lpStringSource"/> if successful.
-        /// In combination with the value in <paramref name="pcchFound"/>, this index provides the exact location of the entire found string in the source string.
+        /// <para>
+        /// Returns a 0-based index into the source string indicated by <paramref name="lpStringSource"/> if successful.
+        /// In combination with the value in <paramref name="pcchFound"/>,
+        /// this index provides the exact location of the entire found string in the source string.
         /// A return value of 0 is an error-free index into the source string, and the matching string is in the source string at offset 0.
+        /// </para>
+        /// <para>
         /// The function returns -1 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_FLAGS"/>: The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
-        /// <see cref="ERROR_SUCCESS"/>: The action completed successfully but yielded no results.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_SUCCESS"/>. The action completed successfully but yielded no results.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function provides a variety of search options, including search direction, character equivalence filtering, and locale-specific filtering.
+        /// <para>
+        /// This function provides a variety of search options, including search direction,
+        /// character equivalence filtering, and locale-specific filtering.
         /// Note that equivalence depends on the locale and flags specified in the call to the function.
         /// The filtering flags can alter the results of the search.
         /// For example, the potential matches increase when the function ignores case or diacritic marks when performing the search.
-        /// By default, this function maps the lowercase "i" to the uppercase "I", even when the Locale parameter specifies Turkish (Turkey) or Azerbaijani (Azerbaijan).
+        /// </para>
+        /// <para>
+        /// By default, this function maps the lowercase "i" to the uppercase "I",
+        /// even when the <paramref name="lpLocaleName"/> parameter specifies Turkish (Turkey) or Azerbaijani (Azerbaijan).
         /// To override this behavior for Turkish or Azerbaijani, the application should specify <see cref="NORM_LINGUISTIC_CASING"/>.
         /// If this flag is specified for the correct locale, "ı" (lowercase dotless I) is the lowercase form of "I" (uppercase dotless I)
         /// and "i" (lowercase dotted I) is the lowercase form of "ı" (uppercase dotted I).
+        /// </para>
+        /// <para>
         /// For many scripts (notably Latin scripts), <see cref="NORM_IGNORENONSPACE"/> coincides with <see cref="LINGUISTIC_IGNOREDIACRITIC"/>
         /// and <see cref="NORM_IGNORECASE"/> coincides with <see cref="LINGUISTIC_IGNORECASE"/>, with the following exceptions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="NORM_IGNORENONSPACE"/> ignores any secondary distinction, whether or not it is a diacritic.
         /// Scripts for Korean, Japanese, Chinese, Indic languages, and others use this distinction for purposes other than diacritics.
         /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/> ignores only actual diacritics, instead of simply ignoring the second sorting weight.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="NORM_IGNORECASE"/> ignores any tertiary distinction, whether or not it is actually linguistic case.
         /// For example, in Arabic and Indic scripts, this flag distinguishes alternate forms of a character.
         /// However, the differences do not correspond to linguistic case.
         /// <see cref="LINGUISTIC_IGNORECASE"/> ignores only actual linguistic casing, instead of ignoring the third sorting weight.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// In contrast to other NLS API functions, which return 0 for failure, this function returns -1 if it fails.
         /// On success, it returns a 0-based index.
         /// Use of this index helps the function avoid off-by-one errors and one-character buffer overruns.
-        /// This function is one of the few NLS functions that calls SetLastError even when it succeeds.
+        /// </para>
+        /// <para>
+        /// This function is one of the few NLS functions that calls <see cref="SetLastError"/> even when it succeeds.
         /// It makes this call to clear the last error in a thread when it fails to match the search string.
-        /// This clears the value returned by <see cref="GetLastError"/>.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// This clears the value returned by <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8: If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSStringEx", ExactSpelling = true, SetLastError = true)]
@@ -1170,66 +2119,526 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// The formatting options, and how to interpret the lpSource parameter. 
-        /// The low-order byte of <paramref name="dwFlags"/> specifies how the function handles line breaks in the output buffer.
+        /// <para>
+        /// The formatting options, and how to interpret the <paramref name="lpSource"/> parameter.
+        /// The low-order byte of <paramref name="dwFlags"/> specifies how the function handles line breaks in the output buffer.
         /// The low-order byte can also specify the maximum width of a formatted output line.
-        /// If the low-order byte is a nonzero value other than <see cref="FORMAT_MESSAGE_MAX_WIDTH_MASK"/>,
-        /// it specifies the maximum number of characters in an output line. 
-        /// The function ignores regular line breaks in the message definition text. 
-        /// The function never splits a string delimited by white space across a line break. 
-        /// The function stores hard-coded line breaks in the message definition text into the output buffer. 
+        /// </para>
+        /// <para>
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The function allocates a buffer large enough to hold the formatted message,
+        /// and places a pointer to the allocated buffer at the address specified by <paramref name="lpBuffer"/>.
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to an <c>LPTSTR</c>;
+        /// you must cast the pointer to an <c>LPTSTR</c> (for example, <c>(LPTSTR)&amp;lpBuffer</c>).
+        /// The <paramref name="nSize"/> parameter specifies the minimum number of <c>TCHAR</c>s to allocate for an output message buffer.
+        /// The caller should use the <see cref="LocalFree"/> function to free the buffer when it is no longer needed.
+        /// </para>
+        /// <para>
+        /// If the length of the formatted message exceeds 128K bytes,
+        /// then <see cref="FormatMessage"/> will fail and a subsequent call to <see cref="GetLastError"/> will return <see cref="ERROR_MORE_DATA"/>.
+        /// </para>
+        /// <para>
+        /// In previous versions of Windows, this value was not available for use when compiling Windows Store apps.
+        /// As of Windows 10 this value can be used.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// </para>
+        /// <para>
+        /// If the length of the formatted message exceeds 128K bytes,
+        /// then <see cref="FormatMessage"/> will not automatically fail with an error of <see cref="ERROR_MORE_DATA"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_ARGUMENT_ARRAY"/>
+        /// </para>
+        /// <para>
+        /// 0x00002000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="Arguments"/> parameter is not a <c>va_list</c> structure,
+        /// but is a pointer to an array of values that represent the arguments.
+        /// </para>
+        /// <para>
+        /// This flag cannot be used with 64-bit integer values.
+        /// If you are using a 64-bit integer, you must use the <c>va_list</c> structure.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_FROM_HMODULE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000800
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpSource"/> parameter is a module handle containing the message-table resource(s) to search.
+        /// If this <paramref name="lpSource"/> handle is <see cref="NULL"/>, the current process's application image file will be searched.
+        /// This flag cannot be used with <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
+        /// </para>
+        /// <para>
+        /// If the module has no message table resource, the function fails with <see cref="ERROR_RESOURCE_TYPE_NOT_FOUND"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_FROM_STRING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpSource"/> parameter is a pointer to a null-terminated string that contains a message definition.
+        /// The message definition may contain insert sequences, just as the message text in a message table resource may.
+        /// This flag cannot be used with <see cref="FORMAT_MESSAGE_FROM_HMODULE"/> or <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/>
+        /// </para>
+        /// <para>
+        /// 0x00001000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The function should search the system message-table resource(s) for the requested message.
+        /// If this flag is specified with <see cref="FORMAT_MESSAGE_FROM_HMODULE"/>,
+        /// the function searches the system message table if the message is not found in the module specified by <paramref name="lpSource"/>.
+        /// This flag cannot be used with <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
+        /// </para>
+        /// <para>
+        /// If this flag is specified, an application can pass the result of the <see cref="GetLastError"/> function
+        /// to retrieve the message text for a system-defined error.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_IGNORE_INSERTS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Insert sequences in the message definition such as %1 are to be ignored and passed through to the output buffer unchanged.
+        /// This flag is useful for fetching a message for later formatting.
+        /// If this flag is set, the <paramref name="Arguments"/> parameter is ignored.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The low-order byte of <paramref name="dwFlags"/> can specify the maximum width of a formatted output line.
+        /// The following are possible values of the low-order byte.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// There are no output line width restrictions.
+        /// The function stores line breaks that are in the message definition text into the output buffer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_MAX_WIDTH_MASK"/>
+        /// </para>
+        /// <para>
+        /// 0x000000FF
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function ignores regular line breaks in the message definition text.
+        /// The function stores hard-coded line breaks in the message definition text into the output buffer.
+        /// The function generates no new line breaks.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the low-order byte is a nonzero value other than <see cref="FORMAT_MESSAGE_MAX_WIDTH_MASK"/>,
+        /// it specifies the maximum number of characters in an output line.
+        /// The function ignores regular line breaks in the message definition text.
+        /// The function never splits a string delimited by white space across a line break.
+        /// The function stores hard-coded line breaks in the message definition text into the output buffer.
         /// Hard-coded line breaks are coded with the %n escape sequence.
+        /// </para>
         /// </param>
         /// <param name="lpSource">
-        /// The location of the message definition. The type of this parameter depends upon the settings in the <paramref name="dwFlags"/> parameter.
-        /// <see cref="FORMAT_MESSAGE_FROM_HMODULE"/>: A handle to the module that contains the message table to search.
-        /// <see cref="FORMAT_MESSAGE_FROM_STRING"/>: Pointer to a string that consists of unformatted message text.
+        /// <para>
+        /// The location of the message definition.
+        /// The type of this parameter depends upon the settings in the <paramref name="dwFlags"/> parameter.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// <paramref name="dwFlags"/> Setting
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_FROM_HMODULE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000800
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A handle to the module that contains the message table to search.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FORMAT_MESSAGE_FROM_STRING"/>
+        /// </para>
+        /// <para>
+        /// 0x00000400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Pointer to a string that consists of unformatted message text.
         /// It will be scanned for inserts and formatted accordingly.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If neither of these flags is set in <paramref name="dwFlags"/>, then <paramref name="lpSource"/> is ignored.
+        /// </para>
         /// </param>
         /// <param name="dwMessageId">
-        /// The message identifier for the requested message. This parameter is ignored if dwFlags includes <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
+        /// The message identifier for the requested message.
+        /// This parameter is ignored if <paramref name="dwFlags"/> includes <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
         /// </param>
         /// <param name="dwLanguageId">
-        /// The language identifier for the requested message. 
-        /// This parameter is ignored if dwFlags includes <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
-        /// If you pass a specific LANGID in this parameter, <see cref="FormatMessage"/> will return a message for that LANGID only.
-        /// If the function cannot find a message for that LANGID, it sets Last-Error to <see cref="ERROR_RESOURCE_LANG_NOT_FOUND"/>.
-        /// If you pass in zero, <see cref="FormatMessage"/> looks for a message for LANGIDs in the following order:
+        /// <para>
+        /// The language identifier for the requested message.
+        /// This parameter is ignored if <paramref name="dwFlags"/> includes <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
+        /// </para>
+        /// <para>
+        /// If you pass a specific <see cref="LANGID"/> in this parameter,
+        /// <see cref="FormatMessage"/> will return a message for that <see cref="LANGID"/> only.
+        /// If the function cannot find a message for that <see cref="LANGID"/>,
+        /// it sets Last-Error to <see cref="ERROR_RESOURCE_LANG_NOT_FOUND"/>.
+        /// If you pass in zero, <see cref="FormatMessage"/> looks for a message for <see cref="LANGID"/>s in the following order:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// Language neutral
-        /// Thread LANGID, based on the thread's locale value
-        /// User default LANGID, based on the user's default locale value
-        /// System default LANGID, based on the system default locale value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Thread <see cref="LANGID"/>, based on the thread's locale value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// User default <see cref="LANGID"/>, based on the user's default locale value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// System default <see cref="LANGID"/>, based on the system default locale value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// US English
-        /// If <see cref="FormatMessage"/> does not locate a message for any of the preceding LANGIDs, 
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <see cref="FormatMessage"/> does not locate a message for any of the preceding <see cref="LANGID"/>s,
         /// it returns any language message string that is present.
-        /// If that fails, it returns <see cref="ERROR_RESOURCE_LANG_NOT_FOUND"/>.
+        /// If that fails, it returns <see cref="ERROR_RESOURCE_LANG_NOT_FOUND"/>.
+        /// </para>
         /// </param>
         /// <param name="lpBuffer">
-        /// A pointer to a buffer that receives the null-terminated string that specifies the formatted message. 
-        /// If <paramref name="dwFlags"/>"/> includes <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/>, the function allocates a buffer 
-        /// using the <see cref="LocalAlloc"/> function, and places the pointer to the buffer at the address specified in <paramref name="lpBuffer"/>.
+        /// <para>
+        /// A pointer to a buffer that receives the null-terminated string that specifies the formatted message.
+        /// If <paramref name="dwFlags"/> includes <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/>,
+        /// the function allocates a buffer using the <see cref="LocalAlloc"/> function,
+        /// and places the pointer to the buffer at the address specified in <paramref name="lpBuffer"/>.
+        /// </para>
+        /// <para>
         /// This buffer cannot be larger than 64K bytes.
+        /// </para>
         /// </param>
         /// <param name="nSize">
-        /// If the <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/> flag is not set, 
-        /// this parameter specifies the size of the output buffer, in TCHARs. 
-        /// If <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/> is set, 
-        /// this parameter specifies the minimum number of TCHARs to allocate for an output buffer.
+        /// <para>
+        /// If the <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/> flag is not set,
+        /// this parameter specifies the size of the output buffer, in <c>TCHAR</c>s.
+        /// If <see cref="FORMAT_MESSAGE_ALLOCATE_BUFFER"/> is set,
+        /// this parameter specifies the minimum number of <c>TCHAR</c>s to allocate for an output buffer.
+        /// </para>
+        /// <para>
         /// The output buffer cannot be larger than 64K bytes.
+        /// </para>
         /// </param>
         /// <param name="Arguments">
-        /// An array of values that are used as insert values in the formatted message. 
-        /// A %1 in the format string indicates the first value in the Arguments array; a %2 indicates the second argument; and so on.
+        /// <para>
+        /// An array of values that are used as insert values in the formatted message.
+        /// A %1 in the format string indicates the first value in the <paramref name="Arguments"/> array;
+        /// a %2 indicates the second argument; and so on.
+        /// </para>
+        /// <para>
         /// The interpretation of each value depends on the formatting information associated with the insert in the message definition.
         /// The default is to treat each value as a pointer to a null-terminated string.
-        /// By default, the Arguments parameter is of type va_list*, which is a language- and implementation-specific data type 
-        /// for describing a variable number of arguments. The state of the va_list argument is undefined upon return from the function.
-        /// To use the va_list again, destroy the variable argument list pointer using va_end and reinitialize it with va_start.
-        /// If you do not have a pointer of type va_list*, then specify the <see cref="FORMAT_MESSAGE_ARGUMENT_ARRAY"/> flag
-        /// and pass a pointer to an array of DWORD_PTR values; those values are input to the message formatted as the insert values.
+        /// </para>
+        /// <para>
+        /// By default, the <paramref name="Arguments"/> parameter is of type <c>va_list*</c>,
+        /// which is a language- and implementation-specific data type for describing a variable number of arguments.
+        /// The state of the <c>va_list</c> argument is undefined upon return from the function.
+        /// To use the <c>va_list</c> again, destroy the variable argument list pointer
+        /// using <c>va_end</c> and reinitialize it with <c>va_start</c>.
+        /// </para>
+        /// <para>
+        /// If you do not have a pointer of type <c>va_list*</c>, then specify the <see cref="FORMAT_MESSAGE_ARGUMENT_ARRAY"/> flag
+        /// and pass a pointer to an array of <see cref="DWORD_PTR"/> values; those values are input to the message formatted as the insert values.
         /// Each insert must have a corresponding element in the array.
+        /// </para>
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of <c>TCHAR</c>s stored in the output buffer, excluding the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Within the message text, several escape sequences are supported for dynamically formatting the message.
+        /// These escape sequences and their meanings are shown in the following tables.
+        /// All escape sequences start with the percent character (%).
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Escape sequence
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// %0
+        /// </term>
+        /// <term>
+        /// Terminates a message text line without a trailing new line character.
+        /// This escape sequence can be used to build up long lines or to terminate the message itself without a trailing new line character.
+        /// It is useful for prompt messages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %n!format string!
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Identifies an insert sequence.
+        /// The value of <c>n</c> can be in the range from 1 through 99.
+        /// The format string (which must be surrounded by exclamation marks) is optional and defaults to !s! if not specified.
+        /// For more information, see Format Specification Fields.
+        /// </para>
+        /// <para>
+        /// The format string can include a width and precision specifier for strings and a width specifier for integers.
+        /// Use an asterisk () to specify the width and precision.
+        /// For example, %1!.*s! or %1!*u!.
+        /// </para>
+        /// <para>
+        /// If you do not use the width and precision specifiers, the insert numbers correspond directly to the input arguments.
+        /// For example, if the source string is "%1 %2 %1" and the input arguments are "Bill" and "Bob", the formatted output string is "Bill Bob Bill".
+        /// </para>
+        /// <para>
+        /// However, if you use a width and precision specifier, the insert numbers do not correspond directly to the input arguments.
+        /// For example, the insert numbers for the previous example could change to "%1!*.*s! %4 %5!*s!".
+        /// </para>
+        /// <para>
+        /// The insert numbers depend on whether you use an arguments array (<see cref="FORMAT_MESSAGE_ARGUMENT_ARRAY"/>) or a <c>va_list</c>.
+        /// For an arguments array, the next insert number is <c>n+2</c> if the previous format string contained one asterisk
+        /// and is <c>n+3</c> if two asterisks were specified.
+        /// For a <c>va_list</c>, the next insert number is <c>n+1</c> if the previous format string contained one asterisk
+        /// and is <c>n+2</c> if two asterisks were specified.
+        /// </para>
+        /// <para>
+        /// If you want to repeat "Bill", as in the previous example, the arguments must include "Bill" twice.
+        /// For example, if the source string is "%1!*.*s! %4 %5!*s!",
+        /// the arguments could be, 4, 2, Bill, Bob, 6, Bill (if using the <see cref="FORMAT_MESSAGE_ARGUMENT_ARRAY"/> flag).
+        /// The formatted string would then be "  Bi Bob   Bill".
+        /// </para>
+        /// <para>
+        /// Repeating insert numbers when the source string contains width and precision specifiers may not yield the intended results.
+        /// If you replaced %5 with %1, the function would try to print a string at address 6 (likely resulting in an access violation).
+        /// </para>
+        /// <para>
+        /// Floating-point format specifiers—e, E, f, and g—are not supported.
+        /// The workaround is to use the <see cref="StringCchPrintf"/> function
+        /// to format the floating-point number into a temporary buffer, then use that buffer as the insert string.
+        /// </para>
+        /// <para>
+        /// Inserts that use the I64 prefix are treated as two 32-bit arguments.
+        /// They must be used before subsequent arguments are used.
+        /// Note that it may be easier for you to use <see cref="StringCchPrintf"/> instead of this prefix.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Any other nondigit character following a percent character is formatted in the output message without the percent character.
+        /// Following are some examples.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Format string
+        /// </term>
+        /// <term>
+        /// Resulting output
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// %%
+        /// </term>
+        /// <term>
+        /// A single percent sign.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %space
+        /// </term>
+        /// <term>
+        /// A single space.
+        /// This format string can be used to ensure the appropriate number of trailing spaces in a message text line.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %.
+        /// </term>
+        /// <term>
+        /// A single period.
+        /// This format string can be used to include a single period at the beginning of a line without terminating the message text definition.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %!
+        /// </term>
+        /// <term>
+        /// A single exclamation point.
+        /// This format string can be used to include an exclamation point immediately
+        /// after an insert without its being mistaken for the beginning of a format string.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %n
+        /// </term>
+        /// <term>
+        /// A hard line break when the format string occurs at the end of a line.
+        /// This format string is useful when <see cref="FormatMessage"/> is supplying regular line breaks so the message fits in a certain width.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %r
+        /// </term>
+        /// <term>
+        /// A hard carriage return without a trailing newline character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// %t
+        /// </term>
+        /// <term>
+        /// A single tab.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Security Remarks
+        /// </para>
+        /// <para>
+        /// If this function is called without <see cref="FORMAT_MESSAGE_IGNORE_INSERTS"/>,
+        /// the <paramref name="Arguments"/> parameter must contain enough parameters
+        /// to satisfy all insertion sequences in the message string, and they must be of the correct type.
+        /// Therefore, do not use untrusted or unknown message strings with inserts enabled
+        /// because they can contain more insertion sequences than <paramref name="Arguments"/> provides, or those that may be of the wrong type.
+        /// In particular, it is unsafe to take an arbitrary system error code returned from an API
+        /// and use <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> without <see cref="FORMAT_MESSAGE_IGNORE_INSERTS"/>.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD FormatMessage([In] FormatMessageFlags dwFlags, [In] LPCVOID lpSource, [In] DWORD dwMessageId,
@@ -1238,7 +2647,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves the current Windows ANSI code page identifier for the operating system.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// The ANSI API functions, for example, the ANSI version of <see cref="TextOut"/>,
         /// implicitly use <see cref="GetACP"/> to translate text to or from Unicode.
         /// For the Multilingual User Interface (MUI) edition of Windows,
@@ -1260,13 +2673,17 @@ namespace Lsj.Util.Win32
         /// For the most consistent results, applications should use UTF-8 or UTF-16 when possible.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetACP", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetACP", ExactSpelling = true)]
         public static extern UINT GetACP();
 
         /// <summary>
         /// <para>
         /// Retrieves information about a calendar for a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="GetCalendarInfoEx"/> function to <see cref="GetCalendarInfo"/>
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
         /// Any application that runs only on Windows Vista and later should use <see cref="GetCalendarInfoEx"/>.
@@ -1276,25 +2693,69 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale for which to retrieve calendar information.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale for which to retrieve calendar information.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier.
         /// </param>
         /// <param name="CalType">
+        /// <para>
         /// Type of information to retrieve. 
         /// For more information, see Calendar Type Information.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="GetCalendarInfo"/> returns only one string if this parameter specifies <see cref="CAL_IYEAROFFSETRANGE"/> or <see cref="CAL_SERASTRING"/>.
         /// In both cases the current era is returned.
+        /// </para>
+        /// <para>
         /// <see cref="CAL_USE_CP_ACP"/> is relevant only for the ANSI version of this function.
+        /// </para>
+        /// <para>
         /// For <see cref="CAL_NOUSEROVERRIDE"/>, the function ignores any value set by <see cref="SetCalendarInfo"/>
         /// and uses the database settings for the current system default locale.
-        /// This type is relevant only in the combination <code>CAL_NOUSEROVERRIDE | CAL_ITWODIGITYEARMAX</code>.
+        /// This type is relevant only in the combination <c>CAL_NOUSEROVERRIDE | CAL_ITWODIGITYEARMAX</c>.
         /// <see cref="CAL_ITWODIGITYEARMAX"/> is the only value that can be set by <see cref="SetCalendarInfo"/>.
+        /// </para>
         /// </param>
         /// <param name="lpCalData">
         /// Pointer to a buffer in which this function retrieves the requested data as a string.
@@ -1308,31 +2769,58 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpValue">
         /// Pointer to a variable that receives the requested data as a number.
-        /// If <see cref="CAL_RETURN_NUMBER"/> is specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must not be <see cref="NULL"/>.
-        /// If <see cref="CAL_RETURN_NUMBER"/> is not specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must be <see cref="NULL"/>.
+        /// If <see cref="CAL_RETURN_NUMBER"/> is specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must not be <see cref="NullRef{DWORD}"/>.
+        /// If <see cref="CAL_RETURN_NUMBER"/> is not specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must be <see cref="NullRef{DWORD}"/>.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in the <paramref name="lpCalData"/> buffer,
-        /// with <paramref name="cchData"/> set to a nonzero value, if successful. 
-        /// If the function succeeds, <paramref name="cchData"/> is set to 0, and <see cref="CAL_RETURN_NUMBER"/> is not specified,
+        /// <para>
+        /// Returns the number of characters retrieved in the <paramref name="lpCalData"/> buffer,
+        /// with <paramref name="cchData"/> set to a nonzero value, if successful.
+        /// If the function succeeds, <paramref name="cchData"/> is set to 0, and <see cref="CAL_RETURN_NUMBER"/> is not specified,
         /// the return value is the size of the buffer required to hold the calendar information.
-        /// If the function succeeds, <paramref name="cchData"/> is set 0, and <see cref="CAL_RETURN_NUMBER"/> is specified,
-        /// the return value is the size of the value retrieved in <paramref name="lpValue"/>,
+        /// If the function succeeds, <paramref name="cchData"/> is set 0, and <see cref="CAL_RETURN_NUMBER"/> is specified,
+        /// the return value is the size of the value retrieved in <paramref name="lpValue"/>,
         /// that is, 2 for the Unicode version of the function or 4 for the ANSI version.
+        /// </para>
+        /// <para>
         /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API is being updated to support the May 2019 Japanese era change.
         /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
         /// See Prepare your application for the Japanese era change for more information.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCalendarInfoW", ExactSpelling = true, SetLastError = true)]
@@ -1342,9 +2830,17 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about a calendar for a locale specified by name.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="GetCalendarInfo"/> if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function can retrieve data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
@@ -1353,8 +2849,28 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier.
@@ -1363,15 +2879,23 @@ namespace Lsj.Util.Win32
         /// Reserved; must be <see cref="NULL"/>.
         /// </param>
         /// <param name="CalType">
+        /// <para>
         /// Type of information to retrieve. 
         /// For more information, see Calendar Type Information.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="GetCalendarInfoEx "/> returns only one string if this parameter specifies <see cref="CAL_IYEAROFFSETRANGE"/> or <see cref="CAL_SERASTRING"/>.
         /// In both cases the current era is returned.
+        /// </para>
+        /// <para>
         /// For <see cref="CAL_NOUSEROVERRIDE"/>, the function ignores any value set by <see cref="SetCalendarInfo"/>
         /// and uses the database settings for the current system default locale.
-        /// This type is relevant only in the combination <code>CAL_NOUSEROVERRIDE | CAL_ITWODIGITYEARMAX</code>.
+        /// This type is relevant only in the combination <c>CAL_NOUSEROVERRIDE | CAL_ITWODIGITYEARMAX</c>.
         /// <see cref="CAL_ITWODIGITYEARMAX"/> is the only value that can be set by <see cref="SetCalendarInfo"/>.
+        /// </para>
         /// </param>
         /// <param name="lpCalData">
         /// Pointer to a buffer in which this function retrieves the requested data as a string.
@@ -1385,31 +2909,61 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpValue">
         /// Pointer to a variable that receives the requested data as a number.
-        /// If <see cref="CAL_RETURN_NUMBER"/> is specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must not be <see cref="NULL"/>.
-        /// If <see cref="CAL_RETURN_NUMBER"/> is not specified in <paramref name="CalType"/>, then <paramref name="lpValue"/> must be <see cref="NULL"/>.
+        /// If <see cref="CAL_RETURN_NUMBER"/> is specified in <paramref name="CalType"/>,
+        /// then <paramref name="lpValue"/> must not be <see cref="NullRef{DWORD}"/>.
+        /// If <see cref="CAL_RETURN_NUMBER"/> is not specified in <paramref name="CalType"/>,
+        /// then <paramref name="lpValue"/> must be <see cref="NullRef{DWORD}"/>.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in the <paramref name="lpCalData"/> buffer,
-        /// with <paramref name="cchData"/> set to a nonzero value, if successful. 
-        /// If the function succeeds, <paramref name="cchData"/> is set to 0, and <see cref="CAL_RETURN_NUMBER"/> is not specified,
-        /// the return value is the size of the buffer required to hold the calendar information.
-        /// If the function succeeds, <paramref name="cchData"/> is set 0, and <see cref="CAL_RETURN_NUMBER"/> is specified,
-        /// the return value is the size of the value retrieved in <paramref name="lpValue"/>.
-        /// This size is always 2.
-        /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns the number of characters retrieved in the <paramref name="lpCalData"/> buffer if successful.
+        /// If the function succeeds, <paramref name="cchData"/> is set to 0, and <see cref="CAL_RETURN_NUMBER"/> is not specified,
+        /// the return value is the size of the buffer required to hold the locale information.
+        /// If the function succeeds, <paramref name="cchData"/> is set to 0, and <see cref="CAL_RETURN_NUMBER"/> is specified,
+        /// the return value is the size of the value written to the <paramref name="lpValue"/> parameter. This size is always 2.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This API is being updated to support the May 2019 Japanese era change.
         /// If your application supports the Japanese calendar, you should validate that it properly handles the new era.
         /// See Prepare your application for the Japanese era change for more information.
+        /// </para>
+        /// <para>
         /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
         /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCalendarInfoEx", ExactSpelling = true, SetLastError = true)]
@@ -1419,7 +2973,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about any valid installed or available code page.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To obtain additional information about valid installed or available code pages, the application should use <see cref="GetCPInfoEx"/>.
         /// </para>
         /// <para>
@@ -1435,9 +2993,19 @@ namespace Lsj.Util.Win32
         /// See the Remarks section.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/>0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <para>
+        /// Returns 1 if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// See Remarks for <see cref="GetCPInfoEx"/>.
@@ -1455,13 +3023,56 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="CodePage">
+        /// <para>
         /// Identifier for the code page for which to retrieve information.
-        /// The application can specify the code page identifier for any installed or available code page, or one of the following predefined values.
-        /// See Code Page Identifiers for a list of identifiers for ANSI and other code pages.
-        /// <see cref="CP_ACP"/>: Use the system default Windows ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use the system default OEM code page.
-        /// <see cref="CP_THREAD_ACP"/>: Use the current thread's ANSI code page.
+        /// The application can specify the code page identifier for any installed or available code page,
+        /// or one of the following predefined values.
+        /// See Code Page Identifiers for a list of identifiers for ANSI and other code pages.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_ACP"/>
+        /// </term>
+        /// <term>
+        /// Use the system default Windows ANSI code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_MACCP"/>
+        /// </term>
+        /// <term>
+        /// Use the system default Macintosh code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_OEMCP"/>
+        /// </term>
+        /// <term>
+        /// Use the system default OEM code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_THREAD_ACP"/>
+        /// </term>
+        /// <term>
+        /// Use the current thread's ANSI code page.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
         /// Reserved; must be 0.
@@ -1470,10 +3081,20 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="CPINFOEX"/> structure that receives information about the code page.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns a nonzero value if successful, or 0 otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The information retrieved in the <see cref="CPINFOEX"/> structure is not always useful for all code pages.
@@ -1482,12 +3103,6 @@ namespace Lsj.Util.Win32
         /// If <see cref="CPINFOEX"/> settings indicate that a lead byte exists,
         /// the conversion function does not necessarily handle lead bytes differently,
         /// for example, in the case of a missing or illegal trail byte.
-        /// Note
-        /// The winnls.h header defines <see cref="GetCPInfoEx"/> as an alias which automatically
-        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
-        /// that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCPInfoExW", ExactSpelling = true, SetLastError = true)]
@@ -1502,31 +3117,76 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags specifying the information to retrieve. Any combination of the following flags is allowed.
-        /// The default value of the flags is <code>MUI_QUERY_TYPE | MUI_QUERY_CHECKSUM</code>.
-        /// <see cref="MUI_QUERY_TYPE"/>:
-        /// Retrieve one of the following values in the <see cref="FILEMUIINFO.dwFileType"/> member of <see cref="FILEMUIINFO"/>:
-        /// <see cref="MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL"/>:
-        /// The specified input file does not have resource configuration data.
-        /// Thus it is neither an LN file nor a language-specific resource file.
-        /// This type of file is typical for older executable files.
-        /// If this file type is specified, the function will not retrieve useful information for the other types.
-        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN"/>:
-        /// The input file is an LN file.
-        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI"/>:
-        /// The input file is a language-specific resource file associated with an LN file.
-        /// <see cref="MUI_QUERY_CHECKSUM"/>:
-        /// Retrieve the resource checksum of the input file in the <see cref="FILEMUIINFO.pChecksum"/> member of <see cref="FILEMUIINFO"/>.
-        /// If the input file does not have resource configuration data, this member of the structure contains 0.
-        /// <see cref="MUI_QUERY_LANGUAGE_NAME"/>：
-        /// Retrieve the language associated with the input file.
-        /// For a language-specific resource file, this flag requests the associated language.
-        /// For an LN file, this flag requests the language of the ultimate fallback resources for the module,
-        /// which can be either in the LN file or in a separate language-specific resource file referenced by the resource configuration data of the LN file.
-        /// For more information, see the Remarks section.
-        /// <see cref="MUI_QUERY_RESOURCE_TYPES"/>:
-        /// Retrieve lists of resource types in the language-specific resource files and LN files as they are specified in the resource configuration data.
-        /// See the Remarks section for a way to access this information.
+        /// <para>
+        /// Flags specifying the information to retrieve.
+        /// Any combination of the following flags is allowed.
+        /// The default value of the flags is <c>MUI_QUERY_TYPE | MUI_QUERY_CHECKSUM</c>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_QUERY_TYPE"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Retrieve one of the following values in the <see cref="dwFileType"/> member of <see cref="FILEMUIINFO"/>:
+        /// </para>
+        /// <para>
+        /// /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL: The specified input file does not have resource configuration data. Thus it is neither an LN file nor a language-specific resource file. This type of file is typical for older executable files. If this file type is specified, the function will not retrieve useful information for the other types.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN. The input file is an LN file.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI. The input file is a language-specific resource file associated with an LN file.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_QUERY_CHECKSUM"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the resource checksum of the input file in the <see cref="pChecksum"/> member of <see cref="FILEMUIINFO"/>. If the input file does not have resource configuration data, this member of the structure contains 0.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_QUERY_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language associated with the input file. For a language-specific resource file, this flag requests the associated language. For an LN file, this flag requests the language of the ultimate fallback resources for the module, which can be either in the LN file or in a separate language-specific resource file referenced by the resource configuration data of the LN file. For more information, see the Remarks section.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_QUERY_RESOURCE_TYPES"/>
+        /// </term>
+        /// <term>
+        /// Retrieve lists of resource types in the language-specific resource files and LN files as they are specified in the resource configuration data. See the Remarks section for a way to access this information.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pcwszFilePath">
         /// Pointer to a null-terminated string indicating the path to the file.
