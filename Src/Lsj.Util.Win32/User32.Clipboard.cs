@@ -4,7 +4,6 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
@@ -43,10 +42,9 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The window identified by <paramref name="hWndNewNext"/> replaces the <paramref name="hWndRemove"/> window in the chain.
         /// The <see cref="SetClipboardViewer"/> function sends a <see cref="WM_CHANGECBCHAIN"/> message to the first window in the clipboard viewer chain.
-        /// For an example, see Removing a Window from the Clipboard Viewer Chain.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeClipboardChain", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeClipboardChain", ExactSpelling = true)]
         public static extern BOOL ChangeClipboardChain([In] HWND hWndRemove, [In] HWND hWndNewNext);
 
         /// <summary>
@@ -58,14 +56,22 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When the window has finished examining or changing the clipboard, close the clipboard by calling <see cref="CloseClipboard"/>.
+        /// <para>
+        /// When the window has finished examining or changing the clipboard, close the clipboard by calling <see cref="CloseClipboard"/>.
         /// This enables other windows to access the clipboard.
-        /// Do not place an object on the clipboard after calling <see cref="CloseClipboard"/>.
+        /// </para>
+        /// <para>
+        /// Do not place an object on the clipboard after calling <see cref="CloseClipboard"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseClipboard", ExactSpelling = true, SetLastError = true)]
@@ -80,9 +86,13 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the number of different data formats currently on the clipboard.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CountClipboardFormats", ExactSpelling = true, SetLastError = true)]
@@ -98,9 +108,13 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Before calling <see cref="EmptyClipboard"/>, an application must open the clipboard by using the <see cref="OpenClipboard"/> function.
@@ -115,41 +129,60 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates the data formats currently available on the clipboard.
-        /// Clipboard data formats are stored in an ordered list. To perform an enumeration of clipboard data formats,
-        /// you make a series of calls to the <see cref="EnumClipboardFormats"/> function.
-        /// For each call, the format parameter specifies an available clipboard format, and the function returns the next available clipboard format.
+        /// </para>
+        /// <para>
+        /// Clipboard data formats are stored in an ordered list.
+        /// To perform an enumeration of clipboard data formats, you make a series of calls to the <see cref="EnumClipboardFormats"/> function.
+        /// For each call, the <paramref name="format"/> parameter specifies an available clipboard format,
+        /// and the function returns the next available clipboard format.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumclipboardformats"/>
         /// </para>
         /// </summary>
         /// <param name="format">
+        /// <para>
         /// A clipboard format that is known to be available.
-        /// To start an enumeration of clipboard formats, set format to zero.
-        /// When format is zero, the function retrieves the first available clipboard format.
-        /// For subsequent calls during an enumeration, set format to the result of the previous <see cref="EnumClipboardFormats"/> call.
+        /// </para>
+        /// <para>
+        /// To start an enumeration of clipboard formats, set <paramref name="format"/> to zero.
+        /// When <paramref name="format"/> is zero, the function retrieves the first available clipboard format.
+        /// For subsequent calls during an enumeration, set <paramref name="format"/> to the result of the previous <see cref="EnumClipboardFormats"/> call.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the clipboard format that follows the specified format, namely the next available clipboard format.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// If the clipboard is not open, the function fails.
+        /// </para>
+        /// <para>
         /// If there are no more clipboard formats to enumerate, the return value is zero.
-        /// In this case, the <see cref="GetLastError"/> function returns the value <see cref="ERROR_SUCCESS"/>.
+        /// In this case, the <see cref="GetLastError"/> function returns the value <see cref="ERROR_SUCCESS"/>.
         /// This lets you distinguish between function failure and the end of enumeration.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// You must open the clipboard before enumerating its formats.
-        /// Use the <see cref="OpenClipboard"/> function to open the clipboard.
-        /// The <see cref="EnumClipboardFormats"/> function fails if the clipboard is not open.
-        /// The <see cref="EnumClipboardFormats"/> function enumerates formats in the order that they were placed on the clipboard.
-        /// If you are copying information to the clipboard, add clipboard objects in order from the most descriptive clipboard format
-        /// to the least descriptive clipboard format.
+        /// Use the <see cref="OpenClipboard"/> function to open the clipboard.
+        /// The <see cref="EnumClipboardFormats"/> function fails if the clipboard is not open.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumClipboardFormats"/> function enumerates formats in the order that they were placed on the clipboard.
+        /// If you are copying information to the clipboard,
+        /// add clipboard objects in order from the most descriptive clipboard format to the least descriptive clipboard format.
         /// If you are pasting information from the clipboard, retrieve the first clipboard format that you can handle.
         /// That will be the most descriptive clipboard format that you can handle.
+        /// </para>
+        /// <para>
         /// The system provides automatic type conversions for certain clipboard formats.
         /// In the case of such a format, this function enumerates the specified format, then enumerates the formats to which it can be converted.
-        /// For more information, see Standard Clipboard Formats and Synthesized Clipboard Formats.
+        /// For more information, see Standard Clipboard Formats and Synthesized Clipboard Formats.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumClipboardFormats", ExactSpelling = true, SetLastError = true)]
@@ -168,23 +201,38 @@ namespace Lsj.Util.Win32
         /// A clipboard format. For a description of the standard clipboard formats, see Standard Clipboard Formats.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to a clipboard object in the specified format.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Caution Clipboard data is not trusted. Parse the data carefully before using it in your application.
-        /// An application can enumerate the available formats in advance by using the <see cref="EnumClipboardFormats"/> function.
-        /// The clipboard controls the handle that the <see cref="GetClipboardData"/> function returns, not the application.
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Clipboard data is not trusted. Parse the data carefully before using it in your application.
+        /// </para>
+        /// <para>
+        /// An application can enumerate the available formats in advance by using the <see cref="EnumClipboardFormats"/> function.
+        /// </para>
+        /// <para>
+        /// The clipboard controls the handle that the <see cref="GetClipboardData"/> function returns, not the application.
         /// The application should copy the data immediately.
         /// The application must not free the handle nor leave it locked.
-        /// The application must not use the handle after the <see cref="EmptyClipboard"/> or <see cref="CloseClipboard"/> function is called,
-        /// or after the <see cref="SetClipboardData"/> function is called with the same clipboard format.
+        /// The application must not use the handle after the <see cref="EmptyClipboard"/> or <see cref="CloseClipboard"/> function is called,
+        /// or after the <see cref="SetClipboardData"/> function is called with the same clipboard format.
+        /// </para>
+        /// <para>
         /// The system performs implicit data format conversions between certain clipboard formats
-        /// when an application calls the <see cref="GetClipboardData"/> function.
-        /// For example, if the <see cref="CF_OEMTEXT"/> format is on the clipboard, a window can retrieve data in the <see cref="CF_TEXT"/> format.
+        /// when an application calls the <see cref="GetClipboardData"/> function.
+        /// For example, if the <see cref="CF_OEMTEXT"/> format is on the clipboard, a window can retrieve data in the <see cref="CF_TEXT"/> format.
         /// The format on the clipboard is converted to the requested format on demand.
-        /// For more information, see Synthesized Clipboard Formats.
+        /// For more information, see Synthesized Clipboard Formats.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardData", ExactSpelling = true, SetLastError = true)]
@@ -211,10 +259,25 @@ namespace Lsj.Util.Win32
         /// If the name exceeds this limit, it is truncated.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the length, in characters, of the string copied to the buffer.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero, indicating that the requested format does not exist or is predefined.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Security Considerations
+        /// </para>
+        /// <para>
+        /// Using this function incorrectly might compromise the security of your program.
+        /// For example, miscalculating the proper size of the <paramref name="lpszFormatName"/> buffer,
+        /// especially when the application is used in both ANSI and Unicode versions, can cause a buffer overflow.
+        /// Also, note that the string is truncated if it is longer than the <paramref name="cchMaxCount"/> parameter, which can lead to loss of information.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardFormatNameW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetClipboardFormatName([In] StandardClipboardFormats format, [In] IntPtr lpszFormatName, [In] int cchMaxCount);
@@ -228,14 +291,22 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the window that owns the clipboard.
-        /// If the clipboard is not owned, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the clipboard is not owned, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The clipboard can still contain data even if the clipboard is not currently owned.
+        /// </para>
+        /// <para>
         /// In general, the clipboard owner is the window that last placed data in clipboard.
-        /// The <see cref="EmptyClipboard"/> function assigns clipboard ownership.
+        /// The <see cref="EmptyClipboard"/> function assigns clipboard ownership.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardOwner", ExactSpelling = true, SetLastError = true)]
@@ -250,9 +321,13 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the first window in the clipboard viewer chain.
-        /// If there is no clipboard viewer, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If there is no clipboard viewer, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardViewer", ExactSpelling = true, SetLastError = true)]
@@ -277,7 +352,7 @@ namespace Lsj.Util.Win32
         /// In such a case, <see cref="GetOpenClipboardWindow"/> returns <see cref="NULL"/>.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOpenClipboardWindow", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOpenClipboardWindow", ExactSpelling = true)]
         public static extern HWND GetOpenClipboardWindow();
 
         /// <summary>
@@ -319,9 +394,13 @@ namespace Lsj.Util.Win32
         /// For a description of the standard clipboard formats, see Standard Clipboard Formats .
         /// </param>
         /// <returns>
-        /// If the clipboard format is available, the return value is <see cref="TRUE"/>.
-        /// If the clipboard format is not available, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the clipboard format is available, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the clipboard format is not available, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Typically, an application that recognizes only one clipboard format would call this function
@@ -346,17 +425,29 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see cref="NULL"/>, the open clipboard is associated with the current task.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// OpenClipboard fails if another window has the clipboard open.
-        /// An application should call the <see cref="CloseClipboard"/> function after every successful call to <see cref="OpenClipboard"/>.
-        /// The window identified by the <paramref name="hWndNewOwner"/> parameter does not become the clipboard owner
-        /// unless the <see cref="EmptyClipboard"/> function is called.
-        /// If an application calls <see cref="OpenClipboard"/> with hwnd set to <see cref="NULL"/>,
-        /// <see cref="EmptyClipboard"/> sets the clipboard owner to <see cref="NULL"/>; this causes <see cref="SetClipboardData"/> to fail.
+        /// <para>
+        /// <see cref="OpenClipboard"/> fails if another window has the clipboard open.
+        /// </para>
+        /// <para>
+        /// An application should call the <see cref="CloseClipboard"/> function after every successful call to <see cref="OpenClipboard"/>.
+        /// </para>
+        /// <para>
+        /// The window identified by the <paramref name="hWndNewOwner"/> parameter does not become the clipboard owner
+        /// unless the <see cref="EmptyClipboard"/> function is called.
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="OpenClipboard"/> with hwnd set to <see cref="NULL"/>,
+        /// <see cref="EmptyClipboard"/> sets the clipboard owner to <see cref="NULL"/>; this causes <see cref="SetClipboardData"/> to fail.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenClipboard", ExactSpelling = true, SetLastError = true)]
@@ -374,16 +465,28 @@ namespace Lsj.Util.Win32
         /// The name of the new format.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value identifies the registered clipboard format.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If a registered format with the specified name already exists, a new format is not registered and the return value identifies the existing format.
+        /// <para>
+        /// If a registered format with the specified name already exists,
+        /// a new format is not registered and the return value identifies the existing format.
         /// This enables more than one application to copy and paste data using the same registered clipboard format.
         /// Note that the format name comparison is case-insensitive.
+        /// </para>
+        /// <para>
         /// Registered clipboard formats are identified by values in the range 0xC000 through 0xFFFF.
-        /// When registered clipboard formats are placed on or retrieved from the clipboard, they must be in the form of an <see cref="HGLOBAL"/> value.
+        /// </para>
+        /// <para>
+        /// When registered clipboard formats are placed on or retrieved from the clipboard,
+        /// they must be in the form of an <see cref="HGLOBAL"/> value.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClipboardFormatW", ExactSpelling = true, SetLastError = true)]
@@ -406,32 +509,49 @@ namespace Lsj.Util.Win32
         /// For more information, see Standard Clipboard Formats and Registered Clipboard Formats.
         /// </param>
         /// <param name="hMem">
+        /// <para>
         /// A handle to the data in the specified format.
-        /// This parameter can be <see cref="NULL"/>, indicating that the window provides data in the specified clipboard format
-        /// (renders the format) upon request.
-        /// If a window delays rendering, it must process the <see cref="WM_RENDERFORMAT"/> and <see cref="WM_RENDERALLFORMATS"/> messages.
-        /// If <see cref="SetClipboardData"/> succeeds, the system owns the object identified by the hMem parameter.
+        /// This parameter can be <see cref="NULL"/>, indicating that the window provides data in the specified clipboard format
+        /// (renders the format) upon request; this is known as delayed rendering.
+        /// If a window delays rendering, it must process the <see cref="WM_RENDERFORMAT"/> and <see cref="WM_RENDERALLFORMATS"/> messages.
+        /// </para>
+        /// <para>
+        /// If <see cref="SetClipboardData"/> succeeds, the system owns the object identified by the <paramref name="hMem"/> parameter.
         /// The application may not write to or free the data once ownership has been transferred to the system,
-        /// but it can lock and read from the data until the <see cref="CloseClipboard"/> function is called.
+        /// but it can lock and read from the data until the <see cref="CloseClipboard"/> function is called.
         /// (The memory must be unlocked before the Clipboard is closed.)
-        /// If the <paramref name="hMem"/> parameter identifies a memory object,
-        /// the object must have been allocated using the function with the <see cref="GMEM_MOVEABLE"/> flag.
+        /// If the <paramref name="hMem"/> parameter identifies a memory object,
+        /// the object must have been allocated using the function with the <see cref="GMEM_MOVEABLE"/> flag.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is the handle to the data.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Windows 8: Bitmaps to be shared with Windows Store app apps must be in the <see cref="CF_BITMAP"/> format (device-dependent bitmap).
-        /// If an application calls <see cref="SetClipboardData"/> in response to <see cref="WM_RENDERFORMAT"/> or <see cref="WM_RENDERALLFORMATS"/>,
-        /// the application should not use the handle after <see cref="SetClipboardData"/> has been called.
-        /// If an application calls <see cref="OpenClipboard"/> with hwnd set to <see cref="NULL"/>,
-        /// <see cref="EmptyClipboard"/> sets the clipboard owner to <see cref="NULL"/>; this causes <see cref="SetClipboardData"/> to fail.
+        /// <para>
+        /// Windows 8: Bitmaps to be shared with Windows Store app apps must be in the <see cref="CF_BITMAP"/> format (device-dependent bitmap).
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="SetClipboardData"/> in response to <see cref="WM_RENDERFORMAT"/> or <see cref="WM_RENDERALLFORMATS"/>,
+        /// the application should not use the handle after <see cref="SetClipboardData"/> has been called.
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="OpenClipboard"/> with hwnd set to <see cref="NULL"/>,
+        /// <see cref="EmptyClipboard"/> sets the clipboard owner to <see cref="NULL"/>; this causes <see cref="SetClipboardData"/> to fail.
+        /// </para>
+        /// <para>
         /// The system performs implicit data format conversions between certain clipboard formats
-        /// when an application calls the <see cref="GetClipboardData"/> function.
-        /// For example, if the <see cref="CF_OEMTEXT"/> format is on the clipboard, a window can retrieve data in the <see cref="CF_TEXT"/> format.
-        /// The format on the clipboard is converted to the requested format on demand. For more information, see Synthesized Clipboard Formats.
+        /// when an application calls the <see cref="GetClipboardData"/> function.
+        /// For example, if the <see cref="CF_OEMTEXT"/> format is on the clipboard, a window can retrieve data in the <see cref="CF_TEXT"/> format.
+        /// The format on the clipboard is converted to the requested format on demand.
+        /// For more information, see Synthesized Clipboard Formats.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClipboardData", ExactSpelling = true, SetLastError = true)]
@@ -456,15 +576,21 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The windows that are part of the clipboard viewer chain, called clipboard viewer windows,
-        /// must process the clipboard messages <see cref="WM_CHANGECBCHAIN"/> and <see cref="WM_DRAWCLIPBOARD"/>.
-        /// Each clipboard viewer window calls the <see cref="SendMessage"/> function to pass these messages to the next window in the clipboard viewer chain.
-        /// A clipboard viewer window must eventually remove itself from the clipboard viewer chain
-        /// by calling the <see cref="ChangeClipboardChain"/> function — for example, in response to the <see cref="WM_DESTROY"/> message.
-        /// The <see cref="SetClipboardViewer"/> function exists to provide backward compatibility with earlier versions of Windows.
+        /// must process the clipboard messages <see cref="WM_CHANGECBCHAIN"/> and <see cref="WM_DRAWCLIPBOARD"/>.
+        /// Each clipboard viewer window calls the <see cref="SendMessage"/> function to pass these messages to the next window in the clipboard viewer chain.
+        /// </para>
+        /// <para>
+        /// A clipboard viewer window must eventually remove itself from the clipboard viewer chain by calling the <see cref="ChangeClipboardChain"/> function
+        /// — for example, in response to the <see cref="WM_DESTROY"/> message.
+        /// </para>
+        /// <para>
+        /// The <see cref="SetClipboardViewer"/> function exists to provide backward compatibility with earlier versions of Windows.
         /// The clipboard viewer chain can be broken by an application that fails to handle the clipboard chain messages properly.
         /// New applications should use more robust techniques such as the clipboard sequence number or the registration of a clipboard format listener.
-        /// For further details on these alternatives techniques, see Monitoring Clipboard Contents.
+        /// For further details on these alternatives techniques, see Monitoring Clipboard Contents.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClipboardViewer", ExactSpelling = true, SetLastError = true)]

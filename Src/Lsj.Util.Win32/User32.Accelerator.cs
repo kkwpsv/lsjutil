@@ -32,11 +32,11 @@ namespace Lsj.Util.Win32
         /// The number of <see cref="ACCEL"/> structures to copy to the buffer pointed to by the <paramref name="lpAccelDst"/> parameter.
         /// </param>
         /// <returns>
-        /// If <paramref name="lpAccelDst"/> is <see langword="null"/>, the return value specifies the number of accelerator-table entries in the original table.
+        /// If <paramref name="lpAccelDst"/> is <see cref="NULL"/>, the return value specifies the number of accelerator-table entries in the original table.
         /// Otherwise, it specifies the number of accelerator-table entries that were copied.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyAcceleratorTableW", ExactSpelling = true)]
         public static extern int CopyAcceleratorTable([In] HACCEL hAccelSrc, [Out] ACCEL[] lpAccelDst, [In] int cAccelEntries);
 
         /// <summary>
@@ -80,13 +80,17 @@ namespace Lsj.Util.Win32
         /// This handle must have been created by a call to the <see cref="CreateAcceleratorTable"/> or <see cref="LoadAccelerators"/> function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// However, if the table has been loaded more than one call to <see cref="LoadAccelerators"/>,
-        /// the function will return a nonzero value only when <see cref="DestroyAcceleratorTable"/> has been called an equal number of times.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// However, if the table has been loaded more than one call to <see cref="LoadAccelerators"/>,
+        /// the function will return a nonzero value only when <see cref="DestroyAcceleratorTable"/> has been called an equal number of times.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true)]
         public static extern BOOL DestroyAcceleratorTable([In] HACCEL hAccel);
 
         /// <summary>
@@ -107,13 +111,21 @@ namespace Lsj.Util.Win32
         /// To create this value, use the <see cref="MAKEINTRESOURCE"/> macro.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the loaded accelerator table.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the accelerator table has not yet been loaded, the function loads it from the specified executable file.
+        /// </para>
+        /// <para>
         /// Accelerator tables loaded from resources are freed automatically when the application terminates.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadAcceleratorsW", ExactSpelling = true, SetLastError = true)]
@@ -144,31 +156,65 @@ namespace Lsj.Util.Win32
         /// using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// To differentiate the message that this function sends from messages sent by menus or controls,
-        /// the high-order word of the wParam parameter of the <see cref="WM_COMMAND"/> or <see cref="WM_SYSCOMMAND"/> message contains the value 1.
-        /// Accelerator key combinations used to select items from the window menu are translated into <see cref="WM_SYSCOMMAND"/> messages;
-        /// all other accelerator key combinations are translated into <see cref="WM_COMMAND"/> messages.
-        /// When <see cref="TranslateAccelerator"/> returns a nonzero value and the message is translated,
-        /// the application should not use the <see cref="TranslateMessage"/> function to process the message again.
+        /// the high-order word of the wParam parameter of the <see cref="WM_COMMAND"/> or <see cref="WM_SYSCOMMAND"/> message contains the value 1.
+        /// </para>
+        /// <para>
+        /// Accelerator key combinations used to select items from the window menu are translated into <see cref="WM_SYSCOMMAND"/> messages;
+        /// all other accelerator key combinations are translated into <see cref="WM_COMMAND"/> messages.
+        /// </para>
+        /// <para>
+        /// When <see cref="TranslateAccelerator"/> returns a nonzero value and the message is translated,
+        /// the application should not use the <see cref="TranslateMessage"/> function to process the message again.
+        /// </para>
+        /// <para>
         /// An accelerator need not correspond to a menu command.
-        /// If the accelerator command corresponds to a menu item, the application is sent <see cref="WM_INITMENU"/>
-        /// and <see cref="WM_INITMENUPOPUP"/> messages, as if the user were trying to display the menu.
+        /// </para>
+        /// <para>
+        /// If the accelerator command corresponds to a menu item,
+        /// the application is sent <see cref="WM_INITMENU"/> and <see cref="WM_INITMENUPOPUP"/> messages, as if the user were trying to display the menu.
         /// However, these messages are not sent if any of the following conditions exist:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The window is disabled.
-        /// The accelerator key combination does not correspond to an item on the window menu and the window is minimized.
-        /// A mouse capture is in effect. For information about mouse capture, see the <see cref="SetCapture"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The accelerator key combination does not correspond to an item on the window menu and the window is minimized.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A mouse capture is in effect. For information about mouse capture, see the <see cref="SetCapture"/> function.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the specified window is the active window and no window has the keyboard focus (which is generally the case if the window is minimized),
-        /// <see cref="TranslateAccelerator"/> translates <see cref="WM_SYSKEYUP"/> and <see cref="WM_SYSKEYDOWN"/> messages
-        /// instead of <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages.
+        /// <see cref="TranslateAccelerator"/> translates <see cref="WM_SYSKEYUP"/> and <see cref="WM_SYSKEYDOWN"/> messages
+        /// instead of <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages.
+        /// </para>
+        /// <para>
         /// If an accelerator keystroke occurs that corresponds to a menu item when the window that owns the menu is minimized,
-        /// <see cref="TranslateAccelerator"/> does not send a <see cref="WM_COMMAND"/> message.
-        /// However, if an accelerator keystroke occurs that does not match any of the items in the window's menu or in the window menu,
-        /// the function sends a <see cref="WM_COMMAND"/> message, even if the window is minimized.
+        /// <see cref="TranslateAccelerator"/> does not send a <see cref="WM_COMMAND"/> message.
+        /// However, if an accelerator keystroke occurs that does not match any of the items in the window's menu or in the window menu,
+        /// the function sends a <see cref="WM_COMMAND"/> message, even if the window is minimized.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateAcceleratorW", ExactSpelling = true, SetLastError = true)]
