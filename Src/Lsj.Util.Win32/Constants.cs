@@ -408,6 +408,11 @@ namespace Lsj.Util.Win32
         public const uint HOVER_DEFAULT = 0xFFFFFFFF;
 
         /// <summary>
+        /// HWND_MESSAGE
+        /// </summary>
+        public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+        /// <summary>
         /// I_IMAGECALLBACK
         /// </summary>
         public const int I_IMAGECALLBACK = -1;
