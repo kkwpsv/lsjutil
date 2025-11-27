@@ -222,8 +222,8 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A handle to a small icon that is associated with the window class.
-        /// If this member is <see cref="NULL"/>, the system searches the icon resource specified by the <see cref="hIcon"/> member fo
-        /// r an icon of the appropriate size to use as the small icon.
+        /// If this member is <see cref="NULL"/>, the system searches the icon resource
+        /// specified by the <see cref="hIcon"/> member for an icon of the appropriate size to use as the small icon.
         /// </summary>
         public HICON hIconSm;
     }
