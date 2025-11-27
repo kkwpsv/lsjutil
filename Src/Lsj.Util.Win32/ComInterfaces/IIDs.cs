@@ -623,6 +623,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMFMediaEngineNotify = "fee7c112-e776-42b5-9bbf-0048524e2bd5";
 
         /// <summary>
+        /// IID_IMFMediaEngineSrcElements
+        /// </summary>
+        public static readonly IID IID_IMFMediaEngineSrcElements = "7a5e5354-b114-4c72-b991-3131d75032ea";
+
+        /// <summary>
         /// IID_IMFMediaError
         /// </summary>
         public static readonly IID IID_IMFMediaError = "fc0e10d2-ab2a-4501-a951-06bb1075184c";
