@@ -573,6 +573,11 @@ namespace Lsj.Util.Win32
         public static readonly IntPtr LPSTR_TEXTCALLBACK = (IntPtr)(-1);
 
         /// <summary>
+        /// MAILSLOT_WAIT_FOREVER
+        /// </summary>
+        public const uint MAILSLOT_WAIT_FOREVER = unchecked((uint)-1);
+
+        /// <summary>
         /// MAX_DEFAULTCHAR
         /// </summary>
         public const int MAX_DEFAULTCHAR = 2;
@@ -799,5 +804,10 @@ namespace Lsj.Util.Win32
         /// WHEEL_DELTA
         /// </summary>
         public static int WHEEL_DELTA = 120;
+
+        /// <summary>
+        /// WRITE_WATCH_FLAG_RESET
+        /// </summary>
+        public const uint WRITE_WATCH_FLAG_RESET = 0x01;
     }
 }

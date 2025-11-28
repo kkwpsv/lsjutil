@@ -3138,23 +3138,28 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// Retrieve one of the following values in the <see cref="dwFileType"/> member of <see cref="FILEMUIINFO"/>:
+        /// Retrieve one of the following values in the <see cref="FILEMUIINFO.dwFileType"/> member of <see cref="FILEMUIINFO"/>:
         /// </para>
         /// <para>
-        /// /// <list type="bullet">
+        /// <list type="bullet">
         /// <item>
         /// <description>
-        /// MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL: The specified input file does not have resource configuration data. Thus it is neither an LN file nor a language-specific resource file. This type of file is typical for older executable files. If this file type is specified, the function will not retrieve useful information for the other types.
+        /// MUI_FILETYPE_NOT_LANGUAGE_NEUTRAL: The specified input file does not have resource configuration data.
+        /// Thus it is neither an LN file nor a language-specific resource file.
+        /// This type of file is typical for older executable files.
+        /// If this file type is specified, the function will not retrieve useful information for the other types.
         /// </description>
         /// </item>
         /// <item>
         /// <description>
-        /// MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN. The input file is an LN file.
+        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MAIN"/>.
+        /// The input file is an LN file.
         /// </description>
         /// </item>
         /// <item>
         /// <description>
-        /// MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI. The input file is a language-specific resource file associated with an LN file.
+        /// <see cref="MUI_FILETYPE_LANGUAGE_NEUTRAL_MUI"/>.
+        /// The input file is a language-specific resource file associated with an LN file.
         /// </description>
         /// </item>
         /// </list>
@@ -3166,7 +3171,8 @@ namespace Lsj.Util.Win32
         /// <see cref="MUI_QUERY_CHECKSUM"/>
         /// </term>
         /// <term>
-        /// Retrieve the resource checksum of the input file in the <see cref="pChecksum"/> member of <see cref="FILEMUIINFO"/>. If the input file does not have resource configuration data, this member of the structure contains 0.
+        /// Retrieve the resource checksum of the input file in the <see cref="FILEMUIINFO.pChecksum"/> member of <see cref="FILEMUIINFO"/>.
+        /// If the input file does not have resource configuration data, this member of the structure contains 0.
         /// </term>
         /// </item>
         /// <item>
@@ -3174,7 +3180,12 @@ namespace Lsj.Util.Win32
         /// <see cref="MUI_QUERY_LANGUAGE_NAME"/>
         /// </term>
         /// <term>
-        /// Retrieve the language associated with the input file. For a language-specific resource file, this flag requests the associated language. For an LN file, this flag requests the language of the ultimate fallback resources for the module, which can be either in the LN file or in a separate language-specific resource file referenced by the resource configuration data of the LN file. For more information, see the Remarks section.
+        /// Retrieve the language associated with the input file.
+        /// For a language-specific resource file, this flag requests the associated language.
+        /// For an LN file, this flag requests the language of the ultimate fallback resources for the module,
+        /// which can be either in the LN file or in a separate language-specific resource file
+        /// referenced by the resource configuration data of the LN file.
+        /// For more information, see the Remarks section.
         /// </term>
         /// </item>
         /// <item>
@@ -3182,7 +3193,9 @@ namespace Lsj.Util.Win32
         /// <see cref="MUI_QUERY_RESOURCE_TYPES"/>
         /// </term>
         /// <term>
-        /// Retrieve lists of resource types in the language-specific resource files and LN files as they are specified in the resource configuration data. See the Remarks section for a way to access this information.
+        /// Retrieve lists of resource types in the language-specific resource files and LN files
+        /// as they are specified in the resource configuration data.
+        /// See the Remarks section for a way to access this information.
         /// </term>
         /// </item>
         /// </list>
@@ -3195,76 +3208,148 @@ namespace Lsj.Util.Win32
         /// The function only retrieves this value if the <see cref="MUI_QUERY_RESOURCE_TYPES"/> flag is set.
         /// </param>
         /// <param name="pFileMUIInfo">
-        /// Pointer to a buffer containing file information in a <see cref="FILEMUIINFO"/> structure and possibly in data following that structure.
+        /// <para>
+        /// Pointer to a buffer containing file information in a <see cref="FILEMUIINFO"/> structure and possibly in data following that structure.
         /// The information buffer might have to be much larger than the size of the structure itself.
         /// Depending on flag settings, the function can store considerable information following the structure, at offsets retrieved in the structure.
         /// For more information, see the Remarks section.
-        /// Alternatively, the application can set this parameter to <see cref="NullRef{FILEMUIINFO}"/>
-        /// if <paramref name="pcbFileMUIInfo"/> is set to 0.
-        /// In this case, the function retrieves the required size for the information buffer in <paramref name="pcbFileMUIInfo"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to <see cref="NULL"/> if <paramref name="pcbFileMUIInfo"/> is set to 0.
+        /// In this case, the function retrieves the required size for the information buffer in <paramref name="pcbFileMUIInfo"/>.
+        /// </para>
+        /// <para>
         /// Note
-        /// If the value of <paramref name="pFileMUIInfo"/> is not <see cref="NullRef{FILEMUIINFO}"/>,
-        /// the <see cref="FILEMUIINFO.dwSize"/> member must be set to the size of the <see cref="FILEMUIINFO"/> structure (including the information buffer),
-        /// and the <see cref="FILEMUIINFO.dwVersion"/> member must be set to the current version of 0x001.
+        /// </para>
+        /// <para>
+        /// If the value of <paramref name="pFileMUIInfo"/> is not <see cref="NULL"/>,
+        /// the <see cref="FILEMUIINFO.dwSize"/> member must be set to the size of the <see cref="FILEMUIINFO"/> structure (including the information buffer),
+        /// and the <see cref="FILEMUIINFO.dwVersion"/> member must be set to the current version of 0x001.
+        /// </para>
         /// </param>
         /// <param name="pcbFileMUIInfo">
-        /// Pointer to the buffer size, in bytes, for the file information indicated by <paramref name="pFileMUIInfo"/>.
+        /// <para>
+        /// Pointer to the buffer size, in bytes, for the file information indicated by <paramref name="pFileMUIInfo"/>.
         /// On successful return from the function, this parameter contains the size of the retrieved file information buffer
-        /// and the <see cref="FILEMUIINFO"/> structure that contains it.
-        /// Alternatively, the application can set this parameter to 0 if it sets <see cref="NullRef{FILEMUIINFO}"/> in <paramref name="pFileMUIInfo"/>.
-        /// In this case, the function retrieves the required file information buffer size in <paramref name="pcbFileMUIInfo"/>.
-        /// To allocate the correct amount of memory, this value should be added to the size of the <see cref="FILEMUIINFO"/> structure itself.
+        /// and the <see cref="FILEMUIINFO"/> structure that contains it.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to 0 if it sets <see cref="NULL"/> in <paramref name="pFileMUIInfo"/>.
+        /// In this case, the function retrieves the required file information buffer size in <paramref name="pcbFileMUIInfo"/>.
+        /// To allocate the correct amount of memory, this value should be added to the size of the <see cref="FILEMUIINFO"/> structure itself.
+        /// </para>
+        /// <para>
         /// Note
-        /// The value of this parameter must match the value of the <see cref="FILEMUIINFO.dwSize"/> member of <see cref="FILEMUIINFO"/>
-        /// if the value of <paramref name="pFileMUIInfo"/> is not <see cref="NullRef{FILEMUIINFO}"/>.
+        /// </para>
+        /// <para>
+        /// The value of this parameter must match the value of the <see cref="FILEMUIINFO.dwSize"/> member of <see cref="FILEMUIINFO"/>
+        /// if the value of <paramref name="pFileMUIInfo"/> is not <see cref="NULL"/>.
+        /// </para>
         /// </param>
         /// <returns>
         /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
         /// To get extended error information, the application can call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// For the <see cref="MUI_QUERY_LANGUAGE_NAME"/> flag, this function retrieves an offset, in bytes,
-        /// from the beginning of <see cref="FILEMUIINFO"/> in the <see cref="FILEMUIINFO.dwLanguageNameOffset"/> member.
+        /// from the beginning of <see cref="FILEMUIINFO"/> in the <see cref="FILEMUIINFO.dwLanguageNameOffset"/> member.
+        /// </para>
+        /// <para>
         /// The following is sample code that accesses the language name associated with the input file:
+        /// </para>
         /// <code>
         /// LPWSTR lpszLang = reinterpret_cast&lt;LPWSTR&gt;(
         ///     reinterpret_cast&lt;BYTE*&gt;(pFileMUIInfo) +
         ///     pFileMUIInfo->dwLanguageNameOffset);
         /// </code>
-        /// For the <see cref="MUI_QUERY_RESOURCE_TYPES"/> flag,
-        /// this function retrieves language-specific resource file information in the following <see cref="FILEMUIINFO"/> members:
-        /// The <see cref="FILEMUIINFO.dwTypeIDMUIOffset"/> member contains the offset
-        /// to an array of identifiers of resources contained in the language-specific resource file.
-        /// The <see cref="FILEMUIINFO.dwTypeIDMUISize"/> member contains
-        /// the size of the array of resource identifiers for the language-specific resource file.
-        /// The <see cref="FILEMUIINFO.dwTypeNameMUIOffset"/> member contains
-        /// the offset to an array of names of resources contained in the language-specific resource file.
+        /// <para>
+        /// For the <see cref="MUI_QUERY_RESOURCE_TYPES"/> flag, this function retrieves language-specific resource file information
+        /// in the following <see cref="FILEMUIINFO"/> members:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeIDMUIOffset"/> member contains the offset to an array
+        /// of identifiers of resources contained in the language-specific resource file.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeIDMUISize"/> member contains the size of the array
+        /// of resource identifiers for the language-specific resource file.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeNameMUIOffset"/> member contains the offset to an array
+        /// of names of resources contained in the language-specific resource file.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the input file is an LN file, the function fills in all the above structure members.
         /// In addition, it fills in the following members:
-        /// The <see cref="FILEMUIINFO.dwTypeIDMainOffset"/> member contains the offset to an array of identifiers of resources contained in the LN file.
-        /// The <see cref="FILEMUIINFO.dwTypeIDMainSize"/> member contains the size of the array of resource identifiers for the LN file.
-        /// The <see cref="FILEMUIINFO.dwTypeNameMainOffset"/> member contains the offset to an array of names of resources contained in the file.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeIDMainOffset"/> member contains the offset to an array
+        /// of identifiers of resources contained in the LN file.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeIDMainSize"/> member contains the size of the array
+        /// of resource identifiers for the LN file.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The <see cref="FILEMUIINFO.dwTypeNameMainOffset"/> member contains the offset to an array
+        /// of names of resources contained in the file.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following is sample code that accesses the array of resource identifiers in the LN file.
+        /// </para>
         /// <code>
         /// DWORD *pdwTypeID = reinterpret_cast&lt;DWORD *&gt;(
         ///     reinterpret_cast&lt;BYTE*&gt;(pFileMUIInfo) +
         ///     pFileMUIInfo-&lt;dwTypeIDMainOffset);
         /// </code>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The lists of language-specific resources are accessed in the same way.
         /// The following is sample code to access the multistring array of resource names in the LN file.
+        /// </para>
         /// <code>
         /// LPWSTR lpszNames = reinterpret_cast&lt;LPWSTR&gt;(
         ///     reinterpret_cast&lt;BYTE*&gt;(pFileMUIInfo) +
         ///     pFileMUIInfo-&lt;dwTypeNameMainOffset);
         /// </code>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The lists of language-specific resources are accessed in the same way.
+        /// </para>
+        /// <para>
         /// Each of the code samples uses two reinterpret casts.
         /// First the code casts to BYTE* so that the pointer arithmetic for the offset is done in bytes.
-        /// Then the code casts the resulting pointer to the desired type
+        /// Then the code casts the resulting pointer to the desired type.
+        /// </para>
+        /// <para>
         /// Another approach is to write the following instead of the code shown in the samples.
         /// The effect is the same and the choice is strictly one of style.
+        /// </para>
         /// <code>
         /// DWORD ix = pFileMUIInfo-&gt;dwLanguageNameOffset - 
         ///     offsetof(struct _FILEMUIINFO, abBuffer);
@@ -3286,37 +3371,126 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
+        /// <para>
         /// Flags identifying language format and filtering.
-        /// The following flags specify the format of the language indicated by <paramref name="pwszLanguage"/>.
+        /// The following flags specify the format of the language indicated by <paramref name="pwszLanguage"/>.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language string in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: etrieve the language string in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language string in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language string in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following flags specify the filtering for the function to use in locating language-specific resource files
-        /// if <paramref name="pwszLanguage"/> is set to <see cref="NULL"/>.
+        /// if <paramref name="pwszLanguage"/> is set to <see cref="NULL"/>.
         /// The filtering flags are mutually exclusive, and the default is <see cref="MUI_USER_PREFERRED_UI_LANGUAGES"/>.
-        /// <see cref="MUI_USE_SEARCH_ALL_LANGUAGES"/>:
-        /// Retrieve all language-specific resource files for the path indicated by <paramref name="pcwszFilePath"/>, without considering file licensing.
-        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
-        /// <see cref="MUI_USER_PREFERRED_UI_LANGUAGES"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_USE_SEARCH_ALL_LANGUAGES"/>
+        /// </term>
+        /// <term>
+        /// Retrieve all language-specific resource files for the path indicated by <paramref name="pcwszFilePath"/>, without considering file licensing.
+        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_USER_PREFERRED_UI_LANGUAGES"/>
+        /// </term>
+        /// <term>
         /// Retrieve only the files that implement languages in the fallback list.
         /// Successive calls enumerate the successive fallbacks, in the appropriate order.
-        /// The first file indicated by the output value of <paramref name="pcchFileMUIPath"/> should be the best fit.
-        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
-        /// <see cref="MUI_USE_INSTALLED_LANGUAGES"/>:
+        /// The first file indicated by the output value of <paramref name="pcchFileMUIPath"/> should be the best fit.
+        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_USE_INSTALLED_LANGUAGES"/>
+        /// </term>
+        /// <term>
         /// Retrieve only the files for the languages installed on the computer.
-        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
-        /// The following flags allow the user to indicate the type of file that is specified by <paramref name="pcwszFilePath"/>
+        /// This flag is relevant only if the application supplies a null string for <paramref name="pwszLanguage"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags allow the user to indicate the type of file that is specified by <paramref name="pcwszFilePath"/>
         /// so that the function can determine if it must add ".mui" to the file name.
-        /// The flags are mutually exclusive. If the application passes both flags, the function fails.
-        /// If the application passes neither flag, the function checks the file in the root folder to verify the file type and decide on file naming.
-        /// <see cref="MUI_LANG_NEUTRAL_PE_FILE"/>:
-        /// Do not verify the file passed in <paramref name="pcwszFilePath"/> and append ".mui" to the file name before processing.
+        /// The flags are mutually exclusive.
+        /// If the application passes both flags, the function fails.
+        /// If the application passes neither flag, the function checks the file in the root folder
+        /// to verify the file type and decide on file naming.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANG_NEUTRAL_PE_FILE"/>
+        /// </term>
+        /// <term>
+        /// Do not verify the file passed in <paramref name="pcwszFilePath"/> and append ".mui" to the file name before processing.
         /// For example, change Abc.exe to Abc.exe.mui.
-        /// <see cref="MUI_NON_LANG_NEUTRAL_FILE"/>:
-        /// Do not verify the file passed in <paramref name="pcwszFilePath"/> and do not append ".mui" to the file name before processing.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_NON_LANG_NEUTRAL_FILE"/>
+        /// </term>
+        /// <term>
+        /// Do not verify the file passed in <paramref name="pcwszFilePath"/> and do not append ".mui" to the file name before processing.
         /// For example, use Abc.txt or Abc.chm.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pcwszFilePath">
+        /// <para>
         /// Pointer to a null-terminated string specifying a file path.
         /// The path is either for an existing LN file or for a file such as a .txt, .inf, or .msc file.
         /// If the file is an LN file, the function looks for files containing the associated language-specific resources.
@@ -3324,16 +3498,25 @@ namespace Lsj.Util.Win32
         /// Your application can overwrite the behavior of the file type check
         /// by using the <see cref="MUI_LANG_NEUTRAL_PE_FILE"/> or <see cref="MUI_NON_LANG_NEUTRAL_FILE"/> flag.
         /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The supplied file path can be a network path: for example, "\\machinename\c$\windows\system32\notepad.exe".
+        /// </para>
         /// </param>
         /// <param name="pwszLanguage">
+        /// <para>
         /// Pointer to a buffer containing a language string.
         /// On input, this buffer contains the language identifier or language name for which the application should find language-specific resource files,
         /// depending on the settings of <paramref name="dwFlags"/>.
         /// On successful return from the function, this parameter contains the language of the language-specific resource file that the function has found.
+        /// </para>
+        /// <para>
         /// Alternatively, the application can set this parameter to <see cref="NULL"/>, with the value referenced by <paramref name="pcchLanguage"/> set to 0.
         /// In this case, the function retrieves the required buffer size in <paramref name="pcchLanguage"/>.
+        /// </para>
         /// </param>
         /// <param name="pcchLanguage">
         /// Pointer to the buffer size, in characters, for the language string indicated by <paramref name="pwszLanguage"/>.
@@ -3344,10 +3527,14 @@ namespace Lsj.Util.Win32
         /// Thus <see cref="LOCALE_NAME_MAX_LENGTH"/> is the only safe maximum.
         /// </param>
         /// <param name="pwszFileMUIPath">
+        /// <para>
         /// Pointer to a buffer containing the path to the language-specific resource file.
         /// It is strongly recommended to allocate this buffer to be of size <see cref="MAX_PATH"/>.
+        /// </para>
+        /// <para>
         /// Alternatively, this parameter can retrieve <see cref="NULL"/> if the value referenced by <paramref name="pcchFileMUIPath"/> is set to 0.
         /// In this case, the function retrieves the required size for the file path buffer in <paramref name="pcchFileMUIPath"/>.
+        /// </para>
         /// </param>
         /// <param name="pcchFileMUIPath">
         /// Pointer to the buffer size, in characters, for the file path indicated by <paramref name="pwszFileMUIPath"/>.
@@ -3365,58 +3552,189 @@ namespace Lsj.Util.Win32
         /// After the function retrieves all possible language-specific resource file paths, it returns <see cref="FALSE"/>.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
         /// If the function fails, the output parameters do not change.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to NULL.
-        /// <see cref="ERROR_NO_MORE_FILES"/>. There were no more files to process.
+        /// </para>
+        /// <para>
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_NO_MORE_FILES"/>.
+        /// There were no more files to process.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function verifies that language-specific resource files exist, but it does not verify that they are correct.
-        /// It requires the resource files to be stored according to the storage convention explained in Application Deployment.
-        /// If the call to this function specifies the <see cref="MUI_LANGUAGE_ID"/> flag,
-        /// the supplied language string must use a hexadecimal language identifier that does not include the leading 0x, and is 4 characters in length.
-        /// For example, en-US should be passed as "0409" and en as "0009".
-        /// The returned language string will be in the same format.
+        /// It requires the resource files to be stored according to the storage convention explained in Application Deployment.
+        /// </para>
+        /// <para>
+        /// If the call to this function specifies the <see cref="MUI_LANGUAGE_ID"/> flag, the supplied language string must
+        /// </para>
+        /// <para>
+        /// use a hexadecimal language identifier that does not include the leading 0x, and is 4 characters in length.
+        /// </para>
+        /// <para>
+        /// For example, en-US should be passed as "0409" and en as "0009". The returned language string will be in the
+        /// </para>
+        /// <para>
+        /// same format.
+        /// </para>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, each hexadecimal value in the supplied language string must represent an actual language identifier.
         /// In particular, the values corresponding to the following locales cannot be specified:
-        /// <see cref="LOCALE_USER_DEFAULT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_DEFAULT"/>,
-        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
-        /// To receive enumerated information, the application should call this function repeatedly until it returns <see cref="FALSE"/>,
-        /// leaving the contents of <paramref name="pululEnumerator"/> unchanged between calls.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To receive enumerated information, the application should call this function repeatedly until it returns <see cref="FALSE"/>,
+        /// leaving the contents of <paramref name="pululEnumerator"/> unchanged between calls.
         /// Since each call retrieves the path to a different language-specific resource file,
         /// the application must clear the language buffer to an empty string between calls.
-        /// If the application does not do this, the input value of <paramref name="pwszLanguage"/> takes precedence over the setting of <paramref name="dwFlags"/>.
+        /// If the application does not do this, the input value of <paramref name="pwszLanguage"/> takes precedence over the setting of <paramref name="dwFlags"/>.
+        /// </para>
+        /// <para>
         /// Typically the resource loader is used to find resource files.
         /// However, your application can also use this function to find the files.
-        /// If the input file path is for an LN file, the function attaches a suffix of ".mui" when looking for the corresponding language-specific resource files.
+        /// If the input file path is for an LN file, the function attaches a suffix of ".mui"
+        /// when looking for the corresponding language-specific resource files.
+        /// </para>
+        /// <para>
         /// For example, the function retrieves the following files when the application passes the string "C:\mydir\Example1.dll"
-        /// in <paramref name="pcwszFilePath"/> as the root file path, with <paramref name="dwFlags"/> set to <code>MUI_LANGUAGE_NAME | MUI_USE_SEARCH_ALL_LANGUAGES</code>:
+        /// in <paramref name="pcwszFilePath"/> as the root file path, with <paramref name="dwFlags"/> set to <c>MUI_LANGUAGE_NAME | MUI_USE_SEARCH_ALL_LANGUAGES</c>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
         /// C:\mydir\Example1.dll
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// C:\mydir\en-US\Example1.dll.mui
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// C:\mydir\ja-JP\Example1.dll.mui
-        /// The first call to the function sets <paramref name="pwszFileMUIPath"/> to "C:\mydir\en-US\Example1.dll.mui".
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The first call to the function sets <paramref name="pwszFileMUIPath"/> to "C:\mydir\en-US\Example1.dll.mui".
         /// The second call sets the file path to "C:\mydir\ja-JP\Example1.dll.mui".
-        /// The function returns <see cref="FALSE"/> when called a third time and <see cref="GetLastError"/> returns <see cref="ERROR_NO_MORE_FILES"/>.
-        /// If the file indicated by <paramref name="pcwszFilePath"/> does not have resource configuration data,
+        /// The function returns <see cref="FALSE"/> when called a third time and <see cref="GetLastError"/> returns <see cref="ERROR_NO_MORE_FILES"/>.
+        /// </para>
+        /// <para>
+        /// If the file indicated by <paramref name="pcwszFilePath"/> does not have resource configuration data,
         /// or if the file does not exist, the function leaves the file name as it is when looking for the corresponding language-specific resource files.
-        /// For example, the application passes the string "C:\mydir\Example2.txt" in <paramref name="pcwszFilePath"/> as the root file path,
-        /// with <paramref name="dwFlags"/> set to <code>MUI_LANGUAGE_NAME | MUI_USER_PREFERRED_UI_LANGUAGES</code>.
+        /// </para>
+        /// <para>
+        /// For example, the application passes the string "C:\mydir\Example2.txt" in <paramref name="pcwszFilePath"/> as the root file path,
+        /// with <paramref name="dwFlags"/> set to <c>MUI_LANGUAGE_NAME | MUI_USER_PREFERRED_UI_LANGUAGES</c>.
         /// Let's consider the case in which the user preferred UI languages (in order) are Catalan, "ca-ES",
         /// and Spanish (Spain), "es-ES", and where the following files exist:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
         /// (no corresponding file in C:\mydir)
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// C:\mydir\en-US\Example2.txt
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// C:\mydir\en\Example2.txt
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// C:\mydir\es-ES\Example2.txt
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// C:\mydir\es\Example2.txt
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// C:\mydir\ja-JP\Example2.txt
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The first call to the function determines that there are no resources for "ca-ES" or for the neutral language "ca".
         /// The function then tries the next option, "es-ES", for which it succeeds in finding a match.
-        /// Before returning, the function sets <paramref name="pwszFileMUIPath"/> to "C:\mydir\es-ES\Example2.txt".
-        /// A second application call to the function continues the enumeration by setting <paramref name="pwszFileMUIPath"/> to "C:\mydir\es\Example2.txt".
-        /// If the target file and its associated resource files are actually Side-by-side enabled assemblies,
+        /// Before returning, the function sets <paramref name="pwszFileMUIPath"/> to "C:\mydir\es-ES\Example2.txt".
+        /// A second application call to the function continues the enumeration
+        /// by setting <paramref name="pwszFileMUIPath"/> to "C:\mydir\es\Example2.txt".
+        /// </para>
+        /// <para>
+        /// If the target file and its associated resource files are actually Side-by-side enabled assemblies,
         /// <see cref="GetFileMUIPath"/> cannot be used to retrieve the path to the resource file.
-        /// Please refer to Using Assemblies with a Multilanguage User Interface for details on how to use Side-by-side assemblies with MUI support.
+        /// Please refer to Using Assemblies with a Multilanguage User Interface for details on how to use Side-by-side assemblies with MUI support.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileMUIPath", ExactSpelling = true, SetLastError = true)]
@@ -3426,8 +3744,6 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about a specified geographical location.
-        /// <see cref="GetGeoInfo"/> is available for use in the operating systems specified in the Requirements section.
-        /// It may be altered or unavailable in subsequent versions. Instead, use <see cref="GetGeoInfoEx"/>.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getgeoinfow"/>
@@ -3439,14 +3755,20 @@ namespace Lsj.Util.Win32
         /// You can obtain the available values by calling <see cref="EnumSystemGeoID"/>.
         /// </param>
         /// <param name="GeoType">
+        /// <para>
         /// Type of information to retrieve.
-        /// Possible values are defined by the <see cref="SYSGEOTYPE"/> enumeration.
-        /// If the value of <paramref name="GeoType"/> is <see cref="GEO_LCID"/>, the function retrieves a locale identifier.
-        /// If the value of <paramref name="GeoType"/> is <see cref="GEO_RFC1766"/>,
-        /// the function retrieves a string name that is compliant with RFC 4646 (Windows Vista).
+        /// Possible values are defined by the <see cref="SYSGEOTYPE"/> enumeration.
+        /// If the value of <paramref name="GeoType"/> is <see cref="GEO_LCID"/>, the function retrieves a locale identifier.
+        /// If the value of <paramref name="GeoType"/> is <see cref="GEO_RFC1766"/>,
+        /// the function retrieves a string name that is compliant with RFC 4646 (Windows Vista).
         /// For more information, see the Remarks section.
-        /// Windows XP: When <paramref name="GeoType"/> is set to <see cref="GEO_LCID"/>, the retrieved string is an 8-digit hexadecimal value.
-        /// Windows Me: When <paramref name="GeoType"/> is set to <see cref="GEO_LCID"/>, the retrieved string is a decimal value.
+        /// </para>
+        /// <para>
+        /// Windows XP: When <paramref name="GeoType"/> is set to <see cref="GEO_LCID"/>, the retrieved string is an 8-digit hexadecimal value.
+        /// </para>
+        /// <para>
+        /// Windows Me: When <paramref name="GeoType"/> is set to <see cref="GEO_LCID"/>, the retrieved string is a decimal value.
+        /// </para>
         /// </param>
         /// <param name="lpGeoData">
         /// Pointer to the buffer in which this function retrieves the information.
@@ -3457,38 +3779,75 @@ namespace Lsj.Util.Win32
         /// The application can set this parameter to 0 if the function is to return the required size of the buffer.
         /// </param>
         /// <param name="LangId">
+        /// <para>
         /// Identifier for the language, used with the value of Location.
         /// The application can set this parameter to 0, with <see cref="GEO_RFC1766"/> or <see cref="GEO_LCID"/> specified for <paramref name="GeoType"/>.
         /// This setting causes the function to retrieve the language identifier by calling <see cref="GetUserDefaultLangID"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application must set this parameter to 0 if <paramref name="GeoType"/> has any value other than <see cref="GEO_RFC1766"/> or <see cref="GEO_LCID"/>.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns the number of bytes (ANSI) or words (Unicode) of geographical location information retrieved in the output buffer.
-        /// If <paramref name="cchData"/> is set to 0, the function returns the required size for the buffer.
+        /// If <paramref name="cchData"/> is set to 0, the function returns the required size for the buffer.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If the application specifies <see cref="GEO_RFC1766"/> for <paramref name="GeoType"/>,
-        /// it should specify a language identifier for <paramref name="LangId"/> that is appropriate to the specified geographical location identifier.
+        /// <para>
+        /// If the application specifies <see cref="GEO_RFC1766"/> for <paramref name="GeoType"/>,
+        /// it should specify a language identifier for <paramref name="LangId"/> that is appropriate to the specified geographical location identifier.
         /// The appropriate language is either a locale-neutral language or one with a locale corresponding to the specified identifier.
-        /// The resulting string, compliant with RFC 4646 (Windows Vista), constitutes a locale name.
-        /// For example, if Location is specified as 0xF4 for United States, <paramref name="GeoType"/> is specified as <see cref="GEO_RFC1766"/>,
-        /// and <paramref name="LangId"/> is specified as either 0x09 for locale-neutral English or 0x409 for English (United States),
+        /// The resulting string, compliant with RFC 4646 (Windows Vista), constitutes a locale name.
+        /// </para>
+        /// <para>
+        /// For example, if <paramref name="Location"/> is specified as 0xF4 for United States,
+        /// <paramref name="GeoType"/> is specified as <see cref="GEO_RFC1766"/>,
+        /// and <paramref name="LangId"/> is specified as either 0x09 for locale-neutral English or 0x409 for English (United States),
         /// the function retrieves "en-US" on successful return.
         /// In fact, the function ignores the locale-specific portion of the language.
-        /// Thus, if the application specifies LangId as 0x809 for English (United Kingdom), the function also writes "en-US" to <paramref name="lpGeoData"/>.
-        /// Consider another example. If Location is specified as 0xF4 for United States,
-        /// <paramref name="GeoType"/> is specified as <see cref="GEO_RFC1766"/>, and <paramref name="LangId"/> is specified as 0x04 for Chinese,
-        /// the function retrieves "zh-US" on successful return.
+        /// Thus, if the application specifies <paramref name="LangId"/> as 0x809 for English (United Kingdom),
+        /// the function also writes "en-US" to <paramref name="lpGeoData"/>.
+        /// </para>
+        /// <para>
+        /// Consider another example. If <paramref name="Location"/> is specified as 0xF4 for United States,
+        /// <paramref name="GeoType"/> is specified as <see cref="GEO_RFC1766"/>,
+        /// and <paramref name="LangId"/> is specified as 0x04 for Chinese, the function retrieves "zh-US" on successful return.
         /// This is not the name of a supported locale.
-        /// If the application specifies <see cref="GEO_LCID"/> for <paramref name="GeoType"/>,
+        /// </para>
+        /// <para>
+        /// If the application specifies <see cref="GEO_LCID"/> for <paramref name="GeoType"/>,
         /// the function treats the language identifier as a locale identifier (LCID).
         /// It attempts to return the locale identifier if it is associated with the provided geographical identifier in some way.
+        /// </para>
         /// </remarks>
+        [Obsolete("GetGeoInfo is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions. Instead, use GetGeoInfoEx.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGeoInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetGeoInfo([In] GEOID Location, [In] SYSGEOTYPE GeoType, [In] LPWSTR lpGeoData,
@@ -3497,7 +3856,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="GetLocaleInfoEx"/> function to <see cref="GetLocaleInfo"/>
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
         /// Any application that runs only on Windows Vista and later should use <see cref="GetLocaleInfoEx"/>.
@@ -3507,16 +3870,56 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier for which to retrieve information.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier for which to retrieve information.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="LCType">
+        /// <para>
         /// The locale information to retrieve.
-        /// For detailed definitions, see the LCType parameter of <see cref="GetLocaleInfoEx"/>.
+        /// For detailed definitions, see the <paramref name="LCType"/> parameter of <see cref="GetLocaleInfoEx"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For <see cref="GetLocaleInfo"/>, the value <see cref="LOCALE_USE_CP_ACP"/> is relevant only for the ANSI version.
+        /// </para>
         /// </param>
         /// <param name="lpLCData">
         /// Pointer to a buffer in which this function retrieves the requested locale information.
@@ -3530,26 +3933,59 @@ namespace Lsj.Util.Win32
         /// including the terminating null character.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in the locale data buffer if successful and <paramref name="cchData"/> is a nonzero value.
-        /// If the function succeeds, <paramref name="cchData"/> is nonzero, and <see cref="LOCALE_RETURN_NUMBER"/> is specified,
-        /// the return value is the size of the integer retrieved in the data buffer; that is, 2 for the Unicode version of the function or 4 for the ANSI version.
-        /// If the function succeeds and the value of cchData is 0, the return value is the required size,
+        /// <para>
+        /// Returns the number of characters retrieved in the locale data buffer if successful and <paramref name="cchData"/> is a nonzero value.
+        /// If the function succeeds, <paramref name="cchData"/> is nonzero, and <see cref="LOCALE_RETURN_NUMBER"/> is specified,
+        /// the return value is the size of the integer retrieved in the data buffer;
+        /// that is, 2 for the Unicode version of the function or 4 for the ANSI version.
+        /// If the function succeeds and the value of <paramref name="cchData"/> is 0, the return value is the required size,
         /// in characters including a null character, for the locale data buffer.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// For the operation of this function, see Remarks for <see cref="GetLocaleInfoEx"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Even when the <paramref name="LCType"/> parameter is specified as <see cref="LOCALE_FONTSIGNATURE"/>,
         /// <paramref name="cchData"/> and the function return are still TCHAR counts.
         /// The count is different for the ANSI and Unicode versions of the function.
         /// When an application calls the generic version of <see cref="GetLocaleInfo"/> with <see cref="LOCALE_FONTSIGNATURE"/>,
-        /// <paramref name="cchData"/> can be safely specified as <code>sizeof(LOCALESIGNATURE) / sizeof(TCHAR)</code>.
+        /// <paramref name="cchData"/> can be safely specified as <c>sizeof(LOCALESIGNATURE) / sizeof(TCHAR)</c>.
+        /// </para>
+        /// <para>
         /// The following examples deal correctly with the buffer size for non-text values:
+        /// </para>
         /// <code>
         /// int   ret;
         /// CALID calid;
@@ -3568,12 +4004,16 @@ namespace Lsj.Util.Win32
         ///                     (LPWSTR)&amp;LocSig,
         ///                     sizeof(LocSig) / sizeof(TCHAR) );
         /// </code>
+        /// <para>
         /// The ANSI string retrieved by the ANSI version of this function is translated from Unicode to ANSI
         /// based on the default ANSI code page for the locale identifier.
         /// However, if <see cref="LOCALE_USE_CP_ACP"/> is specified, the translation is based on the system default ANSI code page.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocaleInfoW", ExactSpelling = true, SetLastError = true)]
@@ -3582,9 +4022,17 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="GetLocaleInfo"/> if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function can retrieve data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
@@ -3593,28 +4041,65 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="LCType">
+        /// <para>
         /// The locale information to retrieve.
         /// For possible values, see the "Constants Used in the LCType Parameter of GetLocaleInfo,
         /// GetLocaleInfoEx, and SetLocaleInfo" section in Locale Information Constants.
         /// Note that only one piece of locale information can be specified per call.
+        /// </para>
+        /// <para>
         /// The application can use the binary OR operator to combine <see cref="LOCALE_RETURN_NUMBER"/> with any other allowed constant.
         /// In this case, the function retrieves the value as a number instead of a string.
         /// The buffer that receives the value must be at least the length of a DWORD value, which is 2.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// It is also possible to combine <see cref="LOCALE_NOUSEROVERRIDE"/> with any other constant.
         /// However, use of this constant is strongly discouraged.
         /// (Even without using the current user override, the data can differ from computer to computer,
         /// and custom locales can change the data. For example, even month or day names are subject to spelling reforms.)
-        /// If <paramref name="LCType"/> is set to <see cref="LOCALE_IOPTIONALCALENDAR"/>, the function retrieves only the first alternate calendar.
+        /// </para>
+        /// <para>
+        /// If <paramref name="LCType"/> is set to <see cref="LOCALE_IOPTIONALCALENDAR"/>,
+        /// the function retrieves only the first alternate calendar.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// To get all alternate calendars, the application should use <see cref="EnumCalendarInfoEx"/>.
+        /// </para>
+        /// <para>
         /// Starting with Windows Vista, your applications should not use <see cref="LOCALE_ILANGUAGE"/>
         /// in the <paramref name="LCType"/> parameter to avoid failure or retrieval of unexpected data.
         /// Instead, it is recommended for your applications to call <see cref="GetLocaleInfoEx"/>.
+        /// </para>
         /// </param>
         /// <param name="lpLCData">
         /// Pointer to a buffer in which this function retrieves the requested locale information.
@@ -3622,40 +4107,72 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// </param>
         /// <param name="cchData">
-        /// Size, in TCHAR values, of the data buffer indicated by <paramref name="lpLCData"/>.
+        /// Size, in characters, of the data buffer indicated by <paramref name="lpLCData"/>.
         /// Alternatively, the application can set this parameter to 0.
         /// In this case, the function does not use the <paramref name="lpLCData"/> parameter and returns the required buffer size,
         /// including the terminating null character.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in the locale data buffer if successful and <paramref name="cchData"/> is a nonzero value.
-        /// If the function succeeds, <paramref name="cchData"/> is nonzero, and <see cref="LOCALE_RETURN_NUMBER"/> is specified,
-        /// the return value is the size of the integer retrieved in the data buffer; that is, 2.
-        /// If the function succeeds and the value of cchData is 0, the return value is the required size,
+        /// <para>
+        /// Returns the number of characters retrieved in the locale data buffer if successful and <paramref name="cchData"/> is a nonzero value.
+        /// If the function succeeds, <paramref name="cchData"/> is nonzero, and <see cref="LOCALE_RETURN_NUMBER"/> is specified,
+        /// the return value is the size of the integer retrieved in the data buffer, that is, 2.
+        /// If the function succeeds and the value of <paramref name="cchData"/> is 0, the return value is the required size,
         /// in characters including a null character, for the locale data buffer.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function normally retrieves information in text format.
         /// If the information is a numeric value and the value of <paramref name="LCType"/> is <see cref="LOCALE_ILANGUAGE"/> or <see cref="LOCALE_IDEFAULTLANGUAGE"/>,
         /// this function retrieves strings containing hexadecimal numbers.
         /// Otherwise, the retrieved text for numeric information is a decimal number.
+        /// </para>
+        /// <para>
         /// There are two exceptions to this rule. First, the application can retrieve numeric values as integers
         /// by specifying <see cref="LOCALE_RETURN_NUMBER"/> in the <paramref name="LCType"/> parameter.
         /// The second exception is that <see cref="LOCALE_FONTSIGNATURE"/> behaves differently from all other locale information constants.
         /// The application must provide a data buffer of at least <code>sizeof(LOCALESIGNATURE)</code> bytes.
         /// On successful return from the function, the buffer is filled in as a <see cref="LOCALESIGNATURE"/> structure.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Even when the <paramref name="LCType"/> parameter is specified as <see cref="LOCALE_FONTSIGNATURE"/>,
         /// <paramref name="cchData"/> and the function return are still TCHAR counts.
         /// The count is different for the ANSI and Unicode versions of the function.
         /// When an application calls the generic version of <see cref="GetLocaleInfo"/> with <see cref="LOCALE_FONTSIGNATURE"/>,
         /// <paramref name="cchData"/> can be safely specified as <code>sizeof(LOCALESIGNATURE) / sizeof(TCHAR)</code>.
         /// The following examples deal correctly with the buffer size for non-text values:
+        /// </para>
         /// <code>
         /// int   ret;
         /// CALID calid;
@@ -3674,12 +4191,16 @@ namespace Lsj.Util.Win32
         ///                       (LPWSTR)&amp;LocSig,
         ///                       sizeof(LocSig) / sizeof(TCHAR) );
         /// </code>
+        /// <para>
         /// This function can retrieve data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
         /// Beginning in Windows 8:
         /// If your app passes language tags to this function from the Windows.Globalization namespace,
         /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocaleInfoEx", ExactSpelling = true, SetLastError = true)]
@@ -3688,7 +4209,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about the current version of a specified NLS capability for a locale specified by identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="GetNLSVersionEx"/> function to <see cref="GetNLSVersion"/>
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
         /// This recommendation applies especially to custom locales, for which <see cref="GetNLSVersionEx"/> retrieves enough information
@@ -3706,25 +4231,93 @@ namespace Lsj.Util.Win32
         /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
         /// </param>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale.
-        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
-        /// Windows Vista and later: The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// <para>
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create an identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpVersionInformation">
-        /// Pointer to an <see cref="NLSVERSIONINFO"/> structure.
-        /// The application must initialize the <see cref="NLSVERSIONINFO.dwNLSVersionInfoSize"/> member to <code>sizeof(NLSVERSIONINFO)</code>.
+        /// <para>
+        /// Pointer to an <see cref="NLSVERSIONINFO"/> structure.
+        /// The application must initialize the <see cref="NLSVERSIONINFO.dwNLSVersionInfoSize"/> member to <c>sizeof(NLSVERSIONINFO)</c>.
+        /// </para>
+        /// <para>
         /// Note
-        /// On Windows Vista and later, the function can alternatively provide version information in an <see cref="NLSVERSIONINFOEX"/> structure.
+        /// </para>
+        /// <para>
+        /// On Windows Vista and later, the function can alternatively provide version information in an <see cref="NLSVERSIONINFOEX"/> structure.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if and only if the application has supplied valid values in <see cref="NLSVERSIONINFO.lpVersionInformation"/>,
-        /// or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if and only if the application has supplied valid values in <paramref name="lpVersionInformation"/>,
+        /// or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function allows an application such as Active Directory to determine
@@ -3738,7 +4331,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about the current version of a specified NLS capability for a locale specified by name.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="GetNLSVersion"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
@@ -3751,45 +4348,148 @@ namespace Lsj.Util.Win32
         /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
         /// </param>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpVersionInformation">
+        /// <para>
         /// Pointer to an <see cref="NLSVERSIONINFOEX"/> structure.
         /// The application must initialize the <see cref="NLSVERSIONINFOEX.dwNLSVersionInfoSize"/> member to <code>sizeof(NLSVERSIONINFOEX)</code>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// On Windows Vista and later, the function can alternatively provide version information in an <see cref="NLSVERSIONINFO"/> structure.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if and only if the application has supplied valid values in <paramref name="lpVersionInformation"/>,
-        /// or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if and only if the application has supplied valid values in <paramref name="lpVersionInformation"/>, or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function allows an application such as Active Directory to determine if an NLS change affects the locale used for a particular index table.
+        /// <para>
+        /// This function allows an application such as Active Directory to determine
+        /// if an NLS change affects the locale used for a particular index table.
         /// If it does not, there is no need to re-index the table.
-        /// For more information, see Handling Sorting in Your Applications.
+        /// For more information, see Handling Sorting in Your Applications.
         /// In particular, to tell if a sort version changed and you need to reindex:
-        /// Use <see cref="GetNLSVersionEx"/> to retrieve an <see cref="NLSVERSIONINFOEX"/> structure when doing the original indexing of your data.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Use <see cref="GetNLSVersionEx"/> to retrieve an <see cref="NLSVERSIONINFOEX"/> structure when doing the original indexing of your data.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
         /// Store the following properties with your index to identify the version:
-        /// <see cref="NLSVERSIONINFOEX.dwNLSVersion"/>. This specifies the version of the sorting table you're using.
-        /// <see cref="NLSVERSIONINFOEX.dwEffectiveId"/>. This specifies the effective locale of your sort. A custom locale will point to an in-box locale's sort.
-        /// <see cref="NLSVERSIONINFOEX.guidCustomVersion"/>. This is a GUID specifying a specific custom sort for custom locales that have them.
-        /// When using the index use <see cref="GetNLSVersionEx"/> to discover the version of your data.
-        /// If any of the three properties has changed, the sorting data you're using could return different results and any indexing you have may fail to find records.
-        /// If you know that your data doesn't contain invalid Unicode code points (that is, all of your strings passed a call to <see cref="IsNLSDefinedString"/>)
-        /// then you may consider them the same if only the low byte of <see cref="NLSVERSIONINFOEX.dwNLSVersion"/> changed (the minor version described above).
-        /// This is covered in more detail in the blog entry "How to tell if the collation version changed"
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="NLSVERSIONINFOEX.dwNLSVersion"/>.
+        /// This specifies the version of the sorting table you're using.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="NLSVERSIONINFOEX.dwEffectiveId"/>.
+        /// This specifies the effective locale of your sort. A custom locale will point to an in-box locale's sort.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="NLSVERSIONINFOEX.guidCustomVersion"/>.
+        /// This is a GUID specifying a specific custom sort for custom locales that have them.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// When using the index use <see cref="GetNLSVersionEx"/> to discover the version of your data.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If any of the three properties has changed,
+        /// the sorting data you're using could return different results and any indexing you have may fail to find records.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If you know that your data doesn't contain invalid Unicode code points
+        /// (that is, all of your strings passed a call to <see cref="IsNLSDefinedString"/>) then you may consider them the same
+        /// if only the low byte of <see cref="NLSVERSIONINFOEX.dwNLSVersion"/> changed (the minor version described above).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This is covered in more detail in the blog entry "How to tell if the collation version changed"
         /// (http://blogs.msdn.com/shawnste/archive/2007/06/01/how-to-tell-if-the-collation-version-changed.aspx).
-        /// This function supports custom locales.
-        /// If <paramref name="lpLocaleName"/> specifies a supplemental locale,
+        /// </para>
+        /// <para>
+        /// This function supports custom locales.
+        /// If <paramref name="lpLocaleName"/> specifies a supplemental locale,
         /// the data retrieved is the correct data for the sort order associated with that supplemental locale.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNLSVersionEx", ExactSpelling = true, SetLastError = true)]
@@ -3798,7 +4498,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Returns the current original equipment manufacturer (OEM) code page identifier for the operating system.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The ANSI code pages can be different on different computers, or can be changed for a single computer, leading to data corruption.
         /// For the most consistent results, applications should use Unicode, such as UTF-8 or UTF-16, instead of a specific code page.
         /// </para>
@@ -3826,44 +4530,110 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
+        /// <para>
         /// Flags identifying the language format to use for the process preferred UI languages.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language strings in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: Retrieve the language strings in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages retrieved in <paramref name="pwszLanguagesBuffer"/>.
         /// </param>
         /// <param name="pwszLanguagesBuffer">
+        /// <para>
         /// Optional.
         /// Pointer to a double null-terminated multi-string buffer in which the function retrieves an ordered,
         /// null-delimited list in preference order, starting with the most preferable.
-        /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
-        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
+        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
         /// The required size includes the two null characters.
+        /// </para>
         /// </param>
         /// <param name="pcchLanguagesBuffer">
-        /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
+        /// <para>
+        /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
         /// On successful return from the function, the parameter contains the size of the retrieved language buffer.
-        /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
-        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
+        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the process preferred UI language list is empty or if the languages specified for the process are not valid,
-        /// the function succeeds and returns an empty multistring in <paramref name="pwszLanguagesBuffer"/> and 2 in the <paramref name="pcchLanguagesBuffer"/> parameter.
+        /// the function succeeds and returns an empty multistring in <paramref name="pwszLanguagesBuffer"/>
+        /// and 2 in the <paramref name="pcchLanguagesBuffer"/> parameter.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Depending on the flags specified by the application, this function can retrieve a list consisting of the process preferred UI languages.
         /// If it encounters a duplicate language, the function only retrieves the first instance of the duplicated language.
+        /// </para>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the language strings retrieved will be hexadecimal language identifiers
+        /// </para>
+        /// <para>
         /// that do not include the leading 0x, and will be 4 characters in length.
         /// For example, en-US will be returned as "0409" and en as "0009".
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Use of <see cref="MUI_LANGUAGE_NAME"/> is recommended over <see cref="MUI_LANGUAGE_ID"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
@@ -3879,10 +4649,14 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// Returns the language identifier for the system locale.
+        /// <para>
+        /// Returns the language identifier for the system locale.
         /// This is the language used when displaying text in programs that do not support Unicode.
-        /// It is set by the Administrator under Control Panel > Clock, Language, and Region > Change date, time, or number formats > Administrative tab.
-        /// For more information on language identifiers, see Language Identifier Constants and Strings.
+        /// It is set by the Administrator under Control Panel &gt; Clock, Language, and Region &gt; Change date, time, or number formats &gt; Administrative tab.
+        /// </para>
+        /// <para>
+        /// For more information on language identifiers, see Language Identifier Constants and Strings.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultLangID", ExactSpelling = true)]
@@ -3891,7 +4665,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Returns the locale identifier for the system locale.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Any application that runs only on Windows Vista and later should use <see cref="GetSystemDefaultLocaleName"/> in preference to this function.
         /// </para>
         /// <para>
@@ -3919,61 +4697,178 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags identifying the language format to use for the process preferred UI languages.
+        /// <para>
+        /// Flags identifying language format and filtering.
+        /// The following flags specify the format to use for the system preferred UI languages.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language strings in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: Retrieve the language strings in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following flag specifies whether the function is to validate the list of languages (default)
         /// or retrieve the system preferred UI languages list exactly as it is stored in the registry.
-        /// <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/>
+        /// </term>
+        /// <term>
         /// Retrieve the stored system preferred UI languages list, checking only to ensure that each language name corresponds to a valid NLS locale.
-        /// If this flag is not set, the function retrieves the system preferred UI languages in <paramref name="pwszLanguagesBuffer"/>,
+        /// If this flag is not set, the function retrieves the system preferred UI languages in <paramref name="pwszLanguagesBuffer"/>,
         /// as long as the list is non-empty and meets the validation criteria.
         /// Otherwise, the function retrieves the system default user interface language in the language buffer.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages retrieved in <paramref name="pwszLanguagesBuffer"/>.
         /// </param>
         /// <param name="pwszLanguagesBuffer">
-        /// Optional.
-        /// Pointer to a double null-terminated multi-string buffer in which the function retrieves an ordered,
-        /// null-delimited list in preference order, starting with the most preferable.
-        /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
-        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
-        /// The required size includes the two null characters.
+        /// <para>
+        /// Optional. Pointer to a buffer in which this function retrieves an ordered, null-delimited system preferred UI languages list,
+        /// in the format specified by <paramref name="dwFlags"/>.
+        /// This list ends with two null characters.
+        /// </para>
+        /// <para>
+        /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
+        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// The required size includes the two null characters
+        /// </para>
         /// </param>
         /// <param name="pcchLanguagesBuffer">
-        /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
+        /// <para>
+        /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
         /// On successful return from the function, the parameter contains the size of the retrieved language buffer.
-        /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
-        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
+        /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// If the function fails for any other reason, the parameters <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails for any other reason, the parameters <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the language strings retrieved will be hexadecimal language identifiers
+        /// </para>
+        /// <para>
         /// that do not include the leading 0x, and will be 4 characters in length.
         /// For example, en-US will be returned as "0409" and en as "0009".
-        /// The system preferred UI languages cannot include more than one Language Interface Pack (LIP) language that corresponds to a supplemental locale.
-        /// If the list includes more than one of these languages, and if the application specifies <see cref="MUI_LANGUAGE_ID"/> in the call to the function,
+        /// </para>
+        /// <para>
+        /// The system preferred UI languages cannot include more than one Language Interface Pack (LIP) language that corresponds to a supplemental locale.
+        /// If the list includes more than one of these languages,
+        /// and if the application specifies <see cref="MUI_LANGUAGE_ID"/> in the call to the function,
         /// the language buffer contains "1400" for that language.
-        /// This string corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
-        /// If the <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/> flag is set, this function checks each language in the list that represents a valid NLS locale.
+        /// This string corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// </para>
+        /// <para>
+        /// If the <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/> flag is set,
+        /// this function checks each language in the list that represents a valid NLS locale.
         /// The retrieved list can contain the following items:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Languages not installed on the system
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Duplicate language entries
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// An empty string
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/> flag is set and the system preferred UI languages list is empty,
         /// the function retrieves an empty string in the language buffer (two null characters, because it is a multistring buffer),
         /// 0 for the number of languages, and 2 for the buffer size.
-        /// If the <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/> flag is not set, the retrieved language list has the following characteristics:
+        /// </para>
+        /// <para>
+        /// If the <see cref="MUI_MACHINE_LANGUAGE_SETTINGS"/> flag is not set,
+        /// the retrieved language list has the following characteristics:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Each language represents a valid NLS locale.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Each language is installed on the operating system.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The list contains one entry for each language, with no duplicate entries.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
@@ -3983,7 +4878,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Returns the locale identifier of the current locale for the calling thread.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function can retrieve data that changes between releases, for example, due to a custom locale.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
@@ -3992,19 +4891,27 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
+        /// <para>
         /// Returns the locale identifier of the locale associated with the current thread.
+        /// </para>
+        /// <para>
         /// Windows Vista: This function can return the identifier of a custom locale.
         /// If the current thread locale is a custom locale, the function returns <see cref="LOCALE_CUSTOM_DEFAULT"/>.
         /// If the current thread locale is a supplemental custom locale, the function can return <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>.
         /// All supplemental locales share this locale identifier.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When an application process launches, it uses the Standards and Formats variable for the locale.
         /// For more information, see NLS Terminology.
+        /// </para>
+        /// <para>
         /// When a new thread is created in a process, it inherits the locale of the creating thread.
         /// This locale can be either the default Standards and Formats locale or a different locale
         /// set for the creating thread in a call to <see cref="SetThreadLocale"/>.
         /// <see cref="GetThreadLocale"/> and <see cref="SetThreadLocale"/> can be used to modify the locale of the new thread.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadLocale", ExactSpelling = true)]
@@ -4020,77 +4927,182 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags identifying the language format to use for the process preferred UI languages.
+        /// <para>
+        /// Flags identifying language format and filtering.
+        /// The following flags specify the language format to use for the thread preferred UI languages.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language strings in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: Retrieve the language strings in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following flags specify filtering for the function to use in retrieving the thread preferred UI languages.
         /// The default flag is <see cref="MUI_MERGE_USER_FALLBACK"/>.
-        /// <see cref="MUI_MERGE_SYSTEM_FALLBACK"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_MERGE_SYSTEM_FALLBACK"/>
+        /// </term>
+        /// <term>
         /// Use the system fallback to retrieve a list that corresponds exactly to the language list used by the resource loader.
         /// This flag can be used only in combination with <see cref="MUI_MERGE_USER_FALLBACK"/>.
-        /// Using the flags in combination alters the usual effect of <see cref="MUI_MERGE_USER_FALLBACK"/> by including fallback and neutral languages in the list.
-        /// <see cref="MUI_MERGE_USER_FALLBACK"/>:
+        /// Using the flags in combination alters the usual effect of <see cref="MUI_MERGE_USER_FALLBACK"/>
+        /// by including fallback and neutral languages in the list.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_MERGE_USER_FALLBACK"/>
+        /// </term>
+        /// <term>
         /// Retrieve a composite list consisting of the thread preferred UI languages, followed by process preferred UI languages,
-        /// followed by any user preferred UI languages that are distinct from these,
-        /// followed by the system default UI language, if it is not already in the list.
+        /// followed by any user preferred UI languages that are distinct from these, followed by the system default UI language,
+        /// if it is not already in the list.
         /// If the user preferred UI languages list is empty, the function retrieves the system preferred UI languages.
         /// This flag cannot be combined with <see cref="MUI_THREAD_LANGUAGES"/>.
-        /// <see cref="MUI_THREAD_LANGUAGES"/>:
-        /// Retrieve only the thread preferred UI languages for the current thread, or an empty list if no preferred languages are set for the current thread.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_THREAD_LANGUAGES"/>
+        /// </term>
+        /// <term>
+        /// Retrieve only the thread preferred UI languages for the current thread,
+        /// or an empty list if no preferred languages are set for the current thread.
         /// This flag cannot be combined with <see cref="MUI_MERGE_USER_FALLBACK"/> or <see cref="MUI_MERGE_SYSTEM_FALLBACK"/>.
-        /// <see cref="MUI_UI_FALLBACK"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_UI_FALLBACK"/>
+        /// </term>
+        /// <term>
         /// Retrieve a complete thread preferred UI languages list along with associated fallback and neutral languages.
         /// Use of this flag is equivalent to combining <see cref="MUI_MERGE_SYSTEM_FALLBACK"/> and <see cref="MUI_MERGE_USER_FALLBACK"/>.
-        /// (Applicable only for Windows 7 and later).
+        /// (Applicable only for Windows 7 and later).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages retrieved in <paramref name="pwszLanguagesBuffer"/>.
         /// </param>
         /// <param name="pwszLanguagesBuffer">
+        /// <para>
         /// Optional.
         /// Pointer to a double null-terminated multi-string buffer in which the function retrieves an ordered,
         /// null-delimited list in preference order, starting with the most preferable.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
         /// The required size includes the two null characters.
+        /// </para>
         /// </param>
         /// <param name="pcchLanguagesBuffer">
+        /// <para>
         /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
         /// On successful return from the function, the parameter contains the size of the retrieved language buffer.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// If the function fails for any other reason, the parameters <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which returns one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails for any other reason, the parameters <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Depending on the flags specified by the application, this function can retrieve a composite list consisting of the thread preferred UI languages,
-        /// process preferred UI languages, user preferred UI languages or system preferred UI languages, and the system default UI language.
+        /// <para>
+        /// Depending on the flags specified by the application, this function can retrieve a composite list
+        /// consisting of the thread preferred UI languages, process preferred UI languages,
+        /// user preferred UI languages or system preferred UI languages, and the system default UI language.
         /// If it encounters a duplicate language, the function only retrieves the first language.
-        /// If the application has called <see cref="SetThreadPreferredUILanguages"/>
+        /// </para>
+        /// <para>
+        /// If the application has called <see cref="SetThreadPreferredUILanguages"/>
         /// with the <see cref="MUI_CONSOLE_FILTER"/> or <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> flag,
-        /// <see cref="GetThreadPreferredUILanguages"/> filters the languages in the result list.
+        /// <see cref="GetThreadPreferredUILanguages"/> filters the languages in the result list.
         /// The function replaces the languages the console cannot display with a substitute language.
-        /// The substitution for a language is determined from the value of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> for the language. 
-        /// For more console information, see the description of <see cref="SetThreadUILanguage"/>.
+        /// The substitution for a language is determined from the value of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> for the language.
+        /// For more console information, see the description of <see cref="SetThreadUILanguage"/>.
+        /// </para>
+        /// <para>
         /// Use of <see cref="MUI_LANGUAGE_NAME"/> is recommended over <see cref="MUI_LANGUAGE_ID"/>
-        /// because the <see cref="MUI_LANGUAGE_NAME"/> flag can do a better job of handling Language Interface Pack (LIP) languages that correspond to supplemental locales.
+        /// because the <see cref="MUI_LANGUAGE_NAME"/> flag can do a better job of handling Language Interface Pack (LIP) languages
+        /// that correspond to supplemental locales.
+        /// </para>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the language strings retrieved will be hexadecimal language identifiers
+        /// </para>
+        /// <para>
         /// that do not include the leading 0x, and will be 4 characters in length.
         /// For example, en-US will be returned as "0409" and en as "0009".
+        /// </para>
+        /// <para>
         /// If the application sets the <see cref="MUI_LANGUAGE_ID"/> flag,
         /// the thread preferred UI languages can include one or more languages that correspond to supplemental locales.
         /// On successful return from the function, the language buffer contains "1400" for any language corresponding to a supplemental locale.
         /// There can be only one such language in this list.
-        /// The string "1400" corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
-        /// Also on successful return from the function, the <paramref name="pwszLanguagesBuffer"/> contains "1000"
+        /// The string "1400" corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// Also on successful return from the function, the <paramref name="pwszLanguagesBuffer"/> contains "1000"
         /// for any other language that corresponds to a supplemental locale.
-        /// The string "1000" corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
+        /// The string "1000" corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
         /// which is not useful as an input to any function, because it cannot distinguish among supplemental locales.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
@@ -4112,14 +5124,18 @@ namespace Lsj.Util.Win32
         /// the identifier can indicate a user or system user interface language.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Calling this function is identical to calling <see cref="GetThreadPreferredUILanguages"/> with dwFlags
-        /// set to <code>MUI_MERGE_SYSTEM_FALLBACK | MUI_MERGE_USER_FALLBACK | MUI_LANGUAGE_ID</code> and using the first language in the retrieved list.
+        /// set to <c>MUI_MERGE_SYSTEM_FALLBACK | MUI_MERGE_USER_FALLBACK | MUI_LANGUAGE_ID</c> and using the first language in the retrieved list.
+        /// </para>
+        /// <para>
         /// The return value for this function does not provide useful information about a Language Interface Pack(LIP) language
         /// if that language corresponds to a supplemental locale.For such a language,
         /// the function returns the hexadecimal value "1400", which corresponds to <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
         /// if that language is specified in the user preferred UI languages list.
         /// If the language is not specified in the user preferred UI languages list,
         /// the function returns the value "1000", corresponding to <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadUILanguage", ExactSpelling = true)]
@@ -4128,22 +5144,89 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves a variety of information about an installed UI language:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Is the language installed?
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Is the current user licensed to use the language?
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Is the language fully localized? Partially localized? Part of a Language Installation Pack (LIP)?
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
         /// If it is partially localized or part of an LIP:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// What is its fallback language?
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If that fallback language is a partially localized language, what is its base?
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// What is the default fallback language?
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuilanguageinfo"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags defining the format of the specified language. The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language strings in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: Retrieve the language strings in language name format.
+        /// <para>
+        /// Flags defining the format of the specified language.
+        /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pwmszLanguage">
         /// Pointer to languages for which the function is to retrieve information.
@@ -4151,80 +5234,261 @@ namespace Lsj.Util.Win32
         /// For information on the use of this parameter, see the Remarks section.
         /// </param>
         /// <param name="pwszFallbackLanguages">
+        /// <para>
         /// Pointer to a buffer in which this function retrieves an ordered, null-delimited list of fallback languages,
         /// formatted as defined by the setting for <paramref name="dwFlags"/>.
         /// This list ends with two null characters.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchFallbackLanguages"/> is set to 0,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchFallbackLanguages"/>.
         /// The required size includes the two null characters.
+        /// </para>
         /// </param>
         /// <param name="pcchFallbackLanguages">
+        /// <para>
         /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszFallbackLanguages"/>.
         /// On successful return from the function, the parameter contains the size of the retrieved language buffer.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to 0 and <paramref name="pwszFallbackLanguages"/> is set to <see cref="NULL"/>,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchFallbackLanguages"/>.
+        /// </para>
         /// </param>
         /// <param name="pAttributes">
+        /// <para>
         /// Pointer to flags indicating attributes of the input language list.
         /// The function always retrieves the flag characterizing the last language listed.
-        /// <see cref="MUI_FULL_LANGUAGE"/>: The language is fully localized.
-        /// <see cref="MUI_PARTIAL_LANGUAGE"/>: The language is partially localized.
-        /// <see cref="MUI_LIP_LANGUAGE"/>: The language is an LIP language.
-        /// In addition, <paramref name="pAttributes"/> includes one or both of the following flags, as appropriate.
-        /// <see cref="MUI_LANGUAGE_INSTALLED"/>: The language is installed on this computer.
-        /// <see cref="MUI_LANGUAGE_LICENSED"/>: The language is appropriately licensed for the current user.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_FULL_LANGUAGE"/>
+        /// </term>
+        /// <term>
+        /// The language is fully localized.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_PARTIAL_LANGUAGE"/>
+        /// </term>
+        /// <term>
+        /// The language is partially localized.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LIP_LANGUAGE"/>
+        /// </term>
+        /// <term>
+        /// The language is an LIP language.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In addition, <paramref name="pAttributes"/> includes one or both of the following flags, as appropriate.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// The language is installed on this computer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_LICENSED"/>
+        /// </term>
+        /// <term>
+        /// The language is appropriately licensed for the current user.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid. For more information, see Remarks.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid. For more information, see Remarks.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="ERROR_OBJECT_NAME_NOT_FOUND"/>.
-        /// The specified object name was not found, or it was not valid, or the first language in the input list is not an installed language.
+        /// The specified object name was not found, or it was not valid,
+        /// or the first language in the input list is not an installed language.
         /// For more information, see Remarks.
-        /// If <see cref="GetLastError"/> returns any other error code,
-        /// the parameters <paramref name="pcchFallbackLanguages"/> and <paramref name="pAttributes"/> are undefined.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <see cref="GetLastError"/> returns any other error code,
+        /// the parameters <paramref name="pcchFallbackLanguages"/> and <paramref name="pAttributes"/> are undefined.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// <see cref="MUI_LANGUAGE_NAME"/> is recommended over <see cref="MUI_LANGUAGE_ID"/>
         /// because it allows the function to do a better job of handling LIP languages that do not correspond to predefined locales,
-        /// but instead correspond to a supplemental locale.
+        /// but instead correspond to a supplemental locale.
         /// LIP languages that correspond to predefined locales are handled just like non-LIP languages.
-        /// If the <see cref="MUI_LANGUAGE_ID"/> flag is specified, the supplied language strings must use hexadecimal language identifiers
-        /// that do not include the leading 0x, and are 4 characters in length.
+        /// </para>
+        /// <para>
+        /// If the <see cref="MUI_LANGUAGE_ID"/> flag is specified,
+        /// the supplied language strings must use hexadecimal language identifiers that do not include the leading 0x, and are 4 characters in length.
+        /// </para>
+        /// <para>
         /// For example, en-US should be passed as "0409" and en as "0009".
         /// The returned language strings will be in the same format.
+        /// </para>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, and if there is such a language in the user preferred UI languages list,
         /// there can be only one such language in the list.
-        /// That language can be specified in pwmszLanguage as "1400", which corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// That language can be specified in <paramref name="pwmszLanguage"/> as "1400",
+        /// which corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
         /// No other such language can be specified using <see cref="MUI_LANGUAGE_ID"/>.
-        /// Using "1000", which corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// in the string indicated by <paramref name="pwszFallbackLanguages"/> will result in an <see cref="ERROR_INVALID_PARAMETER"/> code.
+        /// Using "1000", which corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
+        /// in the string indicated by <paramref name="pwmszLanguage"/> will result in an <see cref="ERROR_INVALID_PARAMETER"/> code.
+        /// </para>
+        /// <para>
         /// A partially localized language can have a fallback language that is partially localized,
-        /// requiring repeated calls to <see cref="GetUILanguageInfo"/> to obtain full information.
+        /// requiring repeated calls to <see cref="GetUILanguageInfo"/> to obtain full information.
         /// Consider the case of a partially localized language Lang1 that offers a choice of three fallback languages.
         /// The Lang3 fallback language is partially localized, and offers a choice of two fallback languages.
         /// The dependencies are as follows, with the default fallback listed first:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
         /// Lang1
-        ///     Lang2
-        ///     Lang3
-        ///         Lang5
-        ///         Lang6
-        ///     Lang4
-        /// To get the fallback language(s) of Lang1, the application passes in pwmszLanguage as "Lang1\0\0".
-        /// On return from the function, <paramref name="pwszFallbackLanguages"/> is set to "Lang2\0Lang3\0Lang4\0\0".
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Lang2
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Lang3
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Lang5
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Lang6
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Lang4
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To get the fallback language(s) of Lang1, the application passes in <paramref name="pwmszLanguage"/> as "Lang1\0\0".
+        /// On return from the function, <paramref name="pwszFallbackLanguages"/> is set to "Lang2\0Lang3\0Lang4\0\0".
         /// Note that the ordering of this list indicates that Lang2 is the default fallback language.
-        /// To get the fallback language(s) of Lang3 in relation to Lang1, the application passes in pwmszLanguage as "lang1\0\lang3\0\0".
-        /// On return from the function, <paramref name="pwszFallbackLanguages"/> is set to "Lang5\0Lang6\0\0".
+        /// </para>
+        /// <para>
+        /// To get the fallback language(s) of Lang3 in relation to Lang1,
+        /// the application passes in <paramref name="pwmszLanguage"/> as "lang1\0\lang3\0\0".
+        /// On return from the function, <paramref name="pwszFallbackLanguages"/> is set to "Lang5\0Lang6\0\0".
+        /// </para>
+        /// <para>
         /// This function returns <see cref="ERROR_INVALID_PARAMETER"/> for any of the following:
-        /// <paramref name="pwszFallbackLanguages"/> is <see cref="NULL"/> or empty.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <paramref name="pwmszLanguage"/> is <see cref="NULL"/> or empty.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Both <see cref="MUI_LANGUAGE_ID"/> and <see cref="MUI_LANGUAGE_NAME"/> are set.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Any flags other than <see cref="MUI_LANGUAGE_ID"/> or <see cref="MUI_LANGUAGE_NAME"/> are set.
-        /// <paramref name="pcchFallbackLanguages"/> is greater than 0 but <paramref name="pwszFallbackLanguages"/> is <see cref="NULL"/>.
-        /// <paramref name="pwmszLanguage"/> cannot be parsed as a multi-string buffer of language identifiers or language names, depending on the flag setting.
-        /// The <see cref="ERROR_OBJECT_NAME_NOT_FOUND"/> error code occurs if <paramref name="pwmszLanguage"/> can be parsed, but is not valid.
-        /// The code might also be returned for an invalid locale identifier, or if the first language in the input list is not an installed language,
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <paramref name="pcchFallbackLanguages"/> is greater than 0 but <paramref name="pwszFallbackLanguages"/> is <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <paramref name="pwmszLanguage"/> cannot be parsed as a multi-string buffer of language identifiers or language names,
+        /// depending on the flag setting.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The ERROR_OBJECT_NAME_NOT_FOUND error code occurs if <paramref name="pwmszLanguage"/> can be parsed, but is not valid.
+        /// The code might also be returned for an invalid locale identifier,
+        /// or if the first language in the input list is not an installed language,
         /// or if a fully localized language has defined a fallback language.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUILanguageInfo", ExactSpelling = true, SetLastError = true)]
@@ -4240,9 +5504,13 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// Returns the language identifier for the current user as set under Control Panel > Clock, Language, and Region > Change date, time,
-        /// or number formats > Formats tab > Format dropdown.
-        /// For more information on language identifiers, see Language Identifier Constants and Strings.
+        /// <para>
+        /// Returns the language identifier for the current user as set under
+        /// <c>Control Panel > Clock, Language, and Region > Change date, time, or number formats > Formats tab > Format</c> dropdown.
+        /// </para>
+        /// <para>
+        /// For more information on language identifiers, see Language Identifier Constants and Strings.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The return value is not necessarily the same as that returned by <see cref="GetSystemDefaultLangID"/>, even for a single-user computer.
@@ -4254,10 +5522,18 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Returns the locale identifier for the user default locale.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// If the user default locale is a custom locale, an application cannot accurately tag data with the value or exchange it.
         /// In this case, the application should use <see cref="GetUserDefaultLocaleName"/> in preference to <see cref="GetUserDefaultLCID"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Applications that are intended to run only on Windows Vista and later should use <see cref="GetUserDefaultLocaleName"/>.
         /// </para>
         /// <para>
@@ -4282,7 +5558,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves the user default locale name.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="GetUserDefaultLCID"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
@@ -4298,13 +5578,30 @@ namespace Lsj.Util.Win32
         /// This is the recommended size to supply in this parameter.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns the size of the buffer containing the locale name, including the terminating null character, if successful.
+        /// </para>
+        /// <para>
         /// Note
-        /// On single-user systems, the return value is the same as that returned by <see cref="GetSystemDefaultLocaleName"/>.
+        /// </para>
+        /// <para>
+        /// On single-user systems, the return value is the same as that returned by <see cref="GetSystemDefaultLocaleName"/>.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function can retrieve data from custom locales.
@@ -4317,11 +5614,13 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves information about the geographical location of the user.
-        /// For more information, see Table of Geographical Locations.
         /// <see cref="GetUserGeoID"/> is available for use in the operating systems specified in the Requirements section.
         /// It may be altered or unavailable in subsequent versions.
         /// Instead, use <see cref="GetUserDefaultGeoName"/>.
+        /// </para>
+        /// <para>
+        /// Retrieves information about the geographical location of the user.
+        /// For more information, see Table of Geographical Locations.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getusergeoid"/>
@@ -4332,8 +5631,12 @@ namespace Lsj.Util.Win32
         /// Possible values are defined by the <see cref="SYSGEOCLASS"/> enumeration.
         /// </param>
         /// <returns>
-        /// Returns the geographical location identifier of the user if <see cref="SetUserGeoID"/> has been called before to set the identifier.
+        /// <para>
+        /// Returns the geographical location identifier of the user if <see cref="SetUserGeoID"/> has been called before to set the identifier.
+        /// </para>
+        /// <para>
         /// If no geographical location identifier has been set for the user, the function returns <see cref="GEOID_NOT_AVAILABLE"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserGeoID", ExactSpelling = true)]
@@ -4349,47 +5652,125 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags identifying the language format to use for the process preferred UI languages.
+        /// <para>
+        /// Flags identifying language format and filtering.
+        /// The following flags specify the language format to use for the display language list.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: Retrieve the language strings in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: Retrieve the language strings in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language identifier
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Retrieve the language strings in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages retrieved in <paramref name="pwszLanguagesBuffer"/>.
         /// </param>
         /// <param name="pwszLanguagesBuffer">
+        /// <para>
         /// Optional.
         /// Pointer to a double null-terminated multi-string buffer in which the function retrieves an ordered,
         /// null-delimited list in preference order, starting with the most preferable.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to <see cref="NULL"/> and <paramref name="pcchLanguagesBuffer"/> is set to 0,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
         /// The required size includes the two null characters.
+        /// </para>
         /// </param>
         /// <param name="pcchLanguagesBuffer">
+        /// <para>
         /// Pointer to the size, in characters, for the language buffer indicated by <paramref name="pwszLanguagesBuffer"/>.
         /// On successful return from the function, the parameter contains the size of the retrieved language buffer.
+        /// </para>
+        /// <para>
         /// Alternatively if this parameter is set to 0 and <paramref name="pwszLanguagesBuffer"/> is set to <see cref="NULL"/>,
         /// the function retrieves the required size of the language buffer in <paramref name="pcchLanguagesBuffer"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// If the function fails for any other reason, the parameters <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/> function,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails for any other reason, the values of <paramref name="pulNumLanguages"/> and <paramref name="pcchLanguagesBuffer"/> are undefined.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the language strings retrieved will be hexadecimal language identifiers
         /// that do not include the leading 0x, and will be 4 characters in length.
         /// For example, en-US will be returned as "0409" and en as "0009".
-        /// The display language cannot include more than one Language Interface Pack (LIP) language that corresponds to a supplemental locale.
-        /// If the list includes more than one of these languages, and if the application specifies <see cref="MUI_LANGUAGE_ID"/> in the call to the function,
+        /// </para>
+        /// <para>
+        /// The display language cannot include more than one Language Interface Pack (LIP) language that corresponds to a supplemental locale.
+        /// If the list includes more than one of these languages,
+        /// and if the application specifies <see cref="MUI_LANGUAGE_ID"/> in the call to the function,
         /// the language buffer contains "1400" for that language.
-        /// This string corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// This string corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// </para>
+        /// <para>
         /// The language list retrieved by this function has the following characteristics:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Each language represents a valid NLS locale.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Each language is installed on the operating system.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The list contains one entry for each language, with no duplicate entries.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If the list is empty or does not meet these validation criteria, the system preferred UI languages list is used instead.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
@@ -4400,8 +5781,13 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Converts an internationalized domain name (IDN) or another internationalized label to a Unicode (wide character)
         /// representation of the ASCII string that represents the name in the Punycode transfer encoding syntax.
+        /// </para>
+        /// <para>
         /// Caution
-        /// This function implements the RFC 3490: Internationalizing Domain Names in Applications (IDNA) standard algorithm for converting an IDN to Punycode.
+        /// </para>
+        /// <para>
+        /// This function implements the RFC 3490:
+        /// Internationalizing Domain Names in Applications (IDNA) standard algorithm for converting an IDN to Punycode.
         /// The standard introduces some security issues.
         /// One issue is that glyphs representing certain characters from different scripts might appear similar or even identical.
         /// For example, in many fonts, Cyrillic lowercase A ("а") is indistinguishable from Latin lowercase A ("a").
@@ -4414,35 +5800,95 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags specifying conversion options. The following table lists the possible values.
-        /// <see cref="IDN_ALLOW_UNASSIGNED"/>:
-        /// Note
+        /// <para>
+        /// Flags specifying conversion options.
+        /// The following table lists the possible values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="IDN_ALLOW_UNASSIGNED"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Note  
+        /// </para>
+        /// <para>
         /// An application can set this value if it is just using a query string for normal lookup, as in a compare operation.
         /// However, the application should not set this value for a stored string, which is a string being prepared for storage.
+        /// </para>
+        /// <para>
         /// Allow unassigned code points to be included in the input string.
         /// The default is to not allow unassigned code points, and fail with an extended error code of <see cref="ERROR_INVALID_NAME"/>.
+        /// </para>
+        /// <para>
         /// This flag allows the function to process characters that are not currently legal in IDNs,
         /// but might be legal in later versions of the IDNA standard.
         /// If your application encodes unassigned code points as Punycode, the resulting domain names should be illegal.
-        /// Security can be compromised if a later version of IDNA makes these names legal or if an application filters out the illegal characters
-        /// to try to create a legal domain name.
-        /// For more information, see Handling Internationalized Domain Names (IDNs).
-        /// <see cref="IDN_USE_STD3_ASCII_RULES"/>:
+        /// Security can be compromised if a later version of IDNA makes these names legal
+        /// or if an application filters out the illegal characters to try to create a legal domain name.
+        /// For more information, see Handling Internationalized Domain Names (IDNs).
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IDN_USE_STD3_ASCII_RULES"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Filter out ASCII characters that are not allowed in STD3 names.
         /// The only ASCII characters allowed in the input Unicode string are letters, digits, and the hyphen-minus.
-        /// The string cannot begin or end with the hyphen-minus. The function fails if the input Unicode string contains ASCII characters,
-        /// such as "[", "]", or "/", that cannot occur in domain names.
+        /// The string cannot begin or end with the hyphen-minus.
+        /// The function fails if the input Unicode string contains ASCII characters, such as "[", "]", or "/", that cannot occur in domain names.
+        /// </para>
+        /// <para>
         /// Note
-        /// Some local networks can allow some of these characters in computer names.
+        /// </para>
+        /// <para>
+        /// Some local networks can allow some of these characters in computer names. 
+        /// </para>
+        /// <para>
         /// The function fails if the input Unicode string contains control characters (U+0001 through U+0020) or the "delete" character (U+007F).
         /// In either case, this flag has no effect on the non-ASCII characters that are allowed in the Unicode string.
-        /// <see cref="IDN_EMAIL_ADDRESS"/>:
-        /// Starting with Windows 8: Enable EAI algorithmic fallback for the local parts of email addresses (such as &lt;local&gt;@microsoft.com).
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IDN_EMAIL_ADDRESS"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Starting with Windows 8:
+        /// Enable EAI algorithmic fallback for the local parts of email addresses (such as <c>&lt;local&gt;</c>@microsoft.com).
         /// The default is for this function to fail when an email address has an invalid address or syntax.
+        /// </para>
+        /// <para>
         /// An application can set this flag to enable Email Address Internationalization (EAI) to return a discoverable fallback address, if possible.
-        /// For more information, see the IETF Email Address Internationalization (eai) Charter.
-        /// <see cref="IDN_RAW_PUNYCODE"/>:
-        /// Starting with Windows 8: Disable the validation and mapping of Punycode.
+        /// For more information, see the IETF Email Address Internationalization (eai) Charter.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IDN_RAW_PUNYCODE"/>
+        /// </term>
+        /// <term>
+        /// Starting with Windows 8: Disable the validation and mapping of Punycode.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpUnicodeCharStr">
         /// Pointer to a Unicode string representing an IDN or another internationalized label.
@@ -4452,7 +5898,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpASCIICharStr">
         /// Pointer to a buffer that receives a Unicode string consisting only of characters in the ASCII character set.
-        /// On return from this function, the buffer contains the ASCII string equivalent of the string provided in <paramref name="lpUnicodeCharStr"/> under Punycode.
+        /// On return from this function, the buffer contains the ASCII string
+        /// equivalent of the string provided in <paramref name="lpUnicodeCharStr"/> under Punycode.
         /// Alternatively, the function can retrieve <see cref="NULL"/> for this parameter, if <paramref name="cchASCIIChar"/> is set to 0.
         /// In this case, the function returns the size required for this buffer.
         /// </param>
@@ -4461,26 +5908,74 @@ namespace Lsj.Util.Win32
         /// The application can set the parameter to 0 to retrieve <see cref="NULL"/> in <paramref name="lpASCIICharStr"/>.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in <paramref name="lpASCIICharStr"/> if successful.
+        /// <para>
+        /// Returns the number of characters retrieved in <paramref name="lpASCIICharStr"/> if successful.
         /// The retrieved string is null-terminated only if the input Unicode string is null-terminated.
-        /// If the function succeeds and the value of <paramref name="cchASCIIChar"/> is 0,
+        /// </para>
+        /// <para>
+        /// If the function succeeds and the value of <paramref name="cchASCIIChar"/> is 0,
         /// the function returns the required size, in characters including a terminating null character if it was part of the input buffer.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="RROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_NAME"/>. An invalid name was supplied to the function.Note that this error code catches all syntax errors.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
-        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>. Invalid Unicode was found in a string.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_NAME"/>.
+        /// An invalid name was supplied to the function. Note that this error code catches all syntax errors.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>.
+        /// Invalid Unicode was found in a string.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The function does not null-terminate an output string if the input string length is explicitly specified without a terminating null character.
-        /// To null-terminate an output string for this function, the application should supply -1 for the <paramref name="cchUnicodeChar"/> parameter
+        /// <para>
+        /// The function does not null-terminate an output string
+        /// if the input string length is explicitly specified without a terminating null character.
+        /// To null-terminate an output string for this function,
+        /// the application should supply -1 for the <paramref name="cchUnicodeChar"/> parameter
         /// or explicitly count the terminating null character for the input string.
+        /// </para>
+        /// <para>
         /// Note that the function always fails if the input string contains control characters (U+0001 through U+0020) or the "delete" character (U+007F).
-        /// Since the character U+0000 can appear only as a terminating null character, the function always fails if U+0000 appears anywhere else in the input string.
-        /// Windows XP, Windows Server 2003: No longer supported.
-        /// The required header file and DLL are part of the Microsoft Internationalized Domain Name (IDN) Mitigation APIs, which are no longer available for download.
+        /// Since the character U+0000 can appear only as a terminating null character,
+        /// the function always fails if U+0000 appears anywhere else in the input string.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003: No longer supported.
+        /// </para>
+        /// <para>
+        /// The required header file and DLL are part of the Microsoft Internationalized Domain Name (IDN) Mitigation APIs,
+        /// which are no longer available for download.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IdnToAscii", ExactSpelling = true, SetLastError = true)]
@@ -4490,7 +5985,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Converts the Punycode form of an internationalized domain name (IDN) or another internationalized label to the normal Unicode UTF-16 encoding syntax.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// This function implements the RFC 3490: Internationalizing Domain Names in Applications (IDNA) standard algorithm for converting an IDN to Punycode.
         /// The standard introduces some security issues.
         /// One issue is that glyphs representing certain characters from different scripts might appear similar or even identical.
@@ -4504,7 +6003,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags specifying conversion options. For detailed definitions, see the dwFlags parameter of <see cref="IdnToAscii"/>.
+        /// Flags specifying conversion options.
+        /// For detailed definitions, see the dwFlags parameter of <see cref="IdnToAscii"/>.
         /// </param>
         /// <param name="lpASCIICharStr">
         /// Pointer to a string representing the Punycode encoding of an IDN or another internationalized label.
@@ -4521,20 +6021,58 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="cchUnicodeChar">
         /// Size, in characters, of the buffer indicated by <paramref name="lpUnicodeCharStr"/>. 
-        /// The application can set the size to 0 to retrieve <see cref="NULL"/> in <paramref name="lpUnicodeCharStr"/> and have the function return the required buffer size.
+        /// The application can set the size to 0 to retrieve <see cref="NULL"/> in <paramref name="lpUnicodeCharStr"/>
+        /// and have the function return the required buffer size.
         /// </param>
         /// <returns>
-        /// Returns the number of characters retrieved in <paramref name="lpUnicodeCharStr"/> if successful.
-        /// The retrieved string is null-terminated only if the input Unicode string is null-terminated.
-        /// If the function succeeds and the value of <paramref name="cchUnicodeChar"/> is 0,
+        /// <para>
+        /// Returns the number of characters retrieved in <paramref name="lpUnicodeCharStr"/> if successful.
+        /// The retrieved string is null-terminated only if the input string is null-terminated.
+        /// </para>
+        /// <para>
+        /// If the function succeeds and the value of <paramref name="cchUnicodeChar"/> is 0,
         /// the function returns the required size, in characters including a terminating null character if it was part of the input buffer.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="RROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_NAME"/>. An invalid name was supplied to the function.Note that this error code catches all syntax errors.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
-        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>. Invalid Unicode was found in a string.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_NAME"/>.
+        /// An invalid name was supplied to the function.
+        /// Note that this error code catches all syntax errors.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>.
+        /// Invalid Unicode was found in a string.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
         /// See Remarks for <see cref="IdnToAscii"/>.
@@ -4548,6 +6086,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Determines if a specified character is a lead byte for the system default Windows ANSI code page (<see cref="CP_ACP"/>).
         /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
         /// </para>
         /// <para>
@@ -4558,23 +6101,32 @@ namespace Lsj.Util.Win32
         /// The character to test.
         /// </param>
         /// <returns>
-        /// Returns a <see cref="TRUE"/> value if the test character is potentially a lead byte.
-        /// The function returns <see cref="FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// Returns a nonzero value if the test character is potentially a lead byte.
+        /// The function returns 0 if the test character is not a lead byte or if it is a single-byte character.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// This function does not validate the presence or validity of a trail byte.
-        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence that the application
-        /// using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
-        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
+        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence
+        /// that the application using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
+        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
         /// potentially leading to unexpected errors or buffer size mismatches.
         /// In general, instead of attempting low-level manipulation of code page data,
-        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// </para>
+        /// <para>
         /// Lead byte values are specific to each distinct DBCS.
         /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
+        /// </para>
+        /// <para>
         /// To make sense of a DBCS string, an application normally starts at the beginning of a string and scans forward,
         /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
-        /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
+        /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", ExactSpelling = true, SetLastError = true)]
@@ -4590,14 +6142,56 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="CodePage">
+        /// <para>
         /// Identifier of the code page used to check lead byte ranges.
-        /// This parameter can be one of the code page identifiers defined in Unicode and Character Set Constants
+        /// This parameter can be one of the code page identifiers defined in Unicode and Character Set Constants
         /// or one of the following predefined values.
         /// This function validates lead byte values only in code pages 932, 936, 949, 950, and 1361.
-        /// <see cref="CP_ACP"/>: Use system default Windows ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
-        /// <see cref="CP_THREAD_ACP"/>: Use the Windows ANSI code page for the current thread. 
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_ACP"/>
+        /// </term>
+        /// <term>
+        /// Use system default Windows ANSI code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_MACCP"/>
+        /// </term>
+        /// <term>
+        /// Use the system default Macintosh code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_OEMCP"/>
+        /// </term>
+        /// <term>
+        /// Use system default OEM code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="CP_THREAD_ACP"/>
+        /// </term>
+        /// <term>
+        /// Use the Windows ANSI code page for the current thread.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="TestChar">
         /// The character to test.
@@ -4608,20 +6202,30 @@ namespace Lsj.Util.Win32
         /// To get extended error information, the application can call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function does not validate the presence or validity of a trail byte.
-        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence
-        /// that the application using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
-        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
+        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence
+        /// that the application using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
+        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
         /// potentially leading to unexpected errors or buffer size mismatches.
+        /// </para>
+        /// <para>
         /// In general, instead of attempting low-level manipulation of code page data,
-        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// </para>
+        /// <para>
         /// Lead byte values are specific to each distinct DBCS.
         /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
-        /// Thus, <see cref="IsDBCSLeadByteEx"/> can only indicate a potential lead byte value.
+        /// Thus, <see cref="IsDBCSLeadByteEx"/> can only indicate a potential lead byte value.
+        /// </para>
+        /// <para>
         /// To make sense of a DBCS string, an application normally starts at the beginning of the string and scans forward,
         /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
-        /// To back up, the application should use <see cref="CharPrevExA"/> instead of attempting to develop its own algorithm.
+        /// To back up, the application should use <see cref="CharPrevExA"/> instead of attempting to develop its own algorithm.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByteEx", ExactSpelling = true, SetLastError = true)]
@@ -4637,7 +6241,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="Function">
         /// NLS capability to query.
-        /// This value must be <see cref="COMPARE_STRING"/>. See the <see cref="SYSNLS_FUNCTION"/> enumeration.
+        /// This value must be <see cref="COMPARE_STRING"/>.
+        /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
         /// </param>
         /// <param name="dwFlags">
         /// Flags defining the function. Must be 0.
@@ -4651,30 +6256,61 @@ namespace Lsj.Util.Win32
         /// Pointer to the UTF-16 string to examine.
         /// </param>
         /// <param name="cchStr">
-        /// Number of UTF-16 characters in the string indicated by <paramref name="lpString"/>.
+        /// <para>
+        /// Number of UTF-16 characters in the string indicated by <paramref name="lpString"/>.
         /// This count can include a terminating null character.
         /// If the terminating null character is included in the character count,
         /// it does not affect the checking behavior because the terminating null character is always defined.
+        /// </para>
+        /// <para>
         /// The application should supply -1 to indicate that the string is null-terminated.
         /// In this case, the function itself calculates the string length.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful, only if the input string is valid, or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>.Any of the parameter values was invalid.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful, only if the input string is valid, or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function differentiates between defined and undefined strings,
         /// so that an application such as Active Directory can reject strings with undefined code points.
         /// Use of the function can minimize the necessity for the application to re-index its database.
-        /// For more information, see Handling Sorting in Your Applications.
-        /// For example, if Function is set to <see cref="COMPARE_STRING"/>, <see cref="IsNLSDefinedString"/> checks for undefined code points,
-        /// surrogate pairs that represent undefined Unicode characters, or ill-formed surrogate pairs.
-        /// If the function returns <see cref="TRUE"/> for a particular string, the results,
-        /// as retrieved by <see cref="CompareString"/> or <see cref="LCMapString"/> with <see cref="LCMAP_SORTKEY"/> set,
+        /// For more information, see Handling Sorting in Your Applications.
+        /// </para>
+        /// <para>
+        /// For example, if <paramref name="Function"/> is set to <see cref="COMPARE_STRING"/>,
+        /// <see cref="IsNLSDefinedString"/> checks for undefined code points,
+        /// surrogate pairs that represent undefined Unicode characters, or ill-formed surrogate pairs.
+        /// If the function returns <see cref="TRUE"/> for a particular string, the results,
+        /// as retrieved by <see cref="CompareString"/> or <see cref="LCMapString"/> with <see cref="LCMAP_SORTKEY"/> set,
         /// are guaranteed to be identical as long as the corresponding NLS version does not change.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsNLSDefinedString", ExactSpelling = true, SetLastError = true)]
@@ -4696,8 +6332,13 @@ namespace Lsj.Util.Win32
         /// Returns a <see cref="TRUE"/> value if the code page is valid, or <see cref="FALSE"/> if the code page is invalid.
         /// </returns>
         /// <remarks>
-        /// A code page is considered valid only if it is installed on the operating system. Unicode is preferred.
-        /// Starting with Windows Vista, all code pages that can be installed are loaded by default.
+        /// <para>
+        /// A code page is considered valid only if it is installed on the operating system.
+        /// Unicode is preferred.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, all code pages that can be installed are loaded by default.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidCodePage", ExactSpelling = true)]
@@ -4713,28 +6354,151 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="LanguageGroup">
-        /// Identifier of language group to validate. This parameter can have one of the following values:
-        /// <see cref="LGRPID_ARABIC"/>, <see cref="LGRPID_ARMENIAN"/>, <see cref="LGRPID_BALTIC"/>,
-        /// <see cref="LGRPID_CENTRAL_EUROPE"/>, <see cref="LGRPID_CYRILLIC"/>, <see cref="LGRPID_GEORGIAN"/>,
-        /// <see cref="LGRPID_GREEK"/>, <see cref="LGRPID_HEBREW"/>, <see cref="LGRPID_INDIC"/>,
-        /// <see cref="LGRPID_JAPANESE"/>, <see cref="LGRPID_KOREAN"/>, <see cref="LGRPID_SIMPLIFIED_CHINESE"/>,
-        /// <see cref="LGRPID_TRADITIONAL_CHINESE"/>, <see cref="LGRPID_THAI"/>, <see cref="LGRPID_TURKIC"/>,
-        /// <see cref="LGRPID_TURKISH"/>, <see cref="LGRPID_VIETNAMESE"/>, <see cref="LGRPID_WESTERN_EUROPE"/>
+        /// <para>
+        /// Identifier of language group to validate.
+        /// This parameter can have one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARABIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARMENIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_BALTIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CENTRAL_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CYRILLIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GEORGIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GREEK"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_HEBREW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_INDIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_JAPANESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_KOREAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_SIMPLIFIED_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TRADITIONAL_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_THAI"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKISH"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_VIETNAMESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_WESTERN_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
+        /// <para>
         /// Flag specifying the validity test to apply to the language group identifier.
         /// This parameter can be set to one of the following values.
-        /// <see cref="LGRPID_INSTALLED"/>: Determine if language group identifier is both supported and installed.
-        /// <see cref="LGRPID_SUPPORTED"/>: Determine if language group identifier is supported.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Determine if language group identifier is both supported and installed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Determine if language group identifier is supported.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// Returns <see cref="TRUE"/> if the language group identifier passes the specified validity test, or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// If the <see cref="LGRPID_INSTALLED"/> flag is specified and this function returns <see cref="TRUE"/>,
+        /// <para>
+        /// If the <see cref="LGRPID_INSTALLED"/> flag is specified and this function returns <see cref="TRUE"/>,
         /// the language group identifier is both supported and installed on the operating system.
-        /// If the <see cref="LGRPID_SUPPORTED"/> flag is specified and this function returns <see cref="TRUE"/>, 
+        /// </para>
+        /// <para>
+        /// If the <see cref="LGRPID_SUPPORTED"/> flag is specified and this function returns <see cref="TRUE"/>,
         /// the language group identifier is supported in the release, but not necessarily installed on the operating system.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidLanguageGroup", ExactSpelling = true)]
@@ -4742,48 +6506,130 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Determines if the specified locale is installed or supported on the operating system.
-        /// For more information, see Locales and Languages.
-        /// IsValidLocale is available for use in the operating systems specified in the Requirements section.
+        /// <see cref="IsValidLocale"/> is available for use in the operating systems specified in the Requirements section.
         /// It may be altered or unavailable in subsequent versions.
         /// Instead, use <see cref="IsValidLocaleName"/> to determine the validity of a supplemental locale.
+        /// </para>
+        /// <para>
+        /// Determines if the specified locale is installed or supported on the operating system.
+        /// For more information, see Locales and Languages.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isvalidlocale"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier of the locale to validate.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/> Windows Server 2003, Windows XP and Windows 2000:  This locale identifier is not supported.
-        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/> Windows Server 2003, Windows XP and Windows 2000:  This locale identifier is not supported.
-        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/> Windows Server 2003, Windows XP and Windows 2000:  This locale identifier is not supported.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier of the locale to validate.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// Windows Server 2003, Windows XP and Windows 2000: This locale identifier is not supported.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// Windows Server 2003, Windows XP and Windows 2000: This locale identifier is not supported.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// Windows Server 2003, Windows XP and Windows 2000: This locale identifier is not supported.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
-        /// Flag specifying the validity test to apply to the locale identifier.
-        /// This parameter can have one of the following values.
-        /// <see cref="LCID_INSTALLED"/>: Determine if the locale identifier is both supported and installed.
-        /// <see cref="LCID_SUPPORTED"/>: Determine if the locale identifier is supported.
-        /// 0x39:
-        /// Do not use. Instead, use <see cref="LCID_INSTALLED"/>.
-        /// Windows Server 2008, Windows Vista, Windows Server 2003, Windows XP and Windows 2000:
-        /// Setting <paramref name="dwFlags"/> to 0x39 is a special case that can behave like <see cref="LCID_INSTALLED"/> for some locales on some versions of Windows.
+        /// <para>
+        /// Flag specifying the validity test to apply to the locale identifier. This parameter can have one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LCID_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Determine if the locale identifier is both supported and installed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCID_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Determine if the locale identifier is supported.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 0x39
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Do not use.
+        /// Instead, use <see cref="LCID_INSTALLED"/>.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003, Windows XP and Windows 2000:
+        /// Setting <paramref name="dwFlags"/> to 0x39 is a special case
+        /// that can behave like <see cref="LCID_INSTALLED"/> for some locales on some versions of Windows.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if the locale identifier passes the specified validity test.
-        /// The function returns <see cref="FALSE"/> if it does not succeed.
+        /// Returns a nonzero value if the locale identifier passes the specified validity test.
+        /// The function returns 0 if it does not succeed.
         /// </returns>
         /// <remarks>
-        /// If the <see cref="LCID_INSTALLED"/> flag is specified and this function returns <see cref="TRUE"/>,
+        /// <para>
+        /// If the <see cref="LCID_INSTALLED"/> flag is specified and this function returns a nonzero value,
         /// the locale identifier is both supported and installed on the operating system.
         /// Having an identifier installed implies that the full level of language support is available for the indicated locale.
         /// Full support includes code page translation tables, keyboard layouts, fonts, and sorting and locale data.
-        /// If <see cref="LCID_SUPPORTED"/> is specified and this function returns <see cref="FALSE"/>,
+        /// </para>
+        /// <para>
+        /// If <see cref="LCID_SUPPORTED"/> is specified and this function returns 0,
         /// the locale identifier is supported in the release, but not necessarily installed on the operating system.
-        /// This function can handle data from custom locales.
+        /// </para>
+        /// <para>
+        /// This function can handle data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidLocale", ExactSpelling = true)]
@@ -4792,7 +6638,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Determines if the specified locale name is valid for a locale that is installed or supported on the operating system.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// An application running only on Windows Vista and later should call this function in preference
         /// to <see cref="IsValidLocale"/> to determine the validity of a supplemental locale.
         /// </para>
@@ -4804,16 +6654,22 @@ namespace Lsj.Util.Win32
         /// Pointer to the locale name to validate.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if the locale name is valid, or returns <see cref="FALSE"/> for an invalid name.
+        /// Returns a nonzero value if the locale name is valid, or returns 0 for an invalid name.
         /// </returns>
         /// <remarks>
-        /// On Windows Vista and later, all supported locales should be installed on all operating systems.
-        /// This function can handle the name of a custom locale.
+        /// <para>
+        /// On Windows Vista and later, all supported locales should be installed on all operating systems.
+        /// </para>
+        /// <para>
+        /// This function can handle the name of a custom locale.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidLocaleName", ExactSpelling = true)]
@@ -4833,23 +6689,48 @@ namespace Lsj.Util.Win32
         /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
         /// </param>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpVersionInformation">
         /// Pointer to an <see cref="NLSVERSIONINFOEX"/> structure.
-        /// The application must initialize the <see cref="NLSVERSIONINFOEX.dwNLSVersionInfoSize"/> member to <code>sizeof(NLSVERSIONINFOEX)</code>.
+        /// The application must initialize the <see cref="NLSVERSIONINFOEX.dwNLSVersionInfoSize"/> member to <c>sizeof(NLSVERSIONINFOEX)</c>.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if the NLS version is valid, or <see cref="FALSE"/> if the version is invalid.
+        /// Returns a nonzero value if the NLS version is valid, or zero if the version is invalid.
         /// </returns>
         /// <remarks>
-        /// Initialize the <see cref="NLSVERSIONINFOEX"/> structure by calling <see cref="GetNLSVersionEx"/>.
-        /// See the Remarks for <see cref="GetNLSVersionEx"/> for a discussion on how the members of <see cref="NLSVERSIONINFOEX"/> can be used
-        /// to determine if a sort version has changed and you need to reindex data.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// <para>
+        /// Initialize the <see cref="NLSVERSIONINFOEX"/> structure by calling <see cref="GetNLSVersionEx"/>.
+        /// See the Remarks for <see cref="GetNLSVersionEx"/> for a discussion
+        /// on how the members of <see cref="NLSVERSIONINFOEX"/> can be used to determine
+        /// if a sort version has changed and you need to reindex data.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidNLSVersion", ExactSpelling = true)]
@@ -4859,7 +6740,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// For a locale specified by identifier, maps one input character string to another using a specified transformation,
         /// or generates a sort key for the input string.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For interoperability reasons, the application should prefer the <see cref="LCMapStringEx"/> function to <see cref="LCMapString"/>
         /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
         /// This recommendation applies especially to custom locales, including those created by Microsoft.
@@ -4870,80 +6755,209 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwMapFlags">
         /// Flags specifying the type of transformation to use during string mapping or the type of sort key to generate.
-        /// For detailed definitions, see the dwMapFlags parameter of <see cref="LCMapStringEx"/>.
+        /// For detailed definitions, see the <paramref name="dwMapFlags"/> parameter of <see cref="LCMapStringEx"/>.
         /// </param>
         /// <param name="lpSrcStr">
         /// Pointer to a source string that the function maps or uses for sort key generation.
         /// This string cannot have a size of 0.
         /// </param>
         /// <param name="cchSrc">
-        /// Size, in characters, of the source string indicated by <paramref name="lpSrcStr"/>.
+        /// <para>
+        /// Size, in characters, of the source string indicated by <paramref name="lpSrcStr"/>.
         /// The size of the source string can include the terminating null character, but does not have to.
         /// If the terminating null character is included, the mapping behavior of the function is not greatly affected
         /// because the terminating null character is considered to be unsortable and always maps to itself.
+        /// </para>
+        /// <para>
         /// The application can set the parameter to any negative value to specify that the source string is null-terminated.
-        /// In this case, if <see cref="LCMapString"/> is being used in its string-mapping mode, the function calculates the string length itself,
-        /// and null-terminates the mapped string indicated by <paramref name="lpDestStr"/>.
+        /// In this case, if <see cref="LCMapString"/> is being used in its string-mapping mode,
+        /// the function calculates the string length itself, and null-terminates the mapped string indicated by <paramref name="lpDestStr"/>.
+        /// </para>
+        /// <para>
         /// The application cannot set this parameter to 0.
+        /// </para>
         /// </param>
         /// <param name="lpDestStr">
+        /// <para>
         /// Pointer to a buffer in which this function retrieves the mapped string or a sort key.
+        /// </para>
+        /// <para>
         /// If the application is using the function to generate a sort key (<see cref="LCMAP_SORTKEY"/>):
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The sort key is stored in the buffer and treated as an opaque array of bytes.
         /// The stored values can include embedded 0 bytes at any position.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The destination string can contain an odd number of bytes.
         /// The <see cref="LCMAP_BYTEREV"/> flag only reverses an even number of bytes.
         /// The last byte (odd-positioned) in the sort key is not reversed.
-        /// If the caller explicitly requests a subset of the string, the destination string does not include a terminating null character
-        /// unless the caller specified it in <paramref name="cchDest"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the caller explicitly requests a subset of the string,
+        /// the destination string does not include a terminating null character unless the caller specified it in <paramref name="cchDest"/>.
+        /// </para>
+        /// <para>
         /// If this function fails, the destination buffer might contain either partial results or no results at all.
         /// In this case, all results should be considered invalid.
-        /// Note
-        /// When setting <see cref="LCMAP_UPPERCASE"/> or <see cref="LCMAP_LOWERCASE"/>, the destination string can use the same buffer as the source string.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// When setting <see cref="LCMAP_UPPERCASE"/> or <see cref="LCMAP_LOWERCASE"/>,
+        /// the destination string can use the same buffer as the source string.
         /// However, this is strongly discouraged, as some conditions may cause the returned cased string to be a different length.
+        /// </para>
         /// </param>
         /// <param name="cchDest">
-        /// Size, in characters, of the destination string indicated by <paramref name="lpDestStr"/>.
+        /// <para>
+        /// Size, in characters, of the destination string indicated by <paramref name="lpDestStr"/>.
         /// If the application is using the function for string mapping, it supplies a character count for this parameter.
-        /// If space for a terminating null character is included in <paramref name="cchSrc"/>, cchDest must also include space for a terminating null character.
+        /// If space for a terminating null character is included in <paramref name="cchSrc"/>,
+        /// <paramref name="cchDest"/> must also include space for a terminating null character.
+        /// </para>
+        /// <para>
         /// If the application is using the function to generate a sort key, it supplies a byte count for the size.
         /// This byte count must include space for the sort key 0x00 terminator.
-        /// The application can set cchDest to 0. In this case, the function does not use the <paramref name="lpDestStr"/> parameter
+        /// </para>
+        /// <para>
+        /// The application can set <paramref name="cchDest"/> to 0.
+        /// In this case, the function does not use the <paramref name="lpDestStr"/> parameter
         /// and returns the required buffer size for the mapped string or sort key.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds when used for string mapping, it returns the number of characters
-        /// in the translated string (see <paramref name="cchSrc"/> and <paramref name="cchDest"/> for more details).
-        /// If the function succeeds when used for string mapping it returns the number of bytes in the sort key.
+        /// <para>
+        /// If the function succeeds when used for string mapping, it returns the number of characters in the translated string
+        /// (see <paramref name="cchSrc"/> and <paramref name="cchDest"/> for more details).
+        /// </para>
+        /// <para>
+        /// If the function succeeds when used to generate sort keys, it returns the number of bytes in the sort key.
+        /// </para>
+        /// <para>
         /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
         /// which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// See Remarks for <see cref="LCMapStringEx"/>.
+        /// </para>
+        /// <para>
         /// The ANSI version of <see cref="LCMapString"/> maps strings to and from Unicode
         /// based on the default Windows (ANSI) code page associated with the specified locale.
         /// When the ANSI version of this function is used with a Unicode-only locale,
         /// the function can succeed because the operating system uses the <see cref="CP_ACP"/> value,
         /// representing the system default Windows ANSI code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LCMapStringW", ExactSpelling = true, SetLastError = true)]
@@ -4954,7 +6968,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// For a locale specified by name, maps an input character string to another using a specified transformation,
         /// or generates a sort key for the input string.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// The application should call this function in preference to <see cref="LCMapString"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
@@ -4962,181 +6980,521 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwMapFlags">
+        /// <para>
         /// Flag specifying the type of transformation to use during string mapping or the type of sort key to generate.
         /// This parameter can have the following values.
-        /// <see cref="LCMAP_BYTEREV"/>:
-        /// Use byte reversal. For example, if the application passes in 0x3450 0x4822, the result is 0x5034 0x2248.
-        /// <see cref="LCMAP_FULLWIDTH"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_BYTEREV"/>
+        /// </term>
+        /// <term>
+        /// Use byte reversal.
+        /// For example, if the application passes in 0x3450 0x4822, the result is 0x5034 0x2248.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_FULLWIDTH"/>
+        /// </term>
+        /// <term>
         /// Use Unicode (wide) characters where applicable.
         /// This flag and <see cref="LCMAP_HALFWIDTH"/> are mutually exclusive.
         /// With this flag, the mapping may use Normalization Form C even if an input character is already full-width.
-        /// For example, the string "は゛" (which is already full-width) is normalized to "ば". See Unicode normalization forms.
-        /// <see cref="LCMAP_HALFWIDTH"/>:
-        /// Use narrow characters where applicable. This flag and <see cref="LCMAP_FULLWIDTH"/> are mutually exclusive.
-        /// <see cref="LCMAP_HIRAGANA"/>:
-        /// Map all katakana characters to hiragana. This flag and <see cref="LCMAP_KATAKANA"/> are mutually exclusive.
-        /// <see cref="LCMAP_KATAKANA"/>:
-        /// Map all hiragana characters to katakana. This flag and <see cref="LCMAP_HIRAGANA"/> are mutually exclusive.
-        /// <see cref="LCMAP_LINGUISTIC_CASING"/>:
+        /// For example, the string "は゛" (which is already full-width) is normalized to "ば".
+        /// See Unicode normalization forms.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_HALFWIDTH"/>
+        /// </term>
+        /// <term>
+        /// Use narrow characters where applicable.
+        /// This flag and <see cref="LCMAP_FULLWIDTH"/> are mutually exclusive.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_HIRAGANA"/>
+        /// </term>
+        /// <term>
+        /// Map all katakana characters to hiragana.
+        /// This flag and <see cref="LCMAP_KATAKANA"/> are mutually exclusive.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_KATAKANA"/>
+        /// </term>
+        /// <term>
+        /// Map all hiragana characters to katakana.
+        /// This flag and <see cref="LCMAP_HIRAGANA"/> are mutually exclusive.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_LINGUISTIC_CASING"/>
+        /// </term>
+        /// <term>
         /// Use linguistic rules for casing, instead of file system rules (default).
         /// This flag is valid with <see cref="LCMAP_LOWERCASE"/> or <see cref="LCMAP_UPPERCASE"/> only.
-        /// <see cref="LCMAP_LOWERCASE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_LOWERCASE"/>
+        /// </term>
+        /// <term>
         /// For locales and scripts capable of handling uppercase and lowercase, map all characters to lowercase.
-        /// <see cref="LCMAP_HASH"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_HASH"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Return a hash of the raw sort weights of a string.
-        /// Strings that appear equivalent typically return the same hash (for example, "hello" and "HELLO" with <see cref="LCMAP_IGNORECASE"/>).
-        /// However, some complex cases, such as East Asian languages, can have similar strings with identical weights that compare as equal but do not return the same hash.
-        /// <see cref="LCMAP_HASH"/> requires that the output buffer be of size sizeof(int)
-        /// <see cref="LCMAP_SIMPLIFIED_CHINESE"/>:
+        /// </para>
+        /// <para>
+        /// Strings that appear equivalent typically return the same hash
+        /// (for example, "hello" and "HELLO" with <see cref="NORM_IGNORECASE"/>).
+        /// However, some complex cases, such as East Asian languages,
+        /// can have similar strings with identical weights that compare as equal but do not return the same hash.
+        /// </para>
+        /// <para>
+        /// <see cref="LCMAP_HASH"/> requires that the output buffer be of size <c>sizeof(int)</c>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_SIMPLIFIED_CHINESE"/>
+        /// </term>
+        /// <term>
         /// Map traditional Chinese characters to simplified Chinese characters.
         /// This flag and <see cref="LCMAP_TRADITIONAL_CHINESE"/> are mutually exclusive.
-        /// <see cref="LCMAP_SORTHANDLE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LCMAP_SORTHANDLE"/>
+        /// </para>
+        /// <para>
         /// The use of a sort handle results in minimal performance improvements and is discouraged.
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Return a token representing the resolved sort parameters for the locale (like locale name),
-        /// so future calls can pass NULL for the sort name and pass the previously queried sort handle
-        /// as the last parameter (<paramref name="sortHandle"/>) in subsequent calls to <see cref="CompareStringEx"/> or <see cref="LCMapStringEx"/>.
-        /// <see cref="LCMAP_SORTHANDLE"/> requires that the output buffer be of size sizeof(lparam)
-        /// <see cref="LCMAP_SORTKEY"/>:
+        /// so future calls can pass <see cref="NULL"/> for the sort name and pass the previously queried sort handle
+        /// as the last parameter (<paramref name="sortHandle"/>) in subsequent calls to <see cref="CompareStringEx"/> or <see cref="LCMapStringEx"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="LCMAP_SORTHANDLE"/> requires that the output buffer be of size <c>sizeof(lparam)</c>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_SORTKEY"/>
+        /// </term>
+        /// <term>
         /// Produce a normalized sort key.
         /// If the <see cref="LCMAP_SORTKEY"/> flag is not specified, the function performs string mapping.
         /// For details of sort key generation and string mapping, see the Remarks section.
-        /// <see cref="LCMAP_TITLECASE"/>:
-        /// Windows 7: Map all characters to title case, in which the first letter of each major word is capitalized.
-        /// <see cref="LCMAP_TRADITIONAL_CHINESE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_TITLECASE"/>
+        /// </term>
+        /// <term>
+        /// Windows 7: Map all characters to title case, in which the first letter of each major word is capitalized.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_TRADITIONAL_CHINESE"/>
+        /// </term>
+        /// <term>
         /// Map simplified Chinese characters to traditional Chinese characters.
         /// This flag and <see cref="LCMAP_SIMPLIFIED_CHINESE"/> are mutually exclusive.
-        /// <see cref="LCMAP_UPPERCASE"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LCMAP_UPPERCASE"/>
+        /// </term>
+        /// <term>
         /// For locales and scripts capable of handling uppercase and lowercase, map all characters to uppercase.
-        /// The following flags can be used alone, with one another, or with the <see cref="LCMAP_SORTKEY"/> and/or <see cref="LCMAP_BYTEREV"/> flags.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags can be used alone, with one another,
+        /// or with the <see cref="LCMAP_SORTKEY"/> and/or <see cref="LCMAP_BYTEREV"/> flags.
         /// However, they cannot be combined with the other flags listed above.
-        /// <see cref="NORM_IGNORENONSPACE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORENONSPACE"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Ignore nonspacing characters.
         /// For many scripts (notably Latin scripts), <see cref="NORM_IGNORENONSPACE"/> coincides with <see cref="LINGUISTIC_IGNOREDIACRITIC"/>.
+        /// </para>
+        /// <para>
         /// Note
-        /// <see cref="NORM_IGNORENONSPACE"/> ignores any secondary distinction, whether it is a diacritic or not.
-        /// Scripts for Korean, Japanese, Chinese, and Indic languages, among others, use this distinction for purposes other than diacritics.
-        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/> causes the function to ignore only actual diacritics, instead of ignoring the second sorting weight.
-        /// <see cref="NORM_IGNORESYMBOLS"/>:
+        /// </para>
+        /// <para>
+        /// NORM_IGNORENONSPACE ignores any secondary distinction, whether it is a diacritic or not.
+        /// Scripts for Korean, Japanese, Chinese, and Indic languages, among others,
+        /// use this distinction for purposes other than diacritics.
+        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/> causes the function to ignore only actual diacritics,
+        /// instead of ignoring the second sorting weight. 
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORESYMBOLS"/>
+        /// </term>
+        /// <term>
         /// Ignore symbols and punctuation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The flags listed below are used only with the <see cref="LCMAP_SORTKEY"/> flag.
-        /// <see cref="LINGUISTIC_IGNORECASE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LINGUISTIC_IGNORECASE"/>
+        /// </term>
+        /// <term>
         /// Ignore case, as linguistically appropriate.
-        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LINGUISTIC_IGNOREDIACRITIC"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Ignore nonspacing characters, as linguistically appropriate.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This flag does not always produce predictable results when used with decomposed characters,
-        /// that is, characters in which a base character and one or more nonspacing characters each have distinct code point values.
-        /// <see cref="NORM_IGNORECASE"/>:
+        /// that is, characters in which a base character and one or more nonspacing characters each have distinct code point values. 
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNORECASE"/>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Ignore case.
         /// For many scripts (notably Latin scripts), <see cref="NORM_IGNORECASE"/> coincides with <see cref="LINGUISTIC_IGNORECASE"/>.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="NORM_IGNORECASE"/> ignores any tertiary distinction, whether it is actually linguistic case or not.
-        /// For example, in Arabic and Indic scripts, this flag distinguishes alternate forms of a character, 
+        /// For example, in Arabic and Indic scripts, this flag distinguishes alternate forms of a character,
         /// but the differences do not correspond to linguistic case.
         /// <see cref="LINGUISTIC_IGNORECASE"/> causes the function to ignore only actual linguistic casing, instead of ignoring the third sorting weight.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For double-byte character set (DBCS) locales, <see cref="NORM_IGNORECASE"/> has an effect on all Unicode characters
-        /// as well as narrow (one-byte) characters, including Greek and Cyrillic characters.
-        /// <see cref="NORM_IGNOREKANATYPE"/>:
-        /// Do not differentiate between hiragana and katakana characters. Corresponding hiragana and katakana characters compare as equal.
-        /// <see cref="NORM_IGNOREWIDTH"/>:
+        /// as well as narrow (one-byte) characters, including Greek and Cyrillic characters. 
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNOREKANATYPE"/>
+        /// </term>
+        /// <term>
+        /// Do not differentiate between hiragana and katakana characters.
+        /// Corresponding hiragana and katakana characters compare as equal.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_IGNOREWIDTH"/>
+        /// </term>
+        /// <term>
         /// Ignore the difference between half-width and full-width characters, for example, C a t == cat.
         /// The full-width form is a formatting distinction used in Chinese and Japanese scripts.
-        /// <see cref="NORM_LINGUISTIC_CASING"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NORM_LINGUISTIC_CASING"/>
+        /// </term>
+        /// <term>
         /// Use linguistic rules for casing, instead of file system rules (default).
-        /// <see cref="SORT_DIGITSASNUMBERS"/>:
-        /// Windows 7: Treat digits as numbers during sorting, for example, sort "2" before "10".
-        /// <see cref="SORT_STRINGSORT"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SORT_DIGITSASNUMBERS"/>
+        /// </term>
+        /// <term>
+        /// Windows 7: Treat digits as numbers during sorting, for example, sort "2" before "10".
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SORT_STRINGSORT"/>
+        /// </term>
+        /// <term>
         /// Treat punctuation the same as symbols.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpSrcStr">
         /// Pointer to a source string that the function maps or uses for sort key generation.
         /// This string cannot have a size of 0.
         /// </param>
         /// <param name="cchSrc">
-        /// Size, in characters, of the source string indicated by <paramref name="lpSrcStr"/>.
+        /// <para>
+        /// Size, in characters, of the source string indicated by <paramref name="lpSrcStr"/>.
         /// The size of the source string can include the terminating null character, but does not have to.
         /// If the terminating null character is included, the mapping behavior of the function is not greatly affected
         /// because the terminating null character is considered to be unsortable and always maps to itself.
+        /// </para>
+        /// <para>
         /// The application can set this parameter to any negative value to specify that the source string is null-terminated.
-        /// In this case, if <see cref="LCMapStringEx"/> is being used in its string-mapping mode,
-        /// the function calculates the string length itself, and null-terminates the mapped string indicated by <paramref name="lpDestStr"/>.
+        /// In this case, if <see cref="LCMapStringEx"/> is being used in its string-mapping mode,
+        /// the function calculates the string length itself, and null-terminates the mapped string indicated by <paramref name="lpDestStr"/>.
+        /// </para>
+        /// <para>
         /// The application cannot set this parameter to 0.
+        /// </para>
         /// </param>
         /// <param name="lpDestStr">
+        /// <para>
         /// Pointer to a buffer in which this function retrieves the mapped string or a sort key.
+        /// </para>
+        /// <para>
         /// If the application is using the function to generate a sort key (<see cref="LCMAP_SORTKEY"/>):
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The sort key is stored in the buffer and treated as an opaque array of bytes.
         /// The stored values can include embedded 0 bytes at any position.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The destination string can contain an odd number of bytes.
         /// The <see cref="LCMAP_BYTEREV"/> flag only reverses an even number of bytes.
         /// The last byte (odd-positioned) in the sort key is not reversed.
-        /// If the caller explicitly requests a subset of the string,
-        /// the destination string does not include a terminating null character unless the caller specified it in <paramref name="cchDest"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the caller explicitly requests a subset of the string, the destination string does not include a terminating null character
+        /// unless the caller specified it in <paramref name="cchDest"/>.
+        /// </para>
+        /// <para>
         /// If this function fails, the destination buffer might contain either partial results or no results at all.
         /// In this case, all results should be considered invalid.
-        /// Note
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
         /// When setting <see cref="LCMAP_UPPERCASE"/> or <see cref="LCMAP_LOWERCASE"/>,
         /// the destination string can use the same buffer as the source string.
         /// However, this is strongly discouraged, as some conditions may cause the returned cased string to be a different length.
+        /// </para>
         /// </param>
         /// <param name="cchDest">
-        /// Size, in characters, of the destination string indicated by <paramref name="dwMapFlags"/>.
+        /// <para>
+        /// Size, in characters, of the destination string indicated by <paramref name="lpDestStr"/>.
         /// If the application is using the function for string mapping, it supplies a character count for this parameter.
-        /// If space for a terminating null character is included in <paramref name="cchSrc"/>,
-        /// <paramref name="cchDest"/> must also include space for a terminating null character.
+        /// If space for a terminating null character is included in <paramref name="cchSrc"/>,
+        /// <paramref name="cchDest"/> must also include space for a terminating null character.
+        /// </para>
+        /// <para>
         /// If the application is using the function to generate a sort key, it supplies a byte count for the size.
         /// This byte count must include space for the sort key 0x00 terminator.
-        /// The application can set cchDest to 0. In this case, the function does not use the <paramref name="lpDestStr"/> parameter
+        /// </para>
+        /// <para>
+        /// The application can set <paramref name="cchDest"/> to 0.
+        /// In this case, the function does not use the <paramref name="lpDestStr"/> parameter
         /// and returns the required buffer size for the mapped string or sort key.
+        /// </para>
         /// </param>
         /// <param name="lpVersionInformation">
+        /// <para>
         /// Pointer to an <see cref="NLSVERSIONINFOEX"/> structure that contains the version information about the relevant NLS capability;
         /// usually retrieved from <see cref="GetNLSVersionEx"/>.
+        /// </para>
+        /// <para>
         /// Windows Vista, Windows 7: Reserved; must set to <see cref="NullRef{NLSVERSIONINFOEX}"/>.
+        /// </para>
         /// </param>
         /// <param name="lpReserved">
         /// Reserved; must be <see cref="NULL"/>.
         /// </param>
         /// <param name="sortHandle">
+        /// <para>
         /// Reserved; must be 0.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// <see cref="CompareStringEx"/> and <see cref="LCMapStringEx"/> can specify a sort handle (if the locale name is null).
         /// This use is discouraged for most apps.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds when used for string mapping, it returns the number of characters in the translated string
-        /// (see <paramref name="cchSrc"/> and <paramref name="cchDest"/> for more details).
-        /// If the function succeeds when used for string mapping it returns the number of bytes in the sort key.
+        /// (see <paramref name="cchSrc"/> and <paramref name="cchDest"/> for more details).
+        /// </para>
+        /// <para>
+        /// If the function succeeds when used for generating a sort key, it returns the number of bytes in the sort key.
+        /// </para>
+        /// <para>
         /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The application can use <see cref="LCMapString"/> or <see cref="LCMapStringEx"/> to generate a sort key.
-        /// To do this, the application specifies <see cref="LCMAP_SORTKEY"/> for the <paramref name="dwMapFlags"/> parameter.
-        /// For more information, see Handling Sorting in Your Applications.
+        /// <para>
+        /// The application can use <see cref="LCMapString"/> or <see cref="LCMapStringEx"/> to generate a sort key.
+        /// To do this, the application specifies <see cref="LCMAP_SORTKEY"/> for the <paramref name="dwMapFlags"/> parameter.
+        /// For more information, see Handling Sorting in Your Applications.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Sort keys are opaque byte streams.
-        /// Callers should treat them as a byte array of the length returned by the API and not rely on any internal structure that may appear to be present.
-        /// Zero, one or more of the bytes in the returned sort key could be 0. Absence or presence of a zero byte should not be expected.
-        /// Another way for your application to use <see cref="LCMapString"/> or <see cref="LCMapStringEx"/> is in mapping strings.
-        /// In this case, the application does not specify <see cref="LCMAP_SORTKEY"/> for the <paramref name="dwMapFlags"/> parameter,
+        /// Callers should treat them as a byte array of the length returned by the API
+        /// and not rely on any internal structure that may appear to be present.
+        /// Zero, one or more of the bytes in the returned sort key could be 0.
+        /// Absence or presence of a zero byte should not be expected.
+        /// </para>
+        /// <para>
+        /// Another way for your application to use <see cref="LCMapString"/> or <see cref="LCMapStringEx"/> is in mapping strings.
+        /// In this case, the application does not specify <see cref="LCMAP_SORTKEY"/> for the <paramref name="dwMapFlags"/> parameter,
         /// but supplies some other combination of flags.
-        /// For more information, see Handling Sorting in Your Applications.
-        /// Beginning in Windows Vista:
-        /// This function can handle data from custom locales.
+        /// For more information, see Handling Sorting in Your Applications.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows Vista:
+        /// This function can handle data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LCMapStringEx", ExactSpelling = true, SetLastError = true)]
@@ -5147,7 +7505,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Converts a locale name to a locale identifier.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// For custom locales, including those created by Microsoft, your applications should prefer locale names over locale identifiers.
         /// </para>
         /// <para>
@@ -5155,26 +7517,67 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpName">
+        /// <para>
         /// Pointer to a null-terminated string representing a locale name, or one of the following predefined values.
-        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwFlags">
-        /// Prior to Windows 7: Reserved; should always be 0.
-        /// Beginning in Windows 7: Can be set to <see cref="LOCALE_ALLOW_NEUTRAL_NAMES"/> to allow the return of a neutral LCID.
+        /// <para>
+        /// Prior to Windows 7:
+        /// Reserved; should always be 0.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 7:
+        /// Can be set to <see cref="LOCALE_ALLOW_NEUTRAL_NAMES"/> to allow the return of a neutral <see cref="LCID"/>.
+        /// </para>
         /// </param>
         /// <returns>
-        /// Returns the locale identifier corresponding to the locale name if successful.
-        /// If the supplied locale name corresponds to a custom locale that is the user default, this function returns <see cref="LOCALE_CUSTOM_DEFAULT"/>.
-        /// If the locale name corresponds to a custom locale that is not the user default, the function returns <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>.
-        /// If the locale provided is a transient locale or a CLDR (Unicode Common Locale Data Repository) locale, then the <see cref="LCID"/> returned is 0x1000.
+        /// <para>
+        /// If successful, returns the locale identifier corresponding to the locale name.
+        /// </para>
+        /// <para>
+        /// If the supplied locale name corresponds to a custom locale that is the user default,
+        /// this function returns <see cref="LOCALE_CUSTOM_DEFAULT"/>.
+        /// </para>
+        /// <para>
+        /// If the locale name corresponds to a custom locale that is not the user default, is a transient locale,
+        /// or is a CLDR (Unicode Common Locale Data Repository) locale, the function returns <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return <see cref="ERROR_INVALID_PARAMETER"/> if any of the parameter values are invalid.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Beginning in Windows 8:
-        /// If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// <para>
+        /// For custom locales, including those created by Microsoft, your applications should prefer locale names over locale identifiers.
+        /// See The deprecation of LCIDs for more info.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocaleNameToLCID", ExactSpelling = true, SetLastError = true)]
@@ -5192,10 +7595,17 @@ namespace Lsj.Util.Win32
         /// Pointer to a name to resolve, for example, "en-XA" for English (Private Use).
         /// </param>
         /// <param name="lpLocaleName">
+        /// <para>
         /// Pointer to a buffer in which this function retrieves the locale name that is the match for the input name.
         /// For example, the match for the name "en-XA" is "en-US" for English (United States).
-        /// Note  If the function fails, the state of the output buffer is not guaranteed to be accurate.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// If the function fails, the state of the output buffer is not guaranteed to be accurate.
         /// In this case, the application should check the return value and error status set by the function to determine the correct course of action.
+        /// </para>
         /// </param>
         /// <param name="cchLocaleName">
         /// Size, in characters, of the buffer indicated by <paramref name="lpLocaleName"/>.
@@ -5203,21 +7613,41 @@ namespace Lsj.Util.Win32
         /// This is the recommended size to supply in this parameter.
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns the size of the buffer containing the locale name, including the terminating null character, if successful.
+        /// </para>
+        /// <para>
         /// The function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>: A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The retrieved locale name indicates a specific locale, including language and country/region, even if the input language is neutral.
         /// For example, an input of "en" for English (United States) causes the function to retrieve "en-US".
-        /// This function can retrieve data from custom locales.
+        /// </para>
+        /// <para>
+        /// This function can retrieve data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application,
         /// nor does the return of a valid locale guarantee that it will be valid on another computer.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
-        /// Beginning in Windows 8:
-        /// Language tags obtained from the Windows.Globalization namespace must be converted by <see cref="ResolveLocaleName"/>
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// Language tags obtained from the <c>Windows.Globalization</c> namespace must be converted by <see cref="ResolveLocaleName"/>
         /// before they can be used with any National Language Support functions.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResolveLocaleName", ExactSpelling = true, SetLastError = true)]
@@ -5233,46 +7663,134 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Calendar">
         /// Calendar identifier for the calendar for which to set information.
         /// </param>
         /// <param name="CalType">
+        /// <para>
         /// Type of calendar information to set.
         /// Only the following <see cref="CALTYPE"/> values are valid for this function.
         /// The <see cref="CAL_USE_CP_ACP"/> constant is only meaningful for the ANSI version of the function.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="CAL_USE_CP_ACP"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="CAL_ITWODIGITYEARMAX"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The application can specify only one calendar identifier per call to this function.
         /// An exception can be made if the application uses the binary OR operator
-        /// to combine <see cref="CAL_USE_CP_ACP"/> with any valid <see cref="CALTYPE"/> value defined in Calendar Type Information.
+        /// to combine <see cref="CAL_USE_CP_ACP"/> with any valid <see cref="CALTYPE"/> value defined in Calendar Type Information.
+        /// </para>
         /// </param>
         /// <param name="lpCalData">
         /// Pointer to a null-terminated calendar information string.
         /// The information must be in the format of the specified calendar type.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_INTERNAL_ERROR"/>. An unexpected error occurred in the function.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INTERNAL_ERROR"/>.
+        /// An unexpected error occurred in the function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function only affects the user override portion of the calendar settings. It does not set the system defaults.
+        /// </para>
+        /// <para>
         /// Calendar information is always passed as a null-terminated Unicode string in the Unicode version of this function,
         /// and as a null-terminated ANSI string in the ANSI version.
-        /// No integers are allowed by this function. Any numeric values must be specified as either Unicode or ANSI text.
+        /// No integers are allowed by this function.
+        /// Any numeric values must be specified as either Unicode or ANSI text.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
+        /// <para>
         /// <see cref="CAL_ITWODIGITYEARMAX"/> can be used with any calendar, even if the calendar is not supported for the specified locale.
-        /// To avoid complications, the application should call <see cref="EnumCalendarInfo"/> to ensure that the calendar is supported for the locale of interest.
+        /// To avoid complications, the application should call <see cref="EnumCalendarInfo"/>
+        /// to ensure that the calendar is supported for the locale of interest.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCalendarInfoW", ExactSpelling = true, SetLastError = true)]
@@ -5282,7 +7800,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Sets an item of information in the user override portion of the current locale.
         /// This function does not set the system defaults.
+        /// </para>
+        /// <para>
         /// Caution
+        /// </para>
+        /// <para>
         /// Because this function modifies values for all applications,
         /// it should only be called by the regional and language options functionality of Control Panel, or a similar utility.
         /// If making an international change to system parameters,
@@ -5293,13 +7815,55 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// For the ANSI version of the function, the locale identifier of the locale with the code page used
-        /// when interpreting the <paramref name="lpLCData"/> information.
+        /// <para>
+        /// For the ANSI version of the function, the locale identifier of the locale with the code page used
+        /// when interpreting the <paramref name="lpLCData"/> information.
         /// For the Unicode version, this parameter is ignored.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// The following custom locale identifiers are also supported.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="LCType">
         /// Type of locale information to set.
@@ -5314,27 +7878,62 @@ namespace Lsj.Util.Win32
         /// The application uses a Unicode string for the Unicode version of the function, and an ANSI string for the ANSI version.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// <see cref="ERROR_ACCESS_DISABLED_BY_POLICY"/>. The group policy of the computer or the user has forbidden this operation.
-        /// <see cref="ERROR_INVALID_ACCESS"/>. The access code was invalid.
-        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_ACCESS_DISABLED_BY_POLICY"/>.
+        /// The group policy of the computer or the user has forbidden this operation.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_ACCESS"/>.
+        /// The access code was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function writes to the registry, where it sets values that are associated with a particular user instead of a particular application.
         /// These registry values affect the behavior of other applications run by the user.
         /// As a rule, an application should call this function only when the user has explicitly requested the changes.
         /// The registry settings should not be changed for the convenience of a single application.
-        /// For the <paramref name="LCType"/> parameter, the application should set <see cref="LOCALE_USE_CP_ACP"/>
+        /// </para>
+        /// <para>
+        /// For the <paramref name="LCType"/> parameter, the application should set <see cref="LOCALE_USE_CP_ACP"/>
         /// to use the operating system ANSI code page instead of the locale code page for string translation.
+        /// </para>
+        /// <para>
         /// When the ANSI version of this function is used with a Unicode-only locale identifier,
         /// the function can succeed because the operating system uses the system code page.
         /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
-        /// As of Windows Vista, the <see cref="LOCALE_SDATE"/> and <see cref="LOCALE_STIME"/> constants are obsolete.
-        /// Do not use these constants. Use <see cref="LOCALE_SSHORTDATE"/> and <see cref="LOCALE_STIMEFORMAT"/> instead.
+        /// </para>
+        /// <para>
+        /// As of Windows Vista, the <see cref="LOCALE_SDATE"/> and <see cref="LOCALE_STIME"/> constants are obsolete.
+        /// Do not use these constants. Use <see cref="LOCALE_SSHORTDATE"/> and <see cref="LOCALE_STIMEFORMAT"/> instead.
         /// A custom locale might not have a single, uniform separator character within the date or time format:
         /// for example, a format such as "12/31, 2006" or "03:56'23" might be valid.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocaleInfoW", ExactSpelling = true, SetLastError = true)]
@@ -5350,36 +7949,95 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
-        /// Flags identifying the language format to use for the process preferred UI languages. 
+        /// <para>
+        /// Flags identifying the language format to use for the process preferred UI languages.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
+        /// </para>
+        /// <para>
         /// We recommend that you use <see cref="MUI_LANGUAGE_NAME"/> instead of <see cref="MUI_LANGUAGE_ID"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: The input parameter language strings are in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: The input parameter language strings are in language name format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// The input parameter language strings are in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// The input parameter language strings are in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pwszLanguagesBuffer">
-        /// Pointer to a double null-terminated multi-string buffer that contains an ordered, null-delimited list in decreasing order of preference.
+        /// <para>
+        /// Pointer to a double null-terminated multi-string buffer
+        /// that contains an ordered, null-delimited list in decreasing order of preference.
         /// If there are more than five languages in the buffer, the function only sets the first five valid languages.
-        /// Alternatively, this parameter can contain <see cref="NULL"/> if no language list is required.
+        /// </para>
+        /// <para>
+        /// Alternatively, this parameter can contain <see cref="NULL"/> if no language list is required.
         /// In this case, the function clears the preferred UI languages for the process.
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages that has been set in the process language list from the input buffer, up to a maximum of five.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return the following error code:
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. An invalid parameter is specified.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return the following error code:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// An invalid parameter is specified.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// If the process preferred UI languages list is empty or if the languages specified for the process are not valid,
-        /// the function succeeds and sets 0 in the <paramref name="pulNumLanguages"/> parameter.
+        /// the function succeeds and sets 0 in the <paramref name="pulNumLanguages"/> parameter.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Ideally, applications will call <see cref="SetProcessPreferredUILanguages"/> as soon as possible after launching.
-        /// After this function returns, the application can call <see cref="GetProcessPreferredUILanguages"/> to verify and examine the resulting language list.
-        /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the input parameter language strings must use hexadecimal language identifiers
-        /// that do not include the leading 0x, and are 4 characters in length.
+        /// <para>
+        /// Ideally, applications will call <see cref="SetProcessPreferredUILanguages"/> as soon as possible after launching.
+        /// </para>
+        /// <para>
+        /// After this function returns, the application can call <see cref="GetProcessPreferredUILanguages"/> to verify and examine the resulting language list.
+        /// </para>
+        /// <para>
+        /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the input parameter language strings
+        /// must use hexadecimal language identifiers that do not include the leading 0x, and are 4 characters in length.
         /// For example, en-US should be passed as "0409" and en as "0009".
-        /// Note 
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
         /// Use of <see cref="MUI_LANGUAGE_NAME"/> is recommended over <see cref="MUI_LANGUAGE_ID"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
@@ -5394,33 +8052,74 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Locale">
-        /// Locale identifier that specifies the locale.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// <see cref="LOCALE_INVARIANT"/>, <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>
+        /// <para>
+        /// Locale identifier that specifies the locale.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// The function should return an <see cref="LCID"/> on success.
         /// This is the <see cref="LCID"/> of the previous thread locale.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When a thread is created, it uses the user locale.
-        /// This value is returned by <see cref="GetUserDefaultLCID"/>.
+        /// This value is returned by <see cref="GetUserDefaultLCID"/>.
         /// The user locale can be modified for future processes and thread creation using the regional and language options portion of the Control Panel.
-        /// The thread locale can also be changed using <see cref="SetThreadLocale"/>.
-        /// <see cref="SetThreadLocale"/> affects the selection of resources with a LANGUAGE statement.
-        /// The statement affects such functions as <see cref="CreateDialog"/>, <see cref="DialogBox"/>,
-        /// <see cref="LoadMenu"/>, <see cref="LoadString"/>, and <see cref="FindResource"/>.
-        /// It sets the code page implied by <see cref="CP_THREAD_ACP"/>, but does not affect <see cref="FindResourceEx"/>.
-        /// For more information, see Code Page Identifiers.
-        /// Windows Vista and later:
-        /// Do not use <see cref="SetThreadLocale"/> to select a user interface language.
-        /// The resource loader selects the resource that is defined in the .rc file with a LANGUAGE statement,
-        /// or the application can use <see cref="FindResourceEx"/>.
-        /// Additionally, the application can use <see cref="SetThreadUILanguage"/>.
-        /// Windows 2000, Windows XP: Do not use <see cref="SetThreadLocale"/> to select a user interface language.
-        /// To select the resource that is defined in the .rc file with a LANGUAGE statement,
-        /// the application must use the <see cref="FindResourceEx"/> function.
+        /// The thread locale can also be changed using <see cref="SetThreadLocale"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SetThreadLocale"/> affects the selection of resources with a LANGUAGE statement.
+        /// The statement affects such functions as <see cref="CreateDialog"/>, <see cref="DialogBox"/>,
+        /// <see cref="LoadMenu"/>, <see cref="LoadString"/>, and <see cref="FindResource"/>.
+        /// It sets the code page implied by CP_THREAD_ACP, but does not affect <see cref="FindResourceEx"/>.
+        /// For more information, see Code Page Identifiers.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later: Do not use <see cref="SetThreadLocale"/> to select a user interface language.
+        /// The resource loader selects the resource that is defined in the .rc file with a LANGUAGE statement,
+        /// or the application can use <see cref="FindResourceEx"/>.
+        /// Additionally, the application can use <see cref="SetThreadUILanguage"/>.
+        /// </para>
+        /// <para>
+        /// Windows 2000, Windows XP: Do not use <see cref="SetThreadLocale"/> to select a user interface language.
+        /// To select the resource that is defined in the .rc file with a LANGUAGE statement,
+        /// the application must use the <see cref="FindResourceEx"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadLocale", ExactSpelling = true)]
@@ -5430,7 +8129,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Sets the thread preferred UI languages for the current thread.
         /// For more information, see User Interface Language Management.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function is also used by the operating system to identify languages that are safe to use on the Windows console.
         /// </para>
         /// <para>
@@ -5438,35 +8141,108 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
+        /// <para>
         /// Flags identifying format and filtering for the languages to set.
-        /// The following format flags specify the language format to use for the thread preferred UI languages.
+        /// </para>
+        /// <para>
+        /// The following format flags specify the language format to use for the thread preferred UI languages.
         /// The flags are mutually exclusive, and the default is <see cref="MUI_LANGUAGE_NAME"/>.
+        /// </para>
+        /// <para>
         /// We recommend that you use <see cref="MUI_LANGUAGE_NAME"/> instead of <see cref="MUI_LANGUAGE_ID"/>.
-        /// <see cref="MUI_LANGUAGE_ID"/>: The input parameter language strings are in language identifier format.
-        /// <see cref="MUI_LANGUAGE_NAME"/>: The input parameter language strings are in language name format.
-        /// The following filtering flags specify filtering for the language list.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// The input parameter language strings are in language identifier format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// The input parameter language strings are in language name format.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// The following filtering flags specify filtering for the language list.
         /// The flags are mutually exclusive.
         /// By default, neither <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> nor <see cref="MUI_CONSOLE_FILTER"/> is set.
         /// For more information about the filtering flags, see the Remarks section.
-        /// <see cref="MUI_COMPLEX_SCRIPT_FILTER"/>:
-        /// <see cref="GetThreadPreferredUILanguages"/> should replace with the appropriate fallback all languages having complex scripts.
-        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
-        /// <see cref="MUI_CONSOLE_FILTER"/>:
-        /// <see cref="GetThreadPreferredUILanguages"/> should replace with the appropriate fallback all languages
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_COMPLEX_SCRIPT_FILTER"/>
+        /// </term>
+        /// <term>
+        /// <see cref="GetThreadPreferredUILanguages"/> should replace with the appropriate fallback all languages having complex scripts.
+        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_CONSOLE_FILTER"/>
+        /// </term>
+        /// <term>
+        /// <see cref="GetThreadPreferredUILanguages"/> should replace with the appropriate fallback all languages
         /// that cannot display properly in a console window with the current operating system settings.
-        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
-        /// <see cref="MUI_RESET_FILTERS"/>:
+        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_RESET_FILTERS"/>
+        /// </term>
+        /// <term>
         /// Reset the filtering for the language list by removing any other filter settings.
-        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
-        /// After setting this flag, the application can call <see cref="GetThreadPreferredUILanguages"/> to retrieve the complete unfiltered list.
+        /// When this flag is specified, <see cref="NULL"/> must be passed for all other parameters.
+        /// After setting this flag, the application can call <see cref="GetThreadPreferredUILanguages"/> to retrieve the complete unfiltered list.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pwszLanguagesBuffer">
-        /// Pointer to a double null-terminated multi-string buffer that contains an ordered,
-        /// null-delimited list, in the format specified by <paramref name="dwFlags"/>.
+        /// <para>
+        /// Pointer to a double null-terminated multi-string buffer that contains an ordered, null-delimited list,
+        /// in the format specified by <paramref name="dwFlags"/>.
+        /// </para>
+        /// <para>
         /// To clear the thread preferred UI languages list, an application sets this parameter to a null string or an empty double null-terminated string.
-        /// If an application clears a language list, it should specify either a format flag or 0 for the <paramref name="dwFlags"/> parameter.
-        /// When the application specifies one of the filtering flags, it must set this parameter to <see cref="NULL"/>.
+        /// If an application clears a language list, it should specify either a format flag or 0 for the <paramref name="dwFlags"/> parameter.
+        /// </para>
+        /// <para>
+        /// When the application specifies one of the filtering flags, it must set this parameter to <see cref="NULL"/>.
         /// In this case, the function succeeds, but does not reset the thread preferred languages.
+        /// </para>
         /// </param>
         /// <param name="pulNumLanguages">
         /// Pointer to the number of languages that the function has set in the thread preferred UI languages list.
@@ -5476,39 +8252,88 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When the application loads resources after a call to this function,
         /// the thread-specific preferences take priority over the languages preferred by the user.
+        /// </para>
+        /// <para>
         /// This function can set up to five preferred languages for the thread, in order of preference.
         /// If the language buffer contains more than five valid languages, the function sets the first five valid languages and ignores the rest.
+        /// </para>
+        /// <para>
         /// If the application calls this function with the <see cref="MUI_LANGUAGE_ID"/> flag set,
-        /// the strings in the language list must use hexadecimal language identifiers that do not include the leading 0x, and are 4 characters in length.
+        /// the strings in the language list must use hexadecimal language identifiers
+        /// that do not include the leading 0x, and are 4 characters in length.
         /// For example, en-US should be passed as "0409" and en as "0009".
-        /// When <see cref="MUI_LANGUAGE_ID"/> is specified, the hexadecimal values in the language list must each represent an actual language identifier.
+        /// </para>
+        /// <para>
+        /// When <see cref="MUI_LANGUAGE_ID"/> is specified,
+        /// the hexadecimal values in the language list must each represent an actual language identifier.
         /// In particular, the following locale identifier values cannot be used to correspond to the language identifier:
-        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>, <see cref="LOCALE_CUSTOM_DEFAULT"/>,
-        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// Calling this function with an empty language list and setting the <see cref="MUI_CONSOLE_FILTER"/> flag has the same effect
-        /// as calling <see cref="SetThreadUILanguage"/> with the language identifier set to 0.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Calling this function with an empty language list and setting the <see cref="MUI_CONSOLE_FILTER"/> flag
+        /// has the same effect as calling <see cref="SetThreadUILanguage"/> with the language identifier set to 0.
         /// The language is set appropriately for use in a console window.
-        /// After this function returns, the application can call <see cref="GetThreadPreferredUILanguages"/> to verify and examine the resulting language list. 
-        /// When <see cref="MUI_CONSOLE_FILTER"/> or <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> has been set by <see cref="SetThreadPreferredUILanguages"/>,
-        /// the <see cref="GetThreadPreferredUILanguages"/> function replaces with the fallback the languages the console cannot display
-        /// using the current operating system language setting.
-        /// The fallback for a language is determined based on the value of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> for the language.
-        /// Setting the <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> flag in the call to <see cref="SetThreadPreferredUILanguages"/>
-        /// causes <see cref="GetThreadPreferredUILanguages"/> to remove languages that the console cannot display with language
-        /// that can only be rendered using Uniscribe, and insert the fallback language as the ultimate fallback.
+        /// </para>
+        /// <para>
+        /// After this function returns, the application can call <see cref="GetThreadPreferredUILanguages"/> to verify and examine the resulting language list.
+        /// When <see cref="MUI_CONSOLE_FILTER"/> or <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> has been set by <see cref="SetThreadPreferredUILanguages"/>,
+        /// the <see cref="GetThreadPreferredUILanguages"/> function replaces with the fallback the languages
+        /// the console cannot display using the current operating system language setting.
+        /// The fallback for a language is determined based on the value of <see cref="LOCALE_SCONSOLEFALLBACKNAME"/> for the language.
+        /// </para>
+        /// <para>
+        /// Setting the <see cref="MUI_COMPLEX_SCRIPT_FILTER"/> flag in the call to <see cref="SetThreadPreferredUILanguages"/>
+        /// causes <see cref="GetThreadPreferredUILanguages"/> to remove languages that the console cannot display with languages
+        /// that can only be rendered using Uniscribe, and insert the fallback language as the ultimate fallback.
         /// Examples of such languages are Arabic or the various Indic languages.
-        /// Setting the <see cref="MUI_CONSOLE_FILTER"/> flag in the call to <see cref="SetThreadPreferredUILanguages"/>
-        /// causes <see cref="GetThreadPreferredUILanguages"/> to remove languages the console cannot display
-        /// with the current system setting and insert the fallback language as the ultimate fallback,
-        /// because the console is limited to displaying characters from a single code page.
+        /// </para>
+        /// <para>
+        /// Setting the <see cref="MUI_CONSOLE_FILTER"/> flag in the call to <see cref="SetThreadPreferredUILanguages"/>
+        /// causes <see cref="GetThreadPreferredUILanguages"/> to remove languages the console cannot display with the current system setting
+        /// and insert the fallback language as the ultimate fallback, because the console is limited to displaying characters from a single code page.
         /// For example, if the user language is Japanese (Japan), but the current console code page is the code page for Russian (Russia),
         /// the console displays Japanese-language text mostly as a series of character-not-found symbols.
-        /// <see cref="GetThreadPreferredUILanguages"/> chooses a language from the fallback list that will be legible in the console.
-        /// Note Resource-loading functions, such as <see cref="LoadString"/>, <see cref="LoadImage"/>,
-        /// and <see cref="FindResource"/>, also make calls to <see cref="GetThreadPreferredUILanguages"/>.
-        /// To change the code page, the application uses the setlocale function, or equivalent.
+        /// <see cref="GetThreadPreferredUILanguages"/> chooses a language from the fallback list that will be legible in the console.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Resource-loading functions, such as <see cref="LoadString"/>, <see cref="LoadImage"/>, and <see cref="FindResource"/>,
+        /// also make calls to <see cref="GetThreadPreferredUILanguages"/>.
+        /// To change the code page, the application uses the <c>setlocale</c> function, or equivalent.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPreferredUILanguages", ExactSpelling = true)]
@@ -5517,9 +8342,13 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Sets the user interface language for the current thread.
+        /// </para>
+        /// <para>
         /// Windows Vista and later:
         /// This function cannot clear the thread preferred UI languages list.
         /// Your MUI application should call <see cref="SetThreadPreferredUILanguages"/> to clear the language list.
+        /// </para>
+        /// <para>
         /// Windows XP:
         /// This function is limited to allowing the operating system to identify and set a value that is safe to use on the Windows console.
         /// </para>
@@ -5528,41 +8357,88 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="LangId">
-        /// Language identifier for the user interface language for the thread.
-        /// Windows Vista and later: The application can specify a language identifier of 0 or a nonzero identifier.
+        /// <para>
+        /// Language identifier for the user interface language for the thread.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The application can specify a language identifier of 0 or a nonzero identifier.
         /// For more information, see the Remarks section.
-        /// Windows XP: The application can only set this parameter to 0.
+        /// </para>
+        /// <para>
+        /// Windows XP:
+        /// The application can only set this parameter to 0.
         /// This setting causes the function to select the language that best supports the console display.
         /// For more information, see the Remarks section.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// Returns the input language identifier if successful.
         /// If the input identifier is nonzero, the function returns that value.
-        /// If the language identifier is 0, the function always succeeds and returns the identifier of the language that best supports the Windows console.
+        /// If the language identifier is 0, the function always succeeds
+        /// and returns the identifier of the language that best supports the Windows console.
         /// See the Remarks section.
+        /// </para>
+        /// <para>
         /// If the input language identifier is nonzero and the function fails, the return value differs from the input language identifier.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// When a thread is created, the thread user interface language setting is empty
         /// and the user interface for the thread is displayed in the user-selected language.
         /// This function enables the application to change the user interface language for the current running thread.
-        /// Windows Vista and later:
-        /// Calling this function and specifying 0 for the language identifier is identical
-        /// to calling <see cref="SetThreadPreferredUILanguages"/> with the <see cref="MUI_CONSOLE_FILTER"/> flag set.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// Calling this function and specifying 0 for the language identifier is identical to
+        /// calling <see cref="SetThreadPreferredUILanguages"/> with the <see cref="MUI_CONSOLE_FILTER"/> flag set.
         /// If the application specifies a valid nonzero language identifier, the function sets a particular user interface language for the thread.
-        /// After specifying 0 for the language identifier, the application cannot use any of the following constants to correspond to a language identifier:
-        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>, <see cref="LOCALE_USER_DEFAULT"/>, <see cref="LOCALE_CUSTOM_DEFAULT"/>,
-        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>, <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>,
-        /// Windows XP:
-        /// When the application calls this function with a language identifier of 0, the function first verifies
-        /// that the current user interface does not require Uniscribe, and that it is supported by the console code page.
+        /// After specifying 0 for the language identifier,
+        /// the application cannot use any of the following constants to correspond to a language identifier:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows XP:
+        /// When the application calls this function with a language identifier of 0,
+        /// the function first verifies that the current user interface does not require Uniscribe, and that it is supported by the console code page.
         /// If the user interface passes these tests, the function uses the supplied value.
         /// If not, the function changes the thread user interface language to a language that the Windows console can display.
-        /// Windows XP does not support a concept of thread user interface language separate from thread locale.
-        /// Therefore, this function changes the thread locale on Windows XP.
+        /// Windows XP does not support a concept of thread user interface language separate from thread locale.
+        /// Therefore, this function changes the thread locale on Windows XP.
         /// It is easy for your application to set a thread to use the most appropriate language for console display,
         /// based on user and system preferred UI languages, the language for non-Unicode applications, and the capabilities of the console.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadUILanguage", ExactSpelling = true, SetLastError = true)]
@@ -5572,7 +8448,9 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Sets the geographical location identifier for the user.
         /// This identifier should have one of the values described in Table of Geographical Locations.
-        /// SetUserGeoID is available for use in the operating systems specified in the Requirements section.
+        /// </para>
+        /// <para>
+        /// <see cref="SetUserGeoID"/> is available for use in the operating systems specified in the Requirements section.
         /// It may be altered or unavailable in subsequent versions.
         /// Instead, use <see cref="SetUserGeoName"/>.
         /// </para>
@@ -5584,24 +8462,51 @@ namespace Lsj.Util.Win32
         /// Identifier for the geographical location of the user.
         /// </param>
         /// <returns>
-        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
-        /// Windows XP, Windows Server 2003:
-        /// This function does not supply extended error information.
-        /// Thus it is not appropriate for an application to call <see cref="GetLastError"/> after this function.
-        /// If the application does call <see cref="GetLastError"/>, it can return a value set by some previously called function.
-        /// If this function does not succeed, the application can call <see cref="GetLastError"/>,
-        /// which can return one of the following error codes:
-        /// <see cref="ERROR_ACCESS_DISABLED_BY_POLICY"/>. The group policy of the computer or the user has forbidden this operation.
-        /// <see cref="ERROR_INTERNAL_ERROR"/>. An unexpected error occurred in the function.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003: This function does not supply extended error information.
+        /// Thus it is not appropriate for an application to call <see cref="GetLastError"/> after this function.
+        /// If the application does call <see cref="GetLastError"/>, it can return a value set by some previously called function.
+        /// </para>
+        /// <para>
+        /// If this function does not succeed, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_ACCESS_DISABLED_BY_POLICY"/>.
+        /// The group policy of the computer or the user has forbidden this operation.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INTERNAL_ERROR"/>.
+        /// An unexpected error occurred in the function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function writes to the registry the geographical location for a particular user instead of a particular application.
         /// This action affects the behavior of other applications run by the user.
         /// As a rule, the application should call this function only when the user has explicitly requested changes,
         /// but not for purely application-specific reasons.
-        /// <see cref="SetUserGeoID"/> is intended for use by applications that are designed to change user settings, such as the Windows Settings app.
+        /// </para>
+        /// <para>
+        /// <see cref="SetUserGeoID"/> is intended for use by applications that are designed to change user settings, such as in Windows Settings.
         /// Other applications should not call this function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUserGeoID", ExactSpelling = true, SetLastError = true)]
@@ -5616,10 +8521,14 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="wLang">
+        /// <para>
         /// The binary language identifier.
-        /// For a complete list of the language identifiers, see Language Identifiers.
+        /// For a complete list of the language identifiers, see Language Identifiers.
+        /// </para>
+        /// <para>
         /// For example, the description string associated with the language identifier 0x040A is "Spanish (Traditional Sort)".
-        /// If the identifier is unknown, the szLang parameter points to a default string ("Language Neutral").
+        /// If the identifier is unknown, the <paramref name="szLang"/> parameter points to a default string ("Language Neutral").
+        /// </para>
         /// </param>
         /// <param name="szLang">
         /// The language specified by the <paramref name="wLang"/> parameter.
@@ -5628,16 +8537,24 @@ namespace Lsj.Util.Win32
         /// The size, in characters, of the buffer pointed to by <paramref name="szLang"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// The return value is the size, in characters, of the string returned in the buffer.
         /// This value does not include the terminating null character.
         /// If the description string is smaller than or equal to the buffer, the entire description string is in the buffer.
         /// If the description string is larger than the buffer, the description string is truncated to the length of the buffer.
+        /// </para>
+        /// <para>
         /// If an error occurs, the return value is zero. Unknown language identifiers do not produce errors.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function works on 16-, 32-, and 64-bit file images.
-        /// Typically, an installation program uses this function to translate a language identifier returned by the <see cref="VerQueryValue"/> function.
+        /// </para>
+        /// <para>
+        /// Typically, an installation program uses this function to translate a language identifier returned by the <see cref="VerQueryValue"/> function.
         /// The text string may be used in a dialog box that asks the user how to proceed in the event of a language conflict.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerLanguageNameW", ExactSpelling = true, SetLastError = true)]
