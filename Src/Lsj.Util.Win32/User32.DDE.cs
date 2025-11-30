@@ -21,22 +21,34 @@ namespace Lsj.Util.Win32
         /// A handle to the DDE client conversation to be impersonated.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Impersonation is the ability of a process to take on the security attributes of another process.
         /// When a client in a DDE conversation requests information from a DDE server, the server impersonates the client.
         /// When the server requests access to an object, the system verifies the access against the client's security attributes.
-        /// When the impersonation is complete, the server normally calls the <see cref="RevertToSelf"/> function.
+        /// </para>
+        /// <para>
+        /// When the impersonation is complete, the server normally calls the <see cref="RevertToSelf"/> function.
+        /// </para>
+        /// <para>
         /// Security Considerations
-        /// If the call to DdeImpersonateClient fails for any reason, the client is not impersonated
-        /// and the client request is made in the security context of the calling process.
+        /// </para>
+        /// <para>
+        /// If the call to <see cref="DdeImpersonateClient"/> fails for any reason,
+        /// the client is not impersonated and the client request is made in the security context of the calling process.
         /// If the calling process is running as a highly privileged account, such as LocalSystem, or as a member of an administrative group,
         /// the user may be able to perform actions that would otherwise be disallowed.
-        /// Therefore it is important that you always check the return value of the call, and if it fails to raise an error,
-        /// do not continue execution of the client request. 
+        /// Therefore it is important that you always check the return value of the call,
+        /// and if it fails to raise an error, do not continue execution of the client request.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DdeImpersonateClient", ExactSpelling = true, SetLastError = true)]
@@ -61,22 +73,34 @@ namespace Lsj.Util.Win32
         /// An application must create the server window before calling this function.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// An application should call the <see cref="RevertToSelf"/> function
-        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
-        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
+        /// <para>
+        /// An application should call the <see cref="RevertToSelf"/> function
+        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
+        /// </para>
+        /// <para>
+        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
+        /// </para>
+        /// <para>
         /// Security Considerations
+        /// </para>
+        /// <para>
         /// Using this function incorrectly might compromise the security of your program.
         /// It is very important to check the return value of the call.
         /// If the function fails for any reason, the client is not impersonated
         /// and any subsequent client request is made in the security context of the calling process.
         /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
         /// the user may be able to perform actions that would otherwise be disallowed.
-        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
+        /// Therefore, if the call fails or raises an error do not continue execution of the client request.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
