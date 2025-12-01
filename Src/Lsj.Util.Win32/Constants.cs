@@ -104,9 +104,19 @@ namespace Lsj.Util.Win32
         public const uint CONSOLE_TEXTMODE_BUFFER = 1;
 
         /// <summary>
+        /// CWF_CREATE_ONLY
+        /// </summary>
+        public const uint CWF_CREATE_ONLY = 0x00000001;
+
+        /// <summary>
         /// DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION
         /// </summary>
         public const uint DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION = 1;
+
+        /// <summary>
+        /// DF_ALLOWOTHERACCOUNTHOOK
+        /// </summary>
+        public const uint DF_ALLOWOTHERACCOUNTHOOK = 0x0001;
 
         /// <summary>
         /// DM_SPECVERSION
