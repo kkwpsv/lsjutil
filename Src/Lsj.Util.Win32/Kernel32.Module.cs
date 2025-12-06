@@ -1599,9 +1599,6 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// <para>
-        ///  
-        /// </para>
-        /// <para>
         /// Use the <see cref="FreeLibrary"/> function to free a loaded module,
         /// whether or not loading the module caused its reference count to be incremented.
         /// If the module was loaded as a data or image file, the mapping is destroyed but the reference count is not decremented.
@@ -1762,53 +1759,89 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpwLibFileName">
-        /// The file name of the packaged module to load. The module can be a library module (a .dll file) or an executable module (an .exe file).
+        /// <para>
+        /// The file name of the packaged module to load.
+        /// The module can be a library module (a .dll file) or an executable module (an .exe file).
+        /// </para>
+        /// <para>
         /// If this parameter specifies a module name without a path and the file name extension is omitted,
         /// the function appends the default library extension .dll to the module name.
         /// To prevent the function from appending .dll to the module name, include a trailing point character (.) in the module name string.
+        /// </para>
+        /// <para>
         /// If this parameter specifies a path, the function searches that path for the module.
         /// The path cannot be an absolute path or a relative path that contains ".." in the path.
-        /// When specifying a path, be sure to use backslashes (), not forward slashes (/).
-        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// When specifying a path, be sure to use backslashes (\), not forward slashes (/).
+        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
         /// If the specified module is already loaded in the process, the function returns a handle to the loaded module.
         /// The module must have been originally loaded from the package dependency graph of the process.
-        /// If loading the specified module causes the system to load other associated modules, the function first searches loaded modules,
-        /// then it searches the package dependency graph of the process.
+        /// </para>
+        /// <para>
+        /// If loading the specified module causes the system to load other associated modules,
+        /// the function first searches loaded modules, then it searches the package dependency graph of the process.
         /// For more information, see Remarks.
+        /// </para>
         /// </param>
         /// <param name="Reserved">
         /// This parameter is reserved. It must be 0.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the loaded module.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="LoadPackagedLibrary"/> function is a simplified version of <see cref="LoadLibraryEx"/>.
-        /// Windows Runtime apps can use <see cref="LoadPackagedLibrary"/> to load packaged modules.
-        /// Desktop applications cannot use <see cref="LoadPackagedLibrary"/>;
-        /// if a desktop application calls this function it fails with <see cref="APPMODEL_ERROR_NO_PACKAGE"/>.
-        /// <see cref="LoadPackagedLibrary"/> returns a handle to the specified module and increments its reference count.
+        /// <para>
+        /// The <see cref="LoadPackagedLibrary"/> function is a simplified version of <see cref="LoadLibraryEx"/>.
+        /// Packaged apps can use <see cref="LoadPackagedLibrary"/> to load packaged modules.
+        /// Unpackaged applications cannot use <see cref="LoadPackagedLibrary"/>;
+        /// if a unpackaged application calls this function it fails with <see cref="APPMODEL_ERROR_NO_PACKAGE"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="LoadPackagedLibrary"/> returns a handle to the specified module and increments its reference count.
         /// If the module is already loaded, the function returns a handle to the loaded module.
-        /// The calling process can use the handle returned by <see cref="LoadPackagedLibrary"/>
-        /// to identify the module in calls to the <see cref="GetProcAddress"/> function.
-        /// Use the <see cref="FreeLibrary"/> function to free a loaded module and decrement its reference count.
+        /// The calling process can use the handle returned by <see cref="LoadPackagedLibrary"/> to identify the module in calls to the <see cref="GetProcAddress"/> function.
+        /// Use the <see cref="FreeLibrary"/> function to free a loaded module and decrement its reference count.
+        /// </para>
+        /// <para>
         /// If the function must search for the specified module or its dependencies, it searches only the package dependency graph of the process.
-        /// This is the application's package plus any dependencies specified
-        /// as &lt;PackageDependency&gt; in the &lt;Dependencies&gt; section of the application's package manifest.
+        /// This is the application's package plus any dependencies specified as <c>&lt;PackageDependency&gt;</c>
+        /// in the <c>&lt;Dependencies&gt;</c> section of the application's package manifest.
         /// Dependencies are searched in the order they appear in the manifest.
-        /// The package dependency graph is specified in the &lt;Dependencies&gt; section of the application's package manifest.
-        /// Dependencies are searched in the order they appear in the manifest.
-        /// The search proceeds as follows:
+        /// The package dependency graph is specified in the <c>&lt;Dependencies&gt;</c> section of the application's package manifest.
+        /// Dependencies are searched in the order they appear in the manifest. The search proceeds as follows:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// The function first searches modules that are already loaded.
-        /// If the specified module was originally loaded from the package dependency graph of the process,
-        /// the function returns a handle to the loaded module.
-        /// If the specified module was not loaded from the package dependency graph of the process, the function returns <see cref="NULL"/>.
+        /// If the specified module was originally loaded from the package dependency graph of the process, the function returns a handle to the loaded module.
+        /// If the specified module was not loaded from the package dependency graph of the process, the function returns <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If the module is not already loaded, the function searches the package dependency graph of the process.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// If the function cannot find the specified module or one of its dependencies, the function fails.
-        /// It is not safe to call <see cref="LoadPackagedLibrary"/> from DllMain.
-        /// For more information, see the Remarks section in DllMain.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// It is not safe to call <see cref="LoadPackagedLibrary"/> from <c>DllMain</c>.
+        /// For more information, see the Remarks section in <c>DllMain</c>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadPackagedLibrary", ExactSpelling = true, SetLastError = true)]
@@ -1834,9 +1867,12 @@ namespace Lsj.Util.Win32
         /// if no modules exist or the snapshot does not contain module information.
         /// </returns>
         /// <remarks>
-        /// The calling application must set the <see cref="MODULEENTRY32.dwSize"/> member
-        /// of <see cref="MODULEENTRY32"/> to the size, in bytes, of the structure.
-        /// To retrieve information about other modules associated with the specified process, use the <see cref="Module32Next"/> function.
+        /// <para>
+        /// The calling application must set the <see cref="MODULEENTRY32.dwSize"/> member of <see cref="MODULEENTRY32"/> to the size, in bytes, of the structure.
+        /// </para>
+        /// <para>
+        /// To retrieve information about other modules associated with the specified process, use the <see cref="Module32Next"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32FirstW", ExactSpelling = true, SetLastError = true)]
@@ -1879,15 +1915,23 @@ namespace Lsj.Util.Win32
         /// The cookie returned by <see cref="AddDllDirectory"/> when the directory was added to the search path.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// After <see cref="RemoveDllDirectory"/> returns, the cookie is no longer valid and should not be used.
-        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
-        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
-        /// KB2533623 must be installed on the target platform.
+        /// <para>
+        /// After <see cref="RemoveDllDirectory"/> returns, the cookie is no longer valid and should not be used.
+        /// </para>
+        /// <para>
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
+        /// <c>KB2533623</c> must be installed on the target platform.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
@@ -1896,60 +1940,159 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Specifies a default set of directories to search when the calling process loads a DLL.
-        /// This search path is used when <see cref="LoadLibraryEx"/> is called with no LOAD_LIBRARY_SEARCH flags.
+        /// This search path is used when <see cref="LoadLibraryEx"/> is called with no <c>LOAD_LIBRARY_SEARCH</c> flags.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-setdefaultdlldirectories"/>
         /// </para>
         /// </summary>
         /// <param name="DirectoryFlags">
-        /// The directories to search. This parameter can be any combination of the following values.
-        /// <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>:
+        /// <para>
+        /// The directories to search.
+        /// This parameter can be any combination of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
         /// If this value is used, the application's installation directory is searched.
-        /// <see cref="LOAD_LIBRARY_SEARCH_DEFAULT_DIRS"/>:
-        /// This value is a combination of <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>,
-        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>, and <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOAD_LIBRARY_SEARCH_DEFAULT_DIRS"/>
+        /// </para>
+        /// <para>
+        /// 0x00001000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// This value is a combination of <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>,
+        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>, and <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// </para>
+        /// <para>
         /// This value represents the recommended maximum number of directories an application should include in its DLL search path.
-        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>:
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>
+        /// </para>
+        /// <para>
+        /// 0x00000800
+        /// </para>
+        /// </term>
+        /// <term>
         /// If this value is used, %windows%\system32 is searched.
-        /// <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>:
-        /// If this value is used, any path explicitly added using the <see cref="AddDllDirectory"/> or <see cref="SetDllDirectory"/> function is searched.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// If this value is used, any path explicitly added using the <see cref="AddDllDirectory"/> or <see cref="SetDllDirectory"/> function is searched.
         /// If more than one directory has been added, the order in which those directories are searched is unspecified.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The DLL search path is the set of directories that are searched for a DLL when a full path is not specified
-        /// in a <see cref="LoadLibrary"/> or <see cref="LoadLibraryEx"/> function call, or when a full path to the DLL is specified
-        /// but the system must search for dependent DLLs.
-        /// For more information about the standard DLL search path, see Dynamic-Link Library Search Order.
-        /// The standard DLL search path contains directories that can be vulnerable to a DLL pre-loading attack.
-        /// An application can use the <see cref="SetDefaultDllDirectories"/> function to specify a default DLL search path
+        /// <para>
+        /// The DLL search path is the set of directories that are searched for a DLL
+        /// when a full path is not specified in a <see cref="LoadLibrary"/> or <see cref="LoadLibraryEx"/> function call,
+        /// or when a full path to the DLL is specified but the system must search for dependent DLLs.
+        /// For more information about the standard DLL search path, see Dynamic-Link Library Search Order.
+        /// </para>
+        /// <para>
+        /// The standard DLL search path contains directories that can be vulnerable to a DLL pre-loading attack.
+        /// An application can use the <see cref="SetDefaultDllDirectories"/> function to specify a default DLL search path
         /// for the process that eliminates the most vulnerable directories and limits the other directories that are searched.
         /// The process DLL search path applies only to the calling process and persists for the life of the process.
-        /// If the DirectoryFlags parameter specifies more than one flag, the directories are searched in the following order:
+        /// </para>
+        /// <para>
+        /// If the <paramref name="DirectoryFlags"/> parameter specifies more than one flag, the directories are searched in the following order:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// The directory that contains the DLL (<see cref="LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR"/>).
         /// This directory is searched only for dependencies of the DLL being loaded.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The application directory (<see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>).
-        /// Paths explicitly added to the application search path with the <see cref="AddDllDirectory"/> function
-        /// (<see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>) or the <see cref="SetDllDirectory"/> function.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Paths explicitly added to the application search path with the <see cref="AddDllDirectory"/> function
+        /// (<see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>) or the <see cref="SetDllDirectory"/> function.
         /// If more than one path has been added, the order in which the paths are searched is unspecified.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The System directory (<see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>).
-        /// If <see cref="SetDefaultDllDirectories"/> does not specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>,
-        /// directories specified with the <see cref="AddDllDirectory"/> function are used only for <see cref="LoadLibraryEx"/> function calls
-        /// that specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
-        /// It is not possible to revert to the standard DLL search path or remove any directory
-        /// specified with <see cref="SetDefaultDllDirectories"/> from the search path.
-        /// However, the process DLL search path can be overridden by calling <see cref="LoadLibraryEx"/> with one or more LOAD_LIBRARY_SEARCH flags,
-        /// and directories added with <see cref="AddDllDirectory"/> can be removed by calling <see cref="RemoveDllDirectory"/>.
-        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
-        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
-        /// KB2533623 must be installed on the target platform.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <see cref="SetDefaultDllDirectories"/> does not specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>,
+        /// directories specified with the <see cref="AddDllDirectory"/> function are used only
+        /// for <see cref="LoadLibraryEx"/> function calls that specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// </para>
+        /// <para>
+        /// It is not possible to revert to the standard DLL search path or remove any directory specified with <see cref="SetDefaultDllDirectories"/> from the search path.
+        /// However, the process DLL search path can be overridden by calling <see cref="LoadLibraryEx"/> with one or more <c>LOAD_LIBRARY_SEARCH</c> flags,
+        /// and directories added with <see cref="AddDllDirectory"/> can be removed by calling <see cref="RemoveDllDirectory"/>.
+        /// </para>
+        /// <para>
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
+        /// <c>KB2533623</c> must be installed on the target platform.
+        /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1,
+            Note = "KB2533623 on Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDefaultDllDirectories([In] LoadLibraryExFlags DirectoryFlags);
 
@@ -1964,33 +2107,82 @@ namespace Lsj.Util.Win32
         /// <param name="lpPathName">
         /// The directory to be added to the search path.
         /// If this parameter is an empty string (""), the call removes the current directory from the default DLL search order.
-        /// If this parameter is <see langword="null"/>, the function restores the default search order.
+        /// If this parameter is <see cref="NULL"/>, the function restores the default search order.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="SetDllDirectory"/> function affects all subsequent calls to the <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/> functions.
+        /// <para>
+        /// The <see cref="SetDllDirectory"/> function affects all subsequent calls to the <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/> functions.
         /// It also effectively disables safe DLL search mode while the specified directory is in the search path.
-        /// After calling <see cref="SetDllDirectory"/>, the standard DLL search path is:
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For Win32 processes that are not running a packaged or protected process,
+        /// calling this function will also affect the DLL search order of the children processes started from the process that has called the function.
+        /// </para>
+        /// <para>
+        /// After calling <see cref="SetDllDirectory"/>, the standard DLL search path is:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
         /// The directory from which the application loaded.
-        /// The directory specified by the <paramref name="lpPathName"/> parameter.
-        /// The system directory. Use the GetSystemDirectory function to get the path of this directory. The name of this directory is System32.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The directory specified by the <paramref name="lpPathName"/> parameter.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The system directory. Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
+        /// The name of this directory is System32.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched.
         /// The name of this directory is System.
-        /// The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// The directories that are listed in the PATH environment variable.
-        /// Each time the <see cref="SetDllDirectory"/> function is called,
-        /// it replaces the directory specified in the previous <see cref="SetDllDirectory"/> call.
-        /// To specify more than one directory, use the <see cref="AddDllDirectory"/> function
-        /// and call <see cref="LoadLibraryEx"/> with <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
-        /// To revert to the standard search path used by <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/>,
-        /// call <see cref="SetDllDirectory"/> with <see langword="null"/>.
-        /// This also restores safe DLL search mode based on the SafeDllSearchMode registry value.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Each time the <see cref="SetDllDirectory"/> function is called, it replaces the directory specified in the previous <see cref="SetDllDirectory"/> call.
+        /// To specify more than one directory, use the <see cref="AddDllDirectory"/> function
+        /// and call <see cref="LoadLibraryEx"/> with <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// </para>
+        /// <para>
+        /// To revert to the standard search path used by <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/>,
+        /// call <see cref="SetDllDirectory"/> with <see cref="NULL"/>.
+        /// This also restores safe DLL search mode based on the <c>SafeDllSearchMode</c> registry value.
+        /// </para>
+        /// <para>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
-        /// For more information, see Using the Windows Headers.
+        /// For more information, see Using the Windows Headers.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDllDirectoryW", ExactSpelling = true, SetLastError = true)]
