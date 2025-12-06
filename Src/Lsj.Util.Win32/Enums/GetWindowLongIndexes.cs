@@ -8,6 +8,21 @@ namespace Lsj.Util.Win32.Enums
     public enum GetWindowLongIndexes
     {
         /// <summary>
+        /// DWL_MSGRESULT
+        /// </summary>
+        DWL_MSGRESULT = 0,
+
+        /// <summary>
+        /// DWL_DLGPROC
+        /// </summary>
+        DWL_DLGPROC = 4,
+
+        /// <summary>
+        /// DWL_USER
+        /// </summary>
+        DWL_USER = 8,
+
+        /// <summary>
         /// GWL_EXSTYLE
         /// </summary>
         GWL_EXSTYLE = -20,

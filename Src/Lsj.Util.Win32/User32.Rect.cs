@@ -136,6 +136,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="InvertRect"/> function inverts a rectangle in a window by performing a logical NOT operation on the color values
+        /// for each pixel in the rectangle's interior.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-invertrect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be inverted.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// On monochrome screens, <see cref="InvertRect"/> makes white pixels black and black pixels white.
+        /// On color screens, the inversion depends on how colors are generated for the screen.
+        /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InvertRect([In] HDC hDC, [In] in RECT lprc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="IsRectEmpty"/> function determines whether the specified rectangle is empty.
         /// An empty rectangle is one that has no area; that is, the coordinate of the right side is less than or equal to the coordinate of the left side,
         /// or the coordinate of the bottom side is less than or equal to the coordinate of the top side.

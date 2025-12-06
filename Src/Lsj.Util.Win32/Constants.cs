@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -119,6 +120,11 @@ namespace Lsj.Util.Win32
         public const uint DF_ALLOWOTHERACCOUNTHOOK = 0x0001;
 
         /// <summary>
+        /// DLGWINDOWEXTRA
+        /// </summary>
+        public const int DLGWINDOWEXTRA = 30;
+
+        /// <summary>
         /// DM_SPECVERSION
         /// </summary>
         public const ushort DM_SPECVERSION = 0x401;
@@ -129,9 +135,34 @@ namespace Lsj.Util.Win32
         public const ushort DN_DEFAULTPRN = 0x0001;
 
         /// <summary>
+        /// DWLP_DLGPROC
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_DLGPROC = DWLP_MSGRESULT + IntPtr.Size;
+
+        /// <summary>
+        /// DWLP_MSGRESULT
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_MSGRESULT = 0;
+
+        /// <summary>
+        /// DWLP_USER
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + IntPtr.Size;
+
+        /// <summary>
         /// DWM_SIT_DISPLAYFRAME
         /// </summary>
         public const uint DWM_SIT_DISPLAYFRAME = 0x00000001;
+
+        /// <summary>
+        /// ENUM_CURRENT_SETTINGS
+        /// </summary>
+        public static readonly DWORD ENUM_CURRENT_SETTINGS = (DWORD)(-1);
+
+        /// <summary>
+        /// ENUM_REGISTRY_SETTINGS
+        /// </summary>
+        public static readonly DWORD ENUM_REGISTRY_SETTINGS = (DWORD)(-2);
 
         /// <summary>
         /// EXCEPTION_CONTINUE_EXECUTION

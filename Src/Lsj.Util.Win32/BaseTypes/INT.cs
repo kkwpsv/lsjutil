@@ -13,6 +13,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct INT
     {
+        /// <summary>
+        /// INT_MAX
+        /// </summary>
+        public static readonly INT INT_MAX = 2147483647;
+
         [FieldOffset(0)]
         private int _value;
 
