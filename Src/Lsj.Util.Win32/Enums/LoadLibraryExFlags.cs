@@ -64,5 +64,15 @@ namespace Lsj.Util.Win32.Enums
         /// LOAD_WITH_ALTERED_SEARCH_PATH
         /// </summary>
         LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008,
+
+        /// <summary>
+        /// LOAD_LIBRARY_REQUIRE_SIGNED_TARGET
+        /// </summary>
+        LOAD_LIBRARY_REQUIRE_SIGNED_TARGET = 0x00000080,
+
+        /// <summary>
+        /// LOAD_LIBRARY_SAFE_CURRENT_DIRS
+        /// </summary>
+        LOAD_LIBRARY_SAFE_CURRENT_DIRS = 0x00002000,
     }
 }

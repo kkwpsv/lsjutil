@@ -1221,6 +1221,142 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Loads and executes an application or creates a new instance of an existing application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-loadmodule"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpModuleName">
+        /// <para>
+        /// The file name of the application to be run.
+        /// When specifying a path, be sure to use backslashes (\), not forward slashes (/).
+        /// If the <paramref name="lpModuleName"/> parameter does not contain a directory path,
+        /// the system searches for the executable file in this order:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// The directory from which the application loaded.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The current directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The system directory.
+        /// Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The 16-bit system directory.
+        /// There is no function that obtains the path of this directory, but it is searched.
+        /// The name of this directory is System.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The Windows directory.
+        /// Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The directories that are listed in the PATH environment variable.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpParameterBlock">
+        /// <para>
+        /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
+        /// </para>
+        /// <para>
+        /// Set all unused members to <see cref="NULL"/>, except for <see cref="LOADPARMS32.lpCmdLine"/>,
+        /// which must point to a null-terminated string if it is not used.
+        /// For more information, see Remarks.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is greater than 31.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is an error value, which may be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The system is out of memory or resources.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ERROR_BAD_FORMAT"/>
+        /// </para>
+        /// <para>
+        /// 11L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The .exe file is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>
+        /// </para>
+        /// <para>
+        /// 2L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified file was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </para>
+        /// <para>
+        /// 3L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified path was not found.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true)]
+        public static extern DWORD LoadModule([In] LPCWSTR lpModuleName, [In] LPVOID lpParameterBlock);
+
+        /// <summary>
+        /// <para>
         /// Opens an existing local process object.
         /// </para>
         /// <para>
