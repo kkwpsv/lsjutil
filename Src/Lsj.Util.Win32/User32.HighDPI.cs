@@ -10,8 +10,10 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DIALOG_DPI_CHANGE_BEHAVIORS;
 using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
 using static Lsj.Util.Win32.Enums.DPI_HOSTING_BEHAVIOR;
+using static Lsj.Util.Win32.Enums.PROCESS_DPI_AWARENESS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shcore;
@@ -48,9 +50,13 @@ namespace Lsj.Util.Win32
         /// The DPI to use for scaling.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
@@ -91,7 +97,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// In high-DPI displays, enables automatic display scaling of the non-client area portions of the specified top-level window.
         /// Must be called during the initialization of that window.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Applications running at a <see cref="DPI_AWARENESS_CONTEXT"/> of <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2"/>
         /// automatically scale their non-client areas by default.
         /// They do not need to call this function.
@@ -104,26 +114,37 @@ namespace Lsj.Util.Win32
         /// The window that should have automatic scaling enabled.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Calling this function will enable non-client scaling for an individual top-level window
-        /// with <see cref="DPI_AWARENESS_CONTEXT"/> of <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE"/>.
-        /// If instead you are not using per-window awareness, and your entire process is running in <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/> mode,
+        /// with <see cref="DPI_AWARENESS_CONTEXT"/> of <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE"/>.
+        /// If instead you are not using per-window awareness, and your entire process is running in <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/> mode,
         /// calling this function will enable non-client scaling in top-level windows in your process.
+        /// </para>
+        /// <para>
         /// If neither of those are true, or if you call this method from any other window, then it will fail and return a value of zero.
+        /// </para>
+        /// <para>
         /// Non-client scaling for top-level windows is not enabled by default.
         /// You must call this API to enable it for each individual top-level window for which you wish to have the non-client area scale automatically.
         /// Once you do, there is no way to disable it.
-        /// Enabling non-client scaling means that all the areas drawn by the system
-        /// for the window will automatically scale in response to DPI changes on the window.
+        /// Enabling non-client scaling means that all the areas drawn by the system for the window
+        /// will automatically scale in response to DPI changes on the window.
         /// That includes areas like the caption bar, the scrollbars, and the menu bar.
-        /// You want to call <see cref="EnableNonClientDpiScaling"/> when you want the operating system
-        /// to be responsible for rendering these areas automatically at the correct size based on the API of the monitor.
+        /// You want to call <see cref="EnableNonClientDpiScaling"/> when you want the operating system to be responsible
+        /// for rendering these areas automatically at the correct size based on the DPI of the monitor.
+        /// </para>
+        /// <para>
         /// Calling this function enables non-client scaling for top-level windows only. Child windows are unaffected.
-        /// This function must be called from WM_NCCREATE during the initialization of a new window. An example call might look like this:
+        /// </para>
+        /// <para>
+        /// This function must be called from <see cref="WM_NCCREATE"/> during the initialization of a new window.
+        /// An example call might look like this:
+        /// </para>
         /// <code>
         /// case WM_NCCREATE:
         /// {
@@ -148,7 +169,8 @@ namespace Lsj.Util.Win32
         /// The <see cref="DPI_AWARENESS_CONTEXT"/> you want to examine.
         /// </param>
         /// <returns>
-        /// The <see cref="DPI_AWARENESS"/>. If the provided value is null or invalid, this method will return <see cref="DPI_AWARENESS_INVALID"/>.
+        /// The <see cref="DPI_AWARENESS"/>.
+        /// If the provided value is null or invalid, this method will return <see cref="DPI_AWARENESS_INVALID"/>.
         /// </returns>
         /// <remarks>
         /// A <see cref="DPI_AWARENESS_CONTEXT"/> contains multiple pieces of information.
@@ -156,7 +178,7 @@ namespace Lsj.Util.Win32
         /// This method retrieves the <see cref="DPI_AWARENESS"/> from the structure.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAwarenessFromDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAwarenessFromDpiAwarenessContext", ExactSpelling = true)]
         public static extern DPI_AWARENESS GetAwarenessFromDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
         /// <summary>
@@ -181,6 +203,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Returns the flags that might have been set on a given dialog by an earlier call to <see cref="SetDialogDpiChangeBehavior"/>.
+        /// </para>
+        /// <para>
         /// If that function was never called on the dialog, the return value will be zero.
         /// </para>
         /// <para>
@@ -218,7 +242,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DPI_AWARENESS_CONTEXT"/> for the specified process.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1903)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiAwarenessContextForProcess", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiAwarenessContextForProcess", ExactSpelling = true)]
         public static extern DPI_AWARENESS_CONTEXT GetDpiAwarenessContextForProcess([In] HANDLE hProcess);
 
         /// <summary>
@@ -233,14 +257,18 @@ namespace Lsj.Util.Win32
         /// The system DPI value.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The return value will be dependent based upon the calling context.
-        /// If the current thread has a <see cref="DPI_AWARENESS"/> value of <see cref="DPI_AWARENESS_UNAWARE"/>, the return value will be 96.
+        /// If the current thread has a <see cref="DPI_AWARENESS"/> value of <see cref="DPI_AWARENESS_UNAWARE"/>, the return value will be 96.
         /// That is because the current context always assumes a DPI of 96.
-        /// For any other <see cref="DPI_AWARENESS"/> value, the return value will be the actual system DPI.
-        /// You should not cache the system DPI, but should use <see cref="GetDpiForSystem"/> whenever you need the system DPI value.
+        /// For any other <see cref="DPI_AWARENESS"/> value, the return value will be the actual system DPI.
+        /// </para>
+        /// <para>
+        /// You should not cache the system DPI, but should use <see cref="GetDpiForSystem"/> whenever you need the system DPI value.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForSystem", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForSystem", ExactSpelling = true)]
         public static extern UINT GetDpiForSystem();
 
         /// <summary>
@@ -257,16 +285,52 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The DPI for the window which depends on the <see cref="DPI_AWARENESS"/> of the window.
         /// See the Remarks for more information.
-        /// An invalid hwnd value will result in a return value of 0.
+        /// An invalid <paramref name="hwnd"/> value will result in a return value of 0.
         /// </returns>
         /// <remarks>
-        /// The following table indicates the return value of <see cref="GetDpiForWindow"/> based on the <see cref="DPI_AWARENESS"/> of the provided hwnd.
-        /// <see cref="DPI_AWARENESS_UNAWARE"/>: 96
-        /// <see cref="DPI_AWARENESS_SYSTEM_AWARE"/>: The system DPI.
-        /// <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/>: The DPI of the monitor where the window is located.
+        /// <para>
+        /// The following table indicates the return value of <see cref="GetDpiForWindow"/>
+        /// based on the <see cref="DPI_AWARENESS"/> of the provided <paramref name="hwnd"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// <see cref="DPI_AWARENESS"/>
+        /// </term>
+        /// <term>
+        /// Return value
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DPI_AWARENESS_UNAWARE"/>
+        /// </term>
+        /// <term>
+        /// The base value of DPI is which is set to 96 (defined as `<c>USER_DEFAULT_SCREEN_DPI</c>`)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DPI_AWARENESS_SYSTEM_AWARE"/>
+        /// </term>
+        /// <term>
+        /// The system DPI.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/>
+        /// </term>
+        /// <term>
+        /// The DPI of the monitor where the window is located.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true)]
         public static extern UINT GetDpiForWindow([In] HWND hwnd);
 
         /// <summary>
@@ -290,7 +354,7 @@ namespace Lsj.Util.Win32
         /// This is because the DPI of a per-monitor-aware window can change, and the actual DPI cannot be returned without the window's HWND.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiFromDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiFromDpiAwarenessContext", ExactSpelling = true)]
         public static extern UINT GetDpiFromDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
         /// <summary>
@@ -317,7 +381,7 @@ namespace Lsj.Util.Win32
         /// For any other <see cref="DPI_AWARENESS"/> value, the return value will be the actual system DPI of the given process.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDpiForProcess", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDpiForProcess", ExactSpelling = true)]
         public static extern UINT GetSystemDpiForProcess([In] HANDLE hProcess);
 
         /// <summary>
@@ -336,9 +400,13 @@ namespace Lsj.Util.Win32
         /// The DPI to use for scaling the metric.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
@@ -364,7 +432,7 @@ namespace Lsj.Util.Win32
         /// then the return value will equal the default <see cref="DPI_AWARENESS_CONTEXT"/> for the process.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiAwarenessContext", ExactSpelling = true)]
         public static extern DPI_AWARENESS_CONTEXT GetThreadDpiAwarenessContext();
 
         /// <summary>
@@ -383,7 +451,7 @@ namespace Lsj.Util.Win32
         /// or <see cref="DPI_HOSTING_BEHAVIOR_DEFAULT"/> if no earlier call has been made.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDpiHostingBehavior", ExactSpelling = true)]
         public static extern DPI_HOSTING_BEHAVIOR GetThreadDpiHostingBehavior();
 
         /// <summary>
@@ -402,12 +470,16 @@ namespace Lsj.Util.Win32
         /// If the window is not valid, the return value is <see cref="NULL"/>.
         /// </returns>
         /// <remarks>
-        /// Important  
-        /// The return value of <see cref="GetWindowDpiAwarenessContext"/> is not affected by the <see cref="DPI_AWARENESS"/> of the current thread.
-        /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter. 
+        /// <para>
+        /// Important  
+        /// </para>
+        /// <para>
+        /// The return value of <see cref="GetWindowDpiAwarenessContext"/> is not affected by the <see cref="DPI_AWARENESS"/> of the current thread.
+        /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true)]
         public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
 
         /// <summary>
@@ -431,7 +503,7 @@ namespace Lsj.Util.Win32
         /// This is a permanent value and cannot be changed after the window is created, even if the thread's hosting behavior is changed.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiHostingBehavior", ExactSpelling = true)]
         public static extern DPI_HOSTING_BEHAVIOR GetWindowDpiHostingBehavior([In] HWND hwnd);
 
         /// <summary>
@@ -452,7 +524,7 @@ namespace Lsj.Util.Win32
         /// True if the call is successful.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InheritWindowMonitor", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InheritWindowMonitor", ExactSpelling = true)]
         public static extern BOOL InheritWindowMonitor([In] HWND hwnd, [In] HWND hwndInherit);
 
         /// <summary>
@@ -470,7 +542,7 @@ namespace Lsj.Util.Win32
         [Obsolete("IsProcessDPIAware is available for use in the operating systems specified in the Requirements section. " +
             "It may be altered or unavailable in subsequent versions. Instead, use GetProcessDPIAwareness.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessDPIAware", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessDPIAware", ExactSpelling = true)]
         public static extern BOOL IsProcessDPIAware();
 
         /// <summary>
@@ -488,12 +560,17 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the provided context is supported, otherwise <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// <see cref="IsValidDpiAwarenessContext"/> determines the validity of any provided <see cref="DPI_AWARENESS_CONTEXT"/>.
-        /// You should make sure a context is valid before using <see cref="SetThreadDpiAwarenessContext"/> to that context.
-        /// An input value of <see cref="NULL"/> is considered to be an invalid context and will result in a return value of <see cref="FALSE"/>.
+        /// <para>
+        /// <see cref="IsValidDpiAwarenessContext"/> determines the validity of any provided <see cref="DPI_AWARENESS_CONTEXT"/>.
+        /// You should make sure a context is valid before using <see cref="SetThreadDpiAwarenessContext"/> to that context.
+        /// </para>
+        /// <para>
+        /// An input <paramref name="value"/> of <see cref="NULL"/> is considered to be an invalid context
+        /// and will result in a return value of <see cref="FALSE"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidDpiAwarenessContext", ExactSpelling = true)]
         public static extern BOOL IsValidDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
         /// <summary>
@@ -517,39 +594,49 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// In Windows 8, system–DPI aware applications translated between physical and logical space
-        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
-        /// In Windows 8.1, the additional virtualization of the system and inter-process communications
-        /// means that for the majority of applications, you do not need these APIs.
-        /// As a result, in Windows 8.1, these APIs no longer transform points.
+        /// <para>
+        /// In Windows 8, system–DPI aware applications translated between physical and logical space
+        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
+        /// In Windows 8.1, the additional virtualization of the system and inter-process communications means
+        /// that for the majority of applications, you do not need these APIs.
+        /// As a result, in Windows 8.1, these APIs no longer transform points.
         /// The system returns all points to an application in its own coordinate space.
         /// This behavior preserves functionality for the majority of applications,
         /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
+        /// </para>
+        /// <para>
         /// For example, an application might need to walk the entire window tree of another process
         /// and ask the system for DPI-dependent information about the window.
         /// By default, the system will return the information based on the DPI awareness of the caller.
         /// This is ideal for most applications.
         /// However, the caller might need the information based on the DPI awareness of the application associated with the window.
         /// This might be necessary because the two applications send DPI-dependent information between each other directly.
-        /// In this case, the application can use <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> to get physical coordinates
-        /// and then use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> to convert the physical coordinates
-        /// into logical coordinates based on the DPI-awareness of the provided <see cref="HWND"/>.
-        /// Consider two applications, one has a <see cref="PROCESS_DPI_AWARENESS"/> value of PROCESS_DPI_UNAWARE
-        /// and the other has a value of PROCESS_PER_MONITOR_AWARE.
-        /// The PROCESS_DPI_UNAWARE app creates a window on a single monitor where the scale factor is 200% (192 DPI).
-        /// If both apps call <see cref="GetWindowRect"/> on this window, they will receive different values.
-        /// The PROCESS_DPI_UNAWARE app will receive a rect based on 96 DPI coordinates,
-        /// while the PROCESS_PER_MONITOR_AWARE app will receive coordinates matching the actual DPI of the monitor.
-        /// If the PROCESS_PER_MONITOR_AWARE needs the rect that the system returned to the PROCESS_DPI_UNAWARE app,
-        /// it could call <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> for the corners
-        /// of its rect and pass in the handle to the PROCESS_DPI_UNAWARE app's window.
+        /// In this case, the application can use <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> to get physical coordinates
+        /// and then use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> to convert the physical coordinates
+        /// into logical coordinates based on the DPI-awareness of the provided <see cref="HWND"/>.
+        /// </para>
+        /// <para>
+        /// Consider two applications, one has a <see cref="PROCESS_DPI_AWARENESS"/> value of <see cref="PROCESS_DPI_UNAWARE"/>
+        /// and the other has a value of <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/>.
+        /// The <see cref="PROCESS_DPI_UNAWARE"/> app creates a window on a single monitor where the scale factor is 200% (192 DPI).
+        /// If both apps call <see cref="GetWindowRect"/> on this window, they will receive different values.
+        /// The <see cref="PROCESS_DPI_UNAWARE"/> app will receive a rect based on 96 DPI coordinates,
+        /// while the <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> app will receive coordinates matching the actual DPI of the monitor.
+        /// If the <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> needs the rect that the system returned to the <see cref="PROCESS_DPI_UNAWARE"/> app,
+        /// it could call <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> for the corners of its rect
+        /// and pass in the handle to the <see cref="PROCESS_DPI_UNAWARE"/> app's window.
         /// This will return points based on the other app's awareness that can be used to create a rect.
-        /// Tip  
-        /// Since an application with a PROCESS_DPI_AWARENESS value of PROCESS_PER_MONITOR_AWARE uses the actual DPI of the monitor,
-        /// physical and logical coordinates are the same for this app.
+        /// </para>
+        /// <para>
+        /// Tip
+        /// </para>
+        /// <para>
+        /// Since an application with a <see cref="PROCESS_DPI_AWARENESS"/> value of <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> uses
+        /// the actual DPI of the monitor, physical and logical coordinates are the same for this app.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogicalToPhysicalPointForPerMonitorDPI", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogicalToPhysicalPointForPerMonitorDPI", ExactSpelling = true)]
         public static extern BOOL LogicalToPhysicalPointForPerMonitorDPI([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
         /// <summary>
@@ -570,36 +657,44 @@ namespace Lsj.Util.Win32
         /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// In Windows 8, system–DPI aware applications translate between physical and logical space
-        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
-        /// In Windows 8.1, the additional virtualization of the system and inter-process communications
-        /// means that for the majority of applications, you do not need these APIs.
-        /// As a result, in Windows 8.1, these APIs no longer transform points.
+        /// <para>
+        /// In Windows 8, system–DPI aware applications translate between physical and logical space
+        /// using <see cref="PhysicalToLogicalPoint"/> and <see cref="LogicalToPhysicalPoint"/>.
+        /// In Windows 8.1, the additional virtualization of the system and inter-process communications means
+        /// that for the majority of applications, you do not need these APIs.
+        /// As a result, in Windows 8.1, these APIs no longer transform points.
         /// The system returns all points to an application in its own coordinate space.
         /// This behavior preserves functionality for the majority of applications,
         /// but there are some exceptions in which you must make changes to ensure that the application works as expected.
+        /// </para>
+        /// <para>
         /// For example, an application might need to walk the entire window tree of another process
         /// and ask the system for DPI-dependent information about the window.
         /// By default, the system will return the information based on the DPI awareness of the caller.
         /// This is ideal for most applications.
         /// However, the caller might need the information based on the DPI awareness of the application associated with the window.
         /// This might be necessary because the two applications send DPI-dependent information between each other directly.
-        /// In this case, the application can use <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> to get physical coordinates
-        /// and then use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> to convert the physical coordinates
-        /// into logical coordinates based on the DPI-awareness of the provided <see cref="HWND"/>.
-        /// Consider two applications, one has a <see cref="PROCESS_DPI_AWARENESS"/> value of PROCESS_DPI_UNAWARE
-        /// and the other has a value of PROCESS_PER_MONITOR_AWARE.
-        /// The PROCESS_DPI_UNAWARE app creates a window on a single monitor where the scale factor is 200% (192 DPI).
-        /// If both apps call <see cref="GetWindowRect"/> on this window, they will receive different values.
-        /// The PROCESS_DPI_UNAWARE app will receive a rect based on 96 DPI coordinates,
-        /// while the PROCESS_PER_MONITOR_AWARE app will receive coordinates matching the actual DPI of the monitor.
-        /// If the PROCESS_PER_MONITOR_AWARE needs the rect that the system returned to the PROCESS_DPI_UNAWARE app,
-        /// it could call <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> for the corners
-        /// of its rect and pass in the handle to the PROCESS_DPI_UNAWARE app's window.
+        /// In this case, the application can use <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> to get physical coordinates
+        /// and then use <see cref="PhysicalToLogicalPointForPerMonitorDPI"/> to convert the physical coordinates
+        /// into logical coordinates based on the DPI-awareness of the provided <see cref="HWND"/>.
+        /// </para>
+        /// <para>
+        /// Consider two applications, one has a <see cref="PROCESS_DPI_AWARENESS"/> value of <see cref="PROCESS_DPI_UNAWARE"/>
+        /// and the other has a value of <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/>.
+        /// The <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> app creates a window on a single monitor where the scale factor is 200% (192 DPI).
+        /// If both apps call <see cref="GetWindowRect"/> on this window, they will receive different values.
+        /// The <see cref="PROCESS_DPI_UNAWARE"/> app will receive a rect based on 96 DPI coordinates,
+        /// while the <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> app will receive coordinates matching the actual DPI of the monitor.
+        /// If the <see cref="PROCESS_DPI_UNAWARE"/> needs the rect that the system returned to the <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> app,
+        /// it could call <see cref="LogicalToPhysicalPointForPerMonitorDPI"/> for the corners of its rect
+        /// and pass in a handle to the <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> app's window.
         /// This will return points based on the other app's awareness that can be used to create a rect.
+        /// This works because since a <see cref="PROCESS_PER_MONITOR_DPI_AWARE"/> uses
+        /// the actual DPI of the monitor, logical and physical coordinates are identical.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PhysicalToLogicalPointForPerMonitorDPI", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PhysicalToLogicalPointForPerMonitorDPI", ExactSpelling = true)]
         public static extern BOOL PhysicalToLogicalPointForPerMonitorDPI([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
         /// <summary>
@@ -620,21 +715,32 @@ namespace Lsj.Util.Win32
         /// The desired value to be set for the specified subset of flags.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function returns <see cref="TRUE"/> if the operation was successful, and <see cref="FALSE"/> otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Possible errors are <see cref="ERROR_INVALID_HANDLE"/> if passed an invalid <see cref="HWND"/>,
-        /// and <see cref="ERROR_ACCESS_DENIED"/> if the windows belongs to another process.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// Possible errors are <see cref="ERROR_INVALID_HANDLE"/> if passed an invalid <see cref="HWND"/>,
+        /// and <see cref="ERROR_ACCESS_DENIED"/> if the windows belongs to another process.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The behaviors are specified as values from the <see cref="DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS"/> enum.
+        /// <para>
+        /// The behaviors are specified as values from the <see cref="DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS"/> enum.
         /// This function follows the typical two-parameter approach to setting flags,
         /// where a mask specifies the subset of the flags to be changed.
-        /// It is valid to set these behaviors on any window.
-        /// It does not matter if the window is currently a child of a dialog
-        /// at the point in time that <see cref="SetDialogControlDpiChangeBehavior"/> is called.
-        /// The behaviors are retained and will take effect only when the window is an immediate child of a dialog that has per-monitor DPI scaling enabled.
+        /// </para>
+        /// <para>
+        /// It is valid to set these behaviors on any window.
+        /// It does not matter if the window is currently a child of a dialog at the point
+        /// in time that <see cref="SetDialogControlDpiChangeBehavior"/> is called.
+        /// The behaviors are retained and will take effect only
+        /// when the window is an immediate child of a dialog that has per-monitor DPI scaling enabled.
+        /// </para>
+        /// <para>
         /// This API influences individual controls within dialogs.
-        /// The dialog-wide per-monitor DPI scaling behavior is controlled by <see cref="SetDialogDpiChangeBehavior"/>.
+        /// The dialog-wide per-monitor DPI scaling behavior is controlled by <see cref="SetDialogDpiChangeBehavior"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDialogControlDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
@@ -643,13 +749,17 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Dialogs in Per-Monitor v2 contexts are automatically DPI scaled.
+        /// Dialogs in Per-Monitor v2 contexts are automatically DPI scaled.
         /// This method lets you customize their DPI change behavior.
-        /// This function works in conjunction with the <see cref="DIALOG_DPI_CHANGE_BEHAVIORS"/> enum
+        /// </para>
+        /// <para>
+        /// This function works in conjunction with the <see cref="DIALOG_DPI_CHANGE_BEHAVIORS"/> enum
         /// in order to override the default DPI scaling behavior for dialogs.
         /// This function is called on a specified dialog, for which the specified flags are individually saved.
+        /// </para>
+        /// <para>
         /// This function does not affect the DPI scaling behavior for the child windows of the dialog in question
-        /// - that is done with <see cref="SetDialogControlDpiChangeBehavior"/>.
+        /// - that is done with <see cref="SetDialogControlDpiChangeBehavior"/>.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdialogdpichangebehavior"/>
@@ -665,16 +775,25 @@ namespace Lsj.Util.Win32
         /// The desired value to be set for the specified subset of flags.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function returns <see cref="TRUE"/> if the operation was successful, and <see cref="FALSE"/> otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Possible errors are <see cref="ERROR_INVALID_HANDLE"/> if passed an invalid <see cref="HWND"/>,
-        /// and <see cref="ERROR_ACCESS_DENIED"/> if the windows belongs to another process.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// Possible errors are <see cref="ERROR_INVALID_HANDLE"/> if passed an invalid dialog <see cref="HWND"/>,
+        /// and <see cref="ERROR_ACCESS_DENIED"/> if the dialog belongs to another process.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// For extensibility, <see cref="DIALOG_DPI_CHANGE_BEHAVIORS"/> was modeled as a set of bit-flags representing separate behaviors.
-        /// This function follows the typical two-parameter approach to setting flags, where a mask specifies the subset of the flags to be changed.
+        /// <para>
+        /// For extensibility, <see cref="DIALOG_DPI_CHANGE_BEHAVIORS"/> was modeled as a set of bit-flags representing separate behaviors.
+        /// This function follows the typical two-parameter approach to setting flags,
+        /// where a mask specifies the subset of the flags to be changed.
+        /// </para>
+        /// <para>
         /// It is not an error to call this API outside of Per Monitor v2 contexts,
         /// though the flags will have no effect on the behavior of the specified dialog until the context is changed to Per Monitor v2.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1703)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDialogDpiChangeBehavior", ExactSpelling = true, SetLastError = true)]
@@ -692,8 +811,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// If the function succeeds, the return value is nonzero.
+        /// Otherwise, the return value is zero.
         /// </returns>
         /// <remarks>
         /// For more information, see Setting the default DPI awareness for a process.
@@ -702,16 +821,21 @@ namespace Lsj.Util.Win32
             "See Setting the default DPI awareness for a process for more information. " +
             "Setting the process-default DPI awareness via API call can lead to unexpected application behavior.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDPIAware", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDPIAware", ExactSpelling = true)]
         public static extern BOOL SetProcessDPIAware();
 
         /// <summary>
         /// <para>
-        /// It is recommended that you set the process-default DPI awareness via application manifest.
-        /// See Setting the default DPI awareness for a process for more information.
         /// Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
         /// Sets the current process to a specified dots per inch (dpi) awareness context.
         /// The DPI awareness contexts are from the <see cref="DPI_AWARENESS_CONTEXT"/> value.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// It is recommended that you set the process-default DPI awareness via application manifest.
+        /// See Setting the default DPI awareness for a process for more information.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setprocessdpiawarenesscontext"/>
@@ -721,27 +845,35 @@ namespace Lsj.Util.Win32
         /// A <see cref="DPI_AWARENESS_CONTEXT"/> handle to set.
         /// </param>
         /// <returns>
+        /// <para>
         /// This function returns <see cref="TRUE"/> if the operation was successful, and <see cref="FALSE"/> otherwise.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Possible errors are <see cref="ERROR_INVALID_PARAMETER"/> for an invalid input,
-        /// and <see cref="ERROR_ACCESS_DENIED"/> if the default API awareness mode for the process has already been set
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// Possible errors are <see cref="ERROR_INVALID_PARAMETER"/> for an invalid input,
+        /// and <see cref="ERROR_ACCESS_DENIED"/> if the default API awareness mode for the process has already been set
         /// (via a previous API call or within the application manifest).
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This API is a more advanced version of the previously existing <see cref="SetProcessDpiAwareness"/> API,
-        /// allowing for the process default to be set to the finer-grained <see cref="DPI_AWARENESS_CONTEXT"/> values.
-        /// Most importantly, this allows you to programmatically set Per Monitor v2 as the process default value,
+        /// <para>
+        /// This API is a more advanced version of the previously existing <see cref="SetProcessDpiAwareness"/> API,
+        /// allowing for the process default to be set to the finer-grained <see cref="DPI_AWARENESS_CONTEXT"/> values.
+        /// Most importantly, this allows you to programmatically set Per Monitor v2 as the process default value,
         /// which is not possible with the previous API.
-        /// This method sets the default <see cref="DPI_AWARENESS_CONTEXT"/> for all threads within an application.
-        /// Individual threads can have their DPI awareness changed from the default with the <see cref="SetThreadDpiAwarenessContext"/> method.
-        /// Important 
-        /// In general, it is recommended to not use <see cref="SetProcessDpiAwarenessContext"/> to set the DPI awareness for your application.
-        /// If possible, you should declare the DPI awareness for your application in the application manifest.
-        /// For more information, see Setting the default DPI awareness for a process.
+        /// </para>
+        /// <para>
+        /// This method sets the default <see cref="DPI_AWARENESS_CONTEXT"/> for all threads within an application.
+        /// Individual threads can have their DPI awareness changed from the default with the <see cref="SetThreadDpiAwarenessContext"/> method.
+        /// </para>
+        /// <para>
         /// You must call this API before you call any APIs that depend on the DPI awareness (including before creating any UI in your process).
         /// Once API awareness is set for an app, any future calls to this API will fail.
         /// This is true regardless of whether you set the DPI awareness in the manifest or by using this API.
-        /// If the DPI awareness level is not set, the default value is <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>.
+        /// </para>
+        /// <para>
+        /// If the DPI awareness level is not set, the default value is <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
@@ -757,21 +889,27 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="cursorDpi">
+        /// <para>
         /// The 96-based DPI scale of the cursors that the application will be creating.
         /// For example, a 96 DPI value corresponds to 100% monitor scale factor, 144 DPI corresponds to 150%, and so on.
+        /// </para>
+        /// <para>
         /// There are two special values:
-        /// <see cref="CURSOR_CREATION_SCALING_DEFAULT"/> –
-        /// resets cursor scaling to default system behavior
+        /// </para>
+        /// <para>
+        /// <see cref="CURSOR_CREATION_SCALING_DEFAULT"/> – resets cursor scaling to default system behavior
         /// (as if <see cref="SetThreadCursorCreationScaling"/> was never called on this thread).
-        /// <see cref="CURSOR_CREATION_SCALING_NONE"/> –
-        /// disables all cursor scaling (the cursors created after calling <see cref="SetThreadCursorCreationScaling"/> with this parameter
-        /// will never be scaled up or down on any monitor).
+        /// </para>
+        /// <para>
+        /// <see cref="CURSOR_CREATION_SCALING_NONE"/> – disables all cursor scaling
+        /// (the cursors created after calling <see cref="SetThreadCursorCreationScaling"/> with this parameter will never be scaled up or down on any monitor).
+        /// </para>
         /// </param>
         /// <returns>
         /// The previous value set for the thread before calling this API.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows11)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadCursorCreationScaling", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadCursorCreationScaling", ExactSpelling = true)]
         public static extern UINT SetThreadCursorCreationScaling([In] UINT cursorDpi);
 
         /// <summary>
@@ -795,7 +933,7 @@ namespace Lsj.Util.Win32
         /// Use this API to change the <see cref="DPI_AWARENESS_CONTEXT"/> for the thread from the default value for the app.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiAwarenessContext", ExactSpelling = true)]
         public static extern DPI_AWARENESS_CONTEXT SetThreadDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT dpiContext);
 
         /// <summary>
@@ -817,25 +955,36 @@ namespace Lsj.Util.Win32
         /// You can use this value to restore the old <see cref="DPI_HOSTING_BEHAVIOR"/> after overriding it with a predefined value.
         /// </returns>
         /// <remarks>
-        /// <see cref="DPI_HOSTING_BEHAVIOR"/> enables a mixed content hosting behavior,
-        /// which allows parent windows created in the thread to host child windows with a different <see cref="DPI_AWARENESS_CONTEXT"/> value.
+        /// <para>
+        /// <see cref="DPI_HOSTING_BEHAVIOR"/> enables a mixed content hosting behavior,
+        /// which allows parent windows created in the thread to host child windows with a different <see cref="DPI_AWARENESS_CONTEXT"/> value.
         /// This property only effects new windows created within this thread while the mixed hosting behavior is active.
-        /// A parent window with this hosting behavior is able to host child windows with different <see cref="DPI_AWARENESS_CONTEXT"/> values,
+        /// A parent window with this hosting behavior is able to host child windows with different <see cref="DPI_AWARENESS_CONTEXT"/> values,
         /// regardless of whether the child windows have mixed hosting behavior enabled.
-        /// This hosting behavior does not allow for windows with per-monitor <see cref="DPI_AWARENESS_CONTEXT"/> values to be hosted
-        /// until windows with <see cref="DPI_AWARENESS_CONTEXT"/> values of system or unaware.
-        /// To avoid unexpected outcomes, a thread's <see cref="DPI_HOSTING_BEHAVIOR"/> should be changed to support mixed hosting behaviors
-        /// only when creating a new window which needs to support those behaviors.
+        /// </para>
+        /// <para>
+        /// This hosting behavior does not allow for windows with per-monitor <see cref="DPI_AWARENESS_CONTEXT"/> values
+        /// to be hosted until windows with <see cref="DPI_AWARENESS_CONTEXT"/> values of system or unaware.
+        /// </para>
+        /// <para>
+        /// To avoid unexpected outcomes, a thread's <see cref="DPI_HOSTING_BEHAVIOR"/> should be changed 
+        /// to support mixed hosting behaviors only when creating a new window which needs to support those behaviors.
         /// Once that window is created, the hosting behavior should be switched back to its default value.
-        /// This API is used to change the thread's <see cref="DPI_HOSTING_BEHAVIOR"/> from its default value.
+        /// </para>
+        /// <para>
+        /// This API is used to change the thread's <see cref="DPI_HOSTING_BEHAVIOR"/> from its default value.
         /// This is only necessary if your app needs to host child windows from plugins
         /// and third-party components that do not support per-monitor-aware context.
-        /// This is most likely to occur if you are updating complex applications to support per-monitor <see cref="DPI_AWARENESS_CONTEXT"/> behaviors.
-        /// Enabling mixed hosting behavior will not automatically adjust the thread's <see cref="DPI_AWARENESS_CONTEXT"/> to be compatible with legacy content.
+        /// This is most likely to occur if you are updating complex applications
+        /// to support per-monitor <see cref="DPI_AWARENESS_CONTEXT"/> behaviors.
+        /// </para>
+        /// <para>
+        /// Enabling mixed hosting behavior will not automatically adjust the thread's <see cref="DPI_AWARENESS_CONTEXT"/> to be compatible with legacy content.
         /// The thread's awareness context must still be manually changed before new windows are created to host such content.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1803)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiHostingBehavior", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiHostingBehavior", ExactSpelling = true)]
         public static extern DPI_HOSTING_BEHAVIOR SetThreadDpiHostingBehavior([In] DPI_HOSTING_BEHAVIOR value);
 
         /// <summary>
@@ -871,19 +1020,27 @@ namespace Lsj.Util.Win32
         /// The DPI to use for scaling the metric.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// This function returns a similar result as <see cref="SystemParametersInfo"/>,
+        /// <para>
+        /// This function returns a similar result as <see cref="SystemParametersInfo"/>,
         /// but scales it according to an arbitrary DPI you provide (if appropriate).
-        /// It only scales with the following possible values for <paramref name="uiAction"/>:
-        /// <see cref="SPI_GETICONTITLELOGFONT"/>, <see cref="SPI_GETICONMETRICS"/>, <see cref="SPI_GETNONCLIENTMETRICS"/>.
-        /// Other possible <paramref name="uiAction"/> values do not provide ForDPI behavior,
+        /// It only scales with the following possible values for <paramref name="uiAction"/>:
+        /// <see cref="SPI_GETICONTITLELOGFONT"/>, <see cref="SPI_GETICONMETRICS"/>, <see cref="SPI_GETNONCLIENTMETRICS"/>.
+        /// Other possible <paramref name="uiAction"/> values do not provide ForDPI behavior,
         /// and therefore this function returns 0 if called with them.
-        /// For <paramref name="uiAction"/> values that contain strings within their associated structures,
-        /// only Unicode (LOGFONTW) strings are supported in this function.
+        /// </para>
+        /// <para>
+        /// For <paramref name="uiAction"/> values that contain strings within their associated structures,
+        /// only Unicode (<see cref="LOGFONT"/>) strings are supported in this function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoForDpi", ExactSpelling = true, SetLastError = true)]

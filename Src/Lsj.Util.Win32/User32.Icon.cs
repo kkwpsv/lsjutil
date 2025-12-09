@@ -8,12 +8,11 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DrawIconFlags;
-using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadResourceFlags;
 using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.StandardCursors;
-using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemIcons;
+using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
@@ -34,14 +33,22 @@ namespace Lsj.Util.Win32
         /// A handle to the icon to be copied.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the duplicate icon.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CopyIcon"/> function enables an application or DLL to get its own handle to an icon owned by another module.
+        /// <para>
+        /// The <see cref="CopyIcon"/> function enables an application or DLL to get its own handle to an icon owned by another module.
         /// If the other module is freed, the application icon will still be able to use the icon.
-        /// Before closing, an application must call the <see cref="DestroyIcon"/> function to free any system resources associated with the icon.
+        /// </para>
+        /// <para>
+        /// Before closing, an application must call the <see cref="DestroyIcon"/> function to free any system resources associated with the icon.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyIcon", ExactSpelling = true, SetLastError = true)]
@@ -50,6 +57,10 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Creates an icon that has the specified size, colors, and bit patterns.
+        /// </para>
+        /// <para>
+        /// To create a colored icon at run time you can use the <see cref="CreateIconIndirect"/> function,
+        /// which creates a icon based on the content of an <see cref="ICONINFO"/> structure.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createicon"/>
@@ -73,28 +84,98 @@ namespace Lsj.Util.Win32
         /// <param name="lpbANDbits">
         /// An array of bytes that contains the bit values for the AND bitmask of the icon.
         /// This bitmask describes a monochrome bitmap.
+        /// See remarks.
         /// </param>
         /// <param name="lpbXORbits">
         /// An array of bytes that contains the bit values for the XOR bitmask of the icon.
         /// This bitmask describes a monochrome or device-dependent color bitmap.
+        /// See remarks.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to an icon.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters must specify a width and height supported by the current display driver,
-        /// because the system cannot create icons of other sizes.
-        /// To determine the width and height supported by the display driver, use the <see cref="GetSystemMetrics"/> function,
-        /// specifying the <see cref="SM_CXICON"/> or <see cref="SM_CYICON"/> value.
-        /// CreateIcon applies the following truth table to the AND and XOR bitmasks.
-        /// AND bitmask     XOR bitmask     Display
-        /// 0               0               Black
-        /// 0               1               White
-        /// 1               0               Screen
-        /// 1               1               Reverse screen
-        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// <para>
+        /// To determine the nominal size of the icon, use the <see cref="GetSystemMetrics"/> function,
+        /// specifying the <see cref="SM_CXICON"/> or <see cref="SM_CYICON"/> value.
+        /// Also, you can use the DPI-aware version of this API, see <see cref="GetSystemMetricsForDpi"/>.
+        /// For more information see Icon Sizes and High DPI Desktop Application Development on Windows.
+        /// </para>
+        /// <para>
+        /// For more information about <paramref name="lpbANDbits"/> and <paramref name="lpbXORbits"/> parameters
+        /// see description of <c>lpBits</c> parameter of <see cref="CreateBitmap"/> function.
+        /// </para>
+        /// <para>
+        /// In case of monochrome icon <see cref="CreateIcon"/> applies the following truth table to the AND and XOR bitmasks:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// AND bitmask
+        /// </term>
+        /// <term>
+        /// XOR bitmask
+        /// </term>
+        /// <term>
+        /// Display
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Black
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// White
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Screen
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// Reverse screen
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
@@ -104,6 +185,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Creates an icon or cursor from resource bits describing the icon.
+        /// </para>
+        /// <para>
         /// To specify a desired height or width, use the <see cref="CreateIconFromResourceEx"/> function.
         /// </para>
         /// <para>
@@ -111,17 +194,27 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="presbits">
-        /// The buffer containing the icon or cursor resource bits.
-        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectory"/>,
-        /// <see cref="LookupIconIdFromDirectoryEx"/>, and <see cref="LoadResource"/> functions.
+        /// <para>
+        /// The <see cref="DWORD"/>-aligned buffer pointer containing the icon or cursor resource bits.
+        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectory"/>,
+        /// <see cref="LookupIconIdFromDirectoryEx"/>, and <see cref="LoadResource"/> functions.
+        /// </para>
+        /// <para>
+        /// See Cursor and Icon Resources for more info on icon and cursor resource format.
+        /// </para>
         /// </param>
         /// <param name="dwResSize">
         /// The size, in bytes, of the set of bits pointed to by the <paramref name="presbits"/> parameter.
         /// </param>
         /// <param name="fIcon">
+        /// <para>
         /// Indicates whether an icon or a cursor is to be created.
-        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
-        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
+        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// </para>
+        /// <para>
+        /// The <see cref="LOCALHEADER"/> structure defines cursor hotspot and is the first data read from the cursor resource bits.
+        /// </para>
         /// </param>
         /// <param name="dwVer">
         /// The version number of the icon or cursor format for the resource bits pointed to by the presbits parameter.
@@ -129,17 +222,26 @@ namespace Lsj.Util.Win32
         /// This parameter is generally set to 0x00030000.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the icon or cursor.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
-        /// <see cref="GetIconInfo"/>, <see cref="LookupIconIdFromDirectory"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions
+        /// <para>
+        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
+        /// <see cref="GetIconInfo"/>, <see cref="LookupIconIdFromDirectory"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions
         /// allow shell applications and icon browsers to examine and use resources throughout the system.
-        /// The <see cref="CreateIconFromResource"/> function calls <see cref="CreateIconFromResourceEx"/>
-        /// passing <code>LR_DEFAULTSIZE|LR_SHARED</code> as flags.
-        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="CreateIconFromResource"/> function calls <see cref="CreateIconFromResourceEx"/> passing <c>LR_DEFAULTSIZE|LR_SHARED</c> as flags.
+        /// </para>
+        /// <para>
+        /// You should call <see cref="DestroyIcon"/> for icons or <see cref="DestroyCursor"/> for cursors created with <see cref="CreateIconFromResource"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
@@ -154,16 +256,26 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="presbits">
-        /// The icon or cursor resource bits.
-        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectoryEx"/> and <see cref="LoadResource"/> functions.
+        /// <para>
+        /// The DWORD-aligned buffer pointer containing the icon (<see cref="RT_ICON"/>) or cursor (<see cref="RT_CURSOR"/>) resource bits.
+        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectoryEx"/> and <see cref="LoadResource"/> functions.
+        /// </para>
+        /// <para>
+        /// See Cursor and Icon Resources for more info on icon and cursor resource format.
+        /// </para>
         /// </param>
         /// <param name="dwResSize">
         /// The size, in bytes, of the set of bits pointed to by the <paramref name="presbits"/> parameter.
         /// </param>
         /// <param name="fIcon">
+        /// <para>
         /// Indicates whether an icon or a cursor is to be created.
-        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
-        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
+        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// </para>
+        /// <para>
+        /// The <see cref="LOCALHEADER"/> structure defines cursor hotspot and is the first data read from the cursor resource bits.
+        /// </para>
         /// </param>
         /// <param name="dwVer">
         /// The version number of the icon or cursor format for the resource bits pointed to by the <paramref name="presbits"/> parameter.
@@ -171,42 +283,118 @@ namespace Lsj.Util.Win32
         /// This parameter is generally set to 0x00030000.
         /// </param>
         /// <param name="cxDesired">
-        /// The desired width, in pixels, of the icon or cursor.
-        /// If this parameter is zero, the function uses the <see cref="SM_CXICON"/> or <see cref="SM_CXCURSOR"/> system metric value to set the width.
+        /// The width, in pixels, of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="Flags"/> parameter is <see cref="LR_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CXICON"/> or <see cref="SM_CXCURSOR"/> system metric value to set the width.
+        /// If this parameter is zero and <see cref="LR_DEFAULTSIZE"/> is not used, the function uses the actual resource width.
         /// </param>
         /// <param name="cyDesired">
-        /// The desired height, in pixels, of the icon or cursor.
-        /// If this parameter is zero, the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value to set the height.
+        /// The height, in pixels, of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="Flags"/> parameter is <see cref="LR_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value to set the height.
+        /// If this parameter is zero and <see cref="LR_DEFAULTSIZE"/> is not used, the function uses the actual resource height.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// A combination of the following values.
-        /// <see cref="LR_DEFAULTCOLOR"/>: Uses the default color format.
-        /// <see cref="LR_DEFAULTSIZE"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_DEFAULTCOLOR"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Uses the default color format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_DEFAULTSIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040
+        /// </para>
+        /// </term>
+        /// <term>
         /// Uses the width or height specified by the system metric values for cursors or icons,
-        /// if the <paramref name="cxDesired"/> or <paramref name="cyDesired"/> values are set to zero.
-        /// If this flag is not specified and <paramref name="cxDesired"/> and <paramref name="cyDesired"/> are set to zero,
+        /// if the <paramref name="cxDesired"/> or <paramref name="cyDesired"/> values are set to zero.
+        /// If this flag is not specified and <paramref name="cxDesired"/> and <paramref name="cyDesired"/> are set to zero,
         /// the function uses the actual resource size.
-        /// If the resource contains multiple images, the function uses the size of the first image.
-        /// <see cref="LR_MONOCHROME"/>: Creates a monochrome icon or cursor.
-        /// <see cref="LR_SHARED"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_MONOCHROME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates a monochrome icon or cursor.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_SHARED"/>
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
         /// Shares the icon or cursor handle if the icon or cursor is created multiple times.
-        /// If <see cref="LR_SHARED"/> is not set, a second call to <see cref="CreateIconFromResourceEx"/> for the same resource
-        /// will create the icon or cursor again and return a different handle
+        /// If <see cref="LR_SHARED"/> is not set, a second call to <see cref="CreateIconFromResourceEx"/>
+        /// for the same resource will create the icon or cursor again and return a different handle.
+        /// </para>
+        /// <para>
         /// When you use this flag, the system will destroy the resource when it is no longer needed.
-        /// Do not use <see cref="LR_SHARED"/> for icons or cursors that have non-standard sizes,
+        /// </para>
+        /// <para>
+        /// Do not use <see cref="LR_SHARED"/> for icons or cursors that have non-standard sizes,
         /// that may change after loading, or that are loaded from a file.
-        /// When loading a system icon or cursor, you must use <see cref="LR_SHARED"/> or the function will fail to load the resource.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the icon or cursor.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
-        /// <see cref="GetIconInfo"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions allow shell applications
-        /// and icon browsers to examine and use resources throughout the system.
-        /// You should call DestroyIcon for icons created with <see cref="CreateIconFromResourceEx"/>.
+        /// <para>
+        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
+        /// <see cref="GetIconInfo"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions
+        /// allow shell applications and icon browsers to examine and use resources throughout the system.
+        /// </para>
+        /// <para>
+        /// You should call <see cref="DestroyIcon"/> for icons or <see cref="DestroyCursor"/> for cursors created with <see cref="CreateIconFromResourceEx"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
@@ -225,17 +413,25 @@ namespace Lsj.Util.Win32
         /// A pointer to an <see cref="ICONINFO"/> structure the function uses to create the icon or cursor.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a handle to the icon or cursor that is created.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The system copies the bitmaps in the <see cref="ICONINFO"/> structure before creating the icon or cursor.
+        /// <para>
+        /// The system copies the bitmaps in the <see cref="ICONINFO"/> structure before creating the icon or cursor.
         /// Because the system may temporarily select the bitmaps in a device context,
-        /// the <see cref="ICONINFO.hbmMask"/> and <see cref="ICONINFO.hbmColor"/> members of the <see cref="ICONINFO"/> structure
+        /// the <see cref="ICONINFO.hbmMask"/> and <see cref="ICONINFO.hbmColor"/> members of the <see cref="ICONINFO"/> structure
         /// should not already be selected into a device context.
         /// The application must continue to manage the original bitmaps and delete them when they are no longer necessary.
-        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </para>
+        /// <para>
+        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconIndirect", ExactSpelling = true, SetLastError = true)]
@@ -250,25 +446,56 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hIcon">
-        /// A handle to the icon to be destroyed. The icon must not be in use.
+        /// A handle to the icon to be destroyed.
+        /// The icon must not be in use.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// It is only necessary to call <see cref="DestroyIcon"/> for icons and cursors created with the following functions:
-        /// <see cref="CreateIconFromResourceEx"/> (if called without the <see cref="LR_SHARED"/> flag),
-        /// <see cref="CreateIconIndirect"/>, and <see cref="CopyIcon"/>.
+        /// <para>
+        /// It is only necessary to call <see cref="DestroyIcon"/> for icons and cursors created with the following functions:
+        /// <see cref="CreateIconFromResourceEx"/> (if called without the <see cref="LR_SHARED"/> flag),
+        /// <see cref="CreateIconIndirect"/>, and <see cref="CopyIcon"/>.
         /// Do not use this function to destroy a shared icon.
         /// A shared icon is valid as long as the module from which it was loaded remains in memory.
         /// The following functions obtain a shared icon.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// <see cref="LoadIcon"/>
-        /// <see cref="LoadImage"/> (if you use the <see cref="LR_SHARED"/> flag)
-        /// <see cref="CopyImage"/> (if you use the <see cref="LR_COPYRETURNORG"/> flag and the hImage parameter is a shared icon)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LoadImage"/> (if you use the <see cref="LR_SHARED"/> flag)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CopyImage"/> (if you use the <see cref="LR_COPYRETURNORG"/> flag and the <c>hImage</c> parameter is a shared icon)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// <see cref="CreateIconFromResource"/>
-        /// <see cref="CreateIconFromResourceEx"/> (if you use the <see cref="LR_SHARED"/> flag)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="CreateIconFromResourceEx"/> (if you use the <see cref="LR_SHARED"/> flag)
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", ExactSpelling = true, SetLastError = true)]
@@ -277,6 +504,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Draws an icon or cursor into the specified device context.
+        /// </para>
+        /// <para>
         /// To specify additional drawing options, use the <see cref="DrawIconEx"/> function.
         /// </para>
         /// <para>
@@ -296,16 +525,26 @@ namespace Lsj.Util.Win32
         /// A handle to the icon to be drawn.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="DrawIcon"/> places the icon's upper-left corner
-        /// at the location specified by the <paramref name="X"/> and <paramref name="Y"/> parameters.
+        /// <para>
+        /// <see cref="DrawIcon"/> places the icon's upper-left corner at the location specified by the <paramref name="X"/> and <paramref name="Y"/> parameters.
         /// The location is subject to the current mapping mode of the device context.
-        /// <see cref="DrawIcon"/> draws the icon or cursor using the width and height specified by the system metric values for icons;
-        /// for more information, see <see cref="GetSystemMetrics"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="DrawIcon"/> draws the icon or cursor using the width and height specified by the system metric values for icons;
+        /// for more information, see <see cref="GetSystemMetrics"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="DrawIcon"/> function calls <see cref="DrawIconEx"/> passing <c>DI_NORMAL|DI_DEFAULTSIZE</c> as flags.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIcon", ExactSpelling = true, SetLastError = true)]
@@ -330,7 +569,8 @@ namespace Lsj.Util.Win32
         /// The logical y-coordinate of the upper-left corner of the icon or cursor.
         /// </param>
         /// <param name="hIcon">
-        /// A handle to the icon or cursor to be drawn. This parameter can identify an animated cursor.
+        /// A handle to the icon or cursor to be drawn.
+        /// This parameter can identify an animated cursor.
         /// </param>
         /// <param name="cxWidth">
         /// The logical width of the icon or cursor.
@@ -345,8 +585,8 @@ namespace Lsj.Util.Win32
         /// If this parameter is zero and <see cref="DI_DEFAULTSIZE"/> is not used, the function uses the actual resource height.
         /// </param>
         /// <param name="istepIfAniCur">
-        /// The index of the frame to draw, if hIcon identifies an animated cursor.
-        /// This parameter is ignored if hIcon does not identify an animated cursor.
+        /// The index of the frame to draw, if <paramref name="hIcon"/> identifies an animated cursor.
+        /// This parameter is ignored if <paramref name="hIcon"/> does not identify an animated cursor.
         /// </param>
         /// <param name="hbrFlickerFreeDraw">
         /// A handle to a brush that the system uses for flicker-free drawing.
@@ -356,30 +596,148 @@ namespace Lsj.Util.Win32
         /// If <paramref name="hbrFlickerFreeDraw"/> is <see cref="NULL"/>, the system draws the icon or cursor directly into the device context.
         /// </param>
         /// <param name="diFlags">
-        /// The drawing flags.
-        /// This parameter can be one of the following values.
-        /// <see cref="DI_COMPAT"/>: This flag is ignored.
-        /// <see cref="DI_DEFAULTSIZE"/>:
+        /// <para>
+        /// The drawing flags. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_COMPAT"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This flag is ignored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_DEFAULTSIZE"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
         /// Draws the icon or cursor using the width and height specified by the system metric values for icons,
-        /// if the <paramref name="cxWidth"/> and <paramref name="cyWidth"/> parameters are set to zero.
-        /// If this flag is not specified and <paramref name="cxWidth"/> and <paramref name="cyWidth"/> are set to zero,
+        /// if the <paramref name="cxWidth"/> and <paramref name="cyWidth"/> parameters are set to zero.
+        /// If this flag is not specified and <paramref name="cxWidth"/> and <paramref name="cyWidth"/> are set to zero,
         /// the function uses the actual resource size.
-        /// <see cref="DI_IMAGE"/>: Draws the icon or cursor using the image.
-        /// <see cref="DI_MASK"/>: Draws the icon or cursor using the mask.
-        /// <see cref="DI_NOMIRROR"/>: Draws the icon as an unmirrored icon. By default, the icon is drawn as a mirrored icon if hdc is mirrored.
-        /// <see cref="DI_NORMAL"/>: Combination of <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/>. 
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_IMAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Draws the icon or cursor using the image. See Remarks.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_MASK"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Draws the icon or cursor using the mask. See Remarks.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_NOMIRROR"/>
+        /// </para>
+        /// <para>
+        /// 0x0010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Draws the icon as an unmirrored icon.
+        /// By default, the icon is drawn as a mirrored icon if <paramref name="hdc"/> is mirrored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DI_NORMAL"/>
+        /// </para>
+        /// <para>
+        /// 0x0003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Combination of <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/>. See Remarks.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="DrawIconEx"/> function places the icon's upper-left corner
-        /// at the location specified by the <paramref name="xLeft"/> and <paramref name="yTop"/> parameters.
+        /// <para>
+        /// The <see cref="DrawIconEx"/> function places the icon's upper-left corner at the location
+        /// specified by the <paramref name="xLeft"/> and <paramref name="yTop"/> parameters.
         /// The location is subject to the current mapping mode of the device context.
-        /// To duplicate <code>DrawIcon (hDC, X, Y, hIcon)</code>, call <see cref="DrawIconEx"/> as follows:
-        /// <code>DrawIconEx (hDC, X, Y, hIcon, 0, 0, 0, NULL, DI_NORMAL | DI_COMPAT | DI_DEFAULTSIZE); </code>
+        /// </para>
+        /// <para>
+        /// If only one of the <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/> flags is set,
+        /// then the corresponding bitmap is drawn with the <see cref="SRCCOPY"/> raster operation code.
+        /// </para>
+        /// <para>
+        /// If both the <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/> flags are set:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the icon or cursor is a 32-bit alpha-blended icon or cursor,
+        /// then the image is drawn with <see cref="AC_SRC_OVER"/> blend function and the mask is ignored.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For all other icons or cursors, the mask is drawn with the <see cref="SRCAND"/> raster operation code,
+        /// and the image is drawn with the <see cref="SRCINVERT"/> raster operation code
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To duplicate <c>DrawIcon (hDC, X, Y, hIcon)</c>, call <see cref="DrawIconEx"/> as follows:
+        /// </para>
+        /// <code>
+        /// DrawIconEx (hDC, X, Y, hIcon, 0, 0, 0, NULL, DI_NORMAL | DI_COMPAT | DI_DEFAULTSIZE);
+        /// </code>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIconEx", ExactSpelling = true, SetLastError = true)]
@@ -395,48 +753,40 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hIcon">
+        /// <para>
         /// A handle to the icon or cursor.
-        /// To retrieve information about a standard icon or cursor, specify one of the following values.
-        /// <see cref="IDC_APPSTARTING"/>: Standard arrow and small hourglass cursor.
-        /// <see cref="IDC_ARROW"/>: Standard arrow cursor.
-        /// <see cref="IDC_CROSS"/>: Crosshair cursor.
-        /// <see cref="IDC_HAND"/>: Hand cursor.
-        /// <see cref="IDC_HELP"/>: Arrow and question mark cursor.
-        /// <see cref="IDC_IBEAM"/>: I-beam cursor.
-        /// <see cref="IDC_NO"/>: Slashed circle cursor.
-        /// <see cref="IDC_SIZEALL"/>: Four-pointed arrow cursor pointing north, south, east, and west.
-        /// <see cref="IDC_SIZENESW"/>: Double-pointed arrow cursor pointing northeast and southwest.
-        /// <see cref="IDC_SIZENS"/>: Double-pointed arrow cursor pointing north and south.
-        /// <see cref="IDC_SIZENWSE"/>: Double-pointed arrow cursor pointing northwest and southeast.
-        /// <see cref="IDC_SIZEWE"/>: Double-pointed arrow cursor pointing west and east.
-        /// <see cref="IDC_UPARROW"/>: Vertical arrow cursor.
-        /// <see cref="IDC_WAIT"/>: Hourglass cursor.
-        /// <see cref="IDI_APPLICATION"/>: Application icon.
-        /// <see cref="IDI_ASTERISK"/>: Asterisk icon.
-        /// <see cref="IDI_EXCLAMATION"/>: Exclamation point icon.
-        /// <see cref="IDI_HAND"/>: Stop sign icon.
-        /// <see cref="IDI_QUESTION"/>: Question-mark icon.
-        /// <see cref="IDI_WINLOGO"/>:
-        /// Application icon.
-        /// Windows 2000: Windows logo icon.
+        /// </para>
+        /// <para>
+        /// To retrieve information about a standard icon or cursor,
+        /// specify the identifier beginning with the <c>IDI_</c> prefix or the identifier beginning with the <c>IDC_</c> prefix in this parameter.
+        /// </para>
         /// </param>
         /// <param name="piconinfo">
         /// A pointer to an <see cref="ICONINFO"/> structure.
         /// The function fills in the structure's members.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>
-        /// and the function fills in the members of the specified <see cref="ICONINFO"/> structure.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero
+        /// and the function fills in the members of the specified <see cref="ICONINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="GetIconInfo"/> creates bitmaps for the <see cref="ICONINFO.hbmMask"/>
-        /// and <see cref="ICONINFO.hbmColor"/> members of <see cref="ICONINFO"/>.
-        /// The calling application must manage these bitmaps and delete them when they are no longer necessary.
+        /// <para>
+        /// <see cref="GetIconInfo"/> creates bitmaps for the <see cref="ICONINFO.hbmMask"/> and <see cref="ICONINFO.hbmColor"/> or members of <see cref="ICONINFO"/>.
+        /// The calling application must manage these bitmaps and delete them with <see cref="DeleteObject"/> call when they are no longer necessary.
+        /// </para>
+        /// <para>
         /// DPI Virtualization
+        /// </para>
+        /// <para>
         /// This API does not participate in DPI virtualization.
-        /// The output returned is not affected by the DPI of the calling thread. 
+        /// The output returned is not affected by the DPI of the calling thread.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfo", ExactSpelling = true, SetLastError = true)]
@@ -454,7 +804,7 @@ namespace Lsj.Util.Win32
         /// <param name="hIcon">
         /// A handle to the icon or cursor.
         /// To retrieve information about a standard icon or cursor,
-        /// specify the identifier beginning with the IDI_ prefix or the identifier beginning with the IDC_ prefix in this parameter.
+        /// specify the identifier beginning with the <c>IDI_</c> prefix or the identifier beginning with the <c>IDC_</c> prefix in this parameter.
         /// </param>
         /// <param name="piconinfo">
         /// When this method returns, contains a pointer to an <see cref="ICONINFOEX"/> structure.
@@ -464,15 +814,20 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> indicates success, <see cref="FALSE"/> indicates failure.
         /// </returns>
         /// <remarks>
-        /// <see cref="GetIconInfoEx"/> creates bitmaps for the <see cref="ICONINFOEX.hbmMask"/>
-        /// and <see cref="ICONINFOEX.hbmColor"/> or members of <see cref="ICONINFOEX"/>.
-        /// The calling application must manage these bitmaps and delete them with <see cref="DeleteObject"/> call when they are no longer necessary.
+        /// <para>
+        /// <see cref="GetIconInfoEx"/> creates bitmaps for the <see cref="ICONINFOEX.hbmMask"/> and <see cref="ICONINFOEX.hbmColor"/> or members of <see cref="ICONINFOEX"/>.
+        /// The calling application must manage these bitmaps and delete them with <see cref="DeleteObject"/> call when they are no longer necessary.
+        /// </para>
+        /// <para>
         /// DPI Virtualization
+        /// </para>
+        /// <para>
         /// This API does not participate in DPI virtualization.
-        /// The output returned is not affected by the DPI of the calling thread. 
+        /// The output returned is not affected by the DPI of the calling thread.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfoExW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfoExW", ExactSpelling = true)]
         public static extern BOOL GetIconInfoEx([In] HICON hIcon, [Out] out ICONINFOEX piconinfo);
 
         /// <summary>
@@ -484,17 +839,45 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hInstance">
-        /// A handle to an instance of the module whose executable file contains the icon to be loaded.
-        /// This parameter must be NULL when a standard icon is being loaded.
+        /// <para>
+        /// A handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded.
+        /// For more information, see <see cref="GetModuleHandle"/>.
+        /// </para>
+        /// <para>
+        /// To load a predefined system icon, set this parameter to <see cref="NULL"/>.
+        /// </para>
         /// </param>
         /// <param name="lpIconName">
-        /// The name of the icon resource to be loaded.
+        /// <para>
+        /// If <paramref name="hInstance"/> is non-<see cref="NULL"/>,
+        /// <paramref name="lpIconName"/> specifies the icon resource either by name or ordinal.
+        /// This ordinal must be packaged by using the <see cref="MAKEINTRESOURCE"/> macro.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hInstance"/> is <see cref="NULL"/>,
+        /// <paramref name="lpIconName"/> specifies the identifier (beginning with the <c>IDI_</c> prefix) of a predefined system icon to load.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is the handle to the newly loaded icon.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is a handle to the newly loaded icon.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// <see cref="LoadIcon"/> loads the icon resource only if it has not been loaded; otherwise, it retrieves a handle to the existing resource.
+        /// The function searches the icon resource for the icon most appropriate for the current display.
+        /// The icon resource can be a color or monochrome bitmap.
+        /// </para>
+        /// <para>
+        /// <see cref="LoadIcon"/> can only load an icon whose size conforms to the <see cref="SM_CXICON"/> and <see cref="SM_CYICON"/> system metric values.
+        /// Use the <see cref="LoadImage"/> function to load icons of other sizes.
+        /// </para>
+        /// </remarks>
         [Obsolete("This function has been superseded by the LoadImage function (with LR_DEFAULTSIZE and LR_SHARED flags set).")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
@@ -502,8 +885,11 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
-        /// To specify a desired height or width, use the <see cref="LookupIconIdFromDirectoryEx"/> function.
+        /// Searches through icon (<see cref="RT_GROUP_ICON"/>) or cursor (<see cref="RT_GROUP_CURSOR"/>) resource data for the icon or cursor that best fits the current display device.
+        /// </para>
+        /// <para>
+        /// To specify a desired height or width, use the <see cref="LookupIconIdFromDirectoryEx"/> function.
+        /// This function calls it by passing zero in the <c>cxDesired</c>/<c>cyDesired</c> parameters.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectory"/>
@@ -512,7 +898,7 @@ namespace Lsj.Util.Win32
         /// <param name="presbits">
         /// The icon or cursor directory data.
         /// Because this function does not validate the resource data,
-        /// it causes a general protection (GP) fault or returns an undefined value if presbits is not pointing to valid resource data.
+        /// it causes a general protection (GP) fault or returns an undefined value if <paramref name="presbits"/> is not pointing to valid resource data.
         /// </param>
         /// <param name="fIcon">
         /// Indicates whether an icon or a cursor is sought.
@@ -520,24 +906,33 @@ namespace Lsj.Util.Win32
         /// if the parameter is <see cref="FALSE"/>, the function is searching for a cursor.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is an integer resource identifier
-        /// for the icon or cursor that best fits the current display device.
+        /// for the icon (<see cref="RT_ICON"/>) or cursor (<see cref="RT_CURSOR"/>) that best fits the current display device.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// <para>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
         /// contains icon (or cursor) data in several device-dependent and device-independent formats.
-        /// <see cref="LookupIconIdFromDirectory"/> searches the resource file for the icon (or cursor)
+        /// <see cref="LookupIconIdFromDirectory"/> searches the resource file for the icon (or cursor)
         /// that best fits the current display device and returns its integer identifier.
-        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions
-        /// use the <see cref="MAKEINTRESOURCE"/> macro with this identifier to locate the resource in the module.
-        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
-        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
-        /// <see cref="LookupIconIdFromDirectory"/> returns an integer identifier
-        /// that is the resource name of the icon that best fits the current display device.
-        /// The <see cref="LoadIcon"/>, <see cref="LoadCursor"/>, and <see cref="LoadImage"/> functions
-        /// use this function to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions
+        /// use the <see cref="MAKEINTRESOURCE"/> macro with this identifier to locate the resource in the module.
+        /// </para>
+        /// <para>
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/> (or <see cref="RT_GROUP_CURSOR"/> for cursors),
+        /// and an integer resource name for the specific icon to be loaded.
+        /// <see cref="LookupIconIdFromDirectory"/> returns an integer identifier that is the resource name of the icon that best fits the current display device.
+        /// </para>
+        /// <para>
+        /// The <see cref="LoadIcon"/>, <see cref="LoadCursor"/>, and <see cref="LoadImage"/> functions use this function
+        /// to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectory", ExactSpelling = true, SetLastError = true)]
@@ -545,7 +940,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
+        /// Searches through icon (<see cref="RT_GROUP_ICON"/>) or cursor (<see cref="RT_GROUP_CURSOR"/>) resource data
+        /// for the icon or cursor that best fits the current display device.
+        /// </para>
+        /// <para>
+        /// If more than one image exists in resource group, this method uses the following criteria to choose an image:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The image closest but not exceed the requested size is selected.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If two or more images of that size are present, the one that matches the color depth of the display is chosen.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If no images exactly match the color depth of the display,
+        /// the image with the greatest color depth that does not exceed the color depth of the display is chosen.
+        /// If all exceed the color depth, the one with the lowest color depth is chosen.
+        /// </description>
+        /// </item>
+        /// </list>
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex"/>
@@ -554,7 +974,7 @@ namespace Lsj.Util.Win32
         /// <param name="presbits">
         /// The icon or cursor directory data.
         /// Because this function does not validate the resource data, it causes a general protection (GP) fault
-        /// or returns an undefined value if presbits is not pointing to valid resource data.
+        /// or returns an undefined value if <paramref name="presbits"/> is not pointing to valid resource data.
         /// </param>
         /// <param name="fIcon">
         /// Indicates whether an icon or a cursor is sought.
@@ -570,29 +990,77 @@ namespace Lsj.Util.Win32
         /// If this parameter is zero, the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value.
         /// </param>
         /// <param name="Flags">
+        /// <para>
         /// A combination of the following values.
-        /// <see cref="LR_DEFAULTCOLOR"/>: Uses the default color format.
-        /// <see cref="LR_MONOCHROME"/>: Creates a monochrome icon or cursor.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_DEFAULTCOLOR"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Uses the default color format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LR_MONOCHROME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Creates a monochrome icon or cursor.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is an integer resource identifier for the icon
-        /// or cursor that best fits the current display device.
+        /// <para>
+        /// If the function succeeds, the return value is an integer resource identifier
+        /// for the icon (<see cref="RT_ICON"/>) or cursor (<see cref="RT_CURSOR"/>) that best fits the current display device.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// <para>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
         /// contains icon (or cursor) data in several device-dependent and device-independent formats.
-        /// <see cref="LookupIconIdFromDirectoryEx"/> searches the resource file for the icon (or cursor) that best fits
-        /// the current display device and returns its integer identifier.
-        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions use the <see cref="MAKEINTRESOURCE"/> macro
-        /// with this identifier to locate the resource in the module.
-        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
-        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
-        /// <see cref="LookupIconIdFromDirectoryEx"/> returns an integer identifier that is the resource name
-        /// of the icon that best fits the current display device.
-        /// The <see cref="LoadIcon"/>, <see cref="LoadImage"/>, and <see cref="LoadCursor"/> functions use this function
+        /// <see cref="LookupIconIdFromDirectoryEx"/> searches the resource file for the icon (or cursor)
+        /// that best fits the current display device and returns its integer identifier.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions
+        /// use the <see cref="MAKEINTRESOURCE"/> macro with this identifier to locate the resource in the module.
+        /// </para>
+        /// <para>
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/> (or <see cref="RT_GROUP_CURSOR"/> for cursors),
+        /// and an integer resource name for the specific icon (<see cref="RT_ICON"/>) or cursor (<see cref="RT_CURSOR"/>) to be loaded.
+        /// <see cref="LoadResource"/> and <see cref="CreateIconFromResourceEx"/> functions may be used to create a corresponding icon or cursor.
+        /// </para>
+        /// <para>
+        /// The <see cref="LoadIcon"/>, <see cref="LoadImage"/>, and <see cref="LoadCursor"/> functions use this function
         /// to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// <see cref="LoadIconWithScaleDown"/> uses alternative search criteria for a best fit.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
@@ -636,27 +1104,38 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="flags">
         /// Specifies flags that control this function.
-        /// These flags are the LR_* flags used by the <see cref="LoadImage"/> function.
+        /// These flags are the <c>LR_*</c> flags used by the <see cref="LoadImage"/> function.
         /// </param>
         /// <returns>
-        /// If the <paramref name="phicon"/> parameter is <see langword="null"/> and this function succeeds,
+        /// <para>
+        /// If the <paramref name="phicon"/> parameter is <see langword="null"/> and this function succeeds,
         /// then the return value is the number of icons in the file.
         /// If the function fails then the return value is 0.
-        /// If the <paramref name="phicon"/> parameter is not <see langword="null"/> and the function succeeds,
+        /// </para>
+        /// <para>
+        /// If the <paramref name="phicon"/> parameter is not <see langword="null"/> and the function succeeds,
         /// then the return value is the number of icons extracted.
         /// Otherwise, the return value is 0xFFFFFFFF if the file is not found.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function extracts from executable (.exe), DLL (.dll), icon (.ico), cursor (.cur), animated cursor (.ani), and bitmap (.bmp) files.
         /// Extractions from Windows 3.x 16-bit executables (.exe or .dll) are also supported.
-        /// The <paramref name="cxIcon"/> and <paramref name="cyIcon"/> parameters specify the size of the icons to extract.
-        /// Two sizes can be extracted by putting the first size in the LOWORD of the parameter and the second size in the HIWORD.
-        /// For example, <code>MAKELONG(24, 48)</code> for both the <paramref name="cxIcon"/> and <paramref name="cyIcon"/> parameters
-        /// would extract both 24 and 48 size icons.
-        /// You must destroy all icons extracted by <see cref="PrivateExtractIcons"/> by calling the <see cref="DestroyIcon"/> function.
-        /// This function was not included in the SDK headers and libraries until Windows XP Service Pack 1 (SP1) and Windows Server 2003.
+        /// </para>
+        /// <para>
+        /// The <paramref name="cxIcon"/> and <paramref name="cyIcon"/> parameters specify the size of the icons to extract.
+        /// Two sizes can be extracted by putting the first size in the <see cref="LOWORD"/> of the parameter and the second size in the <see cref="HIWORD"/>.
+        /// For example, <c>MAKELONG(24, 48)</c> for both the <paramref name="cxIcon"/> and <paramref name="cyIcon"/> parameters would extract both 24 and 48 size icons.
+        /// </para>
+        /// <para>
+        /// You must destroy all icons extracted by <see cref="PrivateExtractIcons"/> by calling the <see cref="DestroyIcon"/> function.
+        /// </para>
+        /// <para>
+        /// This function was not included in the SDK headers and libraries until Windows XP Service Pack 1 (SP1) and Windows Server 2003.
         /// If you do not have a header file and import library for this function,
-        /// you can call the function using <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/>.
+        /// you can call the function using <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/>.
+        /// </para>
         /// </remarks>
         [Obsolete("This function is not intended for general use. It may be altered or unavailable in subsequent versions of Windows.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
