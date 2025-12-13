@@ -103,10 +103,6 @@ namespace Lsj.Util.Win32
         /// Physical pages can reside at any physical address. You should make no assumptions about the contiguity of the physical pages.
         /// </para>
         /// <para>
-        /// To compile an application that uses this function, define the <c>_WIN32_WINNT</c> macro as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// <see cref="AllocateUserPhysicalPages2"/>, added to the SDK in a later release,
         /// is the same as <see cref="AllocateUserPhysicalPages"/> but it adds the <c>ExtendedParameters</c> and <c>ExtendedParameterCount</c> parameters.
         /// </para>
@@ -196,9 +192,6 @@ namespace Lsj.Util.Win32
         /// Physical pages can reside at any physical address.
         /// You should make no assumptions about the contiguity of the physical pages.
         /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define <c>_WIN32_WINNT</c> as 0x0600 or later.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPagesNuma", ExactSpelling = true, SetLastError = true)]
@@ -253,10 +246,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// In a multiprocessor environment, this function maintains coherence of the hardware translation buffer.
         /// When this function returns, all threads on all processors are guaranteed to see the correct mapping.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define the <c>_WIN32_WINNT</c> macro as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
@@ -3628,11 +3617,6 @@ namespace Lsj.Util.Win32
         /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
         /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
         /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define the <c>_WIN32_WINNT</c> macro as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
@@ -3713,10 +3697,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
         /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define the <c>_WIN32_WINNT</c> macro as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
@@ -4927,9 +4907,6 @@ namespace Lsj.Util.Win32
         /// The <see cref="VirtualFreeEx"/> function can decommit a committed page, releasing the page's storage,
         /// or it can simultaneously decommit and release a committed page.
         /// It can also release a reserved page, making it a free page.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define <c>_WIN32_WINNT</c> as 0x0600 or later.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]

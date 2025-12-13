@@ -105,6 +105,11 @@ namespace Lsj.Util.Win32
         public const uint CONSOLE_TEXTMODE_BUFFER = 1;
 
         /// <summary>
+        /// CREATE_MUTEX_INITIAL_OWNER
+        /// </summary>
+        public const uint CREATE_MUTEX_INITIAL_OWNER = 1;
+
+        /// <summary>
         /// CWF_CREATE_ONLY
         /// </summary>
         public const uint CWF_CREATE_ONLY = 0x00000001;
@@ -664,6 +669,21 @@ namespace Lsj.Util.Win32
         public const int MM_MAX_AXES_NAMELEN = 16;
 
         /// <summary>
+        /// NMPWAIT_NOWAIT
+        /// </summary>
+        public const uint NMPWAIT_NOWAIT = 0x00000001;
+
+        /// <summary>
+        /// NMPWAIT_USE_DEFAULT_WAIT
+        /// </summary>
+        public const uint NMPWAIT_USE_DEFAULT_WAIT = 0x00000000;
+
+        /// <summary>
+        /// NMPWAIT_WAIT_FOREVER
+        /// </summary>
+        public const uint NMPWAIT_WAIT_FOREVER = 0xffffffff;
+
+        /// <summary>
         /// NULL
         /// </summary>
         public readonly static IntPtr NULL = IntPtr.Zero;
@@ -677,6 +697,81 @@ namespace Lsj.Util.Win32
         /// OFS_MAXPATHNAME
         /// </summary>
         public const int OFS_MAXPATHNAME = 128;
+
+        /// <summary>
+        /// PIPE_CLIENT_END
+        /// </summary>
+        public const uint PIPE_CLIENT_END = 0x00000000;
+
+        /// <summary>
+        /// PIPE_SERVER_END
+        /// </summary>
+        public const uint PIPE_SERVER_END = 0x00000001;
+
+        /// <summary>
+        /// PIPE_UNLIMITED_INSTANCES
+        /// </summary>
+        public const uint PIPE_UNLIMITED_INSTANCES = 255;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY = (UIntPtr)0x30003;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_HANDLE_LIST
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_HANDLE_LIST = (UIntPtr)0x20002;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR = (UIntPtr)0x30005;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = (UIntPtr)0x20007;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_PARENT_PROCESS
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = (UIntPtr)0x20000;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_PREFERRED_NODE
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PREFERRED_NODE = (UIntPtr)0x20004;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_UMS_THREAD
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_UMS_THREAD = (UIntPtr)0x30006;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES = (UIntPtr)0x20009;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL = (UIntPtr)0x2000B;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY = (UIntPtr)0x2000E;
+
+        /// <summary>
+        /// PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = (UIntPtr)0x20012;
+
+        /// <summary>
+        /// PROCESS_NAME_NATIVE
+        /// </summary>
+        public const uint PROCESS_NAME_NATIVE = 0x00000001;
 
         /// <summary>
         /// <para>

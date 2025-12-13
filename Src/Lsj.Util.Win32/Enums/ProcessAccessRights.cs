@@ -25,8 +25,8 @@ namespace Lsj.Util.Win32.Enums
         /// If an application compiled for Windows Server 2008 and Windows Vista is run on Windows Server 2003 or Windows XP,
         /// the <see cref="PROCESS_ALL_ACCESS"/> flag is too large and the function specifying this flag fails with <see cref="ERROR_ACCESS_DENIED"/>.
         /// To avoid this problem, specify the minimum set of access rights required for the operation.
-        /// If PROCESS_ALL_ACCESS must be used, set _WIN32_WINNT to the minimum operating system targeted by your application
-        /// (for example, #define _WIN32_WINNT _WIN32_WINNT_WINXP).
+        /// If <see cref="PROCESS_ALL_ACCESS"/> must be used, set <c>_WIN32_WINNT</c> to the minimum operating system targeted by your application
+        /// (for example, <c>#define _WIN32_WINNT _WIN32_WINNT_WINXP</c>).
         /// For more information, see Using the Windows Headers.
         /// </summary>
         PROCESS_ALL_ACCESS = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFFF,

@@ -70,17 +70,11 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
         /// Only fibers can execute other fibers.
         /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
         /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
         /// The thread is now the current fiber.
         /// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiber", ExactSpelling = true, SetLastError = true)]
@@ -114,16 +108,10 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
         /// Only fibers can execute other fibers.
         /// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
         /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
         /// The thread is now the current fiber. The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiberEx", ExactSpelling = true, SetLastError = true)]
@@ -177,10 +165,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function,
         /// it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
@@ -239,13 +223,12 @@ namespace Lsj.Util.Win32
         /// <para>
         /// The number of fibers a process can create is limited by the available virtual memory.
         /// By default, every fiber has 1 megabyte of reserved stack space.
-        /// Therefore, you can create at most 2028 fibers. If you reduce the default stack size, you can create more fibers. However, your application will have better performance if you use an alternate strategy for processing requests.
+        /// Therefore, you can create at most 2028 fibers. If you reduce the default stack size, you can create more fibers.
+        /// However, your application will have better performance if you use an alternate strategy for processing requests.
         /// </para>
         /// <para>
-        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function, it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define <see cref="_WIN32_WINNT"/> as 0x0400 or later. For more information, see Using the Windows Headers.
+        /// Before a thread can schedule a fiber using the <see cref="SwitchToFiber"/> function,
+        /// it must call the <see cref="ConvertThreadToFiber"/> function so there is a fiber associated with the thread.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
@@ -273,10 +256,6 @@ namespace Lsj.Util.Win32
         /// If the currently running fiber calls <see cref="DeleteFiber"/>, its thread calls <see cref="ExitThread"/> and terminates.
         /// However, if a currently running fiber is deleted by another fiber,
         /// the thread running the deleted fiber is likely to terminate abnormally because the fiber stack has been freed.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
@@ -507,10 +486,6 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The function returns <see cref="TRUE"/> if the thread is a fiber and <see cref="FALSE"/> otherwise.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadAFiber", ExactSpelling = true)]
         public static extern BOOL IsThreadAFiber();
@@ -548,10 +523,6 @@ namespace Lsj.Util.Win32
         /// </code>
         /// <para>
         /// This call can cause unpredictable problems.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]

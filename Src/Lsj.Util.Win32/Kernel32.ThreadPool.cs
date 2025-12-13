@@ -147,7 +147,6 @@ namespace Lsj.Util.Win32
         /// and an asynchronous I/O operation returns immediately with success,
         /// the I/O completion callback function is not called and threadpool I/O notifications must be canceled.
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public delegate void Ptpwin32iocallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PVOID Overlapped,
             [In] SystemErrorCodes IoResult, [In] ULONG_PTR NumberOfBytesTransferred, [In] PTP_IO Io);
@@ -236,7 +235,6 @@ namespace Lsj.Util.Win32
         /// The <see cref="CallbackMayRunLong"/> function always marks the callback as long-running,
         /// whether or not a thread is available for processing callbacks or the threadpool is able to allocate a new thread.
         /// Therefore, this function should be called only once, even if it returns <see cref="FALSE"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallbackMayRunLong", ExactSpelling = true, SetLastError = true)]
@@ -261,7 +259,6 @@ namespace Lsj.Util.Win32
         /// An asynchronous I/O operation returns immediately with success and the file handle associated with the I/O completion object
         /// has the notification mode <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>.
         /// The file handle will not notify the I/O completion port and the associated I/O callback function will not be called.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher. 
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelThreadpoolIo", ExactSpelling = true, SetLastError = true)]
@@ -282,7 +279,6 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The thread pool is closed immediately if there are no outstanding work, I/O, timer, or wait objects that are bound to the pool;
         /// otherwise, the thread pool is released asynchronously after the outstanding objects are freed.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpool", ExactSpelling = true, SetLastError = true)]
@@ -303,7 +299,6 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The cleanup group must have no members when you call this function.
         /// For information on removing members of the group, see <see cref="CloseThreadpoolCleanupGroupMembers"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolCleanupGroup", ExactSpelling = true, SetLastError = true)]
@@ -362,7 +357,6 @@ namespace Lsj.Util.Win32
         /// To simply wait for or cancel pending work items without releasing them, use one of the threadpool callback functions:
         /// <see cref="WaitForThreadpoolIoCallbacks"/>, <see cref="WaitForThreadpoolTimerCallbacks"/>,
         /// <see cref="WaitForThreadpoolWaitCallbacks"/>, or <see cref="WaitForThreadpoolWorkCallbacks"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolCleanupGroupMembers", ExactSpelling = true, SetLastError = true)]
@@ -388,7 +382,6 @@ namespace Lsj.Util.Win32
         /// before calling this function—you must not cause any more overlapped I/O operations to occur after calling this function.
         /// It may be necessary to cancel threadpool I/O notifications to prevent memory leaks.
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolIo", ExactSpelling = true, SetLastError = true)]
@@ -418,7 +411,6 @@ namespace Lsj.Util.Win32
         /// If there is a cleanup group associated with the timer object, it is not necessary to call this function;
         /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
         /// wait, and timer objects associated with the cleanup group.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
@@ -442,7 +434,6 @@ namespace Lsj.Util.Win32
         /// If there is a cleanup group associated with the wait object, it is not necessary to call this function;
         /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
         /// wait, and timer objects associated with the cleanup group.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWait", ExactSpelling = true, SetLastError = true)]
@@ -472,7 +463,6 @@ namespace Lsj.Util.Win32
         /// To create the callback environment, call <see cref="InitializeThreadpoolEnvironment"/>.
         /// Then, call <see cref="SetThreadpoolCallbackPool"/> to associate the pool with the callback environment.
         /// To release the thread pool, call <see cref="CloseThreadpool"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpool", ExactSpelling = true, SetLastError = true)]
@@ -505,7 +495,6 @@ namespace Lsj.Util.Win32
         /// <see cref="CloseThreadpoolWait"/>
         /// <see cref="CloseThreadpoolWork"/>
         /// To close all the callbacks, call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolCleanupGroup", ExactSpelling = true, SetLastError = true)]
@@ -547,7 +536,6 @@ namespace Lsj.Util.Win32
         /// and an asychronous I/O operation returns immediately with success,
         /// the I/O completion callback function is not called and threadpool I/O notifications must be canceled.
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolIo", ExactSpelling = true, SetLastError = true)]
@@ -583,7 +571,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// To set the timer object, call the <see cref="SetThreadpoolTimer"/> function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
@@ -649,7 +636,6 @@ namespace Lsj.Util.Win32
         /// If there is a cleanup group associated with the work object, it is not necessary to call this function;
         /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
         /// wait, and timer objects associated with the cleanup group.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWork", ExactSpelling = true, SetLastError = true)]
@@ -683,9 +669,6 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns <see cref="NULL"/>.
         /// To retrieve extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolWork", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_WORK CreateThreadpoolWork([In] PTP_WORK_CALLBACK pfnwk, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
@@ -710,8 +693,6 @@ namespace Lsj.Util.Win32
         /// To remove a timer from the queue, call the <see cref="DeleteTimerQueueTimer"/> function.
         /// When you are finished with the queue of timers, call the <see cref="DeleteTimerQueueEx"/> function to delete the timer queue.
         /// Any pending timers in the queue are canceled and deleted.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueue", ExactSpelling = true, SetLastError = true)]
@@ -783,8 +764,6 @@ namespace Lsj.Util.Win32
         /// Use this macro when specifying the <paramref name="Flags"/> parameter.
         /// The macro parameters are the desired flags and the new limit (up to (2&lt;&lt;16)-1 threads).
         /// However, note that your application can improve its performance by keeping the number of worker threads low.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
@@ -816,8 +795,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// Do not make blocking calls to <see cref="DeleteTimerQueueEx"/> from within a timer callback.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueueEx", ExactSpelling = true, SetLastError = true)]
@@ -873,8 +850,6 @@ namespace Lsj.Util.Win32
         /// Those callbacks either will execute or are in the middle of executing.
         /// The timer is cleaned up when the callback function is finished executing.
         /// To cancel all timers in a timer queue, call the <see cref="DeleteTimerQueueEx"/> function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
@@ -921,7 +896,6 @@ namespace Lsj.Util.Win32
         /// and proceed with unloading the DLL's code when all callbacks have completed.
         /// The callback-generating object remains valid for the duration of the callback.
         /// The callback object may be reused or released (although synchronization with cleanup group release is still required).
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisassociateCurrentThreadFromCallback", ExactSpelling = true, SetLastError = true)]
@@ -942,9 +916,6 @@ namespace Lsj.Util.Win32
         /// <param name="mod">
         /// A handle to the DLL.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void FreeLibraryWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HMODULE mod);
@@ -979,7 +950,6 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateThreadpoolWork"/>
         /// <see cref="TrySubmitThreadpoolCallback"/>
         /// The <see cref="InitializeThreadpoolEnvironment"/> function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public static void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe)
         {
@@ -1011,9 +981,6 @@ namespace Lsj.Util.Win32
         /// <param name="pcs">
         /// The critical section.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LeaveCriticalSectionWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void LeaveCriticalSectionWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] in CRITICAL_SECTION pcs);
@@ -1033,9 +1000,6 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is <see cref="TRUE"/> if the timer is set; otherwise, the return value is <see cref="FALSE"/>.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadpoolTimerSet", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsThreadpoolTimerSet([In] PTP_TIMER pti);
@@ -1055,9 +1019,6 @@ namespace Lsj.Util.Win32
         /// <param name="mut">
         /// A handle to the mutex.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutexWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseMutexWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE mut);
@@ -1080,9 +1041,6 @@ namespace Lsj.Util.Win32
         /// <param name="crel">
         /// The amount by which to increment the semaphore object's count.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSemaphoreWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseSemaphoreWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE sem, [In] DWORD crel);
@@ -1101,9 +1059,6 @@ namespace Lsj.Util.Win32
         /// <param name="evt">
         /// A handle to the event to be set.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEventWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void SetEventWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE evt);
@@ -1130,7 +1085,6 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <remarks>
         /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public static void SetThreadpoolCallbackCleanupGroup([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_CLEANUP_GROUP ptpcg,
             [In] PTP_CLEANUP_GROUP_CANCEL_CALLBACK pfng)
@@ -1158,7 +1112,6 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// If you do not specify a thread pool, the global thread pool is used.
         /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public static void SetThreadpoolCallbackPool([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_POOL ptpp)
         {
@@ -1191,7 +1144,6 @@ namespace Lsj.Util.Win32
         /// The thread pool assumes ownership of the library reference supplied to this function.
         /// The caller should not call <see cref="FreeLibrary"/> on a module handle after passing it to this function.
         /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public static void SetThreadpoolCallbackLibrary([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PVOID mod)
         {
@@ -1213,7 +1165,6 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The thread pool may use this information to better determine when a new thread should be created.
         /// This function is implemented as an inline function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         public static void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe)
         {
@@ -1237,7 +1188,6 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <remarks>
         /// To specify the minimum number of threads available in the pool, call <see cref="SetThreadpoolThreadMinimum"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMaximum", ExactSpelling = true, SetLastError = true)]
@@ -1265,7 +1215,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// To specify the maximum number of threads that the pool may allocate, call <see cref="SetThreadpoolThreadMaximum"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMinimum", ExactSpelling = true, SetLastError = true)]
@@ -1317,7 +1266,6 @@ namespace Lsj.Util.Win32
         /// If the due time specified by <paramref name="pftDueTime"/> is absolute, the time that the system spends in sleep
         /// or hibernation does count toward the expiration of the timer.
         /// If the timer expires while the system is sleeping, the timer is signaled immediately when the system wakes.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
@@ -1356,7 +1304,6 @@ namespace Lsj.Util.Win32
         /// A wait object can wait for only one handle.
         /// Setting the handle for a wait object replaces the previous handle, if any.
         /// You must re-register the event with the wait object before signaling it each time to trigger the wait callback.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolWait", ExactSpelling = true, SetLastError = true)]
@@ -1383,7 +1330,6 @@ namespace Lsj.Util.Win32
         /// and an asynchronous I/O operation returns immediately with success,
         /// the object's I/O completion callback function is not called and threadpool I/O notifications must be canceled.
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartThreadpoolIo", ExactSpelling = true, SetLastError = true)]
@@ -1406,7 +1352,6 @@ namespace Lsj.Util.Win32
         /// You can post a work object one or more times (up to <see cref="MAXULONG"/>) without waiting for prior callbacks to complete.
         /// The callbacks will execute in parallel.
         /// To improve efficiency, the thread pool may throttle the threads.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SubmitThreadpoolWork", ExactSpelling = true, SetLastError = true)]
@@ -1437,9 +1382,6 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns <see cref="FALSE"/>.
         /// To retrieve extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrySubmitThreadpoolCallback", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TrySubmitThreadpoolCallback([In] PTP_SIMPLE_CALLBACK pfns, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
@@ -1470,7 +1412,6 @@ namespace Lsj.Util.Win32
         /// use <see cref="GetOverlappedResult"/> to determine the status of the I/O operation and wait for the operation to complete.
         /// The <see cref="CancelIoEx"/> function can optionally be used first to cancel outstanding I/O requests, potentially shortening the wait.
         /// For more information, see Canceling Pending I/O Operations.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolIoCallbacks", ExactSpelling = true, SetLastError = true)]
@@ -1491,9 +1432,6 @@ namespace Lsj.Util.Win32
         /// <param name="fCancelPendingCallbacks">
         /// Indicates whether to cancel queued callbacks that have not yet started to execute.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolTimerCallbacks", ExactSpelling = true, SetLastError = true)]
         public static extern void WaitForThreadpoolTimerCallbacks([In] PTP_TIMER pti, [In] BOOL fCancelPendingCallbacks);
@@ -1513,9 +1451,6 @@ namespace Lsj.Util.Win32
         /// <param name="fCancelPendingCallbacks">
         /// Indicates whether to cancel queued callbacks that have not yet started to execute.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolWaitCallbacks", ExactSpelling = true, SetLastError = true)]
         public static extern void WaitForThreadpoolWaitCallbacks([In] PTP_WAIT pwa, [In] BOOL fCancelPendingCallbacks);
@@ -1535,9 +1470,6 @@ namespace Lsj.Util.Win32
         /// <param name="fCancelPendingCallbacks">
         /// Indicates whether to cancel queued callbacks that have not yet started to execute.
         /// </param>
-        /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolWorkCallbacks", ExactSpelling = true, SetLastError = true)]
         public static extern void WaitForThreadpoolWorkCallbacks([In] PTP_WORK pwk, [In] BOOL fCancelPendingCallbacks);

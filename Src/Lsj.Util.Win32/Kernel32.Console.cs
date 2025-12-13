@@ -215,11 +215,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
-        ///  Tip
+        /// Tip
         /// </para>
         /// <para>
         /// This API is not recommended and does not have a virtual terminal equivalent.
@@ -347,10 +343,6 @@ namespace Lsj.Util.Win32
         /// In that instance, the standard handles retrieved with <see cref="GetStdHandle"/>
         /// will likely be invalid on startup until <see cref="AttachConsole"/> is called.
         /// The exception to this is if the application is launched with handle inheritance by its parent process.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as <c>0x0501</c> or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
@@ -981,10 +973,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Tip
         /// </para>
         /// <para>
@@ -1042,10 +1030,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To determine the required size for the <see cref="lpAliasBuffer"/> buffer, use the <see cref="GetConsoleAliasesLength"/> function.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later. For more information, see Using the Windows Headers.
+        /// To determine the required size for the <paramref name="lpAliasBuffer"/> buffer, use the <see cref="GetConsoleAliasesLength"/> function.
         /// </para>
         /// <para>
         /// Tip
@@ -1086,9 +1071,6 @@ namespace Lsj.Util.Win32
         /// The size of the buffer required to store all console aliases defined for this executable file, in bytes.
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later. For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// Tip
         /// </para>
@@ -1141,9 +1123,6 @@ namespace Lsj.Util.Win32
         /// To determine the required size for the <paramref name="lpExeNameBuffer"/> buffer, use the <see cref="GetConsoleAliasExesLength"/> function.
         /// </para>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later. For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Tip
         /// </para>
         /// <para>
@@ -1179,9 +1158,6 @@ namespace Lsj.Util.Win32
         /// The size of the buffer required to store the names of all executable files that have console aliases defined, in bytes.
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later. For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// Tip
         /// </para>
@@ -1352,10 +1328,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Tip
         /// </para>
         /// <para>
@@ -1407,10 +1379,6 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// Tip
         /// </para>
@@ -1789,9 +1757,6 @@ namespace Lsj.Util.Win32
         /// To retrieve the current title string, use the <see cref="GetConsoleTitle"/> function.
         /// </para>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later. For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Tip
         /// </para>
         /// <para>
@@ -1879,11 +1844,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
-        ///  Tip
+        /// Tip
         /// </para>
         /// <para>
         /// This API is not recommended and does not have a virtual terminal equivalent.
@@ -2027,10 +1988,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         ///  Tip
         /// </para>
         /// <para>
@@ -2124,10 +2081,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Tip
         /// </para>
         /// <para>
@@ -2186,10 +2139,6 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// Tip
         /// </para>
@@ -4419,10 +4368,6 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// Tip
         /// </para>

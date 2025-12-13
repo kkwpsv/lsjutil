@@ -135,8 +135,6 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="CloseHandle"/> function to close the handle.
         /// The system closes the handle automatically when the process terminates.
         /// The timer object is destroyed when its last handle has been closed.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
@@ -250,8 +248,6 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="CloseHandle"/> function to close the handle.
         /// The system closes the handle automatically when the process terminates.
         /// The timer object is destroyed when its last handle has been closed.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]

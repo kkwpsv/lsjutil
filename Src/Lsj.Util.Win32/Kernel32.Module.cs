@@ -191,22 +191,6 @@ namespace Lsj.Util.Win32
         /// To take a snapshot of specified processes and the heaps, modules, and threads used by these processes,
         /// use the <see cref="CreateToolhelp32Snapshot"/> function.
         /// </para>
-        /// <para>
-        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
-        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
-        /// </para>
-        /// <para>
-        /// If <c>PSAPI_VERSION</c> is 2 or greater,
-        /// this function is defined as <c>K32EnumProcessModules</c> in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
-        /// If <c>PSAPI_VERSION</c> is 1, this function is defined as <see cref="EnumProcessModules"/> in Psapi.h
-        /// and exported in Psapi.lib and Psapi.dll as a wrapper that calls <c>K32EnumProcessModules</c>.
-        /// </para>
-        /// <para>
-        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
-        /// should always call this function as <see cref="EnumProcessModules"/>.
-        /// To ensure correct resolution of symbols, add Psapi.lib to the <c>TARGETLIBS</c> macro and compile the program with <c>-DPSAPI_VERSION=1</c>.
-        /// To use run-time dynamic linking, load Psapi.dll.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumProcessModules", ExactSpelling = true, SetLastError = true)]
@@ -348,22 +332,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// To take a snapshot of specified processes and the heaps, modules, and threads used by these processes,
         /// use the <see cref="CreateToolhelp32Snapshot"/> function.
-        /// </para>
-        /// <para>
-        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
-        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
-        /// </para>
-        /// <para>
-        /// If <c>PSAPI_VERSION</c> is 2 or greater,
-        /// this function is defined as <c>K32EnumProcessModulesEx</c> in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
-        /// If <c>PSAPI_VERSION</c> is 1, this function is defined as <see cref="EnumProcessModulesEx"/> in Psapi.h
-        /// and exported in Psapi.lib and Psapi.dll as a wrapper that calls <c>K32EnumProcessModulesEx</c>.
-        /// </para>
-        /// <para>
-        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
-        /// should always call this function as <see cref="EnumProcessModulesEx"/>.
-        /// To ensure correct resolution of symbols, add Psapi.lib to the <c>TARGETLIBS</c> macro and compile the program with <c>–DPSAPI_VERSION=1</c>.
-        /// To use run-time dynamic linking, load Psapi.dll.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
@@ -614,23 +582,6 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GetProcessImageFileName"/> or <see cref="QueryFullProcessImageName"/> function.
         /// This is more efficient and more reliable than calling the <see cref="GetModuleFileNameEx"/> function with a <see cref="NULL"/> module handle.
         /// </para>
-        /// <para>
-        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
-        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
-        /// </para>
-        /// <para>
-        /// If <c>PSAPI_VERSION</c> is 2 or greater, this function is defined as <c>K32GetModuleFileNameEx</c> in Psapi.h
-        /// and exported in Kernel32.lib and Kernel32.dll.
-        /// If <c>PSAPI_VERSION</c> is 1, this function is defined as <c>GetModuleFileNameEx</c> in Psapi.h
-        /// and exported in Psapi.lib and Psapi.dll as a wrapper that calls <c>K32GetModuleFileNameEx</c>.
-        /// </para>
-        /// <para>
-        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
-        /// should always call this function as <see cref="GetModuleFileNameEx"/>.
-        /// To ensure correct resolution of symbols, add Psapi.lib to the <c>TARGETLIBS</c> macro
-        /// and compile the program with <c>-DPSAPI_VERSION=1</c>.
-        /// To use run-time dynamic linking, load Psapi.dll.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
@@ -807,10 +758,6 @@ namespace Lsj.Util.Win32
         /// For example, a thread retrieves a module handle, but before it uses the handle, a second thread frees the module.
         /// If the system loads another module, it could reuse the module handle that was recently freed.
         /// Therefore, first thread would have a handle to a module different than the one intended.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define <c>_WIN32_WINNT</c> as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
@@ -2178,10 +2125,6 @@ namespace Lsj.Util.Win32
         /// To revert to the standard search path used by <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/>,
         /// call <see cref="SetDllDirectory"/> with <see cref="NULL"/>.
         /// This also restores safe DLL search mode based on the <c>SafeDllSearchMode</c> registry value.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]

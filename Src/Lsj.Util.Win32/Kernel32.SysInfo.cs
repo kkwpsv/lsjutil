@@ -245,8 +245,6 @@ namespace Lsj.Util.Win32
         /// A 32-bit caller can use the total count of <see cref="PROCESSOR_RELATIONSHIP"/> structures to determine the actual number
         /// of active processor cores on the system.
         /// However, the affinity of a 32-bit thread cannot be explicitly set to logical processor 32 through 63 of any processor group.
-        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
@@ -268,8 +266,6 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <remarks>
         /// To determine whether a Win32-based application is running under WOW64, call the <see cref="IsWow64Process2"/> function.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", ExactSpelling = true)]
@@ -339,8 +335,6 @@ namespace Lsj.Util.Win32
         /// For more information about performance counters, see Memory Performance Information.
         /// The only difference between the <see cref="GetNumaAvailableMemoryNodeEx"/> function
         /// and the <see cref="GetNumaAvailableMemoryNode"/> function is the data type of the Node parameter.
-        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaAvailableMemoryNodeEx", ExactSpelling = true, SetLastError = true)]
@@ -436,8 +430,6 @@ namespace Lsj.Util.Win32
         /// Note that this number is not guaranteed to equal the total number of nodes in the system.
         /// To ensure that all threads for your process run on the same node,
         /// use the <see cref="SetProcessAffinityMask"/> function with a process affinity mask that specifies processors in the same node.
-        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaNodeProcessorMaskEx", ExactSpelling = true, SetLastError = true)]
@@ -494,10 +486,6 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// <remarks>
-        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
-        /// For more information, see Using the Windows Headers.
-        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNodeEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaProcessorNodeEx([Out] out PROCESSOR_NUMBER Processor, [Out] out USHORT NodeNumber);
@@ -560,8 +548,6 @@ namespace Lsj.Util.Win32
         /// <see cref="PRODUCT_PROFESSIONAL"/>      <see cref="PRODUCT_BUSINESS"/>
         /// <see cref="PRODUCT_PROFESSIONAL_N"/>    <see cref="PRODUCT_BUSINESS_N"/>
         /// <see cref="PRODUCT_STARTER_N"/>         <see cref="PRODUCT_STARTER"/>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", ExactSpelling = true, SetLastError = true)]
@@ -889,8 +875,6 @@ namespace Lsj.Util.Win32
         /// because the interrupt-time count and tick count are advanced by approximately 49 days.
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
         /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", ExactSpelling = true)]
@@ -1100,8 +1084,6 @@ namespace Lsj.Util.Win32
         /// because the interrupt-time count and tick count are advanced by approximately 49 days.
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
         /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0601 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true)]

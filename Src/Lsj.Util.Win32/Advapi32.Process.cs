@@ -904,10 +904,6 @@ namespace Lsj.Util.Win32
         /// As an alternative, use the <see cref="CreateProcessAsUser"/> and <see cref="LogonUser"/> functions.
         /// </para>
         /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// Security Remarks
         /// </para>
         /// <para>
@@ -1333,10 +1329,6 @@ namespace Lsj.Util.Win32
         /// other threads of the process are terminated without an opportunity to execute any additional code
         /// (including the thread termination code of attached DLLs).
         /// For more information, see Terminating a Process.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// <para>
         /// Security Remarks

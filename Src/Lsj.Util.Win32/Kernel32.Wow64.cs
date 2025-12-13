@@ -42,8 +42,6 @@ namespace Lsj.Util.Win32
         /// <see cref="IsWow64Process2"/> removes the ambiguity inherent to multiple WOW environments
         /// by explicitly returning both the architecture of the host and guest for a given process.
         /// Applications can use this information to reliably identify situations such as running under emulation on ARM64.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", ExactSpelling = true, SetLastError = true)]

@@ -335,10 +335,6 @@ namespace Lsj.Util.Win32
         /// then no further callbacks will be sent.
         /// </para>
         /// <para>
-        /// To compile an application that uses the <see cref="PCOPYFILE2_PROGRESS_ROUTINE"/> function pointer type,
-        /// define the _WIN32_WINNT macro as 0x0601 or later. For more information, see Using the Windows Headers.
-        /// </para>
-        /// <para>
         /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
         /// </para>
         /// <para>
@@ -729,10 +725,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// This function fails with <c>HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED)</c> if the destination file already exists
         /// and has the <see cref="FILE_ATTRIBUTE_HIDDEN"/> or <see cref="FILE_ATTRIBUTE_READONLY"/> attribute set.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define the _WIN32_WINNT macro as _WIN32_WINNT_WIN8 or later.
-        /// For more information, see Using the Windows Headers.
         /// </para>
         /// <para>
         /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
@@ -3471,10 +3463,6 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses the <see cref="CreateFile2"/> function, define the _WIN32_WINNT macro as 0x0602 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// <see cref="CreateFile2"/> supports file interaction and most other types of I/O devices and mechanisms available to Windows developers.
         /// This section attempts to cover the varied issues developers may experience
@@ -15117,7 +15105,6 @@ namespace Lsj.Util.Win32
         /// Ignores errors that occur while merging ACL information from the replaced file to the replacement file.
         /// Therefore, if you specify this flag and do not have <see cref="WRITE_DAC"/> access,
         /// the function succeeds but the ACLs are not preserved.
-        /// To compile an application that uses this value, define the _WIN32_WINNT macro as 0x0600 or later.
         /// </para>
         /// <para>
         /// Windows Server 2003 and Windows XP:
@@ -15890,10 +15877,6 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0600 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// <para>
         /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
         /// </para>

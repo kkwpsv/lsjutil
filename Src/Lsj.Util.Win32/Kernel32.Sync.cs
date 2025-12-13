@@ -1346,8 +1346,6 @@ namespace Lsj.Util.Win32
         /// will fail with (31) <see cref="ERROR_GEN_FAILURE"/>.
         /// Note that the <see cref="ReadFileEx"/>, <see cref="SetWaitableTimer"/>, and <see cref="WriteFileEx"/> functions are implemented
         /// using an APC as the completion notification callback mechanism.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
@@ -1435,8 +1433,6 @@ namespace Lsj.Util.Win32
         /// using the <see cref="SetThreadpoolThreadMaximum"/> and <see cref="SetThreadpoolThreadMinimum"/> functions,
         /// or create your own thread using the <see cref="CreateThread"/> function.
         /// (For the original thread pool API, specify <see cref="WT_EXECUTEINPERSISTENTTHREAD"/> using the <see cref="QueueUserWorkItem"/> function.)
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWaitForSingleObject", ExactSpelling = true, SetLastError = true)]
@@ -1516,8 +1512,6 @@ namespace Lsj.Util.Win32
         /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
         /// The heap manager uses a spin count of roughly 4000 for its per-heap critical sections.
         /// This gives great performance and scalability in almost all worst-case scenarios.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0403 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCriticalSectionSpinCount", ExactSpelling = true)]
@@ -1610,8 +1604,6 @@ namespace Lsj.Util.Win32
         /// Therefore, if you have a thread that creates windows, be sure to call <see cref="SignalObjectAndWait"/> from a different thread.
         /// If this is not possible, you can use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
         /// but the functionality is not equivalent.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true)]
@@ -1783,8 +1775,6 @@ namespace Lsj.Util.Win32
         /// that were allocated when the critical section object was initialized.
         /// After this function has been called, the critical section object can no longer be used for synchronization.
         /// If a thread terminates while it has ownership of a critical section, the state of the critical section is undefined.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TryEnterCriticalSection", ExactSpelling = true)]
@@ -1813,8 +1803,6 @@ namespace Lsj.Util.Win32
         /// <see cref="UnregisterWait"/> unregisters the wait on the callback functions and fails with the <see cref="ERROR_IO_PENDING"/> error code.
         /// The error code does not indicate that the function has failed, and the function does not need to be called again.
         /// If your code requires an error code to set only when the unregister operation has failed, call <see cref="UnregisterWaitEx"/> instead.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWait", ExactSpelling = true, SetLastError = true)]
@@ -1867,8 +1855,6 @@ namespace Lsj.Util.Win32
         /// Windows XP: If <paramref name="CompletionEvent"/> is a handle to an event provided by the caller
         /// and the function fails with <see cref="ERROR_IO_PENDING"/>, the caller should wait until the event is signaled to close the event.
         /// This behavior changed starting with Windows Vista.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWaitEx", ExactSpelling = true, SetLastError = true)]

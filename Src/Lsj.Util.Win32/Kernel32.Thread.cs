@@ -664,8 +664,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// Until a thread terminates, its thread identifier uniquely identifies it on the system.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", ExactSpelling = true, SetLastError = true)]
@@ -875,7 +873,6 @@ namespace Lsj.Util.Win32
         /// For example, some CPUs will vary the frequency of the timer when changing the frequency at which the CPU runs
         /// and others will leave it at a fixed rate.
         /// The behavior of each CPU is described in the documentation provided by the CPU vendor.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", ExactSpelling = true, SetLastError = true)]
@@ -1028,8 +1025,6 @@ namespace Lsj.Util.Win32
         /// You can also use the <see cref="GetProcessAffinityMask"/> function to check the processors on which the thread is allowed to run.
         /// Note that <see cref="GetProcessAffinityMask"/> returns a bitmask
         /// whereas <see cref="SetThreadIdealProcessor"/> uses an integer value to represent the processor.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
@@ -1065,8 +1060,6 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Specifying a thread ideal processor provides a hint to the scheduler about the preferred processor for a thread.
         /// The scheduler runs the thread on the thread's ideal processor when possible.
-        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
-        /// For more information, see Using the Windows Headers.
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
@@ -1451,8 +1444,6 @@ namespace Lsj.Util.Win32
         /// If the maximum number of threads is already running, no additional associated thread can run until a running thread finishes.
         /// If a thread uses <see cref="SwitchToThread"/> to wait for one of the additional associated threads to accomplish some work,
         /// the process might deadlock.
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", ExactSpelling = true)]

@@ -40,15 +40,9 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
         /// The "remote" in <see cref="CheckRemoteDebuggerPresent"/> does not imply that the debugger necessarily resides on a different computer;
         /// instead, it indicates that the debugger resides in a separate and parallel process.
         /// Use the <see cref="IsDebuggerPresent"/> function to detect whether the calling process is running under the debugger.
-        /// </para>
-        /// <para>
-        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0501 or later.
-        /// For more information, see Using the Windows Headers.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckRemoteDebuggerPresent", ExactSpelling = true, SetLastError = true)]
