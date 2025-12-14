@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.Enums.InSendMessageExResults;
 using static Lsj.Util.Win32.Enums.MessageFilterActions;
 using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExTypes;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
@@ -32,22 +33,6 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
-        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postmessagew"/>
-        /// </para>
-        /// </summary>
-        public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
-
-        /// <summary>
-        /// BROADCAST_QUERY_DENY
-        /// </summary>
-        public const int BROADCAST_QUERY_DENY = 0x424D5144;
-
-        /// <summary>
-        /// <para>
         /// An application-defined callback function used with the <see cref="SendMessageCallback"/> function.
         /// The system passes the message to the callback function after passing the message to the destination window procedure.
         /// The <see cref="SENDASYNCPROC"/> type defines a pointer to this callback function.
@@ -57,34 +42,57 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-sendasyncproc"/>
         /// </para>
         /// </summary>
-        /// <param name="Arg1">
+        /// <param name="unnamedParam1">
+        /// <para>
         /// A handle to the window whose window procedure received the message.
-        /// If the <see cref="SendMessageCallback"/> function was called with its hwnd parameter set to <see cref="HWND_BROADCAST"/>,
-        /// the system calls the SendAsyncProc function once for each top-level window.
+        /// This parameter is typically named <c>hWnd</c>.
+        /// </para>
+        /// <para>
+        /// If the <see cref="SendMessageCallback"/> function was called with its <c>hWnd</c> parameter set to <see cref="HWND_BROADCAST"/>,
+        /// the system calls the <c>SendAsyncProc</c>function once for each top-level window.
+        /// </para>
         /// </param>
-        /// <param name="Arg2">
+        /// <param name="unnamedParam2">
         /// The message.
+        /// This parameter is typically named <c>uMsg</c>.
         /// </param>
-        /// <param name="Arg3">
+        /// <param name="unnamedParam3">
         /// An application-defined value sent from the <see cref="SendMessageCallback"/> function.
+        /// This parameter is typically named <c>dwData</c>.
         /// </param>
-        /// <param name="Arg4">
+        /// <param name="unnamedParam4">
         /// The result of the message processing.
         /// This value depends on the message.
+        /// This parameter is typically named <c>lResult</c>.
         /// </param>
         /// <remarks>
-        /// You install a SendAsyncProc application-defined callback function by passing a <see cref="SENDASYNCPROC"/> pointer
-        /// to the <see cref="SendMessageCallback"/> function.
-        /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/>
-        /// calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The parameters are defined in the header with no names: <c>typedef VOID (CALLBACK* SENDASYNCPROC)(HWND, UINT, ULONG_PTR, LRESULT);</c>.
+        /// Therefore, the syntax block lists them as <c>unnamedParam1</c> - <c>unnamedParam4</c>.
+        /// You can name these parameters anything in your app.
+        /// However, they are usually named as shown in the parameter descriptions.
+        /// </para>
+        /// <para>
+        /// You install a <c>SendAsyncProc</c> application-defined callback function
+        /// by passing a <see cref="SENDASYNCPROC"/> pointer to the <see cref="SendMessageCallback"/> function.
+        /// </para>
+        /// <para>
+        /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/> calls
+        /// <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
+        /// </para>
         /// </remarks>
-        public delegate void Sendasyncproc([In] HWND Arg1, [In] WindowMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
+        public delegate void Sendasyncproc([In] HWND unnamedParam1, [In] WindowMessages unnamedParam2, [In] ULONG_PTR unnamedParam3, [In] LRESULT unnamedParam4);
 
 
         /// <summary>
         /// <para>
         /// Sends a message to the specified recipients.
         /// The recipients can be applications, installable drivers, network drivers, system-level device drivers, or any combination of these system components.
+        /// </para>
+        /// <para>
         /// To receive additional information if the request is defined, use the <see cref="BroadcastSystemMessageEx"/> function.
         /// </para>
         /// <para>
@@ -92,23 +100,214 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="flags">
+        /// <para>
         /// The broadcast option.
         /// This parameter can be one or more of the following values.
-        /// <see cref="BSF_ALLOWSFW"/>, <see cref="BSF_FLUSHDISK"/>, <see cref="BSF_FORCEIFHUNG"/>,
-        /// <see cref="BSF_IGNORECURRENTTASK"/>, <see cref="BSF_NOHANG"/>, <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>,
-        /// <see cref="BSF_POSTMESSAGE"/>, <see cref="BSF_QUERY"/>, <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_ALLOWSFW"/>
+        /// </para>
+        /// <para>
+        /// 0x00000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the recipient to set the foreground window while processing the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_FLUSHDISK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flushes the disk after each recipient processes the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_FORCEIFHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Continues to broadcast the message, even if the time-out period elapses or one of the recipients is not responding.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_IGNORECURRENTTASK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Does not send the message to windows that belong to the current task.
+        /// This prevents an application from receiving its own message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_NOHANG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Forces a nonresponsive application to time out. If one of the recipients times out, do not continue broadcasting the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Waits for a response to the message, as long as the recipient is not being unresponsive. Does not time out.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_POSTMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Posts the message. Do not use in combination with <see cref="BSF_QUERY"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_QUERY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sends the message to one recipient at a time, sending to a subsequent recipient only if the current recipient returns <see cref="TRUE"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sends the message using <see cref="SendNotifyMessage"/> function. Do not use in combination with <see cref="BSF_QUERY"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpInfo">
+        /// <para>
         /// A pointer to a variable that contains and receives information about the recipients of the message.
-        /// When the function returns, this variable receives a combination of these values
-        /// identifying which recipients actually received the message.
-        /// If this parameter is <see cref="NullRef{BroadcastSystemMessageRecipients}"/>, the function broadcasts to all components.
+        /// </para>
+        /// <para>
+        /// When the function returns, this variable receives a combination of these values identifying which recipients actually received the message.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>, the function broadcasts to all components.
+        /// </para>
+        /// <para>
         /// This parameter can be one or more of the following values.
-        /// <see cref="BSM_ALLCOMPONENTS"/>, <see cref="BSM_ALLDESKTOPS"/>, <see cref="BSM_APPLICATIONS"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_ALLCOMPONENTS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to all system components.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_ALLDESKTOPS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to all desktops.
+        /// Requires the <see cref="SE_TCB_NAME"/> privilege.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_APPLICATIONS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to applications.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Msg">
+        /// <para>
         /// The message to be sent.
-        /// The message to be sent.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Additional message-specific information.
@@ -117,17 +316,26 @@ namespace Lsj.Util.Win32
         /// Additional message-specific information.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a positive value.
+        /// </para>
+        /// <para>
         /// If the function is unable to broadcast the message, the return value is –1.
-        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/> and at least one recipient
-        /// returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/>
+        /// and at least one recipient returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients,
-        /// ignoring values returned by those recipients.
-        /// The system only does marshalling for system messages (those in the range 0 to (WM_USER-1)).
-        /// To send other messages (those >= WM_USER) to another process, you must do custom marshalling.
+        /// <para>
+        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients, ignoring values returned by those recipients.
+        /// </para>
+        /// <para>
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BroadcastSystemMessageW", ExactSpelling = true, SetLastError = true)]
@@ -136,35 +344,266 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// <para>
         /// Sends a message to the specified recipients.
-        /// The recipients can be applications, installable drivers, network drivers,
-        /// system-level device drivers, or any combination of these system components.
-        /// This function is similar to <see cref="BroadcastSystemMessage"/> except
-        /// that this function can return more information from the recipients.
+        /// The recipients can be applications, installable drivers, network drivers, system-level device drivers, or any combination of these system components.
+        /// </para>
+        /// <para>
+        /// This function is similar to <see cref="BroadcastSystemMessage"/> except that this function can return more information from the recipients.
+        /// </para>
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-broadcastsystemmessageexw"/>
         /// </para>
         /// </summary>
         /// <param name="flags">
-        /// The broadcast option.
-        /// This parameter can be one or more of the following values.
-        /// <see cref="BSF_ALLOWSFW"/>, <see cref="BSF_FLUSHDISK"/>, <see cref="BSF_FORCEIFHUNG"/>,
-        /// <see cref="BSF_IGNORECURRENTTASK"/>, <see cref="BSF_LUID"/>, <see cref="BSF_NOHANG"/>,
-        /// <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>, <see cref="BSF_POSTMESSAGE"/>, <see cref="BSF_RETURNHDESK"/>,
-        /// <see cref="BSF_QUERY"/>, <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// <para>
+        /// The broadcast option. This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_ALLOWSFW"/>
+        /// </para>
+        /// <para>
+        /// 0x00000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables the recipient to set the foreground window while processing the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_FLUSHDISK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Flushes the disk after each recipient processes the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_FORCEIFHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Continues to broadcast the message, even if the time-out period elapses or one of the recipients is not responding.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_IGNORECURRENTTASK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Does not send the message to windows that belong to the current task.
+        /// This prevents an application from receiving its own message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_LUID"/>
+        /// </para>
+        /// <para>
+        /// 0x00000400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If <see cref="BSF_LUID"/> is set, the message is sent to the window that has the same LUID
+        /// as specified in the <see cref="BSMINFO.luid"/> member of the <see cref="BSMINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows 2000:  This flag is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_NOHANG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Forces a nonresponsive application to time out.
+        /// If one of the recipients times out, do not continue broadcasting the message.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_NOTIMEOUTIFNOTHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Waits for a response to the message, as long as the recipient is not being unresponsive.
+        /// Does not time out.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_POSTMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Posts the message. Do not use in combination with <see cref="BSF_QUERY"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_RETURNHDESK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If access is denied and both this and <see cref="BSF_QUERY"/> are set,
+        /// <see cref="BSMINFO"/> returns both the desktop handle and the window handle.
+        /// If access is denied and only <see cref="BSF_QUERY"/> is set, only the window handle is returned by <see cref="BSMINFO"/>.
+        /// </para>
+        /// <para>
+        /// Windows 2000:  This flag is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_QUERY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sends the message to one recipient at a time, sending to a subsequent recipient only if the current recipient returns <see cref="TRUE"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSF_SENDNOTIFYMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sends the message using <see cref="SendNotifyMessage"/> function. Do not use in combination with <see cref="BSF_QUERY"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpInfo">
+        /// <para>
         /// A pointer to a variable that contains and receives information about the recipients of the message.
-        /// When the function returns, this variable receives a combination of these values
-        /// identifying which recipients actually received the message.
-        /// If this parameter is <see cref="NullRef{BroadcastSystemMessageRecipients}"/>, the function broadcasts to all components.
+        /// </para>
+        /// <para>
+        /// When the function returns, this variable receives a combination of these values identifying which recipients actually received the message.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NullRef{BroadcastSystemMessageRecipients}"/>, the function broadcasts to all components.
+        /// </para>
+        /// <para>
         /// This parameter can be one or more of the following values.
-        /// <see cref="BSM_ALLCOMPONENTS"/>, <see cref="BSM_ALLDESKTOPS"/>, <see cref="BSM_APPLICATIONS"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_ALLCOMPONENTS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to all system components.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_ALLDESKTOPS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to all desktops. Requires the <see cref="SE_TCB_NAME"/> privilege.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="BSM_APPLICATIONS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Broadcast to applications.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="Msg">
+        /// <para>
         /// The message to be sent.
-        /// The message to be sent.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Additional message-specific information.
@@ -177,20 +616,31 @@ namespace Lsj.Util.Win32
         /// if the request is denied and <paramref name="flags"/> is set to <see cref="BSF_QUERY"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is a positive value.
+        /// </para>
+        /// <para>
         /// If the function is unable to broadcast the message, the return value is –1.
-        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/> and at least one recipient
-        /// returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="flags"/> parameter is <see cref="BSF_QUERY"/>
+        /// and at least one recipient returned <see cref="BROADCAST_QUERY_DENY"/> to the corresponding message, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients,
-        /// ignoring values returned by those recipients.
+        /// <para>
+        /// If <see cref="BSF_QUERY"/> is not specified, the function sends the specified message to all requested recipients, ignoring values returned by those recipients.
+        /// </para>
+        /// <para>
         /// If the caller's thread is on a desktop other than that of the window that denied the request,
-        /// the caller must call <code>SetThreadDesktop(hdesk)</code> to query anything on that window.
-        /// Also, the caller must call <see cref="CloseDesktop"/> on the returned hdesk handle.
-        /// The system only does marshalling for system messages (those in the range 0 to (WM_USER-1)).
-        /// To send other messages (those >= WM_USER) to another process, you must do custom marshalling.
+        /// the caller must call <c>SetThreadDesktop(hdesk)</c> to query anything on that window.
+        /// Also, the caller must call <see cref="CloseDesktop"/> on the returned <c>hdesk</c> handle.
+        /// </para>
+        /// <para>
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BroadcastSystemMessageExW", ExactSpelling = true, SetLastError = true)]
@@ -217,17 +667,25 @@ namespace Lsj.Util.Win32
         /// with the <see cref="WH_SYSMSGFILTER"/> and <see cref="WH_MSGFILTER"/> hooks.
         /// </param>
         /// <returns>
-        /// If the application should process the message further, the return value is <see cref="FALSE"/>.
-        /// If the application should not process the message further, the return value is <see cref="TRUE"/>.
+        /// <para>
+        /// If the application should process the message further, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If the application should not process the message further, the return value is nonzero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The system calls <see cref="CallMsgFilter"/> to enable applications to examine and control the flow of messages
+        /// <para>
+        /// he system calls <see cref="CallMsgFilter"/> to enable applications to examine and control the flow of messages
         /// during internal processing of dialog boxes, message boxes, menus, and scroll bars,
         /// or when the user activates a different window by pressing the ALT+TAB key combination.
-        /// Install this hook procedure by using the <see cref="SetWindowsHookEx"/> function.
+        /// </para>
+        /// <para>
+        /// Install this hook procedure by using the <see cref="SetWindowsHookEx"/> function.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", ExactSpelling = true)]
         public static extern BOOL CallMsgFilter([In][Out] ref MSG lpMsg, [In] int nCode);
 
         /// <summary>
@@ -261,11 +719,14 @@ namespace Lsj.Util.Win32
         /// For more information, see the descriptions of the individual hook procedures.
         /// </returns>
         /// <remarks>
-        /// Hook procedures are installed in chains for particular hook types.
-        /// <see cref="CallNextHookEx"/> calls the next hook in the chain.
-        /// Calling <see cref="CallNextHookEx"/> is optional, but it is highly recommended;
+        /// <para>
+        /// Hook procedures are installed in chains for particular hook types. <see cref="CallNextHookEx"/> calls the next hook in the chain.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="CallNextHookEx"/> is optional, but it is highly recommended;
         /// otherwise, other applications that have installed hooks will not receive hook notifications and may behave incorrectly as a result.
-        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", ExactSpelling = true, SetLastError = true)]
@@ -305,22 +766,58 @@ namespace Lsj.Util.Win32
         /// The return value specifies the result of the message processing and depends on the message sent.
         /// </returns>
         /// <remarks>
-        /// Use the <see cref="CallWindowProc"/> function for window subclassing.
+        /// <para>
+        /// Use the <see cref="CallWindowProc"/> function for window subclassing.
         /// Usually, all windows with the same class share one window procedure.
         /// A subclass is a window or set of windows with the same class whose messages are intercepted and processed
         /// by another window procedure (or procedures) before being passed to the window procedure of the class.
-        /// The <see cref="SetWindowLong"/> function creates the subclass by changing the window procedure associated with a particular window,
+        /// </para>
+        /// <para>
+        /// The <see cref="SetWindowLong"/> function creates the subclass by changing the window procedure associated with a particular window,
         /// causing the system to call the new window procedure instead of the previous one.
-        /// An application must pass any messages not processed by the new window procedure
-        /// to the previous window procedure by calling <see cref="CallWindowProc"/>.
+        /// An application must pass any messages not processed by the new window procedure to the previous window procedure by calling <see cref="CallWindowProc"/>.
         /// This allows the application to create a chain of window procedures.
-        /// The <see cref="CallWindowProc"/> function handles Unicode-to-ANSI conversion.
+        /// </para>
+        /// <para>
+        /// If <c>STRICT</c> is defined, the <paramref name="lpPrevWndFunc"/> parameter has the data type <see cref="WNDPROC"/>.
+        /// The <see cref="WNDPROC"/> type is declared as follows:
+        /// </para>
+        /// <code>
+        /// LRESULT (CALLBACK* WNDPROC) (HWND, UINT, WPARAM, LPARAM);
+        /// </code>
+        /// <para>
+        /// If <c>STRICT</c> is not defined, the <paramref name="lpPrevWndFunc"/> parameter has the data type <see cref="FARPROC"/>.
+        /// The <see cref="FARPROC"/> type is declared as follows:
+        /// </para>
+        /// <code>
+        /// int (FAR WINAPI * FARPROC) ()
+        /// </code>
+        /// <para>
+        /// In C, the <see cref="FARPROC"/> declaration indicates a callback function that has an unspecified parameter list.
+        /// In C++, however, the empty parameter list in the declaration indicates that a function has no parameters.
+        /// This subtle distinction can break careless code.
+        /// Following is one way to handle this situation:
+        /// </para>
+        /// <code>
+        /// #ifdef STRICT 
+        ///   WNDPROC MyWindowProcedure 
+        /// #else 
+        ///   FARPROC MyWindowProcedure 
+        /// #endif 
+        /// ... 
+        ///   lResult = CallWindowProc(MyWindowProcedure, ...) ;
+        /// </code>
+        /// <para>
+        /// For further information about functions declared with empty argument lists, refer to The C++ Programming Language, Second Edition, by Bjarne Stroustrup.
+        /// </para>
+        /// <para>
+        /// The <see cref="CallWindowProc"/> function handles Unicode-to-ANSI conversion.
         /// You cannot take advantage of this conversion if you call the window procedure directly.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT CallWindowProc([In] WNDPROC lpPrevWndFunc, [In] HWND hWnd, [In] WindowMessages Msg,
-            [In] WPARAM wParam, [In] LPARAM lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true)]
+        public static extern LRESULT CallWindowProc([In] WNDPROC lpPrevWndFunc, [In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -334,34 +831,84 @@ namespace Lsj.Util.Win32
         /// The message to add to or remove from the filter.
         /// </param>
         /// <param name="dwFlag">
-        /// The action to be performed. One of the following values.
-        /// <see cref="MSGFLT_ADD"/>:
-        /// Adds the <paramref name="message"/> to the filter.
+        /// <para>
+        /// The action to be performed.
+        /// One of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MSGFLT_ADD"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Adds the <paramref name="message"/> to the filter.
         /// This has the effect of allowing the message to be received.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
         /// <see cref="MSGFLT_REMOVE"/>
-        /// Removes the <paramref name="message"/> from the filter.
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Removes the <paramref name="message"/> from the filter.
         /// This has the effect of blocking the message.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>>
         /// Note
+        /// </para>
+        /// <para>
         /// A message can be successfully removed from the filter, but that is not a guarantee that the message will be blocked.
         /// See the Remarks section for more details.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// UIPI is a security feature that prevents messages from being received from a lower integrity level sender.
-        /// All such messages with a value above <see cref="WM_USER"/> are blocked by default.
+        /// All such messages with a value above <see cref="WM_USER"/> are blocked by default.
         /// The filter, somewhat contrary to intuition, is a list of messages that are allowed through.
         /// Therefore, adding a message to the filter allows that message to be received from a lower integrity sender,
         /// while removing a message blocks that message from being received.
-        /// Certain messages with a value less than <see cref="WM_USER"/> are required
-        /// to pass through the filter regardless of the filter setting.
-        /// You can call this function to remove one of those messages from the filter and it will return <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// Certain messages with a value less than <see cref="WM_USER"/> are required to pass through the filter regardless of the filter setting.
+        /// You can call this function to remove one of those messages from the filter and it will return <see cref="TRUE"/>.
         /// However, the message will still be received by the calling process.
-        /// Processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the filter.
+        /// </para>
+        /// <para>
+        /// Processes at or below <see cref="SECURITY_MANDATORY_LOW_RID"/> are not allowed to change the filter.
         /// If those processes call this function, it will fail.
-        /// For more information on integrity levels, see Understanding and Working in Protected Mode Internet Explorer.
+        /// </para>
+        /// <para>
+        /// For more information on integrity levels, see Understanding and Working in Protected Mode Internet Explorer.
+        /// </para>
         /// </remarks>
         [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
             "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
@@ -382,21 +929,68 @@ namespace Lsj.Util.Win32
         /// A handle to the window whose UIPI message filter is to be modified.
         /// </param>
         /// <param name="message">
-        /// A handle to the window whose UIPI message filter is to be modified.
+        /// The message that the message filter allows through or blocks.
         /// </param>
         /// <param name="action">
+        /// <para>
         /// The action to be performed, and can take one of the following values:
-        /// <see cref="MSGFLT_ALLOW"/>:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MSGFLT_ALLOW"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
         /// Allows the message through the filter.
-        /// This enables the message to be received by <paramref name="hwnd"/>,
+        /// This enables the message to be received by <paramref name="hwnd"/>,
         /// regardless of the source of the message, even it comes from a lower privileged process.
-        /// <see cref="MSGFLT_DISALLOW"/>:
-        /// Blocks the message to be delivered to <paramref name="hwnd"/> if it comes from a lower privileged process,
-        /// unless the message is allowed process-wide by using the <see cref="ChangeWindowMessageFilter"/> function or globally.
-        /// <see cref="MSGFLT_RESET"/>:
-        /// Resets the window message filter for <paramref name="hwnd"/> to the default.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MSGFLT_DISALLOW"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Blocks the message to be delivered to <paramref name="hwnd"/> if it comes from a lower privileged process,
+        /// unless the message is allowed process-wide by using the <see cref="ChangeWindowMessageFilter"/> function or globally.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MSGFLT_RESET"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Resets the window message filter for <paramref name="hwnd"/> to the default.
         /// Any message allowed globally or process-wide will get through, but any message not included in those two categories,
         /// and which comes from a lower privileged process, will be blocked.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="pChangeFilterStruct">
         /// Optional pointer to a <see cref="CHANGEFILTERSTRUCT"/> structure.
@@ -406,22 +1000,26 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// UIPI is a security feature that prevents messages from being received from a lower-integrity-level sender.
         /// You can use this function to allow specific messages to be delivered to a window
         /// even if the message originates from a process at a lower integrity level.
-        /// Unlike the <see cref="ChangeWindowMessageFilter"/> function, which controls the process message filter,
-        /// the <see cref="ChangeWindowMessageFilterEx"/> function controls the window message filter.
-        /// An application may use the <see cref="ChangeWindowMessageFilter"/> function to allow or block a message in a process-wide manner.
+        /// Unlike the <see cref="ChangeWindowMessageFilter"/> function, which controls the process message filter,
+        /// the <see cref="ChangeWindowMessageFilterEx"/> function controls the window message filter.
+        /// </para>
+        /// <para>
+        /// An application may use the <see cref="ChangeWindowMessageFilter"/> function to allow or block a message in a process-wide manner.
         /// If the message is allowed by either the process message filter or the window message filter, it will be delivered to the window.
-        /// Note that processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the message filter.
-        /// If those processes call this function, it will fail and generate the extended error code, <see cref="ERROR_ACCESS_DENIED"/>.
-        /// Certain messages whose value is smaller than <see cref="WM_USER"/> are required to be passed through the filter,
-        /// regardless of the filter setting.
+        /// </para>
+        /// <para>
+        /// Note that processes at or below <see cref="SECURITY_MANDATORY_LOW_RID"/> are not allowed to change the message filter.
+        /// If those processes call this function, it will fail and generate the extended error code, <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// Certain messages whose value is smaller than <see cref="WM_USER"/> are required to be passed through the filter, regardless of the filter setting.
         /// There will be no effect when you attempt to use this function to allow or block such messages.
+        /// </para>
         /// </remarks>
-        [Obsolete("Using the ChangeWindowMessageFilter function is not recommended, as it has process-wide scope." +
-            "Instead, use the ChangeWindowMessageFilterEx function to control access to specific windows as needed." +
-            "ChangeWindowMessageFilter may not be supported in future versions of Windows.")]
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChangeWindowMessageFilterEx([In] HWND hwnd, [In] WindowMessages message,
@@ -442,63 +1040,23 @@ namespace Lsj.Util.Win32
         /// Although its meaning depends on the message being dispatched, the return value generally is ignored.
         /// </returns>
         /// <remarks>
-        /// The <see cref="MSG"/> structure must contain valid message values.
-        /// If the <paramref name="lpmsg"/> parameter points to a <see cref="WM_TIMER"/> message
-        /// and the <see cref="MSG.lParam"/> parameter of the <see cref="WM_TIMER"/> message is not <see cref="NULL"/>,
-        /// <see cref="MSG.lParam"/> points to a function that is called instead of the window procedure.
+        /// <para>
+        /// The <see cref="MSG"/> structure must contain valid message values.
+        /// If the <paramref name="lpmsg"/> parameter points to a <see cref="WM_TIMER"/> message
+        /// and the <c>lParam</c> parameter of the <see cref="WM_TIMER"/> message is not <see cref="NULL"/>,
+        /// <c>lParam</c> points to a function that is called instead of the window procedure.
+        /// </para>
+        /// <para>
         /// Note that the application is responsible for retrieving and dispatching input messages to the dialog box.
         /// Most applications use the main message loop for this.
-        /// However, to permit the user to move to and to select controls by using the keyboard, the application must call <see cref="IsDialogMessage"/>.
-        /// For more information, see Dialog Box Keyboard Interface.
+        /// However, to permit the user to move to and to select controls by using the keyboard,
+        /// the application must call <see cref="IsDialogMessage"/>.
+        /// For more information, see Dialog Box Keyboard Interface.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", ExactSpelling = true)]
         public static extern LRESULT DispatchMessage([In] in MSG lpmsg);
-
-        /// <summary>
-        /// <para>
-        /// Determines whether the current window procedure is processing a message that was sent from another thread
-        /// (in the same process or a different process) by a call to the <see cref="SendMessage"/> function.
-        /// To obtain additional information about how the message was sent, use the <see cref="InSendMessageEx"/> function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessage"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// If the window procedure is processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
-        /// the return value is <see cref="TRUE"/>.
-        /// If the window procedure is not processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
-        /// the return value is <see cref="FALSE"/>.
-        /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InSendMessage();
-
-        /// <summary>
-        /// <para>
-        /// Determines whether the current window procedure is processing a message
-        /// that was sent from another thread (in the same process or a different process).
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessageex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpReserved">
-        /// Reserved; must be <see cref="NULL"/>.
-        /// </param>
-        /// <returns>
-        /// If the message was not sent, the return value is <see cref="ISMEX_NOSEND"/> (0x00000000).
-        /// Otherwise, the return value is one or more of the following values.
-        /// <see cref="ISMEX_CALLBACK"/>, <see cref="ISMEX_NOTIFY"/>, <see cref="ISMEX_REPLIED"/>, <see cref="ISMEX_SEND"/>
-        /// </returns>
-        /// <remarks>
-        /// To determine if the sender is blocked, use the following test:
-        /// <code>fBlocked = ( InSendMessageEx(NULL) &amp; (ISMEX_REPLIED|ISMEX_SEND) ) == ISMEX_SEND;</code>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessageEx", ExactSpelling = true, SetLastError = true)]
-        public static extern InSendMessageExResults InSendMessageEx([In] LPVOID lpReserved);
 
         /// <summary>
         /// <para>
@@ -506,44 +1064,181 @@ namespace Lsj.Util.Win32
         /// The function dispatches incoming sent messages until a posted message is available for retrieval.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessage"/>
+        /// Unlike <see cref="GetMessage"/>, the <see cref="PeekMessage"/> function does not wait for a message to be posted before returning.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew"/>
         /// </para>
         /// </summary>
-        /// <param name="lpMsg">A <see cref="MSG"/> structure that receives message information from the thread's message queue.</param>
+        /// <param name="lpMsg">
+        /// A <see cref="MSG"/> structure that receives message information from the thread's message queue.
+        /// </param>
         /// <param name="hWnd">
+        /// <para>
         /// A handle to the window whose messages are to be retrieved. The window must belong to the current thread.
-        /// If <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, <see cref="GetMessage"/> retrieves messages for any window that belongs to 
-        /// the current thread, and any messages on the current thread's message queue whose <see cref="MSG.hwnd"/> value is <see cref="IntPtr.Zero"/>
-        /// (see the <see cref="MSG"/> structure).
-        /// Therefore if <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, both window messages and thread messages are processed.
-        /// If <paramref name="hWnd"/> is -1, GetMessage retrieves only messages on the current thread's message queue
-        /// whose hwnd value is <see cref="IntPtr.Zero"/>, that is, thread messages as posted by <see cref="PostMessage"/> 
-        /// (when the <paramref name="hWnd"/> parameter is <see cref="IntPtr.Zero"/>) or <see cref="PostThreadMessage"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hWnd"/> is <see cref="NULL"/>, <see cref="GetMessage"/> retrieves messages for any window
+        /// that belongs to the current thread, and any messages on the current thread's message queue
+        /// whose <see cref="MSG.hwnd"/> value is <see cref="NULL"/> (see the <see cref="MSG"/> structure).
+        /// Therefore if <paramref name="hWnd"/> is <see cref="NULL"/>, both window messages and thread messages are processed.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hWnd"/> is -1, <see cref="GetMessage"/> retrieves only messages on the current thread's message queue
+        /// whose <see cref="MSG.hwnd"/> value is <see cref="NULL"/>, that is, thread messages as posted by <see cref="PostMessage"/>
+        /// (when the <paramref name="hWnd"/> parameter is <see cref="NULL"/>) or <see cref="PostThreadMessage"/>.
+        /// </para>
         /// </param>
         /// <param name="wMsgFilterMin">
-        /// The integer value of the lowest message value to be retrieved. 
-        /// Use <see cref="WM_KEYFIRST"/> (0x0100) to specify the first keyboard message
-        /// or <see cref="WM_MOUSEFIRST"/> (0x0200) to specify the first mouse message.
-        /// Use <see cref="WM_INPUT"/> here and in <paramref name="wMsgFilterMax"/>
-        /// to specify only the <see cref="WM_INPUT"/> messages.
-        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
-        /// <see cref="GetMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// <para>
+        /// The integer value of the lowest message value to be retrieved.
+        /// Use <see cref="WM_KEYFIRST"/> (0x0100) to specify the first keyboard message
+        /// or <see cref="WM_MOUSEFIRST"/> (0x0200) to specify the first mouse message.
+        /// </para>
+        /// <para>
+        /// Use <see cref="WM_INPUT"/> here and in <paramref name="wMsgFilterMax"/> to specify only the <see cref="WM_INPUT"/> messages.
+        /// </para>
+        /// <para>
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="GetMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </para>
         /// </param>
         /// <param name="wMsgFilterMax">
+        /// <para>
         /// The integer value of the highest message value to be retrieved.
-        /// Use <see cref="WM_KEYLAST"/> to specify the last keyboard message 
-        /// or <see cref="WM_MOUSELAST"/> to specify the last mouse message.
-        /// Use <see cref="WM_INPUT"/> here and in wMsgFilterMin to specify only the <see cref="WM_INPUT"/> messages.
-        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
-        /// <see cref="GetMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// Use <see cref="WM_KEYLAST"/> to specify the last keyboard message
+        /// or <see cref="WM_MOUSELAST"/> to specify the last mouse message.
+        /// </para>
+        /// <para>
+        /// Use <see cref="WM_INPUT"/> here and in <paramref name="wMsgFilterMin"/> to specify only the <see cref="WM_INPUT"/> messages.
+        /// </para>
+        /// <para>
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="GetMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function retrieves a message other than <see cref="WM_QUIT"/>, the return value is nonzero.
-        /// If the function retrieves the <see cref="WM_QUIT"/> message, the return value is zero.
-        /// If there is an error, the return value is -1. 
-        /// For example, the function fails if <paramref name="hWnd"/> is an invalid window handle or <paramref name="lpMsg"/> is an invalid pointer. 
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function retrieves a message other than <see cref="WM_QUIT"/>, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function retrieves the <see cref="WM_QUIT"/> message, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If there is an error, the return value is -1.
+        /// For example, the function fails if <paramref name="hWnd"/> is an invalid window handle or <paramref name="lpMsg"/> is an invalid pointer.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// Because the return value can be nonzero, zero, or -1, avoid code like this:
+        /// </para>
+        /// <code>
+        /// while (GetMessage( lpMsg, hWnd, 0, 0)) ...
+        /// </code>
+        /// <para>
+        /// The possibility of a -1 return value in the case that <paramref name="hWnd"/> is an invalid paramete
+        /// r (such as referring to a window that has already been destroyed) means that such code can lead to fatal application errors.
+        /// Instead, use code like this:
+        /// </para>
+        /// <code>
+        /// BOOL bRet;
+        /// 
+        /// while( (bRet = GetMessage( &amp;msg, hWnd, 0, 0 )) != 0)
+        /// { 
+        ///     if (bRet == -1)
+        ///     {
+        ///         // handle the error and possibly exit
+        ///     }
+        ///     else
+        ///     {
+        ///         TranslateMessage(&amp;msg); 
+        ///         DispatchMessage(&amp;msg); 
+        ///     }
+        /// }
+        /// </code>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An application typically uses the return value to determine whether to end the main message loop and exit the program.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetMessage"/> function retrieves messages associated with the window
+        /// identified by the <paramref name="hWnd"/> parameter or any of its children, as specified by the <see cref="IsChild"/> function,
+        /// and within the range of message values given by the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// Note that an application can only use the low word in the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters;
+        /// the high word is reserved for the system.
+        /// </para>
+        /// <para>
+        /// Note that <see cref="GetMessage"/> always retrieves <see cref="WM_QUIT"/> messages,
+        /// no matter which values you specify for <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/>.
+        /// </para>
+        /// <para>
+        /// During this call, the system delivers pending, nonqueued messages, that is, messages sent to windows
+        /// owned by the calling thread using the <see cref="SendMessage"/>, <see cref="SendMessageCallback"/>,
+        /// <see cref="SendMessageTimeout"/>, or <see cref="SendNotifyMessage"/> function.
+        /// Then the first queued message that matches the specified filter is retrieved.
+        /// The system may also process internal events.
+        /// If no filter is specified, messages are processed in the following order:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Sent messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Posted messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Input (hardware) messages and system internal events
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Sent messages (again)
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WM_PAINT"/> messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WM_TIMER"/> messages
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To retrieve input messages before posted messages,
+        /// use the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// </para>
+        /// <para>
+        /// <see cref="GetMessage"/> does not remove <see cref="WM_PAINT"/> messages from the queue.
+        /// The messages remain in the queue until processed.
+        /// </para>
+        /// <para>
+        /// If a top-level window stops responding to messages for more than several seconds,
+        /// the system considers the window to be not responding and replaces it with a ghost window
+        /// that has the same z-order, location, size, and visual attributes.
+        /// This allows the user to move it, resize it, or even close the application.
+        /// However, these are the only actions available because the application is actually not responding.
+        /// When in the debugger mode, the system does not generate a ghost window.
+        /// </para>
+        /// <para>
+        /// DPI Virtualization
+        /// </para>
+        /// <para>
+        /// This API does not participate in DPI virtualization.
+        /// The output is in the mode of the window that the message is targeting.
+        /// The calling thread is not taken into consideration.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetMessage([Out] out MSG lpMsg, [In] HWND hWnd, [In] UINT wMsgFilterMin, [In] UINT wMsgFilterMax);
@@ -565,13 +1260,15 @@ namespace Lsj.Util.Win32
         /// To set a thread's extra message information, use the <see cref="SetMessageExtraInfo"/> function.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageExtraInfo", ExactSpelling = true)]
         public static extern LPARAM GetMessageExtraInfo();
 
         /// <summary>
         /// <para>
-        /// Retrieves the cursor position for the last message retrieved by the <see cref="GetMessage"/> function.
-        /// To determine the current position of the cursor, use the <see cref="GetCursorPos"/> function.
+        /// Retrieves the cursor position for the last message retrieved by the <see cref="GetMessage"/> function.
+        /// </para>
+        /// <para>
+        /// To determine the current position of the cursor, use the <see cref="GetCursorPos"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagepos"/>
@@ -582,18 +1279,25 @@ namespace Lsj.Util.Win32
         /// The x-coordinate is the low order short and the y-coordinate is the high-order short.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// As noted above, the x-coordinate is in the low-order short of the return value;
         /// the y-coordinate is in the high-order short (both represent signed values because they can take negative values on systems with multiple monitors).
         /// If the return value is assigned to a variable, you can use the <see cref="MAKEPOINTS"/> macro
         /// to obtain a <see cref="POINTS"/> structure from the return value.
         /// You can also use the <see cref="GET_X_LPARAM"/> or <see cref="GET_Y_LPARAM"/> macro to extract the x- or y-coordinate.
-        /// Important Do not use the <see cref="LOWORD"/> or <see cref="HIWORD"/> macros to extract the x- and y- coordinates of the cursor position
+        /// </para>
+        /// <para>
+        /// Important
+        /// </para>
+        /// <para>
+        /// Do not use the <see cref="LOWORD"/> or <see cref="HIWORD"/> macros to extract the x- and y- coordinates of the cursor position
         /// because these macros return incorrect results on systems with multiple monitors.
         /// Systems with multiple monitors can have negative x- and y- coordinates,
         /// and <see cref="LOWORD"/> and <see cref="HIWORD"/> treat the coordinates as unsigned quantities.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessagePos", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessagePos", ExactSpelling = true)]
         public static extern DWORD GetMessagePos();
 
         /// <summary>
@@ -610,13 +1314,17 @@ namespace Lsj.Util.Win32
         /// The return value specifies the message time.
         /// </returns>
         /// <remarks>
-        /// The return value from the <see cref="GetMessageTime"/> function does not necessarily increase between subsequent messages,
+        /// <para>
+        /// The return value from the <see cref="GetMessageTime"/> function does not necessarily increase between subsequent messages,
         /// because the value wraps to the minimum value for a long integer if the timer count exceeds the maximum value for a long integer.
+        /// </para>
+        /// <para>
         /// To calculate time delays between messages, subtract the time of the first message from the time of the second message (ignoring overflow)
         /// and compare the result of the subtraction against the desired delay amount.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", ExactSpelling = true)]
         public static extern LONG GetMessageTime();
 
         /// <summary>
@@ -628,10 +1336,251 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="flags">
-        /// The types of messages for which to check. This parameter can be one or more of the following values.
-        /// <see cref="QS_ALLEVENTS"/>, <see cref="QS_ALLINPUT"/>, <see cref="QS_ALLPOSTMESSAGE"/>, <see cref="QS_HOTKEY"/>, <see cref="QS_INPUT"/>,
-        /// <see cref="QS_KEY"/>, <see cref="QS_MOUSE"/>, <see cref="QS_MOUSEBUTTON"/>, <see cref="QS_MOUSEMOVE"/>, <see cref="QS_PAINT"/>,
-        /// <see cref="QS_POSTMESSAGE"/>, <see cref="QS_RAWINPUT"/>, <see cref="QS_SENDMESSAGE"/>, <see cref="QS_TIMER"/>
+        /// <para>
+        /// The types of messages for which to check.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_KEY"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_KEYUP"/>, <see cref="WM_KEYDOWN"/>, <see cref="WM_SYSKEYUP"/>,
+        /// or <see cref="WM_SYSKEYDOWN"/> message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_MOUSEMOVE"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_MOUSEMOVE"/> message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_MOUSEBUTTON"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A mouse-button message (<see cref="WM_LBUTTONUP"/>, <see cref="WM_RBUTTONDOWN"/>, and so on).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_POSTMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// A posted message (other than those listed here) is in the queue.
+        /// For more information, see <see cref="PostMessage"/>.
+        /// </para>
+        /// <para>
+        /// This value is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
+        /// whether or not you are filtering messages.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_TIMER"/>
+        /// </para>
+        /// <para>
+        /// 0x0010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_TIMER"/> message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_PAINT"/>
+        /// </para>
+        /// <para>
+        /// 0x0020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_PAINT"/> message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_SENDMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A message sent by another thread or application is in the queue.
+        /// For more information, see <see cref="SendMessage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_HOTKEY"/>
+        /// </para>
+        /// <para>
+        /// 0x0080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_HOTKEY"/> message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_ALLPOSTMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// A posted message (other than those listed here) is in the queue.
+        /// For more information, see <see cref="PostMessage"/>.
+        /// </para>
+        /// <para>
+        /// This value is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/> without filtering messages.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_RAWINPUT"/>
+        /// </para>
+        /// <para>
+        /// 0x0400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Windows XP and newer: A raw input message is in the queue.
+        /// For more information, see Raw Input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_TOUCH"/>
+        /// </para>
+        /// <para>
+        /// 0x0800
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Windows 8 and newer:
+        /// A touch input message is in the queue.
+        /// For more information, see Touch Input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_POINTER"/>
+        /// </para>
+        /// <para>
+        /// 0x1000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Windows 8 and newer:
+        /// A pointer input message is in the queue.
+        /// For more information, see Pointer Input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_MOUSE"/>
+        /// </para>
+        /// <para>
+        /// (QS_MOUSEMOVE | QS_MOUSEBUTTON)
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A <see cref="WM_MOUSEMOVE"/> message or mouse-button message
+        /// (<see cref="WM_LBUTTONUP"/>, <see cref="WM_RBUTTONDOWN"/>, and so on).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_INPUT"/>
+        /// </para>
+        /// <para>
+        /// (QS_MOUSE | QS_KEY | QS_RAWINPUT | QS_TOUCH | QS_POINTER)
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An input message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_ALLEVENTS"/>
+        /// </para>
+        /// <para>
+        /// (QS_INPUT | QS_POSTMESSAGE | QS_TIMER | QS_PAINT | QS_HOTKEY)
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An input, <see cref="WM_TIMER"/>, <see cref="WM_PAINT"/>, <see cref="WM_HOTKEY"/>, or posted message is in the queue.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QS_ALLINPUT"/>
+        /// </para>
+        /// <para>
+        /// (QS_INPUT | QS_POSTMESSAGE | QS_TIMER | QS_PAINT | QS_HOTKEY | QS_SENDMESSAGE)
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Any message is in the queue.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
         /// The high-order word of the return value indicates the types of messages currently in the queue.
@@ -639,27 +1588,151 @@ namespace Lsj.Util.Win32
         /// since the last call to the <see cref="GetQueueStatus"/>, <see cref="GetMessage"/>, or <see cref="PeekMessage"/> function.
         /// </returns>
         /// <remarks>
-        /// The presence of a QS_ flag in the return value does not guarantee that a subsequent call
-        /// to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function will return a message.
-        /// <see cref="GetMessage"/> and <see cref="PeekMessage"/> perform some internal filtering that may cause the message to be processed internally.
-        /// For this reason, the return value from <see cref="GetQueueStatus"/> should be considered only a hint as to
-        /// whether <see cref="GetMessage"/> or <see cref="PeekMessage"/> should be called.
-        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
-        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
+        /// <para>
+        /// The presence of a <c>QS_</c> flag in the return value does not guarantee
+        /// that a subsequent call to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function will return a message.
+        /// <see cref="GetMessage"/> and <see cref="PeekMessage"/> perform some internal filtering that may cause the message to be processed internally.
+        /// For this reason, the return value from <see cref="GetQueueStatus"/> should be considered only a hint
+        /// as to whether <see cref="GetMessage"/> or <see cref="PeekMessage"/> should be called.
+        /// </para>
+        /// <para>
+        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
+        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
         /// whether or not you are filtering messages.
-        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/> without filtering messages
-        /// (wMsgFilterMin and wMsgFilterMax are 0).
-        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>
+        /// without filtering messages (<c>wMsgFilterMin</c> and <c>wMsgFilterMax</c> are 0).
+        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", ExactSpelling = true)]
         public static extern DWORD GetQueueStatus([In] QueueStatus flags);
 
         /// <summary>
         /// <para>
+        /// Determines whether the current window procedure is processing a message that was sent from another thread
+        /// (in the same process or a different process) by a call to the <see cref="SendMessage"/> function.
+        /// </para>
+        /// <para>
+        /// To obtain additional information about how the message was sent, use the <see cref="InSendMessageEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessage"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the window procedure is processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
+        /// the return value is <see cref="TRUE"/>.
+        /// If the window procedure is not processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
+        /// the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", ExactSpelling = true)]
+        public static extern BOOL InSendMessage();
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the current window procedure is processing a message
+        /// that was sent from another thread (in the same process or a different process).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-insendmessageex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the message was not sent, the return value is <see cref="ISMEX_NOSEND"/> (0x00000000).
+        /// Otherwise, the return value is one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ISMEX_CALLBACK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The message was sent using the <see cref="SendMessageCallback"/> function.
+        /// The thread that sent the message is not blocked.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ISMEX_NOTIFY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The message was sent using the <see cref="SendNotifyMessage"/> function.
+        /// The thread that sent the message is not blocked.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ISMEX_REPLIED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The window procedure has processed the message.
+        /// The thread that sent the message is no longer blocked.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ISMEX_SEND"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The message was sent using the <see cref="SendMessage"/> or <see cref="SendMessageTimeout"/> function.
+        /// If <see cref="ISMEX_REPLIED"/> is not set, the thread that sent the message is blocked.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To determine if the sender is blocked, use the following test:
+        /// </para>
+        /// <c>fBlocked = ( InSendMessageEx(NULL) &amp; (ISMEX_REPLIED|ISMEX_SEND) ) == ISMEX_SEND;</c>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessageEx", ExactSpelling = true)]
+        public static extern InSendMessageExResults InSendMessageEx([In] LPVOID lpReserved);
+
+        /// <summary>
+        /// <para>
         /// Waits until one or all of the specified objects are in the signaled state or the time-out interval elapses.
-        /// The objects can include input event objects, which you specify using the <paramref name="dwWakeMask"/> parameter.
-        /// To enter an alertable wait state, use the <see cref="MsgWaitForMultipleObjectsEx"/> function.
+        /// The objects can include input event objects, which you specify using the <paramref name="dwWakeMask"/> parameter.
+        /// </para>
+        /// <para>
+        /// To enter an alertable wait state, use the <see cref="MsgWaitForMultipleObjectsEx"/> function.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects"/>
@@ -671,12 +1744,19 @@ namespace Lsj.Util.Win32
         /// If this parameter has the value zero, then the function waits only for an input event.
         /// </param>
         /// <param name="pHandles">
+        /// <para>
         /// An array of object handles.
         /// For a list of the object types whose handles can be specified, see the following Remarks section.
-        /// The array can contain handles of objects of different types. It may not contain multiple copies of the same handle.
+        /// The array can contain handles of objects of different types.
+        /// It may not contain multiple copies of the same handle.
+        /// </para>
+        /// <para>
         /// If one of these handles is closed while the wait is still pending, the function's behavior is undefined.
-        /// The handles must have the <see cref="SYNCHRONIZE"/> access right.
-        /// For more information, see Standard Access Rights.
+        /// </para>
+        /// <para>
+        /// The handles must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </para>
         /// </param>
         /// <param name="fWaitAll">
         /// If this parameter is <see cref="TRUE"/>, the function returns when the states of all objects
@@ -686,92 +1766,223 @@ namespace Lsj.Util.Win32
         /// In this case, the return value indicates the object whose state caused the function to return.
         /// </param>
         /// <param name="dwMilliseconds">
-        /// The time-out interval, in milliseconds.
-        /// If a nonzero value is specified, the function waits until the specified objects are signaled or the interval elapses.
-        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the specified objects are not signaled;
-        /// it always returns immediately.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only when the specified objects are signaled.
+        /// <para>
+        /// The time-out interval, in milliseconds. If a nonzero value is specified,
+        /// the function waits until the specified objects are signaled or the interval elapses.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state
+        /// if the specified objects are not signaled; it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
+        /// the function will return only when the specified objects are signaled.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008, and Windows Server 2008 R2:
+        /// The <paramref name="dwMilliseconds"/> value does include time spent in low-power states.
+        /// For example, the timeout does keep counting down while the computer is asleep.
+        /// </para>
+        /// <para>
+        /// Windows 8 and newer, Windows Server 2012 and newer:
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not keep counting down while the computer is asleep.
+        /// </para>
         /// </param>
         /// <param name="dwWakeMask">
         /// The input types for which an input event object handle will be added to the array of object handles.
-        /// This parameter can be one or more of the following values.
-        /// <see cref="QS_ALLEVENTS"/>, <see cref="QS_ALLINPUT"/>, <see cref="QS_ALLPOSTMESSAGE"/>, <see cref="QS_HOTKEY"/>,
-        /// <see cref="QS_INPUT"/>, <see cref="QS_KEY"/>, <see cref="QS_MOUSE"/>, <see cref="QS_MOUSEBUTTON"/>, <see cref="QS_MOUSEMOVE"/>,
-        /// <see cref="QS_PAINT"/>, <see cref="QS_POSTMESSAGE"/>, <see cref="QS_RAWINPUT"/>, <see cref="QS_SENDMESSAGE"/>, <see cref="QS_TIMER"/>
+        /// This parameter can be any combination of the values listed in <see cref="GetQueueStatus"/> <c>flags</c> parameter.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value indicates the event that caused the function to return.
         /// It can be one of the following values.
-        /// (Note that <see cref="WAIT_OBJECT_0"/> is defined as 0 and <see cref="WAIT_ABANDONED_0"/> is defined as 0x00000080L.)
-        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>– 1):
-        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the return value indicates that the state of all specified objects is signaled.
-        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_OBJECT_0"/> indicates
-        /// the <paramref name="pHandles"/> array index of the object that satisfied the wait.
-        /// <see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>:
-        /// New input of the type specified in the <paramref name="dwWakeMask"/> parameter is available in the thread's input queue.
-        /// Functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, and <see cref="WaitMessage"/> mark messages in the queue as old messages.
-        /// Therefore, after you call one of these functions, a subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return
-        /// until new input of the specified type arrives.
+        /// (Note that <see cref="WAIT_OBJECT_0"/> is defined as 0 and <see cref="WAIT_ABANDONED_0"/> is defined as 0x00000080L.)
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>– 1)
+        /// </term>
+        /// <term>
+        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, a return value within the specified range
+        /// indicates that the state of all specified objects is signaled.
+        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_OBJECT_0"/>
+        /// indicates the <paramref name="pHandles"/> array index of the object that satisfied the wait.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// New input of the type specified in the <paramref name="dwWakeMask"/> parameter is available in the thread's input queue.
+        /// Functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>,
+        /// and <see cref="WaitMessage"/> mark messages in the queue as old messages.
+        /// Therefore, after you call one of these functions,
+        /// a subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return until new input of the specified type arrives.
+        /// </para>
+        /// <para>
         /// This value is also returned upon the occurrence of a system event that requires the thread's action, such as foreground activation.
-        /// Therefore, <see cref="MsgWaitForMultipleObjects"/> can return
-        /// even though no appropriate input is available and even if <paramref name="dwWakeMask"/> is set to 0.
-        /// If this occurs, call <see cref="GetMessage"/> or <see cref="PeekMessage"/> to process the system event
-        /// before trying the call to <see cref="MsgWaitForMultipleObjects"/> again.
-        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0"/> + <paramref name="nCount"/>– 1):
-        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the return value indicates that the state of all specified objects is signaled
-        /// and at least one of the objects is an abandoned mutex object.
-        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_ABANDONED_0"/> indicates
-        /// the <paramref name="pHandles"/> array index of an abandoned mutex object that satisfied the wait.
+        /// Therefore, <see cref="MsgWaitForMultipleObjects"/> can return even though no appropriate input is available
+        /// and even if <paramref name="dwWakeMask"/> is set to 0.
+        /// If this occurs, call <see cref="GetMessage"/> or <see cref="PeekMessage"/> to process the system event
+        /// before trying the call to <see cref="MsgWaitForMultipleObjects"/> again.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0"/> + <paramref name="nCount"/>– 1)
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, a return value within the specified range
+        /// indicates that the state of all specified objects is signaled and at least one of the objects is an abandoned mutex object.
+        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_ABANDONED_0"/>
+        /// indicates the <paramref name="pHandles"/> array index of an abandoned mutex object that satisfied the wait.
         /// Ownership of the mutex object is granted to the calling thread, and the mutex is set to nonsignaled.
+        /// </para>
+        /// <para>
         /// If the mutex was protecting persistent state information, you should check it for consistency.
-        /// <see cref="WAIT_TIMEOUT"/>:
-        /// The time-out interval elapsed and the conditions specified
-        /// by the <paramref name="fWaitAll"/> and <paramref name="dwWakeMask"/> parameters were not satisfied.
-        /// <see cref="WAIT_FAILED"/>:
-        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WAIT_TIMEOUT"/>
+        /// </para>
+        /// <para>
+        /// 258L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The time-out interval elapsed and the conditions specified by the <paramref name="fWaitAll"/>
+        /// and <paramref name="dwWakeMask"/> parameters were not satisfied.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WAIT_FAILED"/>
+        /// </para>
+        /// <para>
+        /// (DWORD)0xFFFFFFFF
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="MsgWaitForMultipleObjects"/> function determines whether the wait criteria have been met.
-        /// If the criteria have not been met, the calling thread enters the wait state until the conditions of the wait criteria
-        /// have been met or the time-out interval elapses.
-        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the function does not modify the states of the specified objects
-        /// until the states of all objects have been set to signaled.
-        /// For example, a mutex can be signaled, but the thread does not get ownership until the states of the other objects have also been set to signaled.
+        /// <para>
+        /// The <see cref="MsgWaitForMultipleObjects"/> function determines whether the wait criteria have been met.
+        /// If the criteria have not been met, the calling thread enters the wait state
+        /// until the conditions of the wait criteria have been met or the time-out interval elapses.
+        /// </para>
+        /// <para>
+        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>,
+        /// the function does not modify the states of the specified objects until the states of all objects have been set to signaled.
+        /// For example, a mutex can be signaled, but the thread does not get ownership
+        /// until the states of the other objects have also been set to signaled.
         /// In the meantime, some other thread may get ownership of the mutex, thereby setting its state to nonsignaled.
-        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the function's wait is completed only when the states of all objects have been set
-        /// to signaled and an input event has been received.
-        /// Therefore, setting <paramref name="fWaitAll"/> to <see cref="TRUE"/> prevents input from being processed
-        /// until the state of all objects in the <paramref name="pHandles"/> array have been set to signaled.
-        /// For this reason, if you set <paramref name="fWaitAll"/> to <see cref="TRUE"/>,
-        /// you should use a short timeout value in <paramref name="dwMilliseconds"/>.
-        /// If you have a thread that creates windows waiting for all objects in the <paramref name="pHandles"/> array,
-        /// including input events specified by <paramref name="dwWakeMask"/>, with no timeout interval, the system will deadlock.
+        /// </para>
+        /// <para>
+        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the function's wait is completed
+        /// only when the states of all objects have been set to signaled and an input event has been received.
+        /// Therefore, setting <paramref name="fWaitAll"/> to <see cref="TRUE"/> prevents input from being processed
+        /// until the state of all objects in the <paramref name="pHandles"/> array have been set to signaled.
+        /// For this reason, if you set <paramref name="fWaitAll"/> to <see cref="TRUE"/>,
+        /// you should use a short timeout value in <paramref name="dwMilliseconds"/>.
+        /// If you have a thread that creates windows waiting for all objects in the <paramref name="pHandles"/> array,
+        /// including input events specified by <paramref name="dwWakeMask"/>, with no timeout interval, the system will deadlock.
         /// This is because threads that create windows must process messages.
         /// DDE sends message to all windows in the system.
-        /// Therefore, if a thread creates windows, do not set the <paramref name="fWaitAll"/> parameter to <see cref="TRUE"/>
-        /// in calls to <see cref="MsgWaitForMultipleObjects"/> made from that thread.
-        /// When <paramref name="fWaitAll"/> is <see cref="FALSE"/>, this function checks the handles in the array in order starting with index 0,
-        /// until one of the objects is signaled.
+        /// Therefore, if a thread creates windows, do not set the <paramref name="fWaitAll"/> parameter to <see cref="TRUE"/>
+        /// in calls to <see cref="MsgWaitForMultipleObjects"/> made from that thread.
+        /// </para>
+        /// <para>
+        /// When <paramref name="fWaitAll"/> is <see cref="FALSE"/>,
+        /// this function checks the handles in the array in order starting with index 0, until one of the objects is signaled.
         /// If multiple objects become signaled, the function returns the index of the first handle in the array whose object was signaled.
-        /// <see cref="MsgWaitForMultipleObjects"/> does not return if there is unread input of the specified type in the message queue
-        /// after the thread has called a function to check the queue.
-        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
-        /// and <see cref="WaitMessage"/> check the queue and then change the state information for the queue so that the input is no longer considered new.
-        /// A subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return until new input of the specified type arrives.
+        /// </para>
+        /// <para>
+        /// <see cref="MsgWaitForMultipleObjects"/> does not return if there is unread input of the specified type
+        /// in the message queue after the thread has called a function to check the queue.
+        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
+        /// and <see cref="WaitMessage"/> check the queue and then change the state information for the queue so that the input is no longer considered new.
+        /// A subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return until new input of the specified type arrives.
         /// The existing unread input (received prior to the last time the thread checked the queue) is ignored.
+        /// </para>
+        /// <para>
         /// The function modifies the state of some types of synchronization objects.
         /// Modification occurs only for the object or objects whose signaled state caused the function to return.
         /// For example, the count of a semaphore object is decreased by one.
         /// For more information, see the documentation for the individual synchronization objects.
-        /// The <see cref="MsgWaitForMultipleObjects"/> function can specify handles of any of the following object types
-        /// in the <paramref name="pHandles"/> array:
-        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
-        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
-        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
-        /// whether or not you are filtering messages.
-        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>
-        /// without filtering messages (wMsgFilterMin and wMsgFilterMax are 0).
-        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// </para>
+        /// <para>
+        /// The <see cref="MsgWaitForMultipleObjects"/> function can specify handles of any
+        /// of the following object types in the <paramref name="pHandles"/> array:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Change notification
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Console input
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Event
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Memory resource notification
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Mutex
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Process
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphore
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Thread
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Waitable timer
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
@@ -794,96 +2005,304 @@ namespace Lsj.Util.Win32
         /// If this parameter has the value zero, then the function waits only for an input event.
         /// </param>
         /// <param name="pHandles">
+        /// <para>
         /// An array of object handles.
         /// For a list of the object types whose handles you can specify, see the Remarks section later in this topic.
         /// The array can contain handles to multiple types of objects.
         /// It may not contain multiple copies of the same handle.
+        /// </para>
+        /// <para>
         /// If one of these handles is closed while the wait is still pending, the function's behavior is undefined.
-        /// The handles must have the <see cref="SYNCHRONIZE"/> access right. For more information, see Standard Access Rights.
+        /// </para>
+        /// <para>
+        /// The handles must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </para>
         /// </param>
         /// <param name="dwMilliseconds">
+        /// <para>
         /// The time-out interval, in milliseconds.
         /// If a nonzero value is specified, the function waits until the specified objects are signaled,
         /// an I/O completion routine or APC is queued, or the interval elapses.
-        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the criteria is not met;
-        /// it always returns immediately.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only
-        /// when the specified objects are signaled or an I/O completion routine or APC is queued.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state
+        /// if the criteria is not met; it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
+        /// the function will return only when the specified objects are signaled or an I/O completion routine or APC is queued.
+        /// </para>
+        /// <para>
+        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008, and Windows Server 2008 R2:
+        /// The <paramref name="dwMilliseconds"/> value does include time spent in low-power states.
+        /// For example, the timeout does keep counting down while the computer is asleep.
+        /// </para>
+        /// <para>
+        /// Windows 8 and newer, Windows Server 2012 and newer:
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not keep counting down while the computer is asleep.
+        /// </para>
         /// </param>
         /// <param name="dwWakeMask">
         /// The input types for which an input event object handle will be added to the array of object handles.
-        /// This parameter can be one or more of the following values.
-        /// <see cref="QS_ALLEVENTS"/>, <see cref="QS_ALLINPUT"/>, <see cref="QS_ALLPOSTMESSAGE"/>, <see cref="QS_HOTKEY"/>,
-        /// <see cref="QS_INPUT"/>, <see cref="QS_KEY"/>, <see cref="QS_MOUSE"/>, <see cref="QS_MOUSEBUTTON"/>, <see cref="QS_MOUSEMOVE"/>,
-        /// <see cref="QS_PAINT"/>, <see cref="QS_POSTMESSAGE"/>, <see cref="QS_RAWINPUT"/>, <see cref="QS_SENDMESSAGE"/>, <see cref="QS_TIMER"/>
+        /// This parameter can be any combination of the values listed in <see cref="GetQueueStatus"/> <c>flags</c> parameter.
         /// </param>
         /// <param name="dwFlags">
-        /// The wait type. This parameter can be one or more of the following values.
-        /// 0: 
+        /// <para>
+        /// The wait type.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
         /// The function returns when any one of the objects is signaled.
         /// The return value indicates the object whose state caused the function to return.
-        /// <see cref="MWMO_ALERTABLE"/>, <see cref="MWMO_INPUTAVAILABLE"/>, <see cref="MWMO_WAITALL"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MWMO_ALERTABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function also returns if an APC has been queued to the thread with <see cref="QueueUserAPC"/>
+        /// while the thread is in the waiting state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MWMO_INPUTAVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function returns if input exists for the queue, even if the input has been seen (but not removed)
+        /// using a call to another function, such as <see cref="PeekMessage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MWMO_WAITALL"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function returns when all objects in the <paramref name="pHandles"/> array are signaled
+        /// and an input event has been received, all at the same time.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value indicates the event that caused the function to return.
         /// It can be one of the following values.
-        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/> - 1):
-        /// If the <see cref="MWMO_WAITALL"/> flag is used, the return value indicates that the state of all specified objects is signaled.
-        /// Otherwise, the return value minus <see cref="WAIT_OBJECT_0"/> indicates the <paramref name="pHandles"/> array index of the object
-        /// that caused the function to return.
-        /// <see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>:
-        /// New input of the type specified in the <paramref name="dwWakeMask"/> parameter is available in the thread's input queue.
-        /// Functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
-        /// and <see cref="WaitMessage"/> mark messages in the queue as old messages.
-        /// Therefore, after you call one of these functions, a subsequent call to <see cref="MsgWaitForMultipleObjectsEx"/> will not return 
-        /// until new input of the specified type arrives.
+        /// (Note that <see cref="WAIT_OBJECT_0"/> is defined as 0 and <see cref="WAIT_ABANDONED_0"/> is defined as 0x00000080L.)
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/> - 1)
+        /// </term>
+        /// <term>
+        /// If the <see cref="MWMO_WAITALL"/> flag is used, a return value within the specified range indicates
+        /// that the state of all specified objects is signaled.
+        /// Otherwise, the return value minus <see cref="WAIT_OBJECT_0"/> indicates
+        /// the <paramref name="pHandles"/> array index of the object that caused the function to return.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// New input of the type specified in the <paramref name="dwWakeMask"/> parameter is available in the thread's input queue.
+        /// Functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
+        /// and <see cref="WaitMessage"/> mark messages in the queue as old messages.
+        /// Therefore, after you call one of these functions,
+        /// a subsequent call to <see cref="MsgWaitForMultipleObjectsEx"/> will not return until new input of the specified type arrives.
+        /// </para>
+        /// <para>
         /// This value is also returned upon the occurrence of a system event that requires the thread's action, such as foreground activation.
-        /// Therefore, <see cref="MsgWaitForMultipleObjectsEx"/> can return even though no appropriate input is available
-        /// and even if <paramref name="dwWakeMask"/> is set to 0.
-        /// If this occurs, call <see cref="GetMessage"/> or <see cref="PeekMessage"/> to process the system event
-        /// before trying the call to <see cref="MsgWaitForMultipleObjectsEx"/> again.
-        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0"/> + <paramref name="nCount"/> - 1):
-        /// If the <see cref="MWMO_WAITALL"/> flag is used, the return value indicates that the state of all specified objects is signaled
-        /// and at least one of the objects is an abandoned mutex object.
-        /// Otherwise, the return value minus <see cref="WAIT_ABANDONED_0"/> indicates the <paramref name="pHandles"/> array index
-        /// of an abandoned mutex object that caused the function to return.
+        /// Therefore, <see cref="MsgWaitForMultipleObjectsEx"/> can return even though no appropriate input is available
+        /// and even if <paramref name="dwWakeMask"/> is set to 0.
+        /// If this occurs, call <see cref="GetMessage"/> or <see cref="PeekMessage"/> to process the system event
+        /// before trying the call to <see cref="MsgWaitForMultipleObjectsEx"/> again.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0"/> + <paramref name="nCount"/> - 1)
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If the <see cref="MWMO_WAITALL"/> flag is used, a return value within the specified range indicates
+        /// that the state of all specified objects is signaled and at least one of the objects is an abandoned mutex object.
+        /// Otherwise, the return value minus <see cref="WAIT_ABANDONED_0"/> indicates
+        /// the <paramref name="pHandles"/> array index of an abandoned mutex object that caused the function to return.
         /// Ownership of the mutex object is granted to the calling thread, and the mutex is set to nonsignaled.
+        /// </para>
+        /// <para>
         /// If the mutex was protecting persistent state information, you should check it for consistency.
-        /// <see cref="WAIT_IO_COMPLETION"/>:
-        /// The wait was ended by one or more user-mode asynchronous procedure calls (APC) queued to the thread.
-        /// <see cref="WAIT_TIMEOUT"/>:
-        /// The time-out interval elapsed, but the conditions specified by the <paramref name="dwFlags"/>
-        /// and <paramref name="dwWakeMask"/> parameters were not met.
-        /// <see cref="WAIT_FAILED"/>:
-        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WAIT_IO_COMPLETION"/>
+        /// </para>
+        /// <para>
+        /// 0x000000C0L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The wait was ended by one or more user-mode asynchronous procedure calls (APC) queued to the thread.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WAIT_TIMEOUT"/>
+        /// </para>
+        /// <para>
+        /// 258L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The time-out interval elapsed, but the conditions specified by the <paramref name="dwFlags"/>
+        /// and <paramref name="dwWakeMask"/> parameters were not met.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WAIT_FAILED"/>
+        /// </para>
+        /// <para>
+        /// (DWORD)0xFFFFFFFF
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function has failed.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="MsgWaitForMultipleObjectsEx"/> function determines whether the conditions specified
-        /// by <paramref name="dwWakeMask"/> and <paramref name="dwFlags"/> have been met.
-        /// If the conditions have not been met, the calling thread enters the wait state until the conditions of the wait criteria have been met
-        /// or the time-out interval elapses.
-        /// When <paramref name="dwFlags"/> is zero, this function checks the handles in the array in order starting with index 0,
-        /// until one of the objects is signaled.
+        /// <para>
+        /// The <see cref="MsgWaitForMultipleObjectsEx"/> function determines whether the conditions
+        /// specified by <paramref name="dwWakeMask"/> and <paramref name="dwFlags"/> have been met.
+        /// If the conditions have not been met, the calling thread enters the wait state
+        /// until the conditions of the wait criteria have been met or the time-out interval elapses.
+        /// </para>
+        /// <para>
+        /// When <paramref name="dwFlags"/> is zero, this function checks the handles in the array
+        /// in order starting with index 0, until one of the objects is signaled.
         /// If multiple objects become signaled, the function returns the index of the first handle in the array whose object was signaled.
-        /// <see cref="MsgWaitForMultipleObjectsEx"/> does not return if there is unread input of the specified type in the message queue
-        /// after the thread has called a function to check the queue, unless you use the <see cref="MWMO_INPUTAVAILABLE"/> flag.
-        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
-        /// and <see cref="WaitMessage"/> check the queue and then change the state information for the queue so that the input is no longer considered new.
-        /// A subsequent call to <see cref="MsgWaitForMultipleObjectsEx"/> will not return until new input of the specified type arrives,
-        /// unless you use the <see cref="MWMO_INPUTAVAILABLE"/> flag.
+        /// </para>
+        /// <para>
+        /// <see cref="MsgWaitForMultipleObjectsEx"/> does not return if there is unread input of the specified type in the message queue
+        /// after the thread has called a function to check the queue, unless you use the <see cref="MWMO_INPUTAVAILABLE"/> flag.
+        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
+        /// and <see cref="WaitMessage"/> check the queue and then change the state information for the queue
+        /// so that the input is no longer considered new.
+        /// A subsequent call to <see cref="MsgWaitForMultipleObjectsEx"/> will not return
+        /// until new input of the specified type arrives, unless you use the <see cref="MWMO_INPUTAVAILABLE"/> flag.
         /// If this flag is not used, the existing unread input (received prior to the last time the thread checked the queue) is ignored.
+        /// </para>
+        /// <para>
         /// The function modifies the state of some types of synchronization objects.
         /// Modification occurs only for the object or objects whose signaled state caused the function to return.
         /// For example, the system decreases the count of a semaphore object by one.
         /// For more information, see the documentation for the individual synchronization objects.
-        /// The <see cref="MsgWaitForMultipleObjectsEx"/> function can specify handles of any of the following object types in the pHandles array:
-        /// Change notification, Console input ,Event ,Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
-        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
-        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
-        /// whether or not you are filtering messages.
-        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>
-        /// without filtering messages (wMsgFilterMin and wMsgFilterMax are 0).
-        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// </para>
+        /// <para>
+        /// The <see cref="MsgWaitForMultipleObjectsEx"/> function can specify handles of any of the following object types
+        /// in the <paramref name="pHandles"/> array:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Change notification
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Console input
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Event
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Memory resource notification
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Mutex
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Process
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphore
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Thread
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Waitable timer
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
@@ -898,80 +2317,267 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-peekmessagew"/>
         /// </para>
         /// </summary>
-        /// <param name="lpMsg">A pointer to an <see cref="MSG"/> structure that receives message information.</param>
+        /// <param name="lpMsg">
+        /// A pointer to an <see cref="MSG"/> structure that receives message information.
+        /// </param>
         /// <param name="hWnd">
-        /// A handle to the window whose messages are to be retrieved. The window must belong to the current thread.
-        /// If <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, <see cref="PeekMessage"/> retrieves messages for any window
+        /// <para>
+        /// A handle to the window whose messages are to be retrieved.
+        /// The window must belong to the current thread.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hWnd"/> is <see cref="NULL"/>, <see cref="PeekMessage"/> retrieves messages for any window
         /// that belongs to the current thread, and any messages on the current thread's message queue
-        /// whose hwnd value is <see cref="IntPtr.Zero"/> (see the <see cref="MSG"/> structure).
-        /// Therefore if <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, both window messages and thread messages are processed.
-        /// If <paramref name="hWnd"/> is -1, <see cref="PeekMessage"/> retrieves only messages on the current thread's message queue
-        /// whose hwnd value is <see cref="IntPtr.Zero"/>, that is,
-        /// thread messages as posted by <see cref="PostMessage"/> (when the hWnd parameter is <see cref="IntPtr.Zero"/>) or <see cref="PostThreadMessage"/>.
+        /// whose <see cref="MSG.hwnd"/> value is <see cref="NULL"/> (see the <see cref="MSG"/> structure).
+        /// Therefore if hWnd is <see cref="NULL"/>, both window messages and thread messages are processed.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hWnd"/> is -1, <see cref="PeekMessage"/> retrieves only messages on the current thread's message queue
+        /// whose <see cref="MSG.hwnd"/> value is <see cref="NULL"/>, that is, thread messages as posted by <see cref="PostMessage"/>
+        /// (when the <paramref name="hWnd"/> parameter is <see cref="NULL"/>) or <see cref="PostThreadMessage"/>.
+        /// </para>
         /// </param>
         /// <param name="wMsgFilterMin">
+        /// <para>
         /// The value of the first message in the range of messages to be examined.
-        /// Use <see cref="WM_KEYFIRST"/> (0x0100) to specify the first keyboard message
-        /// or <see cref="WM_MOUSEFIRST"/> (0x0200) to specify the first mouse message.
-        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
-        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// Use <see cref="WM_KEYFIRST"/> (0x0100) to specify the first keyboard message
+        /// or <see cref="WM_MOUSEFIRST"/> (0x0200) to specify the first mouse message.
+        /// </para>
+        /// <para>
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </para>
         /// </param>
         /// <param name="wMsgFilterMax">
+        /// <para>
         /// The value of the last message in the range of messages to be examined.
-        /// Use <see cref="WM_KEYLAST"/> to specify the last keyboard message
-        /// or <see cref="WM_MOUSELAST"/> to specify the last mouse message.
-        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
-        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// Use <see cref="WM_KEYLAST"/> to specify the last keyboard message
+        /// or <see cref="WM_MOUSELAST"/> to specify the last mouse message.
+        /// </para>
+        /// <para>
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </para>
         /// </param>
         /// <param name="wRemoveMsg">
-        /// Specifies how messages are to be handled. This parameter can be one or more of the following values.
-        /// <see cref="PM_NOREMOVE"/>, <see cref="PM_REMOVE"/> and <see cref="PM_NOYIELD"/>.
+        /// <para>
+        /// Specifies how messages are to be handled.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_NOREMOVE"/>
+        /// </para>
+        /// <para>
+        /// <c>0x0000</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Messages are not removed from the queue after processing by <see cref="PeekMessage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_REMOVE"/>
+        /// </para>
+        /// <para>
+        /// <c>0x0001</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Messages are removed from the queue after processing by <see cref="PeekMessage"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_NOYIELD"/>
+        /// </para>
+        /// <para>
+        /// <c>0x0002</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Prevents the system from releasing any thread that is waiting for the caller to go idle (see <see cref="WaitForInputIdle"/>).
+        /// Combine this value with either <see cref="PM_NOREMOVE"/> or <see cref="PM_REMOVE"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// By default, all message types are processed.
         /// To specify that only certain message should be processed, specify one or more of the following values.
-        /// <see cref="PM_QS_INPUT"/>, <see cref="PM_QS_PAINT"/>,
-        /// <see cref="PM_QS_POSTMESSAGE"/> and <see cref="PM_QS_SENDMESSAGE"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_QS_INPUT"/>
+        /// </para>
+        /// <para>
+        /// <c>(QS_INPUT &lt;&lt; 16)</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Process mouse and keyboard messages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_QS_POSTMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// <c>((QS_POSTMESSAGE \| QS_HOTKEY \| QS_TIMER) &lt;&lt; 16)</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Process all posted messages, including timers and hotkeys.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_QS_PAINT"/>
+        /// </para>
+        /// <para>
+        /// <c>(QS_PAINT &lt;&lt; 16)</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Process paint messages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PM_QS_SENDMESSAGE"/>
+        /// </para>
+        /// <para>
+        /// <c>(QS_SENDMESSAGE &lt;&lt; 16)</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Process all sent messages.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For more info on listed <c>QS_</c> flags and types of messages see <see cref="GetQueueStatus"/> documentation.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If a message is available, the return value is <see cref="TRUE"/>.
-        /// If no messages are available, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If a message is available, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If no messages are available, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="PeekMessage"/> retrieves messages associated with the window identified by the <paramref name="hWnd"/> parameter
-        /// or any of its children as specified by the <see cref="IsChild"/> function, and within the range of message values
-        /// given by the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
-        /// Note that an application can only use the low word in the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters;
+        /// <para>
+        /// <see cref="PeekMessage"/> retrieves messages associated with the window identified by the <paramref name="hWnd"/> parameter
+        /// or any of its children as specified by the <see cref="IsChild"/> function,
+        /// and within the range of message values given by the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// Note that an application can only use the low word in the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters;
         /// the high word is reserved for the system.
-        /// Note that <see cref="PeekMessage"/> always retrieves <see cref="WM_QUIT"/> messages,
-        /// no matter which values you specify for <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/>.
-        /// During this call, the system delivers pending, nonqueued messages, that is, messages sent to windows owned
-        /// by the calling thread using the <see cref="SendMessage"/>, <see cref="SendMessageCallback"/>,
-        /// <see cref="SendMessageTimeout"/>, or <see cref="SendNotifyMessage"/> function.
-        /// Then the first queued message that matches the specified filter is retrieved.
-        /// The system may also process internal events.
+        /// </para>
+        /// <para>
+        /// Note that <see cref="PeekMessage"/> always retrieves <see cref="WM_QUIT"/> messages,
+        /// no matter which values you specify for <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/>.
+        /// </para>
+        /// <para>
+        /// During this call, the system dispatches (<see cref="DispatchMessage"/>) pending, nonqueued messages,
+        /// that is, messages sent to windows owned by the calling thread using the <see cref="SendMessage"/>,
+        /// <see cref="SendMessageCallback"/>, <see cref="SendMessageTimeout"/>, or <see cref="SendNotifyMessage"/> function.
+        /// Then the first queued message that matches the specified filter is retrieved. The system may also process internal events.
         /// If no filter is specified, messages are processed in the following order:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Sent messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Posted messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Input (hardware) messages and system internal events
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Sent messages (again)
-        /// <see cref="WM_PAINT"/> messages
-        /// <see cref="WM_TIMER"/> messages
-        /// To retrieve input messages before posted messages, use the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
-        /// The <see cref="PeekMessage"/> function normally does not remove <see cref="WM_PAINT"/> messages from the queue.
-        /// <see cref="WM_PAINT"/> messages remain in the queue until they are processed.
-        /// However, if a <see cref="WM_PAINT"/> message has a NULL update region, <see cref="PeekMessage"/> does remove it from the queue.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WM_PAINT"/> messages
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="WM_TIMER"/> messages
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To retrieve input messages before posted messages,
+        /// use the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// </para>
+        /// <para>
+        /// The <see cref="PeekMessage"/> function normally does not remove <see cref="WM_PAINT"/> messages from the queue.
+        /// <see cref="WM_PAINT"/> messages remain in the queue until they are processed.
+        /// However, if a <see cref="WM_PAINT"/> message has a <see cref="NULL"/> update region,
+        /// <see cref="PeekMessage"/> does remove it from the queue.
+        /// </para>
+        /// <para>
         /// If a top-level window stops responding to messages for more than several seconds,
-        /// the system considers the window to be not responding and replaces it with a ghost window that has the same z-order,
-        /// location, size, and visual attributes.
+        /// the system considers the window to be not responding and replaces it with a ghost window
+        /// that has the same z-order, location, size, and visual attributes.
         /// This allows the user to move it, resize it, or even close the application.
         /// However, these are the only actions available because the application is actually not responding.
         /// When an application is being debugged, the system does not generate a ghost window.
+        /// </para>
+        /// <para>
         /// DPI Virtualization
+        /// </para>
+        /// <para>
         /// This API does not participate in DPI virtualization.
         /// The output is in the mode of the window that the message is targeting.
         /// The calling thread is not taken into consideration.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", ExactSpelling = true)]
         public static extern BOOL PeekMessage([Out] out MSG lpMsg, [In] HWND hWnd, [In] UINT wMsgFilterMin, [In] UINT wMsgFilterMax,
             [In] PeekMessageFlags wRemoveMsg);
 
@@ -1000,14 +2606,58 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hWnd">
-        /// A handle to the window whose window procedure is to receive the message. The following values have special meanings.
-        /// <see cref="HWND_BROADCAST"/>: The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
-        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
-        /// <see cref="NULL"/>: The function behaves like a call to <see cref="PostThreadMessage"/> with the dwThreadId parameter set to
-        /// the identifier of the current thread.
+        /// <para>
+        /// A handle to the window whose window procedure is to receive the message.
+        /// The following values have special meanings.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="HWND_BROADCAST"/>
+        /// </para>
+        /// <para>
+        /// ((HWND)0xffff)
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The message is posted to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows.
+        /// The message is not posted to child windows.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// NULL
+        /// </term>
+        /// <term>
+        /// The function behaves like a call to <see cref="PostThreadMessage"/>
+        /// with the <c>dwThreadId</c> parameter set to the identifier of the current thread.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, message posting is subject to UIPI.
+        /// The thread of a process can post messages only to message queues of threads in processes of lesser or equal integrity level.
+        /// </para>
         /// </param>
         /// <param name="msg">
+        /// <para>
         /// The message to be posted.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Additional message-specific information.
@@ -1016,31 +2666,61 @@ namespace Lsj.Util.Win32
         /// Additional message-specific information.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the limit is hit.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
-        /// Messages in a message queue are retrieved by calls to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
-        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
+        /// <para>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
+        /// </para>
+        /// <para>
+        /// Messages in a message queue are retrieved by calls to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// </para>
+        /// <para>
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
         /// to obtain a unique message for inter-application communication.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
-        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
-        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>), its message parameters cannot include pointers.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
+        /// <para>
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// its message parameters cannot include pointers.
         /// Otherwise, the operation will fail.
-        /// The functions will return before the receiving thread has had a chance to process the message and the sender will free the memory before it is used.
-        /// Do not post the <see cref="WM_QUIT"/> message using <see cref="PostMessage"/>; use the <see cref="PostQuitMessage"/> function.
-        /// An accessibility application can use <see cref="PostMessage"/> to post <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
+        /// The functions will return before the receiving thread has had a chance to process the message
+        /// and the sender will free the memory before it is used.
+        /// </para>
+        /// <para>
+        /// Do not post the <see cref="WM_QUIT"/> message using <see cref="PostMessage"/>;
+        /// use the <see cref="PostQuitMessage"/> function.
+        /// </para>
+        /// <para>
+        /// An accessibility application can use <see cref="PostMessage"/>
+        /// to post <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
         /// This functionality is not guaranteed to work for other types of applications.
-        /// There is a limit of 10,000 posted messages per message queue.
-        /// This limit should be sufficiently large.
+        /// </para>
+        /// <para>
+        /// There is a limit of 10,000 posted messages per message queue. This limit should be sufficiently large.
         /// If your application exceeds the limit, it should be redesigned to avoid consuming so many system resources.
         /// To adjust this limit, modify the following registry key.
+        /// </para>
+        /// <c>
         /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
+        /// </c>
+        /// <para>
+        /// If the function fails, call <see cref="GetLastError"/> to get extended error information.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the limit is hit.
+        /// </para>
+        /// <para>
         /// The minimum acceptable value is 4000.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", ExactSpelling = true, SetLastError = true)]
@@ -1060,36 +2740,51 @@ namespace Lsj.Util.Win32
         /// This value is used as the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
         /// </param>
         /// <remarks>
-        /// The <see cref="PostQuitMessage"/> function posts a <see cref="WM_QUIT"/> message to the thread's message queue and returns immediately;
+        /// <para>
+        /// The <see cref="PostQuitMessage"/> function posts a <see cref="WM_QUIT"/> message to the thread's message queue and returns immediately;
         /// the function simply indicates to the system that the thread is requesting to quit at some time in the future.
-        /// When the thread retrieves the <see cref="WM_QUIT"/> message from its message queue,
+        /// </para>
+        /// <para>
+        /// When the thread retrieves the <see cref="WM_QUIT"/> message from its message queue,
         /// it should exit its message loop and return control to the system.
-        /// The exit value returned to the system must be the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
+        /// The exit value returned to the system must be the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", ExactSpelling = true)]
         public static extern void PostQuitMessage([In] int nExitCode);
 
         /// <summary>
         /// <para>
-        /// Posts a message to the message queue of the specified thread. It returns without waiting for the thread to process the message.
+        /// Posts a message to the message queue of the specified thread.
+        /// It returns without waiting for the thread to process the message.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postthreadmessagew"/>
         /// </para>
         /// </summary>
         /// <param name="idThread">
+        /// <para>
         /// The identifier of the thread to which the message is to be posted.
+        /// </para>
+        /// <para>
         /// The function fails if the specified thread does not have a message queue.
         /// The system creates a thread's message queue when the thread makes its first call to one of the User or GDI functions.
         /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
         /// Message posting is subject to UIPI.
         /// The thread of a process can post messages only to posted-message queues of threads in processes of lesser or equal integrity level.
-        /// This thread must have the SeTcbPrivilege privilege to post a message to a thread that belongs to a process
-        /// with the same locally unique identifier (LUID) but is in a different desktop.
-        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// </para>
+        /// <para>
+        /// This thread must have the <see cref="SE_TCB_NAME"/> privilege to post a message to a thread
+        /// that belongs to a process with the same locally unique identifier (<see cref="LUID"/>) but is in a different desktop.
+        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// </para>
+        /// <para>
         /// This thread must either belong to the same desktop as the calling thread or to a process with the same <see cref="LUID"/>.
-        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// </para>
         /// </param>
         /// <param name="Msg">
         /// The type of message to be posted.
@@ -1101,38 +2796,83 @@ namespace Lsj.Util.Win32
         /// Additional message-specific information.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_THREAD_ID"/> if <paramref name="idThread"/> is not a valid thread identifier,
-        /// or if the thread specified by <paramref name="idThread"/> does not have a message queue.
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the message limit is hit.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_THREAD_ID"/>
+        /// if <paramref name="idThread"/> is not a valid thread identifier,
+        /// or if the thread specified by <paramref name="idThread"/> does not have a message queue.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the message limit is hit.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
-        /// The thread to which the message is posted must have created a message queue, or else the call to <see cref="PostThreadMessage"/> fails.
+        /// <para>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
+        /// </para>
+        /// <para>
+        /// The thread to which the message is posted must have created a message queue,
+        /// or else the call to <see cref="PostThreadMessage"/> fails.
         /// Use the following method to handle this situation.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// Create an event object, then create the thread.
-        /// Use the <see cref="WaitForSingleObject"/> function to wait for the event to be set to the signaled state before calling <see cref="PostThreadMessage"/>.
-        /// In the thread to which the message will be posted, call <see cref="PeekMessage"/> as shown here to force the system to create the message queue.
-        /// <code>
-        /// PeekMessage(&amp;msg, NULL, WM_USER, WM_USER, PM_NOREMOVE)
-        /// </code>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Use the <see cref="WaitForSingleObject"/> function to wait for the event to be set
+        /// to the signaled state before calling <see cref="PostThreadMessage"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// In the thread to which the message will be posted,
+        /// call <see cref="PeekMessage"/> as shown here to force the system to create the message queue.
+        /// </para>
+        /// <para>
+        /// <c>PeekMessage(&amp;msg, NULL, WM_USER, WM_USER, PM_NOREMOVE)</c>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Set the event, to indicate that the thread is ready to receive posted messages.
-        /// The thread to which the message is posted retrieves the message by calling the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
-        /// The <see cref="MSG.hwnd"/> member of the returned <see cref="MSG"/> structure is <see cref="NULL"/>.
-        /// Messages sent by <see cref="PostThreadMessage"/> are not associated with a window.
-        /// As a general rule, messages that are not associated with a window cannot be dispatched by the <see cref="DispatchMessage"/> function.
-        /// Therefore, if the recipient thread is in a modal loop (as used by MessageBox or DialogBox), the messages will be lost.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The thread to which the message is posted retrieves the message
+        /// by calling the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// The <see cref="MSG.hwnd"/> member of the returned <see cref="MSG"/> structure is <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// Messages posted by <see cref="PostThreadMessage"/> are not associated with a window.
+        /// As a general rule, messages that are not associated with a window cannot be dispatched by the <see cref="DispatchMessage"/> function.
+        /// Therefore, if the recipient thread is in a modal loop
+        /// (as used by <see cref="MessageBox"/> or <see cref="DialogBox"/>), the messages will be lost.
         /// To intercept thread messages while in a modal loop, use a thread-specific hook.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
-        /// There is a limit of 10,000 posted messages per message queue.
-        /// This limit should be sufficiently large.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
+        /// <para>
+        /// There is a limit of 10,000 posted messages per message queue. This limit should be sufficiently large.
         /// If your application exceeds the limit, it should be redesigned to avoid consuming so many system resources.
         /// To adjust this limit, modify the following registry key.
-        /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
+        /// </para>
+        /// <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit</c>
+        /// <para>
         /// The minimum acceptable value is 4000.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", ExactSpelling = true, SetLastError = true)]
@@ -1151,18 +2891,31 @@ namespace Lsj.Util.Win32
         /// The message to be registered.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the message is successfully registered, the return value is a message identifier in the range 0xC000 through 0xFFFF.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="RegisterWindowMessage"/> function is typically used to register messages for communicating between two cooperating applications.
+        /// <para>
+        /// The <see cref="RegisterWindowMessage"/> function is typically used to register messages
+        /// for communicating between two cooperating applications.
+        /// </para>
+        /// <para>
         /// If two different applications register the same message string, the applications return the same message value.
         /// The message remains registered until the session ends.
-        /// Only use <see cref="RegisterWindowMessage"/> when more than one application must process the same message.
-        /// For sending private messages within a window class, an application can use any integer in the range <see cref="WM_USER"/> through 0x7FFF.
+        /// </para>
+        /// <para>
+        /// Only use <see cref="RegisterWindowMessage"/> when more than one application must process the same message.
+        /// For sending private messages within a window class,
+        /// an application can use any integer in the range <see cref="WM_USER"/> through 0x7FFF.
         /// (Messages in this range are private to a window class, not to an application.
-        /// For example, predefined control classes such as BUTTON, EDIT, LISTBOX, and COMBOBOX may use values in this range.)
+        /// For example, predefined control classes such as <c>BUTTON</c>, <c>EDIT</c>,
+        /// <c>LISTBOX</c>, and <c>COMBOBOX</c> may use values in this range.)
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", ExactSpelling = true, SetLastError = true)]
@@ -1177,21 +2930,30 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lResult">
-        /// The result of the message processing. The possible values are based on the message sent.
+        /// The result of the message processing.
+        /// The possible values are based on the message sent.
         /// </param>
         /// <returns>
-        /// If the calling thread was processing a message sent from another thread or process, the return value is <see cref="TRUE"/>.
-        /// If the calling thread was not processing a message sent from another thread or process, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the calling thread was processing a message sent from another thread or process, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the calling thread was not processing a message sent from another thread or process, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// By calling this function, the window procedure that receives the message allows the thread that called <see cref="SendMessage"/>
-        /// to continue to run as though the thread receiving the message had returned control.
-        /// The thread that calls the <see cref="ReplyMessage"/> function also continues to run.
-        /// If the message was not sent through <see cref="SendMessage"/> or if the message was sent by the same thread,
-        /// <see cref="ReplyMessage"/> has no effect.
+        /// <para>
+        /// By calling this function, the window procedure that receives the message allows the thread
+        /// that called <see cref="SendMessage"/> to continue to run as though the thread receiving the message had returned control.
+        /// The thread that calls the <see cref="ReplyMessage"/> function also continues to run.
+        /// </para>
+        /// <para>
+        /// If the message was not sent through <see cref="SendMessage"/>
+        /// or if the message was sent by the same thread, <see cref="ReplyMessage"/> has no effect.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", ExactSpelling = true)]
         public static extern BOOL ReplyMessage([In] LRESULT lResult);
 
         /// <summary>
@@ -1199,6 +2961,8 @@ namespace Lsj.Util.Win32
         /// Sends the specified message to a window or windows.
         /// The <see cref="SendMessage"/> function calls the window procedure for the specified window
         /// and does not return until the window procedure has processed the message.
+        /// </para>
+        /// <para>
         /// To send a message and return immediately, use the <see cref="SendMessageCallback"/> or <see cref="SendNotifyMessage"/> function.
         /// To post a message to a thread's message queue and return immediately,
         /// use the <see cref="PostMessage"/> or <see cref="PostThreadMessage"/> function.
@@ -1208,11 +2972,17 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hWnd">
+        /// <para>
         /// A handle to the window whose window procedure will receive the message.
-        /// If this parameter is <see cref="HWND_BROADCAST"/>, the message is sent to all top-level windows in the system,
-        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff),
+        /// the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows;
+        /// but the message is not sent to child windows.
+        /// </para>
+        /// <para>
         /// Message sending is subject to UIPI.
         /// The thread of a process can send messages only to message queues of threads in processes of lesser or equal integrity level.
+        /// </para>
         /// </param>
         /// <param name="Msg">
         /// The message to be sent.
@@ -1227,20 +2997,32 @@ namespace Lsj.Util.Win32
         /// The return value specifies the result of the message processing; it depends on the message sent.
         /// </returns>
         /// <remarks>
-        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
-        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use
-        /// the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
+        /// <para>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
+        /// </para>
+        /// <para>
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/>
+        /// should use the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
+        /// <para>
         /// If the specified window was created by the calling thread, the window procedure is called immediately as a subroutine.
-        /// If the specified window was created by a different thread, the system switches to that thread and calls the appropriate window procedure.
+        /// If the specified window was created by a different thread,
+        /// the system switches to that thread and calls the appropriate window procedure.
         /// Messages sent between threads are processed only when the receiving thread executes message retrieval code.
         /// The sending thread is blocked until the receiving thread processes the message.
         /// However, the sending thread will process incoming nonqueued messages while waiting for its message to be processed.
-        /// To prevent this, use <see cref="SendMessageTimeout"/> with <see cref="SMTO_BLOCK"/> set.
-        /// For more information on nonqueued messages, see Nonqueued Messages.
-        /// An accessibility application can use <see cref="SendMessage"/> to send <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
+        /// To prevent this, use <see cref="SendMessageTimeout"/> with <see cref="SMTO_BLOCK"/> set.
+        /// For more information on nonqueued messages, see Nonqueued Messages.
+        /// </para>
+        /// <para>
+        /// An accessibility application can use <see cref="SendMessage"/>
+        /// to send <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
         /// This functionality is not guaranteed to work for other types of applications.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", ExactSpelling = true, SetLastError = true)]
@@ -1263,8 +3045,12 @@ namespace Lsj.Util.Win32
         /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
         /// </param>
         /// <param name="Msg">
+        /// <para>
         /// The message to be sent.
-        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Additional message-specific information.
@@ -1273,33 +3059,51 @@ namespace Lsj.Util.Win32
         /// Additional message-specific information.
         /// </param>
         /// <param name="lpResultCallBack">
+        /// <para>
         /// A pointer to a callback function that the system calls after the window procedure processes the message.
-        /// For more information, see <see cref="SENDASYNCPROC"/>.
-        /// If hWnd is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the system calls the <see cref="SENDASYNCPROC"/> callback function
-        /// once for each top-level window.
+        /// For more information, see <c>SendAsyncProc</c>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hWnd"/> is <see cref="HWND_BROADCAST"/> ((HWND)0xffff),
+        /// the system calls the <c>SendAsyncProc</c> callback function once for each top-level window.
+        /// </para>
         /// </param>
         /// <param name="dwData">
         /// An application-defined value to be sent to the callback function pointed to by the <paramref name="lpResultCallBack"/> parameter.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the target window belongs to the same thread as the caller, then the window procedure is called synchronously,
         /// and the callback function is called immediately after the window procedure returns.
-        /// If the target window belongs to a different thread from the caller, then the callback function is called
-        /// only when the thread that called <see cref="SendMessageCallback"/> also calls <see cref="GetMessage"/>,
-        /// <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
-        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
-        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
-        /// its message parameters cannot include pointers. Otherwise, the operation will fail.
-        /// The functions will return before the receiving thread has had a chance to process the message and the sender will free the memory before it is used.
-        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
-        /// to obtain a unique message for inter-application communication.
+        /// If the target window belongs to a different thread from the caller,
+        /// then the callback function is called only when the thread that called <see cref="SendMessageCallback"/>
+        /// also calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
+        /// </para>
+        /// <para>
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// its message parameters cannot include pointers.
+        /// Otherwise, the operation will fail.
+        /// The functions will return before the receiving thread has had a chance
+        /// to process the message and the sender will free the memory before it is used.
+        /// </para>
+        /// <para>
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> 
+        /// should use the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageCallbackW", ExactSpelling = true, SetLastError = true)]
@@ -1315,15 +3119,23 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hWnd">
+        /// <para>
         /// A handle to the window whose window procedure will receive the message.
-        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
-        /// including disabled or invisible unowned windows.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff),
+        /// the message is sent to all top-level windows in the system, including disabled or invisible unowned windows.
         /// The function does not return until each window has timed out.
-        /// Therefore, the total wait time can be up to the value of <paramref name="uTimeout"/> multiplied by the number of top-level windows.
+        /// Therefore, the total wait time can be up to the value of <paramref name="uTimeout"/> multiplied by the number of top-level windows.
+        /// </para>
         /// </param>
         /// <param name="Msg">
+        /// <para>
         /// The message to be sent.
-        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Any additional message-specific information.
@@ -1332,9 +3144,88 @@ namespace Lsj.Util.Win32
         /// Any additional message-specific information.
         /// </param>
         /// <param name="fuFlags">
-        /// The behavior of this function. This parameter can be one or more of the following values.
-        /// <see cref="SMTO_ABORTIFHUNG"/>, <see cref="SMTO_BLOCK"/>, <see cref="SMTO_NORMAL"/>,
-        /// <see cref="SMTO_NOTIMEOUTIFNOTHUNG"/>, <see cref="SMTO_ERRORONEXIT"/>
+        /// <para>
+        /// The behavior of this function.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SMTO_ABORTIFHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function returns without waiting for the time-out period to elapse
+        /// if the receiving thread appears to not respond or "hangs."
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SMTO_BLOCK"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Prevents the calling thread from processing any other requests until the function returns.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SMTO_NORMAL"/>
+        /// </para>
+        /// <para>
+        /// 0x0000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The calling thread is not prevented from processing other requests while waiting for the function to return.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SMTO_NOTIMEOUTIFNOTHUNG"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function does not enforce the time-out period as long as the receiving thread is processing messages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SMTO_ERRORONEXIT"/>
+        /// </para>
+        /// <para>
+        /// 0x0020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function should return 0 if the receiving window is destroyed or its owning thread dies while the message is being processed.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="uTimeout">
         /// The duration of the time-out period, in milliseconds.
@@ -1343,24 +3234,38 @@ namespace Lsj.Util.Win32
         /// you could have up to a 15 second delay.
         /// </param>
         /// <param name="lpdwResult">
-        /// The result of the message processing. The value of this parameter depends on the message that is specified.
+        /// The result of the message processing.
+        /// The value of this parameter depends on the message that is specified.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// <see cref="SendMessageTimeout"/> does not provide information about individual windows timing out if <see cref="HWND_BROADCAST"/> is used.
-        /// If the function fails or times out, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If <see cref="GetLastError"/> returns <see cref="ERROR_TIMEOUT"/>, then the function timed out.
-        /// Windows 2000: If <see cref="GetLastError"/> returns 0, then the function timed out.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// <see cref="SendMessageTimeout"/> does not provide information about individual windows timing out if <see cref="HWND_BROADCAST"/> is used.
+        /// </para>
+        /// <para>
+        /// If the function fails or times out, the return value is 0.
+        /// Note that the function does not always call <see cref="SetLastError"/> on failure.
+        /// If the reason for failure is important to you,
+        /// call <c>SetLastError(ERROR_SUCCESS)</c> before calling <see cref="SendMessageTimeout"/>.
+        /// If the function returns 0, and <see cref="GetLastError"/> returns <see cref="ERROR_SUCCESS"/>, then treat it as a generic failure.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The function calls the window procedure for the specified window and, if the specified window belongs to a different thread,
-        /// does not return until the window procedure has processed the message or the specified time-out period has elapsed.
+        /// <para>
+        /// The function calls the window procedure for the specified window and,
+        /// if the specified window belongs to a different thread, does not return
+        /// until the window procedure has processed the message or the specified time-out period has elapsed.
         /// If the window receiving the message belongs to the same queue as the current thread,
         /// the window procedure is called directly—the time-out value is ignored.
-        /// This function considers that a thread is not responding if it has not called <see cref="GetMessage"/> or a similar function within five seconds.
+        /// </para>
+        /// <para>
+        /// This function considers that a thread is not responding
+        /// if it has not called <see cref="GetMessage"/> or a similar function within five seconds.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", ExactSpelling = true, SetLastError = true)]
@@ -1385,8 +3290,12 @@ namespace Lsj.Util.Win32
         /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
         /// </param>
         /// <param name="Msg">
+        /// <para>
         /// The message to be sent.
-        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
+        /// <para>
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </para>
         /// </param>
         /// <param name="wParam">
         /// Additional message-specific information.
@@ -1395,20 +3304,31 @@ namespace Lsj.Util.Win32
         /// Additional message-specific information.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
-        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// <para>
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
         /// its message parameters cannot include pointers.
-        /// Otherwise, the operation will fail. The functions will return before the receiving thread has had a chance
+        /// Otherwise, the operation will fail.
+        /// The functions will return before the receiving thread has had a chance
         /// to process the message and the sender will free the memory before it is used.
-        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
-        /// to obtain a unique message for inter-application communication.
+        /// </para>
+        /// <para>
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/>
+        /// should use the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
+        /// </para>
+        /// <para>
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
-        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// To send other messages (those &gt;= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
@@ -1431,7 +3351,7 @@ namespace Lsj.Util.Win32
         /// The return value is the previous value associated with the current thread.
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true)]
         public static extern LPARAM SetMessageExtraInfo([In] LPARAM lParam);
 
         /// <summary>
@@ -1463,8 +3383,12 @@ namespace Lsj.Util.Win32
         /// The message must be an <see cref="MSG"/> structure and contain message information from the application's message queue.
         /// </param>
         /// <returns>
-        /// If the message is translated into a system command, the return value is <see cref="TRUE"/>.
-        /// If the message is not translated into a system command, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the message is translated into a system command, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the message is not translated into a system command, the return value is zero.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMDISysAccel", ExactSpelling = true, SetLastError = true)]
@@ -1485,16 +3409,44 @@ namespace Lsj.Util.Win32
         /// by using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
         /// </param>
         /// <returns>
-        /// If the message is translated (that is, a character message is posted to the thread's message queue),
-        /// the return value is <see langword="true"/>.
-        /// If the message is <see cref="WM_KEYDOWN"/>, <see cref="WM_KEYUP"/>,
-        /// <see cref="WM_SYSKEYDOWN"/>, or <see cref="WM_SYSKEYUP"/>,
-        /// the return value is <see langword="true"/>, regardless of the translation.
-        /// If the message is not translated (that is, a character message is not posted to the thread's message queue),
-        /// the return value is <see langword="false"/>.
+        /// <para>
+        /// If the message is translated (that is, a character message is posted to the thread's message queue), the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the message is <see cref="WM_KEYDOWN"/>, <see cref="WM_KEYUP"/>, <see cref="WM_SYSKEYDOWN"/>,
+        /// or <see cref="WM_SYSKEYUP"/>, the return value is nonzero, regardless of the translation.
+        /// </para>
+        /// <para>
+        /// If the message is not translated (that is, a character message is not posted to the thread's message queue), the return value is zero.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="TranslateMessage"/> function does not modify the message pointed to by the <paramref name="lpMsg"/> parameter.
+        /// </para>
+        /// <para>
+        /// <see cref="WM_KEYDOWN"/> and <see cref="WM_KEYUP"/> combinations
+        /// produce a <see cref="WM_CHAR"/> or <see cref="WM_DEADCHAR"/> message.
+        /// <see cref="WM_SYSKEYDOWN"/> and <see cref="WM_SYSKEYUP"/> combinations
+        /// produce a <see cref="WM_SYSCHAR"/> or <see cref="WM_SYSDEADCHAR"/> message.
+        /// </para>
+        /// <para>
+        /// <see cref="TranslateMessage"/> produces <see cref="WM_CHAR"/> messages only for keys
+        /// that are mapped to ASCII characters by the keyboard driver.
+        /// </para>
+        /// <para>
+        /// If applications process virtual-key messages for some other purpose, they should not call <see cref="TranslateMessage"/>.
+        /// For instance, an application should not call <see cref="TranslateMessage"/>
+        /// if the <see cref="TranslateAccelerator"/> function returns a nonzero value.
+        /// Note that the application is responsible for retrieving and dispatching input messages to the dialog box.
+        /// Most applications use the main message loop for this.
+        /// However, to permit the user to move to and to select controls by using the keyboard,
+        /// the application must call <see cref="IsDialogMessage"/>.
+        /// For more information, see Dialog Box Keyboard Interface.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", ExactSpelling = true)]
         public static extern BOOL TranslateMessage([In] in MSG lpMsg);
 
         /// <summary>
@@ -1507,18 +3459,22 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Note that <see cref="WaitMessage"/> does not return if there is unread input in the message queue
-        /// after the thread has called a function to check the queue.
-        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
-        /// <see cref="WaitMessage"/>, <see cref="MsgWaitForMultipleObjects"/>, and <see cref="MsgWaitForMultipleObjectsEx"/> check the queue
-        /// and then change the state information for the queue so that the input is no longer considered new.
-        /// A subsequent call to <see cref="WaitMessage"/> will not return until new input of the specified type arrives.
-        /// The existing unread input (received prior to the last time the thread checked the queue) is ignored.
+        /// Note that <see cref="WaitMessage"/> does not return for unprocessed messages reported by a previous function which checks the queue.
+        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>,
+        /// <see cref="GetQueueStatus"/>, <see cref="WaitMessage"/>, <see cref="MsgWaitForMultipleObjects"/>,
+        /// and <see cref="MsgWaitForMultipleObjectsEx"/> check the queue
+        /// and then change the state information for the queue so that the message is no longer considered new.
+        /// A subsequent call to <see cref="WaitMessage"/> will not return until new messages arrive.
+        /// The existing unprocessed messages (received prior to the last time the thread checked the queue) are not considered to be new.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitMessage", ExactSpelling = true, SetLastError = true)]

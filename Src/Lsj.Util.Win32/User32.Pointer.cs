@@ -16,28 +16,41 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// Enables the mouse to act as a pointer input device and send <see cref="WM_POINTER"/> messages.
+        /// Enables the mouse to act as a pointer input device and send <c>WM_POINTER</c> messages.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/Winuser/nf-winuser-enablemouseinpointer"/>
         /// </para>
         /// </summary>
         /// <param name="fEnable">
-        /// <see cref="TRUE"/> to turn on mouse input support in <see cref="WM_POINTER"/>.
+        /// <see cref="TRUE"/> to turn on mouse input support in <c>WM_POINTER</c>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// This function can be called only once in the context of a process lifetime.
-        /// Prior to the first call, Windows Store apps run with mouse-in-pointer enabled, as do any desktop applications that consume mshtml.dll.
+        /// Prior to the first call, Windows Store apps run with mouse-in-pointer enabled,
+        /// as do any desktop applications that consume mshtml.dll.
         /// All other desktop applications run with mouse-in-pointer disabled.
+        /// </para>
+        /// <para>
         /// On the first call in the process lifetime, the state is changed as specified and the call succeeds.
+        /// </para>
+        /// <para>
         /// On subsequent calls, the state will not change.
         /// If the current state is not equal to the specified state, the call fails.
-        /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
+        /// </para>
+        /// <para>
+        /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableMouseInPointer", ExactSpelling = true, SetLastError = true)]
@@ -55,9 +68,30 @@ namespace Lsj.Util.Win32
         /// An identifier of the pointer for which to retrieve the cursor identifier.
         /// </param>
         /// <param name="cursorId">
-        /// An address of a <see cref="UINT32"/> to receive the tablet cursor identifier, if any, associated with the specified pointer.
+        /// An address of a <see cref="UINT32"/> to receive the tablet cursor identifier,
+        /// if any, associated with the specified pointer.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Cursor objects represent pointing and selecting devices used with digitizer devices,
+        /// most commonly tactile contacts on touch digitizers and tablet pens on pen digitizers.
+        /// Physical pens may have multiple tips (such as normal and eraser ends), with each pen tip representing a different cursor object.
+        /// Each cursor object has an associated cursor identifier.
+        /// </para>
+        /// <para>
+        /// For pointer types that derive from these cursor objects,
+        /// an application can use the <see cref="GetPointerCursorId"/> function to retrieve the cursor identifier associated with a pointer.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerCursorId", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPointerCursorId([In] UINT32 pointerId, [Out] out UINT32 cursorId);
@@ -77,9 +111,13 @@ namespace Lsj.Util.Win32
         /// A <see cref="POINTER_DEVICE_INFO"/> structure that contains information about the pointer device.
         /// </param>
         /// <returns>
+        /// <para>
         /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
         /// Otherwise, it returns <see cref="FALSE"/>.
-        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevice", ExactSpelling = true, SetLastError = true)]
@@ -101,7 +139,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="deviceCursors">
         /// An array of <see cref="POINTER_DEVICE_CURSOR_INFO"/> structures that contain info about the cursors.
-        /// If NULL, <paramref name="cursorCount"/> returns the number of cursors associated with the pointer device.
+        /// If <see langword="null"/>, <paramref name="cursorCount"/> returns the number of cursors associated with the pointer device.
         /// </param>
         /// <returns>
         /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
@@ -120,15 +158,25 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="device">
+        /// <para>
         /// The pointer device to query properties from.
-        /// A call to the <see cref="GetPointerDevices"/> function returns this handle in the <see cref="POINTER_DEVICE_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// A call to the <see cref="GetPointerDevices"/> function returns this handle in the <see cref="POINTER_DEVICE_INFO"/> structure.
+        /// </para>
         /// </param>
         /// <param name="propertyCount">
+        /// <para>
         /// The number of properties.
-        /// Returns the count that's written or needed if <paramref name="pointerProperties"/> is <see langword="null"/>.
+        /// </para>
+        /// <para>
+        /// Returns the count that's written or needed if <paramref name="pointerProperties"/> is <see langword="null"/>.
+        /// </para>
+        /// <para>
         /// If this value is less than the number of properties that the pointer device supports
-        /// and <paramref name="pointerProperties"/> is not <see langword="null"/>,
+        /// and <paramref name="pointerProperties"/> is not <see langword="null"/>,
         /// the function returns the actual number of properties in this variable and fails.
+        /// </para>
         /// </param>
         /// <param name="pointerProperties">
         /// The array of properties.
@@ -187,15 +235,33 @@ namespace Lsj.Util.Win32
         /// If <see langword="null"/>, the total number of attached pointer devices is returned in <paramref name="deviceCount"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
         /// Otherwise, it returns <see cref="FALSE"/>.
-        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Windows 8 supports the following:
+        /// <para>
+        /// Windows 8 supports the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// 256 contacts per pointer device.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// 2560 total contacts per system session, regardless of the number of attached devices.
         /// For example, 10 pointer devices with 256 contacts each, 20 pointer devices with 128 contacts each, and so on.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevices", ExactSpelling = true, SetLastError = true)]
@@ -214,52 +280,108 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="pointerCount">
         /// A pointer to a variable that specifies the count of structures in the buffer to which pointerInfo points.
-        /// If <see cref="GetPointerFrameInfo"/> succeeds, <paramref name="pointerCount"/> is updated with the total count of pointers in the frame.
+        /// If <see cref="GetPointerFrameInfo"/> succeeds,
+        /// <paramref name="pointerCount"/> is updated with the total count of pointers in the frame.
         /// </param>
         /// <param name="pointerInfo">
         /// Address of an array of <see cref="POINTER_INFO"/> structures to receive the pointer information.
         /// This parameter can be <see langword="null"/> if *<paramref name="pointerCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
         /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// <see cref="GetPointerFrameInfo"/> retrieves the entire pointer input frame associated with a pointer message.
-        /// Use <see cref="GetPointerInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
+        /// <see cref="GetPointerFrameInfo"/> retrieves the entire pointer input frame associated with a pointer message.
+        /// Use <see cref="GetPointerInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFrameInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFrameInfoHistory"/> to retrieve the message history
+        /// from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care and only when the caller can be sure
-        /// that no other entity on the caller’s thread is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// Note that the information retrieved is associated with the pointer frame most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous pointer frame may no longer be available.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous pointer frame may no longer be available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameInfo", ExactSpelling = true, SetLastError = true)]
@@ -285,54 +407,115 @@ namespace Lsj.Util.Win32
         /// If <see cref="GetPointerFrameInfoHistory"/> succeeds, <paramref name="pointerCount"/> is updated with the total count of pointers in each frame.
         /// </param>
         /// <param name="pointerInfo">
+        /// <para>
         /// Address of a two-dimensional array of <see cref="POINTER_INFO"/> structures to receive the pointer information.
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> and *<paramref name="pointerCount"/> are both zero.
-        /// This array is interpreted as POINTER_INFO[*entriesCount][*pointerCount].
+        /// </para>
+        /// <para>
+        /// This array is interpreted as <c>POINTER_INFO[*entriesCount][*pointerCount]</c>.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
         /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFrameInfoHistory"/> to retrieve the message history (including coalesced input frames)
-        /// from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFrameInfoHistory"/> to retrieve the message history
+        /// (including coalesced input frames) from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
-        /// and only when the caller can be sure that no other entity on the caller’s thread is expecting
-        /// to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information retrieved represents a two-dimensional array with one row for each history entry and one column for each pointer in the frame.
-        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerFrameInfo"/> function.
+        /// </para>
+        /// <para>
+        /// The information retrieved represents a two-dimensional array with one row
+        /// for each history entry and one column for each pointer in the frame.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order,
+        /// with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerFrameInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
-        /// this function succeeds with the buffer containing the most recent entries and *<paramref name="entriesCount"/>
-        /// containing the total count of entries available.
+        /// this function succeeds with the buffer containing the most recent entries
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
-        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>),
+        /// hit test to determine if the input is client or non-client and track this info.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -359,45 +542,105 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see langword="null"/> if *<paramref name="pointerCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
         /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// <see cref="GetPointerFramePenInfo"/> retrieves the entire pointer input frame associated with a pointer (of type <see cref="PT_PEN"/>) message.
-        /// Use <see cref="GetPointerPenInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
+        /// <see cref="GetPointerFramePenInfo"/> retrieves the entire pointer input frame
+        /// associated with a pointer (of type <see cref="PT_PEN"/>) message.
+        /// Use <see cref="GetPointerPenInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFrameInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFramePenInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFramePenInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care and only when the caller can be sure
-        /// that no other entity on the caller’s thread is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// Note that the information retrieved is associated with the pointer frame most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous pointer frame may no longer be available.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous pointer frame may no longer be available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
-        /// If the information associated with the pointer frame is no longer available, this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
+        /// If the information associated with the pointer frame is no longer available,
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_PEN"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_PEN"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
-        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>),
+        /// hit test to determine if the input is client or non-client and track this info.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFramePenInfo", ExactSpelling = true, SetLastError = true)]
@@ -425,56 +668,119 @@ namespace Lsj.Util.Win32
         /// If <see cref="GetPointerFramePenInfoHistory"/> succeeds, pointerCount is updated with the total count of pointers in each frame.
         /// </param>
         /// <param name="penInfo">
+        /// <para>
         /// Address of a two-dimensional array of <see cref="POINTER_PEN_INFO"/> structures to receive the pointer information.
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> and *<paramref name="pointerCount"/> are both zero.
-        /// This array is interpreted as POINTER_PEN_INFO[*entriesCount][*pointerCount].
+        /// </para>
+        /// <para>
+        /// This array is interpreted as <c>POINTER_PEN_INFO[*entriesCount][*pointerCount]</c>.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
         /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// The information returned by <see cref="GetPointerFramePenInfo"/> is associated with the most recent pointer (<see cref="PT_PEN"/>) message
-        /// retrieved by the calling thread. When the next message is retrieved by the calling thread,
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFramePenInfo"/> is associated with
+        /// the most recent pointer (<see cref="PT_PEN"/>) message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
         /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFramePenInfoHistory"/> to retrieve the message history (including coalesced input frames)
-        /// from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFramePenInfoHistory"/> to retrieve the message history
+        /// (including coalesced input frames) from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
-        /// and only when the caller can be sure that no other entity on the caller’s thread is expecting
-        /// to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information retrieved represents a two-dimensional array with one row for each history entry and one column for each pointer in the frame.
-        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerFramePenInfo"/> function.
+        /// </para>
+        /// <para>
+        /// The information retrieved represents a two-dimensional array
+        /// with one row for each history entry and one column for each pointer in the frame.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order,
+        /// with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerFramePenInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
-        /// this function succeeds with the buffer containing the most recent entries and *<paramref name="entriesCount"/>
-        /// containing the total count of entries available.
+        /// this function succeeds with the buffer containing the most recent entries
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_PEN"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_PEN"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
-        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>),
+        /// hit test to determine if the input is client or non-client and track this info.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFramePenInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -501,45 +807,107 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see langword="null"/> if *<paramref name="pointerCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
-        /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// <see cref="GetPointerFrameTouchInfo"/> retrieves the entire pointer input frame associated with a pointer (of type <see cref="PT_TOUCH"/>) message.
-        /// Use <see cref="GetPointerTouchInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// Ideally, applications should view the entire frame as a single input
+        /// unless the application-specific requirements dictate otherwise.
+        /// </para>
+        /// <para>
+        /// <see cref="GetPointerFrameTouchInfo"/> retrieves the entire pointer input frame
+        /// associated with a pointer (of type <see cref="PT_TOUCH"/>) message.
+        /// Use <see cref="GetPointerTouchInfo"/> to retrieve information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information returned by <see cref="GetPointerFrameTouchInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFrameTouchInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFrameTouchInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFrameTouchInfoHistory"/> to retrieve the message history
+        /// from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care and only when the caller can be sure
-        /// that no other entity on the caller’s thread is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// Note that the information retrieved is associated with the pointer frame most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous pointer frame may no longer be available.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous pointer frame may no longer be available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
-        /// If the information associated with the pointer frame is no longer available, this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
+        /// If the information associated with the pointer frame is no longer available,
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
-        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>),
+        /// hit test to determine if the input is client or non-client and track this info.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameTouchInfo", ExactSpelling = true, SetLastError = true)]
@@ -567,56 +935,120 @@ namespace Lsj.Util.Win32
         /// If <see cref="GetPointerFrameTouchInfoHistory"/> succeeds, pointerCount is updated with the total count of pointers in each frame.
         /// </param>
         /// <param name="touchInfo">
+        /// <para>
         /// Address of a two-dimensional array of <see cref="POINTER_TOUCH_INFO"/> structures to receive the pointer information.
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> and *<paramref name="pointerCount"/> are both zero.
-        /// This array is interpreted as POINTER_TOUCH_INFO[*entriesCount][*pointerCount].
+        /// </para>
+        /// <para>
+        /// This array is interpreted as <c>POINTER_TOUCH_INFO[*entriesCount][*pointerCount]</c>.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
-        /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// The information returned by <see cref="GetPointerFrameTouchInfo"/> is associated with the most recent pointer (<see cref="PT_TOUCH"/>) message
-        /// retrieved by the calling thread. When the next message is retrieved by the calling thread,
+        /// Ideally, applications should view the entire frame as a single input
+        /// unless the application-specific requirements dictate otherwise.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerFrameTouchInfo"/> is associated with
+        /// the most recent pointer (<see cref="PT_TOUCH"/>) message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
         /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerFramePenInfoHistory"/> to retrieve the message history (including coalesced input frames)
-        /// from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerFrameTouchInfoHistory"/> to retrieve the message history
+        /// (including coalesced input frames) from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
-        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
-        /// and only when the caller can be sure that no other entity on the caller’s thread is expecting
-        /// to see the remaining pointer messages one by one as they are retrieved.
+        /// However, the <see cref="SkipPointerFrameMessages"/> function should be used with care
+        /// and only when the caller can be sure that no other entity on the caller’s thread
+        /// is expecting to see the remaining pointer messages one by one as they are retrieved.
+        /// </para>
+        /// <para>
         /// The frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// The information retrieved represents a two-dimensional array with one row for each history entry and one column for each pointer in the frame.
-        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerFrameTouchInfo"/> function.
+        /// </para>
+        /// <para>
+        /// The information retrieved represents a two-dimensional array
+        /// with one row for each history entry and one column for each pointer in the frame.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order,
+        /// with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerFrameTouchInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
-        /// this function succeeds with the buffer containing the most recent entries and *<paramref name="entriesCount"/>
-        /// containing the total count of entries available.
+        /// this function succeeds with the buffer containing the most recent entries
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
         /// For apps that have both client and non-client areas, the input frame can include both client and non-client data.
         /// To differentiate between client and non-client data, you must perform hit testing on the target window.
+        /// </para>
+        /// <para>
         /// We recommend the following if you want to filter data from the input frame:
-        /// For each update that does not include a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// For each update that does not include a pointer contact
+        /// (a <see cref="POINTER_FLAG_UPDATE"/> without <see cref="POINTER_FLAG_INCONTACT"/>),
         /// hit test to determine if the input is client or non-client.
-        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>), hit test to determine if the input is client or non-client and track this info.
-        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each new contact (<see cref="POINTER_FLAG_DOWN"/>),
+        /// hit test to determine if the input is client or non-client and track this info.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each update that includes a pointer contact (a <see cref="POINTER_FLAG_UPDATE"/> with <see cref="POINTER_FLAG_INCONTACT"/>),
         /// use the tracking info to determine whether the input is client or non-client.
-        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For each <see cref="POINTER_FLAG_UP"/>, use the tracking info to determine
         /// whether the input is client or non-client and then clear this pointer from the tracking data.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerFrameTouchInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -626,7 +1058,11 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Gets the information for the specified pointer associated with the current message.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Use <see cref="GetPointerType"/> if you don't need the additional information exposed by <see cref="GetPointerInfo"/>.
         /// </para>
         /// <para>
@@ -640,22 +1076,41 @@ namespace Lsj.Util.Win32
         /// Address of a <see cref="POINTER_INFO"/> structure that receives the pointer information.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="GetPointerInfo"/> retrieves information for a single pointer associated with a pointer message.
-        /// Use <see cref="GetPointerFrameInfo"/> to retrieve frame information associated with a message for a set of pointers.
-        /// The information returned by <see cref="GetPointerInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// <para>
+        /// <see cref="GetPointerInfo"/> retrieves information for a single pointer associated with a pointer message.
+        /// </para>
+        /// <para>
+        /// Use <see cref="GetPointerFrameInfo"/> to retrieve frame information associated with a message for a set of pointers.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
-        /// If the information associated with the message is no longer available, this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
+        /// If the information associated with the message is no longer available,
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInfo", ExactSpelling = true, SetLastError = true)]
@@ -686,29 +1141,45 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated, some moves may be coalesced.
         /// When an application receives a coalescable pointer message,
-        /// it can use the <see cref="GetPointerInfoHistory"/> function to retrieve information for all the individual inputs,
+        /// it can use the <see cref="GetPointerInfoHistory"/> function to retrieve information for all the individual inputs,
         /// if any, that were coalesced into the message.
         /// Note that the information retrieved is associated with the pointer message most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous message may no longer be available.
-        /// The information retrieved appears in reverse chronological order,
-        /// with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerInfo"/> function.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
         /// this function succeeds with the buffer containing the most recent entries
-        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -726,54 +1197,97 @@ namespace Lsj.Util.Win32
         /// An identifier of the pointer for which to retrieve information.
         /// </param>
         /// <param name="historyCount">
-        /// The number of <see cref="INPUT_TRANSFORM"/> structures that <paramref name="inputTransform"/> can point to.
-        /// This value must be no less than 1 and no greater than the value specified in <see cref="POINTER_INFO.historyCount"/>
-        /// of the <see cref="POINTER_INFO"/> structure returned by <see cref="GetPointerInfo"/>, <see cref="GetPointerTouchInfo"/>,
-        /// or <see cref="GetPointerPenInfo"/> (for a single input transform) or <see cref="GetPointerInfoHistory"/>,
-        /// <see cref="GetPointerTouchInfoHistory"/>, or <see cref="GetPointerPenInfoHistory"/> (for an array of input transforms).
+        /// <para>
+        /// The number of <see cref="INPUT_TRANSFORM"/> structures that <paramref name="inputTransform"/> can point to.
+        /// </para>
+        /// <para>
+        /// This value must be no less than 1 and no greater than the value specified
+        /// in <see cref="POINTER_INFO.historyCount"/> of the <see cref="POINTER_INFO"/> structure
+        /// returned by <see cref="GetPointerInfo"/>, <see cref="GetPointerTouchInfo"/>,
+        /// or <see cref="GetPointerPenInfo"/> (for a single input transform) or <see cref="GetPointerInfoHistory"/>,
+        /// <see cref="GetPointerTouchInfoHistory"/>, or <see cref="GetPointerPenInfoHistory"/> (for an array of input transforms).
+        /// </para>
+        /// <para>
+        /// If <see cref="GetPointerInputTransform"/> succeeds,
+        /// <paramref name="inputTransform"/> is updated with the total count of structures available.
+        /// The total count of structures available is the same as
+        /// the <see cref="POINTER_INFO.historyCount"/> field of the <see cref="POINTER_INFO"/> structure.
+        /// </para>
         /// </param>
         /// <param name="inputTransform">
         /// Address of an array of <see cref="INPUT_TRANSFORM"/> structures to receive the transform information.
         /// This parameter cannot be <see langword="null"/>.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// A consumer of pointer input messages typically uses <see cref="ScreenToClient"/> or <see cref="MapWindowPoints"/>
+        /// <para>
+        /// A consumer of pointer input messages typically uses <see cref="ScreenToClient"/> or <see cref="MapWindowPoints"/>
         /// to convert screen coordinates to client coordinates.
-        /// If a transform is applied on the message consumer, use <see cref="GetPointerInputTransform"/> to retrieve
-        /// the transform on the message consumer at the time the input occurred.
+        /// </para>
+        /// <para>
+        /// If a transform is applied on the message consumer, use <see cref="GetPointerInputTransform"/>
+        /// to retrieve the transform on the message consumer at the time the input occurred.
         /// The inverse of this transform can then be used to convert pointer input coordinates
         /// from screen coordinates to the client coordinates of the message consumer.
+        /// </para>
+        /// <para>
         /// If an input transform is not associated with the input,
-        /// the <see cref="GetPointerInputTransform"/> function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
-        /// Use <see cref="ScreenToClient"/> or <see cref="MapWindowPoints"/> instead.
+        /// the <see cref="GetPointerInputTransform"/> function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// Use <see cref="ScreenToClient"/> or <see cref="MapWindowPoints"/> instead.
+        /// </para>
+        /// <para>
         /// The input transform does not respect any right-to-left layout setting on the input target.
         /// An application that requires adjusted coordinates for right-to-left layout must perform the right-to-left mirroring
         /// or combine an appropriate mirroring transform with the input transform.
-        /// The information returned by <see cref="GetPointerInputTransform"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message might no longer be available.
-        /// If an application calls <see cref="GetPointerInfo"/>, it can call <see cref="GetPointerInputTransform"/> with the same pointer Id
-        /// and a single <see cref="INPUT_TRANSFORM"/> output buffer to get the input transform associated with the data.
-        /// If an application calls <see cref="GetPointerFrameInfo"/>, it can call <see cref="GetPointerInputTransform"/> with the same pointer Id
-        /// and a single <see cref="INPUT_TRANSFORM"/> output buffer to get the input transform associated with the data.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerInputTransform"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message might no longer be available.
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="GetPointerInfo"/>,
+        /// it can call <see cref="GetPointerInputTransform"/> with the same pointer Id and a single <see cref="INPUT_TRANSFORM"/> output buffer
+        /// to get the input transform associated with the data.
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="GetPointerFrameInfo"/>, 
+        /// it can call <see cref="GetPointerInputTransform"/> with the same pointer Id and a single <see cref="INPUT_TRANSFORM"/> output buffer
+        /// to get the input transform associated with the data.
         /// The same input transform applies to the entire frame.
-        /// If an application calls <see cref="GetPointerInfoHistory"/>, it can call <see cref="GetPointerInputTransform"/> with the same pointer Id
-        /// and an output buffer to hold the entries retrieved using <see cref="GetPointerInfoHistory"/>.
-        /// Each input transform in the returned array can be used with the corresponding entry in the array returned by <see cref="GetPointerInfoHistory"/>.
-        /// If an application calls <see cref="GetPointerFrameInfoHistory"/>, it can call <see cref="GetPointerInputTransform"/> with the same pointer Id
-        /// and an output buffer to hold the entries retrieved using <see cref="GetPointerInfoHistory"/>.
-        /// Each input transform in the returned array can be used with the corresponding frame in the array returned by <see cref="GetPointerFrameInfoHistory"/>,
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="GetPointerInfoHistory"/>,
+        /// it can call <see cref="GetPointerInputTransform"/> with the same pointer Id and an output buffer
+        /// to hold the entries retrieved using <see cref="GetPointerInfoHistory"/>.
+        /// Each input transform in the returned array can be used with the corresponding entry in the array returned by <see cref="GetPointerInfoHistory"/>.
+        /// </para>
+        /// <para>
+        /// If an application calls <see cref="GetPointerFrameInfoHistory"/>,
+        /// it can call <see cref="GetPointerInputTransform"/> with the same pointer Id and an output buffer
+        /// to hold the entries retrieved using <see cref="GetPointerInfoHistory"/>.
+        /// Each input transform in the returned array can be used with the corresponding frame in the array returned by <see cref="GetPointerFrameInfoHistory"/>,
         /// with the same input transform being applied to the entire frame.
+        /// </para>
+        /// <para>
         /// If the information associated with the message is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
-        /// If <paramref name="historyCount"/> contains a value larger than the <see cref="POINTER_INFO.historyCount"/> field
-        /// of the <see cref="POINTER_INFO"/> structure returned by <see cref="GetPointerInfo"/>
-        /// (or the first <see cref="POINTER_INFO"/> structure in the array returned by <see cref="GetPointerInfoHistory"/>),
-        /// the function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// this function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="historyCount"/> contains a value larger than the <see cref="POINTER_INFO.historyCount"/> field
+        /// of the <see cref="POINTER_INFO"/> structure returned by <see cref="GetPointerInfo"/>
+        /// (or the first <see cref="POINTER_INFO"/> structure in the array returned by <see cref="GetPointerInfoHistory"/>),
+        /// the function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerInputTransform", ExactSpelling = true, SetLastError = true)]
@@ -794,24 +1308,45 @@ namespace Lsj.Util.Win32
         /// Address of a <see cref="POINTER_PEN_INFO"/> structure to receive the pen-specific pointer information.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="GetPointerPenInfo"/> retrieves information for a single pointer (of type <see cref="PT_PEN"/>) associated with a pointer message.
-        /// Use <see cref="GetPointerFramePenInfo"/> to retrieve frame information associated with a message for a set of pointers.
-        /// The information returned by <see cref="GetPointerInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// <para>
+        /// <see cref="GetPointerPenInfo"/> retrieves information for a single pointer (of type <see cref="PT_PEN"/>) associated with a pointer message.
+        /// </para>
+        /// <para>
+        /// Use <see cref="GetPointerFramePenInfo"/> to retrieve frame information associated with a message for a set of pointers.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerPenInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerPenInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
         /// If the information associated with the message is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
-        /// If the specified pointer is not of type <see cref="PT_PEN"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_PEN"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerPenInfo", ExactSpelling = true, SetLastError = true)]
@@ -833,7 +1368,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="entriesCount">
         /// A pointer to a variable that specifies the count of structures in the buffer to which <paramref name="penInfo"/> points.
-        /// If <see cref="GetPointerPenInfoHistory"/> succeeds, <paramref name="entriesCount"/> is updated with the total count of structures available.
+        /// If <see cref="GetPointerPenInfoHistory"/> succeeds,
+        /// <paramref name="entriesCount"/> is updated with the total count of structures available.
         /// The total count of structures available is the same as the <see cref="POINTER_INFO.historyCount"/> field
         /// in the <see cref="POINTER_PEN_INFO"/> structure returned by a call to <see cref="GetPointerPenInfo"/>.
         /// </param>
@@ -842,30 +1378,49 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated, some moves may be coalesced.
-        /// When an application receives a coalescable pointer (of type <see cref="PT_PEN"/>) message,
-        /// it can use the <see cref="GetPointerPenInfoHistory"/> function to retrieve information for all the individual inputs,
+        /// When an application receives a coalescable pointer (of type <see cref="PT_PEN"/>) message,
+        /// it can use the <see cref="GetPointerPenInfoHistory"/> function to retrieve information for all the individual inputs,
         /// if any, that were coalesced into the message.
         /// Note that the information retrieved is associated with the pointer message most recently retrieved by the calling thread.
         /// Once the calling thread retrieves its next message, the information associated with the previous message may no longer be available.
-        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerPenInfo"/> function.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order,
+        /// with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerPenInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
         /// this function succeeds with the buffer containing the most recent entries
-        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
-        /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
+        /// If the information associated with the pointer frame is no longer available
+        /// , this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_PEN"/>,
-        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_PEN"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerPenInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -886,24 +1441,45 @@ namespace Lsj.Util.Win32
         /// Address of a <see cref="POINTER_TOUCH_INFO"/> structure to receive the touch-specific pointer information.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="GetPointerTouchInfo"/> retrieves information for a single pointer (of type <see cref="PT_TOUCH"/>) associated with a pointer message.
-        /// Use <see cref="GetPointerFrameTouchInfo"/> to retrieve frame information associated with a message for a set of pointers.
-        /// The information returned by <see cref="GetPointerTouchInfo"/> is associated with the most recent pointer message retrieved by the calling thread.
-        /// When the next message is retrieved by the calling thread, the information associated with the previous message may no longer be available.
+        /// <para>
+        /// <see cref="GetPointerTouchInfo"/> retrieves information for a single pointer (of type <see cref="PT_TOUCH"/>) associated with a pointer message.
+        /// </para>
+        /// <para>
+        /// Use <see cref="GetPointerFrameTouchInfo"/> to retrieve frame information associated with a message for a set of pointers.
+        /// </para>
+        /// <para>
+        /// The information returned by <see cref="GetPointerTouchInfo"/> is associated with
+        /// the most recent pointer message retrieved by the calling thread.
+        /// When the next message is retrieved by the calling thread,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated,
-        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
-        /// Use <see cref="GetPointerTouchInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// some messages may be coalesced into a <see cref="WM_POINTERUPDATE"/> message.
+        /// Use <see cref="GetPointerTouchInfoHistory"/> to retrieve the message history from the most recent <see cref="WM_POINTERUPDATE"/> message.
+        /// </para>
+        /// <para>
         /// If the information associated with the message is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
         /// Note that this may be the window to which the input was originally delivered or it may be a window to which the message was forwarded.
-        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>, this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerTouchInfo", ExactSpelling = true, SetLastError = true)]
@@ -925,7 +1501,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="entriesCount">
         /// A pointer to a variable that specifies the count of structures in the buffer to which <paramref name="touchInfo"/> points.
-        /// If <see cref="GetPointerTouchInfoHistory"/> succeeds, <paramref name="entriesCount"/> is updated with the total count of structures available.
+        /// If <see cref="GetPointerTouchInfoHistory"/> succeeds,
+        /// <paramref name="entriesCount"/> is updated with the total count of structures available.
         /// The total count of structures available is the same as the <see cref="POINTER_INFO.historyCount"/> field
         /// in the <see cref="POINTER_TOUCH_INFO"/> structure returned by a call to <see cref="GetPointerInfo"/> or <see cref="GetPointerTouchInfo"/>.
         /// </param>
@@ -934,30 +1511,50 @@ namespace Lsj.Util.Win32
         /// This parameter can be <see langword="null"/> if *<paramref name="entriesCount"/> is zero.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the application does not process pointer input messages as fast as they are generated, some moves may be coalesced.
-        /// When an application receives a coalescable pointer (of type <see cref="PT_TOUCH"/>) message,
-        /// it can use the <see cref="GetPointerTouchInfoHistory"/> function to retrieve information for all the individual inputs,
+        /// When an application receives a coalescable pointer (of type <see cref="PT_TOUCH"/>) message,
+        /// it can use the <see cref="GetPointerTouchInfoHistory"/> function to retrieve information for all the individual inputs,
         /// if any, that were coalesced into the message.
         /// Note that the information retrieved is associated with the pointer message most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous message may no longer be available.
-        /// The information retrieved appears in reverse chronological order, with the most recent entry in the first row of the returned array.
-        /// The most recent entry is the same as that returned by the <see cref="GetPointerTouchInfo"/> function.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous message may no longer be available.
+        /// </para>
+        /// <para>
+        /// The information retrieved appears in reverse chronological order,
+        /// with the most recent entry in the first row of the returned array.
+        /// The most recent entry is the same as that returned by the <see cref="GetPointerTouchInfo"/> function.
+        /// </para>
+        /// <para>
         /// If the count of rows in the buffer provided is insufficient to hold all available history entries,
         /// this function succeeds with the buffer containing the most recent entries
-        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// and *<paramref name="entriesCount"/> containing the total count of entries available.
+        /// </para>
+        /// <para>
         /// If the pointer frame contains no additional pointers besides the specified pointer,
         /// this function succeeds and returns only the information for the specified pointer.
+        /// </para>
+        /// <para>
         /// If the information associated with the pointer frame is no longer available,
-        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// this function fails with the last error set to <see cref="ERROR_NO_DATA"/>.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window (where the input was originally delivered or where the message was forwarded)
-        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
-        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
-        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// to which the pointer message has been delivered, this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer is not of type <see cref="PT_TOUCH"/>,
+        /// this function fails with the last error set to <see cref="ERROR_DATATYPE_MISMATCH"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerTouchInfoHistory", ExactSpelling = true, SetLastError = true)]
@@ -978,15 +1575,25 @@ namespace Lsj.Util.Win32
         /// An address of a <see cref="POINTER_INPUT_TYPE"/> type to receive a pointer input type.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// An application can use the <see cref="GetPointerType"/> function to determine the pointer type
         /// if it wishes to react differently to pointers of different types.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// This function will never return with the generic <see cref="PT_POINTER"/> type.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerType", ExactSpelling = true, SetLastError = true)]
@@ -1039,33 +1646,47 @@ namespace Lsj.Util.Win32
         /// By default, touch prediction is activated.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUnpredictedMessagePos", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUnpredictedMessagePos", ExactSpelling = true)]
         public static extern DWORD GetUnpredictedMessagePos();
 
         /// <summary>
         /// <para>
         /// Indicates whether <see cref="EnableMouseInPointer"/> is set for the mouse to act as a pointer input device
-        /// and send <see cref="WM_POINTER"/> messages.
+        /// and send <c>WM_POINTER</c> messages.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-ismouseinpointerenabled"/>
         /// </para>
         /// </summary>
         /// <returns>
-        /// If <see cref="EnableMouseInPointer"/> is set, the return value is nonzero.
-        /// If <see cref="EnableMouseInPointer"/> is not set, the return value is zero.
+        /// <para>
+        /// If <see cref="EnableMouseInPointer"/> is set, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If <see cref="EnableMouseInPointer"/> is not set, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="EnableMouseInPointer"/> can be called only once in the context of a process lifetime.
-        /// Prior to the first call, Windows Store apps run with mouse-in-pointer enabled, as do any desktop applications that consume mshtml.dll.
+        /// <para>
+        /// <see cref="EnableMouseInPointer"/> can be called only once in the context of a process lifetime.
+        /// Prior to the first call, Windows Store apps run with mouse-in-pointer enabled,
+        /// as do any desktop applications that consume mshtml.dll.
         /// All other desktop applications run with mouse-in-pointer disabled.
-        /// On the first call to <see cref="EnableMouseInPointer"/> in the process lifetime, the state is changed as specified and the call succeeds.
-        /// On subsequent calls to <see cref="EnableMouseInPointer"/>, the state will not change.
+        /// </para>
+        /// <para>
+        /// On the first call to <see cref="EnableMouseInPointer"/> in the process lifetime,
+        /// the state is changed as specified and the call succeeds.
+        /// </para>
+        /// <para>
+        /// On subsequent calls to <see cref="EnableMouseInPointer"/>, the state will not change.
         /// If the current state is not equal to the specified state, the call fails.
-        /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
+        /// </para>
+        /// <para>
+        /// Call <see cref="IsMouseInPointerEnabled"/> to verify the mouse-in-pointer state.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsMouseInPointerEnabled", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsMouseInPointerEnabled", ExactSpelling = true)]
         public static extern BOOL IsMouseInPointerEnabled();
 
         /// <summary>
@@ -1086,12 +1707,16 @@ namespace Lsj.Util.Win32
         /// If set to <see cref="FALSE"/>, these messages aren't processed.
         /// </param>
         /// <returns>
+        /// <para>
         /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
         /// Otherwise, it returns <see cref="FALSE"/>.
-        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPointerDeviceNotifications", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPointerDeviceNotifications", ExactSpelling = true)]
         public static extern BOOL RegisterPointerDeviceNotifications([In] HWND window, [In] BOOL notifyRange);
 
         /// <summary>
@@ -1111,33 +1736,56 @@ namespace Lsj.Util.Win32
         /// Pending messages will be skipped for the frame that includes the most recently retrieved input for this pointer.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Parallel-mode devices may report pointer input in frames, that is,
         /// they may report the state and position of all pointers from that device in a single input report to the system.
         /// Ideally, applications should view the entire frame as a single input unless the application-specific requirements dictate otherwise.
-        /// The <see cref="SkipPointerFrameMessages"/> function can be used in conjunction with the <see cref="GetPointerFrameInfo"/> function
-        /// (or one of its type-specific variants) to consume entire frames as a single input.
-        /// When an application sees a pointer message, it can use the <see cref="GetPointerFrameInfo"/> function
+        /// </para>
+        /// <para>
+        /// The <see cref="SkipPointerFrameMessages"/> function can be used in conjunction with
+        /// the <see cref="GetPointerFrameInfo"/> function (or one of its type-specific variants) to consume entire frames as a single input.
+        /// </para>
+        /// <para>
+        /// When an application sees a pointer message, it can use the <see cref="GetPointerFrameInfo"/> function
         /// to retrieve the entire pointer input frame to which the pointer message belongs,
         /// hence obtaining an updated view of all of the pointers currently owned by the window.
         /// Note that the returned frame contains only pointers that are currently owned by the same window as the specified pointer.
-        /// Having retrieved the entire frame of information, the application can then call the <see cref="SkipPointerFrameMessages"/> function
+        /// </para>
+        /// <para>
+        /// Having retrieved the entire frame of information,
+        /// the application can then call the <see cref="SkipPointerFrameMessages"/> function
         /// to skip remaining pointer messages associated with this frame that are pending retrieval.
         /// This saves the application the overhead of retrieving and processing the remaining messages one by one.
+        /// </para>
+        /// <para>
         /// Warning
-        /// The <see cref="SkipPointerFrameMessages"/> function should be used only when the caller can be sure
-        /// that no other entity on the caller’s thread (such as Direct Manipulation) is expecting to retrieve pending pointer messages.
-        /// For this reason, <see cref="SkipPointerFrameMessages"/> should not be used
-        /// in conjunction with Direct Manipulation when processing multiple, simultaneous interactions.
+        /// </para>
+        /// <para>
+        /// The <see cref="SkipPointerFrameMessages"/> function should be used only when the caller can be sure
+        /// that no other entity on the caller’s thread (such as Direct Manipulation) is expecting to retrieve pending pointer messages.
+        /// For this reason, <see cref="SkipPointerFrameMessages"/> should not be used in conjunction with
+        /// Direct Manipulation when processing multiple, simultaneous interactions.
         /// Note that the information retrieved is associated with the pointer frame most recently retrieved by the calling thread.
-        /// Once the calling thread retrieves its next message, the information associated with the previous pointer frame may no longer be available.
-        /// If the pointer frame contains no additional pointers besides the specified pointer, this function succeeds with no action.
+        /// Once the calling thread retrieves its next message,
+        /// the information associated with the previous pointer frame may no longer be available.
+        /// </para>
+        /// <para>
+        /// If the pointer frame contains no additional pointers besides the specified pointer,
+        /// this function succeeds with no action.
+        /// </para>
+        /// <para>
         /// If the calling thread does not own the window to which the pointer message has been delivered,
-        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SkipPointerFrameMessages", ExactSpelling = true, SetLastError = true)]

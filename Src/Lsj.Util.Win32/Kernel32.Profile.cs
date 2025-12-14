@@ -370,40 +370,105 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// The return value is the integer equivalent of the string following the key name in Win.ini.
-        /// If the function cannot find the key, the return value is the default value. If the value of the key is less than zero, the return value is zero.
+        /// If the function cannot find the key, the return value is the default value.
+        /// If the value of the key is less than zero, the return value is zero.
         /// </returns>
         /// <remarks>
+        /// <para>
         /// If the key name consists of digits followed by characters that are not numeric, the function returns only the value of the digits.
         /// For example, the function returns 102 for the following line: KeyName=102abc.
-        /// Windows Server 2003 and Windows XP/2000:
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP/2000:
         /// Calls to profile functions may be mapped to the registry instead of to the initialization files.
         /// This mapping occurs when the initialization file and section are specified in the registry under the following key:
-        /// HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping
-        /// When the operation has been mapped, the <see cref="GetProfileInt"/> function retrieves information from the registry,
+        /// <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping</c>
+        /// </para>
+        /// <para>
+        /// When the operation has been mapped, the <see cref="GetProfileInt"/> function retrieves information from the registry,
         /// not from the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
         /// The profile functions use the following steps to locate initialization information:
-        /// Look in the registry for the name of the initialization file under the IniFileMapping key.
-        /// Look for the section name specified by <paramref name="lpAppName"/>.
-        /// This will be a named value under the key that has the name of the initialization file, or a subkey with this name,
-        /// or the name will not exist as either a value or subkey.
-        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
-        /// then that value specifies where in the registry you will find the keys for the section
-        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Look in the registry for the name of the initialization file under the <c>IniFileMapping</c> key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Look for the section name specified by <paramref name="lpAppName"/>.
+        /// This will be a named value under the key that has the name of the initialization file,
+        /// or a subkey with this name, or the name will not exist as either a value or subkey.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
+        /// then that value specifies where in the registry you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
         /// then named values under that subkey specify where in the registry you will find the keys for the section.
-        /// If the key you are looking for does not exist as a named value, then there will be an unnamed value (shown as &lt;No Name&gt;) that
-        /// specifies the default location in the registry where you will find the key.
-        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
-        /// then there will be an unnamed value (shown as &lt;No Name&gt;) that specifies the default location in the registry
-        /// where you will find the keys for the section.
-        /// If there is no subkey or entry for the section name, then look for the actual initialization file on the disk and read its contents.
+        /// If the key you are looking for does not exist as a named value,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If there is no subkey or entry for the section name,
+        /// then look for the actual initialization file on the disk and read its contents.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// When looking at values in the registry that specify other registry locations,
         /// there are several prefixes that change the behavior of the .ini file mapping:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// ! - this character forces all writes to go both to the registry and to the .ini file on disk.
-        /// # - this character causes the registry value to be set to the value in the Windows 3.1 .ini file
-        /// when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// # - this character causes the registry value to be set to the value 
+        /// in the Windows 3.1 .ini file when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// @ - this character prevents any reads from going to the .ini file on disk if the requested data is not found in the registry.
-        /// USR: - this prefix stands for HKEY_CURRENT_USER, and the text after the prefix is relative to that key.
-        /// SYS: - this prefix stands for HKEY_LOCAL_MACHINE\SOFTWARE, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USR: - this prefix stands for <see cref="HKEY_CURRENT_USER"/>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SYS: - this prefix stands for <c>HKEY_LOCAL_MACHINE\SOFTWARE</c>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications." +
             "Applications should store initialization information in the registry.")]
@@ -421,20 +486,24 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="lpAppName">
         /// The name of the section containing the key.
-        /// If this parameter is <see langword="null"/>, the function copies all section names in the file to the supplied buffer.
+        /// If this parameter is <see cref="NULL"/>, the function copies all section names in the file to the supplied buffer.
         /// </param>
         /// <param name="lpKeyName">
         /// The name of the key whose associated string is to be retrieved.
-        /// If this parameter is <see langword="null"/>, the function copies all keys in the given section to the supplied buffer.
+        /// If this parameter is <see cref="NULL"/>, the function copies all keys in the given section to the supplied buffer.
         /// Each string is followed by a null character, and the final string is followed by a second null character.
         /// </param>
         /// <param name="lpDefault">
+        /// <para>
         /// A default string.
-        /// If the <paramref name="lpKeyName"/> key cannot be found in the initialization file,
-        /// <see cref="GetProfileString"/> copies the default string to the <paramref name="lpReturnedString"/> buffer.
-        /// If this parameter is <see langword="null"/>, the default is an empty string, "".
-        /// Avoid specifying a default string with trailing blank characters.
-        /// The function inserts a null character in the <paramref name="lpReturnedString"/> buffer to strip any trailing blanks.
+        /// If the <paramref name="lpKeyName"/> key cannot be found in the initialization file,
+        /// <see cref="GetProfileString"/> copies the default string to the <paramref name="lpReturnedString"/> buffer.
+        /// If this parameter is <see cref="NULL"/>, the default is an empty string, "".
+        /// </para>
+        /// <para>
+        /// Avoid specifying a default string with trailing blank characters. 
+        /// The function inserts a null character in the <paramref name="lpReturnedString"/> buffer to strip any trailing blanks.
+        /// </para>
         /// </param>
         /// <param name="lpReturnedString">
         /// A pointer to a buffer that receives the character string.
@@ -443,19 +512,35 @@ namespace Lsj.Util.Win32
         /// The size of the buffer pointed to by the <paramref name="lpReturnedString"/> parameter, in characters.
         /// </param>
         /// <returns>
-        /// The return value is the number of characters copied to the buffer, not including the null-terminating character.
-        /// If neither <paramref name="lpAppName"/> nor <paramref name="lpKeyName"/> is <see langword="null"/> and
-        /// the supplied destination buffer is too small to hold the requested string, the string is truncated and followed by a null character,
-        /// and the return value is equal to <paramref name="nSize"/> minus one.
-        /// If either <paramref name="lpAppName"/> or <paramref name="lpKeyName"/> is <see langword="null"/> and
-        /// the supplied destination buffer is too small to hold all the strings, the last string is truncated and followed by two null characters.
-        /// In this case, the return value is equal to <paramref name="nSize"/> minus two.
+        /// <para>
+        /// The return value is the number of characters copied to the buffer,
+        /// not including the terminating <c>null</c> character.
+        /// </para>
+        /// <para>
+        /// If neither <paramref name="lpAppName"/> nor <paramref name="lpKeyName"/> is <see cref="NULL"/>
+        /// and the supplied destination buffer is too small to hold the requested string,
+        /// the string is truncated and followed by a <c>null</c> character,
+        /// and the return value is equal to <paramref name="nSize"/> minus one.
+        /// </para>
+        /// <para>
+        /// If either <paramref name="lpAppName"/> or <paramref name="lpKeyName"/> is <see cref="NULL"/>
+        /// and the supplied destination buffer is too small to hold all the strings,
+        /// the last string is truncated and followed by two <c>null</c> characters.
+        /// In this case, the return value is equal to <paramref name="nSize"/> minus two.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If the string associated with the <paramref name="lpKeyName"/> parameter is enclosed in single or double quotation marks,
-        /// the marks are discarded when the <see cref="GetProfileString"/> function returns the string.
-        /// The <see cref="GetProfileString"/> function is not case-sensitive; the strings can contain a combination of uppercase and lowercase letters.
+        /// <para>
+        /// If the string associated with the <paramref name="lpKeyName"/> parameter is enclosed in single or double quotation marks,
+        /// the marks are discarded when the <see cref="GetProfileString"/> function returns the string.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetProfileString"/> function is not case-sensitive;
+        /// the strings can contain a combination of uppercase and lowercase letters.
+        /// </para>
+        /// <para>
         /// A section in the Win.ini file must have the following form:
+        /// </para>
         /// <code>
         /// [section]
         /// key=string
@@ -463,38 +548,106 @@ namespace Lsj.Util.Win32
         /// .
         /// .
         /// </code>
-        /// An application can use the <see cref="GetPrivateProfileString"/> function to retrieve a string from a specified initialization file.
-        /// The <paramref name="lpDefault"/> parameter must point to a valid string,
-        /// even if the string is empty (that is, even if its first character is a null character).
-        /// Windows Server 2003 and Windows XP/2000:
+        /// <para>
+        /// An application can use the <see cref="GetPrivateProfileString"/> function to retrieve a string from a specified initialization file.
+        /// </para>
+        /// <para>
+        /// The <paramref name="lpDefault"/> parameter must point to a valid string,
+        /// even if the string is empty (that is, even if its first character is a <c>null</c> character).
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP/2000:
         /// Calls to profile functions may be mapped to the registry instead of to the initialization files.
-        /// This mapping occurs when the initialization file and section are specified in the registry under the following key:
-        /// HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping
-        /// When the operation has been mapped, the <see cref="GetProfileString"/> function retrieves information from the registry,
+        /// This mapping occurs when the initialization file and section are specified in the registry under the following keys:
+        /// </para>
+        /// <para>
+        /// <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping</c>
+        /// </para>
+        /// <para>
+        /// When the operation has been mapped, the <see cref="GetProfileString"/> function retrieves information from the registry,
         /// not from the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
         /// The profile functions use the following steps to locate initialization information:
-        /// Look in the registry for the name of the initialization file under the IniFileMapping key.
-        /// Look for the section name specified by <paramref name="lpAppName"/>.
-        /// This will be a named value under the key that has the name of the initialization file, or a subkey with this name,
-        /// or the name will not exist as either a value or subkey.
-        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
-        /// then that value specifies where in the registry you will find the keys for the section
-        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
-        /// then named values under that subkey specify where in the registry you will find the keys for the section.
-        /// If the key you are looking for does not exist as a named value, then there will be an unnamed value (shown as &lt;No Name&gt;) that
-        /// specifies the default location in the registry where you will find the key.
-        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
-        /// then there will be an unnamed value (shown as &lt;No Name&gt;) that specifies the default location in the registry
-        /// where you will find the keys for the section.
-        /// If there is no subkey or entry for the section name, then look for the actual initialization file on the disk and read its contents.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Look in the registry for the name of the initialization file under the <c>IniFileMapping</c> key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Look for the section name specified by <paramref name="lpAppName"/>.
+        /// This will be a named value under the key that has the name of the initialization file,
+        /// or a subkey with this name, or the name will not exist as either a value or subkey.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
+        /// then that value specifies where in the registry you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a subkey
+        /// , then named values under that subkey specify where in the registry you will find the keys for the section.
+        /// If the key you are looking for does not exist as a named value,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If there is no subkey or entry for the section name,
+        /// then look for the actual initialization file on the disk and read its contents.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// When looking at values in the registry that specify other registry locations,
         /// there are several prefixes that change the behavior of the .ini file mapping:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// ! - this character forces all writes to go both to the registry and to the .ini file on disk.
-        /// # - this character causes the registry value to be set to the value in the Windows 3.1 .ini file
-        /// when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// # - this character causes the registry value to be set to the value 
+        /// in the Windows 3.1 .ini file when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// @ - this character prevents any reads from going to the .ini file on disk if the requested data is not found in the registry.
-        /// USR: - this prefix stands for HKEY_CURRENT_USER, and the text after the prefix is relative to that key.
-        /// SYS: - this prefix stands for HKEY_LOCAL_MACHINE\SOFTWARE, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USR: - this prefix stands for <see cref="HKEY_CURRENT_USER"/>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SYS: - this prefix stands for <c>HKEY_LOCAL_MACHINE\SOFTWARE</c>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
@@ -517,22 +670,29 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpKeyName">
         /// The name of the key to be associated with a string. If the key does not exist in the specified section, it is created.
-        /// If this parameter is <see langword="null"/>, the entire section, including all entries within the section, is deleted.
+        /// If this parameter is <see cref="NULL"/>, the entire section, including all entries within the section, is deleted.
         /// </param>
         /// <param name="lpString">
         /// A null-terminated string to be written to the file.
-        /// If this parameter is <see langword="null"/>, the key pointed to by the <paramref name="lpKeyName"/> parameter is deleted.
+        /// If this parameter is <see cref="NULL"/>, the key pointed to by the <paramref name="lpKeyName"/> parameter is deleted.
         /// </param>
         /// <param name="lpFileName">
+        /// <para>
         /// The name of the initialization file.
-        /// If the file was created using Unicode characters, the function writes Unicode characters to the file.
+        /// </para>
+        /// <para>
+        /// If the file already exists and consists of Unicode characters, the function writes Unicode characters to the file.
         /// Otherwise, the function writes ANSI characters.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function successfully copies the string to the initialization file, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, or if it flushes the cached version of the most recently accessed initialization file,
-        /// the return value is <see cref="BOOL.FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function successfully copies the string to the initialization file, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, or if it flushes the cached version of the most recently accessed initialization file, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// A section in the Win.ini file must have the following form:
@@ -543,43 +703,174 @@ namespace Lsj.Util.Win32
         /// .
         /// .
         /// </code>
-        /// If the <paramref name="lpFileName"/> parameter does not contain a full path and file name for the file,
-        /// <see cref="WritePrivateProfileString"/> searches the Windows directory for the file.
+        /// <para>
+        /// If the <paramref name="lpFileName"/> parameter does not contain a full path and file name for the file,
+        /// <see cref="WritePrivateProfileString"/> searches the Windows directory for the file.
         /// If the file does not exist, this function creates the file in the Windows directory.
-        /// If <paramref name="lpFileName"/> contains a full path and file name and the file does not exist,
-        /// <see cref="WritePrivateProfileString"/> creates the file.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpFileName"/> contains a full path and file name and the file does not exist,
+        /// <see cref="WritePrivateProfileString"/> creates the file.
         /// The specified directory must already exist.
+        /// </para>
+        /// <para>
         /// The system keeps a cached version of the most recent registry file mapping to improve performance.
-        /// If all parameters are <see langword="null"/>, the function flushes the cache.
-        /// While the system is editing the cached version of the file, processes that edit the file itself will use the original file
-        /// until the cache has been cleared.
+        /// If all parameters are <see cref="NULL"/>, the function flushes the cache.
+        /// While the system is editing the cached version of the file,
+        /// processes that edit the file itself will use the original file until the cache has been cleared.
+        /// </para>
+        /// <para>
         /// The system maps most .ini file references to the registry, using the mapping defined under the following registry key:
-        /// HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping
-        /// When the operation has been mapped, the <see cref="GetProfileString"/> function retrieves information from the registry,
-        /// not from the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
+        /// <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping</c>
+        /// </para>
+        /// <para>
+        /// This mapping is likely if an application modifies system-component initialization files,
+        /// such as Control.ini, System.ini, and Winfile.ini. In this case, the function writes information to the registry,
+        /// not to the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
         /// The profile functions use the following steps to locate initialization information:
-        /// Look in the registry for the name of the initialization file under the IniFileMapping key.
-        /// Look for the section name specified by <paramref name="lpAppName"/>.
-        /// This will be a named value under the key that has the name of the initialization file, or a subkey with this name,
-        /// or the name will not exist as either a value or subkey.
-        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
-        /// then that value specifies where in the registry you will find the keys for the section
-        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Look in the registry for the name of the initialization file under the <c>IniFileMapping</c> key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Look for the section name specified by <paramref name="lpAppName"/>.
+        /// This will be a named value under the key that has the name of the initialization file,
+        /// or a subkey with this name, or the name will not exist as either a value or subkey.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
+        /// then that value specifies where in the registry you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
         /// then named values under that subkey specify where in the registry you will find the keys for the section.
-        /// If the key you are looking for does not exist as a named value, then there will be an unnamed value (shown as &lt;No Name&gt;) that
-        /// specifies the default location in the registry where you will find the key.
-        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
-        /// then there will be an unnamed value (shown as &lt;No Name&gt;) that specifies the default location in the registry
-        /// where you will find the keys for the section.
-        /// If there is no subkey or entry for the section name, then look for the actual initialization file on the disk and read its contents.
+        /// If the key you are looking for does not exist as a named value,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If there is no subkey or entry for the section name,
+        /// then look for the actual initialization file on the disk and read its contents.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// When looking at values in the registry that specify other registry locations,
         /// there are several prefixes that change the behavior of the .ini file mapping:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// ! - this character forces all writes to go both to the registry and to the .ini file on disk.
-        /// # - this character causes the registry value to be set to the value in the Windows 3.1 .ini file
-        /// when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// # - this character causes the registry value to be set to the value 
+        /// in the Windows 3.1 .ini file when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// @ - this character prevents any reads from going to the .ini file on disk if the requested data is not found in the registry.
-        /// USR: - this prefix stands for HKEY_CURRENT_USER, and the text after the prefix is relative to that key.
-        /// SYS: - this prefix stands for HKEY_LOCAL_MACHINE\SOFTWARE, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USR: - this prefix stands for <see cref="HKEY_CURRENT_USER"/>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SYS: - this prefix stands for <c>HKEY_LOCAL_MACHINE\SOFTWARE</c>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// An application using the <see cref="WritePrivateProfileString"/> function to enter .ini file information into the registry should follow these guidelines:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Ensure that no .ini file of the specified name exists on the system.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Ensure that there is a key entry in the registry that specifies the .ini file.
+        /// This entry should be under the path <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping</c>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Specify a value for that .ini file key entry that specifies a section.
+        /// That is to say, an application must specify a section name, as it would appear within an .ini file or registry entry.
+        /// Here is an example: <c>[My Section]</c>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For system files, specify SYS for an added value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For application files, specify USR within the added value.
+        /// Here is an example: "My Section: USR: App Name\Section".
+        /// And, since USR indicates a mapping under <see cref="HKEY_CURRENT_USER"/>,
+        /// the application should also create a key under <see cref="HKEY_CURRENT_USER"/>
+        /// that specifies the application name listed in the added value.
+        /// For the example just given, that would be "App Name".
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// After following the preceding steps, an application setup program should call <see cref="WritePrivateProfileString"/>
+        /// with the first three parameters set to <see cref="NULL"/>, and the fourth parameter set to the INI file name.
+        /// For example:
+        /// </para>
+        /// <para>
+        /// <c>WritePrivateProfileString( NULL, NULL, NULL, L"appname.ini" );</c>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Such a call causes the mapping of an .ini file to the registry to take effect before the next system reboot.
+        /// The system rereads the mapping information into shared memory.
+        /// A user will not have to reboot their computer after installing an application
+        /// in order to have future invocations of the application see the mapping of the .ini file to the registry.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]
@@ -605,50 +896,122 @@ namespace Lsj.Util.Win32
         /// <param name="lpKeyName">
         /// The key to be associated with the string.
         /// If the key does not exist in the specified section, it is created.
-        /// If this parameter is <see langword="null"/>, the entire section, including all entries in the section, is deleted.
+        /// If this parameter is <see cref="NULL"/>, the entire section, including all entries in the section, is deleted.
         /// </param>
         /// <param name="lpString">
-        /// A null-terminated string to be written to the file.
-        /// If this parameter is <see langword="null"/>, the key pointed to by the <paramref name="lpKeyName"/> parameter is deleted.
+        /// A null-terminated string to be written to the file.
+        /// If this parameter is <see cref="NULL"/>, the key pointed to by the <paramref name="lpKeyName"/> parameter is deleted.
         /// </param>
         /// <returns>
-        /// If the function successfully copies the string to the Win.ini file, the return value is <see langword="true"/>.
-        /// If the function fails, or if it flushes the cached version of Win.ini, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function successfully copies the string to the Win.ini file, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, or if it flushes the cached version of Win.ini, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// A section in the Win.ini file must have the following form: key=string.
+        /// <para>
+        /// A section in the Win.ini file must have the following form: <c>key=string</c>.
+        /// </para>
+        /// <para>
         /// The system keeps a cached version of the most recent registry file mapping to improve performance.
-        /// If all parameters are <see langword="null"/>, the function flushes the cache.
-        /// While the system is editing the cached version of the file, processes that edit the file itself will use the original file
-        /// until the cache has been cleared.
+        /// If all parameters are <see cref="NULL"/>, the function flushes the cache.
+        /// While the system is editing the cached version of the file,
+        /// processes that edit the file itself will use the original file until the cache has been cleared.
+        /// </para>
+        /// <para>
         /// The system maps most .ini file references to the registry, using the mapping defined under the following registry key:
-        /// HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\IniFileMapping
-        /// When the operation has been mapped, the <see cref="WriteProfileString"/> function retrieves information from the registry,
-        /// not from the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
+        /// <c>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping</c>
+        /// </para>
+        /// <para>
+        /// When the operation has been mapped, the <see cref="WriteProfileString"/> function writes information to the registry,
+        /// not to the initialization file; the change in the storage location has no effect on the function's behavior.
+        /// </para>
+        /// <para>
         /// The profile functions use the following steps to locate initialization information:
-        /// Look in the registry for the name of the initialization file under the IniFileMapping key.
-        /// Look for the section name specified by <paramref name="lpAppName"/>.
-        /// This will be a named value under the key that has the name of the initialization file, or a subkey with this name,
-        /// or the name will not exist as either a value or subkey.
-        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
-        /// then that value specifies where in the registry you will find the keys for the section
-        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Look in the registry for the name of the initialization file under the <c>IniFileMapping</c> key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Look for the section name specified by <paramref name="lpAppName"/>.
+        /// This will be a named value under the key that has the name of the initialization file,
+        /// or a subkey with this name, or the name will not exist as either a value or subkey.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a named value,
+        /// then that value specifies where in the registry you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> is a subkey,
         /// then named values under that subkey specify where in the registry you will find the keys for the section.
-        /// If the key you are looking for does not exist as a named value, then there will be an unnamed value (shown as &lt;No Name&gt;) that
-        /// specifies the default location in the registry where you will find the key.
-        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
-        /// then there will be an unnamed value (shown as &lt;No Name&gt;) that specifies the default location in the registry
-        /// where you will find the keys for the section.
-        /// If there is no subkey or entry for the section name, then look for the actual initialization file on the disk and read its contents.
+        /// If the key you are looking for does not exist as a named value,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the section name specified by <paramref name="lpAppName"/> does not exist as a named value or as a subkey,
+        /// then there will be an unnamed value (shown as &lt;No Name&gt;)
+        /// that specifies the default location in the registry where you will find the keys for the section.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If there is no subkey or entry for the section name,
+        /// then look for the actual initialization file on the disk and read its contents.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// When looking at values in the registry that specify other registry locations,
         /// there are several prefixes that change the behavior of the .ini file mapping:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
         /// ! - this character forces all writes to go both to the registry and to the .ini file on disk.
-        /// # - this character causes the registry value to be set to the value in the Windows 3.1 .ini file
-        /// when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// # - this character causes the registry value to be set to the value 
+        /// in the Windows 3.1 .ini file when a new user logs in for the first time after setup.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// @ - this character prevents any reads from going to the .ini file on disk if the requested data is not found in the registry.
-        /// USR: - this prefix stands for HKEY_CURRENT_USER, and the text after the prefix is relative to that key.
-        /// SYS: - this prefix stands for HKEY_LOCAL_MACHINE\SOFTWARE, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USR: - this prefix stands for <see cref="HKEY_CURRENT_USER"/>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SYS: - this prefix stands for <c>HKEY_LOCAL_MACHINE\SOFTWARE</c>, and the text after the prefix is relative to that key.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows-based applications," +
             "therefore this function should not be called from server code. Applications should store initialization information in the registry.")]

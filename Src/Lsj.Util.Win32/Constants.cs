@@ -55,6 +55,11 @@ namespace Lsj.Util.Win32
         public const uint AUTHZ_ACCESS_CHECK_NO_DEEP_COPY_SD = 1;
 
         /// <summary>
+        /// BROADCAST_QUERY_DENY
+        /// </summary>
+        public const int BROADCAST_QUERY_DENY = 0x424D5144;
+
+        /// <summary>
         /// CACHE_FULLY_ASSOCIATIVE
         /// </summary>
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
@@ -399,6 +404,61 @@ namespace Lsj.Util.Win32
         public const uint GDICOMMENT_IDENTIFIER = 0x43494447;
 
         /// <summary>
+        /// HBMMENU_CALLBACK
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_CALLBACK = (IntPtr)(-1);
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE = (IntPtr)5;
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE_D = (IntPtr)6;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE = (IntPtr)3;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE_D = (IntPtr)7;
+
+        /// <summary>
+        /// HBMMENU_MBAR_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_RESTORE = (IntPtr)2;
+
+        /// <summary>
+        /// HBMMENU_POPUP_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_CLOSE = (IntPtr)8;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MAXIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MAXIMIZE = (IntPtr)10;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = (IntPtr)11;
+
+        /// <summary>
+        /// HBMMENU_POPUP_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_RESTORE = (IntPtr)9;
+
+        /// <summary>
+        /// HBMMENU_SYSTEM
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_SYSTEM = (IntPtr)1;
+
+        /// <summary>
         /// <para>
         /// A common dialog box sends the <see cref="HELPMSGSTRING"/> registered message
         /// to the window procedure of its owner window when the user clicks the Help button.
@@ -452,6 +512,11 @@ namespace Lsj.Util.Win32
         /// HOVER_DEFAULT
         /// </summary>
         public const uint HOVER_DEFAULT = 0xFFFFFFFF;
+
+        /// <summary>
+        /// HWND_BROADCAST
+        /// </summary>
+        public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
 
         /// <summary>
         /// HWND_MESSAGE
@@ -945,5 +1010,15 @@ namespace Lsj.Util.Win32
         /// WRITE_WATCH_FLAG_RESET
         /// </summary>
         public const uint WRITE_WATCH_FLAG_RESET = 0x01;
+
+        /// <summary>
+        /// XBUTTON1
+        /// </summary>
+        public const ushort XBUTTON1 = 0x0001;
+
+        /// <summary>
+        /// XBUTTON2
+        /// </summary>
+        public const ushort XBUTTON2 = 0x0002;
     }
 }

@@ -23,8 +23,12 @@ namespace Lsj.Util.Win32
         /// Pointer to the <see cref="RECT"/> structure whose coordinates are to be copied in logical units.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -32,7 +36,7 @@ namespace Lsj.Util.Win32
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyRect", ExactSpelling = true)]
         public static extern BOOL CopyRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc);
 
         /// <summary>
@@ -51,52 +55,26 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the second rectangle.
         /// </param>
         /// <returns>
-        /// If the two rectangles are identical, the return value is <see cref="TRUE"/>.
-        /// If the two rectangles are not identical, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the two rectangles are identical, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the two rectangles are not identical, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="EqualRect"/> function does not treat empty rectangles as equal if their coordinates are different.
+        /// <para>
+        /// The <see cref="EqualRect"/> function does not treat empty rectangles as equal if their coordinates are different.
+        /// </para>
+        /// <para>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRect", ExactSpelling = true)]
         public static extern BOOL EqualRect([In] in RECT lprc1, [In] in RECT lprc2);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="IntersectRect"/> function calculates the intersection of two source rectangles and
-        /// places the coordinates of the intersection rectangle into the destination rectangle.
-        /// If the source rectangles do not intersect, an empty rectangle (in which all coordinates are set to zero) is placed into the destination rectangle.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-intersectrect"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lprcDst">
-        /// A pointer to the <see cref="RECT"/> structure that is to receive the intersection of the rectangles pointed to
-        /// by the <paramref name="lprcSrc1"/> and <paramref name="lprcSrc2"/> parameters.
-        /// This parameter cannot be <see langword="null"/>.
-        /// </param>
-        /// <param name="lprcSrc1">
-        /// A pointer to the <see cref="RECT"/> structure that contains the first source rectangle.
-        /// </param>
-        /// <param name="lprcSrc2">
-        /// A pointer to the <see cref="RECT"/> structure that contains the second source rectangle.
-        /// </param>
-        /// <returns>
-        /// If the rectangles intersect, the return value is <see cref="TRUE"/>.
-        /// If the rectangles do not intersect, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
-        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
-        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IntersectRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
 
         /// <summary>
         /// <para>
@@ -122,8 +100,12 @@ namespace Lsj.Util.Win32
         /// This parameter must be negative to decrease the height.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -131,8 +113,46 @@ namespace Lsj.Util.Win32
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InflateRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InflateRect", ExactSpelling = true)]
         public static extern BOOL InflateRect([In][Out] RECT lprc, [In] int dx, [In] int dy);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IntersectRect"/> function calculates the intersection of two source rectangles and
+        /// places the coordinates of the intersection rectangle into the destination rectangle.
+        /// If the source rectangles do not intersect, an empty rectangle (in which all coordinates are set to zero) is placed into the destination rectangle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-intersectrect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lprcDst">
+        /// A pointer to the <see cref="RECT"/> structure that is to receive the intersection of the rectangles pointed to
+        /// by the <paramref name="lprcSrc1"/> and <paramref name="lprcSrc2"/> parameters.
+        /// This parameter cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="lprcSrc1">
+        /// A pointer to the <see cref="RECT"/> structure that contains the first source rectangle.
+        /// </param>
+        /// <param name="lprcSrc2">
+        /// A pointer to the <see cref="RECT"/> structure that contains the second source rectangle.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the rectangles intersect, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the rectangles do not intersect, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectRect", ExactSpelling = true)]
+        public static extern BOOL IntersectRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
 
         /// <summary>
         /// <para>
@@ -150,8 +170,12 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be inverted.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// On monochrome screens, <see cref="InvertRect"/> makes white pixels black and black pixels white.
@@ -159,7 +183,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true)]
         public static extern BOOL InvertRect([In] HDC hDC, [In] in RECT lprc);
 
         /// <summary>
@@ -176,8 +200,12 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle.
         /// </param>
         /// <returns>
-        /// If the rectangle is empty, the return value is <see cref="TRUE"/>.
-        /// If the rectangle is not empty, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the rectangle is empty, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the rectangle is not empty, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -208,8 +236,12 @@ namespace Lsj.Util.Win32
         /// This parameter must be a negative value to move the rectangle up.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -237,16 +269,25 @@ namespace Lsj.Util.Win32
         /// A <see cref="POINT"/> structure that contains the specified point.
         /// </param>
         /// <returns>
-        /// If the specified point lies within the rectangle, the return value is <see cref="TRUE"/>.
-        /// If the specified point does not lie within the rectangle, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the specified point lies within the rectangle, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the specified point does not lie within the rectangle, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The rectangle must be normalized before <see cref="PtInRect"/> is called.
-        /// That is, lprc.right must be greater than lprc.left and lprc.bottom must be greater than lprc.top.
+        /// <para>
+        /// The rectangle must be normalized before <see cref="PtInRect"/> is called.
+        /// That is, <c>lprc.right</c> must be greater than <c>lprc.left</c>
+        /// and <c>lprc.bottom</c> must be greater than <c>lprc.top</c>.
         /// If the rectangle is not normalized, a point is never considered inside of the rectangle.
+        /// </para>
+        /// <para>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRect", ExactSpelling = true, SetLastError = true)]
@@ -274,8 +315,12 @@ namespace Lsj.Util.Win32
         /// Specifies the y-coordinate of the rectangle's lower-right corner.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -283,7 +328,7 @@ namespace Lsj.Util.Win32
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", ExactSpelling = true)]
         public static extern BOOL SetRect([In][Out] ref RECT lprc, [In] int xLeft, [In] int yTop, [In] int xRight, [In] int yBottom);
 
         /// <summary>
@@ -298,8 +343,12 @@ namespace Lsj.Util.Win32
         /// Pointer to the <see cref="RECT"/> structure that contains the coordinates of the rectangle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
@@ -307,7 +356,7 @@ namespace Lsj.Util.Win32
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectEmpty", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectEmpty", ExactSpelling = true)]
         public static extern BOOL SetRectEmpty([In][Out] ref RECT lprc);
 
         /// <summary>
@@ -329,10 +378,15 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="RECT"/> structure that the function subtracts from the rectangle pointed to by <paramref name="lprcSrc1"/>.
         /// </param>
         /// <returns>
-        /// If the resulting rectangle is empty, the return value is <see cref="FALSE"/>.
-        /// If the resulting rectangle is not empty, the return value is <see cref="TRUE"/>.
+        /// <para>
+        /// If the resulting rectangle is empty, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If the resulting rectangle is not empty, the return value is nonzero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The function only subtracts the rectangle specified by <paramref name="lprcSrc2"/> from the rectangle specified by <paramref name="lprcSrc1"/>
         /// when the rectangles intersect completely in either the x- or y-direction.
         /// For example, if *<paramref name="lprcSrc1"/> has the coordinates (10,10,100,100)
@@ -341,12 +395,15 @@ namespace Lsj.Util.Win32
         /// If *<paramref name="lprcSrc1"/> has the coordinates (10,10,100,100) and *<paramref name="lprcSrc2"/> has the coordinates (50,10,150,150),
         /// however, the function sets the coordinates of the rectangle pointed to by <paramref name="lprcDst"/> to (10,10,50,100).
         /// In other words, the resulting rectangle is the bounding box of the geometric difference.
+        /// </para>
+        /// <para>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SubtractRect", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SubtractRect", ExactSpelling = true)]
         public static extern BOOL SubtractRect([In][Out] ref RECT lprcDst, [In] in RECT lprcSrc1, [In] in RECT lprcSrc2);
 
         /// <summary>
@@ -369,15 +426,23 @@ namespace Lsj.Util.Win32
         /// A pointer to the <see cref="RECT"/> structure that contains the second source rectangle.
         /// </param>
         /// <returns>
-        /// If the specified structure contains a nonempty rectangle, the return value is <see cref="TRUE"/>.
-        /// If the specified structure does not contain a nonempty rectangle, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the specified structure contains a nonempty rectangle, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the specified structure does not contain a nonempty rectangle, the return value is zero.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The system ignores the dimensions of an empty rectangle that is, a rectangle in which all coordinates are set to zero,
         /// so that it has no height or no width.
+        /// </para>
+        /// <para>
         /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnionRect", ExactSpelling = true, SetLastError = true)]
