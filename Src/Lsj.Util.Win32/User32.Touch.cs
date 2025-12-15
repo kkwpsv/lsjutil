@@ -26,16 +26,25 @@ namespace Lsj.Util.Win32
         /// The gesture information handle.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If an application processes a <see cref="WM_GESTURE"/> message, it is responsible for closing the handle using this function.
+        /// <para>
+        /// If an application processes a <see cref="WM_GESTURE"/> message,
+        /// it is responsible for closing the handle using this function.
         /// Failure to do so may result in process memory leaks.
-        /// If the message is passed to <see cref="DefWindowProc"/>, or is forwarded
+        /// </para>
+        /// <para>
+        /// If the message is passed to <see cref="DefWindowProc"/>, or is forwarded
         /// using one of the <see cref="PostMessage"/> or <see cref="SendMessage"/> classes of API functions,
         /// the handle is transferred with the message and need not be closed by the application.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseGestureInfoHandle", ExactSpelling = true, SetLastError = true)]
@@ -56,9 +65,13 @@ namespace Lsj.Util.Win32
         /// or after it has been passed to <see cref="DefWindowProc"/>, <see cref="PostMessage"/>, <see cref="SendMessage"/> or one of their variants.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// Calling <see cref="CloseTouchInputHandle"/> will not free memory associated with values retrieved in a call to <see cref="GetTouchInputInfo"/>.
@@ -96,17 +109,48 @@ namespace Lsj.Util.Win32
         /// The size of the gesture configuration (<see cref="GESTURECONFIG"/>) structure.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Passing a value other than <code>sizeof(GESTURECONFIG)</code> for the <paramref name="cbSize"/> parameter
-        /// will cause calls to this function to fail and <see cref="GetLastError"/> will return <see cref="ERROR_INVALID_PARAMETER"/> (87 in decimal).
+        /// <para>
+        /// Passing a value other than <c>sizeof(GESTURECONFIG)</c> for the <paramref name="cbSize"/> parameter
+        /// will cause calls to this function to fail and <see cref="GetLastError"/> will return <see cref="ERROR_INVALID_PARAMETER"/> (87 in decimal).
+        /// </para>
+        /// <para>
         /// The following table lists the gesture configuration values:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
         /// <see cref="GCF_INCLUDE_ANCESTORS"/>
+        /// </term>
+        /// <term>
         /// 0x00000001
-        /// If specified, <see cref="GetGestureConfig"/> returns consolidated configuration for the specified window and its parent window chain.
+        /// </term>
+        /// <term>
+        /// If specified, <see cref="GetGestureConfig"/> returns consolidated configuration for the specified window and its parent window chain.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureConfig", ExactSpelling = true, SetLastError = true)]
@@ -131,9 +175,13 @@ namespace Lsj.Util.Win32
         /// A pointer to the extra argument information.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// This function is reserved for future use and should only be used for testing.
@@ -158,18 +206,27 @@ namespace Lsj.Util.Win32
         /// A pointer to the gesture information structure.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The cbSize member of the <see cref="GESTUREINFO"/> structure passed in to the function must be set before the function is called.
-        /// Otherwise, calls to <see cref="GetLastError"/> will return <see cref="ERROR_INVALID_PARAMETER"/> (87 in decimal).
-        /// If an application processes a <see cref="WM_GESTURE"/> message, it is responsible for closing the handle using <see cref="CloseGestureInfoHandle"/>.
+        /// <para>
+        /// The <see cref="GESTUREINFO.cbSize"/> member of the <see cref="GESTUREINFO"/> structure
+        /// passed in to the function must be set before the function is called.
+        /// Otherwise, calls to <see cref="GetLastError"/> will return <see cref="ERROR_INVALID_PARAMETER"/> (87 in decimal).
+        /// If an application processes a <see cref="WM_GESTURE"/> message, it is responsible for closing the handle using <see cref="CloseGestureInfoHandle"/>.
         /// Failure to do so may result in process memory leaks.
-        /// If the message is passed to <see cref="DefWindowProc"/>,
-        /// or is forwarded using one of the <see cref="PostMessage"/> or <see cref="SendMessage"/> classes of API functions,
+        /// </para>
+        /// <para>
+        /// If the message is passed to <see cref="DefWindowProc"/>, or is forwarded
+        /// using one of the <see cref="PostMessage"/> or <see cref="SendMessage"/> classes of API functions,
         /// the handle is transferred with the message and need not be closed by the application.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureInfo", ExactSpelling = true, SetLastError = true)]
@@ -236,13 +293,44 @@ namespace Lsj.Util.Win32
         /// returns <see cref="FALSE"/> if the window does not support Windows Touch.
         /// </returns>
         /// <remarks>
-        /// The following table lists the values for the <paramref name="pulFlags"/> output parameter.
-        /// <see cref="TWF_FINETOUCH"/>: Specifies that <paramref name="hwnd"/> prefers noncoalesced touch input.
-        /// <see cref="TWF_WANTPALM"/>:
-        /// Clearing this flag disables palm rejection which reduces delays for getting <see cref="WM_TOUCH"/> messages.
-        /// This is useful if you want as quick of a response as possible when a user touches your application
-        /// Setting this flag enables palm detection and will prevent some <see cref="WM_TOUCH"/> messages from being sent to your application.
-        /// This is useful if you do not want to receive <see cref="WM_TOUCH"/> messages that are from palm contact.
+        /// <para>
+        /// The following table lists the values for the <paramref name="pulFlags"/> output parameter.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Flag
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TWF_FINETOUCH"/>
+        /// </term>
+        /// <term>
+        /// Specifies that <paramref name="hwnd"/> prefers noncoalesced touch input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TWF_WANTPALM"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Clearing this flag disables palm rejection which reduces delays for getting <see cref="WM_TOUCH"/> messages.
+        /// This is useful if you want as quick of a response as possible when a user touches your application.
+        /// </para>
+        /// <para>
+        /// Setting this flag enables palm detection and will prevent some <see cref="WM_TOUCH"/> messages from being sent to your application.
+        /// This is useful if you do not want to receive <see cref="WM_TOUCH"/> messages that are from palm contact.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTouchWindow", ExactSpelling = true, SetLastError = true)]
@@ -261,31 +349,70 @@ namespace Lsj.Util.Win32
         /// The function fails with <see cref="ERROR_ACCESS_DENIED"/> if the calling thread does not own the specified window.
         /// </param>
         /// <param name="ulFlags">
+        /// <para>
         /// A set of bit flags that specify optional modifications. This field may contain 0 or one of the following values.
-        /// <see cref="TWF_FINETOUCH"/>:
-        /// Specifies that <paramref name="hwnd"/> prefers noncoalesced touch input.
-        /// <see cref="TWF_WANTPALM"/>:
-        /// Setting this flag disables palm rejection which reduces delays for getting <see cref="WM_TOUCH"/> messages.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TWF_FINETOUCH"/>
+        /// </term>
+        /// <term>
+        /// Specifies that <paramref name="hwnd"/> prefers noncoalesced touch input.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TWF_WANTPALM"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Setting this flag disables palm rejection which reduces delays for getting <see cref="WM_TOUCH"/> messages.
         /// This is useful if you want as quick of a response as possible when a user touches your application.
-        /// By default, palm detection is enabled and some <see cref="WM_TOUCH"/> messages are prevented from being sent to your application.
-        /// This is useful if you do not want to receive <see cref="WM_TOUCH"/> messages that are from palm contact.
+        /// </para>
+        /// <para>
+        /// By default, palm detection is enabled and some <see cref="WM_TOUCH"/> messages are prevented from being sent to your application.
+        /// This is useful if you do not want to receive <see cref="WM_TOUCH"/> messages that are from palm contact.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// Note
-        /// <see cref="RegisterTouchWindow"/> must be called on every window that will be used for touch input.
+        /// </para>
+        /// <para>
+        /// <see cref="RegisterTouchWindow"/> must be called on every window that will be used for touch input.
         /// This means that if you have an application that has multiple windows within it,
-        /// <see cref="RegisterTouchWindow"/> must be called on every window in that application that uses touch features.
-        /// Also, an application can call <see cref="RegisterTouchWindow"/> any number of times for the same window
-        /// if it desires to change the modifier flags.
-        /// A window can be marked as no longer requiring touch input using the <see cref="UnregisterTouchWindow"/> function.
-        /// If <see cref="TWF_WANTPALM"/> is enabled, packets from touch input are not buffered
+        /// <see cref="RegisterTouchWindow"/> must be called on every window in that application that uses touch features.
+        /// Also, an application can call <see cref="RegisterTouchWindow"/> any number of times for the same window if it desires to change the modifier flags.
+        /// A window can be marked as no longer requiring touch input using the <see cref="UnregisterTouchWindow"/> function.
+        /// </para>
+        /// <para>
+        /// If <see cref="TWF_WANTPALM"/> is enabled, packets from touch input are not buffered
         /// and palm detection is not performed before the packets are sent to your application.
-        /// Enabling <see cref="TWF_WANTPALM"/> is most useful if you want minimal latencies when processing <see cref="WM_TOUCH"/> messages.
+        /// Enabling <see cref="TWF_WANTPALM"/> is most useful if you want minimal latencies when processing <see cref="WM_TOUCH"/> messages.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterTouchWindow", ExactSpelling = true, SetLastError = true)]
@@ -315,53 +442,342 @@ namespace Lsj.Util.Win32
         /// The size of the gesture configuration (<see cref="GESTURECONFIG"/>) structure.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If you don't expect to change the gesture configuration, call <see cref="SetGestureConfig"/> at window creation time.
-        /// If you want to dynamically change the gesture configuration, call <see cref="SetGestureConfig"/> in response to <see cref="WM_GESTURENOTIFY"/> messages.
-        /// The following table shows the identifiers for gestures that are supported by the <see cref="GESTURECONFIG.dwID"/> member of the <see cref="GESTURECONFIG"/> structure.
-        /// Note that setting <see cref="GESTURECONFIG.dwID"/> to 0 indicates that global gesture configuration flags are set.
-        /// <see cref="GID_ZOOM"/>: Configuration settings for the zoom gesture.
-        /// <see cref="GID_PAN"/>: The pan gesture.
-        /// <see cref="GID_ROTATE"/>: The rotation gesture.
-        /// <see cref="GID_TWOFINGERTAP"/>: The two-finger tap gesture.
-        /// <see cref="GID_PRESSANDTAP"/>: The press and tap gesture.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to zero.
-        /// <see cref="GC_ALLGESTURES"/>: All of the gestures.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_ZOOM"/>.
-        /// <see cref="GC_ZOOM"/>: The zoom gesture.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_PAN"/>.
-        /// <see cref="GC_PAN"/>: All pan gestures.
-        /// <see cref="GC_PAN_WITH_SINGLE_FINGER_VERTICALLY"/>:
+        /// <para>
+        /// If you don't expect to change the gesture configuration, call <see cref="SetGestureConfig"/> at window creation time.
+        /// If you want to dynamically change the gesture configuration,
+        /// call <see cref="SetGestureConfig"/> in response to <see cref="WM_GESTURENOTIFY"/> messages.
+        /// </para>
+        /// <para>
+        /// The following table shows the identifiers for gestures
+        /// that are supported by the <see cref="GESTURECONFIG.dwID"/> member of the <see cref="GESTURECONFIG"/> structure.
+        /// Note that setting <see cref="GESTURECONFIG.dwID"/> to 0 indicates that global gesture configuration flags are set.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GID_ZOOM"/>
+        /// </term>
+        /// <term>
+        /// 3
+        /// </term>
+        /// <term>
+        /// Configuration settings for the zoom gesture.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GID_PAN"/>
+        /// </term>
+        /// <term>
+        /// 4
+        /// </term>
+        /// <term>
+        /// The pan gesture.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GID_ROTATE"/>
+        /// </term>
+        /// <term>
+        /// 5
+        /// </term>
+        /// <term>
+        /// The rotation gesture.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GID_TWOFINGERTAP"/>
+        /// </term>
+        /// <term>
+        /// 6
+        /// </term>
+        /// <term>
+        /// The two-finger tap gesture.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GID_PRESSANDTAP"/>
+        /// </term>
+        /// <term>
+        /// 7
+        /// </term>
+        /// <term>
+        /// The press and tap gesture.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to zero.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_ALLGESTURES"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// All of the gestures.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_ZOOM"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_ZOOM"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// The zoom gesture.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_PAN"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PAN"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// All pan gestures.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PAN_WITH_SINGLE_FINGER_VERTICALLY"/>
+        /// </term>
+        /// <term>
+        /// 0x00000002
+        /// </term>
+        /// <term>
         /// Vertical pans with one finger.
-        /// <see cref="GC_PAN_WITH_SINGLE_FINGER_HORIZONTALLY"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PAN_WITH_SINGLE_FINGER_HORIZONTALLY"/>
+        /// </term>
+        /// <term>
+        /// 0x00000004
+        /// </term>
+        /// <term>
         /// Horizontal pans with one finger.
-        /// <see cref="GC_PAN_WITH_GUTTER"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PAN_WITH_GUTTER"/>
+        /// </term>
+        /// <term>
+        /// 0x00000008
+        /// </term>
+        /// <term>
         /// Panning with a gutter boundary around the edges of pannable region.
         /// The gutter boundary limits perpendicular movement to a primary direction until a threshold is reached to break out of the gutter.
-        /// <see cref="GC_PAN_WITH_INTERTIA"/>:
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PAN_WITH_INTERTIA"/>
+        /// </term>
+        /// <term>
+        /// 0x00000010
+        /// </term>
+        /// <term>
         /// Panning with inertia to smoothly slow when pan gestures stop.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// Pan gestures can be used in conjunction with each other to control behavior.
-        /// For example, setting the <see cref="GESTURECONFIG.dwWant"/> bits to panning with single-finger horizontal 
-        /// and setting the <see cref="GESTURECONFIG.dwBlock"/> bits to single-finger vertical will restrict panning to horizontal pans.
-        /// Changing the <see cref="GESTURECONFIG.dwWant"/> bit to have <see cref="GC_PAN_WITH_SINGLE_FINGER_VERTICALLY"/> | <see cref="GC_PAN_WITH_SINGLE_FINGER_HORIZONTALLY"/>
-        /// and removing single-finger vertical pan from the <see cref="GESTURECONFIG.dwBlock"/> bit will enable both vertical and horizontal panning.
+        /// For example, setting the <see cref="GESTURECONFIG.dwWant"/> bits to panning with single-finger horizontal
+        /// and setting the <see cref="GESTURECONFIG.dwBlock"/> bits to single-finger vertical will restrict panning to horizontal pans.
+        /// Changing the <see cref="GESTURECONFIG.dwWant"/> bit to have <c>GC_PAN_WITH_SINGLE_FINGER_VERTICALLY | GC_PAN_WITH_SINGLE_FINGER_HORIZONTALLY</c>
+        /// and removing single-finger vertical pan from the <see cref="GESTURECONFIG.dwBlock"/> bit will enable both vertical and horizontal panning.
+        /// </para>
+        /// <para>
         /// Note
+        /// </para>
+        /// <para>
         /// By default, panning has inertia enabled.
+        /// </para>
+        /// <para>
         /// Note
-        /// A single call to <see cref="SetGestureConfig"/> cannot include other GIDs along with 0.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_ROTATE"/>.
-        /// <see cref="GC_ROTATE"/>: The rotation gesture.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_TWOFINGERTAP"/>.
-        /// <see cref="GC_TWOFINGERTAP"/>: The two-finger tap gesture.
-        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_PRESSANDTAP"/>.
-        /// <see cref="GC_PRESSANDTAP"/>: The press and tap gesture.
+        /// </para>
+        /// <para>
+        /// A single call to <see cref="SetGestureConfig"/> cannot include other GIDs along with 0.
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_ROTATE"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_ROTATE"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// The rotation gesture.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_TWOFINGERTAP"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_TWOFINGERTAP"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// The two-finger tap gesture.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags are used when <see cref="GESTURECONFIG.dwID"/> is set to <see cref="GID_PRESSANDTAP"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Name
+        /// </term>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GC_PRESSANDTAP"/>
+        /// </term>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// The press and tap gesture.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
         /// Note
-        /// Calling <see cref="SetGestureConfig"/> will change the gesture configuration for the lifetime of the Window, not just for the next gesture.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="SetGestureConfig"/> will change the gesture configuration for the lifetime of the Window, not just for the next gesture.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetGestureConfig", ExactSpelling = true, SetLastError = true)]
@@ -380,9 +796,13 @@ namespace Lsj.Util.Win32
         /// The function fails with <see cref="ERROR_ACCESS_DENIED"/> if the calling thread does not own the specified window.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="UnregisterTouchWindow"/> function succeeds

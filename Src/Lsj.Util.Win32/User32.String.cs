@@ -21,27 +21,37 @@ namespace Lsj.Util.Win32
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-charlowerw"/>
         /// </para>
         /// </summary>
-        /// <param name="lpszStart">
+        /// <param name="lpsz">
         /// A null-terminated string, or specifies a single character.
         /// If the high-order word of this parameter is zero, the low-order word must contain a single character to be converted.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the operand is a character string, the function returns a pointer to the converted string.
-        /// Because the string is converted in place, the return value is equal to <paramref name="lpszStart"/>.
-        /// If the operand is a single character, the return value is a 32-bit value whose high-order word is zero,
-        /// and low-order word contains the converted character.
-        /// There is no indication of success or failure.
-        /// Failure is rare.
-        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// Because the string is converted in place, the return value is equal to <paramref name="lpsz"/>.
+        /// </para>
+        /// <para>
+        /// If the operand is a single character, the return value is a 32-bit value
+        /// whose high-order word is zero, and low-order word contains the converted character.
+        /// </para>
+        /// <para>
+        /// There is no indication of success or failure. Failure is rare.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Note that CharLower always maps uppercase I to lowercase I ("i"), even when the current language is Turkish or Azerbaijani.
-        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// <para>
+        /// Note that <see cref="CharLower"/> always maps uppercase I to lowercase I ("i"),
+        /// even when the current language is Turkish or Azerbaijani.
+        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// </para>
+        /// <para>
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerW", ExactSpelling = true, SetLastError = false)]
-        public static extern LPWSTR CharLower([In] LPWSTR lpszStart);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerW", ExactSpelling = true)]
+        public static extern LPWSTR CharLower([In] LPWSTR lpsz);
 
         /// <summary>
         /// <para>
@@ -63,15 +73,20 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// The return value is the number of characters processed.
-        /// For example, if <code>CharLowerBuff("Acme of Operating Systems", 10)</code> succeeds, the return value is 10.
+        /// For example, if <c>CharLowerBuff("Acme of Operating Systems", 10)</c> succeeds, the return value is 10.
         /// </returns>
         /// <remarks>
-        /// Note that <see cref="CharLowerBuff"/> always maps uppercase I to lowercase I ("i"), even when the current language is Turkish or Azerbaijani.
-        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapSting"/>.
+        /// <para>
+        /// Note that <see cref="CharLowerBuff"/> always maps uppercase I to lowercase I ("i"),
+        /// even when the current language is Turkish or Azerbaijani.
+        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// </para>
+        /// <para>
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerBuffW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharLowerBuffW", ExactSpelling = true)]
         public static extern DWORD CharLowerBuff([In] LPWSTR lpsz, [In] DWORD cchLength);
 
         /// <summary>
@@ -87,20 +102,30 @@ namespace Lsj.Util.Win32
         /// A character in a null-terminated string.
         /// </param>
         /// <returns>
-        /// The return value is a pointer to the next character in the string, or to the terminating null character if at the end of the string.
-        /// If <paramref name="lpsz"/> points to the terminating null character, the return value is equal to <paramref name="lpsz"/>.
+        /// <para>
+        /// The return value is a pointer to the next character in the string,
+        /// or to the terminating null character if at the end of the string.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpsz"/> points to the terminating null character,
+        /// the return value is equal to <paramref name="lpsz"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// When called as an ANSI function, <see cref="CharNext"/> uses the system default code-page, whereas <see cref="CharNextExA"/> specifies a code-page to use.
+        /// <para>
+        /// When called as an ANSI function, <see cref="CharNext"/> uses the system default code-page,
+        /// whereas <see cref="CharNextExA"/> specifies a code-page to use.
+        /// </para>
+        /// <para>
         /// This function works with default "user" expectations of characters when dealing with diacritics.
-        /// For example:
-        /// A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
-        /// will advance two code points, not one.
+        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE"
+        /// — which looks like "å", will advance two code points, not one.
         /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯",
         /// will advance five code points, not one, and so on.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextW", ExactSpelling = true)]
         public static extern LPWSTR CharNext([In] LPCWSTR lpsz);
 
         /// <summary>
@@ -113,11 +138,61 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="CodePage">
+        /// <para>
         /// The identifier of the code page to use to check lead-byte ranges.
-        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
-        /// <see cref="CP_ACP"/>: Use system default ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
+        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_ACP"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use system default ANSI code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_MACCP"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use the system default Macintosh code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_OEMCP"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use system default OEM code page.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpCurrentChar">
         /// A character in a null-terminated string.
@@ -126,15 +201,21 @@ namespace Lsj.Util.Win32
         /// This parameter is reserved and must be 0.
         /// </param>
         /// <returns>
+        /// <para>
         /// The return value is a pointer to the next character in the string, or to the terminating null character if at the end of the string.
-        /// If <paramref name="lpCurrentChar"/> points to the terminating null character, the return value is equal to <paramref name="lpCurrentChar"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpCurrentChar"/> points to the terminating null character,
+        /// the return value is equal to <paramref name="lpCurrentChar"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// <see cref="CharNextExA"/> specifies a code-page to use, whereas CharNext (if called as an ANSI function) uses the system default code-page.
+        /// <see cref="CharNextExA"/> specifies a code-page to use,
+        /// whereas <see cref="CharNext"/> (if called as an ANSI function) uses the system default code-page.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextExA", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CharNextExA([In] WORD CodePage, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextExA", ExactSpelling = true)]
+        public static extern IntPtr CharNextExA([In] WORD CodePage, [In] LPCSTR lpCurrentChar, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -156,13 +237,20 @@ namespace Lsj.Util.Win32
         /// or to the first character in the string if the <paramref name="lpszCurrent"/> parameter equals the <paramref name="lpszStart"/> parameter.
         /// </returns>
         /// <remarks>
+        /// <para>
+        /// When called as an ANSI function, <see cref="CharPrev"/> uses the system default code-page,
+        /// whereas <see cref="CharPrevExA"/> specifies a code-page to use.
+        /// </para>
+        /// <para>
         /// This function works with default "user" expectations of characters when dealing with diacritics.
-        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
-        /// will advance two code points, not one.
-        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
+        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE"
+        /// — which looks like "å", will advance two code points, not one.
+        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯",
+        /// will advance five code points, not one, and so on.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true)]
         public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
 
         /// <summary>
@@ -175,11 +263,61 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="CodePage">
+        /// <para>
         /// The identifier of the code page to use to check lead-byte ranges.
-        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
-        /// <see cref="CP_ACP"/>: Use system default ANSI code page.
-        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
-        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
+        /// Can be one of the code-page values provided in Code Page Identifiers, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_ACP"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use system default ANSI code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_MACCP"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use the system default Macintosh code page.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="CP_OEMCP"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Use system default OEM code page.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="lpStart">
         /// The beginning of the string.
@@ -195,10 +333,11 @@ namespace Lsj.Util.Win32
         /// or to the first character in the string if the <paramref name="lpCurrentChar"/> parameter equals the <paramref name="lpStart"/> parameter.
         /// </returns>
         /// <remarks>
-        /// <see cref="CharPrevExA"/> specifies a code-page to use, whereas <see cref="CharPrev"/> (if called as an ANSI function) uses the system default code-page.
+        /// <see cref="CharPrevExA"/> specifies a code-page to use,
+        /// whereas <see cref="CharPrev"/> (if called as an ANSI function) uses the system default code-page.
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true)]
         public static extern IntPtr CharPrevExA([In] WORD CodePage, [In] IntPtr lpStart, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
 
         /// <summary>
@@ -219,11 +358,21 @@ namespace Lsj.Util.Win32
         /// This cannot be done if CharToOem is being used as a wide-character function.
         /// </param>
         /// <returns>
-        /// The return value is always <see langword="true"/> except when you pass the same address
-        /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
-        /// In this case the function returns <see langword="false"/> and
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
+        /// The return value is always nonzero except when you pass the same address
+        /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
+        /// In this case the function returns zero and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Security Considerations
+        /// </para>
+        /// <para>
+        /// Using this function incorrectly might compromise the security of your program.
+        /// For example, miscalculating the proper size of the <paramref name="pDst"/> buffer,
+        /// especially when the application is used in both ANSI and Unicode versions, can cause a buffer overflow.
+        /// For more information, see Security Considerations: International Features and Security Considerations: Windows User Interface.
+        /// </para>
+        /// </remarks>
         [Obsolete("Do not use. See Security Considerations.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
@@ -277,20 +426,31 @@ namespace Lsj.Util.Win32
         /// If the high-order word of this parameter is zero, the low-order word must contain a single character to be converted.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the operand is a character string, the function returns a pointer to the converted string.
-        /// Because the string is converted in place, the return value is equal to <paramref name="lpsz"/>.
-        /// If the operand is a single character, the return value is a 32-bit value whose high-order word is zero,
-        /// and low-order word contains the converted character.
+        /// Because the string is converted in place, the return value is equal to <paramref name="lpsz"/>.
+        /// </para>
+        /// <para>
+        /// If the operand is a single character, the return value is a 32-bit value
+        /// whose high-order word is zero, and low-order word contains the converted character.
+        /// </para>
+        /// <para>
         /// There is no indication of success or failure. Failure is rare.
-        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Note that <see cref="CharUpper"/> always maps lowercase I ("i") to uppercase I, even when the current language is Turkish or Azerbaijani.
-        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// <para>
+        /// Note that <see cref="CharUpper"/> always maps lowercase I ("i") to uppercase I,
+        /// even when the current language is Turkish or Azerbaijani.
+        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// </para>
+        /// <para>
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharUpperW", ExactSpelling = true, SetLastError = false)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharUpperW", ExactSpelling = true)]
         public static extern LPWSTR CharUpper([In] LPWSTR lpsz);
 
         /// <summary>
@@ -306,18 +466,32 @@ namespace Lsj.Util.Win32
         /// A buffer containing one or more characters to be processed.
         /// </param>
         /// <param name="cchLength">
-        /// The size, in characters, of the buffer pointed to by <paramref name="lpsz"/>.
+        /// <para>
+        /// The size, in characters, of the buffer pointed to by <paramref name="lpsz"/>.
+        /// </para>
+        /// <para>
         /// The function examines each character, and converts lowercase characters to uppercase characters.
-        /// The function examines the number of characters indicated by <paramref name="cchLength"/>, even if one or more characters are null characters.
+        /// The function examines the number of characters indicated by <paramref name="cchLength"/>,
+        /// even if one or more characters are null characters.
+        /// </para>
         /// </param>
         /// <returns>
+        /// <para>
         /// The return value is the number of characters processed.
-        /// For example, if <code>CharUpperBuff("Zenith of API Sets", 10)</code> succeeds, the return value is 10.
+        /// </para>
+        /// <para>
+        /// For example, if <c>CharUpperBuff("Zenith of API Sets", 10)</c> succeeds, the return value is 10.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Note that CharUpperBuff always maps lowercase I ("i") to uppercase I, even when the current language is Turkish or Azerbaijani.
-        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// <para>
+        /// Note that <see cref="CharUpperBuff"/> always maps lowercase I ("i") to uppercase I,
+        /// even when the current language is Turkish or Azerbaijani.
+        /// If you need a function that is linguistically sensitive in this respect, call <see cref="LCMapString"/>.
+        /// </para>
+        /// <para>
         /// Conversion to Unicode in the ANSI version of the function is done with the system default locale in all cases.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharUpperBuffW", ExactSpelling = true, SetLastError = false)]
@@ -336,9 +510,13 @@ namespace Lsj.Util.Win32
         /// The character to be tested.
         /// </param>
         /// <returns>
-        /// If the character is alphabetical, the return value is <see langword="true"/>.
-        /// If the character is not alphabetical, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the character is alphabetical, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the character is not alphabetical, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", ExactSpelling = true, SetLastError = true)]
@@ -357,9 +535,13 @@ namespace Lsj.Util.Win32
         /// The character to be tested.
         /// </param>
         /// <returns>
-        /// If the character is alphanumeric, the return value is <see langword="true"/>.
-        /// If the character is not alphanumeric, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the character is alphanumeric, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the character is not alphanumeric, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", ExactSpelling = true, SetLastError = true)]
@@ -378,9 +560,13 @@ namespace Lsj.Util.Win32
         /// The character to be tested.
         /// </param>
         /// <returns>
-        /// If the character is lowercase, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the character is not lowercase, the return value is <see cref="BOOL.FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the character is lowercase, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the character is not lowercase, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", ExactSpelling = true, SetLastError = true)]
@@ -399,9 +585,13 @@ namespace Lsj.Util.Win32
         /// The character to be tested.
         /// </param>
         /// <returns>
-        /// If the character is uppercase, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the character is not uppercase, the return value is <see cref="BOOL.FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the character is uppercase, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the character is not uppercase, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", ExactSpelling = true, SetLastError = true)]
@@ -434,24 +624,59 @@ namespace Lsj.Util.Win32
         /// If this parameter is 0, then <paramref name="lpBuffer"/> receives a read-only pointer to the string resource itself.
         /// </param>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value is one of the following:
-        /// The number of characters copied into the buffer (if <paramref name="cchBufferMax"/> is non-zero), not including the terminating null character.
-        /// The number of characters in the string resource that lpBuffer points to (if <paramref name="cchBufferMax"/> is zero).
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The number of characters copied into the buffer (if <paramref name="cchBufferMax"/> is non-zero), not including the terminating null character.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The number of characters in the string resource that <paramref name="cchBufferMax"/> points to (if <paramref name="cchBufferMax"/> is zero).
         /// The string resource is not guaranteed to be null-terminated in the module's resource table,
         /// and you can use this value to determine where the string resource ends.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
         /// Zero if the string resource does not exist.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// If you pass 0 to <paramref name="cchBufferMax"/> to return a read-only pointer to the string resource in the <paramref name="lpBuffer"/> parameter,
+        /// <para>
+        /// If you pass 0 to <paramref name="cchBufferMax"/> to return a read-only pointer
+        /// to the string resource in the <paramref name="lpBuffer"/> parameter,
         /// use the number of characters in the return value to determine the length of the string resource.
         /// String resources are not guaranteed to be null-terminated in the module's resource table.
         /// However, resource tables can contain null characters.
         /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
+        /// </para>
+        /// <para>
+        /// Security Remarks
+        /// </para>
+        /// <para>
+        /// Using this function incorrectly can compromise the security of your application.
+        /// Incorrect use includes specifying the wrong size in the <paramref name="cchBufferMax"/> parameter.
+        /// For example, if <paramref name="lpBuffer"/> points to a buffer <c>szBuffer</c>
+        /// which is declared as <c>TCHAR szBuffer[100]</c>, then sizeof(szBuffer) gives the size of the buffer in bytes,
+        /// which could lead to a buffer overflow for the Unicode version of the function.
+        /// Buffer overflow situations are the cause of many security problems in applications.
+        /// In this case, using <c>sizeof(szBuffer)/sizeof(TCHAR)</c> or <c>sizeof(szBuffer)/sizeof(szBuffer[0])</c> would give the proper size of the buffer.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [In] IntPtr lpBuffer, [In] int cchBufferMax);
+        public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [In] LPWSTR lpBuffer, [In] int cchBufferMax);
 
         /// <summary>
         /// <para>
@@ -476,6 +701,17 @@ namespace Lsj.Util.Win32
         /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
         /// In this case the function returns zero and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Security Considerations
+        /// </para>
+        /// <para>
+        /// Using this function incorrectly might compromise the security of your program.
+        /// For example, miscalculating the proper size of the <paramref name="pDst"/> buffer,
+        /// especially when the application is used in both ANSI and Unicode versions, can cause a buffer overflow.
+        /// For more information, see Security Considerations: International Features and Security Considerations: Windows User Interface.
+        /// </para>
+        /// </remarks>
         [Obsolete("Do not use. See Security Considerations.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemToCharW", ExactSpelling = true, SetLastError = true)]
