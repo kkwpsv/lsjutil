@@ -105,6 +105,11 @@ namespace Lsj.Util.Win32
         public static readonly IntPtr COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
 
         /// <summary>
+        /// CONDITION_VARIABLE_LOCKMODE_SHARED
+        /// </summary>
+        public const uint CONDITION_VARIABLE_LOCKMODE_SHARED = unchecked((uint)-1);
+
+        /// <summary>
         /// CONSOLE_TEXTMODE_BUFFER
         /// </summary>
         public const uint CONSOLE_TEXTMODE_BUFFER = 1;
@@ -113,6 +118,11 @@ namespace Lsj.Util.Win32
         /// CREATE_MUTEX_INITIAL_OWNER
         /// </summary>
         public const uint CREATE_MUTEX_INITIAL_OWNER = 1;
+
+        /// <summary>
+        /// CRITICAL_SECTION_NO_DEBUG_INFO
+        /// </summary>
+        public const uint CRITICAL_SECTION_NO_DEBUG_INFO = 0x01000000;
 
         /// <summary>
         /// CWF_CREATE_ONLY
@@ -544,6 +554,11 @@ namespace Lsj.Util.Win32
         public const int INFOTIPSIZE = 1024;
 
         /// <summary>
+        /// INIT_ONCE_CTX_RESERVED_BITS
+        /// </summary>
+        public const int INIT_ONCE_CTX_RESERVED_BITS = 2;
+
+        /// <summary>
         /// INVALID_FILE_SIZE
         /// </summary>
         public const uint INVALID_FILE_SIZE = 0xFFFFFFFF;
@@ -679,6 +694,48 @@ namespace Lsj.Util.Win32
         public const int LINE_LEN = 256;
 
         /// <summary>
+        /// <para>
+        /// Name of an invariant locale that provides stable locale and calendar data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
+        /// </para>
+        /// </summary>
+        public const string LOCALE_NAME_INVARIANT = "";
+
+        /// <summary>
+        /// <para>
+        /// Maximum length of a locale name. The maximum number of characters allowed for this string is 85, including a terminating null character.
+        /// Your application must use the constant for the maximum locale name length, instead of hard-coding the value "85". 
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
+        /// </para>
+        /// </summary>
+        public const int LOCALE_NAME_MAX_LENGTH = 85;
+
+        /// <summary>
+        /// <para>
+        /// Name of the current operating system locale.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
+        /// </para>
+        /// </summary>
+        public const string LOCALE_NAME_SYSTEM_DEFAULT = "!x-sys-default-locale";
+
+        /// <summary>
+        /// <para>
+        /// Name of the current user locale, matching the preference set in the regional and language options portion of Control Panel.
+        /// This locale can be different from the locale for the current user interface language.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/locale-name-constants"/>
+        /// </para>
+        /// </summary>
+        public const string LOCALE_NAME_USER_DEFAULT = null;
+
+        /// <summary>
         /// LPSTR_TEXTCALLBACK
         /// </summary>
         public static readonly IntPtr LPSTR_TEXTCALLBACK = (IntPtr)(-1);
@@ -687,6 +744,11 @@ namespace Lsj.Util.Win32
         /// MAILSLOT_WAIT_FOREVER
         /// </summary>
         public const uint MAILSLOT_WAIT_FOREVER = unchecked((uint)-1);
+
+        /// <summary>
+        /// MAX_COMPUTERNAME_LENGTH
+        /// </summary>
+        public const int MAX_COMPUTERNAME_LENGTH = 15;
 
         /// <summary>
         /// MAX_DEFAULTCHAR
@@ -946,6 +1008,16 @@ namespace Lsj.Util.Win32
         public const int SOCKET_ERROR = -1;
 
         /// <summary>
+        /// SRWLOCK_INIT
+        /// </summary>
+        public readonly static SRWLOCK SRWLOCK_INIT = new SRWLOCK();
+
+        /// <summary>
+        /// STD_ERROR_HANDLE 
+        /// </summary>
+        public const uint STD_ERROR_HANDLE = unchecked((uint)-12);
+
+        /// <summary>
         /// STD_INPUT_HANDLE
         /// </summary>
         public const uint STD_INPUT_HANDLE = unchecked((uint)-10);
@@ -954,12 +1026,6 @@ namespace Lsj.Util.Win32
         /// STD_OUTPUT_HANDLE
         /// </summary>
         public const uint STD_OUTPUT_HANDLE = unchecked((uint)-11);
-
-        /// <summary>
-        /// STD_ERROR_HANDLE 
-        /// </summary>
-        public const uint STD_ERROR_HANDLE = unchecked((uint)-12);
-
 
         /// <summary>
         /// STILL_ACTIVE
