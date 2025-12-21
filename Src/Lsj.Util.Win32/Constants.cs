@@ -40,6 +40,11 @@ namespace Lsj.Util.Win32
         public const int ANYSIZE_ARRAY = 1;
 
         /// <summary>
+        /// ASFW_ANY
+        /// </summary>
+        public const uint ASFW_ANY = unchecked((uint)-1);
+
+        /// <summary>
         /// ATTACH_PARENT_PROCESS
         /// </summary>
         public const uint ATTACH_PARENT_PROCESS = unchecked((uint)-1);
@@ -123,6 +128,11 @@ namespace Lsj.Util.Win32
         /// CRITICAL_SECTION_NO_DEBUG_INFO
         /// </summary>
         public const uint CRITICAL_SECTION_NO_DEBUG_INFO = 0x01000000;
+
+        /// <summary>
+        /// CW_USEDEFAULT
+        /// </summary>
+        public const int CW_USEDEFAULT = unchecked((int)0x80000000);
 
         /// <summary>
         /// CWF_CREATE_ONLY
@@ -404,6 +414,11 @@ namespace Lsj.Util.Win32
         public const string FINDMSGSTRING = "commdlg_FindReplace";
 
         /// <summary>
+        /// FLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD FLS_OUT_OF_INDEXES = 0xFFFFFFFF;
+
+        /// <summary>
         /// GDI_ERROR
         /// </summary>
         public const uint GDI_ERROR = 0xFFFFFFFF;
@@ -529,9 +544,29 @@ namespace Lsj.Util.Win32
         public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
 
         /// <summary>
+        /// HWND_BOTTOM
+        /// </summary>
+        public static readonly HWND HWND_BOTTOM = new IntPtr(1);
+
+        /// <summary>
         /// HWND_MESSAGE
         /// </summary>
         public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+        /// <summary>
+        /// HWND_NOTOPMOST
+        /// </summary>
+        public static readonly HWND HWND_NOTOPMOST = new IntPtr(-2);
+
+        /// <summary>
+        /// HWND_TOP
+        /// </summary>
+        public static readonly HWND HWND_TOP = new IntPtr(0);
+
+        /// <summary>
+        /// HWND_TOPMOST
+        /// </summary>
+        public static readonly HWND HWND_TOPMOST = new IntPtr(-1);
 
         /// <summary>
         /// I_IMAGECALLBACK
@@ -1031,6 +1066,16 @@ namespace Lsj.Util.Win32
         /// STILL_ACTIVE
         /// </summary>
         public const uint STILL_ACTIVE = (uint)NTSTATUS.STATUS_PENDING;
+
+        /// <summary>
+        /// TLS_MINIMUM_AVAILABLE
+        /// </summary>
+        public static readonly DWORD TLS_MINIMUM_AVAILABLE = 64;
+
+        /// <summary>
+        /// TLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD TLS_OUT_OF_INDEXES = 0xFFFFFFFF;
 
         /// <summary>
         /// TRANSACTION_DO_NOT_PROMOTE

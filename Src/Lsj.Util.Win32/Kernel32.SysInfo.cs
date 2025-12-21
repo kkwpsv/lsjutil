@@ -7,6 +7,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.BaseTypes.USHORT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.COMPUTER_NAME_FORMAT;
@@ -2754,22 +2755,39 @@ namespace Lsj.Util.Win32
         /// The return value is the number of milliseconds that have elapsed since the system was started.
         /// </returns>
         /// <remarks>
-        /// The resolution of the <see cref="GetTickCount"/> function is limited to the resolution of the system timer,
+        /// <para>
+        /// The resolution of the <see cref="GetTickCount"/> function is limited to the resolution of the system timer,
         /// which is typically in the range of 10 milliseconds to 16 milliseconds.
-        /// The resolution of the <see cref="GetTickCount"/> function is not affected by adjustments made by the <see cref="GetSystemTimeAdjustment"/> function.
-        /// The elapsed time is stored as a <see cref="DWORD"/> value.
+        /// The resolution of the <see cref="GetTickCount"/> function is not affected
+        /// by adjustments made by the <see cref="GetSystemTimeAdjustment"/> function.
+        /// </para>
+        /// <para>
+        /// The elapsed time is stored as a <see cref="DWORD"/> value.
         /// Therefore, the time will wrap around to zero if the system is run continuously for 49.7 days.
-        /// To avoid this problem, use the <see cref="GetTickCount64"/> function.
+        /// To avoid this problem, use the <see cref="GetTickCount64"/> function.
         /// Otherwise, check for an overflow condition when comparing times.
-        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
-        /// To obtain the time elapsed since the computer was started, retrieve the System Up Time counter in the performance data
-        /// in the registry key HKEY_PERFORMANCE_DATA.
-        /// The value returned is an 8-byte value. For more information, see Performance Counters.
-        /// To obtain the time the system has spent in the working state since it was started, use the <see cref="QueryUnbiasedInterruptTime"/> function.
-        /// Note The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// </para>
+        /// <para>
+        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
+        /// </para>
+        /// <para>
+        /// To obtain the time elapsed since the computer was started,
+        /// retrieve the System Up Time counter in the performance data in the registry key <see cref="HKEY_PERFORMANCE_DATA"/>.
+        /// The value returned is an 8-byte value.
+        /// For more information, see Performance Counters.
+        /// </para>
+        /// <para>
+        /// To obtain the time the system has spent in the working state since it was started,
+        /// use the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
         /// because the interrupt-time count and tick count are advanced by approximately 49 days.
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
-        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount", ExactSpelling = true)]
@@ -2787,16 +2805,27 @@ namespace Lsj.Util.Win32
         /// The number of milliseconds.
         /// </returns>
         /// <remarks>
-        /// The resolution of the <see cref="GetTickCount64"/> function is limited to the resolution of the system timer,
+        /// <para>
+        /// The resolution of the <see cref="GetTickCount64"/> function is limited to the resolution of the system timer,
         /// which is typically in the range of 10 milliseconds to 16 milliseconds.
-        /// The resolution of the <see cref="GetTickCount64"/> function is not affected by adjustments made
-        /// by the <see cref="GetSystemTimeAdjustment"/> function.
-        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
-        /// To obtain the time the system has spent in the working state since it was started, use the <see cref="QueryUnbiasedInterruptTime"/> function.
-        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// The resolution of the <see cref="GetTickCount64"/> function is not affected
+        /// by adjustments made by the <see cref="GetSystemTimeAdjustment"/> function.
+        /// </para>
+        /// <para>
+        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
+        /// </para>
+        /// <para>
+        /// To obtain the time the system has spent in the working state since it was started,
+        /// use the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
         /// because the interrupt-time count and tick count are advanced by approximately 49 days.
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
-        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", ExactSpelling = true)]
@@ -2804,25 +2833,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// With the release of Windows 8.1, the behavior of the <see cref="GetVersion"/> API has changed in the value
-        /// it will return for the operating system version.
-        /// The value returned by the <see cref="GetVersion"/> function now depends on how the application is manifested.
-        /// Applications not manifested for Windows 8.1 or Windows 10 will return the Windows 8 OS version value (6.2).
+        /// <see cref="GetVersion"/> may be altered or unavailable for releases after Windows 8.1.
+        /// Instead, use the Version Helper functions.
+        /// For Windows 10 apps, please see Targeting your applications for Windows.
+        /// </para>
+        /// <para>
+        /// With the release of Windows 8.1,
+        /// the behavior of the <see cref="GetVersion"/> API has changed in the value it will return for the operating system version.
+        /// The value returned by the <see cref="GetVersion"/> function now depends on how the application is manifested.
+        /// </para>
+        /// <para>
+        /// Applications not manifested for Windows 8.1 or Windows 10 will return the Windows 8 OS version value (6.2).
         /// Once an application is manifested for a given operating system version,
-        /// <see cref="GetVersion"/> will always return the version that the application is manifested for in future releases.
-        /// To manifest your applications for Windows 8.1 or Windows 10, refer to Targeting your application for Windows.
+        /// <see cref="GetVersion"/> will always return the version that the application is manifested for in future releases.
+        /// To manifest your applications for Windows 8.1 or Windows 10, refer to Targeting your application for Windows.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion"/>
         /// </para>
         /// </summary>
         /// <returns>
+        /// <para>
         /// If the function succeeds, the return value includes the major and minor version numbers of the operating system in the low-order word,
         /// and information about the operating system platform in the high-order word.
+        /// </para>
+        /// <para>
         /// For all platforms, the low-order word contains the version number of the operating system.
         /// The low-order byte of this word specifies the major version number, in hexadecimal notation.
         /// The high-order byte specifies the minor version (revision) number, in hexadecimal notation.
         /// The high-order bit is zero, the next 7 bits represent the build number, and the low-order byte is 5.
+        /// </para>
         /// </returns>
         /// <remarks>
         /// The <see cref="GetVersionEx"/> function was developed because many existing applications err when examining
@@ -2841,6 +2881,8 @@ namespace Lsj.Util.Win32
         /// With the release of Windows 8.1, the behavior of the <see cref="GetVersionEx"/> API has changed in the value
         /// it will return for the operating system version.
         /// The value returned by the <see cref="GetVersionEx"/> function now depends on how the application is manifested.
+        /// </para>
+        /// <para>
         /// Applications not manifested for Windows 8.1 or Windows 10 will return the Windows 8 OS version value (6.2).
         /// Once an application is manifested for a given operating system version,
         /// <see cref="GetVersionEx"/> will always return the version that the application is manifested for in future releases.
@@ -2851,37 +2893,100 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpVersionInformation">
-        /// An <see cref="OSVERSIONINFO"/> or <see cref="OSVERSIONINFOEX"/> structure that receives the operating system information.
-        /// Before calling the <see cref="GetVersionEx"/> function, set the <see cref="OSVERSIONINFO.dwOSVersionInfoSize"/> member of the structure
+        /// <para>
+        /// An <see cref="OSVERSIONINFO"/> or <see cref="OSVERSIONINFOEX"/> structure that receives the operating system information.
+        /// </para>
+        /// <para>
+        /// Before calling the <see cref="GetVersionEx"/> function, set the <c>dwOSVersionInfoSize</c> member of the structure
         /// as appropriate to indicate which data structure is being passed to this function.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// The function fails if you specify an invalid value for the <see cref="OSVERSIONINFO.dwOSVersionInfoSize"/> member
-        /// of the <see cref="OSVERSIONINFO"/> or <see cref="OSVERSIONINFOEX"/> structure.
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails if you specify an invalid value for the <c>dwOSVersionInfoSize</c> member
+        /// of the <see cref="OSVERSIONINFO"/> or <see cref="OSVERSIONINFOEX"/> structure.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// Identifying the current operating system is usually not the best way to determine whether a particular operating system feature is present.
+        /// <para>
+        /// Identifying the current operating system is usually not the best way
+        /// to determine whether a particular operating system feature is present.
         /// This is because the operating system may have had new features added in a redistributable DLL.
-        /// Rather than using <see cref="GetVersionEx"/> to determine the operating system platform or version number, 
-        /// test for the presence of the feature itself. For more information, see Operating System Version.
-        /// The <see cref="GetSystemMetrics"/> function provides additional information about the current operating system.
-        /// Windows XP Media Center Edition: <see cref="SM_MEDIACENTER"/>
-        /// Windows XP Starter Edition: <see cref="SM_STARTER"/>
-        /// Windows XP Tablet PC Edition :<see cref="SM_TABLETPC"/>
-        /// Windows Server 2003 R2: <see cref="SM_SERVERR2"/>
-        /// To check for specific operating systems or operating system features, use the <see cref="IsOS"/> function.
-        /// The <see cref="GetProductInfo"/> function retrieves the product type.
-        /// To retrieve information for the operating system on a remote computer, use the <see cref="NetWkstaGetInfo"/> function,
-        /// the Win32_OperatingSystem WMI class, or the OperatingSystem property of the IADsComputer interface.
-        /// To compare the current system version to a required version, use the <see cref="VerifyVersionInfo"/> function instead of
-        /// using <see cref="GetVersionEx"/> to perform the comparison yourself.
-        /// If compatibility mode is in effect, the <see cref="GetVersionEx"/> function reports the operating system as it identifies itself,
+        /// Rather than using <see cref="GetVersionEx"/> to determine the operating system platform or version number,
+        /// test for the presence of the feature itself.
+        /// For more information, see Operating System Version.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetSystemMetrics"/> function provides additional information about the current operating system.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Product
+        /// </term>
+        /// <term>
+        /// Setting
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Windows XP Media Center Edition
+        /// </term>
+        /// <term>
+        /// <see cref="SM_MEDIACENTER"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Windows XP Starter Edition
+        /// </term>
+        /// <term>
+        /// <see cref="SM_STARTER"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Windows XP Tablet PC Edition
+        /// </term>
+        /// <term>
+        /// <see cref="SM_TABLETPC"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Windows Server 2003 R2
+        /// </term>
+        /// <term>
+        /// <see cref="SM_SERVERR2"/>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To check for specific operating systems or operating system features, use the <see cref="IsOS"/> function.
+        /// The <see cref="GetProductInfo"/> function retrieves the product type.
+        /// </para>
+        /// <para>
+        /// To retrieve information for the operating system on a remote computer,
+        /// use the <see cref="NetWkstaGetInfo"/> function, the <c>Win32_OperatingSystem</c> WMI class,
+        /// or the <c>OperatingSystem</c> property of the <see cref="IADsComputer"/> interface.
+        /// </para>
+        /// <para>
+        /// To compare the current system version to a required version,
+        /// use the <see cref="VerifyVersionInfo"/> function instead of using <see cref="GetVersionEx"/> to perform the comparison yourself.
+        /// </para>
+        /// <para>
+        /// If compatibility mode is in effect, the <see cref="GetVersionEx"/> function reports the operating system as it identifies itself,
         /// which may not be the operating system that is installed.
         /// For example, if compatibility mode is in effect,
-        /// <see cref="GetVersionEx"/> reports the operating system that is selected for application compatibility.
+        /// <see cref="GetVersionEx"/> reports the operating system that is selected for application compatibility.
+        /// </para>
         /// </remarks>
         [Obsolete("GetVersionEx may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
@@ -2891,6 +2996,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves the path of the Windows directory.
+        /// </para>
+        /// <para>
         /// This function is provided primarily for compatibility with legacy applications.
         /// New applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
         /// For more information, see <see cref="SHGetFolderPath"/>.
@@ -2906,32 +3013,48 @@ namespace Lsj.Util.Win32
         /// If the system was installed in the root directory of drive C, the path retrieved is C:.
         /// </param>
         /// <param name="uSize">
-        /// The maximum size of the buffer specified by the lpBuffer parameter, in TCHARs.
+        /// The maximum size of the buffer specified by the lpBuffer parameter, in <c>TCHAR</c>s.
         /// This value should be set to <see cref="MAX_PATH"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is the length of the string copied to the buffer, in TCHARs,
-        /// not including the terminating null character.
-        /// If the length is greater than the size of the buffer, the return value is the size of the buffer required to hold the path.
+        /// <para>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer,
+        /// in <c>TCHAR</c>s, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the length is greater than the size of the buffer,
+        /// the return value is the size of the buffer required to hold the path.
+        /// </para>
+        /// <para>
         /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>
+        /// <para>
         /// The Windows directory is the directory where some legacy applications store initialization and help files.
         /// New applications should not store files in the Windows directory;
         /// instead, they should store system-wide data in the application's installation directory, and user-specific data in the user's profile.
+        /// </para>
+        /// <para>
         /// If the user is running a shared version of the system, the Windows directory is guaranteed to be private for each user.
+        /// </para>
+        /// <para>
         /// If an application creates other files that it wants to store on a per-user basis,
         /// it should place them in the directory specified by the HOMEPATH environment variable.
         /// This directory will be different for each user, if so specified by an administrator, through the User Manager administrative tool.
-        /// HOMEPATH always specifies either the user's home directory, which is guaranteed to be private for each user, or a default directory
-        /// (for example, C:\USERS\DEFAULT) where the user will have all access.
+        /// HOMEPATH always specifies either the user's home directory, which is guaranteed to be private for each user,
+        /// or a default directory (for example, C:\USERS\DEFAULT) where the user will have all access.
+        /// </para>
+        /// <para>
         /// Terminal Services:
         /// If the application is running in a Terminal Services environment, each user has a private Windows directory.
         /// There is also a shared Windows directory for the system.
-        /// If the application is Terminal-Services-aware (has the <see cref="IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE"/> flag set in the image header),
-        /// this function returns the path of the system Windows directory, just as the <see cref="GetSystemWindowsDirectory"/> function does.
+        /// If the application is Terminal-Services-aware
+        /// (has the <see cref="IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE"/> flag set in the image header),
+        /// this function returns the path of the system Windows directory, just as the <see cref="GetSystemWindowsDirectory"/> function does.
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
@@ -2946,26 +3069,1140 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="ProcessorFeature">
-        /// The processor feature to be tested.
-        /// This parameter can be one of the following values.
-        /// <see cref="PF_ARM_64BIT_LOADSTORE_ATOMIC"/>, <see cref="PF_ARM_DIVIDE_INSTRUCTION_AVAILABLE"/>,
-        /// <see cref="PF_ARM_EXTERNAL_CACHE_AVAILABLE"/>, <see cref="PF_ARM_FMAC_INSTRUCTIONS_AVAILABLE"/>,
-        /// <see cref="PF_ARM_VFP_32_REGISTERS_AVAILABLE"/>, <see cref="PF_3DNOW_INSTRUCTIONS_AVAILABLE"/>,
-        /// <see cref="PF_CHANNELS_ENABLED"/>, <see cref="PF_COMPARE_EXCHANGE_DOUBLE"/>, <see cref="PF_COMPARE_EXCHANGE128"/>,
-        /// <see cref="PF_COMPARE64_EXCHANGE128"/>, <see cref="PF_FASTFAIL_AVAILABLE"/>, <see cref="PF_FLOATING_POINT_EMULATED"/>,
-        /// <see cref="PF_FLOATING_POINT_PRECISION_ERRATA"/>, <see cref="PF_MMX_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_NX_ENABLED"/>,
-        /// <see cref="PF_PAE_ENABLED"/>, <see cref="PF_RDTSC_INSTRUCTION_AVAILABLE"/>, <see cref="PF_RDWRFSGSBASE_AVAILABLE"/>,
-        /// <see cref="PF_SECOND_LEVEL_ADDRESS_TRANSLATION"/>, <see cref="PF_SSE3_INSTRUCTIONS_AVAILABLE"/>,
-        /// <see cref="PF_VIRT_FIRMWARE_ENABLED"/>, <see cref="PF_XMMI_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_XMMI64_INSTRUCTIONS_AVAILABLE"/>,
-        /// <see cref="PF_XSAVE_ENABLED"/>, <see cref="PF_ARM_V8_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE"/>,
-        /// <see cref="PF_ARM_V8_CRC32_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE"/>
+        /// <para>
+        /// The processor feature to be tested. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_64BIT_LOADSTORE_ATOMIC"/>
+        /// </para>
+        /// <para>
+        /// 25
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The 64-bit load/store atomic instructions are available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_DIVIDE_INSTRUCTION_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 24
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The divide instructions are available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_EXTERNAL_CACHE_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 26
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The external cache is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_FMAC_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 27
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The floating-point multiply-accumulate instruction is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_VFP_32_REGISTERS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 18
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The VFP/Neon: 32 x 64bit register bank is present.
+        /// This flag has the same meaning as <see cref="PF_ARM_VFP_EXTENDED_REGISTERS"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_3DNOW_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The 3D-Now instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_CHANNELS_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 16
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The processor channels are enabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_COMPARE_EXCHANGE_DOUBLE"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The atomic compare and exchange operation (cmpxchg) is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_COMPARE_EXCHANGE128"/>
+        /// </para>
+        /// <para>
+        /// 14
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The atomic compare and exchange 128-bit operation (cmpxchg16b) is available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP/2000: This feature is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_COMPARE64_EXCHANGE128"/>
+        /// </para>
+        /// <para>
+        /// 15
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The atomic compare 64 and exchange 128-bit operation (cmp8xchg16) is available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP/2000: This feature is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_FASTFAIL_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 23
+        /// </para>
+        /// </term>
+        /// <term>
+        /// _fastfail() is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_FLOATING_POINT_EMULATED"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Floating-point operations are emulated using a software emulator.
+        /// </para>
+        /// <para>
+        /// This function returns a nonzero value if floating-point operations are emulated; otherwise, it returns zero.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_FLOATING_POINT_PRECISION_ERRATA"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// On a Pentium, a floating-point precision error can occur in rare circumstances.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_MMX_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The MMX instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_NX_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 12
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Data execution prevention is enabled.
+        /// </para>
+        /// <para>
+        /// Windows XP/2000: This feature is not supported until Windows XP with SP2 and Windows Server 2003 with SP1.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_PAE_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 9
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The processor is PAE-enabled. For more information, see Physical Address Extension.
+        /// </para>
+        /// <para>
+        /// All x64 processors always return a nonzero value for this feature.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_RDTSC_INSTRUCTION_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The RDTSC instruction is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_RDWRFSGSBASE_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 22
+        /// </para>
+        /// </term>
+        /// <term>
+        /// RDFSBASE, RDGSBASE, WRFSBASE, and WRGSBASE instructions are available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_SECOND_LEVEL_ADDRESS_TRANSLATION"/>
+        /// </para>
+        /// <para>
+        /// 20
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Second Level Address Translation is supported by the hardware.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_SSE3_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 13
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The SSE3 instruction set is available.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP/2000:  This feature is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_SSSE3_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 36
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SSSE3 instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_SSE4_1_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 37
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SSE4_1 instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_SSE4_2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 38
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SSE4_2 instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_AVX_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 39
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The AVX instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_AVX2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 40
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The AVX2 instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_AVX512F_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 41
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The AVX512F instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_VIRT_FIRMWARE_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 21
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Virtualization is enabled in the firmware and made available by the operating system.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_XMMI_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The SSE instruction set is available.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_XMMI64_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 10
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The SSE2 instruction set is available.
+        /// </para>
+        /// <para>
+        /// Windows 2000: This feature is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_XSAVE_ENABLED"/>
+        /// </para>
+        /// <para>
+        /// 17
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The processor implements the XSAVE and XRSTOR instructions.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP/2000:
+        /// This feature is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V8_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 29
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8 instructions set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 30
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8 extra cryptographic instructions (for example, AES, SHA1 and SHA2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V8_CRC32_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 31
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8 extra CRC32 instructions.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 34
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8.1 atomic instructions (for example, CAS, SWP).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V82_DP_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 43
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8.2 DP instructions (for example, SDOT, UDOT).
+        /// This feature is optional in Arm v8.2 implementations and mandatory in Arm v8.4 implementations.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V83_JSCVT_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 44
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8.3 JSCVT instructions (for example, FJCVTZS).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V83_LRCPC_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 45
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the Arm v8.3 LRCPC instructions (for example, LDAPR).
+        /// Note that certain Arm v8.2 CPUs may optionally support the LRCPC instructions.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 46
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE (Scalable Vector Extension) instructions (FEAT_SVE).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 47
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE2 instructions (FEAT_SVE2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE2_1_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 48
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE2.1 instructions (FEAT_SVE2p1).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_AES_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 49
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE AES instructions (FEAT_SVE_AES).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_PMULL128_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 50
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE 128-bit polynomial multiply long instructions (FEAT_SVE_PMULL128).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_BITPERM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 51
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE bit permute instructions (FEAT_SVE_BitPerm).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_BF16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 52
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE BF16 (BFloat16) instructions (FEAT_BF16>).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_EBF16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 53
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE EBF16 (Extended BFloat16) instructions (FEAT_EBF16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_B16B16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 54
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE B16B16 instructions (FEAT_SVE_B16B16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_SHA3_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 55
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE SHA-3 cryptographic instructions (FEAT_SVE_SHA3).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_SM4_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 56
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE SM4 cryptographic instructions (FEAT_SVE_SM4).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_I8MM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 57
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE I8MM (Int8 matrix multiply) instructions (FEAT_I8MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_F32MM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 58
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE F32MM (FP32 matrix multiply) instructions (FEAT_F32MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SVE_F64MM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 59
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE F64MM (FP64 matrix multiply) instructions (FEAT_F64MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_BMI2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 60
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This x64 processor implements the BMI2 instruction set.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_MOVDIR64B_INSTRUCTION_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 61
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This x64 processor implements the MOVDIR64B instruction.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_LSE2_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 62
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the LSE2 atomic instructions (FEAT_LSE2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SHA3_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 64
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SHA-3 cryptographic instructions (FEAT_SHA3).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SHA512_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 65
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SHA-512 cryptographic instructions (FEAT_SHA512).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V82_I8MM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 66
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the I8MM (Int8 matrix multiply) NEON instructions (FEAT_I8MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V82_FP16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 67
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the FP16 (half-precision floating point) NEON instructions (FEAT_FP16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V86_BF16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 68
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the BF16 (BFloat16) NEON instructions (FEAT_BF16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_V86_EBF16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 69
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the EBF16 (Extended BFloat16) NEON instructions (FEAT_EBF16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 70
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME (Scalable Matrix Extension) instructions (FEAT_SME).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 71
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME2 instructions (FEAT_SME2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME2_1_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 72
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME2.1 instructions (FEAT_SME2p1).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME2_2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 73
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME2.2 instructions (FEAT_SME2p2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_AES_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 74
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE AES instructions when in Streaming SVE mode (FEAT_SSVE_AES).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SBITPERM_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 75
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE bit permute instructions when in Streaming SVE mode (FEAT_SSVE_BitPerm).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SF8MM4_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 76
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE FMMLA (widening, 4-way, FP8 to FP16) instruction
+        /// when in Streaming SVE mode (FEAT_SSVE_F8F16MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SF8MM8_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 77
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE FMMLA (widening, 8-way, FP8 to FP32) instruction
+        /// when in Streaming SVE mode (FEAT_SSVE_F8F32MM).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SF8DP2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 78
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE2 FP8DOT2 instructions when in Streaming SVE mode (FEAT_SSVE_FP8DOT2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SF8DP4_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 79
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE2 FP8DOT4 instructions when in Streaming SVE mode (FEAT_SSVE_FP8DOT4).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_SF8FMA_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 80
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SVE2 FP8FMA instructions when in Streaming SVE mode (FEAT_SSVE_FP8FMA).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_F8F32_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 81
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME F8F32 instructions (FEAT_SME_F8F32).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_F8F16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 82
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME F8F16 instructions (FEAT_SME_F8F16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_F16F16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 83
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME F16F16 instructions (FEAT_SME_F16F16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_B16B16_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 84
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME B16B16 instructions (FEAT_SME_B16B16).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_F64F64_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 85
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME F64F64 instructions (FEAT_SME_F64F64).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_I16I64_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 86
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME I16I64 instructions (FEAT_SME_I16I64).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_LUTv2_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 87
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements the SME LUTv2 instructions (FEAT_SME_LUTv2).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_ARM_SME_FA64_INSTRUCTIONS_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 88
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This Arm processor implements SME FA64 (Full AArch64 instruction set when in Streaming SVE mode) (FEAT_SME_FA64).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PF_UMONITOR_INSTRUCTION_AVAILABLE"/>
+        /// </para>
+        /// <para>
+        /// 89
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This x64 processor implements the UMONITOR instruction.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the feature is supported, the return value is a <see cref="TRUE"/> value.
-        /// If the feature is not supported, the return value is <see cref="FALSE"/>.
+        /// <para>
+        /// If the feature is supported, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the feature is not supported, the return value is zero.
+        /// </para>
+        /// <para>
         /// If the HAL does not support detection of the feature,
-        /// whether or not the hardware supports the feature, the return value is also <see cref="FALSE"/>.
+        /// whether or not the hardware supports the feature, the return value is also zero.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Support for <see cref="PF_SSSE3_INSTRUCTIONS_AVAILABLE"/> through <see cref="PF_AVX512F_INSTRUCTIONS_AVAILABLE"/>
+        /// were added in the Windows SDK (19041) and are supported by Windows 10, Version 2004 (May 2020 Update) or later.
+        /// </para>
+        /// <para>
+        /// Support for <see cref="PF_ERMS_AVAILABLE"/>, <see cref="PF_ARM_V82_DP_INSTRUCTIONS_AVAILABLE"/>,
+        /// and <see cref="PF_ARM_V83_JSCVT_INSTRUCTIONS_AVAILABLE"/> were added in the Windows SDK (20348)
+        /// and are supported by Windows 11 and Windows Server 2022.
+        /// </para>
+        /// <para>
+        /// The define <see cref="PF_ARM_V83_LRCPC_INSTRUCTIONS_AVAILABLE"/> was added in the Windows SDK (22621)
+        /// and is supported by Windows 11, Version 22H2.
+        /// </para>
+        /// <para>
+        /// Support for <see cref="PF_ARM_SVE_INSTRUCTIONS_AVAILABLE"/> through <see cref="PF_MOVDIR64B_INSTRUCTION_AVAILABLE"/>
+        /// and <see cref="PF_ARM_SHA3_INSTRUCTIONS_AVAILABLE"/> through <see cref="PF_ARM_V86_EBF16_INSTRUCTIONS_AVAILABLE"/>
+        /// were added in the Windows SDK (26100) and are supported by Windows 11, version 24H2 and Windows Server 2025 or later.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessorFeaturePresent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsProcessorFeaturePresent(ProcessFeatures ProcessorFeature);
@@ -2985,27 +4222,40 @@ namespace Lsj.Util.Win32
         /// If the function fails because it is called with a null parameter, the return value is <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// The interrupt-time count begins at zero when the system starts and is incremented at each clock interrupt by the length of a clock tick.
+        /// <para>
+        /// The interrupt-time count begins at zero when the system starts
+        /// and is incremented at each clock interrupt by the length of a clock tick.
         /// The exact length of a clock tick depends on underlying hardware and can vary between systems.
-        /// The interrupt-time count retrieved by the <see cref="QueryUnbiasedInterruptTime"/> function reflects only the time
-        /// that the system is in the working state.
+        /// </para>
+        /// <para>
+        /// The interrupt-time count retrieved by the <see cref="QueryUnbiasedInterruptTime"/> function
+        /// reflects only the time that the system is in the working state.
         /// Therefore, the interrupt-time count is not "biased" by time the system spends in sleep or hibernation.
-        /// The system uses biased interrupt time for some operations, such as ensuring that relative timers that would have expired
-        /// during sleep expire immediately upon waking.
+        /// The system uses biased interrupt time for some operations,
+        /// such as ensuring that relative timers that would have expired during sleep expire immediately upon waking.
+        /// </para>
+        /// <para>
         /// Unlike system time, the interrupt-time count is not subject to adjustments by users or the Windows time service.
         /// Applications can use the interrupt-time count to measure finer durations than are possible with system time.
-        /// Applications that require greater precision than the interrupt-time count should use a high-resolution timer.
-        /// Use the <see cref="QueryPerformanceFrequency"/> function to retrieve the frequency of the high-resolution timer
-        /// and the <see cref="QueryPerformanceCounter"/> function to retrieve the counter's value.
-        /// The timer resolution set by the <see cref="timeBeginPeriod"/> and <see cref="timeEndPeriod"/> functions
-        /// affects the resolution of the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// Applications that require greater precision than the interrupt-time count should use a high-resolution timer.
+        /// Use the <see cref="QueryPerformanceFrequency"/> function to retrieve the frequency of the high-resolution timer
+        /// and the <see cref="QueryPerformanceCounter"/> function to retrieve the counter's value.
+        /// </para>
+        /// <para>
+        /// The timer resolution set by the <see cref="timeBeginPeriod"/> and <see cref="timeEndPeriod"/> functions
+        /// affects the resolution of the <see cref="QueryUnbiasedInterruptTime"/> function.
         /// However, increasing the timer resolution is not recommended because it can reduce overall system performance
         /// and increase system power consumption by preventing the processor from entering power-saving states.
         /// Instead, applications should use a high-resolution timer.
-        /// Note The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
         /// because the interrupt-time count and tick count are advanced by approximately 49 days.
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
-        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true)]
@@ -3020,25 +4270,38 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpSystemTime">
-        /// A pointer to a <see cref="SYSTEMTIME"/> structure that contains the new local date and time.
-        /// The <see cref="SYSTEMTIME.wDayOfWeek"/> member of the <see cref="SYSTEMTIME"/> structure is ignored.
+        /// <para>
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure that contains the new local date and time.
+        /// </para>
+        /// <para>
+        /// The <see cref="SYSTEMTIME.wDayOfWeek"/> member of the <see cref="SYSTEMTIME"/> structure is ignored.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         /// <remarks>.
-        /// The calling process must have the <see cref="SE_SYSTEMTIME_NAME"/> privilege. This privilege is disabled by default.
-        /// The <see cref="SetLocalTime"/> function enables the <see cref="SE_SYSTEMTIME_NAME"/> privilege
+        /// <para>
+        /// The calling process must have the <see cref="SE_SYSTEMTIME_NAME"/> privilege.
+        /// This privilege is disabled by default.
+        /// The <see cref="SetLocalTime"/> function enables the <see cref="SE_SYSTEMTIME_NAME"/> privilege
         /// before changing the local time and disables the privilege before returning.
-        /// For more information, see Running with Special Privileges.
+        /// For more information, see Running with Special Privileges.
+        /// </para>
+        /// <para>
         /// The system uses UTC internally.
-        /// Therefore, when you call <see cref="SetLocalTime"/>, the system uses the current time zone information
-        /// to perform the conversion, including the daylight saving time setting.
+        /// Therefore, when you call <see cref="SetLocalTime"/>,
+        /// the system uses the current time zone information to perform the conversion, including the daylight saving time setting.
         /// Note that the system uses the daylight saving time setting of the current time, not the new time you are setting.
-        /// Therefore, to ensure the correct result, call <see cref="SetLocalTime"/> a second time,
+        /// Therefore, to ensure the correct result, call <see cref="SetLocalTime"/> a second time,
         /// now that the first call has updated the daylight saving time setting.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocalTime", ExactSpelling = true, SetLastError = true)]
@@ -3054,62 +4317,113 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwTimeAdjustment">
+        /// <para>
         /// This value represents the number of 100-nanosecond units added to the system time-of-day
-        /// for each lpTimeIncrement period of time that actually passes.
-        /// Call <see cref="GetSystemTimeAdjustment"/> to obtain the lpTimeIncrement value.
+        /// for each <c>lpTimeIncrement</c> period of time that actually passes.
+        /// Call <see cref="GetSystemTimeAdjustment"/> to obtain the <c>lpTimeIncrement</c> value.
         /// See remarks.
-        /// Note  
-        /// Currently, Windows Vista and Windows 7 machines will lose any time adjustments set less than 16. 
+        /// </para>
+        /// <para>
+        /// Note  
+        /// </para>
+        /// <para>
+        /// Currently, Windows Vista and Windows 7 machines will lose any time adjustments set less than 16.
+        /// </para>
         /// </param>
         /// <param name="bTimeAdjustmentDisabled">
+        /// <para>
         /// The time adjustment mode that the system is to use.
         /// Periodic system time adjustments can be disabled or enabled.
-        /// A value of <see cref="TRUE"/> specifies that periodic time adjustment is to be disabled.
-        /// When disabled, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// </para>
+        /// <para>
+        /// A value of <see cref="TRUE"/> specifies that periodic time adjustment is to be disabled.
+        /// When disabled, the value of <paramref name="dwTimeAdjustment"/> is ignored,
         /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
-        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation, 
-        /// which can include noticeable jumps in time as deemed necessary by the system.
-        /// A value of <see cref="FALSE"/> specifies that periodic time adjustment is to be enabled, and will be used to adjust the time-of-day clock.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change
+        /// during the normal course of the system operation, which can include noticeable jumps in time as deemed necessary by the system.
+        /// </para>
+        /// <para>
+        /// A value of <see cref="FALSE"/> specifies that periodic time adjustment is to be enabled,
+        /// and will be used to adjust the time-of-day clock.
         /// The system will not interfere with the time adjustment scheme, and will not attempt to synchronize time of day on its own.
+        /// </para>
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// One way the function can fail is if the caller does not possess the SE_SYSTEMTIME_NAME privilege.
+        /// <para>
+        /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// One way the function can fail is if the caller does not possess the <see cref="SE_SYSTEMTIME_NAME"/> privilege.
+        /// </para>
         /// </returns>
         /// <remarks>
-        /// The <see cref="GetSystemTimeAdjustment"/> and <see cref="SetSystemTimeAdjustment"/> functions
-        /// support algorithms that synchronize the time-of-day clock, reported via <see cref="GetSystemTime"/> and <see cref="GetLocalTime"/>,
+        /// <para>
+        /// The <see cref="GetSystemTimeAdjustment"/> and <see cref="SetSystemTimeAdjustment"/> functions
+        /// support algorithms that synchronize the time-of-day clock,
+        /// reported via <see cref="GetSystemTime"/> and <see cref="GetLocalTime"/>,
         /// with another time source using a periodic time adjustment.
-        /// The <see cref="SetSystemTimeAdjustment"/> function supports two modes of time synchronization:
-        /// Time-Adjustment Disabled:
-        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="TRUE"/>.
-        /// In this mode, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// </para>
+        /// <para>
+        /// The <see cref="SetSystemTimeAdjustment"/> function supports two modes of time synchronization:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Mode
+        /// </term>
+        /// <term>
+        /// Behavior
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Time-Adjustment Disabled
+        /// </term>
+        /// <term>
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="TRUE"/>.
+        /// In this mode, the value of <paramref name="dwTimeAdjustment"/> is ignored,
         /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
-        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation,
-        /// which can include noticeable jumps in time as deemed necessary by the system.
-        /// Time-Adjustment Enabled:
-        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="FALSE"/>.
-        /// For each lpTimeIncrement period of time that actually passes,
-        /// <paramref name="dwTimeAdjustment"/> will be added to the time of day.
-        /// The period of time represented by lpTimeIncrement can be determined by calling <see cref="GetSystemTimeAdjustment"/>.
-        /// The lpTimeIncrement value is fixed by the system upon start and does not change
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change
+        /// during the normal course of the system operation, which can include noticeable jumps in time as deemed necessary by the system.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Time-Adjustment Enabled
+        /// </term>
+        /// <term>
+        /// <para>
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="FALSE"/>.
+        /// For each <c>lpTimeIncrement</c> period of time that actually passes, <paramref name="dwTimeAdjustment"/> will be added to the time of day.
+        /// The period of time represented by <c>lpTimeIncrement</c> can be determined by calling <see cref="GetSystemTimeAdjustment"/>.
+        /// The <c>lpTimeIncrement</c> value is fixed by the system upon start and does not change
         /// during system operation and is completely independent of the system’s internal clock interrupt resolution at any given time.
-        /// Given this, the lpTimeIncrement value simply expresses a period of time
-        /// for which <paramref name="dwTimeAdjustment"/> will be applied to the system’s time-of-day clock.
-        /// If the <paramref name="dwTimeAdjustment"/> value is smaller than lpTimeIncrement,
+        /// Given this, the <c>lpTimeIncrement</c> value simply expresses a period of time
+        /// for which <paramref name="dwTimeAdjustment"/> will be applied to the system’s time-of-day clock.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="dwTimeAdjustment"/> value is smaller than <c>lpTimeIncrement</c>,
         /// the time-of-day clock will advance at a rate slower than normal.
-        /// If the <paramref name="dwTimeAdjustment"/> value is larger than lpTimeIncrement,
+        /// If the <paramref name="dwTimeAdjustment"/> value is larger than <c>lpTimeIncrement</c>,
         /// the time-of-day clock will advance at a rate faster than normal.
         /// The degree to which the time-of-day-clock will run faster or slower depends on
-        /// how far the <paramref name="dwTimeAdjustment"/> value is above or below the lpTimeIncrement value.
-        /// If <paramref name="dwTimeAdjustment"/> equals lpTimeIncrement, the time-of-day clock will advance at normal speed.
-        /// An application must have system-time privilege (the SE_SYSTEMTIME_NAME privilege) for this function to succeed.
-        /// The SE_SYSTEMTIME_NAME privilege is disabled by default.
-        /// Use the <see cref="AdjustTokenPrivileges"/> function to enable the privilege before calling <see cref="SetSystemTimeAdjustment"/>,
-        /// and then to disable the privilege after the <see cref="SetSystemTimeAdjustment"/> call.
-        /// For more information, see Running with Special Privileges.
+        /// how far the <paramref name="dwTimeAdjustment"/> value is above or below the <c>lpTimeIncrement</c> value.
+        /// If <paramref name="dwTimeAdjustment"/> equals <c>lpTimeIncrement</c>, the time-of-day clock will advance at normal speed.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// An application must have system-time privilege (the <see cref="SE_SYSTEMTIME_NAME"/> privilege) for this function to succeed.
+        /// The <see cref="SE_SYSTEMTIME_NAME"/> privilege is disabled by default.
+        /// Use the <see cref="AdjustTokenPrivileges"/> function to enable the privilege before calling <see cref="SetSystemTimeAdjustment"/>,
+        /// and then to disable the privilege after the <see cref="SetSystemTimeAdjustment"/> call.
+        /// For more information, see Running with Special Privileges.
+        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
@@ -3122,34 +4436,248 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
+        /// Note:
+        /// This function has been deprecated for Windows 10.
+        /// See targeting your applications for Windows for more information.
+        /// </para>
+        /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-verifyversioninfow"/>
         /// </para>
         /// </summary>
         /// <param name="lpVersionInformation">
-        /// A pointer to an <see cref="OSVERSIONINFOEX"/> structure containing the operating system version requirements to compare.
-        /// The <paramref name="dwTypeMask"/> parameter indicates the members of this structure that contain information to compare.
-        /// You must set the <see cref="OSVERSIONINFOEX.dwOSVersionInfoSize"/> member of this structure to sizeof(<see cref="OSVERSIONINFOEX"/>).
-        /// You must also specify valid data for the members indicated by <paramref name="dwTypeMask"/>.
-        /// The function ignores structure members for which the corresponding <paramref name="dwTypeMask"/> bit is not set.
+        /// <para>
+        /// A pointer to an <see cref="OSVERSIONINFOEX"/> structure containing the operating system version requirements to compare.
+        /// The <paramref name="dwTypeMask"/> parameter indicates the members of this structure that contain information to compare.
+        /// </para>
+        /// <para>
+        /// You must set the <see cref="OSVERSIONINFOEX.dwOSVersionInfoSize"/> member of this structure to <c>sizeof(OSVERSIONINFOEX)</c>.
+        /// You must also specify valid data for the members indicated by <paramref name="dwTypeMask"/>.
+        /// The function ignores structure members for which the corresponding <paramref name="dwTypeMask"/> bit is not set.
+        /// </para>
         /// </param>
         /// <param name="dwTypeMask">
-        /// A mask that indicates the members of the <see cref="OSVERSIONINFOEX"/> structure to be tested.
+        /// <para>
+        /// A mask that indicates the members of the <see cref="OSVERSIONINFOEX"/> structure to be tested.
         /// This parameter can be one or more of the following values.
-        /// <see cref="VER_BUILDNUMBER"/>, <see cref="VER_MAJORVERSION"/>, <see cref="VER_MINORVERSION"/>, <see cref="VER_PLATFORMID"/>,
-        /// <see cref="VER_SERVICEPACKMAJOR"/>, <see cref="VER_SERVICEPACKMINOR"/>, <see cref="VER_SUITENAME"/>, <see cref="VER_PRODUCT_TYPE"/>
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_BUILDNUMBER"/>
+        /// </para>
+        /// <para>
+        /// 0x0000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwBuildNumber"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_MAJORVERSION"/>
+        /// </para>
+        /// <para>
+        /// 0x0000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// <see cref="OSVERSIONINFOEX.dwMajorVersion"/>
+        /// </para>
+        /// <para>
+        /// If you are testing the major version, you must also test the minor version and the service pack major and minor versions.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_MINORVERSION"/>
+        /// </para>
+        /// <para>
+        /// 0x0000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwMinorVersion"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_PLATFORMID"/>
+        /// </para>
+        /// <para>
+        /// 0x0000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwPlatformId"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SERVICEPACKMAJOR"/>
+        /// </para>
+        /// <para>
+        /// 0x0000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wServicePackMajor"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SERVICEPACKMINOR"/>
+        /// </para>
+        /// <para>
+        /// 0x0000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wServicePackMinor"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SUITENAME"/>
+        /// </para>
+        /// <para>
+        /// 0x0000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wSuiteMask"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_PRODUCT_TYPE"/>
+        /// </para>
+        /// <para>
+        /// 0x0000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wProductType"/>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
         /// </param>
         /// <param name="dwlConditionMask">
-        /// The type of comparison to be used for each lpVersionInfo member being compared
-        /// To build this value, call the <see cref="VerSetConditionMask"/> function
-        /// or the <see cref="VER_SET_CONDITION"/> macro once for each <see cref="OSVERSIONINFOEX"/> member being compared.
+        /// The type of comparison to be used for each <paramref name="lpVersionInformation"/> member being compared.
+        /// To build this value, call the <see cref="VerSetConditionMask"/> function
+        /// or the <see cref="VER_SET_CONDITION"/> macro once for each <see cref="OSVERSIONINFOEX"/> member being compared.
         /// </param>
         /// <returns>
-        /// If the currently running operating system satisfies the specified requirements, the return value is <see langword="true"/>.
-        /// If the current system does not satisfy the requirements, the return value is <see langword="false"/>
-        /// and <see cref="GetLastError"/> returns <see cref="ERROR_OLD_WIN_VERSION"/>.
-        /// If the function fails, the return value is <see langword="false"/>
-        /// and <see cref="GetLastError"/> returns an error code other than <see cref="ERROR_OLD_WIN_VERSION"/>.
+        /// <para>
+        /// If the currently running operating system satisfies the specified requirements, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the current system does not satisfy the requirements,
+        /// the return value is zero and <see cref="GetLastError"/> returns <see cref="ERROR_OLD_WIN_VERSION"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero
+        /// and <see cref="GetLastError"/> returns an error code other than <see cref="ERROR_OLD_WIN_VERSION"/>.
+        /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="VerifyVersionInfo"/> function retrieves version information
+        /// about the currently running operating system and compares it to the valid members of the <paramref name="lpVersionInformation"/> structure.
+        /// This enables you to easily determine the presence of a required set of operating system version conditions.
+        /// It is preferable to use <see cref="VerifyVersionInfo"/> rather than calling the <see cref="GetVersionEx"/> function to perform your own comparisons.
+        /// </para>
+        /// <para>
+        /// Typically, <see cref="VerifyVersionInfo"/> returns a nonzero value only if all specified tests succeed.
+        /// However, major, minor, and service pack versions are tested in a hierarchical manner
+        /// because the operating system version is a combination of these values.
+        /// If a condition exists for the major version, it supersedes the conditions specified for minor version and service pack version.
+        /// (You cannot test for major version greater than 5 and minor version less than or equal to 1.
+        /// If you specify such a test, the function will change the request to test for a minor version greater than 1
+        /// because it is performing a greater than operation on the major version.)
+        /// </para>
+        /// <para>
+        /// The function tests these values in this order: major version, minor version, and service pack version.
+        /// The function continues testing values while they are equal, and stops when one of the values does not meet the specified condition.
+        /// For example, if you test for a system greater than or equal to version 5.1 service pack 1, the test succeeds if the current version is 6.0.
+        /// (The major version is greater than the specified version, so the testing stops.)
+        /// In the same way, if you test for a system greater than or equal to version 5.1 service pack 1, the test succeeds if the current version is 5.2.
+        /// (The minor version is greater than the specified versions, so the testing stops.)
+        /// However, if you test for a system greater than or equal to version 5.1 service pack 1, the test fails if the current version is 5.0 service pack 2.
+        /// (The minor version is not greater than the specified version, so the testing stops.)
+        /// </para>
+        /// <para>
+        /// To verify a range of system versions, you must call <see cref="VerifyVersionInfo"/> twice.
+        /// For example, to verify that the system version is greater than 5.0 but less than or equal to 5.1,
+        /// first call <see cref="VerifyVersionInfo"/> to test that the major version is 5 and the minor version is greater than 0,
+        /// then call <see cref="VerifyVersionInfo"/> again to test that the major version is 5 and the minor version is less than or equal to 1.
+        /// </para>
+        /// <para>
+        /// Identifying the current operating system is usually not the best way to determine whether a particular operating system feature is present.
+        /// This is because the operating system may have had new features added in a redistributable DLL.
+        /// Rather than using <see cref="GetVersionEx"/> to determine the operating system platform or version number, test for the presence of the feature itself.
+        /// For more information, see Operating System Version.
+        /// </para>
+        /// <para>
+        /// To verify whether the current operating system is either the Media Center or Tablet PC version of Windows, call <see cref="GetSystemMetrics"/>.
+        /// </para>
+        /// <para>
+        /// Windows 10:
+        /// <see cref="VerifyVersionInfo"/> returns false when called by applications that do not have a compatibility manifest for Windows 8.1 or Windows 10
+        /// if the <paramref name="lpVersionInformation"/> parameter is set so that it specifies Windows 8.1 or Windows 10,
+        /// even when the current operating system version is Windows 8.1 or Windows 10.
+        /// Specifically, <see cref="VerifyVersionInfo"/> has the following behavior:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the application has no manifest, <see cref="VerifyVersionInfo"/> behaves as if the operation system version is Windows 8 (6.2).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the application has a manifest that contains the GUID that corresponds to Windows 8.1,
+        /// <see cref="VerifyVersionInfo"/> behaves as if the operation system version is Windows 8.1 (6.3).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the application has a manifest that contains the GUID that corresponds to Windows 10,
+        /// <see cref="VerifyVersionInfo"/> behaves as if the operation system version is Windows 10 (10.0).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The Version Helper functions use the <see cref="VerifyVersionInfo"/> function,
+        /// so the behavior <see cref="IsWindows8Point1OrGreater"/> and <see cref="IsWindows10OrGreater"/>
+        /// are similarly affected by the presence and content of the manifest.
+        /// </para>
+        /// <para>
+        /// To manifest your applications for Windows 8.1 or Windows 10, see Targeting your application for Windows.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VerifyVersionInfo([In] in OSVERSIONINFOEX lpVersionInformation,

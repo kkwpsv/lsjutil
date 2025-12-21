@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
 
             SetLastError(ERROR_SUCCESS);
-            if (SetWindowLong(_handle, GWL_HWNDPARENT, (IntPtr)value) == NULL)
+            if (SetWindowLongPtr(_handle, GWL_HWNDPARENT, (IntPtr)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32.NativeUI
 
         private WindowStyles GetWindowStyles()
         {
-            var result = GetWindowLong(_handle, GWL_STYLE);
+            var result = GetWindowLongPtr(_handle, GWL_STYLE);
             if (result != NULL)
             {
                 return (WindowStyles)((IntPtr)result).SafeToUInt32();
@@ -155,7 +155,7 @@ namespace Lsj.Util.Win32.NativeUI
         private void SetWindowStyles(WindowStyles value)
         {
             SetLastError(ERROR_SUCCESS);
-            if (SetWindowLong(_handle, GWL_STYLE, (uint)value) == NULL)
+            if (SetWindowLongPtr(_handle, GWL_STYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
@@ -163,7 +163,7 @@ namespace Lsj.Util.Win32.NativeUI
 
         private ExtendedWindowStyles GetWindowStylesEx()
         {
-            var result = GetWindowLong(_handle, GWL_EXSTYLE);
+            var result = GetWindowLongPtr(_handle, GWL_EXSTYLE);
             if (result != NULL)
             {
                 return (ExtendedWindowStyles)((IntPtr)result).SafeToUInt32();
@@ -187,7 +187,7 @@ namespace Lsj.Util.Win32.NativeUI
                 SetTopMost();
             }
             SetLastError(ERROR_SUCCESS);
-            if (SetWindowLong(_handle, GWL_EXSTYLE, (uint)value) == NULL)
+            if (SetWindowLongPtr(_handle, GWL_EXSTYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32.NativeUI
 
         private WindowClassStyles GetClassStyles()
         {
-            var result = GetClassLong(_handle, GCL_STYLE);
+            var result = GetClassLongPtr(_handle, GCL_STYLE);
             if (result != NULL)
             {
                 return (WindowClassStyles)result.SafeToUInt32();
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32.NativeUI
         private void SetClassStyles(WindowClassStyles value)
         {
             SetLastError(ERROR_SUCCESS);
-            if (SetClassLong(_handle, GCL_STYLE, (uint)value) == NULL)
+            if (SetClassLongPtr(_handle, GCL_STYLE, (uint)value) == NULL)
             {
                 ThrowExceptionIfError();
             }

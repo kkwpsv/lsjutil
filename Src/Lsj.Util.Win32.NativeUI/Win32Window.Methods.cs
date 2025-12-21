@@ -32,11 +32,11 @@ namespace Lsj.Util.Win32.NativeUI
                 throw new InvalidOperationException("No need to hook. Already use window proc of this.");
             }
 
-            _hookedWndProc = GetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC);
+            _hookedWndProc = GetWindowLongPtr(_handle, GetWindowLongIndexes.GWL_WNDPROC);
             if (_hookedWndProc != NULL)
             {
                 _wndProc = WindowProc;
-                SetWindowLong(_handle, GetWindowLongIndexes.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(_wndProc));
+                SetWindowLongPtr(_handle, GetWindowLongIndexes.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(_wndProc));
             }
             else
             {
