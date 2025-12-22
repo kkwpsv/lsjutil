@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Waitortimercallback(WAITORTIMERCALLBACK val) => (Waitortimercallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Waitortimercallback));
+        public static implicit operator WaitOrTimerCallback(WAITORTIMERCALLBACK val) => (WaitOrTimerCallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(WaitOrTimerCallback));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator WAITORTIMERCALLBACK(Waitortimercallback val) => new WAITORTIMERCALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator WAITORTIMERCALLBACK(WaitOrTimerCallback val) => new WAITORTIMERCALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

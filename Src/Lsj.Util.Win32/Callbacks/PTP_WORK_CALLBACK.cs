@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Ptpworkcallback(PTP_WORK_CALLBACK val) => (Ptpworkcallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Ptpworkcallback));
+        public static implicit operator WorkCallback(PTP_WORK_CALLBACK val) => (WorkCallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(WorkCallback));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_WORK_CALLBACK(Ptpworkcallback val) => new PTP_WORK_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator PTP_WORK_CALLBACK(WorkCallback val) => new PTP_WORK_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

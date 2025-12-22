@@ -1,18 +1,9 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CheckTokenMembershipExFlags;
-using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
-using static Lsj.Util.Win32.Enums.SidAttributes;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
-using static Lsj.Util.Win32.Enums.TokenAccessRights;
-using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -44,9 +35,13 @@ namespace Lsj.Util.Win32
         /// <see cref="TRUE"/> if the SID is enabled in the token; otherwise, <see cref="FALSE"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, it returns <see cref="TRUE"/>.
-        /// If the function fails, it returns <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembershipEx", ExactSpelling = true, SetLastError = true)]

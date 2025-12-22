@@ -80,34 +80,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// An application-defined function that serves as the starting address for a timer callback or a registered wait callback.
-        /// Specify this address when calling the <see cref="CreateTimerQueueTimer"/>, <see cref="RegisterWaitForSingleObject"/> function.
-        /// </para>
-        /// <para>
-        /// The <see cref="WAITORTIMERCALLBACK"/> type defines a pointer to this callback function.
-        /// <c>WaitOrTimerCallback</c> is a placeholder for the application-defined function name.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms687066(v=vs.85)"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpParameter">
-        /// The thread data passed to the function using a parameter of the <see cref="CreateTimerQueueTimer"/>
-        /// or <see cref="RegisterWaitForSingleObject"/> function.
-        /// </param>
-        /// <param name="TimerOrWaitFired">
-        /// If this parameter is <see cref="TRUE"/>, the wait timed out.
-        /// If this parameter is <see cref="FALSE"/>, the wait event has been signaled.
-        /// (This parameter is always <see cref="TRUE"/> for timer callbacks.)
-        /// </param>
-        /// <remarks>
-        /// This callback function must not call the <see cref="TerminateThread"/> function.
-        /// </remarks>
-        public delegate void Waitortimercallback([In] PVOID lpParameter, [In] BOOLEAN TimerOrWaitFired);
-
-
-        /// <summary>
-        /// <para>
         /// Acquires a slim reader/writer (SRW) lock in exclusive mode.
         /// </para>
         /// <para>

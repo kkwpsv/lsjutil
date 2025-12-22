@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Ptpwin32iocallback(PTP_WIN32_IO_CALLBACK val) => (Ptpwin32iocallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Ptpwin32iocallback));
+        public static implicit operator IoCompletionCallback(PTP_WIN32_IO_CALLBACK val) => (IoCompletionCallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(IoCompletionCallback));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_WIN32_IO_CALLBACK(Ptpwin32iocallback val) => new PTP_WIN32_IO_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator PTP_WIN32_IO_CALLBACK(IoCompletionCallback val) => new PTP_WIN32_IO_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 

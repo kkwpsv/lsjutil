@@ -125,6 +125,11 @@ namespace Lsj.Util.Win32
         public const uint CREATE_MUTEX_INITIAL_OWNER = 1;
 
         /// <summary>
+        /// CREATE_WAITABLE_TIMER_MANUAL_RESET
+        /// </summary>
+        public const uint CREATE_WAITABLE_TIMER_MANUAL_RESET = 1;
+
+        /// <summary>
         /// CRITICAL_SECTION_NO_DEBUG_INFO
         /// </summary>
         public const uint CRITICAL_SECTION_NO_DEBUG_INFO = 0x01000000;

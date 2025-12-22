@@ -21,13 +21,13 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator Ptptimercallback(PTP_TIMER_CALLBACK val) => (Ptptimercallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(Ptptimercallback));
+        public static implicit operator TimerCallback(PTP_TIMER_CALLBACK val) => (TimerCallback)Marshal.GetDelegateForFunctionPointer(val._ptr, typeof(TimerCallback));
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_TIMER_CALLBACK(Ptptimercallback val) => new PTP_TIMER_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
+        public static implicit operator PTP_TIMER_CALLBACK(TimerCallback val) => new PTP_TIMER_CALLBACK { _ptr = Marshal.GetFunctionPointerForDelegate(val) };
 
         /// <summary>
         /// 
