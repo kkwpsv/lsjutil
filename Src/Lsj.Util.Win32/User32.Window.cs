@@ -8050,6 +8050,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="SetWindowLong"/> to set the style on a progressbar will reset its position.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", ExactSpelling = true, SetLastError = true)]
         public static extern LONG SetWindowLong(HWND hWnd, GetWindowLongIndexes nIndex, LONG dwNewLong);
 
@@ -8317,6 +8318,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="SetWindowLongPtr"/> to set the style on a progressbar will reset its position.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static LONG_PTR SetWindowLongPtr([In] HWND hWnd, [In] GetWindowLongIndexes nIndex, [In] LONG_PTR dwNewLong)
             => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : (nint)(int)SetWindowLong(hWnd, nIndex, (int)(nint)dwNewLong);
 
