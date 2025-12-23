@@ -1457,7 +1457,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="lpExtendedParameter">
-        /// This parameter is reserved and must be <see cref="IntPtr.Zero"/>.
+        /// This parameter is reserved and must be <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// <para>
@@ -1570,7 +1570,8 @@ namespace Lsj.Util.Win32
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// If <see cref="bInheritHandle"/> is not <see cref="FALSE"/>, which is any nonzero value, then the handle can be inherited.
+        /// If <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> is not <see cref="FALSE"/>,
+        /// which is any nonzero value, then the handle can be inherited.
         /// Therefore it is critical this structure member be properly initialized to <see cref="FALSE"/>
         /// if you do not intend the handle to be inheritable.
         /// </description>

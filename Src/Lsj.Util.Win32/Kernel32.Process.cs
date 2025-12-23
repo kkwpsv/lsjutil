@@ -3444,7 +3444,7 @@ namespace Lsj.Util.Win32
         /// are greater than the process' current working set sizes,
         /// the specified process must have the <see cref="SE_INC_WORKING_SET_NAME"/> privilege.
         /// All users generally have this privilege.
-        /// For more information about security privileges, see <see cref="Privileges"/>.
+        /// For more information about security privileges, see Privileges.
         /// </para>
         /// <para>
         /// Windows Server 2003 and Windows XP:

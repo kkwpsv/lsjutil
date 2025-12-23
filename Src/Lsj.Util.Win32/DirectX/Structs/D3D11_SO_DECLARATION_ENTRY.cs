@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

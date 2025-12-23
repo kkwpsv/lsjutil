@@ -1481,10 +1481,14 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpsi">
         /// <para>
-        /// Pointer to a <see cref="SCROLLINFO"/> structure. Before calling <see cref="SetScrollInfo"/>, set the <see cref="cbSize"/> member of the structure to <see cref="sizeof"/>(<see cref="SCROLLINFO"/>), set the <see cref="fMask"/> member to indicate the parameters to set, and specify the new parameter values in the appropriate members.
+        /// Pointer to a <see cref="SCROLLINFO"/> structure.
+        /// Before calling <see cref="SetScrollInfo"/>,
+        /// set the <see cref="SCROLLINFO.cbSize"/> member of the structure to <c>sizeof(SCROLLINFO)</c>,
+        /// set the <see cref="SCROLLINFO.fMask"/> member to indicate the parameters to set,
+        /// and specify the new parameter values in the appropriate members.
         /// </para>
         /// <para>
-        /// The <see cref="fMask"/> member can be one or more of the following values.
+        /// The <see cref="SCROLLINFO.fMask"/> member can be one or more of the following values.
         /// </para>
         /// <para>
         /// <list type="table">

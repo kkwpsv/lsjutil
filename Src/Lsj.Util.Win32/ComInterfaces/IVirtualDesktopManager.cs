@@ -3,6 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -10,7 +11,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <para>
     /// Exposes methods that enable an application to interact with groups of windows that form virtual workspaces.
     /// This interface is implemented by VirtualDesktopManager, a COM class identified by <see cref="CLSID_VirtualDesktopManager"/>.
-    /// Use <code>CoCreateInstance(CLSID_VirtualDesktopManager)</code> to get an instance of this object.
+    /// Use <c>CoCreateInstance(CLSID_VirtualDesktopManager)</c> to get an instance of this object.
     /// </para>
     /// <para>
     /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ivirtualdesktopmanager"/>

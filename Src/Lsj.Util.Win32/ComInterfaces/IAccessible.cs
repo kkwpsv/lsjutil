@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SELFLAG;
 using static Lsj.Util.Win32.Enums.VARENUM;
 using static Lsj.Util.Win32.Oleacc;

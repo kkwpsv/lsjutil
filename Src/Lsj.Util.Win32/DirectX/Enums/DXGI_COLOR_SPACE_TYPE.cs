@@ -304,7 +304,7 @@ namespace Lsj.Util.Win32.DirectX.Enums
     /// Notation in color space enumeration
     /// </term>
     /// <term>
-    /// <see cref="Comments"/>
+    /// Comments
     /// </term>
     /// </listheader>
     /// <item>

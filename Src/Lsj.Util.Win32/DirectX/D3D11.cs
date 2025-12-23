@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <para>
         /// A pointer to the video adapter to use when creating a device.
         /// Pass <see cref="NULL"/> to use the default adapter,
-        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory1.EnumAdapters"/>.
+        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory.EnumAdapters"/>.
         /// </para>
         /// <para>
         /// Note
@@ -253,7 +253,7 @@ namespace Lsj.Util.Win32.DirectX
         /// <para>
         /// A pointer to the video adapter to use when creating a device.
         /// Pass <see cref="NULL"/> to use the default adapter,
-        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory1.EnumAdapters"/>.
+        /// which is the first adapter that is enumerated by <see cref="IDXGIFactory.EnumAdapters"/>.
         /// </para>
         /// <para>
         /// Note

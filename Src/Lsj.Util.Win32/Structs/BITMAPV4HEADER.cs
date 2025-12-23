@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32.Structs
         /// <term>
         /// The bitmap is monochrome, and the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> contains two entries.
         /// Each bit in the bitmap array represents a pixel.
-        /// If the bit is clear, the pixel is displayed with the color of the first entry in the <see cref="bmiColors"/> table;
+        /// If the bit is clear, the pixel is displayed with the color of the first entry in the <see cref="BITMAPINFO.bmiColors"/> table;
         /// if the bit is set, the pixel has the color of the second entry in the table.
         /// </term>
         /// </item>

@@ -458,7 +458,7 @@ namespace Lsj.Util.Win32.Structs
         /// </para>
         /// </term>
         /// <term>
-        /// RSA applied over the PKCS#7 ASN.1 <see cref="Data"/> type.
+        /// RSA applied over the PKCS#7 ASN.1 Data type.
         /// </term>
         /// </item>
         /// <item>

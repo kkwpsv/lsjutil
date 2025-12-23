@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.ComboBoxStyles;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
+using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
 using static Lsj.Util.Win32.Enums.DWMWINDOWATTRIBUTE;
 using static Lsj.Util.Win32.Enums.EditControlMessages;
 using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
@@ -9572,7 +9573,7 @@ namespace Lsj.Util.Win32.Enums
         /// <para>
         /// A pointer to a <see cref="TITLEBARINFOEX"/> structure.
         /// The message sender is responsible for allocating memory for this structure.
-        /// Set the <see cref="TITLEBARINFOEX.cbSize"/> member of this structure to <c>TITLEBARINFOEX</c>
+        /// Set the <see cref="TITLEBARINFOEX.cbSize"/> member of this structure to <c>sizeof(TITLEBARINFOEX)</c>
         /// before passing this structure with the message.
         /// </para>
         /// </summary>

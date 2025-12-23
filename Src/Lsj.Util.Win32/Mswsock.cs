@@ -1,11 +1,12 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
-using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {

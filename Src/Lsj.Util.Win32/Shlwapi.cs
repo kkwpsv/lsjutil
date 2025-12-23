@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
+using static Lsj.Util.Win32.Enums.OSFeatures;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 

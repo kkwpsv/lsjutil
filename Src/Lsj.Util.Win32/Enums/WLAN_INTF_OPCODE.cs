@@ -1,5 +1,6 @@
-﻿using static Lsj.Util.Win32.Wlanapi;
+﻿using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Wlanapi;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.D3d9;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCAPS3;
 using static Lsj.Util.Win32.DirectX.Enums.D3DCREATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;

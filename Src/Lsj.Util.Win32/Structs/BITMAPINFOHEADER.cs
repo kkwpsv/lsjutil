@@ -219,7 +219,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// <para>
-        /// See Remarks for more information. Note that <see cref="BI_JPG"/> and <see cref="BI_PNG"/> are not valid video formats.
+        /// See Remarks for more information. Note that <see cref="BI_JPEG"/> and <see cref="BI_PNG"/> are not valid video formats.
         /// </para>
         /// <para>
         /// For 16-bpp bitmaps, if <see cref="biCompression"/> equals <see cref="BI_RGB"/>, the format is always RGB 555.
