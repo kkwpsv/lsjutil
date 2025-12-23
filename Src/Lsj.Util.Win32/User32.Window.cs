@@ -3968,6 +3968,7 @@ namespace Lsj.Util.Win32
         /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member of
         /// the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassLongW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetClassLong([In] HWND hWnd, [In] GetClassLongIndexes nIndex);
 
@@ -4170,6 +4171,7 @@ namespace Lsj.Util.Win32
         /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member
         /// of the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static ULONG_PTR GetClassLongPtr([In] HWND hWnd, [In] GetClassLongIndexes nIndex) =>
             IntPtr.Size > 4 ? GetClassLongPtrImp(hWnd, nIndex) : (nuint)GetClassLong(hWnd, nIndex);
 
@@ -5277,6 +5279,7 @@ namespace Lsj.Util.Win32
         /// Reserve extra window memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbWndExtra"/> member
         /// of the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetWindowLong(HWND hWnd, GetWindowLongIndexes nIndex);
 
@@ -5483,6 +5486,7 @@ namespace Lsj.Util.Win32
         /// Reserve extra window memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbWndExtra"/> member
         /// of the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static LONG_PTR GetWindowLongPtr([In] HWND hWnd, [In] GetWindowLongIndexes nIndex) =>
             IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : (LONG_PTR)(IntPtr)(int)GetWindowLong(hWnd, nIndex);
 
@@ -6917,8 +6921,9 @@ namespace Lsj.Util.Win32
         /// but this change does not immediately repaint all windows belonging to the class.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern DWORD SetClassLong([In] HWND hWnd, [In] GetClassLongIndexes nIndex, [In] LONG dwNewLong);
+        public static extern DWORD SetClassLong([In] HWND hWnd, [In] GetClassLongIndexes nIndex, [In] LONG dwNewLong);
 
         /// <summary>
         /// <para>
@@ -7120,6 +7125,7 @@ namespace Lsj.Util.Win32
         /// but this change does not immediately repaint all windows belonging to the class.
         /// </para>
         /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static ULONG_PTR SetClassLongPtr([In] HWND hWnd, [In] GetClassLongIndexes nIndex, [In] LONG_PTR dwNewLong) =>
             IntPtr.Size > 4 ? SetClassLongPtrImp(hWnd, nIndex, dwNewLong) : (nuint)(uint)SetClassLong(hWnd, nIndex, (int)(nint)dwNewLong);
 
