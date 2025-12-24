@@ -16,14 +16,14 @@ namespace Lsj.Util.Tests.Win32
     [TestClass]
     public class DefineTests
     {
-        private static List<string> newApis = new List<string>
+        private static readonly List<string> _newApis = new List<string>
         {
             "DXGIDisableVBlankVirtualization",
             "DXGIGetDebugInterface",
             "SetThreadCursorCreationScaling",
         };
 
-        private static List<string> missingWindowsVersionRequirementWhiteList = new List<string>
+        private static readonly List<string> _missingWindowsVersionRequirementWhiteList = new List<string>
         {
             "CreateDirect3D11DeviceFromDXGIDevice",
             "D3D11CreateDevice",
@@ -38,7 +38,7 @@ namespace Lsj.Util.Tests.Win32
             "D3DXCreateBuffer",
         };
 
-        private static List<string> missingAPIDataWhiteList = new List<string>
+        private static readonly List<string> _missingAPIDataWhiteList = new List<string>
         {
             "DXGIGetDebugInterface",
         };
@@ -47,12 +47,15 @@ namespace Lsj.Util.Tests.Win32
         public void TestMethods()
         {
             var apis = ReadFromFiles();
+            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.WindowsNT40 && x.Value.DllName == "kernel32")
+                .Where(x => !x.Key.EndsWith("A"))
+                .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var wrongEntrypoints = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
             var missingAPIDataMethods = new List<MethodInfo>();
-            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note))>();
+            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note, string DllName))>();
             var hasMarshalAsAttributeMethods = new List<MethodInfo>();
             var hasStringParameterMethods = new List<MethodInfo>();
             var hasObjectParameterMethods = new List<MethodInfo>();
@@ -60,6 +63,7 @@ namespace Lsj.Util.Tests.Win32
             foreach (var item in methodsToEntryPoints)
             {
                 var entryPoint = item.Attribute.EntryPoint;
+                toCheckApis.Remove(entryPoint!);
                 if (item.Method.Name == entryPoint || item.Method.Name + "W" == entryPoint ||
                     "K32" + item.Method.Name == entryPoint || "K32" + item.Method.Name + "W" == entryPoint)
                 {
@@ -71,7 +75,7 @@ namespace Lsj.Util.Tests.Win32
                         else if (item.Attribute.Value.StartsWith("D3DX9"))
                         {
                         }
-                        else if (newApis.Contains(entryPoint))
+                        else if (_newApis.Contains(entryPoint))
                         {
                         }
                         else
@@ -98,14 +102,14 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>() == null)
                     {
-                        if (!missingWindowsVersionRequirementWhiteList.Contains(item.Method.Name))
+                        if (!_missingWindowsVersionRequirementWhiteList.Contains(item.Method.Name))
                         {
                             missingWindowsVersionRequirementMethods.Add(item.Method);
                         }
                     }
                     else
                     {
-                        if (!missingAPIDataWhiteList.Contains(item.Method.Name))
+                        if (!_missingAPIDataWhiteList.Contains(item.Method.Name))
                         {
                             missingAPIDataMethods.Add(item.Method);
                         }
@@ -143,6 +147,7 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
             fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
             fails.AddRange(hasRawComInterfaceParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has raw COM interface parameter."));
+            //fails.AddRange(toCheckApis.Select(item => $"{item} missing in methods."));
 
             if (fails.Any())
             {
@@ -253,11 +258,9 @@ namespace Lsj.Util.Tests.Win32
             }
         }
 
-        private Dictionary<string, (WindowsVersion Version, int BuildNumber, string? Note)> ReadFromFiles()
+        private Dictionary<string, (WindowsVersion Version, int BuildNumber, string? Note, string DllName)> ReadFromFiles()
         {
-            var result = new Dictionary<string, (WindowsVersion version, int buildNumber, string? note)>();
-
-
+            var result = new Dictionary<string, (WindowsVersion version, int buildNumber, string? note, string dllName)>();
             var dataDir = GetDataDir();
             var apiDir = Path.Combine(dataDir, "apis");
             foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "NT40")).EnumerateFiles())
@@ -267,7 +270,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsNT40, BuildNumbers.WindowsNT4_0, null);
+                        result[line] = (WindowsVersion.WindowsNT40, BuildNumbers.WindowsNT4_0, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -279,7 +282,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows2000, BuildNumbers.Windows2000, null);
+                        result[line] = (WindowsVersion.Windows2000, BuildNumbers.Windows2000, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -291,7 +294,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, null);
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -303,7 +306,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP1");
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP1", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -315,7 +318,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP2");
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP2", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -327,7 +330,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP3");
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP3", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -339,7 +342,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "KB959426");
+                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "KB959426", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -351,7 +354,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null);
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -363,7 +366,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null);
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -375,7 +378,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, "KB2533623");
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, "KB2533623", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -387,7 +390,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, "Platform Update Supplement");
+                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, "Platform Update Supplement", Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -399,7 +402,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows7, BuildNumbers.Windows7, null);
+                        result[line] = (WindowsVersion.Windows7, BuildNumbers.Windows7, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -411,7 +414,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows8, BuildNumbers.Windows8, null);
+                        result[line] = (WindowsVersion.Windows8, BuildNumbers.Windows8, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -423,7 +426,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows8_1, BuildNumbers.Windows8_1, null);
+                        result[line] = (WindowsVersion.Windows8_1, BuildNumbers.Windows8_1, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -435,7 +438,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1507, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1507, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -447,7 +450,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1511, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1511, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -459,7 +462,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1607, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1607, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -471,7 +474,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1703, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1703, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -483,7 +486,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1709, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1709, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -495,7 +498,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -507,7 +510,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1809, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1809, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -519,7 +522,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -531,7 +534,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H1, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H1, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -543,7 +546,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H2, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H2, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -555,7 +558,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_22H2, null);
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_22H2, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -567,7 +570,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null);
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -579,7 +582,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_22H2, null);
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_22H2, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
@@ -591,7 +594,7 @@ namespace Lsj.Util.Tests.Win32
                 {
                     if (!result.ContainsKey(line))
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_23H2, null);
+                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_23H2, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }
