@@ -15,9 +15,9 @@ namespace Lsj.Util.Tests.AspNetCore.PagedList
         [TestMethod]
         public void PagedList_ErrorAgument()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => { ((IEnumerable<object>)null).ToPagedList(1, 1); });
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => { new int[] { 1 }.ToPagedList(0, 1); });
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => { new int[] { 1 }.ToPagedList(1, 0); });
+            Assert.ThrowsExactly<ArgumentNullException>(() => { ((IEnumerable<object>?)null).ToPagedList(1, 1); });
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => { new int[] { 1 }.ToPagedList(0, 1); });
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => { new int[] { 1 }.ToPagedList(1, 0); });
         }
         [TestMethod]
         public void PagedList_Normal()

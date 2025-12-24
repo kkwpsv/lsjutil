@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Lsj.Util.Tests.JSON.JSONConverterTest;
 
 namespace Lsj.Util.Tests.JSON
 {
@@ -16,47 +15,47 @@ namespace Lsj.Util.Tests.JSON
             var parser = new JSONParser();
             parser.Settings.AllowPartial = true;
             Assert.AreEqual("", parser.Parse(@""""));
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsFalse(parser.IsLastParseComplete);
 
             Assert.AreEqual("12345", parser.Parse(@"""12345"));
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsFalse(parser.IsLastParseComplete);
 
             Assert.AreEqual(12345m, parser.Parse(@"12345."));
-            Assert.AreEqual(true, parser.IsLastParseComplete);
+            Assert.IsTrue(parser.IsLastParseComplete);
 
             var obj = parser.Parse(@"{");
-            Assert.AreEqual(true, obj is JSONObject);
-            Assert.AreEqual(0, (obj as JSONObject).GetDynamicMemberNames().Count());
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsInstanceOfType<JSONObject>(obj);
+            Assert.AreEqual(0, (obj as JSONObject)!.GetDynamicMemberNames().Count());
+            Assert.IsFalse(parser.IsLastParseComplete);
 
             var testObj = parser.Parse<TestObject>(@"{");
             Assert.IsNotNull(testObj);
             Assert.AreEqual(0, testObj.A);
             Assert.AreEqual(0, testObj.B);
             Assert.IsNull(testObj.C);
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsFalse(parser.IsLastParseComplete);
 
             var array = parser.Parse(@"[");
-            Assert.AreEqual(true, array is JSONArray);
-            Assert.AreEqual(0, (array as JSONArray).Count);
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsInstanceOfType<JSONArray>(array);
+            Assert.AreEqual(0, (array as JSONArray)!.Count);
+            Assert.IsFalse(parser.IsLastParseComplete);
 
-            Assert.AreEqual(true, parser.Parse(@"tr "));
-            Assert.AreEqual(false, parser.IsLastParseComplete);
-            Assert.AreEqual(true, parser.Parse(@"true"));
-            Assert.AreEqual(true, parser.IsLastParseComplete);
-            Assert.ThrowsException<JSONParserException>(() => parser.Parse(@"tra"));
+            Assert.IsTrue(parser.Parse(@"tr "));
+            Assert.IsFalse(parser.IsLastParseComplete);
+            Assert.IsTrue(parser.Parse(@"true"));
+            Assert.IsTrue(parser.IsLastParseComplete);
+            Assert.ThrowsExactly<JSONParserException>(() => parser.Parse(@"tra"));
 
-            Assert.AreEqual(false, parser.Parse(@"fal   "));
-            Assert.AreEqual(false, parser.IsLastParseComplete);
-            Assert.AreEqual(false, parser.Parse(@"false"));
-            Assert.AreEqual(true, parser.IsLastParseComplete);
-            Assert.ThrowsException<JSONParserException>(() => parser.Parse(@"falss"));
+            Assert.IsFalse(parser.Parse(@"fal   "));
+            Assert.IsFalse(parser.IsLastParseComplete);
+            Assert.IsFalse(parser.Parse(@"false"));
+            Assert.IsTrue(parser.IsLastParseComplete);
+            Assert.ThrowsExactly<JSONParserException>(() => parser.Parse(@"falss"));
 
             Assert.IsNull(parser.Parse(@"nul   "));
-            Assert.AreEqual(false, parser.IsLastParseComplete);
+            Assert.IsFalse(parser.IsLastParseComplete);
             Assert.IsNull(parser.Parse(@"null"));
-            Assert.AreEqual(true, parser.IsLastParseComplete);
+            Assert.IsTrue(parser.IsLastParseComplete);
         }
 
         [TestMethod]

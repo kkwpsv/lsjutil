@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lsj.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lsj.Util.Tests
@@ -17,14 +13,7 @@ namespace Lsj.Util.Tests
         {
             Assert.AreEqual(typeof(int).IsNumeric(), true);
             Assert.AreEqual(typeof(string).IsNumeric(), false);
-            try
-            {
-                ((Type)null).IsNumeric();
-            }
-            catch (Exception e)
-            {
-                Assert.IsInstanceOfType(e, typeof(ArgumentNullException));
-            }
+            Assert.ThrowsExactly<ArgumentNullException>(() => { (null as Type).IsNumeric(); });
         }
 
 

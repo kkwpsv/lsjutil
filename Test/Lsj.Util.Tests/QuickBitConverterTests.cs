@@ -51,7 +51,7 @@ namespace Lsj.Util.Tests
             }
             try
             {
-                QuickBitConverter.ConvertToInt((byte[])null);
+                QuickBitConverter.ConvertToInt((byte[]?)null);
             }
             catch (Exception e)
             {
@@ -124,7 +124,7 @@ namespace Lsj.Util.Tests
             }
             try
             {
-                QuickBitConverter.ConvertToShort((byte[])null);
+                QuickBitConverter.ConvertToShort((byte[]?)null);
             }
             catch (Exception e)
             {

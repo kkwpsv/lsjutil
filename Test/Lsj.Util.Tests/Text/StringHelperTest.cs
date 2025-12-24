@@ -17,26 +17,26 @@ namespace Lsj.Util.Tests.Text
             Assert.AreEqual("", Test_abc.SubstringIgnoreOverFlow(0, 0));
             Assert.AreEqual("bc", Test_abc.SubstringIgnoreOverFlow(1, 3));
             Assert.AreEqual("", Test_abc.SubstringIgnoreOverFlow(4, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.SubstringIgnoreOverFlow(-1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.SubstringIgnoreOverFlow(1, -1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.SubstringIgnoreOverFlow(-1, 1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.SubstringIgnoreOverFlow(1, -1));
         }
 
         [TestMethod]
         public void RemoveTest()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => "".RemoveLastOne());
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => "".RemoveLastOne());
             Assert.AreEqual("ab", Test_abc.RemoveLastOne());
 
             Assert.AreEqual("a", Test_abc.RemoveLast(2));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.RemoveLast(-1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.RemoveLast(4));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.RemoveLast(-1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.RemoveLast(4));
 
             Assert.AreEqual("ac", Test_abc.RemoveOne(1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.RemoveOne(-1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => Test_abc.RemoveOne(3));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.RemoveOne(-1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Test_abc.RemoveOne(3));
 
             var sb = new StringBuilder();
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sb.RemoveLastOne());
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => sb.RemoveLastOne());
 
             sb = new StringBuilder(Test_abc);
             sb.RemoveLastOne();
@@ -47,20 +47,20 @@ namespace Lsj.Util.Tests.Text
             Assert.AreEqual("a", sb.ToString());
 
             sb = new StringBuilder(Test_abc);
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sb.RemoveLast(-1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => sb.RemoveLast(-1));
 
             sb = new StringBuilder(Test_abc);
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sb.RemoveLast(4));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => sb.RemoveLast(4));
 
             sb = new StringBuilder(Test_abc);
             sb.Remove(1);
             Assert.AreEqual("a", sb.ToString());
 
             sb = new StringBuilder(Test_abc);
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sb.Remove(-1));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => sb.Remove(-1));
 
             sb = new StringBuilder(Test_abc);
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sb.Remove(3));
+            Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => sb.Remove(3));
         }
 
         [TestMethod]

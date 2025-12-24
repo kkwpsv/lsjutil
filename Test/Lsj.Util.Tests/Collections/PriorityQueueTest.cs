@@ -23,7 +23,7 @@ namespace Lsj.Util.Tests.Collections
             {
                 Assert.AreEqual(j, q.Dequeue());
             }
-            Assert.ThrowsException<InvalidOperationException>(() => q.Dequeue());
+            Assert.ThrowsExactly<InvalidOperationException>(() => q.Dequeue());
         }
     }
 }

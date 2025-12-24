@@ -14,7 +14,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentNullException">The src is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 4.</exception>
         /// <returns></returns>
-        public static int ConvertToInt(this byte[] src) => ConvertToInt(src, 0);
+        public static int ConvertToInt(this byte[]? src) => ConvertToInt(src, 0);
 
         /// <summary>
         /// Convert To Int
@@ -24,7 +24,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentNullException">src is null</exception>
         /// <exception cref="ArgumentOutOfRangeException">The offset is less than zero or the offset + 4 is larger than the length of src.</exception>
         /// <returns></returns>
-        public static int ConvertToInt(this byte[] src, int offset)
+        public static int ConvertToInt(this byte[]? src, int offset)
         {
             if (src == null)
             {
@@ -73,7 +73,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentNullException">The src is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 2.</exception>
         /// <returns></returns>
-        public static int ConvertToShort(this byte[] src) => ConvertToShort(src, 0);
+        public static int ConvertToShort(this byte[]? src) => ConvertToShort(src, 0);
 
         /// <summary>
         /// Convert To Short
@@ -83,7 +83,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentNullException">src is null</exception>
         /// <exception cref="ArgumentOutOfRangeException">The offset is less than zero or the offset + 2 is larger than the length of src.</exception>
         /// <returns></returns>
-        public static int ConvertToShort(this byte[] src, int offset)
+        public static int ConvertToShort(this byte[]? src, int offset)
         {
             if (src == null)
             {

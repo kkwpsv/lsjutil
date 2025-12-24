@@ -13,19 +13,19 @@ namespace Lsj.Util.Tests.JSON
         public void Parse_EmptyAndNull()
         {
             var parser = new JSONParser();
-            Assert.AreEqual((JSONObject?)null, parser.Parse(""));
-            Assert.AreEqual((JSONObject?)null, parser.Parse(null));
+            Assert.IsNull(parser.Parse(""));
+            Assert.IsNull(parser.Parse(null));
             Assert.AreEqual(0, parser.Parse<int>(""));
             Assert.AreEqual(0, parser.Parse<int>(null));
 
             var emptyObject = parser.Parse("{}");
-            Assert.AreEqual(0, (emptyObject as JSONObject).GetDynamicMemberNames().Count());
+            Assert.AreEqual(0, (emptyObject as JSONObject)!.GetDynamicMemberNames().Count());
 
             var obj = parser.Parse<TestObject>(@"{""C"":null}");
-            Assert.AreEqual(null, obj.C);
+            Assert.IsNull(obj!.C);
 
             var emptyObject2 = parser.Parse("\r\n{\r\n}\r\n");
-            Assert.AreEqual(0, (emptyObject2 as JSONObject).GetDynamicMemberNames().Count());
+            Assert.AreEqual(0, (emptyObject2 as JSONObject)!.GetDynamicMemberNames().Count());
         }
 
         [TestMethod]
@@ -41,21 +41,25 @@ namespace Lsj.Util.Tests.JSON
         {
             var parser = new JSONParser();
             var result = parser.Parse<List<int>>("[0,1,2,3]");
-            Assert.AreEqual(4, result.Count);
+            Assert.IsNotNull(result);
+            Assert.HasCount(4, result);
             for (int i = 0; i < 4; i++)
             {
                 Assert.AreEqual(i, result[i]);
             }
 
             var result2 = parser.Parse<List<int>>("[]");
-            Assert.AreEqual(0, result2.Count);
+            Assert.IsNotNull(result2);
+            Assert.IsEmpty(result2);
 
             var result3 = parser.Parse("[]");
-            Assert.AreEqual(typeof(JSONArray), result3.GetType());
-            Assert.AreEqual(0, result3.Count);
+            Assert.IsNotNull(result3);
+            Assert.IsInstanceOfType<JSONArray>(result3);
+            Assert.AreEqual(0, result3!.Count);
 
             var result4 = parser.Parse<List<TestStruct>>(@"[{""A"":1},{""B"":2},{""C"":""ABC""}]");
-            Assert.AreEqual(3, result4.Count);
+            Assert.IsNotNull(result4);
+            Assert.HasCount(3, result4);
             Assert.AreEqual(1, result4[0].A);
             Assert.AreEqual(2, result4[1].B);
             Assert.AreEqual("ABC", result4[2].C);
@@ -66,6 +70,7 @@ namespace Lsj.Util.Tests.JSON
         {
             var parser = new JSONParser();
             var result = parser.Parse<TestObject>(@"{""A"":1,""B"":2,""D"":4}");
+            Assert.IsNotNull(result);
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
         }
@@ -84,6 +89,7 @@ namespace Lsj.Util.Tests.JSON
         {
             var parser = new JSONParser();
             var result = parser.Parse<TestCustomObject>(@"{""A"":""Test"",""B"":""Test2""}");
+            Assert.IsNotNull(result);
             Assert.AreEqual(true, result.A);
             Assert.AreEqual(false, result.B);
         }
@@ -93,7 +99,7 @@ namespace Lsj.Util.Tests.JSON
         {
             var parser = new JSONParser();
             var result = parser.Parse(@"{""A"":1,""B"":2,""D"":4}");
-            int d1 = result.D;
+            int d1 = result!.D;
             decimal d2 = result.D;
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
@@ -113,14 +119,14 @@ namespace Lsj.Util.Tests.JSON
     public class TestSerializer : ISerializer
     {
         public object Convert(object? obj) => throw new NotImplementedException();
-        public object Parse(object? str) => (string)str == "Test";
+        public object Parse(object? str) => (string?)str == "Test";
     }
 
     public class TestObject
     {
         public int A { get; set; }
         public int B { get; set; }
-        public TestObject C { get; set; }
+        public TestObject? C { get; set; }
     }
 
     public struct TestStruct

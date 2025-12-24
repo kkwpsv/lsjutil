@@ -15,7 +15,7 @@ namespace Lsj.Util.Tests.JSON
         {
             public int A { get; set; }
             public int B { get; set; }
-            public TestObject C { get; set; }
+            public TestObject? C { get; set; }
         }
 
         [TestMethod]
@@ -31,8 +31,8 @@ namespace Lsj.Util.Tests.JSON
             var result = obj.SpecifiedTo<TestObject>();
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
-            Assert.AreEqual(3, result.C.A);
-            Assert.AreEqual(0, result.C.B);
+            Assert.AreEqual(3, result.C!.A);
+            Assert.AreEqual(0, result.C!.B);
         }
 
         [TestMethod]
