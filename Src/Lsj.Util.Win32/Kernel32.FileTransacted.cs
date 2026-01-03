@@ -327,8 +327,14 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CopyFileTransacted([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] P<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags, [In] HANDLE hTransaction);
+        public static extern BOOL CopyFileTransacted([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName,
+            [In] LPPROGRESS_ROUTINE lpProgressRoutine, [In] LPVOID lpData,
+#if NETFRAMEWORK
+            [In] nint pbCancel,
+#else
+            [In] P<BOOL> pbCancel,
+#endif
+            [In] CopyFileFlags dwCopyFlags, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>

@@ -95,7 +95,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMoniker", ExactSpelling = true)]
-        public static extern HRESULT CreateURLMoniker([In] P<IMoniker> pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk);
+        public static extern HRESULT CreateURLMoniker(
+#if NETFRAMEWORK
+            [In] nint pMkCtx,
+#else
+            [In] P<IMoniker> pMkCtx,
+#endif
+            [In] LPCWSTR szURL,
+#if NETFRAMEWORK
+            [Out] out nint ppmk
+#else
+            [Out] out P<IMoniker> ppmk
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -153,6 +165,18 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("Urlmon.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateURLMonikerEx", ExactSpelling = true)]
-        public static extern HRESULT CreateURLMonikerEx([In] P<IMoniker> pMkCtx, [In] LPCWSTR szURL, [Out] out P<IMoniker> ppmk, [In] DWORD dwFlags);
+        public static extern HRESULT CreateURLMonikerEx(
+#if NETFRAMEWORK
+            [In] nint pMkCtx,
+#else
+            [In] P<IMoniker> pMkCtx,
+#endif
+            [In] LPCWSTR szURL,
+#if NETFRAMEWORK
+            [Out] out nint ppmk,
+#else
+            [Out] out P<IMoniker> ppmk,
+#endif
+            [In] DWORD dwFlags);
     }
 }

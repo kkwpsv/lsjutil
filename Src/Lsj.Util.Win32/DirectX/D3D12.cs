@@ -110,7 +110,12 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D12.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D12CreateDevice", ExactSpelling = true)]
-        public static extern HRESULT D3D12CreateDevice([In] P<IUnknown> pAdapter, [In] D3D_FEATURE_LEVEL MinimumFeatureLevel,
-            [In] in IID riid, [Out] out IntPtr ppDevice);
+        public static extern HRESULT D3D12CreateDevice(
+#if NETFRAMEWORK
+            [In] nint pAdapter,
+#else
+            [In] P<IUnknown> pAdapter,
+#endif
+            [In] D3D_FEATURE_LEVEL MinimumFeatureLevel, [In] in IID riid, [Out] out IntPtr ppDevice);
     }
 }

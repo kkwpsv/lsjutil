@@ -1156,8 +1156,14 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyFileExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName, [In] LPPROGRESS_ROUTINE lpProgressRoutine,
-            [In] LPVOID lpData, [In] P<BOOL> pbCancel, [In] CopyFileFlags dwCopyFlags);
+        public static extern BOOL CopyFileEx([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName,
+            [In] LPPROGRESS_ROUTINE lpProgressRoutine, [In] LPVOID lpData,
+#if NETFRAMEWORK
+            [In] nint pbCancel,
+#else
+            [In] P<BOOL> pbCancel,
+#endif
+            [In] CopyFileFlags dwCopyFlags);
 
         /// <summary>
         /// <para>

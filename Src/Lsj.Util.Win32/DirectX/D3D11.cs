@@ -237,9 +237,16 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D11CreateDevice", ExactSpelling = true)]
-        public static extern HRESULT D3D11CreateDevice([In] P<IDXGIAdapter> pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
-            [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[]? pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
+        public static extern HRESULT D3D11CreateDevice(
+#if NETFRAMEWORK
+            [In] P<IDXGIAdapter> pAdapter,
+#else
+            [In] nint pAdapter,
+#endif
+            [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software, [In] D3D11_CREATE_DEVICE_FLAG Flags,
+            [In] D3D_FEATURE_LEVEL[]? pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
             [Out] out P<ID3D11Device> ppDevice, [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);
+
 
         /// <summary>
         /// <para>
@@ -416,9 +423,15 @@ namespace Lsj.Util.Win32.DirectX
         /// </para>
         /// </remarks>
         [DllImport("D3D11.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D11CreateDeviceAndSwapChain", ExactSpelling = true)]
-        public static extern HRESULT D3D11CreateDeviceAndSwapChain([In] P<IDXGIAdapter> pAdapter, [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software,
-             [In] D3D11_CREATE_DEVICE_FLAG Flags, [In] D3D_FEATURE_LEVEL[] pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
-             [In] in DXGI_SWAP_CHAIN_DESC pSwapChainDesc, [Out] out P<IDXGISwapChain> ppSwapChain, [Out] out P<ID3D11Device> ppDevice,
-             [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);
+        public static extern HRESULT D3D11CreateDeviceAndSwapChain(
+#if NETFRAMEWORK
+            [In] P<IDXGIAdapter> pAdapter,
+#else
+            [In] nint pAdapter,
+#endif
+            [In] D3D_DRIVER_TYPE DriverType, [In] HMODULE Software, [In] D3D11_CREATE_DEVICE_FLAG Flags,
+            [In] D3D_FEATURE_LEVEL[] pFeatureLevels, [In] UINT FeatureLevels, [In] UINT SDKVersion,
+            [In] in DXGI_SWAP_CHAIN_DESC pSwapChainDesc, [Out] out P<IDXGISwapChain> ppSwapChain, [Out] out P<ID3D11Device> ppDevice,
+            [Out] out D3D_FEATURE_LEVEL pFeatureLevel, [Out] out P<ID3D11DeviceContext> ppImmediateContext);
     }
 }

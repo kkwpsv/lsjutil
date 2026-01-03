@@ -73,6 +73,12 @@ namespace Lsj.Util.Win32.MediaFoundation
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Mf.dll", CharSet = CharSet.Unicode, EntryPoint = "MFGetService", ExactSpelling = true)]
-        public static extern HRESULT MFGetService([In] P<IUnknown> punkObject, [In] in GUID guidService, [In] in IID riid, [Out] out LPVOID ppvObject);
+        public static extern HRESULT MFGetService(
+#if NETFRAMEWORK
+            [In] nint punkObject,
+#else
+            [In] P<IUnknown> punkObject,
+#endif
+            [In] in GUID guidService, [In] in IID riid, [Out] out LPVOID ppvObject);
     }
 }

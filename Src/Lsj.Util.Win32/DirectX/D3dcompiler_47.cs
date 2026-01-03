@@ -101,7 +101,18 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [DllImport("d3dcompiler_47.dll", CharSet = CharSet.Unicode, EntryPoint = "D3DCompile", ExactSpelling = true)]
         public static extern HRESULT D3DCompile([In] LPCVOID pSrcData, [In] SIZE_T SrcDataSize, [In] LPCSTR pSourceName,
-            [In] D3D_SHADER_MACRO[]? pDefines, [In] P<ID3DInclude> pInclude, [In] LPCSTR pEntrypoint, [In] LPCSTR pTarget,
-            [In] D3DCOMPILE Flags1, [In] D3DCOMPILE_EFFECT Flags2, [Out] out P<ID3DBlob> ppCode, [Out] out P<ID3DBlob> ppErrorMsgs);
+            [In] D3D_SHADER_MACRO[]? pDefines,
+#if NETFRAMEWORK
+            [In] nint pInclude,
+#else
+            [In] P<ID3DInclude> pInclude,
+#endif
+            [In] LPCSTR pEntrypoint, [In] LPCSTR pTarget, [In] D3DCOMPILE Flags1, [In] D3DCOMPILE_EFFECT Flags2,
+#if NETFRAMEWORK
+            [Out] out nint ppCode, [Out] out nint ppErrorMsgs
+#else
+            [Out] out P<ID3DBlob> ppCode, [Out] out P<ID3DBlob> ppErrorMsgs
+#endif
+            );
     }
 }

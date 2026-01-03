@@ -200,7 +200,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateStdDispatch", ExactSpelling = true)]
-        public static extern HRESULT CreateStdDispatch([In] P<IUnknown> punkOuter, [In] IntPtr pvThis, [In] in ITypeInfo ptinfo, [Out] out P<IUnknown> ppunkStdDisp);
+        public static extern HRESULT CreateStdDispatch(
+#if NETFRAMEWORK
+            [In] nint punkOuter,
+#else
+            [In] P<IUnknown> punkOuter,
+#endif
+            [In] IntPtr pvThis, [In] in ITypeInfo ptinfo,
+#if NETFRAMEWORK
+            [Out] out nint ppunkStdDisp
+#else
+            [Out] out P<IUnknown> ppunkStdDisp
+#endif
+            );
 
         /// <summary>
         /// <para>

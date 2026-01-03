@@ -1,10 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
-using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.Extensions.DirectX.Direct3D11
 {
@@ -20,7 +18,14 @@ namespace Lsj.Util.Win32.Extensions.DirectX.Direct3D11
             {
                 fixed (byte* ptr = data)
                 {
+#if NETFRAMEWORK
+                    var result = D3dcompiler_47.D3DCompile((nint)ptr, data.Length, NULL, null, NULL, entrypoint, target, 0, 0, out var tempCodeBlob, out var tempErrorBlob);
+                    codeBlob = tempCodeBlob;
+                    errorBlob = tempErrorBlob;
+                    return result;
+#else
                     return D3dcompiler_47.D3DCompile((nint)ptr, data.Length, NULL, null, NULL, entrypoint, target, 0, 0, out codeBlob, out errorBlob);
+#endif
                 }
             }
         }

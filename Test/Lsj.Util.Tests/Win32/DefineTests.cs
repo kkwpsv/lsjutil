@@ -43,6 +43,48 @@ namespace Lsj.Util.Tests.Win32
             "DXGIGetDebugInterface",
         };
 
+        private static readonly List<string> _genericTypeParameterWhiteList = new List<string>
+        {
+            "D3D11CreateDevice",
+            "D3D11CreateDeviceAndSwapChain",
+            "D3D12CreateDevice",
+            "D3DCompile",
+            "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9",
+            "GetPhysicalMonitorsFromIDirect3DDevice9",
+            "CopyFileEx",
+            "CopyFileTransacted",
+            "MFGetService",
+            "MFCreateSourceReaderFromURL",
+            "BindMoniker",
+            "CoCopyProxy",
+            "CoCreateInstance",
+            "CoCreateInstanceEx",
+            "CoDisconnectObject",
+            "CoGetInstanceFromFile",
+            "CoGetInstanceFromIStorage",
+            "CoGetMarshalSizeMax",
+            "CoGetStandardMarshal",
+            "CoMarshalInterface",
+            "CoQueryProxyBlanket",
+            "CoRegisterClassObject",
+            "CoReleaseMarshalData",
+            "CoSetProxyBlanket",
+            "CreateGenericComposite",
+            "MkParseDisplayName",
+            "OleCreate",
+            "OleCreateDefaultHandler",
+            "OleCreateFromData",
+            "OleCreateFromFile",
+            "OleCreateLink",
+            "OleLoad",
+            "OleSave",
+            "StgOpenStorage",
+            "WriteClassStg",
+            "CreateStdDispatch",
+            "CreateURLMoniker",
+            "CreateURLMonikerEx",
+        };
+
         [TestMethod]
         public void TestMethods()
         {
@@ -60,6 +102,7 @@ namespace Lsj.Util.Tests.Win32
             var hasStringParameterMethods = new List<MethodInfo>();
             var hasObjectParameterMethods = new List<MethodInfo>();
             var hasRawComInterfaceParameterMethods = new List<MethodInfo>();
+            var hasGenericTypeParameterMethods = new List<MethodInfo>();
             foreach (var item in methodsToEntryPoints)
             {
                 var entryPoint = item.Attribute.EntryPoint;
@@ -135,6 +178,11 @@ namespace Lsj.Util.Tests.Win32
                 {
                     hasRawComInterfaceParameterMethods.Add(item.Method);
                 }
+
+                if (item.Method.GetParameters().Any(x => x.ParameterType.IsGenericType) && !_genericTypeParameterWhiteList.Contains(item.Method.Name))
+                {
+                    hasGenericTypeParameterMethods.Add(item.Method);
+                }
             }
 
             var fails = new List<string>();
@@ -147,6 +195,7 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(hasStringParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has string parameter."));
             fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
             fails.AddRange(hasRawComInterfaceParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has raw COM interface parameter."));
+            fails.AddRange(hasGenericTypeParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has generic type parameter."));
             //fails.AddRange(toCheckApis.Select(item => $"{item} missing in methods."));
 
             if (fails.Any())

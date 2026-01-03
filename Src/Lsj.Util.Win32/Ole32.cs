@@ -129,7 +129,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT BindMoniker([In] P<IMoniker> pmk, [In] DWORD grfOpt, [In] in IID iidResult, [Out] out LPVOID ppvResult);
+        public static extern HRESULT BindMoniker(
+#if NETFRAMEWORK
+            [In] nint pmk,
+#else
+            [In] P<IMoniker> pmk,
+#endif
+            [In] DWORD grfOpt, [In] in IID iidResult, [Out] out LPVOID ppvResult);
 
         /// <summary>
         /// <para>
@@ -336,7 +342,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCopyProxy", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCopyProxy([In] P<IUnknown> pProxy, [Out] out P<IUnknown> ppCopy);
+        public static extern HRESULT CoCopyProxy(
+#if NETFRAMEWORK
+            [In] nint pProxy, [Out] out nint ppCopy
+#else
+            [In] P<IUnknown> pProxy, [Out] out P<IUnknown> ppCopy
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -506,7 +518,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstance([In] in CLSID rclsid, [In] P<IUnknown> pUnkOuter,
+        public static extern HRESULT CoCreateInstance([In] in CLSID rclsid,
+#if NETFRAMEWORK
+            [In] nint pUnkOuter,
+#else
+            [In] P<IUnknown> pUnkOuter,
+#endif
             [In] CLSCTX dwClsContext, [In] in IID riid, [Out] out LPVOID ppv);
 
         /// <summary>
@@ -636,8 +653,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid, [In] P<IUnknown> punkOuter, [In] CLSCTX dwClsCtx,
-            [In] in COSERVERINFO pServerInfo, [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
+        public static extern HRESULT CoCreateInstanceEx([In] in CLSID Clsid,
+#if NETFRAMEWORK
+            [In] nint punkOuter,
+#else
+            [In] P<IUnknown> punkOuter,
+#endif
+            [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo, [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -707,7 +729,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoDisconnectObject([In] P<IUnknown> pUnk, [In] DWORD dwReserved);
+        public static extern HRESULT CoDisconnectObject(
+#if NETFRAMEWORK
+            [In] nint pUnk,
+#else
+            [In] P<IUnknown> pUnk,
+#endif
+            [In] DWORD dwReserved);
 
         /// <summary>
         /// <para>
@@ -1044,7 +1072,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid, [In] P<IUnknown> punkOuter,
+        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid,
+#if NETFRAMEWORK
+            [In] nint punkOuter,
+#else
+            [In] P<IUnknown> punkOuter,
+#endif
             [In] CLSCTX dwClsCtx, [In] STGM grfMode, [In] LPOLESTR pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
 
         /// <summary>
@@ -1161,7 +1194,12 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromIStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [In] in Guid pClsid,
-            [In] P<IUnknown> punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
+#if NETFRAMEWORK
+            [In] nint punkOuter,
+#else
+            [In] P<IUnknown> punkOuter,
+#endif
+            [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -1295,7 +1333,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMarshalSizeMax", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetMarshalSizeMax([Out] out ULONG pulSize, [In] in IID riid, [In] P<IUnknown> pUnk,
+        public static extern HRESULT CoGetMarshalSizeMax([Out] out ULONG pulSize, [In] in IID riid,
+#if NETFRAMEWORK
+            [In] nint pUnk,
+#else
+            [In] P<IUnknown> pUnk,
+#endif
             [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] in MSHLFLAGS mshlflags);
 
         /// <summary>
@@ -1412,8 +1455,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetStandardMarshal", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetStandardMarshal([In] in IID riid, [In] P<IUnknown> pUnk, [In] MSHCTX dwDestContext,
-            [In] LPVOID pvDestContext, [In] MSHLFLAGS mshlflags, [Out] out IMarshal ppMarshal);
+        public static extern HRESULT CoGetStandardMarshal([In] in IID riid,
+#if NETFRAMEWORK
+            [In] nint pUnk,
+#else
+            [In] P<IUnknown> pUnk,
+#endif
+            [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] MSHLFLAGS mshlflags,
+#if NETFRAMEWORK
+            [Out] out nint ppMarshal
+#else
+            [Out] out P<IMarshal> ppMarshal
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -2075,7 +2129,18 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoMarshalInterface", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoMarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] P<IUnknown> pUnk,
+        public static extern HRESULT CoMarshalInterface(
+#if NETFRAMEWORK
+            [In] nint pStm,
+#else
+            [In] P<IStream> pStm,
+#endif
+            [In] in IID riid,
+#if NETFRAMEWORK
+            [In] nint pUnk,
+#else
+            [In] P<IUnknown> pUnk,
+#endif
             [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] MSHLFLAGS mshlflags);
 
         /// <summary>
@@ -2166,8 +2231,14 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoQueryProxyBlanket([In] P<IUnknown> pProxy, [Out] out AuthenticationServiceConstants pwAuthnSvc,
-            [Out] out AuthorizationConstants pAuthzSvc, [Out] out LPOLESTR pServerPrincName, [Out] out AuthenticationLevelConstants pAuthnLevel,
+        public static extern HRESULT CoQueryProxyBlanket(
+#if NETFRAMEWORK
+            [In] nint pProxy,
+#else
+            [In] P<IUnknown> pProxy,
+#endif
+            [Out] out AuthenticationServiceConstants pwAuthnSvc, [Out] out AuthorizationConstants pAuthzSvc,
+            [Out] out LPOLESTR pServerPrincName, [Out] out AuthenticationLevelConstants pAuthnLevel,
             [Out] out ImpersonationLevelConstants pImpLevel, [Out] out RPC_AUTH_IDENTITY_HANDLE pAuthInfo,
             [Out] out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
 
@@ -2285,7 +2356,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [In] P<IUnknown> pUnk, [In] CLSCTX dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
+        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid,
+#if NETFRAMEWORK
+            [In] nint pUnk,
+#else
+            [In] P<IUnknown> pUnk,
+#endif
+            [In] CLSCTX dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
 
         /// <summary>
         /// <para>
@@ -2413,7 +2490,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoReleaseMarshalData", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoReleaseMarshalData([In] P<IStream> pStm);
+        public static extern HRESULT CoReleaseMarshalData(
+#if NETFRAMEWORK
+            [In] nint pStm
+#else
+            [In] P<IStream> pStm
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -2672,8 +2755,14 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoSetProxyBlanket([In] P<IUnknown> pProxy, [In] AuthenticationServiceConstants dwAuthnSvc,
-            [In] AuthorizationConstants dwAuthzSvc, [In] LPOLESTR pServerPrincName, [In] AuthenticationLevelConstants dwAuthnLevel,
+        public static extern HRESULT CoSetProxyBlanket(
+#if NETFRAMEWORK
+            [In] nint pProxy,
+#else
+            [In] P<IUnknown> pProxy,
+#endif
+            [In] AuthenticationServiceConstants dwAuthnSvc, [In] AuthorizationConstants dwAuthzSvc,
+            [In] LPOLESTR pServerPrincName, [In] AuthenticationLevelConstants dwAuthnLevel,
             [In] ImpersonationLevelConstants dwImpLevel, [In] RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>
@@ -3398,7 +3487,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateGenericComposite([In] P<IMoniker> pmkFirst, [In] P<IMoniker> pmkRest, [Out] out P<IMoniker> ppmkComposite);
+        public static extern HRESULT CreateGenericComposite(
+#if NETFRAMEWORK
+            [In] nint pmkFirst, [In] nint pmkRest, [Out] out nint ppmkComposite
+#else
+            [In] P<IMoniker> pmkFirst, [In] P<IMoniker> pmkRest, [Out] out P<IMoniker> ppmkComposite
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -3741,7 +3836,20 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "MkParseDisplayName", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT MkParseDisplayName([In] P<IBindCtx> pbc, [In] LPOLESTR szUserName, [Out] out ULONG pchEaten, [Out] out P<IMoniker> ppmk);
+        public static extern HRESULT MkParseDisplayName(
+#if NETFRAMEWORK
+            [In] nint pbc,
+#else
+            [In] P<IBindCtx> pbc,
+#endif
+            [In] LPOLESTR szUserName, [Out] out ULONG pchEaten,
+
+#if NETFRAMEWORK
+            [Out] out nint ppmk
+#else
+            [Out] out P<IMoniker> ppmk
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -3849,7 +3957,12 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreate", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreate([In] in CLSID rclsid, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC pFormatEtc,
-            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
+#if NETFRAMEWORK
+            [In] nint pClientSite, [In] nint pStg,
+#else
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg,
+#endif
+            [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -3893,7 +4006,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateDefaultHandler", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid, [In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out LPVOID lplpObj);
+        public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid,
+#if NETFRAMEWORK
+            [In] nint pUnkOuter,
+#else
+            [In] P<IUnknown> pUnkOuter,
+#endif
+            [In] in IID riid, [Out] out LPVOID lplpObj);
 
         /// <summary>
         /// <para>
@@ -4073,8 +4192,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromData", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateFromData([In] IDataObject pSrcDataObj, [In] in IID riid, [In] OLERENDER renderopt,
-            [In] in FORMATETC pFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleCreateFromData(
+#if NETFRAMEWORK
+            [In] nint pSrcDataObj,
+#else
+            [In] P<IDataObject> pSrcDataObj,
+#endif
+            [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC pFormatEtc,
+#if NETFRAMEWORK
+            [In] nint pClientSite, [In] nint pStg,
+#else
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg,
+#endif
+            [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -4200,7 +4330,13 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromFile", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [In] LPCOLESTR lpszFileName, [In] in IID riid,
-            [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
+            [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc,
+#if NETFRAMEWORK
+            [In] nint pClientSite, [In] nint pStg,
+#else
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg,
+#endif
+            [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -4270,8 +4406,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateLink", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleCreateLink([In] P<IMoniker> pmkLinkSrc, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
-            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleCreateLink(
+#if NETFRAMEWORK
+            [In] nint pmkLinkSrc,
+#else
+            [In] P<IMoniker> pmkLinkSrc,
+#endif
+            [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
+#if NETFRAMEWORK
+            [In] nint pClientSite, [In] nint pStg,
+#else
+            [In] P<IOleClientSite> pClientSite, [In] P<IStorage> pStg,
+#endif
+            [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -4493,7 +4640,19 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleLoad", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleLoad([In] P<IStorage> pStg, [In] in IID riid, [In] P<IOleClientSite> pClientSite, [Out] out LPVOID ppvObj);
+        public static extern HRESULT OleLoad(
+#if NETFRAMEWORK
+            [In] nint pStg,
+#else
+            [In] P<IStorage> pStg,
+#endif
+            [In] in IID riid,
+#if NETFRAMEWORK
+            [In] nint pClientSite,
+#else
+            [In] P<IOleClientSite> pClientSite,
+#endif
+            [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -4594,7 +4753,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleSave", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT OleSave([In] P<IPersistStorage> pPS, [In] P<IStorage> pStg, [In] BOOL fSameAsLoad);
+        public static extern HRESULT OleSave(
+#if NETFRAMEWORK
+            [In] nint pPS, [In] nint pStg,
+#else
+            [In] P<IPersistStorage> pPS, [In] P<IStorage> pStg,
+#endif
+            [In] BOOL fSameAsLoad);
 
         /// <summary>
         /// <para>
@@ -5173,8 +5338,19 @@ namespace Lsj.Util.Win32
                 "This function, StgOpenStorage, still exists for compatibility with applications running on Windows 2000.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT StgOpenStorage([In] LPWSTR pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
-            [In] LPOLESTR[] snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstgOpen);
+        public static extern HRESULT StgOpenStorage([In] LPWSTR pwcsName,
+#if NETFRAMEWORK
+            [In] nint pstgPriority,
+#else
+            [In] P<IStorage> pstgPriority,
+#endif
+            [In] STGM grfMode, [In] LPOLESTR[] snbExclude, [In] DWORD reserved,
+#if NETFRAMEWORK
+            [Out] out nint ppstgOpen
+#else
+            [Out] out P<IStorage> ppstgOpen
+#endif
+            );
 
         /// <summary>
         /// <para>
@@ -5450,6 +5626,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteClassStg", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT WriteClassStg([In] P<IStorage> pStg, [In] in CLSID rclsid);
+        public static extern HRESULT WriteClassStg(
+#if NETFRAMEWORK
+            [In] nint pStg,
+#else
+            [In] P<IStorage> pStg,
+#endif
+            [In] in CLSID rclsid);
     }
 }

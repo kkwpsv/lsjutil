@@ -53,7 +53,14 @@ namespace Lsj.Util.Win32.MediaFoundation
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, Note = "Platform Update Supplement")]
         [DllImport("Mfreadwrite.dll", CharSet = CharSet.Unicode, EntryPoint = "MFCreateSourceReaderFromURL", ExactSpelling = true)]
-        public static extern HRESULT MFCreateSourceReaderFromURL([In] LPCWSTR pwszURL, P<IMFAttributes> pAttributes,
-            [Out] out P<IMFSourceReader> ppSourceReader);
+        public static extern HRESULT MFCreateSourceReaderFromURL([In] LPCWSTR pwszURL,
+#if NETFRAMEWORK
+            [In] nint pAttributes,
+            [Out] out nint ppSourceReader
+#else
+            [In] P<IMFAttributes> pAttributes,
+            [Out] out P<IMFSourceReader> ppSourceReader
+#endif
+        );
     }
 }

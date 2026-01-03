@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "DXVA2CreateDirect3DDeviceManager9", ExactSpelling = true)]
-        public static extern HRESULT DXVA2CreateDirect3DDeviceManager9([Out]out UINT pResetToken, [Out] out P<IDirect3DDeviceManager9> ppDeviceManager);
+        public static extern HRESULT DXVA2CreateDirect3DDeviceManager9([Out] out UINT pResetToken, [Out] out P<IDirect3DDeviceManager9> ppDeviceManager);
 
         /// <summary>
         /// <para>
@@ -137,7 +137,13 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true)]
-        public static extern HRESULT GetNumberOfPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9, [Out] out DWORD pdwNumberOfPhysicalMonitors);
+        public static extern HRESULT GetNumberOfPhysicalMonitorsFromIDirect3DDevice9(
+#if NETFRAMEWORK
+            [In] nint pDirect3DDevice9,
+#else
+            [In] P<IDirect3DDevice9> pDirect3DDevice9,
+#endif
+            [Out] out DWORD pdwNumberOfPhysicalMonitors);
 
         /// <summary>
         /// <para>
@@ -217,7 +223,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Dxva2.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicalMonitorsFromIDirect3DDevice9", ExactSpelling = true)]
-        public static extern HRESULT GetPhysicalMonitorsFromIDirect3DDevice9([In] P<IDirect3DDevice9> pDirect3DDevice9,
+        public static extern HRESULT GetPhysicalMonitorsFromIDirect3DDevice9(
+#if NETFRAMEWORK
+            [In] nint pDirect3DDevice9,
+#else
+            [In] P<IDirect3DDevice9> pDirect3DDevice9,
+#endif
             [In] DWORD dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
     }
 }
