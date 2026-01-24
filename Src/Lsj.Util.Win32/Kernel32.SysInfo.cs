@@ -31,6 +31,62 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Retrieves the NetBIOS name of the local computer.
+        /// This name is established at system startup, when the system reads it from the registry.
+        /// </para>
+        /// <para>
+        /// <see cref="GetComputerName"/> retrieves only the NetBIOS name of the local computer.
+        /// To retrieve the DNS host name, DNS domain name, or the fully qualified DNS name, call the <see cref="GetComputerNameEx"/> function.
+        /// Additional information is provided by the <see cref="IADsADSystemInfo"/> interface.
+        /// </para>
+        /// <para>
+        /// The behavior of this function can be affected if the local computer is a node in a cluster.
+        /// For more information, see <see cref="ResUtilGetEnvironmentWithNetName"/> and <see cref="UseNetworkName"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcomputernamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the computer name or the cluster virtual server name.
+        /// The buffer size should be large enough to contain <see cref="MAX_COMPUTERNAME_LENGTH"/> + 1 characters.
+        /// </param>
+        /// <param name="nSize">
+        /// <para>
+        /// On input, specifies the size of the buffer, in <c>TCHAR</c>s.
+        /// On output, the number of TCHARs copied to the destination buffer, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the buffer is too small, the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_BUFFER_OVERFLOW"/>.
+        /// The <paramref name="nSize"/> parameter specifies the size of the buffer required, including the terminating null character.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="GetComputerName"/> function retrieves the NetBIOS name established at system startup.
+        /// Name changes made by the <see cref="SetComputerName"/> or <see cref="SetComputerNameEx"/> functions
+        /// do not take effect until the user restarts the computer.
+        /// </para>
+        /// <para>
+        /// If the caller is running under a client session, this function returns the server name.
+        /// To retrieve the client name, use the <see cref="WTSQuerySessionInformation"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetComputerNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetComputerName([In] LPWSTR lpBuffer, [In][Out] ref DWORD nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a NetBIOS or DNS name associated with the local computer.
         /// The names are established at system startup, when the system reads them from the registry.
         /// </para>

@@ -29,6 +29,7 @@ using static Lsj.Util.Win32.Enums.StaticControlStyles;
 using static Lsj.Util.Win32.Enums.SystemCommands;
 using static Lsj.Util.Win32.Enums.TrackPopupMenuFlags;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
+using static Lsj.Util.Win32.Enums.WindowActivateTypes;
 using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowSizingTypes;
@@ -19800,9 +19801,6 @@ namespace Lsj.Util.Win32.Enums
         /// </para>
         /// <para>
         /// Return value
-        /// </para>
-        /// <para>
-        /// Type: <see cref="LRESULT"/>
         /// </para>
         /// <para>
         /// If an application processes this message, it should return zero.

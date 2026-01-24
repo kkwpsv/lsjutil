@@ -392,6 +392,98 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate COPYFILE2_MESSAGE_ACTION Pcopyfile2ProgressRoutine([In] COPYFILE2_MESSAGE pMessage, [In] PVOID pvCallbackContext);
 
+        /// <summary>
+        /// <para>
+        /// Determines whether the file I/O functions are using the ANSI or OEM character set code page.
+        /// This function is useful for 8-bit console input and output operations.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-arefileapisansi"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the set of file I/O functions is using the ANSI code page, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the set of file I/O functions is using the OEM code page, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="SetFileApisToOEM"/> function causes a set of file I/O functions to use the OEM code page.
+        /// The <see cref="SetFileApisToANSI"/> function causes the same set of file I/O functions to use the ANSI code page.
+        /// Use the <see cref="AreFileApisANSI"/> function to determine which code page the set of file I/O functions is currently using.
+        /// For a discussion of these functions' usage,
+        /// please see the Remarks sections of <see cref="SetFileApisToOEM"/> and <see cref="SetFileApisToANSI"/>.
+        /// </para>
+        /// <para>
+        /// The file I/O functions whose code page is ascertained by <see cref="AreFileApisANSI"/>
+        /// are those functions exported by KERNEL32.DLL that accept or return a file name.
+        /// </para>
+        /// <para>
+        /// The functions <see cref="SetFileApisToOEM"/> and <see cref="SetFileApisToANSI"/> set the code page for a process,
+        /// so <see cref="AreFileApisANSI"/> returns a value indicating the code page of an entire process.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreFileApisANSI", ExactSpelling = true)]
+        public static extern BOOL AreFileApisANSI();
 
         /// <summary>
         /// <para>

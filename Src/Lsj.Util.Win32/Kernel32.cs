@@ -10,12 +10,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
-using static Lsj.Util.Win32.Enums.GetTimeFormatFlags;
-using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
@@ -395,6 +393,359 @@ namespace Lsj.Util.Win32
         public static void FreeProcInstance(FARPROC lpProc)
         {
         }
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a file is an executable (.exe) file, and if so, which subsystem runs the executable file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getbinarytypew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpApplicationName">
+        /// <para>
+        /// The full path of the file whose executable type is to be determined.
+        /// </para>
+        /// <para>
+        /// By default, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        ///  Tip
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, Version 1607, you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </para>
+        /// </param>
+        /// <param name="lpBinaryType">
+        /// <para>
+        /// A pointer to a variable to receive information about the executable type of the file specified by <paramref name="lpApplicationName"/>.
+        /// The following constants are defined.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_32BIT_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A 32-bit Windows-based application
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_64BIT_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A 64-bit Windows-based application.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_DOS_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// An MS-DOS – based application
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_OS216_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A 16-bit OS/2-based application
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_PIF_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A PIF file that executes an MS-DOS – based application
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_POSIX_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A POSIX – based application
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SCS_WOW_BINARY"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A 16-bit Windows-based application
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the file is executable, the return value is nonzero.
+        /// The function sets the variable pointed to by <paramref name="lpBinaryType"/> to indicate the file's executable type.
+        /// </para>
+        /// <para>
+        /// If the file is not executable, or if the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the file is a DLL, the last error code is <see cref="ERROR_BAD_EXE_FORMAT"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// As an alternative, you can obtain the same information by calling the <see cref="SHGetFileInfo"/> function,
+        /// passing the <see cref="SHGFI_EXETYPE"/> flag in the <c>uFlags</c> parameter.
+        /// </para>
+        /// <para>
+        /// Symbolic link behavior—If the path points to a symbolic link, the target file is used.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBinaryTypeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetBinaryType([In] LPCWSTR lpApplicationName, [Out] out DWORD lpBinaryType);
+
+        /// <summary>
+        /// <para>
+        /// Formats a number string as a currency string for a locale specified by identifier.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For interoperability reasons, the application should prefer the <see cref="GetCurrencyFormatEx"/> function to <see cref="GetCurrencyFormat"/>
+        /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
+        /// Any application that runs only on Windows Vista and later should use <see cref="GetCurrencyFormatEx"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcurrencyformatw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// <para>
+        /// Locale identifier that specifies the locale for which this function formats the currency string.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags controlling currency format.
+        /// The application must set this parameter to 0 if <paramref name="lpFormat"/> is not set to <see cref="NullRef{CURRENCYFMT}"/>.
+        /// In this case, the function formats the string using user overrides to the default currency format for the locale.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NullRef{CURRENCYFMT}"/>,
+        /// the application can specify <see cref="LOCALE_NOUSEROVERRIDE"/> to format the string
+        /// using the system default currency format for the specified locale.
+        /// </para>
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpValue">
+        /// For details, see the lpValue parameter of <see cref="GetCurrencyFormatEx"/>.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a <see cref="CURRENCYFMT"/> structure that contains currency formatting information.
+        /// All members of the structure must contain appropriate values.
+        /// The application can set this parameter to <see cref="NULL"/> if function is to use the currency format of the specified locale.
+        /// If this parameter is not set to <see cref="NULL"/>,
+        /// the function uses the specified locale only for formatting information not specified in the <see cref="CURRENCYFMT"/> structure,
+        /// for example, the string value for the negative sign used by the locale.
+        /// </param>
+        /// <param name="lpCurrencyStr">
+        /// Pointer to a buffer in which this function retrieves the formatted currency string.
+        /// </param>
+        /// <param name="cchCurrency">
+        /// Size, in characters, of the <paramref name="lpCurrencyStr"/> buffer.
+        /// The application sets this parameter to 0 if the function is to return the size of the buffer required to hold the formatted currency string.
+        /// In this case, the <paramref name="lpCurrencyStr"/> parameter is not used.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in the buffer indicated by <paramref name="lpCurrencyStr"/> if successful.
+        /// If the <paramref name="cchCurrency"/> parameter is set to 0,
+        /// the function returns the size of the buffer required to hold the formatted currency string, including a terminating null character.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function can retrieve data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the call can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrencyFormatW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCurrencyFormat([In] LCID Locale, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
+            [In] in CURRENCYFMT lpFormat, [In] LPWSTR lpCurrencyStr, [In] int cchCurrency);
 
         /// <summary>
         /// <para>
@@ -853,11 +1204,18 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Formats time as a time string for a locale specified by identifier.
-        /// The function formats either a specified time or the local system time.
+        /// Formats a number string as a number string customized for a locale specified by identifier.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatw"/>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For interoperability reasons, the application should prefer the <see cref="GetNumberFormatEx"/> function to <see cref="GetNumberFormat"/>
+        /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
+        /// Any application that runs only on Windows Vista and later should use <see cref="GetNumberFormatEx"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnumberformatw"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -901,220 +1259,71 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="dwFlags">
-        /// Flags specifying time format options.
-        /// For detailed definitions see the <paramref name="dwFlags"/> parameter of <see cref="GetTimeFormatEx"/>.
-        /// </param>
-        /// <param name="lpTime">
-        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time information to format.
-        /// The application can set this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system time.
-        /// </param>
-        /// <param name="lpFormat">
-        /// Pointer to a format picture to use to format the time string.
-        /// If the application sets this parameter to <see cref="NULL"/>, the function formats the string according to the time format of the specified locale.
-        /// If the application does not set the parameter to <see cref="NULL"/>, the function uses the locale only for information not specified
-        /// in the format picture string, for example, the locale-specific time markers.
-        /// For information about the format picture string, see the Remarks section.
-        /// </param>
-        /// <param name="lpTimeStr">
-        /// Pointer to a buffer in which this function retrieves the formatted time string.
-        /// </param>
-        /// <param name="cchTime">
-        /// Size, in TCHAR values, for the time string buffer indicated by <paramref name="lpTimeStr"/>.
-        /// Alternatively, the application can set this parameter to 0.
-        /// In this case, the function returns the required size for the time string buffer,
-        /// and does not use the <paramref name="lpTimeStr"/> parameter.
-        /// </param>
-        /// <returns>
         /// <para>
-        /// Returns the number of TCHAR values retrieved in the buffer indicated by <paramref name="lpTimeStr"/>.
-        /// If the <paramref name="cchTime"/> parameter is set to 0, the function returns the size of the buffer
-        /// required to hold the formatted time string, including a terminating null character.
-        /// </para>
-        /// <para>
-        /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
-        /// </para>
-        /// <para>
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
-        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="ERROR_INVALID_FLAGS"/>.
-        /// The values supplied for flags were not valid.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="ERROR_INVALID_PARAMETER"/>.
-        /// Any of the parameter values was invalid.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="ERROR_OUTOFMEMORY"/>.
-        /// Not enough storage was available to complete this operation.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// See Remarks for <see cref="GetTimeFormatEx"/>.
-        /// </para>
-        /// <para>
-        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
-        /// the function can succeed because the operating system uses the system code page.
-        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
-        /// </para>
-        /// <para>
-        /// Starting with Windows 8: <see cref="GetTimeFormat"/> is declared in Datetimeapi.h.
-        /// Before Windows 8, it was declared in Winnls.h.
-        /// </para>
-        /// </remarks>
-        [Obsolete("For interoperability reasons, the application should prefer the GetTimeFormatEx function to GetTimeFormat " +
-            "because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales. " +
-            "Any application that will be run only on Windows Vista and later should use GetTimeFormatEx.")]
-        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetTimeFormat([In] LCID Locale, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
-            [In] LPWSTR lpTimeStr, [In] int cchTime);
-
-        /// <summary>
-        /// <para>
-        /// Formats time as a time string for a locale specified by name.
-        /// The function formats either a specified time or the local system time.
-        /// </para>
-        /// <para>
-        /// Note
-        /// </para>
-        /// <para>
-        /// The application should call this function in preference to <see cref="GetTimeFormat"/> if designed to run only on Windows Vista and later.
-        /// </para>
-        /// <para>
-        /// Note
-        /// </para>
-        /// <para>
-        /// This function can format data that changes between releases, for example, due to a custom locale.
-        /// If your application must persist or transmit data, see Using Persistent Locale Data.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/datetimeapi/nf-datetimeapi-gettimeformatex"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpLocaleName">
-        /// <para>
-        /// Pointer to a locale name, or one of the following predefined values.
-        /// </para>
-        /// <para>
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_NAME_INVARIANT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </param>
-        /// <param name="dwFlags">
-        /// <para>
-        /// Flags specifying time format options.
-        /// The application can specify a combination of the following values and <see cref="LOCALE_USE_CP_ACP"/> or <see cref="LOCALE_NOUSEROVERRIDE"/>.
+        /// Flags controlling the operation of the function.
+        /// The application must set this parameter to 0 if <paramref name="lpFormat"/> is not set to <see cref="NullRef{NUMBERFMT}"/>.
+        /// In this case, the function formats the string using user overrides to the default number format for the locale.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NullRef{NUMBERFMT}"/>,
+        /// the application can specify <see cref="LOCALE_NOUSEROVERRIDE"/>
+        /// to format the string using the system default number format for the specified locale.
         /// </para>
         /// <para>
         /// Caution
         /// </para>
         /// <para>
-        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences. 
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpValue">
+        /// <para>
+        /// Pointer to a null-terminated string containing the number string to format.
+        /// This string can only contain the following characters. All other characters are invalid.
+        /// The function returns an error if the string indicated by <paramref name="lpValue"/> deviates from these rules.
         /// </para>
         /// <para>
-        /// <list type="table">
-        /// <listheader>
-        /// <term>
-        /// Value
-        /// </term>
-        /// <term>
-        /// Meaning
-        /// </term>
-        /// </listheader>
+        /// <list type="bullet">
         /// <item>
-        /// <term>
-        /// <see cref="TIME_NOMINUTESORSECONDS"/>
-        /// </term>
-        /// <term>
-        /// Do not use minutes or seconds.
-        /// </term>
+        /// <description>
+        /// Characters "0" through "9".
+        /// </description>
         /// </item>
         /// <item>
-        /// <term>
-        /// <see cref="TIME_NOSECONDS"/>
-        /// </term>
-        /// <term>
-        /// Do not use seconds.
-        /// </term>
+        /// <description>
+        /// One decimal point (dot) if the number is a floating-point value.
+        /// </description>
         /// </item>
         /// <item>
-        /// <term>
-        /// <see cref="TIME_NOTIMEMARKER"/>
-        /// </term>
-        /// <term>
-        /// Do not use a time marker.
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <see cref="TIME_FORCE24HOURFORMAT"/>
-        /// </term>
-        /// <term>
-        /// Always use a 24-hour time format.
-        /// </term>
+        /// <description>
+        /// A minus sign in the first character position if the number is a negative value.
+        /// </description>
         /// </item>
         /// </list>
         /// </para>
         /// </param>
-        /// <param name="lpTime">
-        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time information to format.
-        /// The application can set this parameter to <see cref="NullRef{SYSTEMTIME}"/> if the function is to use the current local system time.
-        /// </param>
         /// <param name="lpFormat">
-        /// Pointer to a format picture to use to format the time string.
-        /// If the application sets this parameter to <see cref="NULL"/>, the function formats the string according to the time format of the specified locale.
-        /// If the application does not set the parameter to <see cref="NULL"/>, the function uses the locale only
-        /// for information not specified in the format picture string, for example, the locale-specific time markers.
-        /// For information about the format picture string, see the Remarks section.
+        /// Pointer to a <see cref="NUMBERFMT"/> structure that contains number formatting information, with all members set to appropriate values.
+        /// If the application does not set this parameter to <see cref="NullRef{NUMBERFMT}"/>, the function uses the locale formatting information.
         /// </param>
-        /// <param name="lpTimeStr">
-        /// Pointer to a buffer in which this function retrieves the formatted time string.
+        /// <param name="lpNumberStr">
+        /// Pointer to a buffer in which this function retrieves the formatted number string.
         /// </param>
-        /// <param name="cchTime">
-        /// Size, in characters, for the time string buffer indicated by <paramref name="lpTimeStr"/>.
+        /// <param name="cchNumber">
+        /// Size, in <c>TCHAR</c> values, for the number string buffer indicated by <paramref name="lpNumberStr"/>.
         /// Alternatively, the application can set this parameter to 0.
-        /// In this case, the function returns the required size for the time string buffer, and does not use the <paramref name="lpTimeStr"/> parameter.
+        /// In this case, the function returns the required size for the number string buffer,
+        /// and does not use the <paramref name="lpNumberStr"/> parameter.
         /// </param>
         /// <returns>
         /// <para>
-        /// Returns the number of characters retrieved in the buffer indicated by <paramref name="lpTimeStr"/>.
-        /// If the <paramref name="cchTime"/> parameter is set to 0, the function returns the size of the buffer
-        /// required to hold the formatted time string, including a terminating null character.
+        /// Returns the number of <c>TCHAR</c> values retrieved in the buffer indicated by <paramref name="lpNumberStr"/> if successful.
+        /// If the <paramref name="cchNumber"/> parameter is set to 0,
+        /// the function returns the number of characters required to hold the formatted number string,
+        /// including a terminating null character.
         /// </para>
         /// <para>
-        /// This function returns 0 if it does not succeed.
-        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
         /// </para>
         /// <para>
         /// <list type="bullet">
@@ -1146,171 +1355,21 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         /// <remarks>
-        /// <para>
-        /// If a time marker exists and the <see cref="TIME_NOTIMEMARKER"/> flag is not set,
-        /// the function localizes the time marker based on the specified locale identifier.
-        /// Examples of time markers are "AM" and "PM" for English (United States).
-        /// </para>
-        /// <para>
-        /// The time values in the structure indicated by <paramref name="lpTime"/> must be valid.
-        /// The function checks each of the time values to determine that it is within the appropriate range of values.
-        /// If any of the time values are outside the correct range, the function fails, and sets the last error to <see cref="ERROR_INVALID_PARAMETER"/>.
-        /// </para>
-        /// <para>
-        /// The function ignores the date members of the <see cref="SYSTEMTIME"/> structure.
-        /// These include: <see cref="SYSTEMTIME.wYear"/>, <see cref="SYSTEMTIME.wMonth"/>, <see cref="SYSTEMTIME.wDayOfWeek"/>, and <see cref="SYSTEMTIME.wDay"/>.
-        /// </para>
-        /// <para>
-        /// If <see cref="TIME_NOMINUTESORSECONDS"/> or <see cref="TIME_NOSECONDS"/> is specified,
-        /// the function removes the separators following the minutes and/or seconds members.
-        /// </para>
-        /// <para>
-        /// If <see cref="TIME_NOTIMEMARKER"/> is specified, the function removes the separators preceding and following the time marker.
-        /// </para>
-        /// <para>
-        /// If <see cref="TIME_FORCE24HOURFORMAT"/> is specified, the function displays any existing time marker,
-        /// unless the <see cref="TIME_NOTIMEMARKER"/> flag is also set.
-        /// </para>
-        /// <para>
-        /// The function does not include milliseconds as part of the formatted time string.
-        /// </para>
-        /// <para>
-        /// The function returns no errors for a bad format string, but just forms the best possible time string.
-        /// If more than two hour, minute, second, or time marker format pictures are passed in, the function defaults to two.
-        /// For example, the only time marker pictures that are valid are "t" and "tt".
-        /// If "ttt" is passed in, the function assumes "tt".
-        /// </para>
-        /// <para>
-        /// To obtain the time format without performing any actual formatting,
-        /// the application should use the <see cref="GetLocaleInfoEx"/> function, specifying <see cref="LOCALE_STIMEFORMAT"/>.
-        /// </para>
-        /// <para>
-        /// The application can use the following elements to construct a format picture string.
-        /// If spaces are used to separate the elements in the format string, these spaces appear in the same location in the output string.
-        /// The letters must be in uppercase or lowercase as shown, for example, "ss", not "SS".
-        /// Characters in the format string that are enclosed in single quotation marks appear in the same location and unchanged in the output string.
-        /// </para>
-        /// <para>
-        /// <list type="table">
-        /// <listheader>
-        /// <term>
-        /// Picture
-        /// </term>
-        /// <term>
-        /// Meaning
-        /// </term>
-        /// </listheader>
-        /// <item>
-        /// <term>
-        /// h
-        /// </term>
-        /// <term>
-        /// Hours with no leading zero for single-digit hours; 12-hour clock
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// hh
-        /// </term>
-        /// <term>
-        /// Hours with leading zero for single-digit hours; 12-hour clock
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// H
-        /// </term>
-        /// <term>
-        /// Hours with no leading zero for single-digit hours; 24-hour clock
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// HH
-        /// </term>
-        /// <term>
-        /// Hours with leading zero for single-digit hours; 24-hour clock
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// m
-        /// </term>
-        /// <term>
-        /// Minutes with no leading zero for single-digit minutes
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// mm
-        /// </term>
-        /// <term>
-        /// Minutes with leading zero for single-digit minutes
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// s
-        /// </term>
-        /// <term>
-        /// Seconds with no leading zero for single-digit seconds
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// ss
-        /// </term>
-        /// <term>
-        /// Seconds with leading zero for single-digit seconds
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// t
-        /// </term>
-        /// <term>
-        /// One character time marker string, such as A or P
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// tt
-        /// </term>
-        /// <term>
-        /// Multi-character time marker string, such as AM or PM
-        /// </term>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// For example, to get the time string
-        /// </para>
-        /// <code>
-        /// "11:29:40 PM"
-        /// </code>
-        /// <para>
-        /// the application should use the picture string
-        /// </para>
-        /// <code>
-        /// "hh':'mm':'ss tt"
-        /// </code>
         /// <para>
         /// This function can retrieve data from custom locales.
         /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
         /// If your application must persist or transmit data, see Using Persistent Locale Data.
         /// </para>
         /// <para>
-        /// Beginning in Windows 8: If your app passes language tags to this function from the Windows.Globalization namespace,
-        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
-        /// </para>
-        /// <para>
-        /// Beginning in Windows 8: <see cref="GetTimeFormatEx"/> is declared in Datetimeapi.h. Before Windows 8, it was declared in Winnls.h.
+        /// When the ANSI version of this function is used with a Unicode-only locale identifier,
+        /// the function can succeed because the operating system uses the system code page.
+        /// However, characters that are undefined in the system code page appear in the string as a question mark (?).
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTimeFormatEx", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetTimeFormatEx([In] LPCWSTR lpLocaleName, [In] GetTimeFormatFlags dwFlags, [In] in SYSTEMTIME lpTime, [In] LPCWSTR lpFormat,
-            [In] LPWSTR lpTimeStr, [In] int cchTime);
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberFormatW", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetNumberFormat([In] LCID Locale, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
+            [In] in NUMBERFMT lpFormat, [In] LPWSTR lpNumberStr, [In] int cchNumber);
 
         /// <summary>
         /// <para>

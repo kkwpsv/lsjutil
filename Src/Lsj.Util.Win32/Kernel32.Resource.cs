@@ -1,18 +1,559 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
     public partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumResourceLanguages"/> and the <see cref="EnumResourceLanguagesEx"/> functions.
+        /// It receives the type, name, and language of a resource item.
+        /// The <see cref="ENUMRESLANGPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumResLangProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nc-libloaderapi-enumreslangprocw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the module whose executable file contains the resources for which the languages are being enumerated.
+        /// If this parameter is <see cref="NULL"/>,
+        /// the function enumerates the resource languages in the module used to create the current process.
+        /// </param>
+        /// <param name="lpszType">
+        /// The type of resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is an integer value representing a predefined resource type.
+        /// For standard resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpszName">
+        /// The name of the resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is the integer identifier of the resource.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="wIDLanguage">
+        /// The language identifier for the resource for which the language is being enumerated.
+        /// The <see cref="EnumResourceLanguages"/> or <see cref="EnumResourceLanguagesEx"/> function provides this value.
+        /// For a list of the primary language identifiers and sublanguage identifiers
+        /// that constitute a language identifier, see <see cref="MAKELANGID"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// The application-defined parameter passed to the <see cref="EnumResourceLanguages"/> or <see cref="EnumResourceLanguagesEx"/> function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> to stop enumeration.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpszType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpszType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// Similarly, if <c>IS_INTRESOURCE(lpszName)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpszName"/> specifies the integer identifier of the given resource.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource.
+        /// </para>
+        /// <para>
+        /// An application must register this function by passing its address
+        /// to the <see cref="EnumResourceLanguages"/> or <see cref="EnumResourceLanguagesEx"/> function.
+        /// </para>
+        /// <para>
+        /// If the callback function returns <see cref="FALSE"/>,
+        /// then <see cref="EnumResourceLanguages"/> or <see cref="EnumResourceLanguagesEx"/> will stop enumeration and return <see cref="FALSE"/>.
+        /// The value obtained from <see cref="GetLastError"/> will be <see cref="ERROR_RESOURCE_ENUM_USER_STOP"/>.
+        /// </para>
+        /// </remarks>
+        public delegate BOOL EnumResLangProc([In] HMODULE hModule, [In] LPCWSTR lpszType, [In] LPCWSTR lpszName, [In] WORD wIDLanguage, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumResourceNames"/> and <see cref="EnumResourceNamesEx"/> functions.
+        /// It receives the type and name of a resource.
+        /// The <see cref="ENUMRESNAMEPROC"/> type defines a pointer to this callback function.
+        /// <c>EnumResNameProc</c> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nc-libloaderapi-enumresnameprocw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the module whose executable file contains the resources that are being enumerated.
+        /// If this parameter is <see cref="NULL"/>,
+        /// the function enumerates the resource names in the module used to create the current process.
+        /// </param>
+        /// <param name="lpType">
+        /// The type of resource for which the name is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <c>MAKEINTRESOURCE(ID)</c>,
+        /// where ID is an integer value representing a predefined resource type.
+        /// For standard resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of a resource of the type being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <c>MAKEINTRESOURCE(ID)</c>,
+        /// where ID is the integer identifier of the resource.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined parameter passed to the <see cref="EnumResourceNames"/> or <see cref="EnumResourceNamesEx"/> function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> to stop enumeration.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// Similarly, if <c>if IS_INTRESOURCE(lpName)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpName"/> specifies the integer identifier of the given resource.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource.
+        /// </para>
+        /// <para>
+        /// An application must register this function by passing its address
+        /// to the <see cref="EnumResourceNames"/> or <see cref="EnumResourceNamesEx"/> function.
+        /// </para>
+        /// <para>
+        /// If the callback function returns <see cref="FALSE"/>,
+        /// then <see cref="EnumResourceNames"/> or <see cref="EnumResourceNamesEx"/> will stop enumeration and return <see cref="FALSE"/>.
+        /// On Windows XP and earlier the value obtained from <see cref="GetLastError"/> will be <see cref="ERROR_SUCCESS"/>;
+        /// starting with Windows Vista, the last error value will be <see cref="ERROR_RESOURCE_ENUM_USER_STOP"/>.
+        /// </para>
+        /// </remarks>
+        public delegate BOOL Enumresnameprocw([In] HMODULE hModule, [In] LPCWSTR lpType, [In] LPCWSTR lpName, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumResourceTypes"/> and <see cref="EnumResourceTypesEx"/> functions.
+        /// It receives resource types.
+        /// The <see cref="ENUMRESTYPEPROC"/> type defines a pointer to this callback function.
+        /// <paramref name="EnumResTypeProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nc-libloaderapi-enumrestypeprocw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the module whose executable file contains the resources for which the types are to be enumerated.
+        /// If this parameter is <see cref="NULL"/>,
+        /// the function enumerates the resource types in the module used to create the current process.
+        /// </param>
+        /// <param name="lpType">
+        /// <para>
+        /// The type of resource for which the type is being enumerated.
+        /// </para>
+        /// <para>
+        /// Alternately, rather than a pointer, this parameter can be <c>MAKEINTRESOURCE(ID)</c>,
+        /// where ID is the integer identifier of the given resource type.
+        /// For standard resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </para>
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined parameter passed to the <see cref="EnumResourceTypes"/> or <see cref="EnumResourceTypesEx"/> function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> to stop enumeration.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// An application must register this function by passing its address
+        /// to the <see cref="EnumResourceTypes"/> or <see cref="EnumResourceTypesEx"/> function.
+        /// </para>
+        /// <para>
+        /// If the callback function returns <see cref="FALSE"/>,
+        /// then <see cref="EnumResourceTypes"/> or <see cref="EnumResourceTypesEx"/> will stop enumeration and return <see cref="FALSE"/>.
+        /// On Windows XP and earlier the value obtained from <see cref="GetLastError"/> will be <see cref="ERROR_SUCCESS"/>;
+        /// starting with Windows Vista, the last error value will be <see cref="ERROR_RESOURCE_ENUM_USER_STOP"/>.
+        /// </para>
+        /// </remarks>
+        public delegate BOOL Enumrestypeproc([In] HMODULE hModule, [In] LPWSTR lpType, [In] LONG_PTR lParam);
+
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle that can be used by the <see cref="UpdateResource"/> function
+        /// to add, delete, or replace resources in a binary module.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-beginupdateresourcew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pFileName">
+        /// The binary file in which to update resources.
+        /// An application must be able to obtain write-access to this file;
+        /// the file referenced by <paramref name="pFileName"/> cannot be currently executing.
+        /// If <paramref name="pFileName"/> does not specify a full path, the system searches for the file in the current directory.
+        /// </param>
+        /// <param name="bDeleteExistingResources">
+        /// Indicates whether to delete the <paramref name="pFileName"/> parameter's existing resources.
+        /// If this parameter is <see cref="TRUE"/>, existing resources are deleted
+        /// and the updated file includes only resources added with the <see cref="UpdateResource"/> function.
+        /// If this parameter is <see cref="FALSE"/>, the updated file includes existing resources
+        /// unless they are explicitly deleted or replaced by using <see cref="UpdateResource"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle
+        /// that can be used by the <see cref="UpdateResource"/> and <see cref="EndUpdateResource"/> functions.
+        /// The return value is <see cref="NULL"/> if the specified file is not a PE,
+        /// the file does not exist, or the file cannot be opened for writing.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// It is recommended that the resource file is not loaded before this function is called.
+        /// However, if that file is already loaded, it will not cause an error to be returned.
+        /// </para>
+        /// <para>
+        /// There are some restrictions on resource updates in files that contain Resource Configuration(RC Config) data:
+        /// LN files and the associated .mui files.
+        /// Details on which types of resources are allowed to be updated in these files
+        /// are in the Remarks section for the <see cref="UpdateResource"/> function.
+        /// </para>
+        /// <para>
+        /// This function can update resources within modules that contain both code and resources.
+        /// As noted above, there are restrictions on resource updates in LN files and .mui files, both of which contain RC Config data;
+        /// details of the restrictions are in the reference for the <see cref="UpdateResource"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginUpdateResourceW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE BeginUpdateResource([In] LPCWSTR pFileName, [In] BOOL bDeleteExistingResources);
+
+        /// <summary>
+        /// <para>
+        /// Commits or discards changes made prior to a call to <see cref="UpdateResource"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-endupdateresourcew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hUpdate">
+        /// A module handle returned by the <see cref="BeginUpdateResource"/> function,
+        /// and used by <see cref="UpdateResource"/>, referencing the file to be updated.
+        /// </param>
+        /// <param name="fDiscard">
+        /// Indicates whether to write the resource updates to the file.
+        /// If this parameter is <see cref="TRUE"/>, no changes are made.
+        /// If it is <see cref="FALSE"/>, the changes are made: the resource updates will take effect.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the function succeeds; <see cref="FALSE"/> otherwise.
+        /// If the function succeeds and <paramref name="fDiscard"/> is <see cref="TRUE"/>,
+        /// then no resource updates are made to the file;
+        /// otherwise all successful resource updates are made to the file.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Before you call this function, make sure all file handles other than the one returned by <see cref="BeginUpdateResource"/> are closed.
+        /// </para>
+        /// <para>
+        /// This function can update resources within modules that contain both code and resources.
+        /// There are restrictions on resource updates in LN files and .mui files, both of which contain Resource Configuration data;
+        /// details of the restrictions are in the reference for the <see cref="UpdateResource"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndUpdateResourceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EndUpdateResource([In] HANDLE hUpdate, [In] BOOL fDiscard);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates language-specific resources, of the specified type and name, associated with a binary module.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-enumresourcelanguagesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// The handle to a module to be searched.
+        /// Starting with Windows Vista, if this is a language-neutral Portable Executable (LN file),
+        /// then appropriate .mui files (if any exist) are included in the search.
+        /// If this is a specific .mui file, only that file is searched for resources.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>,
+        /// that is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpType">
+        /// The type of resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is an integer value representing a predefined resource type.
+        /// For a list of predefined resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is the integer identifier of the resource.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource language.
+        /// For more information, see <see cref="EnumResLangProc"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// Similarly, if <c>IS_INTRESOURCE(lpName)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpName"/> specifies the integer identifier of the given resource.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, the binary module is typically a language-neutral Portable Executable (LN file),
+        /// and the enumeration will also include resources from the corresponding language-specific resource files (.mui files)
+        /// that contain localizable language resources.
+        /// </para>
+        /// <para>
+        /// For each resource found, <see cref="EnumResourceLanguages"/> calls an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing the language identifier (see Language Identifiers) of the language for which a resource was found,
+        /// as well as the various other parameters that were passed to <see cref="EnumResourceLanguages"/>.
+        /// </para>
+        /// <para>
+        /// Alternately, applications can call <see cref="EnumResourceLanguagesEx"/>,
+        /// which provides more precise control of what resources are enumerated.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumResourceLanguages"/> function continues to enumerate resource languages
+        /// until the callback function returns <see cref="FALSE"/> or all resource languages have been enumerated.
+        /// </para>
+        /// <para>
+        /// In Windows Vista and later, if <paramref name="hModule"/> specifies an LN file,
+        /// then the resources enumerated can reside either in the LN file or in an .mui file associated with it.
+        /// If no .mui files are found, only resources from the LN file are returned.
+        /// Unlike <see cref="EnumResourceNames"/> and <see cref="EnumResourceTypes"/>, this search will look at multiple .mui files.
+        /// The enumeration begins with .mui files in the folders associated with <see cref="EnumUILanguages"/>.
+        /// These are followed by any other .mui files whose paths conform to the scheme described at MUI Resource Management.
+        /// Finally, the file designated by <paramref name="hModule"/> is also searched.
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if a resource with the same name, type, and language is contained in both the LN file and in an .mui file,
+        /// the resource will only be enumerated once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceLanguagesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceLanguages([In] HMODULE hModule, [In] LPCWSTR lpType, [In] LPCWSTR lpName,
+            [In] ENUMRESLANGPROC lpEnumFunc, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates resources of a specified type within a binary module.
+        /// For Windows Vista and later, this is typically a language-neutral Portable Executable (LN file),
+        /// and the enumeration will also include resources from the corresponding language-specific resource files (.mui files)
+        /// that contain localizable language resources.
+        /// It is also possible for <paramref name="hModule"/> to specify an .mui file, in which case only that file is searched for resources.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-enumresourcenamesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// A handle to a module to be searched.
+        /// Starting with Windows Vista, if this is an LN file, then appropriate .mui files (if any exist) are included in the search.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>,
+        /// that is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpType">
+        /// The type of the resource for which the name is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <c>MAKEINTRESOURCE(ID)</c>,
+        /// where ID is an integer value representing a predefined resource type.
+        /// For a list of predefined resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource name or ID.
+        /// For more information, see <see cref="ENUMRESNAMEPROC"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <returns>
+        /// The return value is <see cref="TRUE"/> if the function succeeds
+        /// or <see cref="FALSE"/> if the function does not find a resource of the type specified,
+        /// or if the function fails for another reason.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// For each resource found, <see cref="EnumResourceNames"/> calls an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing the name or the ID of each resource it finds,
+        /// as well as the various other parameters that were passed to <see cref="EnumResourceNames"/>.
+        /// The passed name is only valid inside the callback -
+        /// if the passed name is a string pointer, it points to an internal buffer that is reused for all callback invocations.
+        /// </para>
+        /// <para>
+        /// Alternately, applications can call <see cref="EnumResourceNamesEx"/>,
+        /// which provides more precise control of what resources are enumerated.
+        /// </para>
+        /// <para>
+        /// If a resource has an ID, the ID is passed to the callback function;
+        /// otherwise the resource name is passed to the callback function.
+        /// For more information, see <see cref="ENUMRESNAMEPROC"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumResourceNames"/> function continues to enumerate resources
+        /// until the callback function returns <see cref="FALSE"/> or all resources have been enumerated.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, if <paramref name="hModule"/> specifies an LN file,
+        /// then the resources enumerated can reside either in the LN file or in a .mui file associated with it.
+        /// If no .mui files are found, only resources from the LN file are returned.
+        /// The order in which .mui files are searched is the usual Resource Loader search order;
+        /// see User Interface Language Management for details.
+        /// Once one appropriate .mui file is found, the .mui file search stops.
+        /// Because all .mui files that correspond to a single LN file have the same resource types,
+        /// only the resources in the found .mui file need to be enumerated.
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if resources with the same name are contained in both the LN file and in an .mui file, the resource will only be enumerated once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceNamesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceNames([In] HMODULE hModule, [In] LPCWSTR lpType, [In] ENUMRESNAMEPROC lpEnumFunc, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates resource types within a binary module.
+        /// Starting with Windows Vista, this is typically a language-neutral Portable Executable (LN file),
+        /// and the enumeration also includes resources from one of the corresponding language-specific resource files (.mui files)—
+        /// if one exists—that contain localizable language resources.
+        /// It is also possible to use <paramref name="hModule"/> to specify a .mui file,
+        /// in which case only that file is searched for resource types.
+        /// </para>
+        /// <para>
+        /// Alternately, applications can call <see cref="EnumResourceTypesEx"/>,
+        /// which provides more precise control over which resource files to enumerate.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-enumresourcetypesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// A handle to a module to be searched.
+        /// This handle must be obtained through <see cref="LoadLibrary"/> or <see cref="LoadLibraryEx"/>.
+        /// </para>
+        /// <para>
+        /// See Remarks for more information.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>,
+        /// that is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource type.
+        /// For more information, see the <c>EnumResTypeProc</c> function.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// For each resource type found, <see cref="EnumResourceTypes"/> calls an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing each resource type it finds, as well as the various other parameters that were passed to <see cref="EnumResourceTypes"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="EnumResourceTypes"/> continues to enumerate resource types
+        /// until the callback function returns <see cref="FALSE"/> or all resource types have been enumerated.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, if <paramref name="hModule"/> specifies an LN file,
+        /// then the types enumerated correspond to resources that reside in the LN file and in the .mui file associated with it.
+        /// If no .mui files are found, only types from the LN file are returned.
+        /// The order in which .mui files are searched is the usual Resource Loader search order;
+        /// see User Interface Language Management for details.
+        /// After one appropriate .mui file is found, the search does not continue further to other .mui files associated with the LN file,
+        /// because all .mui files that correspond to a single LN file have the same set of resource types.
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if a given resource type is contained in both the LN file and in an .mui file, the type is enumerated only once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceTypesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceTypes([In] HMODULE hModule, [In] ENUMRESTYPEPROC lpEnumFunc, [In] LONG_PTR lParam);
+
         /// <summary>
         /// <para>
         /// Determines the location of a resource with the specified type and name in the specified module.
@@ -619,5 +1160,206 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SizeofResource", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SizeofResource([In] HMODULE hModule, [In] HRSRC hResInfo);
+
+        /// <summary>
+        /// <para>
+        /// Adds, deletes, or replaces a resource in a portable executable (PE) file.
+        /// There are some restrictions on resource updates in files that contain Resource Configuration (RC Config) data:
+        /// language-neutral (LN) files and language-specific resource (.mui) files.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-updateresourcew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hUpdate">
+        /// A module handle returned by the <see cref="BeginUpdateResource"/> function, referencing the file to be updated.
+        /// </param>
+        /// <param name="lpType">
+        /// <para>
+        /// The resource type to be updated.
+        /// Alternatively, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is an integer value representing a predefined resource type.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// For a list of predefined resource types, see Resource Types.
+        /// </para>
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the resource to be updated.
+        /// Alternatively, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID), where ID is a resource ID.
+        /// When creating a new resource do not use a string that begins with a '#' character for this parameter.
+        /// </param>
+        /// <param name="wLanguage">
+        /// The language identifier of the resource to be updated.
+        /// For a list of the primary language identifiers and sublanguage identifiers
+        /// that make up a language identifier, see the <see cref="MAKELANGID"/> macro.
+        /// </param>
+        /// <param name="lpData">
+        /// <para>
+        /// The resource data to be inserted into the file indicated by <paramref name="hUpdate"/>.
+        /// If the resource is one of the predefined types, the data must be valid and properly aligned.
+        /// Note that this is the raw binary data to be stored in the file indicated by <paramref name="hUpdate"/>,
+        /// not the data provided by <see cref="LoadIcon"/>, <see cref="LoadString"/>, or other resource-specific load functions.
+        /// All data containing strings or text must be in Unicode format. <paramref name="lpData"/> must not point to ANSI data.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpData"/> is <see cref="NULL"/> and <paramref name="cb"/> is 0,
+        /// the specified resource is deleted from the file indicated by <paramref name="hUpdate"/>.
+        /// </para>
+        /// </param>
+        /// <param name="cb">
+        /// The size, in bytes, of the resource data at <paramref name="lpData"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// It is recommended that the resource file is not loaded before this function is called.
+        /// However, if that file is already loaded, it will not cause an error to be returned.
+        /// </para>
+        /// <para>
+        /// An application can use <see cref="UpdateResource"/> repeatedly to make changes to the resource data.
+        /// Each call to <see cref="UpdateResource"/> contributes to an internal list of additions, deletions, and replacements
+        /// but does not actually write the data to the file indicated by <paramref name="hUpdate"/>.
+        /// The application must use the <see cref="EndUpdateResource"/> function to write the accumulated changes to the file.
+        /// </para>
+        /// <para>
+        /// This function can update resources within modules that contain both code and resources.
+        /// </para>
+        /// <para>
+        /// Prior to Windows 7:
+        /// If <paramref name="lpData"/> is <see cref="NULL"/> and <paramref name="cb"/> is nonzero,
+        /// the specified resource is NOT deleted and an exception is thrown.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista:
+        /// As noted above, there are restrictions on resource updates in files that contain RC Config data: LN files and .mui files.
+        /// The restrictions are as follows:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Action
+        /// </term>
+        /// <term>
+        /// LN file
+        /// </term>
+        /// <term>
+        /// .mui file
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 1. Add a new type that doesn't exist in the LN or .mui files.
+        /// </term>
+        /// <term>
+        /// Add type in the LN file and treat as language-neutral (non-localizable) and add new type or item in the RC Config data
+        /// </term>
+        /// <term>
+        /// The only additions allowed are the following types:
+        /// file Version, RC Config data, Side-by-side Assembly XML Manifest.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2. Add a new resource item to an existing type.
+        /// </term>
+        /// <term>
+        /// Uses the RC Config data to check whether the type exists in the .mui files associated with this LN file.
+        /// If the type doesn't exist in the .mui files, add the item and treat new item as un-localizable.
+        /// If the type exists in the .mui files, then adding is not allowed.
+        /// </term>
+        /// <term>
+        /// Only items of the following types may be added:
+        /// File Version, RC Config data, Side-by-side Assembly XML Manifest.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 3. Update a resource item.
+        /// </term>
+        /// <term>
+        /// Uses the RC Config data to check whether the type exists in the .mui files associated with the LN file.
+        /// If the type doesn't exist in the .mui files, then this resource item update is allowed in the LN file.
+        /// Otherwise, if the type exists in the .mui files associated with this LN file, then this update is not allowed.
+        /// </term>
+        /// <term>
+        /// The only updates allowed are items of the following types:
+        /// file Version, RC Config data, Side-by-side Assembly XML Manifest.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 4. Add a type/item for a new language.
+        /// </term>
+        /// <term>
+        /// Not allowed.
+        /// </term>
+        /// <term>
+        /// Not allowed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 5. Remove an existing type/item.
+        /// </term>
+        /// <term>
+        /// Works similarly to case 3.
+        /// Uses the RC Config data to check whether the type exists in the .mui files associated with the LN file.
+        /// If not, then the removal of the type/item from the LN file is allowed.
+        /// Otherwise, if the type/item exists in the .mui files associated with this LN file, then the removal is not allowed.
+        /// </term>
+        /// <term>
+        /// The only types allowed to be removed are:
+        /// file Version, RC Config data, Side-by-side Assembly XML Manifest; also, only items of these types may be removed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 6. Add/delete/update a type not included in the RC Config data
+        /// (such as Version, Side-by-side Assembly XML Manifest, or RC Config data itself).
+        /// </term>
+        /// <term>
+        /// Allowed.
+        /// </term>
+        /// <term>
+        /// Allowed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 7. Other update of non-localizable data, such as TYPELIB, reginst, and so on.
+        /// </term>
+        /// <term>
+        /// Update type or item in the LN file, treat as non-localizable, and add new type or item in the RC Config data.
+        /// </term>
+        /// <term>
+        /// Not applicable.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 8. Add RC Config data.
+        /// </term>
+        /// <term>
+        /// Can be done but the integrity of the RC Config data is not checked.
+        /// </term>
+        /// <term>
+        /// Can be done but the integrity of the RC Config data is not checked.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateResourceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UpdateResource([In] HANDLE hUpdate, [In] LPCWSTR lpType, [In] LPCWSTR lpName,
+            [In] WORD wLanguage, [In] LPVOID lpData, [In] DWORD cb);
     }
 }

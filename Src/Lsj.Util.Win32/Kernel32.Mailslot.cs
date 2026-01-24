@@ -3,7 +3,6 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -189,6 +188,82 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateMailslot([In] LPCWSTR lpName, [In] DWORD nMaxMessageSize, [In] DWORD lReadTimeout,
             [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified mailslot.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getmailslotinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// A handle to a mailslot.
+        /// The <see cref="CreateMailslot"/> function must create this handle.
+        /// </param>
+        /// <param name="lpMaxMessageSize">
+        /// The maximum message size, in bytes, allowed for this mailslot.
+        /// This value can be greater than or equal to the value specified in the <c>cbMaxMsg</c> parameter
+        /// of the <see cref="CreateMailslot"/> function that created the mailslot.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpNextSize">
+        /// <para>
+        /// The size of the next message, in bytes.
+        /// The following value has special meaning.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAILSLOT_NO_MESSAGE"/>
+        /// </para>
+        /// <para>
+        /// <c>((DWORD)-1)</c>
+        /// </para>
+        /// </term>
+        /// <term>
+        /// There is no next message.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </para>
+        /// </param>
+        /// <param name="lpMessageCount">
+        /// The total number of messages waiting to be read, when the function returns.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpReadTimeout">
+        /// The amount of time, in milliseconds,
+        /// a read operation can wait for a message to be written to the mailslot before a time-out occurs.
+        /// This parameter is filled in when the function returns.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMailslotInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMailslotInfo([In] LPCWSTR lpName, [Out] out DWORD lpMaxMessageSize, [Out] out DWORD lpNextSize,
+            [Out] out DWORD lpMessageCount, [Out] out DWORD lpReadTimeout);
 
         /// <summary>
         /// <para>
