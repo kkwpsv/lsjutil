@@ -141,7 +141,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         }
 
         /// <inheritdoc/>
-        protected override LRESULT OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
+        protected override LRESULT OnSize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
         {
             if (sizingType == WindowSizingTypes.SIZE_MINIMIZED)
             {

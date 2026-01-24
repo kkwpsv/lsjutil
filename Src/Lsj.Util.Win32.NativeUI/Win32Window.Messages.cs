@@ -67,10 +67,20 @@ namespace Lsj.Util.Win32.NativeUI
                         return OnCreate(hWnd, wParam, lParam, ref UnsafePInvokeExtensions.AsStructRef<CREATESTRUCT>(lParam));
                     case WM_DESTROY:
                         return OnDestroy(hWnd, wParam, lParam);
+                    case WM_MOVE:
+                        return OnMove(hWnd, wParam, lParam, LOWORD((uint)lParam), HIWORD((uint)lParam));
+                    case WM_SIZE:
+                        return OnSize(hWnd, wParam, lParam, (WindowSizingTypes)(int)wParam, LOWORD((uint)lParam), HIWORD((uint)lParam));
+                    case WM_ACTIVATE:
+                        return OnActivate(hWnd, wParam, lParam, (WindowActivateTypes)(ushort)LOWORD((uint)wParam), HIWORD((uint)wParam) != 0, (IntPtr)lParam);
+                    case WM_SETFOCUS:
+                        return OnSetFocus(hWnd, wParam, lParam, (IntPtr)wParam);
+                    case WM_KILLFOCUS:
+                        return OnKillFocus(hWnd, wParam, lParam, (IntPtr)wParam);
+                    case WM_ENABLE:
+                        return OnEnable(hWnd, wParam, lParam, (BOOL)(int)wParam);
                     case WM_PAINT:
                         return OnPaint(hWnd, wParam, lParam);
-                    case WM_SIZE:
-                        return OnResize(hWnd, wParam, lParam, (WindowSizingTypes)(int)wParam, LOWORD((uint)lParam), HIWORD((uint)lParam));
                     default:
                         return CallDefaultOrHookedWindowProc(hWnd, msg, wParam, lParam);
                 }
@@ -111,15 +121,17 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
-        /// On <see cref="WM_PAINT"/>
+        /// On <see cref="WM_MOVE"/>
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         /// <returns></returns>
-        protected virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam)
+        protected virtual LRESULT OnMove(HWND hWnd, WPARAM wParam, LPARAM lParam, int x, int y)
         {
-            return CallDefaultOrHookedWindowProc(hWnd, WindowMessages.WM_PAINT, wParam, lParam);
+            return CallDefaultOrHookedWindowProc(hWnd, WM_MOVE, wParam, lParam);
         }
 
         /// <summary>
@@ -132,9 +144,75 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        protected virtual LRESULT OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
+        protected virtual LRESULT OnSize(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowSizingTypes sizingType, int width, int height)
         {
             return CallDefaultOrHookedWindowProc(hWnd, WM_SIZE, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_ACTIVATE"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="windowActivateTypes"></param>
+        /// <param name="isMinimized"></param>
+        /// <param name="activateOrDeactivateWindowHandle">only for in-process window</param>
+        /// <returns></returns>
+        protected virtual LRESULT OnActivate(HWND hWnd, WPARAM wParam, LPARAM lParam, WindowActivateTypes windowActivateTypes, bool isMinimized, HWND activateOrDeactivateWindowHandle)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_ACTIVATE, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_SETFOCUS"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="lostFocusWindowHandle">only for in-process window</param>
+        /// <returns></returns>
+        protected virtual LRESULT OnSetFocus(HWND hWnd, WPARAM wParam, LPARAM lParam, HWND lostFocusWindowHandle)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_SETFOCUS, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_KILLFOCUS"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="receiveFocusWindowHandle">only for in-process window</param>
+        /// <returns></returns>
+        protected virtual LRESULT OnKillFocus(HWND hWnd, WPARAM wParam, LPARAM lParam, HWND receiveFocusWindowHandle)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_KILLFOCUS, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_ENABLE"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="enable"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnEnable(HWND hWnd, WPARAM wParam, LPARAM lParam, BOOL enable)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_ENABLE, wParam, lParam);
+        }
+
+        /// <summary>
+        /// On <see cref="WM_PAINT"/>
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        protected virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam)
+        {
+            return CallDefaultOrHookedWindowProc(hWnd, WM_PAINT, wParam, lParam);
         }
 
         private LRESULT CallDefaultOrHookedWindowProc(HWND hWnd, WindowMessages msg, WPARAM wParam, LPARAM lParam)
