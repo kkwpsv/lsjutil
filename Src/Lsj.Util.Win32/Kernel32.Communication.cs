@@ -1129,6 +1129,110 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Discards all characters from the output or input buffer of a specified communications resource.
+        /// It can also terminate pending read or write operations on the resource.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-purgecomm"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the communications resource.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PURGE_RXABORT"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Terminates all outstanding overlapped read operations and returns immediately,
+        /// even if the read operations have not been completed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PURGE_RXCLEAR"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Clears the input buffer (if the device driver has one).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PURGE_TXABORT"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Terminates all outstanding overlapped write operations and returns immediately,
+        /// even if the write operations have not been completed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PURGE_TXCLEAR"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Clears the output buffer (if the device driver has one).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If a thread uses <see cref="PurgeComm"/> to flush an output buffer, the deleted characters are not transmitted.
+        /// To empty the output buffer while ensuring that the contents are transmitted,
+        /// call the <see cref="FlushFileBuffers"/> function (a synchronous operation).
+        /// Note, however, that <see cref="FlushFileBuffers"/> is subject to flow control but not to write time-outs,
+        /// and it will not return until all pending write operations have been transmitted.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PurgeComm", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PurgeComm([In] HANDLE hFile, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Suspends character transmission for a specified communications device and places the transmission line in a break state
         /// until the <see cref="ClearCommBreak"/> function is called.
         /// </para>

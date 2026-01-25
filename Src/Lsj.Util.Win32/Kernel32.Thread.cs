@@ -3,7 +3,6 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -1355,6 +1354,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadPriorityBoost([In] HANDLE hThread, [Out] out BOOL pDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a descriptor table entry for the specified selector and thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getthreadselectorentry"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread containing the specified selector.
+        /// The handle must have <see cref="THREAD_QUERY_INFORMATION"/> access.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="dwSelector">
+        /// The global or local selector value to look up in the thread's descriptor tables.
+        /// </param>
+        /// <param name="lpSelectorEntry">
+        /// A pointer to an <see cref="LDT_ENTRY"/> structure that receives a copy of the descriptor table entry
+        /// if the specified selector has an entry in the specified thread's descriptor table.
+        /// This information can be used to convert a segment-relative address to a linear virtual address.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// In that case, the structure pointed to by the <paramref name="lpSelectorEntry"/> parameter
+        /// receives a copy of the specified descriptor table entry.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// <see cref="GetThreadSelectorEntry"/> is only functional on x86-based systems.
+        /// For systems that are not x86-based, the function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Debuggers use this function to convert segment-relative addresses to linear virtual addresses.
+        /// The <see cref="ReadProcessMemory"/> and <see cref="WriteProcessMemory"/> functions use linear virtual addresses.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadSelectorEntry", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetThreadSelectorEntry([In] HANDLE hThread, [In] DWORD dwSelector, [Out] out LDT_ENTRY lpSelectorEntry);
 
         /// <summary>
         /// <para>

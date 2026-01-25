@@ -12057,6 +12057,143 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Moves an existing file or a directory, including its children.
+        /// </para>
+        /// <para>
+        /// To specify how to move the file, use the <see cref="MoveFileEx"/> or <see cref="MoveFileWithProgress"/> function.
+        /// </para>
+        /// <para>
+        /// To perform this operation as a transacted operation, use the <see cref="MoveFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpExistingFileName">
+        /// <para>
+        /// The current name of the file or directory on the local computer.
+        /// </para>
+        /// <para>
+        /// By default, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// Tip
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, Version 1607, you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </para>
+        /// </param>
+        /// <param name="lpNewFileName">
+        /// <para>
+        /// The new name for the file or directory. The new name must not already exist.
+        /// A new file may be on a different file system or drive.
+        /// A new directory must be on the same drive.
+        /// </para>
+        /// <para>
+        /// By default, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// Tip
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, Version 1607, you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="MoveFile"/> function will move (rename) either a file or a directory (including its children)
+        /// either in the same directory or across directories.
+        /// The one caveat is that the <see cref="MoveFile"/> function will fail on directory moves
+        /// when the destination is on a different volume.
+        /// </para>
+        /// <para>
+        /// If a file is moved across volumes, <see cref="MoveFile"/> does not move the security descriptor with the file.
+        /// The file will be assigned the default security descriptor in the destination directory.
+        /// </para>
+        /// <para>
+        /// The <see cref="MoveFile"/> function coordinates its operation with the link tracking service,
+        /// so link sources can be tracked as they are moved.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// See comment
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// See comment
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// SMB 3.0 does not support rename of alternate data streams on file shares with continuous availability capability.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MoveFile([In] LPCWSTR lpExistingFileName, [In] LPCWSTR lpNewFileName);
+
+        /// <summary>
+        /// <para>
         /// Moves an existing file or directory, including its children, with various move options.
         /// </para>
         /// <para>
@@ -15523,6 +15660,211 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEndOfFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetEndOfFile([In] HANDLE hFile);
+
+        /// <summary>
+        /// <para>
+        /// Causes the file I/O functions to use the ANSI character set code page for the current process.
+        /// This function is useful for 8-bit console input and output operations.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileapistoansi"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The file I/O functions whose code page is set by <see cref="SetFileApisToANSI"/>
+        /// are those functions exported by KERNEL32.DLL that accept or return a file name.
+        /// <see cref="SetFileApisToANSI"/> sets the code page per process, rather than per thread or per computer.
+        /// </para>
+        /// <para>
+        /// The <see cref="SetFileApisToANSI"/> function complements the <see cref="SetFileApisToOEM"/> function,
+        /// which causes the same set of file I/O functions to use the OEM character set code page.
+        /// </para>
+        /// <para>
+        /// The 8-bit console functions use the OEM code page by default.
+        /// All other functions use the ANSI code page by default.
+        /// This means that strings returned by the console functions may not be processed correctly by other functions, and vice versa.
+        /// For example, if the <c>FindFirstFileA</c> function returns a string that contains certain extended ANSI characters,
+        /// and the 8-bit console functions are set to use the OEM code page,
+        /// then the <c>WriteConsoleA</c> function does not display the string properly.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="AreFileApisANSI"/> function to determine which code page the set of file I/O functions is currently using.
+        /// Use the <see cref="SetConsoleCP"/> and <see cref="SetConsoleOutputCP"/> functions to set the code page for the 8-bit console functions.
+        /// </para>
+        /// <para>
+        /// To solve the problem of code page incompatibility, it is best to use Unicode for console applications.
+        /// Console applications that use Unicode are much more versatile than those that use 8-bit console functions.
+        /// Barring that solution, a console application can call the <see cref="SetFileApisToOEM"/> function
+        /// to cause the set of file I/O functions to use OEM character set strings rather than ANSI character set strings.
+        /// Use the <see cref="SetFileApisToANSI"/> function to set those functions back to the ANSI code page.
+        /// </para>
+        /// <para>
+        /// When dealing with command lines, a console application should obtain the command line in Unicode form
+        /// and then convert it to OEM form using the relevant character-to-OEM functions.
+        /// Note also that the array in the <c>argv</c> parameter of the command-line <c>main</c> function contains ANSI character set strings in this case.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileApisToANSI", ExactSpelling = true)]
+        public static extern void SetFileApisToANSI();
+
+        /// <summary>
+        /// <para>
+        /// Causes the file I/O functions for the process to use the OEM character set code page. This function is useful for 8-bit console input and output operations.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileapistooem"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The file I/O functions whose code page is set by <see cref="SetFileApisToOEM"/>
+        /// are those functions exported by KERNEL32.DLL that accept or return a file name.
+        /// <see cref="SetFileApisToOEM"/> sets the code page per process, rather than per thread or per computer.
+        /// </para>
+        /// <para>
+        /// The <see cref="SetFileApisToOEM"/> function is complemented by the <see cref="SetFileApisToANSI"/> function,
+        /// which causes the same set of file I/O functions to use the ANSI character set code page.
+        /// </para>
+        /// <para>
+        /// The 8-bit console functions use the OEM code page by default.
+        /// All other functions use the ANSI code page by default.
+        /// This means that strings returned by the console functions may not be processed correctly by other functions, and vice versa.
+        /// For example, if the <c>FindFirstFileA</c> function returns a string that contains certain extended ANSI characters,
+        /// and the 8-bit console functions are set to use the OEM code page,
+        /// then the <c>WriteConsoleA</c> function will not display the string properly.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="AreFileApisANSI"/> function to determine which code page the set of file I/O functions is currently using.
+        /// Use the <see cref="SetConsoleCP"/> and <see cref="SetConsoleOutputCP"/> functions to set the code page for the 8-bit console functions.
+        /// </para>
+        /// <para>
+        /// To solve the problem of code page incompatibility, it is best to use Unicode for console applications.
+        /// Console applications that use Unicode are much more versatile than those that use 8-bit console functions.
+        /// Barring that solution, a console application can call the <see cref="SetFileApisToOEM"/> function
+        /// to cause the set of file I/O functions to use OEM character set strings rather than ANSI character set strings.
+        /// Use the <see cref="SetFileApisToANSI"/> function to set those functions back to the ANSI code page.
+        /// </para>
+        /// <para>
+        /// When dealing with command lines, a console application should obtain the command line in Unicode form
+        /// and then convert it to OEM form using the relevant character-to-OEM functions.
+        /// Note also that the array in the <c>argv</c> parameter of the command-line <c>main</c> function contains ANSI character set strings in this case.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileApisToOEM", ExactSpelling = true)]
+        public static extern void SetFileApisToOEM();
 
         /// <summary>
         /// <para>

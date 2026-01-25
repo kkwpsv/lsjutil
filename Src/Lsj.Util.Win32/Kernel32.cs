@@ -7,12 +7,15 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -1373,6 +1376,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the power status of the system.
+        /// The status indicates whether the system is running on AC or DC power,
+        /// whether the battery is currently charging, how much battery life remains, and if battery saver is on or off.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getsystempowerstatus"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemPowerStatus">
+        /// A pointer to a <see cref="SYSTEM_POWER_STATUS"/> structure that receives status information.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPowerStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetSystemPowerStatus([Out] out SYSTEM_POWER_STATUS lpSystemPowerStatus);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the calling process has read access to the memory at the specified address.
         /// </para>
         /// <para>
@@ -1410,6 +1439,28 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadCodePtr([In] FARPROC lpfn);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp"></param>
+        /// <param name="ucb"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadHugeReadPtr", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsBadHugeReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp"></param>
+        /// <param name="ucb"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadHugeWritePtr", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsBadHugeWritePtr([In] IntPtr lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// <para>
@@ -1710,6 +1761,185 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
+
+        /// <summary>
+        /// <para>
+        /// Initiates an unwind of procedure call frames.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-rtlunwind"/>
+        /// </para>
+        /// </summary>
+        /// <param name="TargetFrame">
+        /// A pointer to the call frame that is the target of the unwind.
+        /// If this parameter is <see cref="NULL"/>, the function performs an exit unwind.
+        /// </param>
+        /// <param name="TargetIp">
+        /// The continuation address of the unwind.
+        /// This parameter is ignored if <paramref name="TargetFrame"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ExceptionRecord">
+        /// A pointer to an <see cref="EXCEPTION_RECORD"/> structure.
+        /// </param>
+        /// <param name="ReturnValue">
+        /// A value to be placed in the integer function return register before continuing execution.
+        /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RtlUnwind", ExactSpelling = true, SetLastError = true)]
+        public static extern void RtlUnwind([In] PVOID TargetFrame, [In] PVOID TargetIp, [In] in EXCEPTION_RECORD ExceptionRecord, [In] PVOID ReturnValue);
+
+        /// <summary>
+        /// <para>
+        /// Suspends the system by shutting power down.
+        /// Depending on the <paramref name="fForce"/> parameter,
+        /// the function either suspends operation immediately or requests permission from all applications and device drivers before doing so.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setsystempowerstate"/>
+        /// </para>
+        /// </summary>
+        /// <param name="fSuspend">
+        /// If this parameter is <see cref="TRUE"/>, the system is suspended.
+        /// If the parameter is <see cref="FALSE"/>, the system hibernates.
+        /// </param>
+        /// <param name="fForce">
+        /// This parameter has no effect.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If power has been suspended and subsequently restored, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the system was not suspended, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The calling process must have the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// To enable the <see cref="SE_SHUTDOWN_NAME"/> privilege, use the <see cref="AdjustTokenPrivileges"/> function.
+        /// For more information, see Changing Privileges in a Token.
+        /// </para>
+        /// <para>
+        /// If any application or driver denies permission to suspend operation,
+        /// the function broadcasts a <see cref="PBT_APMQUERYSUSPENDFAILED"/> event to each application and driver.
+        /// If power is suspended, this function returns only after system operation is resumed
+        /// and related <see cref="WM_POWERBROADCAST"/> messages have been broadcast to all applications and drivers.
+        /// </para>
+        /// <para>
+        /// This function is similar to the <see cref="SetSuspendState"/> function.
+        /// </para>
+        /// </remarks>
+        [Obsolete("SetSystemPowerState is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions. " +
+            "Applications written for Windows Vista and later should use SetSuspendState instead.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemPowerState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSystemPowerState([In] BOOL fSuspend, [In] BOOL fForce);
+
+        /// <summary>
+        /// <para>
+        /// Sets the label of a file system volume.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setvolumelabelw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// A pointer to a string that contains the volume's drive letter (for example, X:)
+        /// or the path of a mounted folder that is associated with the volume (for example, Y:\MountX).
+        /// The string must end with a trailing backslash ('').
+        /// If this parameter is <see cref="NULL"/>, the root of the current directory is used.
+        /// </param>
+        /// <param name="lpVolumeName">
+        /// A pointer to a string that contains the new label for the volume.
+        /// If this parameter is <see cref="NULL"/>,
+        /// the function deletes any existing label from the specified volume and does not assign a new label.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The maximum volume label length is 32 characters.
+        /// </para>
+        /// <para>
+        /// FAT filesystems:
+        /// The maximum volume label length is 11 characters.
+        /// </para>
+        /// <para>
+        /// A label is a user-friendly name that a user assigns to a volume to make it easier to recognize.
+        /// A volume can have a label, a drive letter, both, or neither.
+        /// For more information, see Naming a Volume.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// SMB does not support volume management functions.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetVolumeLabelW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetVolumeLabel([In] LPCWSTR lpRootPathName, [In] LPCWSTR lpVolumeName);
 
         /// <summary>
         /// <para>

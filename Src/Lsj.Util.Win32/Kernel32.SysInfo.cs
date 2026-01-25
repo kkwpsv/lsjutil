@@ -4319,6 +4319,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a new NetBIOS name for the local computer.
+        /// The name is stored in the registry and the name change takes effect the next time the user restarts the computer.
+        /// </para>
+        /// <para>
+        /// If the local computer is a node in a cluster,
+        /// <see cref="SetComputerName"/> sets NetBIOS name of the local computer, not that of the cluster virtual server.
+        /// </para>
+        /// <para>
+        /// To set the DNS host name or the DNS domain name, call the <see cref="SetComputerNameEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-setcomputernamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpComputerName">
+        /// <para>
+        /// The computer name that will take effect the next time the computer is started.
+        /// The name must not be longer than <see cref="MAX_COMPUTERNAME_LENGTH"/> characters.
+        /// </para>
+        /// <para>
+        /// The standard character set includes letters, numbers, and the following symbols: ! @ # $ % ^ &amp; ' ) ( . - _ { } ~ .
+        /// If this parameter contains one or more characters that are outside the standard character set,
+        /// <see cref="SetComputerName"/> returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Applications using this function must have administrator rights.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetComputerNameW", ExactSpelling = true)]
+        public static extern BOOL SetComputerName([In] LPCWSTR lpComputerName);
+
+        /// <summary>
+        /// <para>
         /// Sets the current local time and date.
         /// </para>
         /// <para>
@@ -4362,6 +4405,42 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocalTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetLocalTime([In] in SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
+        /// Sets the current system time and date. The system time is expressed in Coordinated Universal Time (UTC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-setsystemtime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// <para>
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure that contains the new system date and time.
+        /// </para>
+        /// <para>
+        /// The <see cref="SYSTEMTIME.wDayOfWeek"/> member of the <see cref="SYSTEMTIME"/> structure is ignored.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The calling process must have the <see cref="SE_SYSTEMTIME_NAME"/> privilege.
+        /// This privilege is disabled by default.
+        /// The <see cref="SetSystemTime"/> function enables the <see cref="SE_SYSTEMTIME_NAME"/> privilege
+        /// before changing the system time and disables the privilege before returning.
+        /// For more information, see Running with Special Privileges.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSystemTime([In] in SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>

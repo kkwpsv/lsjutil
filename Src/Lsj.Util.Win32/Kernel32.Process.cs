@@ -1779,6 +1779,119 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the shutdown parameters for the currently calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessshutdownparameters"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpdwLevel">
+        /// <para>
+        /// A pointer to a variable that receives the shutdown priority level. Higher levels shut down first. System level shutdown orders are reserved for system components. Higher numbers shut down first. Following are the level conventions.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 000-0FF
+        /// </term>
+        /// <term>
+        /// System reserved last shutdown range.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 100-1FF
+        /// </term>
+        /// <term>
+        /// Application reserved last shutdown range.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 200-2FF
+        /// </term>
+        /// <term>
+        /// Application reserved "in between" shutdown range.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 300-3FF
+        /// </term>
+        /// <term>
+        /// Application reserved first shutdown range.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 400-4FF
+        /// </term>
+        /// <term>
+        /// System reserved first shutdown range.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// All processes start at shutdown level 0x280.
+        /// </para>
+        /// </param>
+        /// <param name="lpdwFlags">
+        /// <para>
+        /// A pointer to a variable that receives the shutdown flags.
+        /// This parameter can be the following value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SHUTDOWN_NORETRY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// If this process takes longer than the specified timeout to shut down,
+        /// do not display a retry dialog box for the user. Instead, just cause the process to directly exit.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessShutdownParameters", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessShutdownParameters([Out] out DWORD lpdwLevel, [Out] out DWORD lpdwFlags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves timing information for the specified process.
         /// </para>
         /// <para>
@@ -1891,6 +2004,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessVersion", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetProcessVersion([In] DWORD ProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the minimum and maximum working set sizes of the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-getprocessworkingsetsize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process whose working set sizes will be obtained.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </para>
+        /// </param>
+        /// <param name="lpMinimumWorkingSetSize">
+        /// A pointer to a variable that receives the minimum working set size of the specified process, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the process whenever the process is active.
+        /// </param>
+        /// <param name="lpMaximumWorkingSetSize">
+        /// A pointer to a variable that receives the maximum working set size of the specified process, in bytes.
+        /// The virtual memory manager attempts to keep no more than this much memory resident in the process
+        /// whenever the process is active when memory is in short supply.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The "working set" of a process is the set of memory pages currently visible to the process in physical RAM memory.
+        /// These pages are resident and available for an application to use without triggering a page fault.
+        /// The minimum and maximum working set sizes affect the virtual memory paging behavior of a process.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetProcessWorkingSetSize([In] HANDLE hProcess, [Out] out SIZE_T lpMinimumWorkingSetSize, [Out] out SIZE_T lpMaximumWorkingSetSize);
 
         /// <summary>
         /// <para>

@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -13,11 +14,207 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.ShellHookCodes;
 
 namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// Sets the input locale identifier (formerly called the keyboard layout handle) for the calling thread or the current process.
+        /// The input locale identifier specifies a locale as well as the physical layout of the keyboard.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-activatekeyboardlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hkl">
+        /// <para>
+        /// Input locale identifier to be activated.
+        /// </para>
+        /// <para>
+        /// The input locale identifier must have been loaded by a previous call to the <see cref="LoadKeyboardLayout"/> function.
+        /// This parameter must be either the handle to a keyboard layout or one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="HKL_NEXT"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Selects the next locale identifier in the circular list of loaded locale identifiers maintained by the system.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="HKL_PREV"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Selects the previous locale identifier in the circular list of loaded locale identifiers maintained by the system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// Specifies how the input locale identifier is to be activated.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_REORDER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If this bit is set, the system's circular list of loaded locale identifiers
+        /// is reordered by moving the locale identifier to the head of the list.
+        /// If this bit is not set, the list is rotated without a change of order.
+        /// </para>
+        /// <para>
+        /// For example, if a user had an English locale identifier active,
+        /// as well as having French, German, and Spanish locale identifiers loaded (in that order),
+        /// then activating the German locale identifier with the <see cref="KLF_REORDER"/> bit set
+        /// would produce the following order: German, English, French, Spanish.
+        /// Activating the German locale identifier without the <see cref="KLF_REORDER"/> bit set
+        /// would produce the following order: German, Spanish, English, French.
+        /// </para>
+        /// <para>
+        /// If less than three locale identifiers are loaded, the value of this flag is irrelevant.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_RESET"/>
+        /// </para>
+        /// <para>
+        /// 0x40000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// If set but <see cref="KLF_SHIFTLOCK"/> is not set, the Caps Lock state is turned off by pressing the Caps Lock key again.
+        /// If set and <see cref="KLF_SHIFTLOCK"/> is also set, the Caps Lock state is turned off by pressing either SHIFT key.
+        /// </para>
+        /// <para>
+        /// These two methods are mutually exclusive, and the setting persists as part of the User's profile in the registry.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_SETFORPROCESS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Activates the specified locale identifier for the entire process
+        /// and sends the <see cref="WM_INPUTLANGCHANGE"/> message to the current thread's focus or active window.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_SHIFTLOCK"/>
+        /// </para>
+        /// <para>
+        /// 0x00010000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This is used with <see cref="KLF_RESET"/>. See <see cref="KLF_RESET"/> for an explanation.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="KLF_UNLOADPREVIOUS"/>
+        /// </term>
+        /// <term>
+        /// This flag is unsupported. Use the <see cref="UnloadKeyboardLayout"/> function instead.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value is of type <see cref="HKL"/>.
+        /// If the function succeeds, the return value is the previous input locale identifier.
+        /// Otherwise, it is zero.
+        /// </para>
+        /// <para>
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function only affects the layout for the current process or thread.
+        /// </para>
+        /// <para>
+        /// This function is not restricted to keyboard layouts.
+        /// The <paramref name="hkl"/> parameter is actually an input locale identifier.
+        /// This is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// Several input locale identifiers can be loaded at any one time, but only one is active at a time.
+        /// Loading multiple input locale identifiers makes it possible to rapidly switch between them.
+        /// </para>
+        /// <para>
+        /// When multiple IMEs are allowed for each locale, passing an input locale identifier
+        /// in which the high word (the device handle) is zero activates the first IME in the list belonging to the locale.
+        /// </para>
+        /// <para>
+        /// The <see cref="KLF_RESET"/> and <see cref="KLF_SHIFTLOCK"/> flags alter the method by which the Caps Lock state is turned off.
+        /// By default, the Caps Lock state is turned off by hitting the Caps Lock key again.
+        /// If only <see cref="KLF_RESET"/> is set, the default state is reestablished.
+        /// If <see cref="KLF_RESET"/> and <see cref="KLF_SHIFTLOCK"/> are set,
+        /// the Caps Lock state is turned off by pressing either Caps Lock key.
+        /// This feature is used to conform to local keyboard behavior standards as well as for personal preferences.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ActivateKeyboardLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern HKL ActivateKeyboardLayout([In] HKL hkl, [In] UINT Flags);
+
         /// <summary>
         /// <para>
         /// Attaches or detaches the input processing mechanism of one thread to that of another thread.
@@ -358,6 +555,135 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", ExactSpelling = true)]
         public static extern UINT GetKBCodePage();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the active input locale identifier (formerly called the keyboard layout).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="idThread">
+        /// The identifier of the thread to query, or 0 for the current thread.
+        /// </param>
+        /// <returns>
+        /// The return value is the input locale identifier for the thread.
+        /// The low word contains a Language Identifier for the input language
+        /// and the high word contains a device handle to the physical layout of the keyboard.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// Since the keyboard layout can be dynamically changed,
+        /// applications that cache information about the current keyboard layout
+        /// should process the <see cref="WM_INPUTLANGCHANGE"/> message to be informed of changes in the input language.
+        /// </para>
+        /// <para>
+        /// To get the KLID (keyboard layout ID) of the currently active HKL, call the <see cref="GetKeyboardLayoutName"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// The preferred method to retrieve the language associated with the current keyboard layout or input method
+        /// is a call to <c>Windows.Globalization.Language.CurrentInputMethodLanguageTag</c>.
+        /// If your app passes language tags from <c>CurrentInputMethodLanguageTag</c> to any National Language Support functions,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern HKL GetKeyboardLayout([In] DWORD idThread);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the input locale identifiers (formerly called keyboard layout handles)
+        /// corresponding to the current set of input locales in the system.
+        /// The function copies the identifiers to the specified buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutlist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nBuff">
+        /// The maximum number of handles that the buffer can hold.
+        /// </param>
+        /// <param name="lpList">
+        /// A pointer to the buffer that receives the array of input locale identifiers.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of input locale identifiers copied to the buffer or,
+        /// if <paramref name="nBuff"/> is zero, the return value is the size, in array elements,
+        /// of the buffer needed to receive all current input locale identifiers.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// The preferred method to retrieve the language associated with the current keyboard layout or input method
+        /// is a call to <c>Windows.Globalization.Language.CurrentInputMethodLanguageTag</c>.
+        /// If your app passes language tags from <c>CurrentInputMethodLanguageTag</c> to any National Language Support functions,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardLayoutList", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetKeyboardLayoutList([In] int nBuff, [Out] HKL[] lpList);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the name of the active input locale identifier (formerly called the keyboard layout) for the calling thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutnamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pwszKLID">
+        /// <para>
+        /// The buffer (of at least <see cref="KL_NAMELENGTH"/> characters in length)
+        /// that receives the name of the input locale identifier, including the terminating null character.
+        /// This will be a copy of the string provided to the <see cref="LoadKeyboardLayout"/> function, unless layout substitution took place.
+        /// </para>
+        /// <para>
+        /// For a list of the input layouts that are supplied with Windows, see Keyboard Identifiers and Input Method Editors for Windows.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// The preferred method to retrieve the language associated with the current keyboard layout or input method
+        /// is a call to <c>Windows.Globalization.Language.CurrentInputMethodLanguageTag</c>.
+        /// If your app passes language tags from <c>CurrentInputMethodLanguageTag</c> to any National Language Support functions,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardLayoutNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetKeyboardLayoutName([In] LPWSTR pwszKLID);
 
         /// <summary>
         /// <para>
@@ -874,6 +1200,230 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Loads a new input locale identifier (formerly called the keyboard layout) into the system.
+        /// </para>
+        /// <para>
+        /// Prior to Windows 8:
+        /// Several input locale identifiers can be loaded at a time, but only one per process is active at a time.
+        /// Loading multiple input locale identifiers makes it possible to rapidly switch between them.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// The input locale identifier is loaded for the entire system.
+        /// This function has no effect if the current process does not own the window with keyboard focus.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadkeyboardlayoutw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pwszKLID">
+        /// <para>
+        /// The name of the input locale identifier to load.
+        /// This name is a string composed of the hexadecimal value of the Language Identifier (low word) and a device identifier (high word).
+        /// For example, U.S. English has a language identifier of 0x0409, so the primary U.S. English layout is named "00000409".
+        /// Variants of U.S. English layout (such as the Dvorak layout) are named "00010409", "00020409", and so on.
+        /// </para>
+        /// <para>
+        /// For a list of the input layouts that are supplied with Windows, see Keyboard Identifiers and Input Method Editors for Windows.
+        /// </para>
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// Specifies how the input locale identifier is to be loaded. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_ACTIVATE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Prior to Windows 8:
+        /// If the specified input locale identifier is not already loaded,
+        /// the function loads and activates the input locale identifier for the current thread.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If the specified input locale identifier is not already loaded,
+        /// the function loads and activates the input locale identifier for the system.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_NOTELLSHELL"/>
+        /// </para>
+        /// <para>
+        /// 0x00000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Prior to Windows 8:
+        /// Prevents a <c>ShellProc</c> hook procedure from receiving an <see cref="HSHELL_LANGUAGE"/> hook code
+        /// when the new input locale identifier is loaded.
+        /// This value is typically used when an application loads multiple input locale identifiers one after another.
+        /// Applying this value to all but the last input locale identifier delays the shell's processing
+        /// until all input locale identifiers have been added.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// In this scenario, the last input locale identifier is set for the entire system.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_REORDER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Prior to Windows 8:
+        /// Moves the specified input locale identifier to the head of the input locale identifier list,
+        /// making that locale identifier the active locale identifier for the current thread.
+        /// This value reorders the input locale identifier list even if <see cref="KLF_ACTIVATE"/> is not provided.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// Moves the specified input locale identifier to the head of the input locale identifier list,
+        /// making that locale identifier the active locale identifier for the system.
+        /// This value reorders the input locale identifier list even if <see cref="KLF_ACTIVATE"/> is not provided.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_REPLACELANG"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// If the new input locale identifier has the same language identifier as a current input locale identifier,
+        /// the new input locale identifier replaces the current one as the input locale identifier for that language.
+        /// If this value is not provided and the input locale identifiers have the same language identifiers,
+        /// the current input locale identifier is not replaced and the function returns <see cref="NULL"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_SUBSTITUTE_OK"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Substitutes the specified input locale identifier with another locale preferred by the user.
+        /// The system starts with this flag set, and it is recommended that your application always use this flag.
+        /// The substitution occurs only if the registry key <c>HKEY_CURRENT_USER\Keyboard Layout\Substitutes</c> explicitly defines a substitution locale.
+        /// For example, if the key includes the value name "00000409" with value "00010409",
+        /// loading the US layout ("00000409") causes the United States-Dvorak layout ("00010409") to be loaded instead.
+        /// The system uses <see cref="KLF_SUBSTITUTE_OK"/> when booting, and it is recommended that all applications use this value
+        /// when loading input locale identifiers to ensure that the user's preference is selected.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="KLF_SETFORPROCESS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Prior to Windows 8: This flag is valid only with <see cref="KLF_ACTIVATE"/>.
+        /// Activates the specified input locale identifier for the entire process
+        /// and sends the <see cref="WM_INPUTLANGCHANGE"/> message to the current thread's Focus or Active window.
+        /// Typically, <see cref="LoadKeyboardLayout"/> activates an input locale identifier only for the current thread.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// This flag is not used.
+        /// <see cref="LoadKeyboardLayout"/> always activates an input locale identifier for the entire system
+        /// if the current process owns the window with keyboard focus.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="KLF_UNLOADPREVIOUS"/>
+        /// </term>
+        /// <term>
+        /// This flag is unsupported. Use the <see cref="UnloadKeyboardLayout"/> function instead.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the input locale identifier
+        /// corresponding to the name specified in <paramref name="pwszKLID"/>.
+        /// If no matching locale is available, the return value is the default language of the system.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// This can occur if the layout library is loaded from the application directory.
+        /// </para>
+        /// <para>
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// An application can and will typically load the default input locale identifier or IME for a language
+        /// and can do so by specifying only a string version of the language identifier.
+        /// If an application wants to load a specific locale or IME,
+        /// it should read the registry to determine the specific input locale identifier to pass to <see cref="LoadKeyboardLayout"/>.
+        /// In this case, a request to activate the default input locale identifier for a locale will activate the first matching one.
+        /// A specific IME should be activated using an explicit input locale identifier
+        /// returned from <see cref="GetKeyboardLayout"/> or <see cref="LoadKeyboardLayout"/>.
+        /// </para>
+        /// <para>
+        /// Prior to Windows 8:
+        /// This function only affects the layout for the current process or thread.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// This function affects the layout for the entire system.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadKeyboardLayoutW", ExactSpelling = true, SetLastError = true)]
+        public static extern HKL LoadKeyboardLayout([In] LPCWSTR pwszKLID, [In] UINT Flags);
+
+        /// <summary>
+        /// <para>
         /// Translates (maps) a virtual-key code into a scan code or character value, or translates a scan code into a virtual-key code.
         /// </para>
         /// <para>
@@ -1061,6 +1611,201 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", ExactSpelling = true)]
         public static extern UINT MapVirtualKey([In] UINT uCode, [In] MapVirtualKeyTypes uMapType);
+
+        /// <summary>
+        /// <para>
+        /// Translates (maps) a virtual-key code into a scan code or character value, or translates a scan code into a virtual-key code.
+        /// The function translates the codes using the input language and an input locale identifier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mapvirtualkeyexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="uCode">
+        /// The virtual key code or scan code for a key.
+        /// How this value is interpreted depends on the value of the uMapType parameter.
+        /// </param>
+        /// <param name="uMapType">
+        /// <para>
+        /// The translation to perform.
+        /// The value of this parameter depends on the value of the <paramref name="uCode"/> parameter.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAPVK_VK_TO_VSC"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="uCode"/> parameter is a virtual-key code and is translated into a scan code.
+        /// If it is a virtual-key code that does not distinguish between left- and right-hand keys,
+        /// the left-hand scan code is returned. If there is no translation, the function returns 0.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAPVK_VSC_TO_VK"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="uCode"/> parameter is a scan code and is translated into a virtual-key code
+        /// that does not distinguish between left- and right-hand keys.
+        /// If there is no translation, the function returns 0.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// the high byte of the <paramref name="uCode"/> value can contain either 0xe0 or 0xe1 to specify the extended scan code.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAPVK_VK_TO_CHAR"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="uCode"/> parameter is a virtual-key code
+        /// and is translated into an unshifted character value in the low order word of the return value.
+        /// Dead keys (diacritics) are indicated by setting the top bit of the return value.
+        /// If there is no translation, the function returns 0. See Remarks.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAPVK_VSC_TO_VK_EX"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="uCode"/> parameter is a scan code
+        /// and is translated into a virtual-key code that distinguishes between left- and right-hand keys.
+        /// If there is no translation, the function returns 0.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// the high byte of the <paramref name="uCode"/> value can contain either 0xe0 or 0xe1 to specify the extended scan code.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="MAPVK_VK_TO_VSC_EX"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Windows Vista and later:
+        /// The <paramref name="uCode"/> parameter is a virtual-key code and is translated into a scan code.
+        /// If it is a virtual-key code that does not distinguish between left- and right-hand keys, the left-hand scan code is returned.
+        /// If the scan code is an extended scan code,
+        /// the high byte of the returned value will contain either 0xe0 or 0xe1 to specify the extended scan code.
+        /// If there is no translation, the function returns 0.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwhkl">
+        /// Input locale identifier to use for translating the specified code.
+        /// This parameter can be any input locale identifier previously returned by the <see cref="LoadKeyboardLayout"/> function.
+        /// </param>
+        /// <returns>
+        /// The return value is either a scan code, a virtual-key code, or a character value,
+        /// depending on the value of <paramref name="uCode"/> and <paramref name="uMapType"/>.
+        /// If there is no translation, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// An application can use <see cref="MapVirtualKeyEx"/> to translate scan codes to the virtual-key code constants
+        /// <see cref="VK_SHIFT"/>, <see cref="VK_CONTROL"/>, and <see cref="VK_MENU"/>, and vice versa.
+        /// These translations do not distinguish between the left and right instances of the SHIFT, CTRL, or ALT keys.
+        /// </para>
+        /// <para>
+        /// An application can get the scan code corresponding to the left or right instance of one of these keys
+        /// by calling <see cref="MapVirtualKeyEx"/> with <paramref name="uCode"/> set to one of the following virtual-key code constants:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="VK_LSHIFT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VK_RSHIFT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VK_LCONTROL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VK_RCONTROL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VK_LMENU"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="VK_RMENU"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// These left- and right-distinguishing constants are available to an application
+        /// only through the <see cref="GetKeyboardState"/>, <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>,
+        /// <see cref="GetKeyState"/>, <see cref="MapVirtualKey"/>, and <see cref="MapVirtualKeyEx"/> functions.
+        /// For list complete table of virtual key codes, see Virtual Key Codes.
+        /// </para>
+        /// <para>
+        /// In <see cref="MAPVK_VK_TO_CHAR"/> mode virtual-key codes,
+        /// the 'A'..'Z' keys are translated to upper-case 'A'..'Z' characters regardless of current keyboard layout.
+        /// If you want to translate a virtual-key code to the corresponding character, use the <see cref="ToUnicode"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyExW", ExactSpelling = true)]
+        public static extern UINT MapVirtualKeyEx([In] UINT uCode, [In] MapVirtualKeyTypes uMapType, [In] HKL dwhkl);
 
 #pragma warning disable IDE1006
         /// <summary>
@@ -1910,11 +2655,13 @@ namespace Lsj.Util.Win32
         /// The virtual-key code to be translated. See Virtual-Key Codes.
         /// </param>
         /// <param name="uScanCode">
-        /// The hardware scan code of the key to be translated. The high-order bit of this value is set if the key is up (not pressed).
+        /// The hardware scan code of the key to be translated.
+        /// The high-order bit of this value is set if the key is up (not pressed).
         /// </param>
         /// <param name="lpKeyState">
         /// <para>
-        /// A pointer to a 256-byte array that contains the current keyboard state. Each element (byte) in the array contains the state of one key.
+        /// A pointer to a 256-byte array that contains the current keyboard state.
+        /// Each element (byte) in the array contains the state of one key.
         /// If the high-order bit of a byte is set, the key is down (pressed).
         /// </para>
         /// <para>
@@ -1993,6 +2740,124 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true)]
         public static extern int ToAscii([In] UINT uVirtKey, [In] UINT uScanCode, [In] BYTE[] lpKeyState, [Out] out WORD lpChar, [In] UINT uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Translates the specified virtual-key code and keyboard state to the corresponding character or characters.
+        /// The function translates the code using the input language and physical keyboard layout identified by the input locale identifier.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This method may not work properly with some keyboard layouts that may produce multiple characters
+        /// (i.e. ligatures) and/or supplementary Unicode characters on a single key press.
+        /// It is highly recommended to use the <see cref="ToUnicode"/> or <see cref="ToUnicodeEx"/> methods that handles such cases properly.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-toasciiex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="uVirtKey">
+        /// The virtual-key code to be translated. See Virtual-Key Codes.
+        /// </param>
+        /// <param name="uScanCode">
+        /// The hardware scan code of the key to be translated.
+        /// The high-order bit of this value is set if the key is up (not pressed).
+        /// </param>
+        /// <param name="lpKeyState">
+        /// <para>
+        /// A pointer to a 256-byte array that contains the current keyboard state.
+        /// Each element (byte) in the array contains the state of one key.
+        /// If the high-order bit of a byte is set, the key is down (pressed).
+        /// </para>
+        /// <para>
+        /// The low bit, if set, indicates that the key is toggled on.
+        /// In this function, only the toggle bit of the CAPS LOCK key is relevant.
+        /// The toggle state of the NUM LOCK and SCROLL LOCK keys is ignored.
+        /// </para>
+        /// </param>
+        /// <param name="lpChar">
+        /// A pointer to the buffer that receives the translated character
+        /// (or two characters packed into a single <see cref="WORD"/> value,
+        /// where the low-order byte contains the first character and the high-order byte contains the second character).
+        /// </param>
+        /// <param name="uFlags">
+        /// This parameter must be 1 if a menu is active, or 0 otherwise.
+        /// </param>
+        /// <param name="dwhkl">
+        /// Input locale identifier to use to translate the code.
+        /// This parameter can be any input locale identifier previously returned by the <see cref="LoadKeyboardLayout"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value is one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The specified virtual key has no translation for the current state of the keyboard.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// One character was copied to the buffer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2
+        /// </term>
+        /// <term>
+        /// Two characters were copied to the buffer.
+        /// This usually happens when a dead-key character (accent or diacritic) stored in the keyboard layout
+        /// cannot be composed with the specified virtual key to form a single character.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// The parameters supplied to the <see cref="ToAsciiEx"/> function might not be sufficient to translate the virtual-key code,
+        /// because a previous dead key is stored in the keyboard layout.
+        /// </para>
+        /// <para>
+        /// Typically, <see cref="ToAsciiEx"/> performs the translation based on the virtual-key code.
+        /// In some cases, however, bit 15 of the <paramref name="uScanCode"/> parameter
+        /// may be used to distinguish between a key press and a key release.
+        /// The scan code is used for translating ALT+number key combinations.
+        /// </para>
+        /// <para>
+        /// Although NUM LOCK is a toggle key that affects keyboard behavior,
+        /// <see cref="ToAsciiEx"/> ignores the toggle setting (the low bit) of <paramref name="lpKeyState"/> (<see cref="VK_NUMLOCK"/>)
+        /// because the <paramref name="uVirtKey"/> parameter alone is sufficient to distinguish the cursor movement keys
+        /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on)
+        /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAsciiEx", ExactSpelling = true)]
+        public static extern int ToAsciiEx([In] UINT uVirtKey, [In] UINT uScanCode, [In] BYTE[] lpKeyState, [Out] out WORD lpChar, [In] UINT uFlags, [In] HKL dwhkl);
 
         /// <summary>
         /// <para>
@@ -2077,6 +2942,62 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackMouseEvent", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TrackMouseEvent([In] in TRACKMOUSEEVENT lpEventTrack);
+
+        /// <summary>
+        /// <para>
+        /// Unloads an input locale identifier (formerly called a keyboard layout).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unloadkeyboardlayout"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hkl">
+        /// The input locale identifier to be unloaded.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// The function can fail for the following reasons:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// An invalid input locale identifier was passed.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The input locale identifier was preloaded.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The input locale identifier is in use.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// <see cref="UnloadKeyboardLayout"/> cannot unload the system default input locale identifier if it is the only keyboard layout loaded.
+        /// You must first load another input locale identifier before unloading the default input locale identifier.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnloadKeyboardLayout", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnloadKeyboardLayout([In] HKL hkl);
 
         /// <summary>
         /// <para>
@@ -2177,5 +3098,113 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", ExactSpelling = true)]
         public static extern SHORT VkKeyScan([In] WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Translates a character to the corresponding virtual-key code and shift state.
+        /// The function translates the character using the input language and physical keyboard layout identified by the input locale identifier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-vkkeyscanexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be translated into a virtual-key code.
+        /// </param>
+        /// <param name="dwhkl">
+        /// Input locale identifier used to translate the character.
+        /// This parameter can be any input locale identifier previously returned by the <see cref="LoadKeyboardLayout"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the low-order byte of the return value contains the virtual-key code
+        /// and the high-order byte contains the shift state, which can be a combination of the following flag bits.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 1
+        /// </term>
+        /// <term>
+        /// Either SHIFT key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 2
+        /// </term>
+        /// <term>
+        /// Either CTRL key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 4
+        /// </term>
+        /// <term>
+        /// Either ALT key is pressed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 8
+        /// </term>
+        /// <term>
+        /// The Hankaku key is pressed
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 16
+        /// </term>
+        /// <term>
+        /// Reserved (defined by the keyboard layout driver).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 32
+        /// </term>
+        /// <term>
+        /// Reserved (defined by the keyboard layout driver).
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function finds no key that translates to the passed character code, both the low-order and high-order bytes contain –1.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The input locale identifier is a broader concept than a keyboard layout,
+        /// since it can also encompass a speech-to-text converter, an Input Method Editor (IME), or any other form of input.
+        /// </para>
+        /// <para>
+        /// For keyboard layouts that use the right-hand ALT key as a shift key (for example, the French keyboard layout),
+        /// the shift state is represented by the value 6, because the right-hand ALT key is converted internally into CTRL+ALT.
+        /// </para>
+        /// <para>
+        /// Translations for the numeric keypad (<see cref="VK_NUMPAD0"/> through <see cref="VK_DIVIDE"/>) are ignored.
+        /// This function is intended to translate characters into keystrokes from the main keyboard section only.
+        /// For example, the character "7" is translated into <see cref="VK_7"/>, not <see cref="VK_NUMPAD7"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="VkKeyScanEx"/> is used by applications that send characters
+        /// by using the <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanExW", ExactSpelling = true)]
+        public static extern SHORT VkKeyScanEx([In] WCHAR ch, [In] HKL dwhkl);
     }
 }
