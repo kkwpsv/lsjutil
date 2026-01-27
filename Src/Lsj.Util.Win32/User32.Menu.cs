@@ -993,6 +993,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the Help context identifier associated with the specified menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmenucontexthelpid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to the menu for which the Help context identifier is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// Returns the Help context identifier if the menu has one, or zero otherwise.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuContextHelpId", ExactSpelling = true)]
+        public static extern DWORD GetMenuContextHelpId([In] HMENU unnamedParam1);
+
+        /// <summary>
+        /// <para>
         /// Determines the default menu item on the specified menu.
         /// </para>
         /// <para>
@@ -2778,6 +2796,36 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenu", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenu([In] HWND hWnd, [In] HMENU hMenu);
+
+        /// <summary>
+        /// <para>
+        /// Associates a Help context identifier with a menu.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmenucontexthelpid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to the menu with which to associate the Help context identifier.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// The help context identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns nonzero if successful, or zero otherwise.
+        /// </para>
+        /// <para>
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// All items in the menu share this identifier.
+        /// Help context identifiers can't be attached to individual menu items.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuContextHelpId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuContextHelpId([In] HMENU unnamedParam1, DWORD unnamedParam2);
 
         /// <summary>
         /// <para>

@@ -5,7 +5,6 @@ using Lsj.Util.Win32.ComInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -83,14 +82,205 @@ namespace Lsj.Util.Tests.Win32
             "CreateStdDispatch",
             "CreateURLMoniker",
             "CreateURLMonikerEx",
+            "BackupRead",
+            "BackupWrite",
+        };
+
+        private static readonly List<string> _skipApiList = new List<string>
+        {
+            // NT 4.0
+            "BaseAttachCompleteThunk",              // undocument
+            "BroadcastSystemMessage",               // duplicate of BroadcastSystemMessageW
+            "CallMsgFilter",                        // undocument
+            "CascadeChildWindows",                  // undocument
+            "ClientThreadSetup",                    // undocument
+            "CloseConsoleHandle",                   // undocument
+            "CloseProfileUserMapping",              // undocument
+            "CmdBatNotification",                   // undocument
+            "ConsoleMenuControl",                   // undocument
+            "CreateDialogIndirectParamAorW",        // undocument
+            "CreateVirtualBuffer",                  // undocument
+            "DialogBoxIndirectParamAorW",           // undocument
+            "DrawCaptionTempW",                     // undocument
+            "DrawFrame",                            // undocument
+            "DrawMenuBarTemp",                      // undocument
+            "DuplicateConsoleHandle",               // undocument
+            "EditWndProc",                          // undocument
+            "ExitVDM",                              // undocument
+            "ExpungeConsoleCommandHistoryW",        // undocument
+            "ExtendVirtualBuffer",                  // undocument
+            "FreeVirtualBuffer",                    // undocument
+            "FullScreenControl",                    // undocument
+            "GetAppCompatFlags",                    // undocument
+            "GetBinaryType",                        // duplicate of GetBinaryTypeW
+            "GetConsoleCommandHistoryLengthW",      // undocument
+            "GetConsoleCommandHistoryW",            // undocument
+            "GetConsoleFontInfo",                   // undocument
+            "GetConsoleHardwareState",              // undocument
+            "GetConsoleInputExeNameW",              // undocument
+            "GetConsoleInputWaitHandle",            // undocument
+            "GetConsoleKeyboardLayoutNameW",        // undocument
+            "GetEnvironmentStrings",                // duplicate of GetEnvironmentStringsW
+            "GetInputDesktop",                      // undocument
+            "GetInternalWindowPos",                 // undocument
+            "GetLastError",                         // use Marshal.GetLastError
+            "GetNextVDMCommand",                    // undocument
+            "GetNumberOfConsoleFonts",              // undocument
+            "GetProgmanWindow",                     // undocument
+            "GetTaskmanWindow",                     // undocument
+            "GetVDMCurrentDirectories",             // undocument
+            "HeapCreateTagsW",                      // undocument
+            "HeapExtend",                           // undocument
+            "HeapQueryTagW",                        // undocument
+            "HeapUsage",                            // undocument
+            "InvalidateConsoleDIBits",              // undocument
+            "IsDialogMessage",                      // duplicate of IsDialogMessageW
+            "KillSystemTimer",                      // undocument
+            "LoadKeyboardLayoutEx",                 // undocument
+            "LoadLocalFonts",                       // undocument
+            "LoadRemoteFonts",                      // undocument
+            "LockWindowStation",                    // undocument
+            "MBToWCSEx",                            // undocument
+            "MenuWindowProcW",                      // undocument
+            "OpenConsoleW",                         // undocument
+            "OpenProfileUserMapping",               // undocument
+            "PrivateExtractIconExW",                // undocument
+            "PrivateKDBreakPoint",                  // undocument
+            "QuerySendMessage",                     // undocument
+            "QueryWin31IniFilesMappedToRegistry",   // undocument
+            "RegisterConsoleVDM",                   // undocument
+            "RegisterLogonProcess",                 // undocument
+            "RegisterServicesProcess",              // undocument
+            "RegisterSystemThread",                 // undocument
+            "RegisterTasklist",                     // undocument
+            "RegisterWaitForInputIdle",             // undocument
+            "RegisterWowBaseHandlers",              // undocument
+            "RegisterWowExec",                      // undocument
+            "ScrollChildren",                       // undocument
+            "SetConsoleCommandHistoryMode",         // undocument
+            "SetConsoleCursor",                     // undocument
+            "SetConsoleFont",                       // undocument
+            "SetConsoleHardwareState",              // undocument
+            "SetConsoleIcon",                       // undocument
+            "SetConsoleInputExeNameW",              // undocument
+            "SetConsoleKeyShortcuts",               // undocument
+            "SetConsoleMaximumWindowSize",          // undocument
+            "SetConsoleMenuClose",                  // undocument
+            "SetConsoleNumberOfCommandsW",          // undocument
+            "SetConsolePalette",                    // undocument
+            "SetConsoleReserveKeys",                // undocument
+            "SetCursorContents",                    // undocument
+            "SetDeskWallpaper",                     // undocument
+            "SetInternalWindowPos",                 // undocument
+            "SetLastConsoleEventActive",            // undocument
+            "SetLogonNotifyWindow",                 // undocument
+            "SetProgmanWindow",                     // undocument
+            "SetShellWindow",                       // undocument
+            "SetShellWindowEx",                     // undocument
+            "SetSysColorsTemp",                     // undocument
+            "SetSystemMenu",                        // undocument
+            "SetSystemTimer",                       // undocument
+            "SetTaskmanWindow",                     // undocument
+            "SetVDMCurrentDirectories",             // undocument
+            "SetWindowStationUser",                 // undocument
+            "ShowConsoleCursor",                    // undocument
+            "ShowStartGlass",                       // undocument
+            "SoftModalMessageBox",                  // undocument
+            "TileChildWindows",                     // undocument
+            "TranslateAccelerator",                 // duplicate of TranslateAcceleratorW
+            "TranslateMessageEx",                   // undocument
+            "TrimVirtualBuffer",                    // undocument
+            "UnlockWindowStation",                  // undocument
+            "UpdatePerUserSystemParameters",        // undocument
+            "UserClientDllInitialize",              // undocument
+            "UserRealizePalette",                   // undocument
+            "UserRegisterWowHandlers",              // undocument
+            "VDMConsoleOperation",                  // undocument
+            "VDMOperationStarted",                  // undocument
+            "VerifyConsoleIoHandle",                // undocument
+            "VirtualBufferExceptionHandler",        // undocument
+            "WCSToMBEx",                            // undocument
+            "WriteConsoleInputVDMW",                // undocument
+            "lstrcat",                              // duplicate of lstrcatW
+            "lstrcmp",                              // duplicate of lstrcmpW
+            "lstrcmpi",                             // duplicate of lstrcmpiW
+            "lstrcpy",                              // duplicate of lstrcpyW
+            "lstrcpyn",                             // duplicate of lstrcpynW
+            "lstrlen",                              // duplicate of lstrlenW
+        };
+
+        private static readonly List<string> _notImplemntApiList = new List<string>
+        {
+            // Tape
+            "CreateTapePartition",
+            "EraseTape",
+            "GetTapeParameters",
+            "GetTapePosition",
+            "GetTapeStatus",
+            "PrepareTape",
+            "SetTapeParameters",
+            "SetTapePosition",
+            "WriteTapemark",
+
+            // WDK
+            "RtlFillMemory",
+            "RtlMoveMemory",
+            "RtlZeroMemory",
+
+            // x86 Only
+            "InterlockedCompareExchange",
+            "InterlockedDecrement",
+            "InterlockedExchange",
+            "InterlockedExchangeAdd",
+            "InterlockedIncrement",
+
+            // printf
+            "wsprintfW",
+            "wvsprintfW",
+
+            // DDE
+            "DdeAbandonTransaction",
+            "DdeAccessData",
+            "DdeAddData",
+            "DdeClientTransaction",
+            "DdeCmpStringHandles",
+            "DdeConnect",
+            "DdeConnectList",
+            "DdeCreateDataHandle",
+            "DdeCreateStringHandleW",
+            "DdeDisconnect",
+            "DdeDisconnectList",
+            "DdeEnableCallback",
+            "DdeFreeDataHandle",
+            "DdeFreeStringHandle",
+            "DdeGetData",
+            "DdeGetLastError",
+            "DdeGetQualityOfService",
+            "DdeInitializeW",
+            "DdeKeepStringHandle",
+            "DdeNameService",
+            "DdePostAdvise",
+            "DdeQueryConvInfo",
+            "DdeQueryNextServer",
+            "DdeQueryStringW",
+            "DdeReconnect",
+            "DdeSetQualityOfService",
+            "DdeSetUserHandle",
+            "DdeUnaccessData",
+            "DdeUninitialize",
+            "FreeDDElParam",
+            "PackDDElParam",
+            "ReuseDDElParam",
+            "UnpackDDElParam",
         };
 
         [TestMethod]
         public void TestMethods()
         {
             var apis = ReadFromFiles();
-            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.WindowsNT40 && x.Value.DllName == "kernel32")
-                .Where(x => !x.Key.EndsWith("A"))
+            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.WindowsNT40 &&
+                    (x.Value.DllName == "kernel32" || x.Value.DllName == "user32"))
+                .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
@@ -196,7 +386,7 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
             fails.AddRange(hasRawComInterfaceParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has raw COM interface parameter."));
             fails.AddRange(hasGenericTypeParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has generic type parameter."));
-            //fails.AddRange(toCheckApis.Select(item => $"{item} missing in methods."));
+            fails.AddRange(toCheckApis.Select(item => $"{item} missing in methods."));
 
             if (fails.Any())
             {

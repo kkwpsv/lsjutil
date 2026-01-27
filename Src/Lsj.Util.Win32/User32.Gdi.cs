@@ -79,6 +79,44 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate BOOL Graystringproc([In] HDC unnamedParam1, [In] LPARAM unnamedParam2, [In] int unnamedParam3);
 
+        /// <summary>
+        /// <para>
+        /// The <c>DrawStateProc</c> function is an application-defined callback function
+        /// that renders a complex image for the <see cref="DrawState"/> function.
+        /// The <see cref="DRAWSTATEPROC"/> type defines a pointer to this callback function.
+        /// <c>DrawStateProc</c> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nc-winuser-drawstateproc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context to draw in.
+        /// The device context is a memory device context with a bitmap selected,
+        /// the dimensions of which are at least as great as those specified by the cx and cy parameters.
+        /// </param>
+        /// <param name="lData">
+        /// Specifies information about the image, which the application passed to <see cref="DrawState"/>.
+        /// </param>
+        /// <param name="wData">
+        /// Specifies information about the image, which the application passed to <see cref="DrawState"/>.
+        /// </param>
+        /// <param name="cx">
+        /// The image width, in device units, as specified by the call to <see cref="DrawState"/>.
+        /// </param>
+        /// <param name="cy">
+        /// The image height, in device units, as specified by the call to <see cref="DrawState"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        public delegate BOOL Drawstateproc([In] HDC hdc, [In] LPARAM lData, [In] WPARAM wData, [In] int cx, [In] int cy);
+
 
         /// <summary>
         /// <para>
@@ -170,6 +208,159 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClientToScreen", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ClientToScreen([In] HWND hWnd, [In][Out] ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// Animates the caption of a window to indicate the opening of an icon or the minimizing or maximizing of a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawanimatedrects"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose caption should be animated on the screen.
+        /// The animation will be clipped to the parent of this window.
+        /// </param>
+        /// <param name="idAni">
+        /// The type of animation.
+        /// This must be <see cref="IDANI_CAPTION"/>.
+        /// With the <see cref="IDANI_CAPTION"/> animation type,
+        /// the window caption will animate from the position specified by <paramref name="lprcFrom"/>
+        /// to the position specified by <paramref name="lprcTo"/>.
+        /// The effect is similar to minimizing or maximizing a window.
+        /// </param>
+        /// <param name="lprcFrom">
+        /// A pointer to a <see cref="RECT"/> structure specifying the location and size of the icon or minimized window.
+        /// Coordinates are relative to the clipping window <paramref name="hwnd"/>.
+        /// </param>
+        /// <param name="lprcTo">
+        /// A pointer to a <see cref="RECT"/> structure specifying the location and size of the restored window.
+        /// Coordinates are relative to the clipping window <paramref name="hwnd"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawAnimatedRects", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DrawAnimatedRects([In] HWND hwnd, [In] int idAni, [In] in RECT lprcFrom, [In] in RECT lprcTo);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DrawCaption"/> function draws a window caption.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawcaption"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to a window that supplies text and an icon for the window caption.
+        /// </param>
+        /// <param name="hdc">
+        /// A handle to a device context. The function draws the window caption into this device context.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to a <see cref="RECT"/> structure
+        /// that specifies the bounding rectangle for the window caption in logical coordinates.
+        /// </param>
+        /// <param name="flags">
+        /// <para>
+        /// The drawing options.
+        /// This parameter can be zero or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_ACTIVE"/>
+        /// </term>
+        /// <term>
+        /// The function uses the colors that denote an active caption.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_BUTTONS"/>
+        /// </term>
+        /// <term>
+        /// If set, the function draws the buttons in the caption bar (to minimize, restore, or close an application).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_GRADIENT"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// When this flag is set, the function uses <see cref="COLOR_GRADIENTACTIVECAPTION"/> (if the <see cref="DC_ACTIVE"/> flag was set)
+        /// or <see cref="COLOR_GRADIENTINACTIVECAPTION"/> for the title-bar color.
+        /// </para>
+        /// <para>
+        /// If this flag is not set, the function uses <see cref="COLOR_ACTIVECAPTION"/> or <see cref="COLOR_INACTIVECAPTION"/> for both colors.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_ICON"/>
+        /// </term>
+        /// <term>
+        /// The function draws the icon when drawing the caption text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_INBUTTON"/>
+        /// </term>
+        /// <term>
+        /// The function draws the caption as a button.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_SMALLCAP"/>
+        /// </term>
+        /// <term>
+        /// The function draws a small caption, using the current small caption font.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DC_TEXT"/>
+        /// </term>
+        /// <term>
+        /// The function draws the caption text when drawing the caption.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <see cref="DC_SMALLCAP"/> is specified, the function draws a normal window caption.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawCaption", ExactSpelling = true)]
+        public static extern BOOL DrawCaption([In] HWND hwnd, [In] HDC hdc, [In] in RECT lprect, [In] UINT flags);
 
         /// <summary>
         /// <para>
@@ -959,6 +1150,215 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFrameControl", ExactSpelling = true)]
         public static extern BOOL DrawFrameControl([In] HDC hdc, [In] in RECT lprc, [In] DrawFrameControlTypes uType, [In] DrawFrameControlStates uState);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DrawState"/> function displays an image and applies a visual effect to indicate a state,
+        /// such as a disabled or default state.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-drawstatew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context to draw in.
+        /// </param>
+        /// <param name="hbrFore">
+        /// A handle to the brush used to draw the image,
+        /// if the state specified by the <paramref name="uFlags"/> parameter is <see cref="DSS_MONO"/>.
+        /// This parameter is ignored for other states.
+        /// </param>
+        /// <param name="qfnCallBack">
+        /// A pointer to an application-defined callback function used to render the image.
+        /// This parameter is required if the image type in fuFlags is <see cref="DST_COMPLEX"/>.
+        /// It is optional and can be <see cref="NULL"/> if the image type is <see cref="DST_TEXT"/>.
+        /// For all other image types, this parameter is ignored.
+        /// For more information about the callback function, see the <c>DrawStateProc</c> function.
+        /// </param>
+        /// <param name="lData">
+        /// Information about the image.
+        /// The meaning of this parameter depends on the image type.
+        /// </param>
+        /// <param name="wData">
+        /// Information about the image.
+        /// The meaning of this parameter depends on the image type.
+        /// It is, however, zero extended for use with the <c>DrawStateProc</c> function.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal location, in device units, at which to draw the image.
+        /// </param>
+        /// <param name="y">
+        /// The vertical location, in device units, at which to draw the image.
+        /// </param>
+        /// <param name="cx">
+        /// The width of the image, in device units.
+        /// This parameter is required if the image type is <see cref="DST_COMPLEX"/>.
+        /// Otherwise, it can be zero to calculate the width of the image.
+        /// </param>
+        /// <param name="cy">
+        /// The height of the image, in device units.
+        /// This parameter is required if the image type is <see cref="DST_COMPLEX"/>.
+        /// Otherwise, it can be zero to calculate the height of the image.
+        /// </param>
+        /// <param name="uFlags">
+        /// <para>
+        /// The image type and state. This parameter can be one of the following type values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value (type)
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DST_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// The image is a bitmap. The <paramref name="lData"/> parameter is the bitmap handle.
+        /// Note that the bitmap cannot already be selected into an existing device context.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DST_COMPLEX"/>
+        /// </term>
+        /// <term>
+        /// The image is application defined.
+        /// To render the image, <see cref="DrawState"/> calls the callback function
+        /// specified by the <paramref name="qfnCallBack"/> parameter.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DST_ICON"/>
+        /// </term>
+        /// <term>
+        /// The image is an icon. The <paramref name="lData"/> parameter is the icon handle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DST_PREFIXTEXT"/>
+        /// </term>
+        /// <term>
+        /// The image is text that may contain an accelerator mnemonic.
+        /// <see cref="DrawState"/> interprets the ampersand (&amp;) prefix character
+        /// as a directive to underscore the character that follows.
+        /// The <paramref name="lData"/> parameter is a pointer to the string,
+        /// and the <paramref name="wData"/> parameter specifies the length.
+        /// If <paramref name="wData"/> is zero, the string must be null-terminated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DST_TEXT"/>
+        /// </term>
+        /// <term>
+        /// The image is text.
+        /// The <paramref name="lData"/> parameter is a pointer to the string,
+        /// and the <paramref name="wData"/> parameter specifies the length.
+        /// If <paramref name="wData"/> is zero, the string must be null-terminated.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This parameter can also be one of the following state values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value (state)
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_DISABLED"/>
+        /// </term>
+        /// <term>
+        /// Embosses the image.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_HIDEPREFIX"/>
+        /// </term>
+        /// <term>
+        /// Ignores the ampersand (&amp;) prefix character in the text,
+        /// thus the letter that follows will not be underlined.
+        /// This must be used with <see cref="DST_PREFIXTEXT"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_MONO"/>
+        /// </term>
+        /// <term>
+        /// Draws the image using the brush specified by the <paramref name="hbrFore"/> parameter.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_NORMAL"/>
+        /// </term>
+        /// <term>
+        /// Draws the image without any modification.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_PREFIXONLY"/>
+        /// </term>
+        /// <term>
+        /// Draws only the underline at the position of the letter after the ampersand (&amp;) prefix character.
+        /// No text in the string is drawn.
+        /// This must be used with <see cref="DST_PREFIXTEXT"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_RIGHT"/>
+        /// </term>
+        /// <term>
+        /// Aligns the text to the right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DSS_UNION"/>
+        /// </term>
+        /// <term>
+        /// Dithers the image.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For all states except <see cref="DSS_NORMAL"/>,
+        /// the image is converted to monochrome before the visual effect is applied.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawStateW", ExactSpelling = true)]
+        public static extern BOOL DrawState([In] HDC hdc, [In] HBRUSH hbrFore, [In] DRAWSTATEPROC qfnCallBack, [In] LPARAM lData,
+            [In] WPARAM wData, [In] int x, [In] int y, [In] int cx, [In] int cy, [In] UINT uFlags);
 
         /// <summary>
         /// <para>
@@ -2827,6 +3227,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PaintDesktop"/> function fills the clipping region
+        /// in the specified device context with the desktop pattern or wallpaper.
+        /// The function is provided primarily for shell desktops.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-paintdesktop"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintDesktop", ExactSpelling = true)]
+        public static extern int PaintDesktop([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="PrintWindow"/> function copies a visual window into the specified device context (DC), typically a printer DC.
         /// </para>
         /// <para>
@@ -3450,5 +3875,26 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ValidateRgn([In] HWND hWnd, [In] HRGN hRgn);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WindowFromDC"/> function returns a handle
+        /// to the window associated with the specified display device context (DC).
+        /// Output functions that use the specified device context draw into this window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-windowfromdc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// Handle to the device context from which a handle to the associated window is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the window associated with the specified DC.
+        /// If no window is associated with the specified DC, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromDC", ExactSpelling = true)]
+        public static extern HWND WindowFromDC([In] HDC hDC);
     }
 }

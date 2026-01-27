@@ -26,6 +26,7 @@ using static Lsj.Util.Win32.Enums.MonitorDefaultFlags;
 using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.RegisterPowerSettingNotificationFlags;
+using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
@@ -130,6 +131,52 @@ namespace Lsj.Util.Win32
         public delegate void Wineventproc([In] HWINEVENTHOOK hWinEventHook, [In] EventConstants @event, [In] HWND hwnd, [In] LONG idObject,
             [In] LONG idChild, [In] DWORD idEventThread, [In] DWORD dwmsEventTime);
 
+
+        /// <summary>
+        /// <para>
+        /// Captures the mouse and tracks its movement until the user releases the left button, presses the ESC key,
+        /// or moves the mouse outside the drag rectangle around the specified point.
+        /// The width and height of the drag rectangle are specified by the <see cref="SM_CXDRAG"/> and <see cref="SM_CYDRAG"/> values
+        /// returned by the <see cref="GetSystemMetrics"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dragdetect"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window receiving mouse input.
+        /// </param>
+        /// <param name="pt">
+        /// Initial position of the mouse, in screen coordinates.
+        /// The function determines the coordinates of the drag rectangle by using this point.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the user moved the mouse outside of the drag rectangle while holding down the left button, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the user did not move the mouse outside of the drag rectangle while holding down the left button, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The system metrics for the drag rectangle are configurable, allowing for larger or smaller drag rectangles.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragDetect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DragDetect([In] HWND hwnd, [In] POINT pt);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="hwndFrom"></param>
+        /// <param name="fmt"></param>
+        /// <param name="data"></param>
+        /// <param name="hcur"></param>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragObject", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD DragObject([In] HWND hwnd, [In] HWND hwndFrom, [In] UINT fmt, [In] ULONG_PTR data, [In] HCURSOR hcur);
 
         /// <summary>
         /// <para>
@@ -3852,6 +3899,57 @@ namespace Lsj.Util.Win32
             [In] TIMERPROC lpTimerFunc, [In] ULONG uToleranceDelay);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dwLevel"></param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDebugErrorLevel", ExactSpelling = true)]
+        public static extern void SetDebugErrorLevel([In] DWORD dwLevel);
+
+        /// <summary>
+        /// <para>
+        /// Sets the last-error code.
+        /// </para>
+        /// <para>
+        /// Currently, this function is identical to the <see cref="SetLastError"/> function.
+        /// The second parameter is ignored.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setlasterrorex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwErrCode">
+        /// The last-error code for the thread.
+        /// </param>
+        /// <param name="dwType">
+        /// This parameter is ignored.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// The last-error code is kept in thread local storage so that multiple threads do not overwrite each other's values.
+        /// </para>
+        /// <para>
+        /// Most functions call <see cref="SetLastError"/> or <see cref="SetLastErrorEx"/> only when they fail.
+        /// However, some system functions call <see cref="SetLastError"/> or <see cref="SetLastErrorEx"/> under conditions of success;
+        /// those cases are noted in each function's documentation.
+        /// </para>
+        /// <para>
+        /// Applications can optionally retrieve the value set by this function
+        /// by using the <see cref="GetLastError"/> function immediately after a function fails.
+        /// </para>
+        /// <para>
+        /// Error codes are 32-bit values (bit 31 is the most significant bit).
+        /// Bit 29 is reserved for application-defined error codes; no system error code has this bit set.
+        /// If you are defining an error code for your application,
+        /// set this bit to indicate that the error code has been defined by the application
+        /// and to ensure that your error code does not conflict with any system-defined error codes.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastErrorEx", ExactSpelling = true)]
+        public static extern void SetLastErrorEx([In] DWORD dwErrCode, [In] DWORD dwType);
+
+        /// <summary>
         /// <para>
         /// Sets the colors for the specified display elements.
         /// Display elements are the various parts of a window and the display that appear on the system display screen.
@@ -3988,6 +4086,215 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTimer", ExactSpelling = true, SetLastError = true)]
         public static extern UINT_PTR SetTimer([In] HWND hWnd, [In] UINT_PTR nIDEvent, [In] UINT uElapse, [In] TIMERPROC lpTimerFunc);
+
+        /// <summary>
+        /// <para>
+        /// Sets information about the specified window station or desktop object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setuserobjectinformationw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to the window station, desktop object or a current process pseudo handle.
+        /// This handle can be returned by the <see cref="CreateWindowStation"/>, <see cref="OpenWindowStation"/>,
+        /// <see cref="CreateDesktop"/>, <see cref="OpenDesktop"/> or <see cref="GetCurrentProcess"/> function.
+        /// </param>
+        /// <param name="nIndex">
+        /// <para>
+        /// The object information to be set.
+        /// This parameter can be the following value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="UOI_FLAGS"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Sets the object's handle flags.
+        /// The <paramref name="pvInfo"/> parameter must point to a <see cref="USEROBJECTFLAGS"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="UOI_TIMERPROC_EXCEPTION_SUPPRESSION"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Sets the exception handling behavior when calling <c>TimerProc</c>.
+        /// <paramref name="hObj"/> must be the process handle returned by the <see cref="GetCurrentProcess"/> function.
+        /// </para>
+        /// <para>
+        /// The <paramref name="pvInfo"/> parameter must point to a <see cref="BOOL"/>.
+        /// If <see cref="TRUE"/>, Windows will enclose its calls to <c>TimerProc</c>
+        /// with an exception handler that consumes and discards all exceptions.
+        /// This has been the default behavior since Windows 2000, although that may change in future versions of Windows.
+        /// </para>
+        /// <para>
+        /// If <paramref name="pvInfo"/> points to <see cref="FALSE"/>,
+        /// Windows will not enclose its calls to <c>TimerProc</c> with an exception handler.
+        /// A setting of <see cref="FALSE"/> is recommended.
+        /// Otherwise, the application could behave unpredictably, and could be more vulnerable to security exploits.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pvInfo">
+        /// A pointer to a buffer containing the object information, or a <see cref="BOOL"/>.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the information contained in the buffer pointed to by <paramref name="pvInfo"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUserObjectInformationW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetUserObjectInformation([In] HANDLE hObj, [In] int nIndex, [In] PVOID pvInfo, [In] DWORD nLength);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetUserObjectSecurity"/> function sets the security of a user object.
+        /// This can be, for example, a window or a DDE conversation.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setuserobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to a user object for which security information is set.
+        /// </param>
+        /// <param name="pSIRequested">
+        /// <para>
+        /// A pointer to a value that indicates the components of the security descriptor to set. This parameter can be a combination of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DACL_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the discretionary access control list (DACL) of the object.
+        /// The handle specified by <paramref name="hObj"/> must have <see cref="WRITE_DAC"/> access,
+        /// or the calling process must be the owner of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GROUP_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the primary group security identifier (SID) of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OWNER_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the SID of the owner of the object.
+        /// The handle specified by <paramref name="hObj"/> must have <see cref="WRITE_OWNER"/> access,
+        /// or the calling process must be the owner of the object or have the <see cref="SE_TAKE_OWNERSHIP_NAME"/> privilege enabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SACL_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Sets the system access control list (SACL) of the object.
+        /// The handle specified by <paramref name="hObj"/> must have <see cref="ACCESS_SYSTEM_SECURITY"/> access.
+        /// </para>
+        /// <para>
+        /// To obtain <see cref="ACCESS_SYSTEM_SECURITY"/> access
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Enable the <see cref="SE_SECURITY_NAME"/> privilege in the current access token of the caller.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Disable the privilege.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pSID">
+        /// <para>
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that contains the new security information.
+        /// </para>
+        /// <para>
+        /// This buffer must be aligned on a 4-byte boundary.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetUserObjectSecurity"/> function applies changes specified in a security descriptor
+        /// to the security descriptor assigned to a user object.
+        /// The security descriptor of the object must be in self-relative form.
+        /// If necessary, this function allocates additional memory to increase the size of the security descriptor.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested, [In] in SECURITY_DESCRIPTOR pSID);
 
         /// <summary>
         /// <para>

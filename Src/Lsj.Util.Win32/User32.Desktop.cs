@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.UserObjectInformationIndexes;
+using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -20,6 +21,62 @@ namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumDesktops"/> function.
+        /// It receives a desktop name.
+        /// </para>
+        /// <para>
+        /// The <see cref="DESKTOPENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumDesktopProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// body>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms682612(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszDesktop">
+        /// The name of the desktop.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value specified in the <see cref="EnumDesktops"/> function.
+        /// </param>
+        /// <returns>
+        /// To continue enumeration, the callback function must return <see cref="TRUE"/>.
+        /// To stop enumeration, it must return <see cref="FALSE"/>.
+        /// </returns>
+        public delegate BOOL EnumDesktopProc([In] LPWSTR lpszDesktop, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumWindowStations"/> function.
+        /// It receives a window station name.
+        /// </para>
+        /// <para>
+        /// The <see cref="WINSTAENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumWindowStationProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms682643(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszWindowStation">
+        /// The name of the window station.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value specified in the <see cref="EnumWindowStations"/> function.
+        /// </param>
+        /// <returns>
+        /// To continue enumeration, the callback function must return <see cref="TRUE"/>.
+        /// To stop enumeration, it must return <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application must register this callback function by passing its address to <see cref="EnumWindowStations"/>.
+        /// </remarks>
+        public delegate BOOL EnumWindowStationProc([In] LPWSTR lpszWindowStation, [In] LPARAM lParam);
+
         /// <summary>
         /// <para>
         /// Closes an open handle to a desktop object.
@@ -418,6 +475,62 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates all desktops associated with the specified window station of the calling process.
+        /// The function passes the name of each desktop, in turn, to an application-defined callback function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdesktopsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwinsta">
+        /// <para>
+        /// A handle to the window station whose desktops are to be enumerated.
+        /// This handle is returned by the <see cref="CreateWindowStation"/>, <see cref="GetProcessWindowStation"/>,
+        /// or <see cref="OpenWindowStation"/> function, and must have the <see cref="WINSTA_ENUMDESKTOPS"/> access right.
+        /// For more information, see Window Station Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>, the current window station is used.
+        /// </para>
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to an application-defined <see cref="EnumDesktopProc"/> callback function.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to be passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns the nonzero value
+        /// returned by the callback function that was pointed to by <paramref name="lpEnumFunc"/>.
+        /// </para>
+        /// <para>
+        /// If the function is unable to perform the enumeration, the return value is zero.
+        /// Call <see cref="GetLastError"/> to get extended error information.
+        /// </para>
+        /// <para>
+        /// If the callback function fails, the return value is zero.
+        /// The callback function can call <see cref="SetLastError"/> to set an error code
+        /// for the caller to retrieve by calling <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="EnumDesktops"/> function enumerates only those desktops
+        /// for which the calling process has the <see cref="DESKTOP_ENUMERATE"/> access right.
+        /// For more information, see Desktop Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumDesktops"/> function repeatedly invokes the <paramref name="lpEnumFunc"/> callback function
+        /// until the last desktop is enumerated or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDesktops([In] HWINSTA hwinsta, [In] DESKTOPENUMPROC lpEnumFunc, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Enumerates all top-level windows associated with the specified desktop.
         /// It passes the handle to each window, in turn, to an application-defined callback function.
         /// </para>
@@ -464,6 +577,40 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumDesktopWindows([In] HDESK hDesktop, [In] WNDENUMPROC lpfn, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates all window stations in the current session.
+        /// The function passes the name of each window station, in turn, to an application-defined callback function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumwindowstationsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpEnumFunc">
+        /// A pointer to an application-defined <see cref="EnumWindowStationProc"/> callback function.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to be passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns the nonzero value
+        /// returned by the callback function that was pointed to by <paramref name="lpEnumFunc"/>.
+        /// </para>
+        /// <para>
+        /// If the function is unable to perform the enumeration, the return value is zero.
+        /// Call <see cref="GetLastError"/> to get extended error information.
+        /// </para>
+        /// <para>
+        /// If the callback function fails, the return value is zero.
+        /// The callback function can call <see cref="SetLastError"/> to set an error code
+        /// for the caller to retrieve by calling <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindowStationsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumWindowStations([In] WINSTAENUMPROC lpEnumFunc, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>

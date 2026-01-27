@@ -5008,6 +5008,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the Help context identifier, if any, associated with the specified window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowcontexthelpid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to the window for which the Help context identifier is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// Returns the Help context identifier if the window has one, or zero otherwise.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowContextHelpId", ExactSpelling = true)]
+        public static extern DWORD GetWindowContextHelpId([In] HWND unnamedParam1);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current display affinity setting, from any process, for a given window.
         /// </para>
         /// <para>
@@ -7678,6 +7696,38 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProp([In] HWND hWnd, [In] LPCWSTR lpString, [In] HANDLE hData);
+
+        /// <summary>
+        /// <para>
+        /// Associates a Help context identifier with the specified window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowcontexthelpid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to the window with which to associate the Help context identifier.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// The Help context identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns nonzero if successful, or zero otherwise.
+        /// </para>
+        /// <para>
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If a child window does not have a Help context identifier, it inherits the identifier of its parent window.
+        /// Likewise, if an owned window does not have a Help context identifier, it inherits the identifier of its owner window.
+        /// This inheritance of Help context identifiers allows an application
+        /// to set just one identifier for a dialog box and all of its controls.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowContextHelpId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowContextHelpId([In] HWND unnamedParam1, DWORD unnamedParam2);
 
         /// <summary>
         /// <para>

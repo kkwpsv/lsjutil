@@ -1218,6 +1218,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns strings for standard message box buttons.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dlgbox/mb-getstring"/>
+        /// </para>
+        /// </summary>
+        /// <param name="wBtn">
+        /// The id of the string to return.
+        /// These are identified by the Dialog Box Command ID values listed in winuser.h.
+        /// </param>
+        /// <returns>
+        /// The string, or <see cref="NULL"/> if not found.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MB_GetString", ExactSpelling = true)]
+        public static extern IntPtr MB_GetString([In] UINT wBtn);
+
+        /// <summary>
+        /// <para>
         /// Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message,
         /// such as status or error information.
         /// The message box returns an integer value that indicates which button the user clicked.
