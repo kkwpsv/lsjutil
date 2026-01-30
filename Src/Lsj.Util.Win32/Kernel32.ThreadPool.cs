@@ -1110,39 +1110,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Creates a queue for timers.
-        /// Timer-queue timers are lightweight objects that enable you to specify a callback function to be called at a specified time.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueue"/>
-        /// </para>
-        /// </summary>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the return value is a handle to the timer queue.
-        /// This handle can be used only in functions that require a handle to a timer queue.
-        /// </para>
-        /// <para>
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// To add a timer to the queue, call the <see cref="CreateTimerQueueTimer"/> function.
-        /// To remove a timer from the queue, call the <see cref="DeleteTimerQueueTimer"/> function.
-        /// </para>
-        /// <para>
-        /// When you are finished with the queue of timers, call the <see cref="DeleteTimerQueueEx"/> function to delete the timer queue.
-        /// Any pending timers in the queue are canceled and deleted.
-        /// </para>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueue", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateTimerQueue();
-
-        /// <summary>
-        /// <para>
         /// Creates a timer-queue timer.
         /// This timer expires at the specified due time, then after every specified period.
         /// When the timer expires, the callback function is called.

@@ -31,6 +31,80 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Converts a DNS-style host name to a NetBIOS-style computer name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-dnshostnametocomputernamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Hostname">
+        /// The DNS name.
+        /// If the DNS name is not a valid, translatable name, the function fails.
+        /// For more information, see Computer Names.
+        /// </param>
+        /// <param name="ComputerName">
+        /// A pointer to a buffer that receives the computer name.
+        /// The buffer size should be large enough to contain <see cref="MAX_COMPUTERNAME_LENGTH"/> + 1 characters.
+        /// </param>
+        /// <param name="nSize">
+        /// <para>
+        /// On input, specifies the size of the buffer, in <c>TCHAR</c>s.
+        /// On output, receives the number of <c>TCHAR</c>s copied to the destination buffer, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the buffer is too small, the function fails, <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>,
+        /// and <paramref name="nSize"/> receives the required buffer size, not including the terminating null character.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible values include the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_MORE_DATA"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="ComputerName"/> buffer is too small.
+        /// The <paramref name="nSize"/> parameter contains the number of bytes required to receive the name.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <summary>
+        /// <para>
+        /// This function performs a textual mapping of the name.
+        /// This convention limits the names of computers to be the common subset of the names.
+        /// (Specifically, the leftmost label of the DNS name is truncated to 15-bytes of OEM characters.)
+        /// Therefore, do not use this function to convert a DNS domain name to a NetBIOS domain name.
+        /// There is no textual mapping for domain names.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-dnshostnametocomputernamew"/>
+        /// </para>
+        /// </summary>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DnsHostnameToComputerNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DnsHostnameToComputerName([In] LPCWSTR Hostname, [In] LPWSTR ComputerName, [In][Out] ref DWORD nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the NetBIOS name of the local computer.
         /// This name is established at system startup, when the system reads it from the registry.
         /// </para>

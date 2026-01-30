@@ -207,6 +207,63 @@ namespace Lsj.Util.Tests.Win32
             "lstrcpy",                              // duplicate of lstrcpyW
             "lstrcpyn",                             // duplicate of lstrcpynW
             "lstrlen",                              // duplicate of lstrlenW
+            
+            // 2000
+            "DelayLoadFailureHook",                 // not api
+            "DosPathToSessionPathW",                // undocument
+            "GetConsoleCharType",                   // undocument
+            "GetConsoleCursorMode",                 // undocument
+            "GetConsoleNlsMode",                    // undocument
+            "GetDefaultSortKeySize",                // undocument
+            "GetLinguistLangSize",                  // undocument
+            "GetNlsSectionName",                    // undocument
+            "NlsConvertIntegerToString",            // undocument
+            "NlsGetCacheUpdateCount",               // undocument
+            "NlsResetProcessLocale",                // undocument
+            "OpenDataFile",                         // undocument
+            "PrivCopyFileExW",                      // undocument
+            "PrivMoveFileIdentityW",                // undocument
+            "Process32First",                       // duplicate of Process32FirstW
+            "Process32Next",                        // duplicate of Process32NextW
+            "RegisterConsoleIME",                   // undocument
+            "RegisterConsoleOS2",                   // undocument
+            "RegisterWaitForSingleObjectEx",        // undocument
+            "ReplaceFile",                          // duplicate of ReplaceFileW
+            "RequestDeviceWakeup",                  // undocument
+            "RequestWakeupLatency",                 // undocument
+            "SetCPGlobal",                          // undocument
+            "SetConsoleCursorMode",                 // undocument
+            "SetConsoleLocalEUDC",                  // undocument
+            "SetConsoleNlsMode",                    // undocument
+            "SetConsoleOS2OemFormat",               // undocument
+            "SetMessageWaitingIndicator",           // undocument
+            "SetTermsrvAppInstallMode",             // undocument
+            "SetTimerQueueTimer",                   // undocument
+            "TermsrvAppInstallMode",                // undocument
+            "UTRegister",                           // undocument
+            "UTUnRegister",                         // undocument
+            "UnregisterConsoleIME",                 // undocument
+            "ValidateLCType",                       // undocument
+            "ValidateLocale",                       // undocument
+            "AlignRects",                           // undocument
+            "CliImmSetHotKey",                      // undocument
+            "CtxInitUser32",                        // undocument
+            "DeviceEventWorker",                    // undocument
+            "GetAltTabInfo",                        // duplicate of GetAltTabInfoW
+            "GetAppCompatFlags2",                   // undocument
+            "GetWinStationInfo",                    // undocument
+            "GetWindowModuleFileName",              // duplicate of GetWindowModuleFileNameW
+            "InitializeLpkHooks",                   // undocument
+            "InitializeWin32EntryTable",            // undocument
+            "PrivateSetDbgTag",                     // undocument
+            "PrivateSetRipFlags",                   // undocument
+            "QueryUserCounters",                    // undocument
+            "ResolveDesktopForWOW",                 // undocument
+            "User32InitializeImmEntryTable",        // undocument
+            "UserLpkPSMTextOut",                    // undocument
+            "UserLpkTabbedTextOut",                 // undocument
+            "VRipOutput",                           // undocument
+            "VTagOutput",                           // undocument
         };
 
         private static readonly List<string> _notImplemntApiList = new List<string>
@@ -278,7 +335,7 @@ namespace Lsj.Util.Tests.Win32
         public void TestMethods()
         {
             var apis = ReadFromFiles();
-            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.WindowsNT40 &&
+            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.Windows2000 &&
                     (x.Value.DllName == "kernel32" || x.Value.DllName == "user32"))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();

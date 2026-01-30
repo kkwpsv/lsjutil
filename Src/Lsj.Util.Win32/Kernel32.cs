@@ -167,6 +167,15 @@ namespace Lsj.Util.Win32
         public static extern BOOL Beep([In] DWORD dwFreq, [In] DWORD dwDuration);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hDevice"></param>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDeviceWakeupRequest", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CancelDeviceWakeupRequest([In] HANDLE hDevice);
+
+        /// <summary>
         /// <para>
         /// The <see cref="CreateActCtx"/> function creates an activation context.
         /// </para>

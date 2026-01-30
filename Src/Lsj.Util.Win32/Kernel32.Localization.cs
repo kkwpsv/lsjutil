@@ -273,6 +273,169 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function that processes enumerated language group information
+        /// provided by the <see cref="EnumSystemLanguageGroups"/> function.
+        /// The <see cref="LANGUAGEGROUP_ENUMPROC"/> type defines a pointer to this callback function.
+        /// <see cref="EnumLanguageGroupsProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317821(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="LanguageGroup">
+        /// <para>
+        /// Language group identifier.
+        /// This parameter can have one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARABIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARMENIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_BALTIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CENTRAL_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CYRILLIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GEORGIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GREEK"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_HEBREW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_INDIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_JAPANESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_KOREAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_SIMPLIFIED_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TRADITIONAL_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_THAI"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKISH"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_VIETNAMESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_WESTERN_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpLanguageGroupString">
+        /// Pointer to a buffer containing a null-terminated language group identifier string.
+        /// </param>
+        /// <param name="lpLanguageGroupNameString">
+        /// Pointer to a buffer containing a null-terminated language group name string.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flag specifying whether the language group identifier is supported or installed.
+        /// This parameter can have one of the following values.
+        /// </para>
+        /// /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Language group identifier is installed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Language group identifier is both supported and installed.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </param>
+        /// <param name="lParam">
+        /// Application-defined parameter.
+        /// This parameter can be used for error checking.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <see cref="EnumLanguageGroupsProc"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumSystemLanguageGroups"/> function.
+        /// </remarks>
+        public delegate BOOL EnumLanguageGroupsProc([In] LGRPID LanguageGroup, [In] LPWSTR lpLanguageGroupString,
+            [In] LPWSTR lpLanguageGroupNameString, [In] DWORD dwFlags, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
         /// An application-defined callback function that processes enumerated locale information
         /// provided by the <see cref="EnumSystemLocales"/> function.
         /// The <see cref="LOCALE_ENUMPROC"/> type defines a pointer to this callback function.
@@ -406,90 +569,145 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate BOOL GeoEnumnameproc([In] LPWSTR unnamedParam1, [In] LPARAM unnamedParam2);
 
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes enumerated language group locale information
+        /// provided by the <see cref="EnumLanguageGroupLocales"/> function.
+        /// The <see cref="LANGGROUPLOCALE_ENUMPROC"/> type defines a pointer to this callback function.
+        /// <c>EnumLanguageGroupLocalesProc</c> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nc-winnls-langgrouplocale_enumprocw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <param name="unnamedParam2"></param>
+        /// <param name="unnamedParam3"></param>
+        /// <param name="unnamedParam4"></param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An <c>EnumLanguageGroupLocalesProc</c> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumLanguageGroupLocales"/> function.
+        /// </remarks>
+        public delegate BOOL LanggrouplocaleEnumproc([In] LGRPID unnamedParam1, [In] LCID unnamedParam2,
+            [In] LPWSTR unnamedParam3, [In] LONG_PTR unnamedParam4);
 
         /// <summary>
         /// <para>
-        /// Converts a default locale value to an actual locale identifier.
+        /// An application-defined callback function that processes enumerated user interface language information
+        /// provided by the <see cref="EnumUILanguages"/> function.
+        /// The <see cref="UILANGUAGE_ENUMPROC"/> type defines a pointer to this callback function.
+        /// <c>EnumUILanguagesProc</c> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// Note
-        /// </para>
-        /// <para>
-        /// This function is only provided for converting partial locale identifiers.
-        /// Your applications should use locale names instead of identifiers.
-        /// The <see cref="LCIDToLocaleName"/> function can be used to convert a locale identifier to a valid locale name.
-        /// Your application can also use <see cref="GetUserDefaultLocaleName"/> to retrieve the current user locale name;
-        /// <see cref="GetSystemDefaultLocaleName"/> to retrieve the current system locale name;
-        /// and <see cref="GetLocaleInfoEx"/> with <see cref="LOCALE_SNAME"/> to retrieve the locale name for any input locale, including the default constants.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nc-winnls-uilanguage_enumprocw"/>
         /// </para>
         /// </summary>
-        /// <param name="Locale">
-        /// <para>
-        /// Default locale identifier value to convert.
-        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-        /// </para>
-        /// <para>
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_INVARIANT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_USER_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// Windows Vista and later:
-        /// The following custom locale identifiers are also supported.
-        /// </para>
-        /// <para>
-        /// <list type="bullet">
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </param>
+        /// <param name="unnamedParam1"></param>
+        /// <param name="unnamedParam2"></param>
         /// <returns>
-        /// <para>
-        /// Returns the appropriate locale identifier if successful.
-        /// </para>
-        /// <para>
-        /// This function returns the value of the <paramref name="Locale"/> parameter if it does not succeed.
-        /// The function fails when the <paramref name="Locale"/> value is not one of the default values listed above.
-        /// </para>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_SYSTEM_DEFAULT"/>
-        /// is equivalent to a call to <see cref="GetSystemDefaultLCID"/>.
-        /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_USER_DEFAULT"/>
-        /// is equivalent to a call to <see cref="GetUserDefaultLCID"/>.
+        /// <para>
+        /// An <c>EnumUILanguagesProc</c> function can carry out any task.
+        /// The application registers this function by passing its address to the <see cref="EnumUILanguages"/> function.
+        /// </para>
+        /// <para>
+        /// If MUI_LANGUAGE_ID was specified in the call to <see cref="EnumUILanguages"/>,
+        /// the language strings passed to this function will be hexadecimal language identifiers
+        /// that do not include the leading 0x, and will be 4 characters in length.
+        /// For example, en-US will be passed as "0409" and en as "0009".
+        /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        public delegate BOOL UilanguageEnumproc([In] LPWSTR unnamedParam1, [In] LONG_PTR unnamedParam2);
+
+
+       /// <summary>
+       /// <para>
+       /// Converts a default locale value to an actual locale identifier.
+       /// </para>
+       /// <para>
+       /// Note
+       /// </para>
+       /// <para>
+       /// This function is only provided for converting partial locale identifiers.
+       /// Your applications should use locale names instead of identifiers.
+       /// The <see cref="LCIDToLocaleName"/> function can be used to convert a locale identifier to a valid locale name.
+       /// Your application can also use <see cref="GetUserDefaultLocaleName"/> to retrieve the current user locale name;
+       /// <see cref="GetSystemDefaultLocaleName"/> to retrieve the current system locale name;
+       /// and <see cref="GetLocaleInfoEx"/> with <see cref="LOCALE_SNAME"/> to retrieve the locale name for any input locale, including the default constants.
+       /// </para>
+       /// <para>
+       /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
+       /// </para>
+       /// </summary>
+       /// <param name="Locale">
+       /// <para>
+       /// Default locale identifier value to convert.
+       /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+       /// </para>
+       /// <para>
+       /// <list type="bullet">
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_INVARIANT"/>
+       /// </description>
+       /// </item>
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+       /// </description>
+       /// </item>
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_USER_DEFAULT"/>
+       /// </description>
+       /// </item>
+       /// </list>
+       /// </para>
+       /// <para>
+       /// Windows Vista and later:
+       /// The following custom locale identifiers are also supported.
+       /// </para>
+       /// <para>
+       /// <list type="bullet">
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+       /// </description>
+       /// </item>
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+       /// </description>
+       /// </item>
+       /// <item>
+       /// <description>
+       /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+       /// </description>
+       /// </item>
+       /// </list>
+       /// </para>
+       /// </param>
+       /// <returns>
+       /// <para>
+       /// Returns the appropriate locale identifier if successful.
+       /// </para>
+       /// <para>
+       /// This function returns the value of the <paramref name="Locale"/> parameter if it does not succeed.
+       /// The function fails when the <paramref name="Locale"/> value is not one of the default values listed above.
+       /// </para>
+       /// </returns>
+       /// <remarks>
+       /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_SYSTEM_DEFAULT"/>
+       /// is equivalent to a call to <see cref="GetSystemDefaultLCID"/>.
+       /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_USER_DEFAULT"/>
+       /// is equivalent to a call to <see cref="GetUserDefaultLCID"/>.
+       /// </remarks>
+       [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertDefaultLocale", ExactSpelling = true)]
         public static extern LCID ConvertDefaultLocale([In] LCID Locale);
 
@@ -1225,6 +1443,174 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates the locales in a specified language group.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For custom locales, your application should call <see cref="EnumSystemLocalesEx"/>
+        /// in preference to <see cref="EnumLanguageGroupLocales"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumlanguagegrouplocalesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLangGroupLocaleEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <c>EnumLanguageGroupLocalesProc</c>.
+        /// <param name="LanguageGroup">
+        /// <para>
+        /// Identifier of the language group for which to enumerate locales.
+        /// This parameter can have one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARABIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_ARMENIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_BALTIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CENTRAL_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_CYRILLIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GEORGIAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_GREEK"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_HEBREW"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_INDIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_JAPANESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_KOREAN"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_SIMPLIFIED_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TRADITIONAL_CHINESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_THAI"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKIC"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_TURKISH"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_VIETNAMESE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LGRPID_WESTERN_EUROPE"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved; must be 0.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to pass to the callback function.
+        /// This value can be used for error checking.
+        /// It can also be used to ensure thread safety in the callback function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_BADDB"/>.
+        /// The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates locales in the specified language group
+        /// by passing locale identifiers, one at a time, to the application-defined callback function.
+        /// This process continues until <see cref="EnumLanguageGroupLocales"/> finds the last locale identifier
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumLanguageGroupLocalesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumLanguageGroupLocales([In] LANGGROUPLOCALE_ENUMPROC lpLangGroupLocaleEnumProc,
+            [In] LGRPID LanguageGroup, [In] DWORD dwFlags, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Enumerates the code pages that are either installed on or supported by an operating system.
         /// </para>
         /// <para>
@@ -1424,6 +1810,103 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1709)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemGeoNames", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemGeoNames([In] GEOCLASS geoClass, [In] GEO_ENUMNAMEPROC geoEnumProc, [In] LPARAM data);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the language groups that are either installed on or supported by an operating system.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For custom locales, your application should call <see cref="EnumSystemLocalesEx"/> instead of <see cref="EnumSystemLanguageGroups"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumsystemlanguagegroupsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLanguageGroupEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumLanguageGroupsProc"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying the language group identifiers to enumerate.
+        /// This parameter can have one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_INSTALLED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate only installed language group identifiers.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="LGRPID_SUPPORTED"/>
+        /// </term>
+        /// <term>
+        /// Enumerate all supported language group identifiers.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lParam">
+        /// Application-defined value to pass to the callback function.
+        /// This parameter can be used in error checking.
+        /// It can also be used to ensure thread safety in the callback function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_BADDB"/>.
+        /// The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates language groups by passing language group identifiers,
+        /// one at a time, to the specified application-defined callback function.
+        /// This process continues until the last language group identifier is found
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLanguageGroupsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumSystemLanguageGroups([In] LANGUAGEGROUP_ENUMPROC lpLanguageGroupEnumProc, [In] DWORD dwFlags, [In] LONG_PTR lParam);
 
         /// <summary>
         /// <para>
@@ -1637,6 +2120,160 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemLocalesEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumSystemLocalesEx([In] LOCALE_ENUMPROCEX lpLocaleEnumProcEx, [In] DWORD dwFlags, [In] LPARAM lParam, [In] LPVOID lpReserved);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the user interface languages that are available on the operating system
+        /// and calls the callback function with every language in the list.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumuilanguagesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpUILanguageEnumProc">
+        /// Pointer to an application-defined <see cref="EnumUILanguagesProc"/> callback function.
+        /// <see cref="EnumUILanguages"/> calls this function repeatedly to enumerate the languages in the list.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags identifying language format and filtering.
+        /// The following flags specify the format of the language to pass to the callback function.
+        /// The format flags are mutually exclusive, and <see cref="MUI_LANGUAGE_ID"/> is the default.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_ID"/>
+        /// </term>
+        /// <term>
+        /// Pass the language identifier in the language string to the callback function.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LANGUAGE_NAME"/>
+        /// </term>
+        /// <term>
+        /// Pass the language name in the language string to the callback function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following flags specify the filtering for the function to use in enumerating the languages.
+        /// The filtering flags are mutually exclusive, and the default is <see cref="MUI_LICENSED_LANGUAGES"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_ALL_INSTALLED_LANGUAGES"/>
+        /// </term>
+        /// <term>
+        /// Enumerate all installed languages available to the operating system.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_LICENSED_LANGUAGES"/>
+        /// </term>
+        /// <term>
+        /// Enumerate all installed languages that are available and licensed for use.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MUI_GROUP_POLICY"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Enumerate all installed languages that are available and licensed,
+        /// and that are allowed by he group policy.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The application can set <paramref name="dwFlags"/> to 0, or to one or more of the specified flags.
+        /// A setting of 0 causes the parameter value to default to <c>MUI_LANGUAGE_ID | MUI_LICENSED_LANGUAGES</c>.
+        /// </para>
+        /// <para>
+        /// Windows 2000, Windows XP, Windows Server 2003:
+        /// The application must set <paramref name="dwFlags"/> to 0.
+        /// </para>
+        /// </param>
+        /// <param name="lParam">
+        /// Application-defined value.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function enumerates the user interface languages that are available and,
+        /// depending on the flag specified, licensed for use on the operating system.
+        /// It passes language identifiers or language names, one at a time, to the <c>EnumUILanguagesProc</c> callback function.
+        /// The <see cref="EnumUILanguages"/> function continues to pass language identifiers or names to the callback function
+        /// until the last language is found or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// For applications that run only on Windows Vista and later,
+        /// <see cref="MUI_LANGUAGE_NAME"/> is recommended over <see cref="MUI_LANGUAGE_ID"/>.
+        /// <see cref="MUI_LANGUAGE_NAME"/> allows differentiation between languages that are associated with a supplemental locale.
+        /// </para>
+        /// <para>
+        /// If the <see cref="MUI_LANGUAGE_ID"/> flag is specified in the call to this function,
+        /// the strings passed to the callback function will be hexadecimal language identifiers
+        /// that do not include the leading 0x, and will be 4 characters in length.
+        /// For example, en-US will be passed as "0409" and en as "0009".
+        /// The value "1000" is passed to the callback function for any language associated with a supplemental locale.
+        /// This value corresponds to the hexadecimal value of <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>.
+        /// It does not distinguish among supplemental locales,
+        /// even if the selected language is in the user preferred UI languages list or the system preferred UI languages list.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumUILanguagesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumUILanguages([In] UILANGUAGE_ENUMPROC lpUILanguageEnumProc, [In] DWORD dwFlags, [In] LONG_PTR lParam);
 
         /// <summary>
         /// <para>

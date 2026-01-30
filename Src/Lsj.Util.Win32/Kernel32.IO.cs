@@ -82,6 +82,71 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Associates the I/O completion port owned by the thread pool with the specified file handle.
+        /// On completion of an I/O request involving this file,
+        /// a non-I/O worker thread will execute the specified callback function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-bindiocompletioncallback"/>
+        /// </para>
+        /// </summary>
+        /// <param name="FileHandle">
+        /// A handle to the file opened for overlapped I/O completion.
+        /// This handle is returned by the <see cref="CreateFile"/> function, with the <see cref="FILE_FLAG_OVERLAPPED"/> flag.
+        /// </param>
+        /// <param name="Function">
+        /// <para>
+        /// A pointer to the callback function to be executed in a non-I/O worker thread when the I/O operation is complete.
+        /// This callback function must not call the <see cref="TerminateThread"/> function.
+        /// </para>
+        /// <para>
+        /// For more information about the completion routine, see <c>FileIOCompletionRoutine</c>.
+        /// </para>
+        /// </param>
+        /// <param name="Flags">
+        /// This parameter must be zero.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The callback function might not be executed if the process issues an asynchronous request
+        /// on the file specified by the <paramref name="FileHandle"/> parameter
+        /// but the request returns immediately with an error code other than ERROR_IO_PENDING.
+        /// </para>
+        /// <para>
+        /// Be sure that the thread that initiates the asynchronous I/O request
+        /// does not terminate before the request is completed.
+        /// Also, if a function in a DLL is queued to a worker thread,
+        /// be sure that the function in the DLL has completed execution before the DLL is unloaded.
+        /// </para>
+        /// <para>
+        /// The thread pool maintains an I/O completion port.
+        /// When you call <see cref="BindIoCompletionCallback"/>,
+        /// it associates the specified file with the thread pool's I/O completion port.
+        /// Asynchronous requests on that file object will complete by posting to the completion port,
+        /// where they will be picked up by thread pool worker threads.
+        /// For callbacks that must issue an I/O request that completes as an asynchronous procedure call,
+        /// the thread pool provides an I/O worker pool.
+        /// The I/O worker threads do not wait on the completion port; they sleep in an alertable wait state
+        /// so that I/O request packets that complete can wake them up.
+        /// Both types of worker threads check whether there is I/O pending on them and if there is, they do not exit.
+        /// For more information, see Asynchronous Procedure Calls.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindIoCompletionCallback", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL BindIoCompletionCallback([In] HANDLE FileHandle, LPOVERLAPPED_COMPLETION_ROUTINE Function, ULONG Flags);
+
+        /// <summary>
+        /// <para>
         /// Cancels all pending input and output (I/O) operations that are issued by the calling thread for the specified file.
         /// The function does not cancel I/O operations that other threads issue for a file handle.
         /// </para>
