@@ -2958,6 +2958,129 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Specifies an action or processing for the Input Method Editor (IME) through a specified subfunction.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/ime/nf-ime-sendimemessageexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1"></param>
+        /// <param name="unnamedParam2"></param>
+        /// <returns>
+        /// <para>
+        /// The result of processing of the subfunction.
+        /// If the result is not success, one of the following error codes is stored
+        /// into the <see cref="IMESTRUCT.wParam"/> of the <see cref="IMESTRUCT"/> structure.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_DISKERROR"/>
+        /// </term>
+        /// <term>
+        /// Disk error.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_ERROR"/>
+        /// </term>
+        /// <term>
+        /// General error.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_ILLEGAL"/>
+        /// </term>
+        /// <term>
+        /// Contains an illegal character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_INVALID"/>
+        /// </term>
+        /// <term>
+        /// Invalid subfunction.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_NEST"/>
+        /// </term>
+        /// <term>
+        /// Subfunction is nested and, therefore, cannot be used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_NOIME"/>
+        /// </term>
+        /// <term>
+        /// The IME has not been selected (has not been installed).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_NOROOM"/>
+        /// </term>
+        /// <term>
+        /// Short of area.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_NOTFOUND"/>
+        /// </term>
+        /// <term>
+        /// No candidate found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_SYSTEMMODAL"/>
+        /// </term>
+        /// <term>
+        /// Windows is in system mode, data cannot be passed to the IME.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IME_RS_TOOLONG"/>
+        /// </term>
+        /// <term>
+        /// Characters too long.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <see cref="SendIMEMessageEx"/> guarantees the action stipulated in the specifications only for IMEs
+        /// that support the <see cref="WM_CONVERTREQUESTEX"/> message.
+        /// For an IME that does not support <see cref="WM_CONVERTREQUESTEX"/>,
+        /// <see cref="SendIMEMessageEx"/> sends a <see cref="WM_CONVERTREQUEST"/> message to the IME
+        /// and returns the contents of the <see cref="IMESTRUCT.wParam"/> member of the <see cref="IMESTRUCT"/> structure.
+        /// If the processing of the subfunction has not been completed normally,
+        /// these functions set <see cref="IME_RS_ERROR"/> into <see cref="IMESTRUCT.wParam"/>.
+        /// </remarks>
+        [Obsolete("This function is obsolete and should not be used.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendIMEMessageExW", ExactSpelling = true)]
+        public static extern LRESULT SendIMEMessageEx([In] HWND unnamedParam1, [In] LPARAM unnamedParam2);
+
+        /// <summary>
+        /// <para>
         /// Sends the specified message to a window or windows.
         /// The <see cref="SendMessage"/> function calls the window procedure for the specified window
         /// and does not return until the window procedure has processed the message.

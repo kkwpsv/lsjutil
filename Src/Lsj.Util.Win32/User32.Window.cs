@@ -4331,144 +4331,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves information about the active window or a specified GUI thread.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getguithreadinfo"/>
-        /// </para>
-        /// </summary>
-        /// <param name="idThread">
-        /// The identifier for the thread for which information is to be retrieved.
-        /// To retrieve this value, use the <see cref="GetWindowThreadProcessId"/> function.
-        /// If this parameter is <see cref="NULL"/>, the function returns information for the foreground thread.
-        /// </param>
-        /// <param name="pgui">
-        /// A pointer to a <see cref="GUITHREADINFO"/> structure that receives information describing the thread.
-        /// Note that you must set the <see cref="GUITHREADINFO.cbSize"/> member to <c>sizeof(GUITHREADINFO)</c> before calling this function.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the return value is nonzero.
-        /// </para>
-        /// <para>
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// This function succeeds even if the active window is not owned by the calling process.
-        /// If the specified thread does not exist or have an input queue, the function will fail.
-        /// </para>
-        /// <para>
-        /// This function is useful for retrieving out-of-context information about a thread.
-        /// The information retrieved is the same as if an application retrieved the information about itself.
-        /// </para>
-        /// <para>
-        /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle
-        /// contains the caret plus information on text direction and padding.
-        /// Thus, it may not give the correct position of the cursor.
-        /// The Sans Serif font uses four characters for the cursor:
-        /// </para>
-        /// <para>
-        /// <list type="table">
-        /// <listheader>
-        /// <term>
-        /// Cursor character
-        /// </term>
-        /// <term>
-        /// Unicode code point
-        /// </term>
-        /// </listheader>
-        /// <item>
-        /// <term>
-        /// <c>CURSOR_LTR</c>
-        /// </term>
-        /// <term>
-        /// 0xf00c
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <c>CURSOR_RTL</c>
-        /// </term>
-        /// <term>
-        /// 0xf00d
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <c>CURSOR_THAI</c>
-        /// </term>
-        /// <term>
-        /// 0xf00e
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <c>CURSOR_USA</c>
-        /// </term>
-        /// <term>
-        /// 0xfff (this is a marker value with no associated glyph)
-        /// </term>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// To get the actual insertion point in the <see cref="GUITHREADINFO.rcCaret"/> rectangle, perform the following steps.
-        /// </para>
-        /// <para>
-        /// <list type="number">
-        /// <item>
-        /// <description>
-        /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Determine the character used for the cursor, based on the current input language.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Call <see cref="CreateFont"/> using Sans Serif for the font,
-        /// the height given by <see cref="GUITHREADINFO.rcCaret"/>, and a width of <c>zero</c>.
-        /// For <c>fnWeight</c>, call <c>SystemParametersInfo(SPI_GETCARETWIDTH, 0, pvParam, 0)</c>.
-        /// If <c>pvParam</c> is greater than 1, set <c>fnWeight</c> to 700, otherwise set <c>fnWeight</c> to 400.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Select the font into a device context (DC) and use <see cref="GetCharABCWidths"/>
-        /// to get the <c>B</c> width of the appropriate cursor character.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// Add the <c>B</c> width to <c>rcCaret.left</c> to obtain the actual insertion point.
-        /// </description>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// The function may not return valid window handles in the <see cref="GUITHREADINFO"/> structure
-        /// when called to retrieve information for the foreground thread, such as when a window is losing activation.
-        /// </para>
-        /// <para>
-        /// DPI Virtualization
-        /// </para>
-        /// <para>
-        /// The coordinates returned in the <see cref="GUITHREADINFO.rcCaret"/> rect of the <see cref="GUITHREADINFO"/> struct
-        /// are logical coordinates in terms of the window associated with the caret.
-        /// They are not virtualized into the mode of the calling thread.
-        /// </para>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGUIThreadInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetGUIThreadInfo([In] DWORD idThread, [In][Out] ref GUITHREADINFO pgui);
-
-        /// <summary>
-        /// <para>
         /// Determines which pop-up window owned by the specified window was most recently active.
         /// </para>
         /// <para>
@@ -5531,8 +5393,9 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value is the total number of characters copied into the buffer.
         /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowModuleFileNameW", ExactSpelling = true)]
-        private static extern UINT GetWindowModuleFileName([In] HWND hwnd, [In] LPWSTR pszFileName, [In] UINT cchFileNameMax);
+        public static extern UINT GetWindowModuleFileName([In] HWND hwnd, [In] LPWSTR pszFileName, [In] UINT cchFileNameMax);
 
         /// <summary>
         /// <para>

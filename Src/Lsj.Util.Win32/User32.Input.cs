@@ -9,12 +9,14 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
 using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
+using static Lsj.Util.Win32.Enums.ShellHookCodes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.ShellHookCodes;
+
 
 namespace Lsj.Util.Win32
 {
@@ -278,6 +280,62 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachThreadInput", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AttachThreadInput([In] DWORD idAttach, [In] DWORD idAttachTo, [In] BOOL fAttach);
+
+        /// <summary>
+        /// <para>
+        /// Blocks keyboard and mouse input events from reaching applications.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-blockinput"/>
+        /// </para>
+        /// </summary>
+        /// <param name="fBlockIt">
+        /// The function's purpose.
+        /// If this parameter is <see cref="TRUE"/>, keyboard and mouse input events are blocked.
+        /// If this parameter is <see cref="FALSE"/>, keyboard and mouse events are unblocked.
+        /// Note that only the thread that blocked input can successfully unblock input.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If input is already blocked, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When input is blocked, real physical input from the mouse or keyboard will not affect the input queue's synchronous key state
+        /// (reported by <see cref="GetKeyState"/> and <see cref="GetKeyboardState"/>),
+        /// nor will it affect the asynchronous key state (reported by <see cref="GetAsyncKeyState"/>).
+        /// However, the thread that is blocking input can affect both of these key states by calling <see cref="SendInput"/>.
+        /// No other thread can do this.
+        /// </para>
+        /// <para>
+        /// The system will unblock input in the following cases:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The thread that blocked input unexpectedly exits without calling <see cref="BlockInput"/>
+        /// with <paramref name="fBlockIt"/> set to <see cref="FALSE"/>.
+        /// In this case, the system cleans up properly and re-enables input.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The user presses CTRL+ALT+DEL or the system invokes the Hard System Error modal message box
+        /// (for example, when a program faults or a device fails).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BlockInput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL BlockInput([In] BOOL fBlockIt);
 
         /// <summary>
         /// <para>
@@ -1066,6 +1124,230 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyState", ExactSpelling = true)]
         public static extern SHORT GetKeyState([In] int nVirtKey);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the time of the last input event.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getlastinputinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="plii">
+        /// A pointer to a <see cref="LASTINPUTINFO"/> structure that receives the time of the last input event.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is useful for input idle detection.
+        /// However, <see cref="GetLastInputInfo"/> does not provide system-wide user input information across all running sessions.
+        /// Rather, <see cref="GetLastInputInfo"/> provides session-specific user input information for only the session that invoked the function.
+        /// </para>
+        /// <para>
+        /// The tick count when the last input event was received (see <see cref="LASTINPUTINFO"/>) is not guaranteed to be incremental.
+        /// In some cases, the value might be less than the tick count of a prior event.
+        /// For example, this can be caused by a timing gap between the raw input thread and the desktop thread
+        /// or an event raised by <see cref="SendInput"/>, which supplies its own tick count.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLastInputInfo", ExactSpelling = true)]
+        public static extern BOOL GetLastInputInfo([Out] out LASTINPUTINFO plii);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a history of up to 64 previous coordinates of the mouse or pen.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmousemovepointsex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="cbSize">
+        /// The size, in bytes, of the <see cref="MOUSEMOVEPOINT"/> structure.
+        /// </param>
+        /// <param name="lppt">
+        /// <para>
+        /// A pointer to a <see cref="MOUSEMOVEPOINT"/> structure containing valid mouse coordinates (in screen coordinates).
+        /// It may also contain a time stamp.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetMouseMovePointsEx"/> function searches for the point in the mouse coordinates history.
+        /// If the function finds the point,
+        /// it returns the last <paramref name="nBufPoints"/> prior to and including the supplied point.
+        /// </para>
+        /// <para>
+        /// If your application supplies a time stamp,
+        /// the <see cref="GetMouseMovePointsEx"/> function will use it to differentiate
+        /// between two equal points that were recorded at different times.
+        /// </para>
+        /// <para>
+        /// An application should call this function using the mouse coordinates
+        /// received from the <see cref="WM_MOUSEMOVE"/> message and convert them to screen coordinates.
+        /// </para>
+        /// </param>
+        /// <param name="lpptBuf">
+        /// A pointer to a buffer that will receive the points.
+        /// It should be at least <paramref name="cbSize"/>* <paramref name="nBufPoints"/> in size.
+        /// </param>
+        /// <param name="nBufPoints">
+        /// The number of points to be retrieved.
+        /// </param>
+        /// <param name="resolution">
+        /// <para>
+        /// The resolution desired.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GMMP_USE_DISPLAY_POINTS"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Retrieves the points using the display resolution.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GMMP_USE_HIGH_RESOLUTION_POINTS"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Retrieves high resolution points.
+        /// Points can range from zero to 65,535 (0xFFFF) in both x- and y-coordinates.
+        /// This is the resolution provided by absolute coordinate pointing devices such as drawing tablets.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of points in the buffer.
+        /// Otherwise, the function returns –1.
+        /// For extended error information, your application can call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The system retains the last 64 mouse coordinates and their time stamps.
+        /// If your application supplies a mouse coordinate to <see cref="GetMouseMovePointsEx"/>
+        /// and the coordinate exists in the system's mouse coordinate history,
+        /// the function retrieves the specified number of coordinates from the systems' history.
+        /// You can also supply a time stamp, which will be used to differentiate between identical points in the history.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetMouseMovePointsEx"/> function will return points 
+        /// that eventually were dispatched not only to the calling thread but also to other threads.
+        /// </para>
+        /// <para>
+        /// <see cref="GetMouseMovePointsEx"/> may fail or return erroneous values in the following cases:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If negative coordinates are passed in the <see cref="MOUSEMOVEPOINT"/> structure.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <see cref="GetMouseMovePointsEx"/> retrieves a coordinate with a negative value.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// These situations can occur if multiple monitors are present.
+        /// To correct this, first call <see cref="GetSystemMetrics"/> to get the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="SM_XVIRTUALSCREEN"/>,
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SM_YVIRTUALSCREEN"/>,
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SM_CXVIRTUALSCREEN"/>, and
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="SM_CYVIRTUALSCREEN"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Then, for each point that is returned from <see cref="GetMouseMovePointsEx"/>, perform the following transform:
+        /// </para>
+        /// </remarks>
+        /// <code>
+        /// int nVirtualWidth = GetSystemMetrics(SM_CXVIRTUALSCREEN) ;
+        /// int nVirtualHeight = GetSystemMetrics(SM_CYVIRTUALSCREEN) ;
+        /// int nVirtualLeft = GetSystemMetrics(SM_XVIRTUALSCREEN) ;
+        /// int nVirtualTop = GetSystemMetrics(SM_YVIRTUALSCREEN) ;
+        /// int cpt = 0 ;
+        /// int mode = GMMP_USE_DISPLAY_POINTS ;
+        /// 
+        /// MOUSEMOVEPOINT mp_in ;
+        /// MOUSEMOVEPOINT mp_out[64] ;
+        /// 
+        /// ZeroMemory(&amp;mp_in, sizeof(mp_in)) ;
+        /// mp_in.x = pt.x &amp; 0x0000FFFF ;//Ensure that this number will pass through.
+        /// mp_in.y = pt.y &amp; 0x0000FFFF ;
+        /// cpt = GetMouseMovePointsEx(&amp;mp_in, &amp;mp_out, 64, mode) ;
+        /// 
+        /// for (int i = 0; i &lt; cpt; i++)
+        /// {
+        ///    switch(mode)
+        ///    {
+        ///    case GMMP_USE_DISPLAY_POINTS:
+        ///       if (mp_out[i].x &gt; 32767)
+        ///          mp_out[i].x -= 65536 ;
+        ///       if (mp_out[i].y &gt; 32767)
+        ///          mp_out[i].y -= 65536 ;
+        ///       break ;
+        ///    case GMMP_USE_HIGH_RESOLUTION_POINTS:
+        ///       mp_out[i].x = ((mp_out[i].x * (nVirtualWidth - 1)) - (nVirtualLeft * 65536)) / nVirtualWidth ;
+        ///       mp_out[i].y = ((mp_out[i].y * (nVirtualHeight - 1)) - (nVirtualTop * 65536)) / nVirtualHeight ;
+        ///       break ;
+        ///    }
+        /// }
+        /// </code>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMouseMovePointsEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetMouseMovePointsEx([In] UINT cbSize, [In] in MOUSEMOVEPOINT lppt,
+            [Out] MOUSEMOVEPOINT[] lpptBuf, [In] int nBufPoints, [In] DWORD resolution);
 
         /// <summary>
         /// Retrieves the raw input from the specified device.

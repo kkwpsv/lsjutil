@@ -5326,6 +5326,62 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the language identifier for the system default UI language of the operating system
+        /// (also known as the "install language" on Windows Vista and later).
+        /// For more information, see User Interface Language Management.
+        /// </para>
+        /// <para>
+        /// Important
+        /// </para>
+        /// <para>
+        /// Use of this function is not recommended.
+        /// Instead, we recommend using the User language settings for the following reasons.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// "Install language" is only set during the Out of Box Experience (OOBE) and then never changes.
+        /// If the system language is changed, this function returns an incorrect value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// WCOS SKUs always return an incorrect value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// This function uses deprecated LANGIDs.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getsystemdefaultuilanguage"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// Returns the language identifier for the system default UI language of the operating system.
+        /// For more information, see the Remarks section.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function never returns a language identifier for a Language Interface Pack (LIP).
+        /// It also never returns a language identifier corresponding to the locale identifier
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/> or <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// </para>
+        /// <para>
+        /// Note that this function does not necessarily return the identifier for the first language in the system preferred UI languages list.
+        /// Therefore the return might not match the first element retrieved by <see cref="GetSystemPreferredUILanguages"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultUILanguage", ExactSpelling = true)]
+        public static extern LANGID GetSystemDefaultUILanguage();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the system preferred UI languages.
         /// For more information, see User Interface Language Management.
         /// </para>
@@ -6248,6 +6304,41 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserDefaultLocaleName", ExactSpelling = true, SetLastError = true)]
         public static extern int GetUserDefaultLocaleName([In] LPWSTR lpLocaleName, [In] int cchLocaleName);
+
+        /// <summary>
+        /// <para>
+        /// Returns the language identifier for the user UI language for the current user.
+        /// If the current user has not set a language,
+        /// <see cref="GetUserDefaultUILanguage"/> returns the preferred language set for the system.
+        /// If there is no preferred language set for the system,
+        /// then the system default UI language (also known as "install language") is returned.
+        /// For more information about the user UI language, see User Interface Language Management.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getuserdefaultuilanguage"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// Returns the language identifier for the user UI language for the current user.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function returns only a language identifier.
+        /// An application can retrieve the language name using the <see cref="GetUserPreferredUILanguages"/> function.
+        /// </para>
+        /// <para>
+        /// If the user UI language is part of a Language Interface Pack (LIP) and corresponds to a supplemental locale,
+        /// this function returns <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>.
+        /// </para>
+        /// <para>
+        /// Windows Me, Windows 2000, Windows XP, Windows Server 2003:
+        /// The <see cref="GetUserDefaultUILanguage"/> function retrieves the language identifier for the current user language.
+        /// If MUI is not installed on the operating system, the function retrieves the default computer user interface language.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserDefaultUILanguage", ExactSpelling = true)]
+        public static extern LANGID GetUserDefaultUILanguage();
 
         /// <summary>
         /// <para>

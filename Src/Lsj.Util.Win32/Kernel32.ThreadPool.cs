@@ -1677,6 +1677,181 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Queues a work item to a worker thread in the thread pool.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-queueuserworkitem"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Function">
+        /// <para>
+        /// A pointer to the application-defined callback function of type <see cref="LPTHREAD_START_ROUTINE"/> to be executed by the thread in the thread pool.
+        /// This value represents the starting address of the thread.
+        /// This callback function must not call the <see cref="TerminateThread"/> function.
+        /// </para>
+        /// <para>
+        /// The return value of the callback function is not used.
+        /// </para>
+        /// <para>
+        /// For more information, see <c>ThreadProc</c>.
+        /// </para>
+        /// </param>
+        /// <param name="Context">
+        /// A single parameter value to be passed to the thread function.
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// The flags that control execution.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WT_EXECUTEDEFAULT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// By default, the callback function is queued to a non-I/O worker thread.
+        /// </para>
+        /// <para>
+        /// The callback function is queued to a thread that uses I/O completion ports, which means they cannot perform an alertable wait.
+        /// Therefore, if I/O completes and generates an APC, the APC might wait indefinitely
+        /// because there is no guarantee that the thread will enter an alertable wait state after the callback completes.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WT_EXECUTEINIOTHREAD"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// This flag is not used.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// The callback function is queued to an I/O worker thread.
+        /// This flag should be used if the function should be executed in a thread that waits in an alertable state.
+        /// </para>
+        /// <para>
+        /// I/O worker threads were removed starting with Windows Vista and Windows Server 2008.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WT_EXECUTEINPERSISTENTTHREAD"/>
+        /// </para>
+        /// <para>
+        /// 0x00000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The callback function is queued to a thread that never terminates.
+        /// It does not guarantee that the same thread is used each time.
+        /// This flag should be used only for short tasks or it could affect other timer operations.
+        /// </para>
+        /// <para>
+        /// This flag must be set if the thread calls functions that use APCs.
+        /// For more information, see Asynchronous Procedure Calls.
+        /// </para>
+        /// <para>
+        /// Note that currently no worker thread is truly persistent,
+        /// although worker threads do not terminate if there are any pending I/O requests.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WT_EXECUTELONGFUNCTION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The callback function can perform a long wait.
+        /// This flag helps the system to decide if it should create a new thread.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="WT_TRANSFER_IMPERSONATION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Callback functions will use the current access token, whether it is a process or impersonation token.
+        /// If this flag is not specified, callback functions execute only with the process token.
+        /// </para>
+        /// <para>
+        /// Windows XP:  This flag is not supported until Windows XP SP2 and Windows Server 2003.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If a function in a DLL is queued to a worker thread, be sure that the function has completed execution before the DLL is unloaded.
+        /// </para>
+        /// <para>
+        /// By default, the thread pool has a maximum of 512 threads per process.
+        /// To raise the queue limit, use the <see cref="WT_SET_MAX_THREADPOOL_THREAD"/> macro defined in WinNT.h.
+        /// </para>
+        /// <code>
+        /// #define WT_SET_MAX_THREADPOOL_THREADS(Flags,Limit) \
+        ///     ((Flags)|=(Limit)&lt;&lt;16)
+        /// </code>
+        /// <para>
+        /// Use this macro in the call to <see cref="QueueUserWorkItem"/> to specify the <paramref name="Flags"/> parameter.
+        /// The macro parameters are the desired flags and the new limit, up to (2&lt;&lt;16)-1 threads.
+        /// However, the size of the queue is limited by the size of the kernel nonpaged pool.
+        /// Note that your application can improve its performance by keeping the number of worker threads low.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserWorkItem", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueueUserWorkItem([In] LPTHREAD_START_ROUTINE Function, [In] PVOID Context, [In] ULONG Flags);
+
+        /// <summary>
+        /// <para>
         /// Specifies the mutex that the thread pool will release when the current callback completes.
         /// </para>
         /// <para>

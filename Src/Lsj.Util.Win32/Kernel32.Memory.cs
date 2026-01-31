@@ -1221,6 +1221,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the first block of a heap that has been allocated by a process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-heap32first"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lphe">
+        /// A pointer to a <see cref="HEAPENTRY32"/> structure.
+        /// </param>
+        /// <param name="th32ProcessID">
+        /// The identifier of the process context that owns the heap.
+        /// </param>
+        /// <param name="th32HeapID">
+        /// The identifier of the heap to be enumerated.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if information for the first heap block has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// if the heap is invalid or empty.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The calling application must set the <see cref="HEAPENTRY32.dwSize"/> member of <see cref="HEAPENTRY32"/> to the size, in bytes, of the structure.
+        /// <see cref="Heap32First"/> changes <see cref="HEAPENTRY32.dwSize"/> to the number of bytes written to the structure.
+        /// This will never be greater than the initial value of <see cref="HEAPENTRY32.dwSize"/>, but it may be smaller.
+        /// If the value is smaller, do not rely on the values of any members whose offsets are greater than this value.
+        /// </para>
+        /// <para>
+        /// To access subsequent blocks of the same heap, use the <see cref="Heap32Next"/> function.
+        /// </para>
+        /// <para>
+        /// Walking the heap with <see cref="Heap32First"/> and <see cref="Heap32Next"/> is inefficient,
+        /// particularly for large heaps. Use <see cref="HeapWalk"/> instead.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32First", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Heap32First([In][Out] ref HEAPENTRY32 lphe, [In] DWORD th32ProcessID, [In] ULONG_PTR th32HeapID);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the first heap that has been allocated by a specified process.
         /// </para>
         /// <para>
@@ -1278,6 +1321,41 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32ListNext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Heap32ListNext([In] HANDLE hSnapshot, [In][Out] ref HEAPLIST32 lphl);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the next block of a heap that has been allocated by a process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-heap32next"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lphe">
+        /// A pointer to a <see cref="HEAPENTRY32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if information about the next block in the heap has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="GetLastError"/> function returns <see cref="ERROR_NO_MORE_FILES"/> when no more objects in the heap exist
+        /// and <see cref="ERROR_INVALID_DATA"/> if the heap appears to be corrupt
+        /// or is modified during the walk in such a way that <see cref="Heap32Next"/> cannot continue.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To retrieve information for the first block of a heap, use the <see cref="Heap32First"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="Heap32Next"/> function does not maintain a reference to the target process.
+        /// If the target process dies, the system may create a new process using the same process identifier.
+        /// Therefore, the caller should maintain a reference to the target process as long as it is using <see cref="Heap32Next"/>.
+        /// </para>
+        /// <para>
+        /// Walking the heap with <see cref="Heap32First"/> and <see cref="Heap32Next"/> is inefficient, particularly for large heaps.
+        /// Use <see cref="HeapWalk"/> instead.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32Next", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Heap32Next([Out] out HEAPENTRY32 lphe);
 
         /// <summary>
         /// <para>
@@ -3806,6 +3884,47 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetWriteWatch", ExactSpelling = true, SetLastError = true)]
         public static extern UINT ResetWriteWatch([In] LPVOID lpBaseAddress, [In] SIZE_T dwRegionSize);
+
+        /// <summary>
+        /// <para>
+        /// Copies memory allocated to another process into an application-supplied buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-toolhelp32readprocessmemory"/>
+        /// </para>
+        /// </summary>
+        /// <param name="th32ProcessID">
+        /// The identifier of the process whose memory is being copied.
+        /// This parameter can be zero to copy the memory of the current process.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// The base address in the specified process to read.
+        /// Before transferring any data, the system verifies that all data in the base address
+        /// and memory of the specified size is accessible for read access.
+        /// If this is the case, the function proceeds.
+        /// Otherwise, the function fails.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the contents of the address space of the specified process.
+        /// </param>
+        /// <param name="cbRead">
+        /// The number of bytes to read from the specified process.
+        /// </param>
+        /// <param name="lpNumberOfBytesRead">
+        /// The number of bytes copied to the specified buffer.
+        /// If this parameter is <see cref="NULL"/>, it is ignored.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful.
+        /// </returns>
+        /// <remarks>
+        /// This function opens a handle to the target process and closes it once the read operation has completed.
+        /// If you're planning to perform several reads, use <see cref="ReadProcessMemory"/> instead.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Toolhelp32ReadProcessMemory", ExactSpelling = true)]
+        public static extern BOOL Toolhelp32ReadProcessMemory([In] DWORD th32ProcessID, [In] LPCVOID lpBaseAddress, [In] LPVOID lpBuffer,
+            [In] SIZE_T cbRead, [Out] out SIZE_T lpNumberOfBytesRead);
 
         /// <summary>
         /// 

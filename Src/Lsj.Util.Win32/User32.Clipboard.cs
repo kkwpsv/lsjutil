@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -311,6 +312,28 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardOwner", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetClipboardOwner();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the clipboard sequence number for the current window station.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboardsequencenumber"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the clipboard sequence number.
+        /// If you do not have <see cref="WINSTA_ACCESSCLIPBOARD"/> access to the window station, the function returns zero.
+        /// </returns>
+        /// <remarks>
+        /// The system keeps a serial number for the clipboard for each window station.
+        /// This number is incremented whenever the contents of the clipboard change or the clipboard is emptied.
+        /// You can track this value to determine whether the clipboard contents have changed and optimize creating DataObjects.
+        /// If clipboard rendering is delayed, the sequence number is not incremented until the changes are rendered.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardSequenceNumber", ExactSpelling = true)]
+        public static extern DWORD GetClipboardSequenceNumber();
 
         /// <summary>
         /// <para>

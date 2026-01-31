@@ -621,6 +621,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current power state of the specified device. This function cannot be used to query the power state of a display device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getdevicepowerstate"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDevice">
+        /// A handle to an object on the device, such as a file or socket, or a handle to the device itself.
+        /// </param>
+        /// <param name="pfOn">
+        /// A pointer to the variable that receives the power state.
+        /// This value is <see cref="TRUE"/> if the device is in the working state.
+        /// Otherwise, it is <see cref="FALSE"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An application can use <see cref="GetDevicePowerState"/> to determine whether a device is in the working state or a low-power state.
+        /// If the device is in a low-power state, accessing the device may cause it
+        /// to either queue or fail any I/O requests, or transition the device into the working state.
+        /// The exact behavior depends on the implementation of the device.
+        /// </para>
+        /// <para>
+        /// To ensure maximum battery life on a laptop computer, use <see cref="GetDevicePowerState"/> to reduce power consumption.
+        /// For example, if a disk is currently powered down, accessing the disk will cause it to spin up,
+        /// resulting in increased power consumption and reduced battery life.
+        /// </para>
+        /// <para>
+        /// Applications should defer or limit access to devices wherever possible while the system is running on battery power.
+        /// To determine whether the system is running on battery power, and the remaining battery life,
+        /// use the <see cref="GetSystemPowerStatus"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDevicePowerState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDevicePowerState([In] HANDLE hDevice, [Out] out BOOL pfOn);
+
+        /// <summary>
+        /// <para>
         /// Formats a number string as a currency string for a locale specified by identifier.
         /// </para>
         /// <para>
@@ -1668,6 +1714,28 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadWritePtr", ExactSpelling = true)]
         public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
+
+        /// <summary>
+        /// <para>
+        /// Determines the current state of the computer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-issystemresumeautomatic"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the system was restored to the working state automatically and the user is not active,
+        /// the function returns <see cref="TRUE"/>.
+        /// Otherwise, the function returns <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="PBT_APMRESUMEAUTOMATIC"/> event is broadcast when the system wakes automatically to handle an event.
+        /// The user is generally not present. If the system detects any user activity after broadcasting the <see cref="PBT_APMRESUMEAUTOMATIC"/> event,
+        /// it will broadcast the <see cref="PBT_APMRESUMESUSPEND"/> event to let applications know they can resume full interaction with the user.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsSystemResumeAutomatic", ExactSpelling = true)]
+        public static extern BOOL IsSystemResumeAutomatic();
 
         /// <summary>
         /// 

@@ -4436,6 +4436,98 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a new NetBIOS or DNS name for the local computer.
+        /// Name changes made by <see cref="SetComputerNameEx"/> do not take effect until the user restarts the computer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-setcomputernameexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="NameType">
+        /// <para>
+        /// The type of name to be set.
+        /// This parameter can be one of the following values from the <see cref="COMPUTER_NAME_FORMAT"/> enumeration type.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ComputerNamePhysicalDnsDomain"/>
+        /// </term>
+        /// <term>
+        /// Sets the primary DNS suffix of the computer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ComputerNamePhysicalDnsHostname"/>
+        /// </term>
+        /// <term>
+        /// Sets the NetBIOS and the Computer Name (the first label of the full DNS name) to the name specified in <paramref name="lpBuffer"/>.
+        /// If the name exceeds <see cref="MAX_COMPUTERNAME_LENGTH"/> characters,
+        /// the NetBIOS name is truncated to <see cref="MAX_COMPUTERNAME_LENGTH"/> characters, not including the terminating null character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ComputerNamePhysicalNetBIOS"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Sets the NetBIOS name to the name specified in <paramref name="lpBuffer"/>.
+        /// The name cannot exceed <see cref="MAX_COMPUTERNAME_LENGTH"/> characters, not including the terminating null character.
+        /// </para>
+        /// <para>
+        /// Warning: Using this option to set the NetBIOS name breaks the convention of interdependent NetBIOS and DNS names.
+        /// Applications that use the <see cref="DnsHostnameToComputerName"/> function
+        /// to derive the NetBIOS name from the first label of the DNS name will fail if this convention is broken.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The new name.
+        /// The name cannot include control characters, leading or trailing spaces, or any of the following characters: " / \ [ ] : | &lt; &gt; + = ; , ?
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// <see cref="SetComputerNameEx"/> can set the Computer Name (the first label of the full DNS name)
+        /// or the primary DNS suffix of the local computer.
+        /// It cannot set a fully qualified DNS name in one call.
+        /// </para>
+        /// <para>
+        /// If the local computer is a node in a cluster,
+        /// <see cref="SetComputerNameEx"/> sets NetBIOS or DNS name of the local computer, not that of the cluster virtual server.
+        /// </para>
+        /// <para>
+        /// The process that calls the <see cref="SetComputerNameEx"/> function must have administrator privileges on the local computer.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetComputerNameExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetComputerNameEx([In] COMPUTER_NAME_FORMAT NameType, [In] LPCWSTR lpBuffer);
+
+        /// <summary>
+        /// <para>
         /// Sets the current local time and date.
         /// </para>
         /// <para>
@@ -4891,5 +4983,293 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL VerifyVersionInfo([In] in OSVERSIONINFOEX lpVersionInformation,
             [In] VerifyVersionInfoTypeMasks dwTypeMask, [In] DWORDLONG dwlConditionMask);
+
+        /// <summary>
+        /// <para>
+        /// Sets the bits of a 64-bit value to indicate the comparison operator to use for a specified operating system version attribute.
+        /// This function is used to build the <c>dwlConditionMask</c> parameter of the <see cref="VerifyVersionInfo"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-versetconditionmask"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ConditionMask">
+        /// <para>
+        /// A value to be passed as the <paramref name="dwlConditionMask"/> parameter of the <see cref="VerifyVersionInfo"/> function.
+        /// The function stores the comparison information in the bits of this variable.
+        /// </para>
+        /// <para>
+        /// Before the first call to <see cref="VerSetCondition"/>, initialize this variable to zero.
+        /// For subsequent calls, pass in the variable used in the previous call.
+        /// </para>
+        /// </param>
+        /// <param name="TypeMask">
+        /// <para>
+        /// A mask that indicates the member of the <see cref="OSVERSIONINFOEX"/> structure whose comparison operator is being set.
+        /// This value corresponds to one of the bits specified in the <c>dwTypeMask</c> parameter for the <see cref="VerifyVersionInfo"/> function.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_BUILDNUMBER"/>
+        /// </para>
+        /// <para>
+        /// 0x0000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwBuildNumber"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_MAJORVERSION"/>
+        /// </para>
+        /// <para>
+        /// 0x0000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwMajorVersion"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_MINORVERSION"/>
+        /// </para>
+        /// <para>
+        /// 0x0000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwMinorVersion"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_PLATFORMID"/>
+        /// </para>
+        /// <para>
+        /// 0x0000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.dwPlatformId"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_PRODUCT_TYPE"/>
+        /// </para>
+        /// <para>
+        /// 0x0000080
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wProductType"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SERVICEPACKMAJOR"/>
+        /// </para>
+        /// <para>
+        /// 0x0000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wServicePackMajor"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SERVICEPACKMINOR"/>
+        /// </para>
+        /// <para>
+        /// 0x0000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wServicePackMinor"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_SUITENAME"/>
+        /// </para>
+        /// <para>
+        /// 0x0000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <see cref="OSVERSIONINFOEX.wSuiteMask"/>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="Condition">
+        /// <para>
+        /// The operator to be used for the comparison.
+        /// The <see cref="VerifyVersionInfo"/> function uses this operator to compare a specified attribute value
+        /// to the corresponding value for the currently running system.
+        /// </para>
+        /// <para>
+        /// For all values of <paramref name="TypeMask"/> other than <see cref="VER_SUITENAME"/>,
+        /// this parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_EQUAL"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The current value must be equal to the specified value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_GREATER"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The current value must be greater than the specified value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_GREATER_EQUAL"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The current value must be greater than or equal to the specified value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_LESS"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The current value must be less than the specified value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_LESS_EQUAL"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The current value must be less than or equal to the specified value.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="TypeMask"/> is <see cref="VER_SUITENAME"/>,
+        /// this parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_AND"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
+        /// All product suites specified in the <see cref="OSVERSIONINFOEX.wSuiteMask"/> member must be present in the current system.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="VER_OR"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
+        /// At least one of the specified product suites must be present in the current system.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// The function returns the condition mask value.
+        /// </returns>
+        /// <summary>
+        /// <para>
+        /// Call this function once for each bit set in the <c>dwTypeMask</c> parameter of the <see cref="VerifyVersionInfo"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-versetconditionmask"/>
+        /// </para>
+        /// </summary>
+
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerSetConditionMask", ExactSpelling = true, SetLastError = true)]
+        public static extern ULONGLONG VerSetConditionMask([In] ULONGLONG ConditionMask, [In] VerifyVersionInfoTypeMasks TypeMask, [In] BYTE Condition);
     }
 }

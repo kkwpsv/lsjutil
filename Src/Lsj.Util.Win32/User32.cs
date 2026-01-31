@@ -5,7 +5,6 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
@@ -21,10 +20,11 @@ using static Lsj.Util.Win32.Enums.EventConstants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
 using static Lsj.Util.Win32.Enums.FontSmoothingTypes;
+using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
-using static Lsj.Util.Win32.Enums.MonitorDefaultFlags;
 using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.RegisterPowerSettingNotificationFlags;
 using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
@@ -511,29 +511,146 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="GetMonitorInfo"/> function retrieves information about a display monitor.
+        /// Retrieves the count of handles to graphical user interface (GUI) objects in use by the specified process.
         /// </para>
         /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmonitorinfow"/>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getguiresources"/>
         /// </para>
         /// </summary>
-        /// <param name="hMonitor">
-        /// A handle to the display monitor of interest.
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process.
+        /// The handle must refer to a process in the current session,
+        /// and must have the <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right (see Process security and access rights).
+        /// </para>
+        /// <para>
+        /// If this parameter is the special value <see cref="GR_GLOBAL"/>,
+        /// then the resource usage is reported across all processes in the current session.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003, and Windows XP:
+        /// The <see cref="GR_GLOBAL"/> value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </para>
         /// </param>
-        /// <param name="lpmi">
+        /// <param name="uiFlags">
         /// <para>
-        /// A pointer to a <see cref="MONITORINFO"/> or <see cref="MONITORINFOEX"/> structure that receives information about the specified display monitor.
+        /// The GUI object type. This parameter can be one of the following values.
         /// </para>
         /// <para>
-        /// You must set the <see cref="MONITORINFO.cbSize"/> member of the structure to <c>sizeof(MONITORINFO)</c> or <c>sizeof(MONITORINFOEX)</c>
-        /// before calling the <see cref="GetMonitorInfo"/> function.
-        /// Doing so lets the function determine the type of structure you are passing to it.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GR_GDIOBJECTS"/>
         /// </para>
         /// <para>
-        /// The <see cref="MONITORINFOEX"/> structure is a superset of the <see cref="MONITORINFO"/> structure.
-        /// It has one additional member: a string that contains a name for the display monitor.
-        /// Most applications have no use for a display monitor name, and so can save some bytes by using a <see cref="MONITORINFO"/> structure.
+        /// 0
         /// </para>
+        /// </term>
+        /// <term>
+        /// Return the count of GDI objects.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GR_GDIOBJECTS_PEAK"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Return the peak count of GDI objects.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GR_USEROBJECTS"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Return the count of USER objects.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="GR_USEROBJECTS_PEAK"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Return the peak count of USER objects.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the count of handles to GUI objects in use by the process.
+        /// If no GUI objects are in use, the return value is zero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// A process without a graphical user interface does not use GUI resources,
+        /// therefore, <see cref="GetGuiResources"/> will return zero.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGuiResources", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetGuiResources([In] HANDLE hProcess, [In] DWORD uiFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the active window or a specified GUI thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getguithreadinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="idThread">
+        /// The identifier for the thread for which information is to be retrieved.
+        /// To retrieve this value, use the <see cref="GetWindowThreadProcessId"/> function.
+        /// If this parameter is <see cref="NULL"/>, the function returns information for the foreground thread.
+        /// </param>
+        /// <param name="pgui">
+        /// A pointer to a <see cref="GUITHREADINFO"/> structure that receives information describing the thread.
+        /// Note that you must set the <see cref="GUITHREADINFO.cbSize"/> member to <c>sizeof(GUITHREADINFO)</c> before calling this function.
         /// </param>
         /// <returns>
         /// <para>
@@ -541,11 +658,120 @@ namespace Lsj.Util.Win32
         /// </para>
         /// <para>
         /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function succeeds even if the active window is not owned by the calling process.
+        /// If the specified thread does not exist or have an input queue, the function will fail.
+        /// </para>
+        /// <para>
+        /// This function is useful for retrieving out-of-context information about a thread.
+        /// The information retrieved is the same as if an application retrieved the information about itself.
+        /// </para>
+        /// <para>
+        /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle
+        /// contains the caret plus information on text direction and padding.
+        /// Thus, it may not give the correct position of the cursor.
+        /// The Sans Serif font uses four characters for the cursor:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Cursor character
+        /// </term>
+        /// <term>
+        /// Unicode code point
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <c>CURSOR_LTR</c>
+        /// </term>
+        /// <term>
+        /// 0xf00c
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>CURSOR_RTL</c>
+        /// </term>
+        /// <term>
+        /// 0xf00d
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>CURSOR_THAI</c>
+        /// </term>
+        /// <term>
+        /// 0xf00e
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>CURSOR_USA</c>
+        /// </term>
+        /// <term>
+        /// 0xfff (this is a marker value with no associated glyph)
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// To get the actual insertion point in the <see cref="GUITHREADINFO.rcCaret"/> rectangle, perform the following steps.
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Determine the character used for the cursor, based on the current input language.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call <see cref="CreateFont"/> using Sans Serif for the font,
+        /// the height given by <see cref="GUITHREADINFO.rcCaret"/>, and a width of <c>zero</c>.
+        /// For <c>fnWeight</c>, call <c>SystemParametersInfo(SPI_GETCARETWIDTH, 0, pvParam, 0)</c>.
+        /// If <c>pvParam</c> is greater than 1, set <c>fnWeight</c> to 700, otherwise set <c>fnWeight</c> to 400.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Select the font into a device context (DC) and use <see cref="GetCharABCWidths"/>
+        /// to get the <c>B</c> width of the appropriate cursor character.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Add the <c>B</c> width to <c>rcCaret.left</c> to obtain the actual insertion point.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The function may not return valid window handles in the <see cref="GUITHREADINFO"/> structure
+        /// when called to retrieve information for the foreground thread, such as when a window is losing activation.
+        /// </para>
+        /// <para>
+        /// DPI Virtualization
+        /// </para>
+        /// <para>
+        /// The coordinates returned in the <see cref="GUITHREADINFO.rcCaret"/> rect of the <see cref="GUITHREADINFO"/> struct
+        /// are logical coordinates in terms of the window associated with the caret.
+        /// They are not virtualized into the mode of the calling thread.
+        /// </para>
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", ExactSpelling = true)]
-        public static extern BOOL GetMonitorInfo([In] HMONITOR hMonitor, [In][Out] ref MONITORINFOEX lpmi);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGUIThreadInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetGUIThreadInfo([In] DWORD idThread, [In][Out] ref GUITHREADINFO pgui);
 
         /// <summary>
         /// <para>
@@ -3189,6 +3415,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Locks the workstation's display. Locking a workstation protects it from unauthorized use.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-lockworkstation"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// Because the function executes asynchronously, a nonzero return value indicates that the operation has been initiated.
+        /// It does not indicate whether the workstation has been successfully locked.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="LockWorkStation"/> function is callable only by processes running on the interactive desktop.
+        /// In addition, the user must be logged on, and the workstation cannot already be locked.
+        /// </para>
+        /// <para>
+        /// Common reasons the workstation might not be locked even if the function succeeds include the following:
+        /// no user is logged on, the workstation is already locked, the process is not running on the interactive desktop,
+        /// or the request is denied by the Graphical Identification and Authentication (GINA) DLL.
+        /// </para>
+        /// <para>
+        /// This function has the same result as pressing Ctrl+Alt+Del and clicking <c>Lock</c>.
+        /// To unlock the workstation, the user must log in.
+        /// There is no function you can call to determine whether the workstation is locked.
+        /// To receive a notification when the user locks the workstation or logs in,
+        /// use the <see cref="WTSRegisterSessionNotification"/> function to receive <see cref="WM_WTSSESSION_CHANGE"/> messages.
+        /// You can use session notifications to track the desktop state so you know whether it is possible to interact with the user.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockWorkStation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockWorkStation();
+
+        /// <summary>
+        /// <para>
         /// Converts the logical coordinates of a point in a window to physical coordinates.
         /// </para>
         /// <para>
@@ -3458,78 +3726,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
-        /// that has the largest area of intersection with the bounding rectangle of a specified window.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-monitorfromwindow"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hwnd">
-        /// A handle to the window of interest.
-        /// </param>
-        /// <param name="dwFlags">
-        /// <para>
-        /// Determines the function's return value if the window does not intersect any display monitor.
-        /// </para>
-        /// <para>
-        /// This parameter can be one of the following values.
-        /// </para>
-        /// <para>
-        /// <list type="table">
-        /// <listheader>
-        /// <term>
-        /// Value
-        /// </term>
-        /// <term>
-        /// Meaning
-        /// </term>
-        /// </listheader>
-        /// <item>
-        /// <term>
-        /// <see cref="MONITOR_DEFAULTTONEAREST"/>
-        /// </term>
-        /// <term>
-        /// Returns a handle to the display monitor that is nearest to the window.
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <see cref="MONITOR_DEFAULTTONULL"/>
-        /// </term>
-        /// <term>
-        /// Returns <see cref="NULL"/>.
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <see cref="MONITOR_DEFAULTTOPRIMARY"/>
-        /// </term>
-        /// <term>
-        /// Returns a handle to the primary display monitor.
-        /// </term>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the window intersects one or more display monitor rectangles,
-        /// the return value is an <see cref="HMONITOR"/> handle to the display monitor that has the largest area of intersection with the window.
-        /// </para>
-        /// <para>
-        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", ExactSpelling = true)]
-        public static extern HMONITOR MonitorFromWindow([In] HWND hwnd, [In] MonitorDefaultFlags dwFlags);
-
-        /// <summary>
-        /// <para>
         /// Signals the system that a predefined event occurred.
         /// If any client applications have registered a hook function for the event, the system calls the client's hook function.
         /// </para>
@@ -3652,6 +3848,164 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Registers the device or type of device for which a window will receive notifications.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// You can use <see cref="CM_Register_Notification"/> instead of <see cref="RegisterDeviceNotification"/>
+        /// if your code targets Windows 8 or newer versions of Windows.
+        /// The advantage of <see cref="CM_Register_Notification"/> is that it does not require a window handle to work.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerdevicenotificationw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hRecipient">
+        /// <para>
+        /// A handle to the window or service that will receive device events for the devices
+        /// specified in the <paramref name="NotificationFilter"/> parameter.
+        /// The same window handle can be used in multiple calls to <see cref="RegisterDeviceNotification"/>.
+        /// </para>
+        /// <para>
+        /// Services can specify either a window handle or service status handle.
+        /// </para>
+        /// </param>
+        /// <param name="NotificationFilter">
+        /// A pointer to a block of data that specifies the type of device for which notifications should be sent.
+        /// This block always begins with the <see cref="DEV_BROADCAST_HDR"/> structure.
+        /// The data following this header is dependent on the value of the <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> member,
+        /// which can be <see cref="DBT_DEVTYP_DEVICEINTERFACE"/> or <see cref="DBT_DEVTYP_HANDLE"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEVICE_NOTIFY_WINDOW_HANDLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="hRecipient"/> parameter is a window handle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEVICE_NOTIFY_SERVICE_HANDLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="hRecipient"/> parameter is a service status handle.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In addition, you can specify the following value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEVICE_NOTIFY_ALL_INTERFACE_CLASSES"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies the recipient of device interface events for all device interface classes.
+        /// (The <see cref="DEV_BROADCAST_HDR.dbcc_classguid"/> member is ignored.)
+        /// </para>
+        /// <para>
+        /// This value can be used only if the <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> member is <see cref="DBT_DEVTYP_DEVICEINTERFACE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a device notification handle.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Applications send event notifications using the <see cref="BroadcastSystemMessage"/> function.
+        /// Any application with a top-level window can receive basic notifications by processing the <see cref="WM_DEVICECHANGE"/> message.
+        /// Applications can use the <see cref="RegisterDeviceNotification"/> function to register to receive device notifications.
+        /// </para>
+        /// <para>
+        /// Services can use the <see cref="RegisterDeviceNotification"/> function to register to receive device notifications.
+        /// If a service specifies a window handle in the <paramref name="hRecipient"/> parameter,
+        /// the notifications are sent to the window procedure.
+        /// If <paramref name="hRecipient"/> is a service status handle,
+        /// <see cref="SERVICE_CONTROL_DEVICEEVENT"/> notifications are sent to the service control handler.
+        /// For more information about the service control handler, see <c>HandlerEx</c>.
+        /// </para>
+        /// <para>
+        /// Be sure to handle Plug and Play device events as quickly as possible.
+        /// Otherwise, the system may become unresponsive.
+        /// If your event handler is to perform an operation that may block execution (such as I/O),
+        /// it is best to start another thread to perform the operation asynchronously.
+        /// </para>
+        /// <para>
+        /// Device notification handles returned by <see cref="RegisterDeviceNotification"/> must be closed
+        /// by calling the <see cref="UnregisterDeviceNotification"/> function when they are no longer needed.
+        /// </para>
+        /// <para>
+        /// The <see cref="DBT_DEVICEARRIVAL"/> and <see cref="DBT_DEVICEREMOVECOMPLETE"/> events
+        /// are automatically broadcast to all top-level windows for port devices.
+        /// Therefore, it is not necessary to call <see cref="RegisterDeviceNotification"/> for ports,
+        /// and the function fails if the <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> member is <see cref="DBT_DEVTYP_PORT"/>.
+        /// Volume notifications are also broadcast to top-level windows,
+        /// so the function fails if <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> is <see cref="DBT_DEVTYP_VOLUME"/>.
+        /// OEM-defined devices are not used directly by the system,
+        /// so the function fails if <see cref="DEV_BROADCAST_HDR.dbch_devicetype"/> is <see cref="DBT_DEVTYP_OEM"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterDeviceNotificationW", ExactSpelling = true, SetLastError = true)]
+        public static extern HDEVNOTIFY RegisterDeviceNotification([In] HANDLE hRecipient, [In] LPVOID NotificationFilter, [In] DWORD Flags);
+
+        /// <summary>
+        /// <para>
         /// Registers the application to receive power setting notifications for the specific power setting event.
         /// </para>
         /// <para>
@@ -3718,7 +4072,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr RegisterPowerSettingNotification([In] HANDLE hRecipient, [In] in GUID PowerSettingGuid,
+        public static extern HPOWERNOTIFY RegisterPowerSettingNotification([In] HANDLE hRecipient, [In] in GUID PowerSettingGuid,
             [In] RegisterPowerSettingNotificationFlags Flags);
 
         /// <summary>
@@ -8960,6 +9314,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Grants or denies access to a handle to a User object to a job that has a user-interface restriction.
+        /// When access is granted, all processes associated with the job can subsequently recognize and use the handle.
+        /// When access is denied, the processes can no longer use the handle.
+        /// For more information see User Objects.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-userhandlegrantaccess"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hUserHandle">
+        /// A handle to the User object.
+        /// </param>
+        /// <param name="hJob">
+        /// A handle to the job to be granted access to the User handle.
+        /// The <see cref="CreateJobObject"/> or <see cref="OpenJobObject"/> function returns this handle.
+        /// </param>
+        /// <param name="bGrant">
+        /// If this parameter is <see cref="TRUE"/>, all processes associated with the job can recognize and use the handle.
+        /// If the parameter is <see cref="FALSE"/>, the processes cannot use the handle.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="UserHandleGrantAccess"/> function can be called only from a process
+        /// not associated with the job specified by the <paramref name="hJob"/> parameter.
+        /// The User handle must not be owned by a process or thread associated with the job.
+        /// </para>
+        /// <para>
+        /// To create user-interface restrictions,
+        /// call the <see cref="SetInformationJobObject"/> function with the <see cref="JobObjectBasicUIRestrictions"/> job information class.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UserHandleGrantAccess", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UserHandleGrantAccess([In] HANDLE hUserHandle, [In] HANDLE hJob, [In] BOOL bGrant);
+
+        /// <summary>
+        /// <para>
         /// Removes an event hook function created by a previous call to <see cref="SetWinEventHook"/>.
         /// </para>
         /// <para>
@@ -9016,6 +9416,30 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWinEvent", ExactSpelling = true)]
         public static extern BOOL UnhookWinEvent([In] HWINEVENTHOOK hWinEventHook);
+
+        /// <summary>
+        /// <para>
+        /// Closes the specified device notification handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregisterdevicenotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// Device notification handle returned by the <see cref="RegisterDeviceNotification"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterDeviceNotification", ExactSpelling = true)]
+        public static extern BOOL UnregisterDeviceNotification([In] HDEVNOTIFY Handle);
 
         /// <summary>
         /// <para>

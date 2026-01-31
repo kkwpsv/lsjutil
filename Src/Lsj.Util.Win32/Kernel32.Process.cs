@@ -1395,6 +1395,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves accounting information for all I/O operations performed by the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </para>
+        /// </param>
+        /// <param name="lpIoCounters">
+        /// A pointer to an <see cref="IO_COUNTERS"/> structure that receives the I/O accounting information for the process.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIoCounters", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetProcessIoCounters([In] HANDLE hProcess, [Out] out IO_COUNTERS lpIoCounters);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the memory usage of the specified process.
         /// </para>
         /// <para>

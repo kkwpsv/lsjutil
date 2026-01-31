@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
+using static Lsj.Util.Win32.Enums.EXECUTION_STATE;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -1733,6 +1734,160 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadContext([In] HANDLE hThread, [In] in CONTEXT lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Enables an application to inform the system that it is in use,
+        /// thereby preventing the system from entering sleep or turning off the display while the application is running.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate"/>
+        /// </para>
+        /// </summary>
+        /// <param name="esFlags">
+        /// <para>
+        /// The thread's execution requirements.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ES_AWAYMODE_REQUIRED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Enables away mode. This value must be specified with <see cref="ES_CONTINUOUS"/>.
+        /// </para>
+        /// <para>
+        /// Away mode should be used only by media-recording and media-distribution applications
+        /// that must perform critical background processing on desktop computers while the computer appears to be sleeping.
+        /// See Remarks.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ES_CONTINUOUS"/>
+        /// </para>
+        /// <para>
+        /// 0x80000000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Informs the system that the state being set should remain in effect
+        /// until the next call that uses <see cref="ES_CONTINUOUS"/> and one of the other state flags is cleared.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ES_DISPLAY_REQUIRED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Forces the display to be on by resetting the display idle timer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ES_SYSTEM_REQUIRED"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Forces the system to be in the working state by resetting the system idle timer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="ES_USER_PRESENT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// This value is not supported. If <see cref="ES_USER_PRESENT"/> is combined with other <paramref name="esFlags"/> values,
+        /// the call will fail and none of the specified states will be set.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the previous thread execution state.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The system automatically detects activities such as local keyboard or mouse input, server activity, and changing window focus.
+        /// Activities that are not automatically detected include disk or CPU activity and video display.
+        /// </para>
+        /// <para>
+        /// Calling <see cref="SetThreadExecutionState"/> without <see cref="ES_CONTINUOUS"/> simply resets the idle timer;
+        /// to keep the display or system in the working state, the thread must call <see cref="SetThreadExecutionState"/> periodically.
+        /// </para>
+        /// <para>
+        /// To run properly on a power-managed computer, applications such as fax servers, answering machines, backup agents,
+        /// and network management applications must use both <see cref="ES_SYSTEM_REQUIRED"/> and <see cref="ES_CONTINUOUS"/> when they process events.
+        /// Multimedia applications, such as video players and presentation applications,
+        /// must use <see cref="ES_DISPLAY_REQUIRED"/> when they display video for long periods of time without user input.
+        /// Applications such as word processors, spreadsheets, browsers, and games do not need to call <see cref="SetThreadExecutionState"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="ES_AWAYMODE_REQUIRED"/> value should be used only
+        /// when absolutely necessary by media applications that require the system to perform background tasks 
+        /// such as recording television content or streaming media to other devices while the system appears to be sleeping.
+        /// Applications that do not require critical background processing or that run on portable computers should not enable away mode
+        /// because it prevents the system from conserving power by entering true sleep.
+        /// </para>
+        /// <para>
+        /// To enable away mode, an application uses both <see cref="ES_AWAYMODE_REQUIRED"/> and <see cref="ES_CONTINUOUS"/>;
+        /// to disable away mode, an application calls <see cref="SetThreadExecutionState"/>
+        /// with <see cref="ES_CONTINUOUS"/> and clears <see cref="ES_AWAYMODE_REQUIRED"/>.
+        /// When away mode is enabled, any operation that would put the computer to sleep puts it in away mode instead.
+        /// The computer appears to be sleeping while the system continues to perform tasks that do not require user input.
+        /// Away mode does not affect the sleep idle timer; to prevent the system from entering sleep when the timer expires,
+        /// an application must also set the <see cref="ES_SYSTEM_REQUIRED"/> value.
+        /// </para>
+        /// <para>
+        /// The <see cref="SetThreadExecutionState"/> function cannot be used to prevent the user from putting the computer to sleep.
+        /// Applications should respect that the user expects a certain behavior
+        /// when they close the lid on their laptop or press the power button.
+        /// </para>
+        /// <para>
+        /// This function does not stop the screen saver from executing.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadExecutionState", ExactSpelling = true)]
+        public static extern EXECUTION_STATE SetThreadExecutionState([In] EXECUTION_STATE esFlags);
 
         /// <summary>
         /// <para>

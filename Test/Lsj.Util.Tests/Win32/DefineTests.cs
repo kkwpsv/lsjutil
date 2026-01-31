@@ -209,28 +209,46 @@ namespace Lsj.Util.Tests.Win32
             "lstrlen",                              // duplicate of lstrlenW
             
             // 2000
+            "AlignRects",                           // undocument
+            "CliImmSetHotKey",                      // undocument
+            "CtxInitUser32",                        // undocument
             "DelayLoadFailureHook",                 // not api
+            "DeviceEventWorker",                    // undocument
             "DosPathToSessionPathW",                // undocument
+            "GetAltTabInfo",                        // duplicate of GetAltTabInfoW
+            "GetAppCompatFlags2",                   // undocument
             "GetConsoleCharType",                   // undocument
             "GetConsoleCursorMode",                 // undocument
             "GetConsoleNlsMode",                    // undocument
-            "GetDefaultSortKeySize",                // undocument
+            "GetCursorFrameInfo",                   // undocument 
+            "GetDefaultSortkeySize",                // undocument
             "GetLinguistLangSize",                  // undocument
             "GetNlsSectionName",                    // undocument
+            "GetWinStationInfo",                    // undocument
+            "GetWindowModuleFileName",              // duplicate of GetWindowModuleFileNameW
+            "InitializeLpkHooks",                   // undocument
+            "InitializeWin32EntryTable",            // undocument
+            "Module32First",                        // duplicate of Module32FirstW
+            "Module32Next",                         // duplicate of Module32NextW
             "NlsConvertIntegerToString",            // undocument
             "NlsGetCacheUpdateCount",               // undocument
             "NlsResetProcessLocale",                // undocument
             "OpenDataFile",                         // undocument
             "PrivCopyFileExW",                      // undocument
+            "PrivateSetDbgTag",                     // undocument
+            "PrivateSetRipFlags",                   // undocument
             "PrivMoveFileIdentityW",                // undocument
             "Process32First",                       // duplicate of Process32FirstW
             "Process32Next",                        // duplicate of Process32NextW
+            "QueryUserCounters",                    // undocument
+            "RealGetWindowClass",                   // duplicate of RealGetWindowClassW
             "RegisterConsoleIME",                   // undocument
             "RegisterConsoleOS2",                   // undocument
             "RegisterWaitForSingleObjectEx",        // undocument
             "ReplaceFile",                          // duplicate of ReplaceFileW
             "RequestDeviceWakeup",                  // undocument
             "RequestWakeupLatency",                 // undocument
+            "ResolveDesktopForWOW",                 // undocument
             "SetCPGlobal",                          // undocument
             "SetConsoleCursorMode",                 // undocument
             "SetConsoleLocalEUDC",                  // undocument
@@ -240,30 +258,17 @@ namespace Lsj.Util.Tests.Win32
             "SetTermsrvAppInstallMode",             // undocument
             "SetTimerQueueTimer",                   // undocument
             "TermsrvAppInstallMode",                // undocument
+            "User32InitializeImmEntryTable",        // undocument
+            "UserLpkPSMTextOut",                    // undocument
+            "UserLpkTabbedTextOut",                 // undocument
             "UTRegister",                           // undocument
             "UTUnRegister",                         // undocument
             "UnregisterConsoleIME",                 // undocument
             "ValidateLCType",                       // undocument
             "ValidateLocale",                       // undocument
-            "AlignRects",                           // undocument
-            "CliImmSetHotKey",                      // undocument
-            "CtxInitUser32",                        // undocument
-            "DeviceEventWorker",                    // undocument
-            "GetAltTabInfo",                        // duplicate of GetAltTabInfoW
-            "GetAppCompatFlags2",                   // undocument
-            "GetWinStationInfo",                    // undocument
-            "GetWindowModuleFileName",              // duplicate of GetWindowModuleFileNameW
-            "InitializeLpkHooks",                   // undocument
-            "InitializeWin32EntryTable",            // undocument
-            "PrivateSetDbgTag",                     // undocument
-            "PrivateSetRipFlags",                   // undocument
-            "QueryUserCounters",                    // undocument
-            "ResolveDesktopForWOW",                 // undocument
-            "User32InitializeImmEntryTable",        // undocument
-            "UserLpkPSMTextOut",                    // undocument
-            "UserLpkTabbedTextOut",                 // undocument
             "VRipOutput",                           // undocument
             "VTagOutput",                           // undocument
+            "Win32PoolAllocationStats",             // undocument
         };
 
         private static readonly List<string> _notImplemntApiList = new List<string>

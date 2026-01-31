@@ -26,6 +26,7 @@ using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
 using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.OBJID;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
@@ -785,6 +786,137 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableScrollBar", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableScrollBar([In] HWND hWnd, [In] ScrollBarConstants wSBflags, [In] EnableScrollBarFlags wArrows);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified combo box.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcomboboxinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwndCombo">
+        /// A handle to the combo box.
+        /// </param>
+        /// <param name="pcbi">
+        /// A pointer to a <see cref="COMBOBOXINFO"/> structure that receives the information.
+        /// You must set <see cref="COMBOBOXINFO.cbSize"/> before calling this function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CB_GETCOMBOBOXINFO"/> message is equivalent to this function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetComboBoxInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetComboBoxInfo([In] HWND hwndCombo, [In][Out] ref COMBOBOXINFO pcbi);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the number of items per column in a specified list box.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getlistboxinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the list box whose number of items per column is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// The return value is the number of items per column.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetListBoxInfo", ExactSpelling = true)]
+        public static extern DWORD GetListBoxInfo([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetScrollBarInfo"/> function retrieves information about the specified scroll bar.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getscrollbarinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Handle to a window associated with the scroll bar whose information is to be retrieved.
+        /// If the <paramref name="idObject"/> parameter is <see cref="OBJID_CLIENT"/>,
+        /// <paramref name="hwnd"/> is a handle to a scroll bar control.
+        /// Otherwise, <paramref name="hwnd"/> is a handle to a window
+        /// created with <see cref="WS_VSCROLL"/> and/or <see cref="WS_HSCROLL"/> style.
+        /// </param>
+        /// <param name="idObject">
+        /// <para>
+        /// Specifies the scroll bar object. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJID_CLIENT"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="hwnd"/> parameter is a handle to a scroll bar control.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJID_HSCROLL"/>
+        /// </term>
+        /// <term>
+        /// The horizontal scroll bar of the <paramref name="hwnd"/> window.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJID_VSCROLL"/>
+        /// </term>
+        /// <term>
+        /// The vertical scroll bar of the <paramref name="hwnd"/> window.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="psbi">
+        /// Pointer to a <see cref="SCROLLBARINFO"/> structure to receive the information.
+        /// Before calling <see cref="GetScrollBarInfo"/>,
+        /// set the <see cref="SCROLLBARINFO.cbSize"/> member to <c>sizeof(SCROLLBARINFO)</c>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If <paramref name="idObject"/> is <see cref="OBJID_CLIENT"/>
+        /// and the window specified by <paramref name="hwnd"/> is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_GETSCROLLBARINFO"/> message to the window to obtain scroll bar information.
+        /// This allows <see cref="GetScrollBarInfo"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_GETSCROLLBARINFO"/> message,
+        /// the <see cref="GetScrollBarInfo"/> function fails.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollBarInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetScrollBarInfo([In] HWND hwnd, [In] LONG idObject, [In][Out] ref SCROLLBARINFO psbi);
 
         /// <summary>
         /// <para>
