@@ -8,11 +8,12 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BackgroundModes;
+using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.TextAlignments;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
@@ -556,6 +557,94 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTextCharacterExtra([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a character set identifier for the font that is currently selected into a specified device context.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// A call to this function is equivalent to a call to <see cref="GetTextCharsetInfo"/>
+        /// passing <see cref="NULL"/> for the data buffer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-gettextcharset"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// The function obtains a character set identifier for the font that is selected into this device context.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If successful, returns a value identifying the character set of the font
+        /// that is currently selected into the specified device context.
+        /// </para>
+        /// <para>
+        /// For a list of possible values, see <see cref="LOGFONT.lfCharSet"/> field of the <see cref="LOGFONT"/> structure.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="DEFAULT_CHARSET"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharset", ExactSpelling = true)]
+        public static extern int GetTextCharset([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the character set of the font that is currently selected into a specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-gettextcharsetinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// The function obtains information about the font that is selected into this device context.
+        /// </param>
+        /// <param name="lpSig">
+        /// <para>
+        /// Pointer to a <see cref="FONTSIGNATURE"/> data structure that receives font-signature information.
+        /// </para>
+        /// <para>
+        /// If a TrueType font is currently selected into the device context,
+        /// the <see cref="FONTSIGNATURE"/> structure receives information
+        /// that identifies the code page and Unicode subranges for which the font provides glyphs.
+        /// </para>
+        /// <para>
+        /// If a font other than TrueType is currently selected into the device context,
+        /// the <see cref="FONTSIGNATURE"/> structure receives zeros.
+        /// In this case, the application should use the <see cref="TranslateCharsetInfo"/> function
+        /// to obtain generic font-signature information for the character set.
+        /// </para>
+        /// <para>
+        /// The <paramref name="lpSig"/> parameter specifies <see cref="NULL"/>
+        /// if the application does not require the <see cref="FONTSIGNATURE"/> information.
+        /// In this case, the application can also call the <see cref="GetTextCharset"/> function,
+        /// which is equivalent to calling <see cref="GetTextCharsetInfo"/> with <paramref name="lpSig"/> set to <see cref="NULL"/>.
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved; must be set to 0.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If successful, returns a value identifying the character set of the font
+        /// currently selected into the specified device context.
+        /// </para>
+        /// <para>
+        /// For a list of possible values, see <see cref="LOGFONT.lfCharSet"/> field of the <see cref="LOGFONT"/> structure.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="DEFAULT_CHARSET"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharsetInfo", ExactSpelling = true)]
+        public static extern int GetTextCharsetInfo([In] HDC hdc, [Out] out FONTSIGNATURE lpSig, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -1494,5 +1583,90 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TextOut([In] HDC hdc, [In] int x, [In] int y, [In] LPCWSTR lpString, [In] int c);
+
+        /// <summary>
+        /// <para>
+        /// Translates character set information and sets all members of a destination structure to appropriate values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-translatecharsetinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSrc">
+        /// Pointer to the <see cref="FONTSIGNATURE.fsCsb"/> member of a <see cref="FONTSIGNATURE"/> structure
+        /// if <paramref name="dwFlags"/> is set to <see cref="TCI_SRCFONTSIG"/>.
+        /// Otherwise, this parameter is set to a <see cref="DWORD"/> value indicating the source.
+        /// </param>
+        /// <param name="lpCs">
+        /// Pointer to a <see cref="CHARSETINFO"/> structure that receives the translated character set information.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying how to perform the translation. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="TCI_SRCCHARSET"/>
+        /// </term>
+        /// <term>
+        /// Source contains the character set value in the low word, and 0 in the high word.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TCI_SRCCODEPAGE"/>
+        /// </term>
+        /// <term>
+        /// Source is a code page identifier in the low word and 0 in the high word.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TCI_SRCFONTSIG"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Source is the code page bitfield portion of a <see cref="FONTSIGNATURE"/> structure.
+        /// On input this should have only one Windows code-page bit set,
+        /// either for an ANSI code page value or for a common ANSI and OEM value
+        /// (for OEM values, bits 32-63 must be clear).
+        /// On output, this has only one bit set.
+        /// </para>
+        /// <para>
+        /// If the <see cref="TCI_SRCFONTSIG"/> value is given,
+        /// the <paramref name="lpSrc"/> parameter must be the address of the code-page bitfield.
+        /// If any other TCI_ value is given, the <paramref name="lpSrc"/> parameter must be a value not an address.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="TCI_SRCLOCALE"/>
+        /// </term>
+        /// <term>
+        /// Windows 2000: Source is the locale identifier (LCID) or language identifier of the keyboard layout.
+        /// If it is a language identifier, the value is in the low word.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateCharsetInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TranslateCharsetInfo([In] ref DWORD lpSrc, [Out] out CHARSETINFO lpCs, [In] DWORD dwFlags);
     }
 }

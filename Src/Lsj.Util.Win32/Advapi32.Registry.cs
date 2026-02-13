@@ -7,6 +7,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
@@ -1770,6 +1771,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RegGetKeySecurity"/> function retrieves a copy of the security descriptor protecting the specified open registry key.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-reggetkeysecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open key for which to retrieve the security descriptor.
+        /// </param>
+        /// <param name="SecurityInformation">
+        /// A <see cref="SECURITY_INFORMATION"/> value that indicates the requested security information.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a buffer that receives a copy of the requested security descriptor.
+        /// </param>
+        /// <param name="lpcbSecurityDescriptor">
+        /// A pointer to a variable that specifies the size, in bytes, of the buffer
+        /// pointed to by the <paramref name="pSecurityDescriptor"/> parameter.
+        /// When the function returns, the variable contains the number of bytes written to the buffer.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns a nonzero error code defined in WinError.h.
+        /// You can use the <see cref="FormatMessage"/> function
+        /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag to get a generic description of the error.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the buffer specified by the <paramref name="pSecurityDescriptor"/> parameter is too small,
+        /// the function returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// and the <paramref name="lpcbSecurityDescriptor"/> parameter contains the number of bytes required for the requested security descriptor.
+        /// </para>
+        /// <para>
+        /// To read the owner, group, or discretionary access control list (DACL) from the key's security descriptor,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To get <see cref="READ_CONTROL"/> access, the caller must be the owner of the key or the key's DACL must grant the access.
+        /// </para>
+        /// <para>
+        /// To read the system access control list (SACL) from the security descriptor,
+        /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the key was opened.
+        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegGetKeySecurity", ExactSpelling = true)]
+        public static extern LSTATUS RegGetKeySecurity([In] HKEY hKey, [In] SECURITY_INFORMATION SecurityInformation,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In][Out] ref DWORD lpcbSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the type and data for the specified registry value.
         /// </para>
         /// <para>
@@ -2322,6 +2378,228 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegLoadKeyW", ExactSpelling = true)]
         public static extern LSTATUS RegLoadKey([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPCWSTR lpFile);
+
+        /// <summary>
+        /// <para>
+        /// Notifies the caller about changes to the attributes or contents of a specified registry key.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regnotifychangekeyvalue"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// <para>
+        /// A handle to an open registry key.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/> or <see cref="RegOpenKeyEx"/> function.
+        /// It can also be one of the following predefined keys:
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_CLASSES_ROOT"/> <see cref="HKEY_CURRENT_CONFIG"/> <see cref="HKEY_CURRENT_USER"/>
+        /// <see cref="HKEY_LOCAL_MACHINE"/> <see cref="HKEY_USERS"/>
+        /// This parameter must be a local handle.
+        /// If <see cref="RegNotifyChangeKeyValue"/> is called with a remote handle, it returns <see cref="ERROR_INVALID_HANDLE"/>.
+        /// </para>
+        /// <para>
+        /// The key must have been opened with the <see cref="KEY_NOTIFY"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="bWatchSubtree">
+        /// If this parameter is <see cref="TRUE"/>, the function reports changes in the specified key and its subkeys.
+        /// If the parameter is <see cref="FALSE"/>, the function reports changes only in the specified key.
+        /// </param>
+        /// <param name="dwNotifyFilter">
+        /// <para>
+        /// A value that indicates the changes that should be reported.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="REG_NOTIFY_CHANGE_NAME"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notify the caller if a subkey is added or deleted.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="REG_NOTIFY_CHANGE_ATTRIBUTES"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notify the caller of changes to the attributes of the key, such as the security descriptor information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="REG_NOTIFY_CHANGE_LAST_SET"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notify the caller of changes to a value of the key.
+        /// This can include adding or deleting a value, or changing an existing value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="REG_NOTIFY_CHANGE_SECURITY"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notify the caller of changes to the security descriptor of the key.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="REG_NOTIFY_THREAD_AGNOSTIC"/>
+        /// </para>
+        /// <para>
+        /// 0x10000000L
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Indicates that the lifetime of the registration must not be tied to the lifetime of the thread
+        /// issuing the <see cref="RegNotifyChangeKeyValue"/> call.
+        /// </para>
+        /// <para>
+        /// Note 
+        /// </para>
+        /// <para>
+        /// This flag value is only supported in Windows 8 and later.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="hEvent">
+        /// A handle to an event.
+        /// If the <paramref name="fAsynchronous"/> parameter is <see cref="TRUE"/>,
+        /// the function returns immediately and changes are reported by signaling this event.
+        /// If <paramref name="fAsynchronous"/> is <see cref="FALSE"/>, <paramref name="hEvent"/> is ignored.
+        /// </param>
+        /// <param name="fAsynchronous">
+        /// <para>
+        /// If this parameter is <see cref="TRUE"/>, the function returns immediately and reports changes by signaling the specified event.
+        /// If this parameter is <see cref="FALSE"/>, the function does not return until a change has occurred.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hEvent"/> does not specify a valid event,
+        /// the <paramref name="fAsynchronous"/> parameter cannot be <see cref="TRUE"/>.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function
+        /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag to get a generic description of the error.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function detects a single change.
+        /// After the caller receives a notification event, it should call the function again to receive the next notification.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// On Windows NT, Windows 2000, and Windows XP calling <see cref="RegNotifyChangeKeyValue"/> for a particular key handle
+        /// causes change notifications to continue to occur for as long as the key handle is valid.
+        /// This causes a second call to <see cref="RegNotifyChangeKeyValue"/> to return immediately,
+        /// if any changes have occurred in the interim period between the first and second calls.
+        /// If the API is being used asynchronously, the passed event handle will be signaled immediately if any interim changes have occurred.
+        /// </para>
+        /// <para>
+        /// This function cannot be used to detect changes to the registry that result from using the <see cref="RegRestoreKey"/> function.
+        /// </para>
+        /// <para>
+        /// If the specified key is closed, the event is signaled.
+        /// This means that an application should not depend on the key being open after returning from a wait operation on the event.
+        /// </para>
+        /// <para>
+        /// The <see cref="REG_NOTIFY_THREAD_AGNOSTIC"/> flag introduced in Windows 8
+        /// enables the use of <see cref="RegNotifyChangeKeyValue"/> for ThreadPool threads.
+        /// </para>
+        /// <para>
+        /// If the thread that called <see cref="RegNotifyChangeKeyValue"/> exits, the event is signaled.
+        /// To continue to monitor additional changes in the value of the key,
+        /// call <see cref="RegNotifyChangeKeyValue"/> again from another thread.
+        /// </para>
+        /// <para>
+        /// With the exception of <see cref="RegNotifyChangeKeyValue"/> calls with <see cref="REG_NOTIFY_THREAD_AGNOSTIC"/> set,
+        /// this function must be called on persistent threads.
+        /// If the calling thread is from a thread pool and it is not persistent,
+        /// the event is signaled every time the thread terminates, not just when there is a registry change.
+        /// To ensure accurate results, run the thread pool work in a persistent thread
+        /// by using the <see cref="SetThreadpoolCallbackPersistent"/> function,
+        /// or create your own thread using the <see cref="CreateThread"/> function.
+        /// (For the original thread pool API,
+        /// specify <see cref="WT_EXECUTEINPERSISTENTTHREAD"/> using the <see cref="QueueUserWorkItem"/> function.)
+        /// </para>
+        /// <para>
+        /// This function should not be called multiple times with the same value for the <paramref name="hKey"/>
+        /// but different values for the <paramref name="bWatchSubtree"/> and <paramref name="dwNotifyFilter"/> parameters.
+        /// The function will succeed but the changes will be ignored.
+        /// To change the watch parameters, you must first close the key handle by calling <see cref="RegCloseKey"/>,
+        /// reopen the key handle by calling <see cref="RegOpenKeyEx"/>,
+        /// and then call <see cref="RegNotifyChangeKeyValue"/> with the new parameters.
+        /// </para>
+        /// <para>
+        /// Each time a process calls <see cref="RegNotifyChangeKeyValue"/> with the same set of parameters,
+        /// it establishes another wait operation, creating a resource leak.
+        /// Therefore, check that you are not calling <see cref="RegNotifyChangeKeyValue"/> with the same parameters
+        /// until the previous wait operation has completed.
+        /// </para>
+        /// <para>
+        /// To monitor registry operations in more detail, see Registry.
+        /// </para>
+        /// <para>
+        /// Windows XP/2000: 
+        /// When <see cref="RegNotifyChangeKeyValue"/> is called for a particular key handle,
+        /// change notifications occur for as long as the key handle is valid.
+        /// This causes a second call to <see cref="RegNotifyChangeKeyValue"/> to return immediately,
+        /// if any changes occur in the interim between the first and second calls.
+        /// If the function is being used asynchronously,
+        /// the passed event handle will be signaled immediately if any changes occur in the interim.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegNotifyChangeKeyValue", ExactSpelling = true)]
+        public static extern LSTATUS RegNotifyChangeKeyValue([In] HKEY hKey, [In] BOOL bWatchSubtree, [In] DWORD dwNotifyFilter,
+            [In] HANDLE hEvent, [In] BOOL fAsynchronous);
 
         /// <summary>
         /// <para>

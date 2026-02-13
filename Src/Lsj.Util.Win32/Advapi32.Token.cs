@@ -24,7 +24,7 @@ using Lsj.Util.Win32.Attributes;
 
 namespace Lsj.Util.Win32
 {
-    partial class Advapi32
+    public partial class Advapi32
     {
         /// <summary>
         /// <para>
@@ -611,42 +611,6 @@ namespace Lsj.Util.Win32
         public static extern BOOL CreateRestrictedToken([In] HANDLE ExistingTokenHandle, [In] CreateRestrictedTokenFlags Flags,
             [In] DWORD DisableSidCount, [In] SID_AND_ATTRIBUTES[] SidsToDisable, [In] DWORD DeletePrivilegeCount, [In] LUID_AND_ATTRIBUTES[] PrivilegesToDelete,
             [In] DWORD RestrictedSidCount, [In] SID_AND_ATTRIBUTES[] SidsToRestrict, [Out] out HANDLE NewTokenHandle);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="CreateWellKnownSid"/> function creates a SID for predefined aliases.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid"/>
-        /// </para>
-        /// </summary>
-        /// <param name="WellKnownSidType">
-        /// Member of the <see cref="WELL_KNOWN_SID_TYPE"/> enumeration that specifies what the SID will identify.
-        /// </param>
-        /// <param name="DomainSid">
-        /// A pointer to a SID that identifies the domain to use when creating the SID.
-        /// Pass <see cref="NULL"/> to use the local computer.
-        /// </param>
-        /// <param name="pSid">
-        /// A pointer to memory where <see cref="CreateWellKnownSid"/> will store the new SID.
-        /// </param>
-        /// <param name="cbSid">
-        /// A pointer to a DWORD that contains the number of bytes available at <paramref name="pSid"/>.
-        /// The <see cref="CreateWellKnownSid"/> function stores the number of bytes actually used at this location.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the return value is nonzero.
-        /// </para>
-        /// <para>
-        /// If the function fails, the return value is zero.
-        /// For extended error information, call <see cref="GetLastError"/>.
-        /// </para>
-        /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWellKnownSid", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateWellKnownSid([In] WELL_KNOWN_SID_TYPE WellKnownSidType, [In] PSID DomainSid,
-            [In] PSID pSid, [Out] out DWORD cbSid);
 
         /// <summary>
         /// <para>

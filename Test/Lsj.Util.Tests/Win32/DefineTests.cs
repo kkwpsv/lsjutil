@@ -84,191 +84,368 @@ namespace Lsj.Util.Tests.Win32
             "CreateURLMonikerEx",
             "BackupRead",
             "BackupWrite",
+            "InitializeSid",
         };
 
         private static readonly List<string> _skipApiList = new List<string>
         {
             // NT 4.0
-            "BaseAttachCompleteThunk",              // undocument
-            "BroadcastSystemMessage",               // duplicate of BroadcastSystemMessageW
-            "CallMsgFilter",                        // undocument
-            "CascadeChildWindows",                  // undocument
-            "ClientThreadSetup",                    // undocument
-            "CloseConsoleHandle",                   // undocument
-            "CloseProfileUserMapping",              // undocument
-            "CmdBatNotification",                   // undocument
-            "ConsoleMenuControl",                   // undocument
-            "CreateDialogIndirectParamAorW",        // undocument
-            "CreateVirtualBuffer",                  // undocument
-            "DialogBoxIndirectParamAorW",           // undocument
-            "DrawCaptionTempW",                     // undocument
-            "DrawFrame",                            // undocument
-            "DrawMenuBarTemp",                      // undocument
-            "DuplicateConsoleHandle",               // undocument
-            "EditWndProc",                          // undocument
-            "ExitVDM",                              // undocument
-            "ExpungeConsoleCommandHistoryW",        // undocument
-            "ExtendVirtualBuffer",                  // undocument
-            "FreeVirtualBuffer",                    // undocument
-            "FullScreenControl",                    // undocument
-            "GetAppCompatFlags",                    // undocument
-            "GetBinaryType",                        // duplicate of GetBinaryTypeW
-            "GetConsoleCommandHistoryLengthW",      // undocument
-            "GetConsoleCommandHistoryW",            // undocument
-            "GetConsoleFontInfo",                   // undocument
-            "GetConsoleHardwareState",              // undocument
-            "GetConsoleInputExeNameW",              // undocument
-            "GetConsoleInputWaitHandle",            // undocument
-            "GetConsoleKeyboardLayoutNameW",        // undocument
-            "GetEnvironmentStrings",                // duplicate of GetEnvironmentStringsW
-            "GetInputDesktop",                      // undocument
-            "GetInternalWindowPos",                 // undocument
-            "GetLastError",                         // use Marshal.GetLastError
-            "GetNextVDMCommand",                    // undocument
-            "GetNumberOfConsoleFonts",              // undocument
-            "GetProgmanWindow",                     // undocument
-            "GetTaskmanWindow",                     // undocument
-            "GetVDMCurrentDirectories",             // undocument
-            "HeapCreateTagsW",                      // undocument
-            "HeapExtend",                           // undocument
-            "HeapQueryTagW",                        // undocument
-            "HeapUsage",                            // undocument
-            "InvalidateConsoleDIBits",              // undocument
-            "IsDialogMessage",                      // duplicate of IsDialogMessageW
-            "KillSystemTimer",                      // undocument
-            "LoadKeyboardLayoutEx",                 // undocument
-            "LoadLocalFonts",                       // undocument
-            "LoadRemoteFonts",                      // undocument
-            "LockWindowStation",                    // undocument
-            "MBToWCSEx",                            // undocument
-            "MenuWindowProcW",                      // undocument
-            "OpenConsoleW",                         // undocument
-            "OpenProfileUserMapping",               // undocument
-            "PrivateExtractIconExW",                // undocument
-            "PrivateKDBreakPoint",                  // undocument
-            "QuerySendMessage",                     // undocument
-            "QueryWin31IniFilesMappedToRegistry",   // undocument
-            "RegisterConsoleVDM",                   // undocument
-            "RegisterLogonProcess",                 // undocument
-            "RegisterServicesProcess",              // undocument
-            "RegisterSystemThread",                 // undocument
-            "RegisterTasklist",                     // undocument
-            "RegisterWaitForInputIdle",             // undocument
-            "RegisterWowBaseHandlers",              // undocument
-            "RegisterWowExec",                      // undocument
-            "ScrollChildren",                       // undocument
-            "SetConsoleCommandHistoryMode",         // undocument
-            "SetConsoleCursor",                     // undocument
-            "SetConsoleFont",                       // undocument
-            "SetConsoleHardwareState",              // undocument
-            "SetConsoleIcon",                       // undocument
-            "SetConsoleInputExeNameW",              // undocument
-            "SetConsoleKeyShortcuts",               // undocument
-            "SetConsoleMaximumWindowSize",          // undocument
-            "SetConsoleMenuClose",                  // undocument
-            "SetConsoleNumberOfCommandsW",          // undocument
-            "SetConsolePalette",                    // undocument
-            "SetConsoleReserveKeys",                // undocument
-            "SetCursorContents",                    // undocument
-            "SetDeskWallpaper",                     // undocument
-            "SetInternalWindowPos",                 // undocument
-            "SetLastConsoleEventActive",            // undocument
-            "SetLogonNotifyWindow",                 // undocument
-            "SetProgmanWindow",                     // undocument
-            "SetShellWindow",                       // undocument
-            "SetShellWindowEx",                     // undocument
-            "SetSysColorsTemp",                     // undocument
-            "SetSystemMenu",                        // undocument
-            "SetSystemTimer",                       // undocument
-            "SetTaskmanWindow",                     // undocument
-            "SetVDMCurrentDirectories",             // undocument
-            "SetWindowStationUser",                 // undocument
-            "ShowConsoleCursor",                    // undocument
-            "ShowStartGlass",                       // undocument
-            "SoftModalMessageBox",                  // undocument
-            "TileChildWindows",                     // undocument
-            "TranslateAccelerator",                 // duplicate of TranslateAcceleratorW
-            "TranslateMessageEx",                   // undocument
-            "TrimVirtualBuffer",                    // undocument
-            "UnlockWindowStation",                  // undocument
-            "UpdatePerUserSystemParameters",        // undocument
-            "UserClientDllInitialize",              // undocument
-            "UserRealizePalette",                   // undocument
-            "UserRegisterWowHandlers",              // undocument
-            "VDMConsoleOperation",                  // undocument
-            "VDMOperationStarted",                  // undocument
-            "VerifyConsoleIoHandle",                // undocument
-            "VirtualBufferExceptionHandler",        // undocument
-            "WCSToMBEx",                            // undocument
-            "WriteConsoleInputVDMW",                // undocument
-            "lstrcat",                              // duplicate of lstrcatW
-            "lstrcmp",                              // duplicate of lstrcmpW
-            "lstrcmpi",                             // duplicate of lstrcmpiW
-            "lstrcpy",                              // duplicate of lstrcpyW
-            "lstrcpyn",                             // duplicate of lstrcpynW
-            "lstrlen",                              // duplicate of lstrlenW
+            "AddFontResourceTracking",                          // undocument
+            "BaseAttachCompleteThunk",                          // undocument
+            "bInitSystemAndFontsDirectoriesW",                  // undocument
+            "bMakePathNameW",                                   // undocument
+            "BroadcastSystemMessage",                           // duplicate of BroadcastSystemMessageW
+            "BuildAccessRequestW",                              // undocument
+            "CallMsgFilter",                                    // undocument
+            "CascadeChildWindows",                              // undocument
+            "cGetTTFFromFOT",                                   // undocument
+            "ClientThreadSetup",                                // undocument
+            "CloseConsoleHandle",                               // undocument
+            "CloseProfileUserMapping",                          // undocument
+            "CmdBatNotification",                               // undocument
+            "ConsoleMenuControl",                               // undocument
+            "CreateDialogIndirectParamAorW",                    // undocument
+            "CreateVirtualBuffer",                              // undocument
+            "DenyAccessRightsW",                                // undocument
+            "DeviceCapabilitiesExW",                            // undocument
+            "DialogBoxIndirectParamAorW",                       // undocument
+            "DrawCaptionTempW",                                 // undocument
+            "DrawFrame",                                        // undocument
+            "DrawMenuBarTemp",                                  // undocument
+            "DuplicateConsoleHandle",                           // undocument
+            "EditWndProc",                                      // undocument
+            "ElfBackupEventLogFileW",                           // undocument
+            "ElfChangeNotify",                                  // undocument
+            "ElfClearEventLogFileW",                            // undocument
+            "ElfCloseEventLog",                                 // undocument
+            "ElfDeregisterEventSource",                         // undocument
+            "ElfNumberOfRecords",                               // undocument
+            "ElfOldestRecord",                                  // undocument
+            "ElfOpenBackupEventLogW",                           // undocument
+            "ElfOpenEventLogW",                                 // undocument
+            "ElfReadEventLogW",                                 // undocument
+            "ElfRegisterEventSourceW",                          // undocument
+            "ElfReportEventW",                                  // undocument
+            "EnumServiceGroupW",                                // undocument
+            "ExitVDM",                                          // undocument
+            "ExpungeConsoleCommandHistoryW",                    // undocument
+            "ExtendVirtualBuffer",                              // undocument
+            "FreeVirtualBuffer",                                // undocument
+            "FullScreenControl",                                // undocument
+            "GdiAddFontResourceW",                              // undocument
+            "GdiAddGlsBounds",                                  // undocument
+            "GdiAddGlsRecord",                                  // undocument
+            "GdiCleanCacheDC",                                  // undocument
+            "GdiConsoleTextOut",                                // undocument
+            "GdiConvertAndCheckDC",                             // undocument
+            "GdiConvertBitmap",                                 // undocument
+            "GdiConvertBrush",                                  // undocument
+            "GdiConvertDC",                                     // undocument
+            "GdiConvertEnhMetaFile",                            // undocument
+            "GdiConvertFont",                                   // undocument
+            "GdiConvertMetaFilePict",                           // undocument
+            "GdiConvertPalette",                                // undocument
+            "GdiConvertRegion",                                 // undocument
+            "GdiConvertToDevmodeW",                             // undocument
+            "GdiCreateLocalEnhMetaFile",                        // undocument
+            "GdiCreateLocalMetaFilePict",                       // undocument
+            "GdiDeleteLocalDC",                                 // undocument
+            "GdiDescribePixelFormat",                           // undocument
+            "GdiDllInitialize",                                 // undocument
+            "GdiEntry1",                                        // undocument
+            "GdiEntry2",                                        // undocument
+            "GdiEntry3",                                        // undocument
+            "GdiEntry4",                                        // undocument
+            "GdiEntry5",                                        // undocument
+            "GdiEntry6",                                        // undocument
+            "GdiEntry7",                                        // undocument
+            "GdiEntry8",                                        // undocument
+            "GdiEntry9",                                        // undocument
+            "GdiEntry10",                                       // undocument
+            "GdiEntry11",                                       // undocument
+            "GdiEntry12",                                       // undocument
+            "GdiEntry13",                                       // undocument
+            "GdiEntry14",                                       // undocument
+            "GdiEntry15",                                       // undocument
+            "GdiFixUpHandle",                                   // undocument
+            "GdiGetCharDimensions",                             // undocument
+            "GdiGetCodePage",                                   // undocument
+            "GdiGetLocalBrush",                                 // undocument
+            "GdiGetLocalDC",                                    // undocument
+            "GdiGetLocalFont",                                  // undocument
+            "GdiGetSpoolMessage",                               // undocument
+            "GdiInitSpool",                                     // undocument
+            "GdiIsMetaFileDC",                                  // undocument
+            "GdiIsMetaPrintDC",                                 // undocument
+            "GdiPerf",                                          // undocument
+            "GdiPlayDCScript",                                  // undocument
+            "GdiPlayEMF",                                       // undocument
+            "GdiPlayJournal",                                   // undocument
+            "GdiPlayScript",                                    // undocument
+            "GdiProcessSetup",                                  // undocument
+            "gdiPlaySpoolStream",                               // undocument
+            "GdiQueryFonts",                                    // undocument
+            "GdiQueryTable",                                    // undocument
+            "GdiReleaseLocalDC",                                // undocument
+            "GdiSetAttrs",                                      // undocument
+            "GdiSetPixelFormat",                                // undocument
+            "GdiSetServerAttr",                                 // undocument
+            "GdiSwapBuffers",                                   // undocument
+            "GdiValidateHandle",                                // undocument
+            "GetAuditedPermissionsFromSDW",                     // undocument
+            "GetAppCompatFlags",                                // undocument
+            "GetBinaryType",                                    // duplicate of GetBinaryTypeW
+            "GetCharWidthInfo",                                 // undocument
+            "GetConsoleCommandHistoryLengthW",                  // undocument
+            "GetConsoleCommandHistoryW",                        // undocument
+            "GetConsoleFontInfo",                               // undocument
+            "GetConsoleHardwareState",                          // undocument
+            "GetConsoleInputExeNameW",                          // undocument
+            "GetConsoleInputWaitHandle",                        // undocument
+            "GetConsoleKeyboardLayoutNameW",                    // undocument
+            "GetEffectiveAccessRightsW",                        // undocument
+            "GetEffectiveRightsFromSDW",                        // undocument
+            "GetEnvironmentStrings",                            // duplicate of GetEnvironmentStringsW
+            "GetExplicitAccessRightsW",                         // undocument
+            "GetETM",                                           // undocument
+            "GetFontResourceInfoW",                             // undocument
+            "GetGlyphOutline",                                  // duplicate of GetGlyphOutlineW
+            "GetGlyphOutlineWow",                               // undocument
+            "GetHFONT",                                         // undocument
+            "GetInputDesktop",                                  // undocument
+            "GetInternalWindowPos",                             // undocument
+            "GetKerningPairs",                                  // duplicate of GetKerningPairsW
+            "GetLastError",                                     // use Marshal.GetLastError
+            "GetNextVDMCommand",                                // undocument
+            "GetNumberOfConsoleFonts",                          // undocument
+            "GetProgmanWindow",                                 // undocument
+            "GetRelAbs",                                        // undocument
+            "GetTaskmanWindow",                                 // undocument
+            "GetTransform",                                     // undocument
+            "GetVDMCurrentDirectories",                         // undocument
+            "GrantAccessRightsW",                               // undocument
+            "HeapCreateTagsW",                                  // undocument
+            "HeapExtend",                                       // undocument
+            "HeapQueryTagW",                                    // undocument
+            "HeapUsage",                                        // undocument
+            "I_ScGetCurrentGroupStateW",                        // undocument
+            "I_ScSetServiceBitsW",                              // undocument
+            "InvalidateConsoleDIBits",                          // undocument
+            "IsAccessPermittedW",                               // undocument
+            "IsDialogMessage",                                  // duplicate of IsDialogMessageW
+            "KillSystemTimer",                                  // undocument
+            "LoadKeyboardLayoutEx",                             // undocument
+            "LoadLocalFonts",                                   // undocument
+            "LoadRemoteFonts",                                  // undocument
+            "LockWindowStation",                                // undocument
+            "LsaAddPrivilegesToAccount",                        // undocument
+            "LsaClearAuditLog",                                 // undocument
+            "LsaCreateAccount",                                 // undocument
+            "LsaCreateSecret",                                  // undocument
+            "LsaDelete",                                        // undocument
+            "LsaEnumerateAccounts",                             // undocument
+            "LsaEnumeratePrivileges",                           // undocument
+            "LsaEnumeratePrivilegesOfAccount",                  // undocument
+            "LsaGetQuotasForAccount",                           // undocument
+            "LsaGetSystemAccessAccount",                        // undocument
+            "LsaGetUserName",                                   // undocument
+            "LsaICLookupNames",                                 // undocument
+            "LsaICLookupSids",                                  // undocument
+            "LsaLookupPrivilegeDisplayName",                    // undocument
+            "LsaLookupPrivilegeName",                           // undocument
+            "LsaLookupPrivilegeValue",                          // undocument
+            "LsaOpenAccount",                                   // undocument
+            "LsaOpenSecret",                                    // undocument
+            "LsaOpenTrustedDomain",                             // undocument
+            "LsaQueryInfoTrustedDomain",                        // undocument
+            "LsaQuerySecret",                                   // undocument
+            "LsaQuerySecurityObject",                           // undocument
+            "LsaRemovePrivilegesFromAccount",                   // undocument
+            "LsaSetInformationTrustedDomain",                   // undocument
+            "LsaSetQuotasForAccount",                           // undocument
+            "LsaSetSecret",                                     // undocument
+            "LsaSetSecurityObject",                             // undocument
+            "LsaSetSystemAccessAccount",                        // undocument
+            "NTAccessMaskToProvAccessRights",                   // undocument
+            "MBToWCSEx",                                        // undocument
+            "MenuWindowProcW",                                  // undocument
+            "NamedEscape",                                      // undocument
+            "OpenConsoleW",                                     // undocument
+            "OpenProfileUserMapping",                           // undocument
+            "PrivateExtractIconExW",                            // undocument
+            "PrivateKDBreakPoint",                              // undocument
+            "ProvAccessRightsToNTAccessMask",                   // undocument
+            "PolyPatBlt",                                       // undocument
+            "QuerySendMessage",                                 // undocument
+            "QueryWindows31FilesMigration",                     // undocument
+            "QueryWin31IniFilesMappedToRegistry",               // undocument
+            "RegisterConsoleVDM",                               // undocument
+            "RegisterLogonProcess",                             // undocument
+            "RegisterServicesProcess",                          // undocument
+            "RegisterSystemThread",                             // undocument
+            "RegisterTasklist",                                 // undocument
+            "RegisterWaitForInputIdle",                         // undocument
+            "RegisterWowBaseHandlers",                          // undocument
+            "RegisterWowExec",                                  // undocument
+            "RemoveFontResourceTracking",                       // undocument
+            "ReplaceAllAccessRightsW",                          // undocument
+            "RevokeExplicitAccessRightsW",                      // undocument
+            "ScrollChildren",                                   // undocument
+            "SelectBrushLocal",                                 // undocument
+            "SelectFontLocal",                                  // undocument
+            "SetAccessRightsW",                                 // undocument
+            "SetConsoleCommandHistoryMode",                     // undocument
+            "SetConsoleCursor",                                 // undocument
+            "SetConsoleFont",                                   // undocument
+            "SetConsoleHardwareState",                          // undocument
+            "SetConsoleIcon",                                   // undocument
+            "SetConsoleInputExeNameW",                          // undocument
+            "SetConsoleKeyShortcuts",                           // undocument
+            "SetConsoleMaximumWindowSize",                      // undocument
+            "SetConsoleMenuClose",                              // undocument
+            "SetConsoleNumberOfCommandsW",                      // undocument
+            "SetConsolePalette",                                // undocument
+            "SetConsoleReserveKeys",                            // undocument
+            "SetCursorContents",                                // undocument
+            "SetDeskWallpaper",                                 // undocument
+            "SetFontEnumeration",                               // undocument
+            "SetInternalWindowPos",                             // undocument
+            "SetLastConsoleEventActive",                        // undocument
+            "SetLogonNotifyWindow",                             // undocument
+            "SetMagicColors",                                   // undocument
+            "SetProgmanWindow",                                 // undocument
+            "SetRelAbs",                                        // undocument
+            "SetShellWindow",                                   // undocument
+            "SetShellWindowEx",                                 // undocument
+            "SetSysColorsTemp",                                 // undocument
+            "SetSystemMenu",                                    // undocument
+            "SetSystemTimer",                                   // undocument
+            "SetTaskmanWindow",                                 // undocument
+            "SetVDMCurrentDirectories",                         // undocument
+            "SetVirtualResolution",                             // undocument
+            "SetWindowStationUser",                             // undocument
+            "ShowConsoleCursor",                                // undocument
+            "ShowStartGlass",                                   // undocument
+            "SoftModalMessageBox",                              // undocument
+            "SynchronizeWindows31FilesAndWindowsNTRegistry",    // undocument
+            "SystemFunction001",                                // undocument
+            "SystemFunction002",                                // undocument
+            "SystemFunction003",                                // undocument
+            "SystemFunction004",                                // undocument
+            "SystemFunction005",                                // undocument
+            "SystemFunction006",                                // undocument
+            "SystemFunction007",                                // undocument
+            "SystemFunction008",                                // undocument
+            "SystemFunction009",                                // undocument
+            "SystemFunction010",                                // undocument
+            "SystemFunction011",                                // undocument
+            "SystemFunction012",                                // undocument
+            "SystemFunction013",                                // undocument
+            "SystemFunction014",                                // undocument
+            "SystemFunction015",                                // undocument
+            "SystemFunction016",                                // undocument
+            "SystemFunction017",                                // undocument
+            "SystemFunction018",                                // undocument
+            "SystemFunction019",                                // undocument
+            "SystemFunction020",                                // undocument
+            "SystemFunction021",                                // undocument
+            "SystemFunction022",                                // undocument
+            "SystemFunction023",                                // undocument
+            "SystemFunction024",                                // undocument
+            "SystemFunction025",                                // undocument
+            "SystemFunction026",                                // undocument
+            "SystemFunction027",                                // undocument
+            "SystemFunction028",                                // undocument
+            "SystemFunction029",                                // undocument
+            "SystemFunction030",                                // undocument
+            "SystemFunction031",                                // undocument
+            "SystemFunction032",                                // undocument
+            "SystemFunction033",                                // undocument
+            "TileChildWindows",                                 // undocument
+            "TranslateAccelerator",                             // duplicate of TranslateAcceleratorW
+            "TranslateMessageEx",                               // undocument
+            "TrimVirtualBuffer",                                // undocument
+            "UnloadNetworkFonts",                               // undocument
+            "UnlockWindowStation",                              // undocument
+            "UpdateICMRegKey",                                  // duplicate of UpdateICMRegKeyW
+            "UpdatePerUserSystemParameters",                    // undocument
+            "UserClientDllInitialize",                          // undocument
+            "UserRealizePalette",                               // undocument
+            "UserRegisterWowHandlers",                          // undocument
+            "VDMConsoleOperation",                              // undocument
+            "VDMOperationStarted",                              // undocument
+            "VerifyConsoleIoHandle",                            // undocument
+            "VirtualBufferExceptionHandler",                    // undocument
+            "WCSToMBEx",                                        // undocument
+            "WriteConsoleInputVDMW",                            // undocument
+            "lstrcat",                                          // duplicate of lstrcatW
+            "lstrcmp",                                          // duplicate of lstrcmpW
+            "lstrcmpi",                                         // duplicate of lstrcmpiW
+            "lstrcpy",                                          // duplicate of lstrcpyW
+            "lstrcpyn",                                         // duplicate of lstrcpynW
+            "lstrlen",                                          // duplicate of lstrlenW
             
             // 2000
-            "AlignRects",                           // undocument
-            "CliImmSetHotKey",                      // undocument
-            "CtxInitUser32",                        // undocument
-            "DelayLoadFailureHook",                 // not api
-            "DeviceEventWorker",                    // undocument
-            "DosPathToSessionPathW",                // undocument
-            "GetAltTabInfo",                        // duplicate of GetAltTabInfoW
-            "GetAppCompatFlags2",                   // undocument
-            "GetConsoleCharType",                   // undocument
-            "GetConsoleCursorMode",                 // undocument
-            "GetConsoleNlsMode",                    // undocument
-            "GetCursorFrameInfo",                   // undocument 
-            "GetDefaultSortkeySize",                // undocument
-            "GetLinguistLangSize",                  // undocument
-            "GetNlsSectionName",                    // undocument
-            "GetWinStationInfo",                    // undocument
-            "GetWindowModuleFileName",              // duplicate of GetWindowModuleFileNameW
-            "InitializeLpkHooks",                   // undocument
-            "InitializeWin32EntryTable",            // undocument
-            "Module32First",                        // duplicate of Module32FirstW
-            "Module32Next",                         // duplicate of Module32NextW
-            "NlsConvertIntegerToString",            // undocument
-            "NlsGetCacheUpdateCount",               // undocument
-            "NlsResetProcessLocale",                // undocument
-            "OpenDataFile",                         // undocument
-            "PrivCopyFileExW",                      // undocument
-            "PrivateSetDbgTag",                     // undocument
-            "PrivateSetRipFlags",                   // undocument
-            "PrivMoveFileIdentityW",                // undocument
-            "Process32First",                       // duplicate of Process32FirstW
-            "Process32Next",                        // duplicate of Process32NextW
-            "QueryUserCounters",                    // undocument
-            "RealGetWindowClass",                   // duplicate of RealGetWindowClassW
-            "RegisterConsoleIME",                   // undocument
-            "RegisterConsoleOS2",                   // undocument
-            "RegisterWaitForSingleObjectEx",        // undocument
-            "ReplaceFile",                          // duplicate of ReplaceFileW
-            "RequestDeviceWakeup",                  // undocument
-            "RequestWakeupLatency",                 // undocument
-            "ResolveDesktopForWOW",                 // undocument
-            "SetCPGlobal",                          // undocument
-            "SetConsoleCursorMode",                 // undocument
-            "SetConsoleLocalEUDC",                  // undocument
-            "SetConsoleNlsMode",                    // undocument
-            "SetConsoleOS2OemFormat",               // undocument
-            "SetMessageWaitingIndicator",           // undocument
-            "SetTermsrvAppInstallMode",             // undocument
-            "SetTimerQueueTimer",                   // undocument
-            "TermsrvAppInstallMode",                // undocument
-            "User32InitializeImmEntryTable",        // undocument
-            "UserLpkPSMTextOut",                    // undocument
-            "UserLpkTabbedTextOut",                 // undocument
-            "UTRegister",                           // undocument
-            "UTUnRegister",                         // undocument
-            "UnregisterConsoleIME",                 // undocument
-            "ValidateLCType",                       // undocument
-            "ValidateLocale",                       // undocument
-            "VRipOutput",                           // undocument
-            "VTagOutput",                           // undocument
-            "Win32PoolAllocationStats",             // undocument
+            "AlignRects",                                       // undocument
+            "CliImmSetHotKey",                                  // undocument
+            "CtxInitUser32",                                    // undocument
+            "DelayLoadFailureHook",                             // not api
+            "DeviceEventWorker",                                // undocument
+            "DosPathToSessionPathW",                            // undocument
+            "GetAltTabInfo",                                    // duplicate of GetAltTabInfoW
+            "GetAppCompatFlags2",                               // undocument
+            "GetConsoleCharType",                               // undocument
+            "GetConsoleCursorMode",                             // undocument
+            "GetConsoleNlsMode",                                // undocument
+            "GetCursorFrameInfo",                               // undocument 
+            "GetDefaultSortkeySize",                            // undocument
+            "GetLinguistLangSize",                              // undocument
+            "GetNlsSectionName",                                // undocument
+            "GetWinStationInfo",                                // undocument
+            "GetWindowModuleFileName",                          // duplicate of GetWindowModuleFileNameW
+            "InitializeLpkHooks",                               // undocument
+            "InitializeWin32EntryTable",                        // undocument
+            "Module32First",                                    // duplicate of Module32FirstW
+            "Module32Next",                                     // duplicate of Module32NextW
+            "NlsConvertIntegerToString",                        // undocument
+            "NlsGetCacheUpdateCount",                           // undocument
+            "NlsResetProcessLocale",                            // undocument
+            "OpenDataFile",                                     // undocument
+            "PrivCopyFileExW",                                  // undocument
+            "PrivateSetDbgTag",                                 // undocument
+            "PrivateSetRipFlags",                               // undocument
+            "PrivMoveFileIdentityW",                            // undocument
+            "Process32First",                                   // duplicate of Process32FirstW
+            "Process32Next",                                    // duplicate of Process32NextW
+            "QueryUserCounters",                                // undocument
+            "RealGetWindowClass",                               // duplicate of RealGetWindowClassW
+            "RegisterConsoleIME",                               // undocument
+            "RegisterConsoleOS2",                               // undocument
+            "RegisterWaitForSingleObjectEx",                    // undocument
+            "ReplaceFile",                                      // duplicate of ReplaceFileW
+            "RequestDeviceWakeup",                              // undocument
+            "RequestWakeupLatency",                             // undocument
+            "ResolveDesktopForWOW",                             // undocument
+            "SetCPGlobal",                                      // undocument
+            "SetConsoleCursorMode",                             // undocument
+            "SetConsoleLocalEUDC",                              // undocument
+            "SetConsoleNlsMode",                                // undocument
+            "SetConsoleOS2OemFormat",                           // undocument
+            "SetMessageWaitingIndicator",                       // undocument
+            "SetTermsrvAppInstallMode",                         // undocument
+            "SetTimerQueueTimer",                               // undocument
+            "TermsrvAppInstallMode",                            // undocument
+            "User32InitializeImmEntryTable",                    // undocument
+            "UserLpkPSMTextOut",                                // undocument
+            "UserLpkTabbedTextOut",                             // undocument
+            "UTRegister",                                       // undocument
+            "UTUnRegister",                                     // undocument
+            "UnregisterConsoleIME",                             // undocument
+            "ValidateLCType",                                   // undocument
+            "ValidateLocale",                                   // undocument
+            "VRipOutput",                                       // undocument
+            "VTagOutput",                                       // undocument
+            "Win32PoolAllocationStats",                         // undocument
         };
 
         private static readonly List<string> _notImplemntApiList = new List<string>
@@ -334,14 +511,92 @@ namespace Lsj.Util.Tests.Win32
             "PackDDElParam",
             "ReuseDDElParam",
             "UnpackDDElParam",
+
+            // Security
+            "BuildExplicitAccessWithNameW",
+            "BuildImpersonateExplicitAccessWithNameW",
+            "BuildImpersonateTrusteeW",
+            "BuildSecurityDescriptorW",
+            "BuildTrusteeWithNameW",
+            "BuildTrusteeWithSidW",
+            "DeleteAce",
+            "FindFirstFreeAce",
+            "GetAce",
+            "GetAclInformation",
+            "GetAuditedPermissionsFromAclW",
+            "GetEffectiveRightsFromAclW",
+            "GetExplicitEntriesFromAclW",
+            "GetMultipleTrusteeOperationW",
+            "GetMultipleTrusteeW",
+            "GetSecurityDescriptorDacl",
+            "GetSecurityDescriptorGroup",
+            "GetSecurityDescriptorLength",
+            "GetSecurityDescriptorOwner",
+            "GetSecurityDescriptorSacl",
+            "GetTrusteeNameW",
+            "GetTrusteeTypeW",
+            "InitializeAcl",
+            "MakeAbsoluteSD",
+            "MakeSelfRelativeSD",
+
+
+            // Crypt
+            "CryptAcquireContextW",
+            "CryptCreateHash",
+            "CryptDecrypt",
+            "CryptDeriveKey",
+            "CryptDestroyHash",
+            "CryptDestroyKey",
+            "CryptEncrypt",
+            "CryptExportKey",
+            "CryptGenKey",
+            "CryptGenRandom",
+            "CryptGetHashParam",
+            "CryptGetKeyParam",
+            "CryptGetProvParam",
+            "CryptGetUserKey",
+            "CryptHashData",
+            "CryptHashSessionKey",
+            "CryptImportKey",
+            "CryptReleaseContext",
+            "CryptSetHashParam",
+            "CryptSetKeyParam",
+            "CryptSetProvParam",
+            "CryptSetProviderW",
+            "CryptSignHashW",
+            "CryptVerifySignatureW",
+
+            // LSA
+            "LsaAddAccountRights",
+            "LsaClose",
+            "LsaCreateTrustedDomain",
+            "LsaDeleteTrustedDomain",
+            "LsaEnumerateAccountRights",
+            "LsaEnumerateAccountsWithUserRight",
+            "LsaEnumerateTrustedDomains",
+            "LsaFreeMemory",
+            "LsaLookupNames",
+            "LsaLookupSids",
+            "LsaNtStatusToWinError",
+            "LsaOpenPolicy",
+            "LsaQueryInformationPolicy",
+            "LsaQueryTrustedDomainInfo",
+            "LsaRemoveAccountRights",
+            "LsaRetrievePrivateData",
+            "LsaSetInformationPolicy",
+            "LsaSetTrustedDomainInformation",
+            "LsaStorePrivateData",
         };
 
         [TestMethod]
         public void TestMethods()
         {
             var apis = ReadFromFiles();
-            var toCheckApis = apis.Where(x => x.Value.Version <= WindowsVersion.Windows2000 &&
-                    (x.Value.DllName == "kernel32" || x.Value.DllName == "user32"))
+            var toCheckApis = apis.Where(x =>
+                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows2000) ||
+                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.Windows2000) ||
+                (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.WindowsNT40) ||
+                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.WindowsNT40))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);

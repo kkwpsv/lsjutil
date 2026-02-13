@@ -40,6 +40,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AbortPath"/> function closes and discards any paths in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-abortpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context from which a path will be discarded.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If there is an open path bracket in the given device context, the path bracket is closed and the path is discarded.
+        /// If there is a closed path in the device context, the path is discarded.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortPath", ExactSpelling = true)]
+        public static extern BOOL AbortPath([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="AngleArc"/> function draws a line segment and an arc.
         /// The line segment is drawn from the current position to the beginning of the arc.
         /// The arc is drawn along the perimeter of a circle with the given radius and center.

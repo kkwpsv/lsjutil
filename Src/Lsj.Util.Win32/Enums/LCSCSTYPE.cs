@@ -3,7 +3,7 @@
     /// <summary>
     /// Logical color spaces
     /// </summary>
-    public enum LogicalColorSpaces : uint
+    public enum LCSCSTYPE : uint
     {
         /// <summary>
         /// LCS_CALIBRATED_RGB

@@ -9,23 +9,12 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.BoundsRectAccumulationFlags;
-using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.EscapeFunctions;
-using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
-using static Lsj.Util.Win32.Enums.GraphicsModes;
-using static Lsj.Util.Win32.Enums.ICMModes;
-using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.ObjTypes;
 using static Lsj.Util.Win32.Enums.RasterCodes;
-using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
-using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowClassStyles;
-using static Lsj.Util.Win32.Enums.WindowMessages;
-using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -1113,6 +1102,154 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetObject([In] HANDLE h, [In] int c, [In] LPVOID pv);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetObjectType"/> retrieves the type of the specified object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-getobjecttype"/>
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the graphics object.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value identifies the object.
+        /// This value can be one of the following.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_BITMAP"/>
+        /// </term>
+        /// <term>
+        /// Bitmap
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_BRUSH"/>
+        /// </term>
+        /// <term>
+        /// Brush
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_COLORSPACE"/>
+        /// </term>
+        /// <term>
+        /// Color space
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_DC"/>
+        /// </term>
+        /// <term>
+        /// Device context
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_ENHMETADC"/>
+        /// </term>
+        /// <term>
+        /// Enhanced metafile DC
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_ENHMETAFILE"/>
+        /// </term>
+        /// <term>
+        /// Enhanced metafile
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_EXTPEN"/>
+        /// </term>
+        /// <term>
+        /// Extended pen
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_FONT"/>
+        /// </term>
+        /// <term>
+        /// Font
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_MEMDC"/>
+        /// </term>
+        /// <term>
+        /// Memory DC
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_METAFILE"/>
+        /// </term>
+        /// <term>
+        /// Metafile
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_METADC"/>
+        /// </term>
+        /// <term>
+        /// Metafile DC
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_PAL"/>
+        /// </term>
+        /// <term>
+        /// Palette
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_PEN"/>
+        /// </term>
+        /// <term>
+        /// Pen
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OBJ_REGION"/>
+        /// </term>
+        /// <term>
+        /// Region
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectType", ExactSpelling = true)]
+        public static extern ObjTypes GetObjectType([In] HGDIOBJ h);
 
         /// <summary>
         /// <para>

@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Advapi32;
+﻿using System;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
@@ -45,6 +46,7 @@ namespace Lsj.Util.Win32.Enums
     /// For more information, see the <see cref="SetSecurityAccessMask"/> and <see cref="QuerySecurityAccessMask"/> functions.
     /// </para>
     /// </remarks>
+    [Flags]
     public enum SECURITY_INFORMATION : uint
     {
         /// <summary>

@@ -1877,7 +1877,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitializeSecurity([In] in SECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
+        public static extern HRESULT CoInitializeSecurity([In] PSECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
             [In] IntPtr pReserved1, [In] AuthenticationLevelConstants dwAuthnLevel, [In] ImpersonationLevelConstants dwImpLevel,
             [In] IntPtr pAuthList, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities, [In] IntPtr pReserved3);
 

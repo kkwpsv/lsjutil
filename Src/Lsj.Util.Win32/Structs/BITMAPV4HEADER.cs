@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BitmapCompressions;
-using static Lsj.Util.Win32.Enums.LogicalColorSpaces;
+using static Lsj.Util.Win32.Enums.LCSCSTYPE;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -340,7 +340,7 @@ namespace Lsj.Util.Win32.Structs
         /// See the <see cref="LOGCOLORSPACE"/> structure for information that defines a logical color space.
         /// </para>
         /// </summary>
-        public LogicalColorSpaces bV4CSType;
+        public LCSCSTYPE bV4CSType;
 
         /// <summary>
         /// <para>

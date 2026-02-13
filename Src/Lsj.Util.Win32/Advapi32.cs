@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.Logon32Providers;
@@ -77,6 +78,39 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortSystemShutdownW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AbortSystemShutdown([In] LPWSTR lpMachineName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AllocateLocallyUniqueId"/> function allocates a locally unique identifier (<c>LUID</c>).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-allocatelocallyuniqueid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Luid">
+        /// A pointer to a <see cref="LUID"/> structure that receives the allocated LUID.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The allocated <see cref="LUID"/> is unique to the local system only,
+        /// and uniqueness is guaranteed only until the system is next restarted.
+        /// </para>
+        /// <para>
+        /// The allocated <see cref="LUID"/> is guaranteed to be nonzero if this function succeeds.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateLocallyUniqueId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AllocateLocallyUniqueId([Out] out LUID Luid);
 
         /// <summary>
         /// <para>
@@ -377,6 +411,107 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDynamicTimeZoneInformation", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD EnumDynamicTimeZoneInformation([In] DWORD dwIndex, [Out] out DYNAMIC_TIME_ZONE_INFORMATION lpTimeZoneInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current hardware profile for the local computer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcurrenthwprofilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpHwProfileInfo">
+        /// A pointer to an <see cref="HW_PROFILE_INFO"/> structure that receives information about the current hardware profile.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="GetCurrentHwProfile"/> function retrieves the display name
+        /// and globally unique identifier (GUID) string for the hardware profile.
+        /// The function also retrieves the reported docking state for portable computers with docking stations.
+        /// </para>
+        /// <para>
+        /// The system generates a GUID for each hardware profile and stores it as a string in the registry.
+        /// You can use <see cref="GetCurrentHwProfile"/> to retrieve the GUID string to use as a registry subkey
+        /// under your application's configuration settings key in <see cref="HKEY_CURRENT_USER"/>.
+        /// This enables you to store each user's settings for each hardware profile.
+        /// For example, the Colors control panel application could use the subkey to store each user's color preferences
+        /// for different hardware profiles, such as profiles for the docked and undocked states.
+        /// Applications that use this functionality can check the current hardware profile
+        /// when they start up, and update their settings accordingly.
+        /// </para>
+        /// <para>
+        /// Applications can also update their settings when a system device message,
+        /// such as <see cref="DBT_CONFIGCHANGED"/>, indicates that the hardware profile has changed.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentHwProfileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCurrentHwProfile([Out] out HW_PROFILE_INFO lpHwProfileInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the name of the user associated with the current thread.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="GetUserNameEx"/> function to retrieve the user name in a specified format.
+        /// Additional information is provided by the <see cref="IADsADSystemInfo"/> interface.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getusernamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer to receive the user's logon name.
+        /// If this buffer is not large enough to contain the entire user name, the function fails.
+        /// A buffer size of <c>(UNLEN + 1)</c> characters will hold the maximum length user name including the terminating null character.
+        /// <see cref="UNLEN"/> is defined in Lmcons.h.
+        /// </param>
+        /// <param name="pcbBuffer">
+        /// <para>
+        /// On input, this variable specifies the size of the <paramref name="lpBuffer"/> buffer, in <c>TCHAR</c>s.
+        /// On output, the variable receives the number of <c>TCHAR</c>s copied to the buffer, including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpBuffer"/> is too small,
+        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// This parameter receives the required buffer size, including the terminating null character.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value,
+        /// and the variable pointed to by <paramref name="pcbBuffer"/> contains the number of <c>TCHAR</c>s
+        /// copied to the buffer specified by <paramref name="lpBuffer"/>, including the terminating null character.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the current thread is impersonating another client,
+        /// the <see cref="GetUserName"/> function returns the user name of the client that the thread is impersonating.
+        /// </para>
+        /// <para>
+        /// If <see cref="GetUserName"/> is called from a process that is running under the "NETWORK SERVICE" account,
+        /// the string returned in <paramref name="lpBuffer"/> may be different depending on the version of Windows.
+        /// On Windows XP, the "NETWORK SERVICE" string is returned.
+        /// On Windows Vista, the “&lt;HOSTNAME&gt;$” string is returned.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetUserName([In] LPWSTR lpBuffer, [In][Out] ref DWORD pcbBuffer);
 
         /// <summary>
         /// <para>

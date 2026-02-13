@@ -3,7 +3,7 @@
     /// <summary>
     /// Logical color space gamut mappings
     /// </summary>
-    public enum LogicalColorSpaceGamutMappings : uint
+    public enum LCSGAMUTMATCH : uint
     {
         /// <summary>
         /// LCS_GM_ABS_COLORIMETRIC

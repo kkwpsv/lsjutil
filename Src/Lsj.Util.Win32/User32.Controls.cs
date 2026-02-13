@@ -495,11 +495,6 @@ namespace Lsj.Util.Win32
         /// The list displays short file names (the 8.3 form).
         /// You can use the <see cref="SHGetFileInfo"/> or <see cref="GetFullPathName"/> functions to get the corresponding long file name.
         /// </para>
-        /// <para>
-        /// Windows 95 or later:
-        /// <see cref="DlgDirListComboBox"/> is supported by the Microsoft Layer for Unicode.
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
@@ -562,11 +557,6 @@ namespace Lsj.Util.Win32
         /// Failure to do so could lead to a buffer overflow.
         /// You should review Security Considerations: Microsoft Windows Controls before continuing.
         /// </para>
-        /// <para>
-        /// Windows 95 or later:
-        /// <see cref="DlgDirSelectComboBoxEx"/> is supported by the Microsoft Layer for Unicode (MSLU).
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
-        /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
@@ -617,10 +607,6 @@ namespace Lsj.Util.Win32
         /// The function does not allow more than one filename to be returned from a list box.
         /// The list box must not be a multiple-selection list box.
         /// If it is, this function does not return a zero value and <paramref name="lpString"/> remains unchanged.
-        /// </para>
-        /// <para>
-        /// Windows 95 or later: <see cref="DlgDirSelectEx"/> is supported by the Microsoft Layer for Unicode.
-        /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </para>
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]

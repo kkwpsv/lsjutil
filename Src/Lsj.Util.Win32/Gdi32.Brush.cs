@@ -424,6 +424,18 @@ namespace Lsj.Util.Win32
         public static extern HBRUSH CreatePatternBrush([In] HBITMAP hbm);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hdc"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="ptl"></param>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FixBrushOrgEx", ExactSpelling = true)]
+        public static extern HBRUSH FixBrushOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT ptl);
+
+        /// <summary>
         /// <para>
         /// The <see cref="GetBrushOrgEx"/> function retrieves the current brush origin for the specified device context.
         /// This function replaces the GetBrushOrg function.

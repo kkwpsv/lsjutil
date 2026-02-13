@@ -3274,7 +3274,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested,
-            [In] in SECURITY_DESCRIPTOR pSID, [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
+            [In] PSECURITY_DESCRIPTOR pSID, [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
 
         /// <summary>
         /// <para>
@@ -4648,7 +4648,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested, [In] in SECURITY_DESCRIPTOR pSID);
+        public static extern BOOL SetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested, [In] PSECURITY_DESCRIPTOR pSID);
 
         /// <summary>
         /// <para>

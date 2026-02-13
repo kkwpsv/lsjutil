@@ -6,6 +6,7 @@ using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.DWORD;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AceFlags;
 using static Lsj.Util.Win32.Enums.AceTypes;
@@ -26,7 +27,7 @@ using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
-    partial class Advapi32
+    public partial class Advapi32
     {
         /// <summary>
         /// <para>
@@ -1000,6 +1001,95 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AddAce"/> function adds one or more access control entries (ACEs) to a specified access control list (ACL).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addace"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pAcl">
+        /// A pointer to an ACL. This function adds an ACE to this ACL.
+        /// </param>
+        /// <param name="dwAceRevision">
+        /// <para>
+        /// Specifies the revision level of the ACL being modified.
+        /// </para>
+        /// <para>
+        /// This value can be <see cref="ACL_REVISION"/> or <see cref="ACL_REVISION_DS"/>.
+        /// Use <see cref="ACL_REVISION_DS"/> if the ACL contains object-specific ACEs.
+        /// This value must be compatible with the <see cref="ACE_HEADER.AceType"/> field of all ACEs in <paramref name="pAceList"/>.
+        /// Otherwise, the function will fail and set the last error to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// </param>
+        /// <param name="dwStartingAceIndex">
+        /// Specifies the position in the ACL's list of ACEs at which to add new ACEs.
+        /// A value of zero inserts the ACEs at the beginning of the list.
+        /// A value of <see cref="MAXDWORD"/> appends the ACEs to the end of the list.
+        /// </param>
+        /// <param name="pAceList">
+        /// A pointer to a list of one or more ACEs to be added to the specified ACL.
+        /// The ACEs in the list must be stored contiguously.
+        /// </param>
+        /// <param name="nAceListLength">
+        /// Specifies the size, in bytes, of the input buffer pointed to by the <paramref name="pAceList"/> parameter.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>. The following are possible error values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// </term>
+        /// <term>
+        /// The new ACE does not fit into the ACL. A larger ACL buffer is required.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The specified ACL is not properly formed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// <term>
+        /// The ACE was successfully added.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Applications frequently use the <see cref="FindFirstFreeAce"/> and <see cref="GetAce"/> functions
+        /// when using the <see cref="AddAce"/> function to manipulate an ACL.
+        /// In addition, the <see cref="ACL_SIZE_INFORMATION"/> structure retrieved by the <see cref="GetAclInformation"/> function
+        /// contains the size of the ACL and the number of ACEs it contains.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAce", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddAce([In][Out] ref ACL pAcl, [In] DWORD dwAceRevision, [In] DWORD dwStartingAceIndex,
+            [In] LPVOID pAceList, [In] DWORD nAceListLength);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="AddAccessAllowedAce"/> function adds an access-allowed access control entry (ACE) to an access control list (ACL).
         /// The access is granted to a specified security identifier (SID).
         /// </para>
@@ -1935,6 +2025,189 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AddAuditAccessAce"/> function adds a system-audit access control entry (ACE) to a system access control list (ACL).
+        /// The access of a specified security identifier (SID) is audited.
+        /// </para>
+        /// <para>
+        /// To control whether the new ACE can be inherited by child objects, use the <see cref="AddAuditAccessAceEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addauditaccessace"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pAcl">
+        /// A pointer to an ACL.
+        /// This function adds a system-audit ACE to this ACL.
+        /// The ACE is in the form of a <see cref="SYSTEM_AUDIT_ACE"/> structure.
+        /// </param>
+        /// <param name="dwAceRevision">
+        /// <para>
+        /// Specifies the revision level of the ACL being modified.
+        /// </para>
+        /// <para>
+        /// This value can be <see cref="ACL_REVISION"/> or <see cref="ACL_REVISION_DS"/>.
+        /// Use <see cref="ACL_REVISION_DS"/> if the ACL contains object-specific ACEs.
+        /// </para>
+        /// </param>
+        /// <param name="dwAccessMask">
+        /// Specifies the mask of access rights to be audited for the specified SID.
+        /// </param>
+        /// <param name="pSid">
+        /// A pointer to the SID representing the process whose access is being audited.
+        /// </param>
+        /// <param name="bAuditSuccess">
+        /// Specifies whether successful access attempts are to be audited.
+        /// Set this flag to <see cref="TRUE"/> to enable auditing; otherwise, set it to <see cref="FALSE"/>.
+        /// </param>
+        /// <param name="bAuditFailure">
+        /// Specifies whether unsuccessful access attempts are to be audited.
+        /// Set this flag to <see cref="TRUE"/> to enable auditing; otherwise, set it to <see cref="FALSE"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following are possible error values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ALLOTTED_SPACE_EXCEEDED"/>
+        /// </term>
+        /// <term>
+        /// The new ACE does not fit into the ACL. A larger ACL buffer is required.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_ACL"/>
+        /// </term>
+        /// <term>
+        /// The specified ACL is not properly formed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_SID"/>
+        /// </term>
+        /// <term>
+        /// The specified SID is not structurally valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_REVISION_MISMATCH"/>
+        /// </term>
+        /// <term>
+        /// The specified revision is not known or is incompatible with that of the ACL.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// <term>
+        /// The ACE was successfully added.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ACE_HEADER"/> structure placed in the ACE by the <see cref="AddAuditAccessAce"/> function
+        /// specifies a type and size, but provides no ACE flags.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAuditAccessAce", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddAuditAccessAce([In] in ACL pAcl, [In] DWORD dwAceRevision, [In] DWORD dwAccessMask,
+            [In] PSID pSid, [In] BOOL bAuditSuccess, [In] BOOL bAuditFailure);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AreAllAccessesGranted"/> function checks whether a set of requested access rights has been granted.
+        /// The access rights are represented as bit flags in an access mask.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-areallaccessesgranted"/>
+        /// </para>
+        /// </summary>
+        /// <param name="GrantedAccess">
+        /// An access mask that specifies the access rights that have been granted.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// An access mask that specifies the access rights that have been requested.
+        /// This mask must have been mapped from generic to specific and standard access rights,
+        /// usually by calling the <see cref="MapGenericMask"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If all requested access rights have been granted, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If not all requested access rights have been granted, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AreAllAccessesGranted"/> function is commonly used by a server application
+        /// to check the access rights of a client attempting to gain access to an object.
+        /// When the bits set in the <paramref name="DesiredAccess"/> parameter
+        /// match the bits set in the <paramref name="GrantedAccess"/> parameter,
+        /// all requested rights have been granted.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreAllAccessesGranted", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AreAllAccessesGranted([In] DWORD GrantedAccess, [In] DWORD DesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AreAnyAccessesGranted"/> function tests whether any of a set of requested access rights has been granted.
+        /// The access rights are represented as bit flags in an access mask.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-areanyaccessesgranted"/>
+        /// </para>
+        /// </summary>
+        /// <param name="GrantedAccess">
+        /// Specifies the granted access mask.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Specifies the access mask to be requested.
+        /// This mask must have been mapped from generic to specific and standard access rights,
+        /// usually by calling the <see cref="MapGenericMask"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If any of the requested access rights have been granted, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If none of the requested access rights have been granted, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AreAnyAccessesGranted"/> function is often used by a server application
+        /// to check the access rights of a client attempting to gain access to an object.
+        /// When any of the bits set in the <paramref name="DesiredAccess"/> parameter
+        /// match the bits set in the <paramref name="GrantedAccess"/> parameter,
+        /// at least one of the requested access rights has been granted.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreAnyAccessesGranted", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AreAnyAccessesGranted([In] DWORD GrantedAccess, [In] DWORD DesiredAccess);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ConvertSecurityDescriptorToStringSecurityDescriptor"/> function converts a security descriptor to a string format.
         /// You can use the string format to store or transmit the security descriptor.
         /// </para>
@@ -2044,8 +2317,9 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertSecurityDescriptorToStringSecurityDescriptorW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ConvertSecurityDescriptorToStringSecurityDescriptor([In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] DWORD RequestedStringSDRevision,
-            [In] SECURITY_INFORMATION SecurityInformation, [Out] out LPWSTR StringSecurityDescriptor, [Out] out ULONG StringSecurityDescriptorLen);
+        public static extern BOOL ConvertSecurityDescriptorToStringSecurityDescriptor([In] PSECURITY_DESCRIPTOR SecurityDescriptor,
+            [In] DWORD RequestedStringSDRevision, [In] SECURITY_INFORMATION SecurityInformation,
+            [Out] out LPWSTR StringSecurityDescriptor, [Out] out ULONG StringSecurityDescriptorLen);
 
         /// <summary>
         /// <para>
@@ -2128,8 +2402,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertStringSecurityDescriptorToSecurityDescriptorW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ConvertStringSecurityDescriptorToSecurityDescriptor([In] LPCWSTR StringSecurityDescriptor, [In] DWORD StringSDRevision,
-            [Out] out PSECURITY_DESCRIPTOR SecurityDescriptor, [Out] out ULONG SecurityDescriptorSize);
+        public static extern BOOL ConvertStringSecurityDescriptorToSecurityDescriptor([In] LPCWSTR StringSecurityDescriptor,
+            [In] DWORD StringSDRevision, [Out] out PSECURITY_DESCRIPTOR SecurityDescriptor, [Out] out ULONG SecurityDescriptorSize);
 
         /// <summary>
         /// <para>
@@ -2817,6 +3091,346 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetFileSecurity"/> function obtains specified information about the security of a file or directory.
+        /// The information obtained is constrained by the caller's access rights and privileges.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetNamedSecurityInfo"/> function provides functionality
+        /// similar to <see cref="GetFileSecurity"/> for files as well as other types of objects.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getfilesecurityw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// A pointer to a null-terminated string that specifies the file or directory for which security information is retrieved.
+        /// </param>
+        /// <param name="RequestedInformation">
+        /// A <see cref="SECURITY_INFORMATION"/> value that identifies the security information being requested.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a buffer that receives a copy of the security descriptor of the object
+        /// specified by the <paramref name="lpFileName"/> parameter.
+        /// The calling process must have permission to view the specified aspects of the object's security status.
+        /// The <see cref="SECURITY_DESCRIPTOR"/> structure is returned in self-relative security descriptor format.
+        /// </param>
+        /// <param name="nLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="pSecurityDescriptor"/> parameter.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to the variable that receives the number of bytes necessary to store the complete security descriptor.
+        /// If the returned number of bytes is less than or equal to <paramref name="nLength"/>,
+        /// the entire security descriptor is returned in the output buffer; otherwise, none of the descriptor is returned.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To read the owner, group, or DACL from the security descriptor for the specified file or directory,
+        /// the DACL for the file or directory must grant <see cref="READ_CONTROL"/> access to the caller,
+        /// or the caller must be the owner of the file or directory.
+        /// </para>
+        /// <para>
+        /// To read the SACL of a file or directory,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSecurityW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetFileSecurity([In] LPCWSTR lpFileName, [In] SECURITY_INFORMATION RequestedInformation,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] DWORD nLength, [Out] DWORD lpnLengthNeeded);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetKernelObjectSecurity"/> function retrieves a copy of the security descriptor that protects a kernel object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getkernelobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// A handle to a kernel object.
+        /// </param>
+        /// <param name="RequestedInformation">
+        /// Specifies a <see cref="SECURITY_INFORMATION"/> value that identifies the security information being requested.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a buffer the function fills with a copy of the security descriptor of the specified object.
+        /// The calling process must have the right to view the specified aspects of the object's security status.
+        /// The <see cref="SECURITY_DESCRIPTOR"/> structure is returned in self-relative format.
+        /// </param>
+        /// <param name="nLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="pSecurityDescriptor"/> parameter.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to a variable that receives the number of bytes required for the buffer
+        /// pointed to by the <paramref name="pSecurityDescriptor"/> parameter.
+        /// If this variable's value is greater than the value of the <paramref name="nLength"/> parameter
+        /// when the function returns, none of the security descriptor is copied to the buffer.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To read the owner, group, or DACL from the kernel object's security descriptor,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To get <see cref="READ_CONTROL"/> access, the caller must be the owner of the object or the object's DACL must grant the access.
+        /// </para>
+        /// <para>
+        /// To read the SACL from the security descriptor,
+        /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
+        /// The proper way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKernelObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetKernelObjectSecurity([In] HANDLE Handle, [In] SECURITY_INFORMATION RequestedInformation,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] DWORD nLength, [Out] DWORD lpnLengthNeeded);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetNamedSecurityInfo"/> function retrieves a copy of the security descriptor for an object specified by name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-getnamedsecurityinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pObjectName">
+        /// A pointer to a null-terminated string that specifies the name of the object from which to retrieve security information.
+        /// For descriptions of the string formats for the different object types, see <see cref="SE_OBJECT_TYPE"/>.
+        /// </param>
+        /// <param name="ObjectType">
+        /// Specifies a value from the <see cref="SE_OBJECT_TYPE"/> enumeration
+        /// that indicates the type of object named by the <paramref name="pObjectName"/> parameter.
+        /// </param>
+        /// <param name="SecurityInfo">
+        /// A set of bit flags that indicate the type of security information to retrieve.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ppsidOwner">
+        /// A pointer to a variable that receives a pointer to the owner SID in the security descriptor
+        /// returned in <paramref name="ppSecurityDescriptor"/> or <see cref="NULL"/> if the security descriptor has no owner SID.
+        /// The returned pointer is valid only if you set the <see cref="OWNER_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{PSID}"/> if you do not need the owner SID.
+        /// </param>
+        /// <param name="ppsidGroup">
+        /// A pointer to a variable that receives a pointer to the primary group SID in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no group SID.
+        /// The returned pointer is valid only if you set the <see cref="GROUP_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{PSID}"/> if you do not need the group SID.
+        /// </param>
+        /// <param name="ppDacl">
+        /// A pointer to a variable that receives a pointer to the DACL in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no DACL.
+        /// The returned pointer is valid only if you set the <see cref="DACL_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{T}"/> if you do not need the DACL.
+        /// </param>
+        /// <param name="ppSacl">
+        /// A pointer to a variable that receives a pointer to the SACL in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no SACL.
+        /// The returned pointer is valid only if you set the <see cref="SACL_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{T}"/> if you do not need the SACL.
+        /// </param>
+        /// <param name="ppSecurityDescriptor">
+        /// <para>
+        /// A pointer to a variable that receives a pointer to the security descriptor of the object.
+        /// When you have finished using the pointer, free the returned buffer by calling the <see cref="LocalFree"/> function.
+        /// </para>
+        /// <para>
+        /// This parameter is required if any one of the <paramref name="ppsidOwner"/>, <paramref name="ppsidGroup"/>,
+        /// <paramref name="ppDacl"/>, or <paramref name="ppSacl"/> parameters is not <see cref="NullRef{T}"/>.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a nonzero error code defined in WinError.h.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If any of the <paramref name="ppsidOwner"/>, <paramref name="ppsidGroup"/>, <paramref name="ppDacl"/>,
+        /// or <paramref name="ppSacl"/> parameters are non-<see cref="NullRef{T}"/>,
+        /// and the <paramref name="SecurityInfo"/> parameter specifies that they be retrieved from the object,
+        /// those parameters will point to the corresponding parameters
+        /// in the security descriptor returned in <paramref name="ppSecurityDescriptor"/>.
+        /// If the security descriptor does not contain the requested information,
+        /// the corresponding parameter will be set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// To read the owner, group, or DACL from the object's security descriptor,
+        /// the object's DACL must grant <see cref="READ_CONTROL"/> access to the caller,
+        /// or the caller must be the owner of the object.
+        /// </para>
+        /// <para>
+        /// To read the system access control list of the object,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// For information about the security implications of enabling privileges, see Running with Special Privileges.
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="GetNamedSecurityInfo"/> function with the following types of objects:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Local or remote files or directories on an NTFS file system
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote printers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote Windows services
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Network shares
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Registry keys
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphores, events, mutexes, and waitable timers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// File-mapping objects
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Directory service objects
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This function does not handle race conditions.
+        /// If your thread calls this function at the approximate time
+        /// that another thread changes the object's security descriptor, then this function could fail.
+        /// </para>
+        /// <para>
+        /// This function transfers information in plaintext.
+        /// The information transferred by this function is signed
+        /// unless signing has been turned off for the system, but no encryption is performed.
+        /// </para>
+        /// <para>
+        /// For more information about controlling access to objects through user accounts, group accounts, or logon sessions,
+        /// see How DACLs Control Access to an Object.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedSecurityInfoW", ExactSpelling = true)]
+        public static extern DWORD GetNamedSecurityInfo([In] LPCWSTR pObjectName, [In] SE_OBJECT_TYPE ObjectType,
+            [In] SECURITY_INFORMATION SecurityInfo, [Out] out PSID ppsidOwner, [Out] out PSID ppsidGroup,
+            [Out] out P<ACL> ppDacl, [Out] out P<ACL> ppSacl, [Out] out PSECURITY_DESCRIPTOR ppSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetPrivateObjectSecurity"/> function retrieves information from a private object's security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-getprivateobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ObjectDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// This is the security descriptor to be queried.
+        /// </param>
+        /// <param name="SecurityInformation">
+        /// A set of bit flags that indicate the parts of the security descriptor to retrieve.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ResultantDescriptor">
+        /// A pointer to a buffer that receives a copy of the requested information from the specified security descriptor.
+        /// The <see cref="SECURITY_DESCRIPTOR"/> structure is returned in self-relative format.
+        /// </param>
+        /// <param name="DescriptorLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="ResultantDescriptor"/> parameter.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable the function sets to zero if the descriptor is copied successfully.
+        /// If the buffer is too small for the security descriptor, this variable receives the number of bytes required.
+        /// If this variable's value is greater than the value of the <paramref name="DescriptorLength"/> parameter when the function returns,
+        /// the function returns <see cref="FALSE"/> and none of the security descriptor is copied to the buffer.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is intended for use by resource managers only.
+        /// To implement the standard access control semantics for updating security descriptors,
+        /// a resource manager should verify that the following conditions are met
+        /// before calling <see cref="GetPrivateObjectSecurity"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the object's owner is being set, the calling process must have
+        /// either <see cref="WRITE_OWNER"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's discretionary access control list is being set,
+        /// the calling process must have either <see cref="WRITE_DAC"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's system access control list is being set,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the preceding conditions are not met, a call to this function does not fail,
+        /// however, standard access policy is not enforced.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPrivateObjectSecurity([In] PSECURITY_DESCRIPTOR ObjectDescriptor, [In] SECURITY_INFORMATION SecurityInformation,
+            [In] PSECURITY_DESCRIPTOR ResultantDescriptor, [In] DWORD DescriptorLength, [Out] DWORD ReturnLength);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetSecurityDescriptorControl"/> function retrieves a security descriptor control and revision information.
         /// </para>
         /// <para>
@@ -2846,6 +3460,145 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
             [Out] out SECURITY_DESCRIPTOR_CONTROL pControl, [Out] out DWORD lpdwRevision);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetSecurityInfo"/> function retrieves a copy of the security descriptor for an object specified by a handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-getsecurityinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="handle">
+        /// A handle to the object from which to retrieve security information.
+        /// </param>
+        /// <param name="ObjectType">
+        /// <see cref="SE_OBJECT_TYPE"/> enumeration value that indicates the type of object.
+        /// </param>
+        /// <param name="SecurityInfo">
+        /// A set of bit flags that indicate the type of security information to retrieve.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ppsidOwner">
+        /// A pointer to a variable that receives a pointer to the owner SID in the security descriptor
+        /// returned in <paramref name="ppSecurityDescriptor"/> or <see cref="NULL"/> if the security descriptor has no owner SID.
+        /// The returned pointer is valid only if you set the <see cref="OWNER_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{PSID}"/> if you do not need the owner SID.
+        /// </param>
+        /// <param name="ppsidGroup">
+        /// A pointer to a variable that receives a pointer to the primary group SID in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no group SID.
+        /// The returned pointer is valid only if you set the <see cref="GROUP_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{PSID}"/> if you do not need the group SID.
+        /// </param>
+        /// <param name="ppDacl">
+        /// A pointer to a variable that receives a pointer to the DACL in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no DACL.
+        /// The returned pointer is valid only if you set the <see cref="DACL_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{T}"/> if you do not need the DACL.
+        /// </param>
+        /// <param name="ppSacl">
+        /// A pointer to a variable that receives a pointer to the SACL in the returned security descriptor
+        /// or <see cref="NULL"/> if the security descriptor has no SACL.
+        /// The returned pointer is valid only if you set the <see cref="SACL_SECURITY_INFORMATION"/> flag.
+        /// Also, this parameter can be <see cref="NullRef{T}"/> if you do not need the SACL.
+        /// </param>
+        /// <param name="ppSecurityDescriptor">
+        /// <para>
+        /// A pointer to a variable that receives a pointer to the security descriptor of the object.
+        /// When you have finished using the pointer, free the returned buffer by calling the <see cref="LocalFree"/> function.
+        /// </para>
+        /// <para>
+        /// This parameter is required if any one of the <paramref name="ppsidOwner"/>, <paramref name="ppsidGroup"/>,
+        /// <paramref name="ppDacl"/>, or <paramref name="ppSacl"/> parameters is not <see cref="NullRef{T}"/>.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a nonzero error code defined in WinError.h.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the <paramref name="ppsidOwner"/>, <paramref name="ppsidGroup"/>,
+        /// <paramref name="ppDacl"/>, and <paramref name="ppSacl"/> parameters are non-<see cref="NULL"/>,
+        /// and the <paramref name="SecurityInfo"/> parameter specifies that they be retrieved from the object,
+        /// those parameters will point to the corresponding parameters
+        /// in the security descriptor returned in <paramref name="ppSecurityDescriptor"/>.
+        /// </para>
+        /// <para>
+        /// To read the owner, group, or DACL from the object's security descriptor,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To get <see cref="READ_CONTROL"/> access, the caller must be the owner of the object or the object's DACL must grant the access.
+        /// </para>
+        /// <para>
+        /// To read the SACL from the security descriptor, the calling process
+        /// must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
+        /// The proper way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// For information about the security implications of enabling privileges, see Running with Special Privileges.
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="GetSecurityInfo"/> function with the following types of objects:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Local or remote files or directories on an NTFS file system
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote printers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote Windows services
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Network shares
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Registry keys
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphores, events, mutexes, and waitable timers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// File-mapping objects
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Directory service objects
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This function does not handle race conditions.
+        /// If your thread calls this function at the approximate time
+        /// that another thread changes the object's security descriptor, then this function could fail.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSecurityInfo", ExactSpelling = true)]
+        public static extern DWORD GetSecurityInfo([In] HANDLE handle, [In] SE_OBJECT_TYPE ObjectType,
+            [In] SECURITY_INFORMATION SecurityInfo, [Out] out PSID ppsidOwner, [Out] out PSID ppsidGroup,
+            [Out] out P<ACL> ppDacl, [Out] out P<ACL> ppSacl, [Out] out PSECURITY_DESCRIPTOR ppSecurityDescriptor);
 
         /// <summary>
         /// <para>
@@ -3020,7 +3773,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectOpenAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ObjectOpenAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
-            [In] LPCWSTR ObjectName, [In] in SECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,
+            [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,
             [In] ACCESS_MASK GrantedAccess, [In] PPRIVILEGE_SET Privileges, [In] BOOL ObjectCreation, [In] BOOL AccessGranted, [Out] out BOOL GenerateOnClose);
     }
 }

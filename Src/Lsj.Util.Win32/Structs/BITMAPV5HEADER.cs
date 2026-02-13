@@ -2,8 +2,8 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BitmapCompressions;
-using static Lsj.Util.Win32.Enums.LogicalColorSpaceGamutMappings;
-using static Lsj.Util.Win32.Enums.LogicalColorSpaces;
+using static Lsj.Util.Win32.Enums.LCSGAMUTMATCH;
+using static Lsj.Util.Win32.Enums.LCSCSTYPE;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Constants;
 
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32.Structs
         /// See the <see cref="LOGCOLORSPACE"/> structure for information that defines a logical color space.
         /// </para>
         /// </summary>
-        public LogicalColorSpaces bV5CSType;
+        public LCSCSTYPE bV5CSType;
 
         /// <summary>
         /// A <see cref="CIEXYZTRIPLE"/> structure that specifies the x, y, and z coordinates of the three colors
@@ -530,7 +530,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public LogicalColorSpaceGamutMappings bV5Intent;
+        public LCSGAMUTMATCH bV5Intent;
 
         /// <summary>
         /// The offset, in bytes, from the beginning of the <see cref="BITMAPV5HEADER"/> structure to the start of the profile data.
