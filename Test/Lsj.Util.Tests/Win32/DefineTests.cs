@@ -446,6 +446,58 @@ namespace Lsj.Util.Tests.Win32
             "VRipOutput",                                       // undocument
             "VTagOutput",                                       // undocument
             "Win32PoolAllocationStats",                         // undocument
+
+            // XP
+            "AllowForegroundActivation",                        // undocument
+            "BaseCheckAppcompatCache",                          // undocument
+            "BaseCleanupAppcompatCache",                        // undocument
+            "BaseCleanupAppcompatCacheSupport",                 // undocument
+            "BaseDumpAppcompatCache",                           // undocument
+            "BaseFlushAppcompatCache",                          // undocument
+            "BaseInitAppcompatCache",                           // undocument
+            "BaseInitAppcompatCacheSupport",                    // undocument
+            "BasepCheckWinSaferRestrictions",                   // undocument
+            "BaseProcessInitPostImport",                        // undocument
+            "BaseQueryModuleData",                              // undocument
+            "BaseUpdateAppcompatCache",                         // undocument
+            "BuildReasonArray",                                 // undocument
+            "CalcMenuBar",                                      // undocument
+            "CreateJobSet",                                     // undocument
+            "CreateNlsSecurityDescriptor",                      // undocument
+            "CreateProcessInternalW",                           // undocument
+            "CreateProcessInternalWSecure",                     // undocument
+            "CreateSocketHandle",                               // undocument
+            "CreateSystemThreads",                              // undocument
+            "CsrBroadcastSystemMessageExW",                     // undocument
+            "DestroyReasons",                                   // undocument
+            "DisplayExitWindowsWarnings",                       // undocument
+            "EnumerateLocalComputerNamesW",                     // undocument
+            "GetCPFileNameFromRegistry",                        // undocument
+            "GetHandleContext",                                 // undocument
+            "GetNumaAvailableMemory",                           // undocument
+            "GetNumaProcessorMap",                              // undocument
+            "GetReasonTitleFromReasonCode",                     // undocument
+            "IsServerSideWindow",                               // undocument
+            "IsValidUILanguage",                                // undocument
+            "IsWindowInDestroy",                                // undocument
+            "LZCloseFile",                                      // undocument
+            "LZCreateFileW",                                    // undocument
+            "MessageBoxTimeoutW",                               // undocument
+            "NumaVirtualQueryNode",                             // undocument
+            "RemoveLocalAlternateComputerNameW",                // undocument
+            "RestoreLastError",                                 // undocument
+            "PaintMenuBar",                                     // undocument
+            "ReasonCodeNeedsBugID",                             // undocument
+            "ReasonCodeNeedsComment",                           // undocument
+            "RecordShutdownReason",                             // undocument
+            "RegisterMessagePumpHook",                          // undocument
+            "RegisterUserApiHook",                              // undocument
+            "SetClientTimeZoneInformation",                     // undocument
+            "SetComPlusPackageInstallStatus",                   // undocument
+            "SetHandleContext",                                 // undocument
+            "SetLocalPrimaryComputerNameW",                     // undocument
+            "UnregisterMessagePumpHook",                        // undocument
+            "UnregisterUserApiHook",                            // undocument
         };
 
         private static readonly List<string> _notImplemntApiList = new List<string>
@@ -586,6 +638,16 @@ namespace Lsj.Util.Tests.Win32
             "LsaSetInformationPolicy",
             "LsaSetTrustedDomainInformation",
             "LsaStorePrivateData",
+            
+            // LZ
+            "LZClose",
+            "LZCopy",
+            "LZDone",
+            "LZInit",
+            "LZOpenFileW",
+            "LZRead",
+            "LZSeek",
+            "LZStart",
         };
 
         [TestMethod]
@@ -593,8 +655,8 @@ namespace Lsj.Util.Tests.Win32
         {
             var apis = ReadFromFiles();
             var toCheckApis = apis.Where(x =>
-                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows2000) ||
-                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.Windows2000) ||
+                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
+                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.WindowsNT40) ||
                 (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.WindowsNT40))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
