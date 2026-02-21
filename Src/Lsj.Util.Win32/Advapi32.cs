@@ -3,6 +3,7 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
@@ -979,6 +980,205 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitiateSystemShutdownEx([In] LPWSTR lpMachineName, [In] LPWSTR lpMessage, [In] DWORD dwTimeout,
             [In] BOOL bForceAppsClosed, [In] BOOL bRebootAfterShutdown, [In] SystemShutdownReasonCodes dwReason);
+
+        /// <summary>
+        /// <para>
+        /// Determines if a buffer is likely to contain a form of Unicode text.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-istextunicode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpv">
+        /// Pointer to the input buffer to examine.
+        /// </param>
+        /// <param name="iSize">
+        /// Size, in bytes, of the input buffer indicated by <paramref name="lpv"/>.
+        /// </param>
+        /// <param name="lpiResult">
+        /// <para>
+        /// On input, pointer to the tests to apply to the input buffer text.
+        /// On output, this parameter receives the results of the specified tests:
+        /// 1 if the contents of the buffer pass a test, 0 for failure.
+        /// Only flags that are set upon input to the function are significant upon output.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpiResult"/> is <see cref="NULL"/>,
+        /// the function uses all available tests to determine if the data in the buffer is likely to be Unicode text.
+        /// </para>
+        /// <para>
+        /// This parameter can be one or more of the following values.
+        /// Values can be combined with binary "OR".
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_ASCII16"/>
+        /// </term>
+        /// <term>
+        /// The text is Unicode, and contains only zero-extended ASCII values/characters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_ASCII16"/>
+        /// </term>
+        /// <term>
+        /// Same as the preceding, except that the Unicode text is byte-reversed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_STATISTICS"/>
+        /// </term>
+        /// <term>
+        /// The text is probably Unicode, with the determination made by applying statistical analysis.
+        /// Absolute certainty is not guaranteed. See the Remarks section.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_STATISTICS"/>
+        /// </term>
+        /// <term>
+        /// Same as the preceding, except that the text that is probably Unicode is byte-reversed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_CONTROLS"/>
+        /// </term>
+        /// <term>
+        /// The text contains Unicode representations of one or more of these nonprinting characters:
+        /// RETURN, LINEFEED, SPACE, CJK_SPACE, TAB.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_CONTROLS"/>
+        /// </term>
+        /// <term>
+        /// Same as the preceding, except that the Unicode characters are byte-reversed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_BUFFER_TOO_SMALL"/>
+        /// </term>
+        /// <term>
+        /// There are too few characters in the buffer for meaningful analysis (fewer than two bytes).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_SIGNATURE"/>
+        /// </term>
+        /// <term>
+        /// The text contains the Unicode byte-order mark (BOM) 0xFEFF as its first character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_SIGNATURE"/>
+        /// </term>
+        /// <term>
+        /// The text contains the Unicode byte-reversed byte-order mark (Reverse BOM) 0xFFFE as its first character.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_ILLEGAL_CHARS"/>
+        /// </term>
+        /// <term>
+        /// The text contains one of these Unicode-illegal characters:
+        /// embedded Reverse BOM, UNICODE_NUL, CRLF (packed into one word), or 0xFFFF.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_ODD_LENGTH"/>
+        /// </term>
+        /// <term>
+        /// The number of characters in the string is odd.
+        /// A string of odd length cannot (by definition) be Unicode text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_NULL_BYTES"/>
+        /// </term>
+        /// <term>
+        /// The text contains null bytes, which indicate non-ASCII text.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_UNICODE_MASK"/>
+        /// </term>
+        /// <term>
+        /// The value is a combination of <see cref="IS_TEXT_UNICODE_ASCII16"/>, <see cref="IS_TEXT_UNICODE_STATISTICS"/>,
+        /// <see cref="IS_TEXT_UNICODE_CONTROLS"/>, <see cref="IS_TEXT_UNICODE_SIGNATURE"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_MASK"/>
+        /// </term>
+        /// <term>
+        /// The value is a combination of <see cref="IS_TEXT_UNICODE_REVERSE_ASCII16"/>, <see cref="IS_TEXT_UNICODE_REVERSE_STATISTICS"/>,
+        /// <see cref="IS_TEXT_UNICODE_REVERSE_CONTROLS"/>, <see cref="IS_TEXT_UNICODE_REVERSE_SIGNATURE"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_NOT_UNICODE_MASK"/>
+        /// </term>
+        /// <term>
+        /// The value is a combination of <see cref="IS_TEXT_UNICODE_ILLEGAL_CHARS"/>, <see cref="IS_TEXT_UNICODE_ODD_LENGTH"/>,
+        /// and two currently unused bit flags.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="IS_TEXT_UNICODE_NOT_ASCII_MASK"/>
+        /// </term>
+        /// <term>
+        /// The value is a combination of <see cref="IS_TEXT_UNICODE_NULL_BYTES"/> and three currently unused bit flags.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if the data in the buffer passes the specified tests.
+        /// The function returns 0 if the data in the buffer does not pass the specified tests.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function uses various statistical and deterministic methods to make its determination,
+        /// under the control of flags passed in the <paramref name="lpiResult"/> parameter.
+        /// When the function returns, the results of such tests are reported using the same parameter.
+        /// </para>
+        /// <para>
+        /// The <see cref="IS_TEXT_UNICODE_STATISTICS"/> and <see cref="IS_TEXT_UNICODE_REVERSE_STATISTICS"/> tests use statistical analysis.
+        /// These tests are not foolproof.
+        /// The statistical tests assume certain amounts of variation between low and high bytes in a string, and some ASCII strings can slip through.
+        /// For example, if <paramref name="lpv"/> indicates the ASCII string 0x41, 0x0A, 0x0D, 0x1D (A\n\r^Z),
+        /// the string passes the <see cref="IS_TEXT_UNICODE_STATISTICS"/> test, although failure would be preferable.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTextUnicode", ExactSpelling = true)]
+        public static extern BOOL IsTextUnicode([In] IntPtr lpv,  [In] int iSize, [In][Out] ref INT lpiResult);
 
         /// <summary>
         /// <para>

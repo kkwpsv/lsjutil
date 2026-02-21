@@ -3650,6 +3650,109 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="InitializeSecurityDescriptor"/> function initializes a new security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-initializesecuritydescriptor"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that the function initializes.
+        /// </param>
+        /// <param name="dwRevision">
+        /// The revision level to assign to the security descriptor.
+        /// This parameter must be <see cref="SECURITY_DESCRIPTOR_REVISION"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="InitializeSecurityDescriptor"/> function initializes a security descriptor
+        /// in absolute format, rather than self-relative format.
+        /// </para>
+        /// <para>
+        /// The <see cref="InitializeSecurityDescriptor"/> function initializes a security descriptor
+        /// to have no system access control list (SACL), no discretionary access control list (DACL), no owner, no primary group,
+        /// and all control flags set to <see cref="FALSE"/> (<see cref="NULL"/>).
+        /// Thus, except for its revision level, it is empty.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSecurityDescriptor", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitializeSecurityDescriptor([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, DWORD dwRevision);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IsValidAcl"/> function validates an access control list (ACL).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-isvalidacl"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pAcl">
+        /// A pointer to an <see cref="ACL"/> structure validated by this function.
+        /// This value must not be <see cref="NullRef{ACL}"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the ACL is valid, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the ACL is not valid, the function returns zero.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function checks the revision level of the ACL and verifies that the number of access control entries (ACEs)
+        /// specified in the <see cref="ACL.AceCount"/> member of the <see cref="ACL"/> structure
+        /// fits the space specified by the <see cref="ACL.AclSize"/> member of the <see cref="ACL"/> structure.
+        /// </para>
+        /// <para>
+        /// If <paramref name="pAcl"/> is <see cref="NullRef{ACL}"/>, the application will fail with an access violation.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidAcl", ExactSpelling = true)]
+        public static extern BOOL IsValidAcl([In] in ACL pAcl);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IsValidSecurityDescriptor"/> function determines whether the components of a security descriptor are valid.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-isvalidsecuritydescriptor"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that the function validates.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the components of the security descriptor are valid, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If any of the components of the security descriptor are not valid, the return value is zero.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="IsValidSecurityDescriptor"/> function checks the validity of the components that are present in the security descriptor.
+        /// It does not verify whether certain components are present nor does it verify the contents of the individual ACE or ACL.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidSecurityDescriptor", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsValidSecurityDescriptor([In] PSECURITY_DESCRIPTOR pSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ObjectCloseAuditAlarm"/> function generates an audit message in the security event log
         /// when a handle to a private object is deleted. Alarms are not currently supported.
         /// </para>
@@ -3689,6 +3792,45 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectCloseAuditAlarmW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ObjectCloseAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] BOOL GenerateOnClose);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ObjectDeleteAuditAlarm"/> function generates audit messages when an object is deleted.
+        /// Alarms are not currently supported.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectdeleteauditalarmw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SubsystemName">
+        /// A pointer to a null-terminated string specifying the name of the subsystem calling the function.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="HandleId">
+        /// Specifies a unique value representing the client's handle to the object.
+        /// This must be the same value that was passed to the <see cref="AccessCheckAndAuditAlarm"/> or <see cref="ObjectOpenAuditAlarm"/> function.
+        /// </param>
+        /// <param name="GenerateOnClose">
+        /// Specifies a flag set by a call to the <see cref="AccessCheckAndAuditAlarm"/> or <see cref="ObjectOpenAuditAlarm"/> function
+        /// when the object handle is created.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ObjectDeleteAuditAlarm"/> function requires the calling application to have the <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// The test for this privilege is always performed against the primary token of the calling process,
+        /// allowing the calling process to impersonate a client.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectDeleteAuditAlarmW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ObjectDeleteAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] BOOL GenerateOnClose);
 
         /// <summary>
         /// <para>

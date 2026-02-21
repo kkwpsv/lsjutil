@@ -588,6 +588,10 @@ namespace Lsj.Util.Tests.Win32
             "GetTrusteeNameW",
             "GetTrusteeTypeW",
             "InitializeAcl",
+            "LookupAccountNameW",
+            "LookupAccountSidW",
+            "LookupPrivilegeDisplayNameW",
+            "LookupSecurityDescriptorPartsW",
             "MakeAbsoluteSD",
             "MakeSelfRelativeSD",
 
