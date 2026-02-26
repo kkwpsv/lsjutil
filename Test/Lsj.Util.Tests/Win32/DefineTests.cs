@@ -85,6 +85,9 @@ namespace Lsj.Util.Tests.Win32
             "BackupRead",
             "BackupWrite",
             "InitializeSid",
+            "SetNamedSecurityInfo",
+            "SetSecurityInfo",
+            "GetRawInputBuffer",
         };
 
         private static readonly List<string> _skipApiList = new List<string>
@@ -594,7 +597,8 @@ namespace Lsj.Util.Tests.Win32
             "LookupSecurityDescriptorPartsW",
             "MakeAbsoluteSD",
             "MakeSelfRelativeSD",
-
+            "SetAclInformation",
+            "SetEntriesInAclW",
 
             // Crypt
             "CryptAcquireContextW",
@@ -644,6 +648,8 @@ namespace Lsj.Util.Tests.Win32
             "LsaStorePrivateData",
             
             // LZ
+            "CopyLZFile",
+            "GetExpandedNameW",
             "LZClose",
             "LZCopy",
             "LZDone",

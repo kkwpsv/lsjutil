@@ -23,6 +23,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Structs.PRIVILEGE_SET;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
@@ -3917,5 +3918,691 @@ namespace Lsj.Util.Win32
         public static extern BOOL ObjectOpenAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
             [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,
             [In] ACCESS_MASK GrantedAccess, [In] PPRIVILEGE_SET Privileges, [In] BOOL ObjectCreation, [In] BOOL AccessGranted, [Out] out BOOL GenerateOnClose);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ObjectPrivilegeAuditAlarm"/> function generates an audit message in the security event log.
+        /// A protected server can use this function to log attempts by a client
+        /// to use a specified set of privileges with an open handle to a private object.
+        /// Alarms are not currently supported.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-objectprivilegeauditalarmw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SubsystemName">
+        /// A pointer to a null-terminated string specifying the name of the subsystem calling the function.
+        /// This string appears in the audit message.
+        /// </param>
+        /// <param name="HandleId">
+        /// A pointer to a unique value representing the client's handle to the object.
+        /// </param>
+        /// <param name="ClientToken">
+        /// Identifies an access token representing the client that requested the operation.
+        /// This handle must have been obtained by opening the token of a thread impersonating the client.
+        /// The token must be open for <see cref="TOKEN_QUERY"/> access.
+        /// The function uses this token to get the identity of the client for the audit message.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Specifies an access mask indicating the privileged access types being used or whose use is being attempted.
+        /// The access mask can be mapped by the <see cref="MapGenericMask"/> function
+        /// so it does not contain any generic access types.
+        /// </param>
+        /// <param name="Privileges">
+        /// A pointer to a <see cref="PRIVILEGE_SET"/> structure containing the privileges that the client attempted to use.
+        /// The names of the privileges appear in the audit message.
+        /// </param>
+        /// <param name="AccessGranted">
+        /// Indicates whether the client's attempt to use the privileges was successful.
+        /// If this value is <see cref="TRUE"/>, the audit message indicates success.
+        /// If this value is <see cref="FALSE"/>, the audit message indicates failure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="ObjectPrivilegeAuditAlarm"/> function does not check the client's access to the object
+        /// or check the client's access token to determine whether the privileges are held or enabled.
+        /// Typically, you call the <see cref="PrivilegeCheck"/> function to determine
+        /// whether the specified privileges are enabled in the access token, 
+        /// call the <see cref="AccessCheck"/> function to check the client's access to the object,
+        /// and then call <see cref="ObjectPrivilegeAuditAlarm"/> to log the results.
+        /// </para>
+        /// <para>
+        /// The <see cref="ObjectPrivilegeAuditAlarm"/> function requires the calling process
+        /// to have <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// The test for this privilege is always performed against the primary token of the calling process,
+        /// not the impersonation token of the thread.
+        /// This allows the calling process to impersonate a client during the call.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ObjectPrivilegeAuditAlarmW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ObjectPrivilegeAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] HANDLE ClientToken,
+            [In] ACCESS_MASK DesiredAccess, [In] PPRIVILEGE_SET Privileges, [In] BOOL AccessGranted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PrivilegeCheck"/> function determines whether a specified set of privileges are enabled in an access token.
+        /// The <see cref="PrivilegeCheck"/> function is typically called by a server application
+        /// to check the privileges of a client's access token.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-privilegecheck"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ClientToken">
+        /// A handle to an access token representing a client process.
+        /// This handle must have been obtained by opening the token of a thread impersonating the client.
+        /// The token must be open for <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="Privileges">
+        /// <para>
+        /// A pointer to a <see cref="PRIVILEGE_SET"/> structure.
+        /// The <see cref="PRIVILEGE_SET.Privilege"/> member of this structure is an array of <see cref="LUID_AND_ATTRIBUTES"/> structures.
+        /// Before calling <see cref="PrivilegeCheck"/>, use the <see cref="PRIVILEGE_SET.Privilege"/> array to indicate the set of privileges to check.
+        /// Set the <see cref="PRIVILEGE_SET.Control"/> member to <see cref="PRIVILEGE_SET_ALL_NECESSARY"/>
+        /// if all of the privileges must be enabled; or set it to zero if it is sufficient that any one of the privileges be enabled.
+        /// </para>
+        /// <para>
+        /// When <see cref="PrivilegeCheck"/> returns,
+        /// the <see cref="LUID_AND_ATTRIBUTES.Attributes"/> member of each <see cref="LUID_AND_ATTRIBUTES"/> structure
+        /// is set to <see cref="SE_PRIVILEGE_USED_FOR_ACCESS"/> if the corresponding privilege is enabled.
+        /// </para>
+        /// </param>
+        /// <param name="pfResult">
+        /// A pointer to a value the function sets to indicate whether any or all of the specified privileges are enabled in the access token.
+        /// If the <see cref="PRIVILEGE_SET.Control"/> member of the <see cref="PRIVILEGE_SET"/> structure
+        /// specifies <see cref="PRIVILEGE_SET_ALL_NECESSARY"/>, this value is <see cref="TRUE"/> only if all the privileges are enabled;
+        /// otherwise, this value is <see cref="TRUE"/> if any of the privileges are enabled.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// An access token contains a list of the privileges held by the account associated with the token.
+        /// These privileges can be enabled or disabled; most are disabled by default.
+        /// The <see cref="PrivilegeCheck"/> function checks only for enabled privileges.
+        /// To get a list of all the enabled and disabled privileges held by an access token, call the <see cref="GetTokenInformation"/> function.
+        /// To enable or disable a set of privileges in an access token, call the <see cref="AdjustTokenPrivileges"/> function.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrivilegeCheck", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PrivilegeCheck([In] HANDLE ClientToken, [In][Out] ref PPRIVILEGE_SET Privileges, [Out] out BOOL pfResult);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PrivilegedServiceAuditAlarm"/> function generates an audit message in the security event log.
+        /// A protected server can use this function to log attempts by a client to use a specified set of privileges.
+        /// </para>
+        /// <para>
+        /// Alarms are not currently supported.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-privilegedserviceauditalarmw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SubsystemName">
+        /// A pointer to a null-terminated string specifying the name of the subsystem calling the function.
+        /// This information appears in the security event log record.
+        /// </param>
+        /// <param name="ServiceName">
+        /// A pointer to a null-terminated string specifying the name of the privileged subsystem service.
+        /// This information appears in the security event log record.
+        /// </param>
+        /// <param name="ClientToken">
+        /// Identifies an access token representing the client that requested the operation.
+        /// This handle must have been obtained by opening the token of a thread impersonating the client.
+        /// The token must be open for <see cref="TOKEN_QUERY"/> access.
+        /// The function uses this token to get the identity of the client for the security event log record.
+        /// </param>
+        /// <param name="Privileges">
+        /// A pointer to a <see cref="PRIVILEGE_SET"/> structure containing the privileges that the client attempted to use.
+        /// The names of the privileges appear in the security event log record.
+        /// </param>
+        /// <param name="AccessGranted">
+        /// Indicates whether the client's attempt to use the privileges was successful.
+        /// If this value is <see cref="TRUE"/>, the security event log record indicates success.
+        /// If this value is <see cref="FALSE"/>, the security event log record indicates failure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="PrivilegedServiceAuditAlarm"/> function does not check the client's access token
+        /// to determine whether the privileges are held or enabled.
+        /// Typically, you first call the <see cref="PrivilegeCheck"/> function to determine
+        /// whether the specified privileges are enabled in the access token,
+        /// and then call <see cref="PrivilegedServiceAuditAlarm"/> to log the results.
+        /// </para>
+        /// <para>
+        /// The <see cref="PrivilegedServiceAuditAlarm"/> function requires the calling process to have <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// The test for this privilege is always performed against the primary token of the calling process.
+        /// This allows the calling process to impersonate a client during the call.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrivilegedServiceAuditAlarmW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PrivilegedServiceAuditAlarm([In] LPCWSTR SubsystemName, [In] LPCWSTR ServiceName, [In] HANDLE ClientToken,
+            [In] PPRIVILEGE_SET Privileges, [In] BOOL AccessGranted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetFileSecurity"/> function sets the security of a file or directory object.
+        /// </para>
+        /// <para>
+        /// This function is obsolete. Use the <see cref="SetNamedSecurityInfo"/> function instead.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setfilesecurityw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// A pointer to a null-terminated string that specifies the file or directory for which security is set.
+        /// Note that security applied to a directory is not inherited by its children.
+        /// </param>
+        /// <param name="SecurityInformation">
+        /// Specifies a <see cref="SECURITY_INFORMATION"/> structure that identifies the contents of the security descriptor
+        /// pointed to by the <paramref name="pSecurityDescriptor"/> parameter.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="SetFileSecurity"/> function is successful only if the following conditions are met:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the owner of the object is being set, the calling process must have 
+        /// either <see cref="WRITE_OWNER"/> permission or be the owner of the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the discretionary access control list (DACL) of the object is being set,
+        /// the calling process must have either <see cref="WRITE_DAC"/> permission or be the owner of the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the system access control list (SACL) of the object is being set,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileSecurityW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileSecurity([In] LPCWSTR lpFileName, [In] SECURITY_INFORMATION SecurityInformation,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetKernelObjectSecurity"/> function sets the security of a kernel object.
+        /// For example, this can be a process, thread, or event.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function should not be used when setting a security descriptor on file system objects.
+        /// Instead, use the <see cref="SetSecurityInfo"/> or <see cref="SetNamedSecurityInfo"/> functions.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setkernelobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// A handle to a kernel object for which security information is set.
+        /// </param>
+        /// <param name="SecurityInformation">
+        /// A set of bit flags that indicate the type of security information to set.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that contains the new security information.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKernelObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetKernelObjectSecurity([In] HANDLE Handle, [In] SECURITY_INFORMATION SecurityInformation,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetNamedSecurityInfo"/> function sets specified security information in the security descriptor of a specified object.
+        /// The caller identifies the object by name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pObjectName">
+        /// <para>
+        /// A pointer to a null-terminated string that specifies the name of the object for which to set security information.
+        /// This can be the name of a local or remote file or directory on an NTFS file system,
+        /// network share, registry key, semaphore, event, mutex, file mapping, or waitable timer.
+        /// </para>
+        /// <para>
+        /// For descriptions of the string formats for the different object types, see <see cref="SE_OBJECT_TYPE"/>.
+        /// </para>
+        /// </param>
+        /// <param name="ObjectType">
+        /// A value of the <see cref="SE_OBJECT_TYPE"/> enumeration
+        /// that indicates the type of object named by the <paramref name="pObjectName"/> parameter.
+        /// </param>
+        /// <param name="SecurityInfo">
+        /// A set of bit flags that indicate the type of security information to set.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ppsidOwner">
+        /// A pointer to a <see cref="SID"/> structure that identifies the owner of the object.
+        /// If the caller does not have the <c>SeRestorePrivilege</c> constant (see Privilege Constants),
+        /// this <see cref="SID"/> must be contained in the caller's token,
+        /// and must have the <see cref="SE_GROUP_OWNER"/> permission enabled.
+        /// The <paramref name="SecurityInfo"/> parameter must include the <see cref="OWNER_SECURITY_INFORMATION"/> flag.
+        /// To set the owner, the caller must have <see cref="WRITE_OWNER"/> access to the object
+        /// or have the <see cref="SE_TAKE_OWNERSHIP_NAME"/> privilege enabled.
+        /// If you are not setting the owner <see cref="SID"/>, this parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppsidGroup">
+        /// A pointer to a <see cref="SID"/> that identifies the primary group of the object.
+        /// The <paramref name="SecurityInfo"/> parameter must include the <see cref="GROUP_SECURITY_INFORMATION"/> flag.
+        /// If you are not setting the primary group SID, this parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppDacl">
+        /// A pointer to the new DACL for the object.
+        /// The <paramref name="SecurityInfo"/> parameter must include the <see cref="DACL_SECURITY_INFORMATION"/> flag.
+        /// The caller must have <see cref="WRITE_DAC"/> access to the object or be the owner of the object.
+        /// If you are not setting the DACL, this parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="ppSacl">
+        /// <para>
+        /// A pointer to the new SACL for the object.
+        /// The <paramref name="SecurityInfo"/> parameter must include any of the following flags:
+        /// <see cref="SACL_SECURITY_INFORMATION"/>, <see cref="LABEL_SECURITY_INFORMATION"/>, <see cref="ATTRIBUTE_SECURITY_INFORMATION"/>,
+        /// <see cref="SCOPE_SECURITY_INFORMATION"/>, or <see cref="BACKUP_SECURITY_INFORMATION"/>.
+        /// </para>
+        /// <para>
+        /// If setting <see cref="SACL_SECURITY_INFORMATION"/> or <see cref="SCOPE_SECURITY_INFORMATION"/>,
+        /// the caller must have the <see cref="SE_SECURITY_NAME"/> privilege enabled.
+        /// If you are not setting the SACL, this parameter can be <see cref="NULL"/>.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns a nonzero error code defined in WinError.h.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If you are setting the discretionary access control list (DACL) or any elements in the system access control list (SACL) of an object,
+        /// the system automatically propagates any inheritable access control entries (ACEs) to existing child objects,
+        /// according to the rules of inheritance.
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="SetNamedSecurityInfo"/> function with the following types of objects:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Local or remote files or directories on an NTFS
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote printers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote Windows services
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Network shares
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Registry keys
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphores, events, mutexes, and waitable timers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// File-mapping objects
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Directory service objects
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The <see cref="SetNamedSecurityInfo"/> function does not reorder access-allowed or access-denied ACEs based on the preferred order.
+        /// When propagating inheritable ACEs to existing child objects,
+        /// <see cref="SetNamedSecurityInfo"/> puts inherited ACEs in order
+        /// after all of the noninherited ACEs in the DACLs of the child objects.
+        /// </para>
+        /// <para>
+        /// This function transfers information in plaintext.
+        /// The information transferred by this function is signed unless signing has been turned off for the system, but no encryption is performed.
+        /// </para>
+        /// <para>
+        /// When you update access rights of a folder indicated by an UNC path, for example <c>\Test\TestFolder</c>,
+        /// the original inherited ACE is removed and the full volume path is not included.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetNamedSecurityInfoW", ExactSpelling = true)]
+        public static extern DWORD SetNamedSecurityInfo([In] LPCWSTR pObjectName, [In] SE_OBJECT_TYPE ObjectType,
+            [In] SECURITY_INFORMATION SecurityInfo, [In] PSID ppsidOwner, [In] PSID ppsidGroup,
+#if NETFRAMEWORK
+            [In] nint ppDacl, [In] nint ppSacl
+#else
+            [In] P<ACL> ppDacl, [In] P<ACL> ppSacl
+#endif
+            );
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetPrivateObjectSecurity"/> function modifies a private object's security descriptor.
+        /// </para>
+        /// <para>
+        /// To specify whether the protected server supports automatic inheritance of access control entries (ACEs),
+        /// use the <see cref="SetPrivateObjectSecurityEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setprivateobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SecurityInformation">
+        /// Indicates the parts of the security descriptor to set.
+        /// This value can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ModificationDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// The parts of this security descriptor indicated by the <paramref name="SecurityInformation"/> parameter
+        /// are applied to the <paramref name="ObjectsSecurityDescriptor"/> security descriptor.
+        /// </param>
+        /// <param name="ObjectsSecurityDescriptor">
+        /// <para>
+        /// A pointer to a pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// This security descriptor must be in self-relative form.
+        /// The memory for the security descriptor must be allocated from the process heap (<see cref="GetProcessHeap"/>)
+        /// with the <see cref="HeapAlloc"/> function.
+        /// </para>
+        /// <para>
+        /// On input, this is the current security descriptor of the private object.
+        /// The function modifies it to produce the new security descriptor.
+        /// If necessary, the <see cref="SetPrivateObjectSecurity"/> function allocates additional memory to produce a larger security descriptor.
+        /// </para>
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to a <see cref="GENERIC_MAPPING"/> structure that specifies the specific and standard access rights
+        /// that correspond to each of the generic access rights.
+        /// </param>
+        /// <param name="Token">
+        /// A handle to the access token for the client on whose behalf the private object's security is being modified.
+        /// This parameter is required to ensure that the client has provided a legitimate value for a new owner security identifier (SID).
+        /// The token must be open for <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is intended for use by resource managers only.
+        /// To implement the standard access control semantics for updating security descriptors,
+        /// a resource manager should verify that the following conditions are met before calling <see cref="SetPrivateObjectSecurity"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the object's owner is being set, the calling process must have either <see cref="WRITE_OWNER"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's discretionary access control list (DACL) is being set,
+        /// the calling process must have either <see cref="WRITE_DAC"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's system access control list (SACL) is being set,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the preceding conditions are not met,
+        /// a call to this function does not fail; however, standard access policy is not enforced.
+        /// </para>
+        /// <para>
+        /// The process calling this function should not be impersonating a client
+        /// because clients do not typically have appropriate privileges required for underlying token operations.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetPrivateObjectSecurity([In] SECURITY_INFORMATION SecurityInformation, [In] PSECURITY_DESCRIPTOR ModificationDescriptor,
+            [In][Out] ref PSECURITY_DESCRIPTOR ObjectsSecurityDescriptor, [In] in GENERIC_MAPPING GenericMapping, [In] HANDLE Token);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityInfo"/> function sets specified security information in the security descriptor of a specified object.
+        /// The caller identifies the object by a handle.
+        /// </para>
+        /// <para>
+        /// To set the SACL of an object, the caller must have the <see cref="SE_SECURITY_NAME"/> privilege enabled.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setsecurityinfo"/>
+        /// </para>
+        /// </summary>
+        /// <param name="handle">
+        /// A handle to the object for which to set security information.
+        /// </param>
+        /// <param name="ObjectType">
+        /// A member of the <see cref="SE_OBJECT_TYPE"/> enumeration
+        /// that indicates the type of object identified by the <paramref name="handle"/> parameter.
+        /// </param>
+        /// <param name="SecurityInfo">
+        /// A set of bit flags that indicate the type of security information to set.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="psidOwner">
+        /// A pointer to a SID that identifies the owner of the object.
+        /// The SID must be one that can be assigned as the owner SID of a security descriptor.
+        /// The <paramref name="SecurityInfo"/> parameter must include the <see cref="OWNER_SECURITY_INFORMATION"/> flag.
+        /// This parameter can be <see cref="NULL"/> if you are not setting the owner SID.
+        /// </param>
+        /// <param name="psidGroup">
+        /// A pointer to a SID that identifies the primary group of the object.
+        /// The <paramref name="SecurityInfo"/> parameter must include the <see cref="GROUP_SECURITY_INFORMATION"/> flag.
+        /// This parameter can be <see cref="NULL"/> if you are not setting the primary group SID.
+        /// </param>
+        /// <param name="pDacl">
+        /// A pointer to the new DACL for the object.
+        /// This parameter is ignored unless the value of the <paramref name="SecurityInfo"/> parameter
+        /// includes the <see cref="DACL_SECURITY_INFORMATION"/> flag.
+        /// If the value of the <paramref name="SecurityInfo"/> parameter includes the <see cref="DACL_SECURITY_INFORMATION"/> flag
+        /// and the value of this parameter is set to <see cref="NULL"/>, full access to the object is granted to everyone.
+        /// For information about null DACLs, see Creating a DACL.
+        /// </param>
+        /// <param name="pSacl">
+        /// A pointer to the new SACL for the object.
+        /// The <paramref name="SecurityInfo"/> parameter must include any of the following flags:
+        /// <see cref="SACL_SECURITY_INFORMATION"/>, <see cref="LABEL_SECURITY_INFORMATION"/>, <see cref="ATTRIBUTE_SECURITY_INFORMATION"/>,
+        /// <see cref="SCOPE_SECURITY_INFORMATION"/>, or <see cref="BACKUP_SECURITY_INFORMATION"/>.
+        /// If setting <see cref="SACL_SECURITY_INFORMATION"/> or <see cref="SCOPE_SECURITY_INFORMATION"/>,
+        /// the caller must have the SE_SECURITY_NAME privilege enabled.
+        /// This parameter can be <see cref="NULL"/> if you are not setting the SACL.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns a nonzero error code defined in WinError.h.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If you are setting the discretionary access control list (DACL) or any elements in the system access control list (SACL) of an object,
+        /// the system automatically propagates any inheritable access control entries (ACEs) to existing child objects,
+        /// according to the ACE inheritance rules.
+        /// </para>
+        /// <para>
+        /// You can use the <see cref="SetSecurityInfo"/> function with the following types of objects:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Local or remote files or directories on an NTFS
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Named pipes
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote printers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Local or remote Windows services
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Network shares
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Registry keys
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Semaphores, events, mutexes, and waitable timers
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Processes, threads, jobs, and file-mapping objects
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Window stations and desktops
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Directory service objects
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The <see cref="SetSecurityInfo"/> function does not reorder access-allowed or access-denied ACEs based on the preferred order.
+        /// When propagating inheritable ACEs to existing child objects,
+        /// <see cref="SetSecurityInfo"/> puts inherited ACEs in order after all of the noninherited ACEs in the DACLs of the child objects.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// If share access to the children of the object is not available, this function will not propagate unprotected ACEs to the children.
+        /// For example, if a directory is opened with exclusive access,
+        /// the operating system will not propagate unprotected ACEs to the subdirectories or files of that directory
+        /// when the security on the directory is changed.
+        /// </para>
+        /// <para>
+        /// Warning
+        /// </para>
+        /// <para>
+        /// If the supplied <paramref name="handle"/> was opened with an <see cref="ACCESS_MASK"/> value of <see cref="MAXIMUM_ALLOWED"/>,
+        /// then the <see cref="SetSecurityInfo"/> function will not propagate ACEs to children.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityInfo", ExactSpelling = true)]
+        public static extern DWORD SetSecurityInfo([In] HANDLE handle, [In] SE_OBJECT_TYPE ObjectType, [In] SECURITY_INFORMATION SecurityInfo,
+            [In] PSID psidOwner, [In] PSID psidGroup,
+#if NETFRAMEWORK
+            [In] nint pDacl, [In] nint pSacl
+#else
+            [In] P<ACL> pDacl, [In] P<ACL> pSacl
+#endif
+    );
     }
 }

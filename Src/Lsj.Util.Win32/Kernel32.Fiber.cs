@@ -49,6 +49,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts the current fiber into a thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-convertfibertothread"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The function releases the resources allocated by the <see cref="ConvertThreadToFiber"/> function.
+        /// After calling this function, you cannot call any of the fiber functions from the thread.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertFiberToThread", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ConvertFiberToThread();
+
+        /// <summary>
+        /// <para>
         /// Converts the current thread into a fiber.
         /// You must convert a thread into a fiber before you can schedule other fibers.
         /// </para>

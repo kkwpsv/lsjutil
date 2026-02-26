@@ -3067,6 +3067,143 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the type and data for a list of value names associated with an open registry key.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regquerymultiplevaluesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// <para>
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_CLASSES_ROOT"/>
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_CURRENT_CONFIG"/>
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_CURRENT_USER"/>
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_LOCAL_MACHINE"/>
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_PERFORMANCE_DATA"/>
+        /// </para>
+        /// <para>
+        /// <see cref="HKEY_USERS"/>
+        /// </para>
+        /// </param>
+        /// <param name="val_list">
+        /// <para>
+        /// A pointer to an array of <see cref="VALENT"/> structures that describe one or more value entries.
+        /// On input, the <see cref="VALENT.ve_valuename"/> member of each structure
+        /// must contain a pointer to the name of a value to retrieve.
+        /// The function fails if any of the specified values do not exist in the specified key.
+        /// </para>
+        /// <para>
+        /// If the function succeeds, each element of the array contains the information for the specified value.
+        /// </para>
+        /// </param>
+        /// <param name="num_vals">
+        /// The number of elements in the <paramref name="val_list"/> array.
+        /// </param>
+        /// <param name="lpValueBuf">
+        /// <para>
+        /// A pointer to a buffer.
+        /// If the function succeeds, the buffer receives the data for each value.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpValueBuf"/> is <see cref="NULL"/>,
+        /// the value pointed to by the <paramref name="ldwTotsize"/> parameter must be zero,
+        /// in which case the function returns <see cref="ERROR_MORE_DATA"/>
+        /// and <paramref name="ldwTotsize"/> receives the required size of the buffer, in bytes.
+        /// </para>
+        /// </param>
+        /// <param name="ldwTotsize">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpValueBuf"/> parameter, in bytes.
+        /// If the function succeeds, <paramref name="ldwTotsize"/> receives the number of bytes copied to the buffer.
+        /// If the function fails because the buffer is too small, <paramref name="ldwTotsize"/> receives the required size, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is one of the following error codes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_CANTREAD"/>
+        /// </term>
+        /// <term>
+        /// <see cref="RegQueryMultipleValues"/> cannot instantiate or access the provider of the dynamic key.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_MORE_DATA"/>
+        /// </term>
+        /// <term>
+        /// The buffer pointed to by <paramref name="lpValueBuf"/> was too small.
+        /// In this case, <paramref name="ldwTotsize"/> receives the required buffer size.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_TRANSFER_TOO_LONG"/>
+        /// </term>
+        /// <term>
+        /// The total size of the requested data (size of the <paramref name="val_list"/> array + <paramref name="ldwTotsize"/>)
+        /// is more than the system limit of one megabyte.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="RegQueryMultipleValues"/> function allows an application to query one or more values of a static or dynamic key.
+        /// If the target key is a static key, the system provides all of the values in an atomic fashion.
+        /// To prevent excessive serialization, the aggregate data returned by the function cannot exceed one megabyte.
+        /// </para>
+        /// <para>
+        /// If the target key is a dynamic key, its provider must provide all the values in an atomic fashion.
+        /// This means the provider should fill the results buffer synchronously,
+        /// providing a consistent view of all the values in the buffer while avoiding excessive serialization.
+        /// The provider can provide at most one megabyte of total output data during an atomic call to this function.
+        /// </para>
+        /// <para>
+        /// <see cref="RegQueryMultipleValues"/> is supported remotely;
+        /// that is, the <paramref name="hKey"/> parameter passed to the function can refer to a remote computer.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryMultipleValuesW", ExactSpelling = true)]
+        public static extern LSTATUS RegQueryMultipleValues([In] HKEY hKey, [In][Out] VALENT[] val_list, [In] DWORD num_vals,
+            [In] LPWSTR lpValueBuf, [In][Out] ref DWORD ldwTotsize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the data associated with the default or unnamed value of a specified registry key.
         /// The data must be a null-terminated string.
         /// </para>

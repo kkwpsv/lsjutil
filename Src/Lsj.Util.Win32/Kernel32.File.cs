@@ -487,6 +487,113 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the specified name can be used to create a file on a FAT file system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-checknamelegaldos8dot3w"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The file name, in 8.3 format.
+        /// </param>
+        /// <param name="lpOemName">
+        /// A pointer to a buffer that receives the OEM string that corresponds to <paramref name="lpName"/>.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="OemNameSize">
+        /// The size of the <paramref name="lpOemName"/> buffer, in characters.
+        /// If <paramref name="lpOemName"/> is <see cref="NULL"/>, this parameter must be 0 (zero).
+        /// </param>
+        /// <param name="pbNameContainsSpaces">
+        /// Indicates whether or not a name contains spaces.
+        /// This parameter can be <see cref="NullRef{BOOL}"/>.
+        /// If the name is not a valid 8.3 FAT file system name, this parameter is undefined.
+        /// </param>
+        /// <param name="pbNameLegal">
+        /// If the function succeeds, this parameter indicates whether a file name is a valid 8.3 FAT file name
+        /// when the current OEM code page is applied to the file name.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is 0 (zero).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function can be used to determine whether or not a file name
+        /// can be passed to a 16-bit Windows-based application or an MS-DOS-based application.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// See remarks
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// See remarks
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Note that SMB 3.0 does not support short names on shares with continuous availability capability,
+        /// so function will always return zero (fail).
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckNameLegalDOS8Dot3W", ExactSpelling = true)]
+        public static extern BOOL CheckNameLegalDOS8Dot3([In] LPCWSTR lpName, [In] LPSTR lpOemName, [In] DWORD OemNameSize,
+            [Out] BOOL pbNameContainsSpaces, [Out] BOOL pbNameLegal);
+
+        /// <summary>
+        /// <para>
         /// Compares two file times.
         /// </para>
         /// <para>
@@ -17186,6 +17293,152 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFilePointerEx([In] HANDLE hFile, [In] LARGE_INTEGER liDistanceToMove, [Out] out LARGE_INTEGER lpNewFilePointer,
             [In] MoveFilePointerMethods dwMoveMethod);
+
+        /// <summary>
+        /// <para>
+        /// Sets the short name for the specified file. The file must be on an NTFS file system volume.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setfileshortnamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// <para>
+        /// A handle to the file.
+        /// The file must be opened with <see cref="DELETE"/>, and with the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> file attribute.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// Prior to Windows 10, Version 1903, the file must be opened with either the <see cref="GENERIC_ALL"/> access right
+        /// or <see cref="GENERIC_WRITE"/>|<see cref="DELETE"/>, and with the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> file attribute.
+        /// </para>
+        /// </param>
+        /// <param name="lpShortName">
+        /// <para>
+        /// A pointer to a string that specifies the short name for the file.
+        /// </para>
+        /// <para>
+        /// Specifying an empty (zero-length) string will remove the short file name,
+        /// if it exists for the file specified by the <paramref name="hFile"/> parameter.
+        /// If a short file name does not exist, the function will do nothing and return success.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This behavior is not supported.
+        /// The parameter must contain a valid string of one or more characters.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> may return one of the following error codes that are specific to this function:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ALREADY_EXISTS"/>
+        /// </term>
+        /// <term>
+        /// The specified short name is not unique.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// Either the specified file has been opened in case-sensitive mode or the specified short name is invalid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Prior to Windows 10, Version 1903, the <see cref="SE_RESTORE_NAME"/> privilege was required to call this function.
+        /// For more information, see Running with Special Privileges.
+        /// </para>
+        /// <para>
+        /// In Windows 8 and Windows Server 2012, this function is supported by the following technologies:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// No
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// SMB 3.0 does not support short names on shares with continuous availability capability.
+        /// Short names are not recommended on CsvFs.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileShortNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileShortNameW([In] HANDLE hFile, [In] LPCWSTR lpShortName);
 
         /// <summary>
         /// <para>

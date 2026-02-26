@@ -1148,6 +1148,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a specified thread has any I/O requests pending.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadiopendingflag"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Thread">
+        /// A handle to the thread in question.
+        /// This handle must have been created with the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="lpIOIsPending">
+        /// A pointer to a variable which the function sets to <see cref="TRUE"/>
+        /// if the specified thread has one or more I/O requests pending, or to <see cref="FALSE"/> otherwise.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Keep in mind that the I/O status of the specified thread can change rapidly,
+        /// and may already have changed by the time the function returns.
+        /// For example, a pending I/O operation could complete
+        /// between the time the function sets <paramref name="lpIOIsPending"/> and the time it returns.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadIOPendingFlag", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetThreadIOPendingFlag([In] HANDLE Thread, [Out] out BOOL lpIOIsPending);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority value for the specified thread.
         /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
         /// </para>

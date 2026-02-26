@@ -6,7 +6,6 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
@@ -28,6 +27,72 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         public delegate LONG TOP_LEVEL_EXCEPTION_FILTER([In] in EXCEPTION_POINTERS ExceptionInfo);
 
+        /// <summary>
+        /// <para>
+        /// An application-defined function that serves as a vectored exception handler.
+        /// Specify this address when calling the <see cref="AddVectoredExceptionHandler"/> function.
+        /// The <see cref="PVECTORED_EXCEPTION_HANDLER"/> type defines a pointer to this callback function.
+        /// <c>VectoredHandler</c> is a placeholder for the application-defined name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nc-winnt-pvectored_exception_handler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ExceptionInfo">
+        /// A pointer to an <see cref="EXCEPTION_POINTERS"/> structure that receives the exception record.
+        /// </param>
+        /// <returns>
+        /// To return control to the point at which the exception occurred, return <see cref="EXCEPTION_CONTINUE_EXECUTION"/> (0xffffffff).
+        /// To continue the handler search, return <see cref="EXCEPTION_CONTINUE_SEARCH"/> (0x0).
+        /// </returns>
+        /// <remarks>
+        /// The handler should not call functions that acquire synchronization objects or allocate memory, because this can cause problems.
+        /// Typically, the handler will simply access the exception record and return.
+        /// </remarks>
+        public delegate LONG PvectoredExceptionHandler([In] in EXCEPTION_POINTERS ExceptionInfo);
+
+
+        /// <summary>
+        /// <para>
+        /// Registers a vectored exception handler.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-addvectoredexceptionhandler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="First">
+        /// The order in which the handler should be called.
+        /// If the parameter is nonzero, the handler is the first handler to be called.
+        /// If the parameter is zero, the handler is the last handler to be called.
+        /// </param>
+        /// <param name="Handler">
+        /// A pointer to the handler to be called.
+        /// For more information, see <c>VectoredHandler</c>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a handle to the exception handler.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the <paramref name="First"/> parameter is nonzero, the handler is the first handler to be called
+        /// until a subsequent call to <see cref="AddVectoredExceptionHandler"/> is used to specify a different handler as the first handler.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="Handler"/> parameter points to a function in a DLL and that DLL is unloaded, the handler is still registered.
+        /// This can lead to application errors.
+        /// </para>
+        /// <para>
+        /// To unregister the handler, use the <see cref="RemoveVectoredExceptionHandler"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddVectoredExceptionHandler", ExactSpelling = true)]
+        public static extern PVOID AddVectoredExceptionHandler([In] ULONG First, [In] PVECTORED_EXCEPTION_HANDLER Handler);
 
         /// <summary>
         /// <para>
@@ -865,6 +930,29 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true)]
         public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
             [In] DWORD nNumberOfArguments, [In] ULONG_PTR[] lpArguments);
+
+        /// <summary>
+        /// <para>
+        /// Unregisters a vectored exception handler.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-removevectoredexceptionhandler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// A handle to the vectored exception handler previously registered using the <see cref="AddVectoredExceptionHandler"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveVectoredExceptionHandler", ExactSpelling = true)]
+        public static extern ULONG RemoveVectoredExceptionHandler([In] PVOID Handle);
 
         /// <summary>
         /// <para>

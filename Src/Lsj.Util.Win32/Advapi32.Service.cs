@@ -1,21 +1,129 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
-using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.Enums.PrivilegeConstants;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.StandardAccessRights;
-using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Constants;
 using Lsj.Util.Win32.Structs;
-using System.Reflection;
 using System;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Advapi32
     {
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="RegisterServiceCtrlHandler"/> function.
+        /// A service program can use it as the control handler function of a particular service.
+        /// </para>
+        /// <para>
+        /// The <see cref="LPHANDLER_FUNCTION"/> type defines a pointer to this function.
+        /// <c>Handler</c> is a placeholder for the application-defined name.
+        /// </para>
+        /// <para>
+        /// This function has been superseded by the <c>HandlerEx</c> control handler function
+        /// used with the <see cref="RegisterServiceCtrlHandlerEx"/> function.
+        /// A service can use either control handler,
+        /// but the new control handler supports user-defined context data and additional extended control codes.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nc-winsvc-lphandler_function"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwControl">
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// When a service is started, its <c>ServiceMain</c> function should immediately call the <see cref="RegisterServiceCtrlHandler"/> function
+        /// to specify a <c>Handler</c> function to process control requests.
+        /// </para>
+        /// <para>
+        /// The control dispatcher in the main thread of a service process invokes the control handler function for the specified service
+        /// whenever it receives a control request from the service control manager.
+        /// After processing the control request, the control handler must call the <see cref="SetServiceStatus"/> function
+        /// if the service state changes to report its new status to the service control manager.
+        /// </para>
+        /// <para>
+        /// The control handler function is intended to receive notification and return immediately.
+        /// The callback function should save its parameters and create other threads to perform additional work.
+        /// (Your application must ensure that such threads have exited before stopping the service.)
+        /// In particular, a control handler should avoid operations that might block, such as taking a lock,
+        /// because this could result in a deadlock or cause the system to stop responding.
+        /// </para>
+        /// <para>
+        /// When the service control manager sends a control code to a service,
+        /// it waits for the handler function to return before sending additional control codes to other services.
+        /// The control handler should return as quickly as possible; if it does not return within 30 seconds, the SCM returns an error.
+        /// If a service must do lengthy processing when the service is executing the control handler,
+        /// it should create a secondary thread to perform the lengthy processing, and then return from the control handler.
+        /// This prevents the service from tying up the control dispatcher and blocking other services from receiving control codes.
+        /// </para>
+        /// <para>
+        /// The <see cref="SERVICE_CONTROL_SHUTDOWN"/> control code should only be processed by services
+        /// that must absolutely clean up during shutdown, because there is a limited time (about 20 seconds) available for service shutdown.
+        /// After this time expires, system shutdown proceeds regardless of whether service shutdown is complete.
+        /// Note that if the system is left in the shutdown state (not restarted or powered down), the service continues to run.
+        /// If your service registers to accept <see cref="SERVICE_CONTROL_SHUTDOWN"/>,
+        /// it must handle the control code and stop in a timely fashion.
+        /// Otherwise, the service can increase the time required to shut down the system,
+        /// because the system must wait for the full amount of time allowed for service shutdown before system shutdown can proceed.
+        /// </para>
+        /// <para>
+        /// If the service requires more time to clean up, it should send <see cref="STOP_PENDING"/> status messages,
+        /// along with a wait hint, so the service controller knows how long to wait before reporting to the system that service shutdown is complete.
+        /// However, to prevent a service from stopping shutdown, there is a limit to how long the service controller will wait.
+        /// If the service is being shut down through the Services snap-in, the limit is 125 seconds.
+        /// If the operating system is rebooting, the time limit is specified
+        /// in the <c>WaitToKillServiceTimeout</c> value of the following registry key:
+        /// </para>
+        /// <para>
+        /// <c>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</c>
+        /// </para>
+        /// <para>
+        /// Services can also use the <see cref="SetConsoleCtrlHandler"/> function to receive shutdown notification.
+        /// This notification is received when the running applications are shutting down, which occurs before services are shut down.
+        /// </para>
+        /// </remarks>
+        public delegate void LphandlerFunction([In] DWORD dwControl);
+
+        /// <summary>
+        /// <para>
+        /// The entry point for a service.
+        /// </para>
+        /// <para>
+        /// The <see cref="LPSERVICE_MAIN_FUNCTION"/> type defines a pointer to this callback function.
+        /// <c>ServiceMain</c> is a placeholder for an application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nc-winsvc-lpservice_main_functionw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwNumServicesArgs">
+        /// The number of arguments in the <paramref name="lpServiceArgVectors"/> array.
+        /// </param>
+        /// <param name="lpServiceArgVectors">
+        /// <para>
+        /// The null-terminated argument strings passed to the service by the call to the <see cref="StartService"/> function that started the service.
+        /// If there are no arguments, this parameter can be <see langword="null"/>.
+        /// Otherwise, the first argument (<c>lpServiceArgVectors[0]</c>) is the name of the service,
+        /// followed by any additional arguments (<c>lpServiceArgVectors[1]</c> through <c>lpServiceArgVectors[dwNumServicesArgs-1]</c>).
+        /// </para>
+        /// <para>
+        /// If the user starts a manual service using the Services snap-in from the Control Panel,
+        /// the strings for the <paramref name="lpServiceArgVectors"/> parameter come from the properties dialog box for the service
+        /// (from the Services snap-in, right-click the service entry, click <c>Properties</c>, and enter the parameters in Start parameters.)
+        /// </para>
+        /// </param>
+        public delegate void LpserviceMainFunction([In] DWORD dwNumServicesArgs, [In] IntPtr[]? lpServiceArgVectors);
+
+
         /// <summary>
         /// <para>
         /// Changes the configuration parameters of a service.
@@ -3000,5 +3108,1140 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryServiceLockStatusW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryServiceLockStatus([In] SC_HANDLE hSCManager, [Out] out QUERY_SERVICE_LOCK_STATUS lpLockStatus,
             [In] DWORD cbBufSize, [Out] out DWORD pcbBytesNeeded);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="QueryServiceObjectSecurity"/> function retrieves a copy of the security descriptor associated with a service object.
+        /// You can also use the <see cref="GetNamedSecurityInfo"/> function to retrieve a security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-queryserviceobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service control manager or the service.
+        /// Handles to the service control manager are returned by the <see cref="OpenSCManager"/> function,
+        /// and handles to a service are returned by either the <see cref="OpenService"/> or <see cref="CreateService"/> function.
+        /// The handle must have the <see cref="READ_CONTROL"/> access right.
+        /// </param>
+        /// <param name="dwSecurityInformation">
+        /// A set of bit flags that indicate the type of security information to retrieve.
+        /// This parameter can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags,
+        /// with the exception that this function does not support the <see cref="LABEL_SECURITY_INFORMATION"/> value.
+        /// </param>
+        /// <param name="lpSecurityDescriptor">
+        /// A pointer to a buffer that receives a copy of the security descriptor of the specified service object.
+        /// The calling process must have the appropriate access to view the specified aspects of the security descriptor of the object.
+        /// The <see cref="SECURITY_DESCRIPTOR"/> structure is returned in self-relative format.
+        /// </param>
+        /// <param name="cbBufSize">
+        /// The size of the buffer pointed to by the <paramref name="lpSecurityDescriptor"/> parameter, in bytes.
+        /// The largest size allowed is 8 kilobytes.
+        /// </param>
+        /// <param name="pcbBytesNeeded">
+        /// A pointer to a variable that receives the number of bytes needed to return the requested security descriptor information, if the function fails.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes may be set by the service control manager.
+        /// Other error codes may be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The specified handle was not opened with <see cref="READ_CONTROL"/> access,
+        /// or the calling process is not the owner of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The specified handle is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// </term>
+        /// <term>
+        /// The security descriptor information is too large for the <paramref name="lpSecurityDescriptor"/> buffer.
+        /// The number of bytes required to get all the information is returned in the <paramref name="pcbBytesNeeded"/> parameter.
+        /// Nothing is written to the <paramref name="lpSecurityDescriptor"/> buffer.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The specified security information is not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When a service is created, the service control manager assigns a default security descriptor to the service object.
+        /// To retrieve a copy of the security descriptor for a service object, call the <see cref="QueryServiceObjectSecurity"/> function.
+        /// To change the security descriptor, call the <see cref="SetServiceObjectSecurity"/> function.
+        /// For a description of the default security descriptor for a service object, see Service Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// To read the owner, group, or DACL from the security descriptor of the service object,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To get <see cref="READ_CONTROL"/> access, the caller must be the owner of the object or the DACL of the object must grant the access.
+        /// </para>
+        /// <para>
+        /// To read the SACL from the security descriptor,
+        /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
+        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryServiceObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryServiceObjectSecurity([In] SC_HANDLE hService, [In] SECURITY_INFORMATION dwSecurityInformation,
+            [In] PSECURITY_DESCRIPTOR lpSecurityDescriptor, [In] DWORD cbBufSize, [Out] out DWORD pcbBytesNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current status of the specified service.
+        /// </para>
+        /// <para>
+        /// This function has been superseded by the <see cref="QueryServiceStatusEx"/> function.
+        /// <see cref="QueryServiceStatusEx"/> returns the same information <see cref="QueryServiceStatus"/> returns,
+        /// with the addition of the process identifier and additional information for the service.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-queryservicestatus"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="OpenService"/> or the <see cref="CreateService"/> function,
+        /// and it must have the <see cref="SERVICE_QUERY_STATUS"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </param>
+        /// <param name="lpServiceStatus">
+        /// A pointer to a <see cref="SERVICE_STATUS"/> structure that receives the status information.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Other error codes can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The handle does not have the <see cref="SERVICE_QUERY_STATUS"/> access right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The handle is invalid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryServiceStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryServiceStatus([In] SC_HANDLE hService, [Out] out SERVICE_STATUS lpServiceStatus);
+
+        /// <summary>
+        /// <para>
+        /// Registers a function to handle service control requests.
+        /// </para>
+        /// <para>
+        /// This function has been superseded by the <see cref="RegisterServiceCtrlHandlerEx"/> function.
+        /// A service can use either function, but the new function supports user-defined context data,
+        /// and the new handler function supports additional extended control codes.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpServiceName">
+        /// <para>
+        /// The name of the service run by the calling thread.
+        /// This is the service name that the service control program specified in the <see cref="CreateService"/> function when creating the service.
+        /// </para>
+        /// <para>
+        /// If the service type is <see cref="SERVICE_WIN32_OWN_PROCESS"/>, the function does not verify that the specified name is valid,
+        /// because there is only one registered service in the process.
+        /// </para>
+        /// </param>
+        /// <param name="lpHandlerProc">
+        /// A pointer to the handler function to be registered.
+        /// For more information, see <c>Handler</c>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a service status handle.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// Not enough memory is available to convert an ANSI string parameter to Unicode.
+        /// This error does not occur for Unicode string parameters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_NOT_IN_EXE"/>
+        /// </term>
+        /// <term>
+        /// The service entry was specified incorrectly when the process called the <see cref="StartServiceCtrlDispatcher"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <c>ServiceMain</c> function of a new service should immediately call the <see cref="RegisterServiceCtrlHandler"/> function
+        /// to register a control handler function with the control dispatcher.
+        /// This enables the control dispatcher to invoke the specified function when it receives control requests for this service.
+        /// For a list of possible control codes, see <c>Handler</c>.
+        /// The threads of the calling process can use the service status handle returned by this function
+        /// to identify the service in subsequent calls to the <see cref="SetServiceStatus"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="RegisterServiceCtrlHandler"/> function must be called before the first <see cref="SetServiceStatus"/> call
+        /// because <see cref="RegisterServiceCtrlHandler"/> returns a service status handle for the caller
+        /// to use so that no other service can inadvertently set this service status.
+        /// In addition, the control handler must be in place to receive control requests by the time
+        /// the service specifies the controls it accepts through the <see cref="SetServiceStatus"/> function.
+        /// </para>
+        /// <para>
+        /// When the control handler function is invoked with a control request,
+        /// the service must call <see cref="SetServiceStatus"/> to report status to the service control manager
+        /// only if the service status has changed, such as when the service is processing stop or shutdown controls.
+        /// If the service status has not changed, the service should not report status to the service control manager.
+        /// </para>
+        /// <para>
+        /// The service status handle does not have to be closed.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterServiceCtrlHandlerW", ExactSpelling = true, SetLastError = true)]
+        public static extern SERVICE_STATUS_HANDLE RegisterServiceCtrlHandler([In] LPCWSTR lpServiceName, [In] LPHANDLER_FUNCTION lpHandlerProc);
+
+        /// <summary>
+        /// <para>
+        /// Registers a service type with the service control manager and the Server service.
+        /// The Server service can then announce the registered service type as one it currently supports.
+        /// The <see cref="NetServerGetInfo"/> and <see cref="NetServerEnum"/> functions obtain a specified machine's supported service types.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/lmserver/nf-lmserver-setservicebits"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hServiceStatus">
+        /// A handle to the status information structure for the service.
+        /// A service obtains the handle by calling the <see cref="RegisterServiceCtrlHandlerEx"/> function.
+        /// </param>
+        /// <param name="dwServiceBits">
+        /// <para>
+        /// Certain bit flags (0xC00F3F7B) are reserved for use by Microsoft.
+        /// The <see cref="SetServiceBits"/> function fails with the error <see cref="ERROR_INVALID_DATA"/>
+        /// if any of these bit flags are set in <paramref name="dwServiceBits"/>.
+        /// The following bit flags are reserved for use by Microsoft.
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_WORKSTATION"/> (0x00000001)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_SERVER"/> (0x00000002)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_CTRL"/> (0x00000008)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_BAKCTRL"/> (0x00000010)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_TIME_SOURCE"/> (0x00000020)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_AFP"/> (0x00000040)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_MEMBER"/> (0x00000100)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_PRINTQ_SERVER"/> (0x00000200)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DIALIN_SERVER"/> (0x00000400)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_XENIX_SERVER"/> (0x00000800)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_SERVER_UNIX"/> (0x00000800)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_NT"/> (0x00001000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_WFW"/> (0x00002000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_POTENTIAL_BROWSER"/> (0x00010000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_BACKUP_BROWSER"/> (0x00020000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_MASTER_BROWSER"/> (0x00040000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_MASTER"/> (0x00080000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_LOCAL_LIST_ONLY"/> (0x40000000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_ENUM"/> (0x80000000)
+        /// </para>
+        /// <para>
+        /// Certain bit flags (0x00300084) are defined by Microsoft, but are not specifically reserved for systems software.
+        /// The following are these bit flags.
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_SV_TYPE_SQLSERVER"/> (0x00000004)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_NOVELL"/> (0x00000080)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_CTRL"/> (0x00100000)
+        /// </para>
+        /// <para>
+        /// <see cref="SV_TYPE_DOMAIN_BAKCTRL"/> (0x00200000)
+        /// </para>
+        /// <para>
+        /// Certain bit flags (0x3FC0C000) are not defined by Microsoft, and their use is not coordinated by Microsoft.
+        /// Developers of applications that use these bits should be aware that other applications can also use them, thus creating a conflict.
+        /// The following are these bit flags.
+        /// </para>
+        /// <para>
+        /// 0x00004000
+        /// </para>
+        /// <para>
+        /// 0x00008000
+        /// </para>
+        /// <para>
+        /// 0x00400000
+        /// </para>
+        /// <para>
+        /// 0x00800000
+        /// </para>
+        /// <para>
+        /// 0x01000000
+        /// </para>
+        /// <para>
+        /// 0x02000000
+        /// </para>
+        /// <para>
+        /// 0x04000000
+        /// </para>
+        /// <para>
+        /// 0x08000000
+        /// </para>
+        /// <para>
+        /// 0x10000000
+        /// </para>
+        /// <para>
+        /// 0x20000000
+        /// </para>
+        /// </param>
+        /// <param name="bSetBitsOn">
+        /// If this value is <see cref="TRUE"/>, the bits in <paramref name="dwServiceBit"/> are to be set.
+        /// If this value is <see cref="FALSE"/>, the bits are to be cleared.
+        /// </param>
+        /// <param name="bUpdateImmediately">
+        /// If this value is <see cref="TRUE"/>, the Server service is to perform an immediate update.
+        /// If this value is <see cref="FALSE"/>, the update is not be performed immediately.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetServiceBits", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetServiceBits([In] SERVICE_STATUS_HANDLE hServiceStatus, [In] DWORD dwServiceBits,
+            [In] BOOL bSetBitsOn, [In] BOOL bUpdateImmediately);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetServiceObjectSecurity"/> function sets the security descriptor of a service object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setserviceobjectsecurity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="OpenService"/> or <see cref="CreateService"/> function.
+        /// The access required for this handle depends on the security information
+        /// specified in the <paramref name="dwSecurityInformation"/> parameter.
+        /// </param>
+        /// <param name="dwSecurityInformation">
+        /// <para>
+        /// Specifies the components of the security descriptor to set.
+        /// This parameter can be a combination of the following values.
+        /// Note that flags not handled by <see cref="SetServiceObjectSecurity"/> will be silently ignored.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DACL_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the discretionary access control list (DACL) of the object.
+        /// The handle specified by <paramref name="hService"/> must have <see cref="WRITE_DAC"/> access,
+        /// or the calling process must be the owner of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="GROUP_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the primary group security identifier (SID) of the object.
+        /// The handle specified by <paramref name="hService"/> must have <see cref="WRITE_OWNER"/> access,
+        /// or the calling process must be the owner of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="OWNER_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// Sets the SID of the owner of the object.
+        /// The handle specified by <paramref name="hService"/> must have <see cref="WRITE_OWNER"/> access,
+        /// or the calling process must be the owner of the object or have the <see cref="SE_TAKE_OWNERSHIP_NAME"/> privilege enabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SACL_SECURITY_INFORMATION"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Sets the system access control list (SACL) of the object.
+        /// The handle specified by <paramref name="hService"/> must have <see cref="ACCESS_SYSTEM_SECURITY"/> access.
+        /// </para>
+        /// <para>
+        /// To obtain <see cref="ACCESS_SYSTEM_SECURITY"/> access
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// Enable the <see cref="SE_SECURITY_NAME"/> privilege in the current access token of the caller.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Disable the privilege.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that contains the new security information.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Other error codes can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The specified handle was not opened with the required access,
+        /// or the calling process is not the owner of the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The specified handle is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The specified security information or security descriptor is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_MARKED_FOR_DELETE"/>
+        /// </term>
+        /// <term>
+        /// The specified service has been marked for deletion.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="SetServiceObjectSecurity"/> function sets the specified portions of the security descriptor
+        /// of the service object based on the information specified in the <paramref name="lpSecurityDescriptor"/> buffer.
+        /// This function replaces any or all of the security information associated with the service object,
+        /// according to the flags set in the <paramref name="dwSecurityInformation"/> parameter
+        /// and subject to the access rights of the calling process.
+        /// </para>
+        /// <para>
+        /// When a service is created, the service control manager assigns a default security descriptor to the service object.
+        /// To retrieve a copy of the security descriptor for a service object, call the <see cref="QueryServiceObjectSecurity"/> function.
+        /// For a description of the default security descriptor for a service object, see Service Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// Note that granting certain access to untrusted users (such as <see cref="SERVICE_CHANGE_CONFIG"/> or <see cref="SERVICE_STOP"/>)
+        /// can allow them to interfere with the execution of your service
+        /// and possibly allow them to run applications under the LocalSystem account.
+        /// </para>
+        /// </remarks>
+        [Obsolete("SetServiceObjectSecurity is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions. " +
+            "Instead, use the SetNamedSecurityInfo function.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetServiceObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetServiceObjectSecurity([In] SC_HANDLE hService, [In] SECURITY_INFORMATION dwSecurityInformation,
+            [In] PSECURITY_DESCRIPTOR lpSecurityDescriptor);
+
+        /// <summary>
+        /// <para>
+        /// Updates the service control manager's status information for the calling service.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hServiceStatus">
+        /// A handle to the status information structure for the current service.
+        /// This handle is returned by the <see cref="RegisterServiceCtrlHandlerEx"/> function.
+        /// </param>
+        /// <param name="lpServiceStatus">
+        /// A pointer to the <see cref="SERVICE_STATUS"/> structure the contains the latest status information for the calling service.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Other error codes can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_DATA"/>
+        /// </term>
+        /// <term>
+        /// The specified service status structure is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The specified handle is invalid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// A <c>ServiceMain</c> function first calls the <see cref="RegisterServiceCtrlHandlerEx"/> function
+        /// to get the service's <see cref="SERVICE_STATUS_HANDLE"/>.
+        /// Then it immediately calls the <see cref="SetServiceStatus"/> function
+        /// to notify the service control manager that its status is <see cref="SERVICE_START_PENDING"/>.
+        /// During initialization, the service can provide updated status to indicate that it is making progress but it needs more time.
+        /// A common bug is for the service to have the main thread perform the initialization
+        /// while a separate thread continues to call <see cref="SetServiceStatus"/>
+        /// to prevent the service control manager from marking it as hung.
+        /// However, if the main thread hangs, then the service start ends up in an infinite loop
+        /// because the worker thread continues to report that the main thread is making progress.
+        /// </para>
+        /// <para>
+        /// After processing a control request, the service's <c>Handler</c> function must call <see cref="SetServiceStatus"/>
+        /// if the service status changes to report its new status to the service control manager.
+        /// It is only necessary to do so when the service is changing state, such as when it is processing stop or shutdown controls.
+        /// A service can also use this function at any time from any thread of the service
+        /// to notify the service control manager of state changes, such as when the service must stop due to a recoverable error.
+        /// </para>
+        /// <para>
+        /// A service can call this function only after it has called <see cref="RegisterServiceCtrlHandlerEx"/> to get a service status handle.
+        /// </para>
+        /// <para>
+        /// If a service calls <see cref="SetServiceStatus"/>
+        /// with the <see cref="SERVICE_STATUS.dwCurrentState"/> member set to <see cref="SERVICE_STOPPED"/>
+        /// and the <see cref="SERVICE_STATUS.dwWin32ExitCode"/> member set to a nonzero value,
+        /// the following entry is written into the System event log:
+        /// </para>
+        /// <code>
+        ///    Event ID    = 7023
+        ///    Source      = Service Control Manager
+        ///    Type        = Error
+        ///    Description = &lt;ServiceName&gt; terminated with the following error:
+        ///                  &lt;ExitCode&gt;.
+        /// </code>
+        /// <para>
+        /// The following are best practices when calling this function:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Initialize all fields in the <see cref="SERVICE_STATUS"/> structure,
+        /// ensuring that there are valid check-point and wait hint values for pending states.
+        /// Use reasonable wait hints.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Do not register to accept controls while the status is <see cref="SERVICE_START_PENDING"/> or the service can crash.
+        /// After initialization is completed, accept the <see cref="SERVICE_CONTROL_STOP"/> code.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call this function with checkpoint and wait-hint values only if the service is making progress on the tasks
+        /// related to the pending start, stop, pause, or continue operation.
+        /// Otherwise, SCM cannot detect if your service is hung.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Enter the stopped state with an appropriate exit code if <c>ServiceMain</c> fails.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the status is <see cref="SERVICE_STOPPED"/>,
+        /// perform all necessary cleanup and call <see cref="SetServiceStatus"/> one time only.
+        /// This function makes an LRPC call to the SCM.
+        /// The first call to the function in the <see cref="SERVICE_STOPPED"/> state
+        /// closes the RPC context handle and any subsequent calls can cause the process to crash.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Do not attempt to perform any additional work after calling <see cref="SetServiceStatus"/> with <see cref="SERVICE_STOPPED"/>,
+        /// because the service process can be terminated at any time.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetServiceStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetServiceStatus([In] SERVICE_STATUS_HANDLE hServiceStatus, [In] in SERVICE_STATUS lpServiceStatus);
+
+        /// <summary>
+        /// <para>
+        /// Connects the main thread of a service process to the service control manager,
+        /// which causes the thread to be the service control dispatcher thread for the calling process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-startservicectrldispatcherw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpServiceStartTable">
+        /// A pointer to an array of <see cref="SERVICE_TABLE_ENTRY"/> structures
+        /// containing one entry for each service that can execute in the calling process.
+        /// The members of the last entry in the table must have <c>NULL</c> values to designate the end of the table.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error code can be set by the service control manager.
+        /// Other error codes can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FAILED_SERVICE_CONTROLLER_CONNECT"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// This error is returned if the program is being run as a console application rather than as a service.
+        /// </para>
+        /// <para>
+        /// If the program will be run as a console application for debugging purposes,
+        /// structure it such that service-specific code is not called when this error is returned.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_DATA"/>
+        /// </term>
+        /// <term>
+        /// The specified dispatch table contains entries that are not in the proper format.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_ALREADY_RUNNING"/>
+        /// </term>
+        /// <term>
+        /// The process has already called <see cref="StartServiceCtrlDispatcher"/>.
+        /// Each process can call <see cref="StartServiceCtrlDispatcher"/> only one time.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When the service control manager starts a service process,
+        /// it waits for the process to call the <see cref="StartServiceCtrlDispatcher"/> function.
+        /// The main thread of a service process should make this call as soon as possible after it starts up (within 30 seconds).
+        /// If <see cref="StartServiceCtrlDispatcher"/> succeeds, it connects the calling thread to the service control manager
+        /// and does not return until all running services in the process have entered the <see cref="SERVICE_STOPPED"/> state.
+        /// The service control manager uses this connection to send control and service start requests
+        /// to the main thread of the service process.
+        /// The main thread acts as a dispatcher by invoking the appropriate <c>HandlerEx</c> function to handle control requests,
+        /// or by creating a new thread to execute the appropriate <see cref="ServiceMain"/> function when a new service is started.
+        /// </para>
+        /// <para>
+        /// The <paramref name="lpServiceStartTable"/> parameter contains an entry for each service that can run in the calling process.
+        /// Each entry specifies the <c>ServiceMain</c> function for that service.
+        /// For <see cref="SERVICE_WIN32_SHARE_PROCESS"/> services, each entry must contain the name of a service.
+        /// This name is the service name that was specified by the <see cref="CreateService"/> function when the service was installed.
+        /// For <see cref="SERVICE_WIN32_OWN_PROCESS"/> services, the service name in the table entry is ignored.
+        /// </para>
+        /// <para>
+        /// If a service runs in its own process, the main thread of the service process should immediately call <see cref="StartServiceCtrlDispatcher"/>.
+        /// All initialization tasks are done in the service's <c>ServiceMain</c> function when the service is started.
+        /// </para>
+        /// <para>
+        /// If multiple services share a process and some common process-wide initialization needs to be done
+        /// before any <c>ServiceMain</c> function is called, the main thread can do the work before calling <see cref="StartServiceCtrlDispatcher"/>,
+        /// as long as it takes less than 30 seconds.
+        /// Otherwise, another thread must be created to do the process-wide initialization,
+        /// while the main thread calls <see cref="StartServiceCtrlDispatcher"/> and becomes the service control dispatcher.
+        /// Any service-specific initialization should still be done in the individual service main functions.
+        /// </para>
+        /// <para>
+        /// Services should not attempt to display a user interface directly.
+        /// For more information, see Interactive Services.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartServiceCtrlDispatcherW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL StartServiceCtrlDispatcher([In] SERVICE_TABLE_ENTRY[] lpServiceStartTable);
+
+        /// <summary>
+        /// <para>
+        /// Starts a service.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-startservicew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="OpenService"/> or <see cref="CreateService"/> function,
+        /// and it must have the <see cref="SERVICE_START"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </param>
+        /// <param name="dwNumServiceArgs">
+        /// The number of strings in the <paramref name="lpServiceArgVectors"/> array.
+        /// If <paramref name="lpServiceArgVectors"/> is <see langword="null"/>, this parameter can be zero.
+        /// </param>
+        /// <param name="lpServiceArgVectors">
+        /// <para>
+        /// The null-terminated strings to be passed to the <c>ServiceMain</c> function for the service as arguments.
+        /// If there are no arguments, this parameter can be <see langword="null"/>.
+        /// Otherwise, the first argument (<c>lpServiceArgVectors[0]</c>) is the name of the service,
+        /// followed by any additional arguments (<c>lpServiceArgVectors[1]</c> through <c>lpServiceArgVectors[dwNumServiceArgs-1]</c>).
+        /// </para>
+        /// <para>
+        /// Driver services do not receive these arguments.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Others can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The handle does not have the <see cref="SERVICE_START"/> access right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// The service binary file could not be found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_ALREADY_RUNNING"/>
+        /// </term>
+        /// <term>
+        /// An instance of the service is already running.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_DATABASE_LOCKED"/>
+        /// </term>
+        /// <term>
+        /// The database is locked.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_DEPENDENCY_DELETED"/>
+        /// </term>
+        /// <term>
+        /// The service depends on a service that does not exist or has been marked for deletion.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_DEPENDENCY_FAIL"/>
+        /// </term>
+        /// <term>
+        /// The service depends on another service that has failed to start.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_DISABLED"/>
+        /// </term>
+        /// <term>
+        /// The service has been disabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_LOGON_FAILED"/>
+        /// </term>
+        /// <term>
+        /// The service did not start due to a logon failure.
+        /// This error occurs if the service is configured to run under an account
+        /// that does not have the "Log on as a service" right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_MARKED_FOR_DELETE"/>
+        /// </term>
+        /// <term>
+        /// The service has been marked for deletion.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_NO_THREAD"/>
+        /// </term>
+        /// <term>
+        /// A thread could not be created for the service.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_REQUEST_TIMEOUT"/>
+        /// </term>
+        /// <term>
+        /// The process for the service was started, but it did not call <see cref="StartServiceCtrlDispatcher"/>,
+        /// or the thread that called <see cref="StartServiceCtrlDispatcher"/> may be blocked in a control handler function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When a driver service is started, the <see cref="StartService"/> function does not return
+        /// until the device driver has finished initializing.
+        /// </para>
+        /// <para>
+        /// When a service is started, the Service Control Manager (SCM) spawns the service process, if necessary.
+        /// If the specified service shares a process with other services, the required process may already exist.
+        /// The <see cref="StartService"/> function does not wait for the first status update from the new service,
+        /// because it can take a while.
+        /// Instead, it returns when the SCM receives notification from the service control dispatcher
+        /// that the <c>ServiceMain</c> thread for this service was created successfully.
+        /// </para>
+        /// <para>
+        /// The SCM sets the following default status values before returning from <see cref="StartService"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Current state of the service is set to <see cref="SERVICE_START_PENDING"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Controls accepted is set to none (zero).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The CheckPoint value is set to zero.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The WaitHint time is set to 2 seconds.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The calling process can determine if the new service has finished its initialization
+        /// by calling the <see cref="QueryServiceStatus"/> function periodically to query the service's status.
+        /// </para>
+        /// <para>
+        /// A service cannot call <see cref="StartService"/> during initialization.
+        /// The reason is that the SCM locks the service control database during initialization,
+        /// so a call to <see cref="StartService"/> will block.
+        /// After the service reports to the SCM that it has successfully started, it can call <see cref="StartService"/>.
+        /// </para>
+        /// <para>
+        /// As with <see cref="ControlService"/>, <see cref="StartService"/> will block for 30 seconds
+        /// if any service is busy handling a control code.
+        /// If the busy service still has not returned from its handler function when the timeout expires,
+        /// <see cref="StartService"/> fails with <see cref="ERROR_SERVICE_REQUEST_TIMEOUT"/>.
+        /// This is because the SCM processes only one service control notification at a time.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartServiceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL StartService([In] SC_HANDLE hService, [In] DWORD dwNumServiceArgs, [In] IntPtr[]? lpServiceArgVectors);
+
+        /// <summary>
+        /// <para>
+        /// Unlocks a service control manager database by releasing the specified lock.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-unlockservicedatabase"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ScLock">
+        /// The lock, which is obtained from a previous call to the <see cref="LockServiceDatabase"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Other error codes can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_SERVICE_LOCK"/>
+        /// </term>
+        /// <term>
+        /// The specified lock is invalid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        [Obsolete("This function has no effect as of Windows Vista.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnlockServiceDatabase", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnlockServiceDatabase([In] SC_LOCK ScLock);
     }
 }

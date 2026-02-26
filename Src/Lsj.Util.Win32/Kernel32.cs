@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DEP_SYSTEM_POLICY_TYPE;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
@@ -57,54 +58,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate BOOL EnumCodePagesProc([In] LPWSTR lpCodePageString);
 
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="ActivateActCtx"/> function activates the specified activation context.
-        /// It does this by pushing the specified activation context to the top of the activation stack.
-        /// The specified activation context is thus associated with the current thread and any appropriate side-by-side API functions.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-activateactctx"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hActCtx">
-        /// Handle to an <see cref="ACTCTX"/> structure that contains information on the activation context that is to be made active.
-        /// </param>
-        /// <param name="lpCookie">
-        /// Pointer to a <see cref="ULONG_PTR"/> that functions as a cookie, uniquely identifying a specific, activated activation context.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, it returns <see cref="TRUE"/>. Otherwise, it returns <see cref="FALSE"/>.
-        /// </para>
-        /// <para>
-        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
-        /// For an example, see Retrieving the Last-Error Code.
-        /// For a complete list of error codes, see System Error Codes.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The <paramref name="lpCookie"/> parameter is later passed to <see cref="DeactivateActCtx"/>,
-        /// which verifies the pairing of calls to <see cref="ActivateActCtx"/> and <see cref="DeactivateActCtx"/>
-        /// and ensures that the appropriate activation context is being deactivated.
-        /// This is done because the deactivation of activation contexts must occur in the reverse order of activation.
-        /// </para>
-        /// <para>
-        /// The activation of activation contexts can be understood as pushing an activation context onto a stack of activation contexts.
-        /// The activation context you activate through this function redirects any binding to DLLs,
-        /// window classes, COM servers, type libraries, and mutexes for any side-by-side APIs you call.
-        /// </para>
-        /// <para>
-        /// The top item of an activation context stack is the active, default-activation context of the current thread.
-        /// If a null activation context handle is pushed onto the stack, thereby activating it,
-        /// the default settings in the original manifest override all activation contexts that are lower on the stack.
-        /// </para>
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ActivateActCtx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ActivateActCtx([In] HANDLE hActCtx, [Out] out ULONG_PTR lpCookie);
 
         /// <summary>
         /// <para>
@@ -174,126 +127,6 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDeviceWakeupRequest", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CancelDeviceWakeupRequest([In] HANDLE hDevice);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="CreateActCtx"/> function creates an activation context.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createactctxw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="pActCtx">
-        /// Pointer to an <see cref="ACTCTX"/> structure that contains information about the activation context to be created.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, it returns a handle to the returned activation context.
-        /// Otherwise, it returns <see cref="INVALID_HANDLE_VALUE"/>.
-        /// </para>
-        /// <para>
-        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
-        /// For an example, see Retrieving the Last-Error Code. For a complete list of error codes, see System Error Codes.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// Set any undefined bits in <see cref="ACTCTX.dwFlags"/> of <see cref="ACTCTX"/> to 0.
-        /// If any undefined bits are not set to 0, the call to <see cref="CreateActCtx"/> that creates the activation context fails and returns an invalid parameter error code.
-        /// The handle returned from <see cref="CreateActCtx"/> is passed in a call to <see cref="ActivateActCtx"/> to activate the context for the current thread.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateActCtxW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CreateActCtx([In][Out] ref ACTCTX pActCtx);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="DeactivateActCtx"/> function deactivates the activation context corresponding to the specified cookie.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-deactivateactctx"/>
-        /// </para>
-        /// </summary>
-        /// <param name="dwFlags">
-        /// <para>
-        /// Flags that indicate how the deactivation is to occur.
-        /// </para>
-        /// <para>
-        /// <list type="table">
-        /// <listheader>
-        /// <term>
-        /// Value
-        /// </term>
-        /// <term>
-        /// Meaning
-        /// </term>
-        /// </listheader>
-        /// <item>
-        /// <term>
-        /// 0
-        /// </term>
-        /// <term>
-        /// <para>
-        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is in the top frame of the activation stack,
-        /// the activation context is popped from the stack and thereby deactivated.
-        /// </para>
-        /// <para>
-        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is not in the top frame of the activation stack,
-        /// this function searches down the stack for the cookie.
-        /// </para>
-        /// <para>
-        /// If the cookie is found, a <see cref="STATUS_SXS_EARLY_DEACTIVATION"/> exception is thrown.
-        /// </para>
-        /// <para>
-        /// If the cookie is not found, a <see cref="STATUS_SXS_INVALID_DEACTIVATION"/> exception is thrown.
-        /// </para>
-        /// <para>
-        /// This value should be specified in most cases.
-        /// </para>
-        /// </term>
-        /// </item>
-        /// <item>
-        /// <term>
-        /// <see cref="DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION"/>
-        /// </term>
-        /// <term>
-        /// <para>
-        /// If this value is set and the cookie specified in the <paramref name="ulCookie"/> parameter is in the top frame of the activation stack,
-        /// the function returns an <see cref="ERROR_INVALID_PARAMETER"/> error code.
-        /// Call <see cref="GetLastError"/> to obtain this code.
-        /// </para>
-        /// <para>
-        /// If this value is set and the cookie is not on the activation stack, a <see cref="STATUS_SXS_INVALID_DEACTIVATION"/> exception will be thrown.
-        /// </para>
-        /// <para>
-        /// If this value is set and the cookie is in a lower frame of the activation stack,
-        /// all of the frames down to and including the frame the cookie is in is popped from the stack.
-        /// </para>
-        /// </term>
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </param>
-        /// <param name="ulCookie">
-        /// The <see cref="ULONG_PTR"/> that was passed into the call to <see cref="ActivateActCtx"/>.
-        /// This value is used as a cookie to identify a specific activated activation context.
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, it returns <see cref="TRUE"/>. Otherwise, it returns <see cref="FALSE"/>.
-        /// </para>
-        /// <para>
-        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
-        /// For an example, see Retrieving the Last-Error Code.
-        /// For a complete list of error codes, see System Error Codes.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// The deactivation of activation contexts must occur in the reverse order of activation.
-        /// It can be understood as popping an activation context from a stack.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeactivateActCtx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeactivateActCtx([In] DWORD dwFlags, [In] ULONG_PTR ulCookie);
 
         /// <summary>
         /// <para>
@@ -1431,6 +1264,119 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Gets the data execution prevention (DEP) policy setting for the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getsystemdeppolicy"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// This function returns a value of type <see cref="DEP_SYSTEM_POLICY_TYPE"/>,
+        /// which can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyAlwaysOff"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// DEP is disabled for all parts of the system, regardless of hardware support for DEP.
+        /// The processor runs in PAE mode with 32-bit versions of Windows
+        /// unless PAE is disabled in the boot configuration data.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyAlwaysOn"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// DEP is enabled for all parts of the system.
+        /// All processes always run with DEP enabled.
+        /// DEP cannot be explicitly disabled for selected applications.
+        /// System compatibility fixes are ignored.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyOptIn"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// On systems with processors that are capable of hardware-enforced DEP,
+        /// DEP is automatically enabled only for operating system components.
+        /// This is the default setting for client versions of Windows.
+        /// DEP can be explicitly enabled for selected applications or the current process.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyOptOut"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// DEP is automatically enabled for operating system components and all processes.
+        /// This is the default setting for Windows Server versions.
+        /// DEP can be explicitly disabled for selected applications or the current process.
+        /// System compatibility fixes for DEP are in effect.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The system-wide DEP policy is configured at boot time according to the policy setting in the boot configuration data.
+        /// To change the system-wide DEP policy setting, use the <c>BCDEdit /set</c> command to set the <c>nx</c> boot entry option.
+        /// </para>
+        /// <para>
+        /// If the system DEP policy is <see cref="DEPPolicyOptIn"/> or <see cref="DEPPolicyOptOut"/>,
+        /// DEP can be selectively enabled or disabled for the current process by calling the <see cref="SetProcessDEPPolicy"/> function.
+        /// This function works only for 32-bit processes.
+        /// </para>
+        /// <para>
+        /// A user with administrative privileges can disable DEP for selected applications
+        /// by using the <see cref="System"/> Control Panel application.
+        /// If the system DEP policy is OptOut, DEP is disabled for these applications.
+        /// </para>
+        /// <para>
+        /// The Application Compatibility Toolkit can be used to create a list of individual applications that are exempt from DEP.
+        /// If the system DEP policy is OptOut, DEP is automatically disabled for applications on the list.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows Vista with SP1, Windows XP with SP3")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDEPPolicy", ExactSpelling = true, SetLastError = true)]
+        public static extern DEP_SYSTEM_POLICY_TYPE GetSystemDEPPolicy();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the power status of the system.
         /// The status indicates whether the system is running on AC or DC power,
         /// whether the battery is currently charging, how much battery life remains, and if battery saver is on or off.
@@ -1838,6 +1784,57 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a context record in the context of the caller.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-rtlcapturecontext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ContextRecord">
+        /// A pointer to a <see cref="CONTEXT"/> structure.
+        /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RtlCaptureContext", ExactSpelling = true, SetLastError = true)]
+        public static extern void RtlCaptureContext([Out] out CONTEXT ContextRecord);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RtlCaptureStackBackTrace"/> routine captures a stack back trace
+        /// by walking up the stack and recording the information for each frame.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-rtlcapturestackbacktrace"/>
+        /// </para>
+        /// </summary>
+        /// <param name="FramesToSkip">
+        /// The number of frames to skip from the start of the back trace.
+        /// </param>
+        /// <param name="FramesToCapture">
+        /// The number of frames to be captured.
+        /// </param>
+        /// <param name="BackTrace">
+        /// An array of pointers captured from the current stack trace.
+        /// </param>
+        /// <param name="BackTraceHash">
+        /// <para>
+        /// An optional value that can be used to organize hash tables.
+        /// If this parameter is <see cref="NULL"/>, no hash value is computed.
+        /// </para>
+        /// <para>
+        /// This value is calculated based on the values of the pointers returned in the <paramref name="BackTrace"/> array.
+        /// Two identical stack traces will generate identical hash values.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// The number of captured frames.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RtlCaptureStackBackTrace", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD RtlCaptureStackBackTrace([In] DWORD FramesToSkip, [In] DWORD FramesToCapture,
+            [Out] out PVOID BackTrace, [Out] out DWORD BackTraceHash);
 
         /// <summary>
         /// <para>

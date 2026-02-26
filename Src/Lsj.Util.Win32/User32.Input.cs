@@ -339,6 +339,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Unlike <c>DefWindowProcA</c> and <see cref="DefWindowProc"/>, this function doesn't do any processing.
+        /// </para>
+        /// <para>
+        /// <see cref="DefRawInputProc"/> only checks whether <see cref="RAWINPUTHEADER.cbSizeHeader"/>'s value
+        /// corresponds to the expected size of <see cref="RAWINPUTHEADER"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defrawinputproc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="paRawInput">
+        /// Ignored.
+        /// </param>
+        /// <param name="nInput">
+        /// Ignored.
+        /// </param>
+        /// <param name="cbSizeHeader">
+        /// The size, in bytes, of the <see cref="RAWINPUTHEADER"/> structure.
+        /// </param>
+        /// <returns>
+        /// If successful, the function returns 0.
+        /// Otherwise it returns -1.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefRawInputProc", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT DefRawInputProc([In] P<RAWINPUT>[] paRawInput, [In] INT nInput, [In] UINT cbSizeHeader);
+
+        /// <summary>
+        /// <para>
+        /// Enables the middle mouse button to toggle the presence of a scrolling compass cursor on a scrollable window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/inputdev/enterreadermodehelper"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window for which the scrolling compass cursor is enabled.
+        /// </param>
+        /// <returns>
+        /// A value evaluating to <see cref="FALSE"/> if the passed window handle is invalid; otherwise, <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is not defined in an SDK header and must be declared by the caller.
+        /// This function is exported from user32.dll.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterReaderModeHelper", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG EnterReaderModeHelper(HANDLE hwnd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the window handle to the active window attached to the calling thread's message queue.
         /// </para>
         /// <para>
@@ -1435,6 +1486,305 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputData", ExactSpelling = true)]
         public static extern UINT GetRawInputData([In] HRAWINPUT hRawInput, [In] UINT uiCommand, [In] LPVOID pData,
             [In][Out] ref UINT pcbSize, [In] UINT cbSizeHeader);
+
+        /// <summary>
+        /// <para>
+        /// Performs a buffered read of the raw input messages data found in the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getrawinputbuffer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pData">
+        /// <para>
+        /// A pointer to a buffer of <see cref="RAWINPUT"/> structures that contain the raw input data.
+        /// Pointer should be aligned on a <see cref="DWORD"/> (32-bit) boundary.
+        /// </para>
+        /// <para>
+        /// If <see cref="NULL"/>, size of the first raw input message data (minimum required buffer),
+        /// in bytes, is returned in *<paramref name="pcbSize"/>.
+        /// </para>
+        /// </param>
+        /// <param name="pcbSize">
+        /// The size, in bytes, of the provided <see cref="RAWINPUT"/> buffer.
+        /// </param>
+        /// <param name="cbSizeHeader">
+        /// The size, in bytes, of the <see cref="RAWINPUTHEADER"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If <see cref="pData"/> is <see cref="NULL"/> and the function is successful, the return value is zero.
+        /// If <see cref="pData"/> is not <see cref="NULL"/> and the function is successful,
+        /// the return value is the number of <see cref="RAWINPUT"/> structures written to <paramref name="pData"/>.
+        /// </para>
+        /// <para>
+        /// If an error occurs, the return value is (<see cref="UINT"/>)-1.
+        /// Call <see cref="GetLastError"/> for the error code.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When an application receives raw input, its message queue gets a <see cref="WM_INPUT"/> message
+        /// and the queue status flag <see cref="QS_RAWINPUT"/> is set.
+        /// </para>
+        /// <para>
+        /// Using <see cref="GetRawInputBuffer"/>, the raw input data is read in the array of variable size <see cref="RAWINPUT"/> structures
+        /// and corresponding <see cref="WM_INPUT"/> messages are removed from the calling thread's message queue.
+        /// You can call this method several times with buffer that cannot fit all message's data until all raw input messages have been read.
+        /// </para>
+        /// <para>
+        /// The <see cref="NEXTRAWINPUTBLOCK"/> macro allows an application to traverse an array of <see cref="RAWINPUT"/> structures.
+        /// </para>
+        /// <para>
+        /// If all raw input messages have been successfully read from message queue
+        /// then <see cref="QS_RAWINPUT"/> flag is cleared from the calling thread's message queue status.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// WOW64: To get the correct size of the raw input buffer,
+        /// do not use *<paramref name="pcbSize"/>, use *<paramref name="pcbSize"/> + 8 instead.
+        /// To ensure <see cref="GetRawInputBuffer"/> behaves properly on WOW64,
+        /// you must align the <see cref="RAWINPUT"/> structure by 8 bytes.
+        /// The following code shows how to align <see cref="RAWINPUT"/> for WOW64.
+        /// </para>
+        /// <code>
+        /// [StructLayout(LayoutKind.Explicit)]
+        /// internal struct RAWINPUT
+        /// {
+        ///     [FieldOffset(0)]
+        ///     public RAWINPUTHEADER header;
+        /// 
+        ///     [FieldOffset(16+8)]
+        ///     public RAWMOUSE mouse;
+        /// 
+        ///     [FieldOffset(16+8)]
+        ///     public RAWKEYBOARD keyboard;
+        /// 
+        ///     [FieldOffset(16+8)]
+        ///     public RAWHID hid;
+        /// }
+        /// </code>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputBuffer", ExactSpelling = true)]
+        public static extern UINT GetRawInputBuffer(
+#if NETFRAMEWORK
+            [In] nint pData,
+#else
+            [In] P<RAWINPUT> pData,
+#endif
+            [In][Out] ref UINT pcbSize, [In] UINT cbSizeHeader);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the raw input device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getrawinputdeviceinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDevice">
+        /// A handle to the raw input device.
+        /// This comes from the <see cref="hDevice"/> member of <see cref="RAWINPUTHEADER"/> or from <see cref="GetRawInputDeviceList"/>.
+        /// </param>
+        /// <param name="uiCommand">
+        /// <para>
+        /// Specifies what data will be returned in <paramref name="pData"/>.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RIDI_PREPARSEDDATA"/>
+        /// </para>
+        /// <para>
+        /// 0x20000005
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <paramref name="pData"/> is a <see cref="PHIDP_PREPARSED_DATA"/> pointer to a buffer for a top-level collection's preparsed data.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RIDI_DEVICENAME"/>
+        /// </para>
+        /// <para>
+        /// 0x20000007
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// <paramref name="pData"/> points to a string that contains the device interface name.
+        /// </para>
+        /// <para>
+        /// If this device is opened with Shared Access Mode
+        /// then you can call <see cref="CreateFile"/> with this name to open a HID collection and use returned handle
+        /// for calling <see cref="ReadFile"/> to read input reports and <see cref="WriteFile"/> to send output reports.
+        /// </para>
+        /// <para>
+        /// For more information, see Opening HID Collections and Handling HID Reports.
+        /// </para>
+        /// <para>
+        /// For this <paramref name="uiCommand"/> only, the value in <paramref name="pcbSize"/> is the character count (not the byte count).
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RIDI_DEVICEINFO"/>
+        /// </para>
+        /// <para>
+        /// 0x2000000b
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <paramref name="pData"/> points to an <see cref="RID_DEVICE_INFO"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pData">
+        /// <para>
+        /// A pointer to a buffer that contains the information specified by <paramref name="uiCommand"/>.
+        /// Pointer should be aligned on a <see cref="DWORD"/> (32-bit) boundary.
+        /// </para>
+        /// <para>
+        /// If <paramref name="uiCommand"/> is <see cref="RIDI_DEVICEINFO"/>,
+        /// set the <see cref="RID_DEVICE_INFO.cbSize"/> member of <see cref="RID_DEVICE_INFO"/>
+        /// to <c>sizeof(RID_DEVICE_INFO)</c> before calling <see cref="GetRawInputDeviceInfo"/>.
+        /// </para>
+        /// </param>
+        /// <param name="pcbSize">
+        /// The size, in bytes, of the data in <paramref name="pData"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If successful, this function returns a non-negative number indicating the number of bytes copied to <paramref name="pData"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="pData"/> is not large enough for the data, the function returns -1.
+        /// If <paramref name="pData"/> is <see cref="NULL"/>, the function returns a value of zero.
+        /// In both of these cases, <paramref name="pcbSize"/> is set to the minimum size required for the <paramref name="pData"/> buffer.
+        /// </para>
+        /// <para>
+        /// Call <see cref="GetLastError"/> to identify any other errors.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputDeviceInfoW", ExactSpelling = true)]
+        public static extern UINT GetRawInputDeviceInfo([In] HANDLE hDevice, [In] UINT uiCommand, [In] LPVOID pData, [In][Out] ref UINT pcbSize);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the raw input devices attached to the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getrawinputdevicelist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pRawInputDeviceList">
+        /// <para>
+        /// An array of <see cref="RAWINPUTDEVICELIST"/> structures for the devices attached to the system.
+        /// Pointer should be aligned on a <see cref="DWORD"/> (32-bit) boundary.
+        /// </para>
+        /// <para>
+        /// If <see cref="NULL"/>, the number of devices are returned in *<paramref name="puiNumDevices"/>.
+        /// </para>
+        /// </param>
+        /// <param name="puiNumDevices">
+        /// If <paramref name="pRawInputDeviceList"/> is <see cref="NULL"/>,
+        /// the function populates this variable with the number of devices attached to the system;
+        /// otherwise, this variable specifies the number of <see cref="RAWINPUTDEVICELIST"/> structures
+        /// that can be contained in the buffer to which <paramref name="pRawInputDeviceList"/> points.
+        /// If this value is less than the number of devices attached to the system,
+        /// the function returns the actual number of devices in this variable and fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// If this value is greater than or equal to the number of devices attached to the system,
+        /// then the value is unchanged, and the number of devices is reported as the return value.
+        /// </param>
+        /// <param name="cbSize">
+        /// The size of a <see cref="RAWINPUTDEVICELIST"/> structure, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function is successful, the return value is the number of devices
+        /// stored in the buffer pointed to by <paramref name="pRawInputDeviceList"/>.
+        /// </para>
+        /// <para>
+        /// On any other error, the function returns (<see cref="UINT"/>) -1
+        /// and <see cref="GetLastError"/> returns the error indication.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The devices returned from this function are the mouse, the keyboard, and other Human Interface Device (HID) devices.
+        /// </para>
+        /// <para>
+        /// To get more detailed information about the attached devices,
+        /// call <see cref="GetRawInputDeviceInfo"/> using the <see cref="RAWINPUTDEVICELIST.hDevice"/> from <see cref="RAWINPUTDEVICELIST"/>.
+        /// </para>
+        /// <para>
+        /// Input devices accessed through Remote Desktop Protocal (RDP) do not appear in the raw input device list.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRawInputDeviceList", ExactSpelling = true)]
+        public static extern UINT GetRawInputDeviceList([Out] RAWINPUTDEVICELIST[] pRawInputDeviceList,
+            [In][Out] ref UINT puiNumDevices, [In] UINT cbSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the information about the raw input devices for the current application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getregisteredrawinputdevices"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pRawInputDevices">
+        /// An array of <see cref="RAWINPUTDEVICE"/> structures for the application.
+        /// Pointer should be aligned on a <see cref="DWORD"/> (32-bit) boundary.
+        /// </param>
+        /// <param name="puiNumDevices">
+        /// The number of <see cref="RAWINPUTDEVICE"/> structures in *<paramref name="pRawInputDevices"/>.
+        /// </param>
+        /// <param name="cbSize">
+        /// The size, in bytes, of a <see cref="RAWINPUTDEVICE"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If successful, the function returns a non-negative number
+        /// that is the number of <see cref="RAWINPUTDEVICE"/> structures written to the buffer.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="pRawInputDevices"/> buffer is too small or <see cref="NULL"/>,
+        /// the function sets the last error as <see cref="ERROR_INSUFFICIENT_BUFFER"/>, returns -1,
+        /// and sets <paramref name="puiNumDevices"/> to the required number of devices.
+        /// If the function fails for any other reason, it returns -1.
+        /// For more details, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// To receive raw input from a device, an application must register it by using <see cref="RegisterRawInputDevices"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRegisteredRawInputDevices", ExactSpelling = true)]
+        public static extern UINT GetRegisteredRawInputDevices([Out] RAWINPUTDEVICE[] pRawInputDevices,
+            [In][Out] ref UINT puiNumDevices, [In] UINT cbSize);
 
         /// <summary>
         /// <para>

@@ -31,6 +31,66 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Adds an alternate local network name for the computer from which it is called.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/devnotes/addlocalalternatecomputername"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpDnsFQHostname">
+        /// The alternate name to be added.
+        /// The name must be in the <see cref="ComputerNameDnsFullyQualified"/> format
+        /// as defined in the <see cref="COMPUTER_NAME_FORMAT"/> enumeration,
+        /// and the <see cref="DnsValidateName_W"/> function must be able to validate it
+        /// with its format set to <see cref="DnsNameHostnameFull"/>.
+        /// </param>
+        /// <param name="ulFlags">
+        /// This parameter is reserved and must be set to zero.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, it returns a nonzero error code.
+        /// Among the error codes that it returns are the following:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Indicates that the <paramref name="lpDnsFQHostname"/> parameter does not point to a valid DNS name,
+        /// or that the <paramref name="ulFlags"/> parameter is not equal to zero.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// There is not enough memory to complete the operation.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddLocalAlternateComputerNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddLocalAlternateComputerName([In] LPCWSTR lpDnsFQHostname, [In] ULONG ulFlags);
+
+        /// <summary>
+        /// <para>
         /// Converts a DNS-style host name to a NetBIOS-style computer name.
         /// </para>
         /// <para>
@@ -102,6 +162,55 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DnsHostnameToComputerNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DnsHostnameToComputerName([In] LPCWSTR Hostname, [In] LPWSTR ComputerName, [In][Out] ref DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Gets a value indicating whether the 64-bit Common Language Runtime (CLR) is installed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/cossdk/getcompluspackageinstallstatus"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// This method can return the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// The 32-bit Common Language Runtime (CLR) is installed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 0x00000001
+        /// </term>
+        /// <term>
+        /// The 64-bit Common Language Runtime (CLR) is installed.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function is not defined in an SDK header and must be declared by the caller.
+        /// This function is exported from kernel32.dll.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetComPlusPackageInstallStatus", ExactSpelling = true)]
+        public static extern ULONG GetComPlusPackageInstallStatus();
 
         /// <summary>
         /// <para>
@@ -353,6 +462,87 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetComputerNameExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetComputerNameEx([In] COMPUTER_NAME_FORMAT NameType, [In] LPWSTR lpBuffer, [In][Out] ref DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the value of the specified firmware environment variable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfirmwareenvironmentvariablew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the firmware environment variable.
+        /// The pointer must not be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpGuid">
+        /// The GUID that represents the namespace of the firmware environment variable.
+        /// The GUID must be a string in the format "{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}"
+        /// where 'x' represents a hexadecimal value.
+        /// </param>
+        /// <param name="pBuffer">
+        /// A pointer to a buffer that receives the value of the specified firmware environment variable.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="pBuffer"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of bytes stored in the <paramref name="pBuffer"/> buffer.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible error codes include <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Starting with Windows 10, version 1803,
+        /// Universal Windows apps can read and write Unified Extensible Firmware Interface (UEFI) firmware variables.
+        /// See Access UEFI firmware variables from a Universal Windows App for details.
+        /// </para>
+        /// <para>
+        /// To read a firmware environment variable, the user account that the app is running
+        /// under must have the <see cref="SE_SYSTEM_ENVIRONMENT_NAME"/> privilege.
+        /// A Universal Windows app must be run from an administrator account
+        /// and follow the requirements outlined in Access UEFI firmware variables from a Universal Windows App.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, version 1803, reading Unified Extensible Firmware Interface (UEFI) variables
+        /// is also supported from User-Mode Driver Framework (UMDF) drivers.
+        /// Writing UEFI variables from UMDF drivers is not supported.
+        /// </para>
+        /// <para>
+        /// The exact set of firmware environment variables is determined by the boot firmware.
+        /// The location of these environment variables is also specified by the firmware.
+        /// For example, on a UEFI-based system, NVRAM contains firmware environment variables that specify system boot settings.
+        /// For information about specific variables used, see the UEFI specification.
+        /// For more information about UEFI and Windows, see UEFI and Windows.
+        /// </para>
+        /// <para>
+        /// Firmware variables are not supported on a legacy BIOS-based system.
+        /// The <see cref="GetFirmwareEnvironmentVariable"/> function will always fail on a legacy BIOS-based system,
+        /// or if Windows was installed using legacy BIOS on a system that supports both legacy BIOS and UEFI.
+        /// To identify these conditions, call the function with a dummy firmware environment name
+        /// such as an empty string ("") for the <paramref name="lpName"/> parameter
+        /// and a dummy GUID such as "{00000000-0000-0000-0000-000000000000}" for the <paramref name="lpGuid"/> parameter.
+        /// On a legacy BIOS-based system, or on a system that supports both legacy BIOS and UEFI
+        /// where Windows was installed using legacy BIOS, the function will fail with <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// On a UEFI-based system, the function will fail with an error specific to the firmware,
+        /// such as <see cref="ERROR_NOACCESS"/>, to indicate that the dummy GUID namespace does not exist.
+        /// </para>
+        /// <para>
+        /// If you are creating a backup application, you can use this function to save all the boot settings for the system
+        /// so they can be restored using the <see cref="SetFirmwareEnvironmentVariable"/> function if needed.
+        /// </para>
+        /// <para>
+        /// <see cref="GetFirmwareEnvironmentVariable"/> is the user-mode equivalent of the <c>ExGetFirmwareEnvironmentVariable</c> kernel-mode routine.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFirmwareEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetFirmwareEnvironmentVariable([In] LPCWSTR lpName, [In] LPCWSTR lpGuid, [In] PVOID pBuffer, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -2689,7 +2879,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemFirmwareTable", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemFirmwareTable([In] DWORD FirmwareTableProviderSignature, [In] DWORD FirmwareTableID,
-                [In] PVOID pFirmwareTableBuffer, [In] DWORD BufferSize);
+            [In] PVOID pFirmwareTableBuffer, [In] DWORD BufferSize);
 
         /// <summary>
         /// <para>
@@ -2708,6 +2898,33 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", ExactSpelling = true)]
         public static extern void GetSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current size of the registry and the maximum size that the registry is allowed to attain on the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getsystemregistryquota"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pdwQuotaAllowed">
+        /// A pointer to a variable that receives the maximum size that the registry is allowed to attain on this system, in bytes.
+        /// </param>
+        /// <param name="pdwQuotaUsed">
+        /// A pointer to a variable that receives the current size of the registry, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemRegistryQuota", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetSystemRegistryQuota([Out] out DWORD pdwQuotaAllowed, [Out] out DWORD pdwQuotaUsed);
 
         /// <summary>
         /// <para>
@@ -2731,6 +2948,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTime", ExactSpelling = true)]
         public static extern void GetSystemTime([Out] out SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves system timing information in "ticks" (or 100-nanosecond intervals).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpIdleTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time in "ticks" that the system has been idle.
+        /// </param>
+        /// <param name="lpKernelTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time in "ticks"
+        /// that the system has spent executing in Kernel mode (including all threads in all processes, on all processors).
+        /// This time value also includes the amount of time the system has been idle.
+        /// </param>
+        /// <param name="lpUserTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time in "ticks"
+        /// that the system has spent executing in User mode (including all threads in all processes, on all processors).
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// On a multiprocessor system (with 64 processors or fewer),
+        /// the value returned is the sum of the designated times in "ticks" across all processors.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// On systems with more than 64 processors, the value returned is the sum of the designated times
+        /// for the primary processor group that the calling thread belongs to (see Processor Groups).
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimes", ExactSpelling = true)]
+        public static extern BOOL GetSystemTimes([Out] out SYSTEMTIME lpIdleTime, [Out] out SYSTEMTIME lpKernelTime, [Out] out SYSTEMTIME lpUserTime);
 
         /// <summary>
         /// <para>
@@ -4525,6 +4788,83 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetComputerNameExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetComputerNameEx([In] COMPUTER_NAME_FORMAT NameType, [In] LPCWSTR lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// Sets the value of the specified firmware environment variable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setfirmwareenvironmentvariablew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the firmware environment variable.
+        /// The pointer must not be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpGuid">
+        /// The GUID that represents the namespace of the firmware environment variable.
+        /// The GUID must be a string in the format "{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}".
+        /// If the system does not support GUID-based namespaces, this parameter is ignored.
+        /// </param>
+        /// <param name="pValue">
+        /// A pointer to the new value for the firmware environment variable.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="pValue"/> buffer, in bytes.
+        /// If this parameter is zero, the firmware environment variable is deleted.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible error codes include <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Starting with Windows 10, version 1803, Universal Windows apps can read and write UEFI firmware variables.
+        /// See Access UEFI firmware variables from a Universal Windows App for details.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 10, version 1803,
+        /// reading UEFI firmware variables is also supported from User-Mode Driver Framework (UMDF) drivers.
+        /// Writing UEFI firmware variables from UMDF drivers is not supported.
+        /// </para>
+        /// <para>
+        /// To write a firmware environment variable, the user account that the app is running under
+        /// must have the <see cref="SE_SYSTEM_ENVIRONMENT_NAME"/> privilege.
+        /// A Universal Windows app must be run from an administrator account
+        /// and follow the requirements outlined in Access UEFI firmware variables from a Universal Windows App.
+        /// </para>
+        /// <para>
+        /// The exact set of firmware environment variables is determined by the boot firmware.
+        /// The location of these environment variables is also specified by the firmware.
+        /// For example, on a UEFI-based system, NVRAM contains firmware environment variables that specify system boot settings.
+        /// For information about specific variables used, see the UEFI specification.
+        /// For more information about UEFI and Windows, see UEFI and Windows.
+        /// </para>
+        /// <para>
+        /// Firmware variables are not supported on a legacy BIOS-based system.
+        /// The <see cref="SetFirmwareEnvironmentVariable"/> function will always fail on a legacy BIOS-based system,
+        /// or if Windows was installed using legacy BIOS on a system that supports both legacy BIOS and UEFI.
+        /// To identify these conditions, call the function with a dummy firmware environment name
+        /// such as an empty string ("") for the <paramref name="lpName"/> parameter
+        /// and a dummy GUID such as "{00000000-0000-0000-0000-000000000000}" for the <paramref name="lpGuid"/> parameter.
+        /// On a legacy BIOS-based system, or on a system that supports both legacy BIOS and UEFI
+        /// where Windows was installed using legacy BIOS, the function will fail with <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// On a UEFI-based system, the function will fail with an error specific to the firmware,
+        /// such as <see cref="ERROR_NOACCESS"/>, to indicate that the dummy GUID namespace does not exist.
+        /// </para>
+        /// <para>
+        /// <see cref="SetFirmwareEnvironmentVariable"/> is the user-mode equivalent of the <c>ExSetFirmwareEnvironmentVariable</c> kernel-mode routine.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFirmwareEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFirmwareEnvironmentVariable([In] LPCWSTR lpName, [In] LPCWSTR lpGuid, [In] PVOID pValue, [In] DWORD nSize);
 
         /// <summary>
         /// <para>

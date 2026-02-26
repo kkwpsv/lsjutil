@@ -440,6 +440,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the application-specific portion of the search path used to locate DLLs for the application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getdlldirectoryw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The size of the output buffer, in characters.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the application-specific portion of the search path.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the length of the string copied to <paramref name="lpBuffer"/>,
+        /// in characters, not including the terminating null character.
+        /// If the return value is greater than <paramref name="nBufferLength"/>,
+        /// it specifies the size of the buffer required for the path.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP1")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDllDirectoryW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetDllDirectory([In] DWORD nBufferLength, [In] LPWSTR lpBuffer);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
         /// The module must have been loaded by the current process.
         /// </para>

@@ -5568,6 +5568,85 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetWindowRgnBox"/> function retrieves the dimensions of the tightest bounding rectangle for the window region of a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowrgnbox"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window.
+        /// </param>
+        /// <param name="lprc">
+        /// Pointer to a <see cref="RECT"/> structure that receives the rectangle dimensions,
+        /// in device units relative to the upper-left corner of the window.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value specifies the type of the region that the function obtains.
+        /// It can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="COMPLEXREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is more than one rectangle.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR"/>
+        /// </term>
+        /// <term>
+        /// The specified window does not have a region, or an error occurred while attempting to return the region.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="NULLREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is empty.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SIMPLEREGION"/>
+        /// </term>
+        /// <term>
+        /// The region is a single rectangle.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The window region determines the area within the window where the system permits drawing.
+        /// The system does not display any portion of a window that lies outside of the window region.
+        /// The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
+        /// </para>
+        /// <para>
+        /// To set the window region of a window, call the <see cref="SetWindowRgn"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRgnBox", ExactSpelling = true)]
+        public static extern RegionFlags GetWindowRgnBox([In] HWND hWnd, [Out] out RECT lprc);
+
+        /// <summary>
+        /// <para>
         /// Copies the text of the specified window's title bar (if it has one) into a buffer. 
         /// If the specified window is a control, the text of the control is copied. 
         /// However, <see cref="GetWindowText"/> cannot retrieve the text of a control in another application.

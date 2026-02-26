@@ -19,7 +19,7 @@ using static Lsj.Util.Win32.Enums.ProcessCreationDesktopAppPolices;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessCreationMitigationPolicies;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
-using static Lsj.Util.Win32.Enums.SearchPathModes;
+using static Lsj.Util.Win32.Enums.DEP_SYSTEM_POLICY_TYPE;
 using static Lsj.Util.Win32.Enums.StartupInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.Toolhelp32SnapshotFlags;
@@ -1255,6 +1255,101 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessAffinityMask([In] HANDLE hProcess, [Out] out DWORD_PTR lpProcessAffinityMask,
             [Out] out DWORD_PTR lpSystemAffinityMask);
+
+        /// <summary>
+        /// <para>
+        /// Gets the data execution prevention (DEP) and DEP-ATL thunk emulation settings for the specified 32-bit process.
+        /// </para>
+        /// <para>
+        /// Windows XP with SP3:  Gets the DEP and DEP-ATL thunk emulation settings for the current process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessdeppolicy"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process.
+        /// <see cref="PROCESS_QUERY_INFORMATION"/> privilege is required to get the DEP policy of a process.
+        /// </para>
+        /// <para>
+        /// Windows XP with SP3:
+        /// The <paramref name="hProcess"/> parameter is ignored.
+        /// </para>
+        /// </param>
+        /// <param name="lpFlags">
+        /// <para>
+        /// A <see cref="DWORD"/> that receives one or more of the following flags.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// DEP is disabled for the specified process.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PROCESS_DEP_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// DEP is enabled for the specified process.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// DEP-ATL thunk emulation is disabled for the specified process.
+        /// For information about DEP-ATL thunk emulation, see <see cref="SetProcessDEPPolicy"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpPermanent">
+        /// <see cref="TRUE"/> if DEP is enabled or disabled permanently for the specified process; otherwise <see cref="FALSE"/>.
+        /// If <paramref name="lpPermanent"/> is <see cref="TRUE"/>,
+        /// the current DEP setting persists for the life of the process and cannot be changed by calling <see cref="SetProcessDEPPolicy"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To retrieve error values defined for this function, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetProcessDEPPolicy"/> is supported for 32-bit processes only.
+        /// If this function is called on a 64-bit process, it fails with <see cref="ERROR_NOT_SUPPORTED"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows Vista with SP1, Windows XP with SP3")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessDEPPolicy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessDEPPolicy([In] HANDLE hProcess, [Out] out DWORD lpFlags, [Out] BOOL lpPermanent);
 
         /// <summary>
         /// <para>
@@ -3088,6 +3183,232 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityUpdateMode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessAffinityUpdateMode([In] HANDLE hProcess, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Changes data execution prevention (DEP) and DEP-ATL thunk emulation settings for a 32-bit process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessdeppolicy"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// <para>
+        /// A <see cref="DWORD"/> that can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// If the DEP system policy is <see cref="DEPPolicyOptIn"/> or <see cref="DEPPolicyOptOut"/> and DEP is enabled for the process,
+        /// setting <paramref name="dwFlags"/> to 0 disables DEP for the process.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PROCESS_DEP_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enables DEP permanently on the current process.
+        /// After DEP has been enabled for the process by setting <see cref="PROCESS_DEP_ENABLE"/>,
+        /// it cannot be disabled for the life of the process.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disables DEP-ATL thunk emulation for the current process,
+        /// which prevents the system from intercepting NX faults that originate from the Active Template Library (ATL) thunk layer.
+        /// For more information, see the Remarks section.
+        /// This flag can be specified only with <see cref="PROCESS_DEP_ENABLE"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To retrieve error values defined for this function, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="SetProcessDEPPolicy"/> function overrides the system DEP policy for the current process
+        /// unless its DEP policy was specified at process creation.
+        /// The system DEP policy setting must be <see cref="DEPPolicyOptIn"/> or <see cref="DEPPolicyOptOut"/>.
+        /// If the system DEP policy is <see cref="DEPPolicyAlwaysOff"/> or <see cref="DEPPolicyAlwaysOn"/>,
+        /// <see cref="SetProcessDEPPolicy"/> returns an error.
+        /// After DEP is enabled for a process, subsequent calls to <see cref="SetProcessDEPPolicy"/> are ignored.
+        /// </para>
+        /// <para>
+        /// DEP policy specified at process creation with the <see cref="PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY"/> attribute
+        /// cannot be changed for the life of the process.
+        /// In this case, calls to <see cref="SetProcessDEPPolicy"/> fail with <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="SetProcessDEPPolicy"/> is supported for 32-bit processes only.
+        /// If this function is called on a 64-bit process, it fails with <see cref="ERROR_NOT_SUPPORTED"/>.
+        /// </para>
+        /// <para>
+        /// Applications written to ATL 7.1 and earlier can attempt to execute code on pages marked as non-executable,
+        /// which triggers an NX fault and terminates the application.
+        /// DEP-ATL thunk emulation allows an application that would otherwise trigger an NX fault to run with DEP enabled.
+        /// For information about ATL versions, see ATL and MFC Version Numbers.
+        /// </para>
+        /// <para>
+        /// If DEP-ATL thunk emulation is enabled, the system intercepts NX faults, emulates the instructions,
+        /// and handles the exceptions so the application can continue to run.
+        /// If DEP-ATL thunk emulation is disabled by setting <see cref="PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION"/> for the process,
+        /// NX faults are not intercepted, which is useful when testing applications for compatibility with DEP.
+        /// </para>
+        /// <para>
+        /// The following table summarizes the interactions between system DEP policy,
+        /// DEP-ATL thunk emulation, and <see cref="SetProcessDEPPolicy"/>.
+        /// To get the system DEP policy setting, use the <see cref="GetSystemDEPPolicy"/> function.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// System DEP policy
+        /// </term>
+        /// <term>
+        /// DEP behavior
+        /// </term>
+        /// <term>
+        /// DEP_ATL thunk emulation behavior
+        /// </term>
+        /// <term>
+        /// <see cref="SetProcessDEPPolicy"/> behavior
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyAlwaysOff"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Disabled for the operating system and all processes.
+        /// </term>
+        /// <term>
+        /// Not applicable.
+        /// </term>
+        /// <term>
+        /// Returns an error.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyAlwaysOn"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enabled for the operating system and all processes.
+        /// </term>
+        /// <term>
+        /// Disabled.
+        /// </term>
+        /// <term>
+        /// Returns an error.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyOptIn"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// <para>
+        /// Default configuration for Windows client versions.
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enabled for the operating system and disabled for nonsystem processes.
+        /// Administrators can explicitly enable DEP for selected executable files.
+        /// </term>
+        /// <term>
+        /// Not applicable.
+        /// </term>
+        /// <term>
+        /// <para>
+        /// DEP can be enabled for the current process.
+        /// </para>
+        /// <para>
+        /// If DEP is enabled for the current process, DEP-ATL thunk emulation can be disabled for that process.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="DEPPolicyOptOut"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// <para>
+        /// Default configuration for Windows Server versions.
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enabled for the operating system and all processes.
+        /// Administrators can explicitly disable DEP for selected executable files.
+        /// </term>
+        /// <term>
+        /// Enabled.
+        /// </term>
+        /// <term>
+        /// <para>
+        /// DEP can be disabled for the current process.
+        /// </para>
+        /// <para>
+        /// If DEP is disabled for the current process, DEP-ATL thunk emulation is automatically disabled for that process.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows Vista with SP1, Windows XP with SP3")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDEPPolicy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessDEPPolicy([In] DWORD dwFlags);
 
         /// <summary>
         /// <para>

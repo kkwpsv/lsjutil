@@ -3376,6 +3376,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether there is an installed WinEvent hook that might be notified of a specified event.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-iswineventhookinstalled"/>
+        /// </para>
+        /// </summary>
+        /// <param name="event">
+        /// The event constant that hooks might be notified of.
+        /// The function checks whether there is an installed hook for this event constant.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If there is a hook to be notified of the specified event, the return value is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If there are no hooks to be notified of the specified event, the return value is <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is guaranteed to never return a false negative.
+        /// If this method returns <see cref="FALSE"/>, it means that no hooks in the system would be notified of the event.
+        /// However, this method may return a false positive.
+        /// In other words, it may return <see cref="TRUE"/> even though there are no hooks that would be notified.
+        /// Thus, it is safe for components to circumvent some work if this method returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Event hooks can be installed at any time, so server developers should not cache the return value for long periods of time.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWinEventHookInstalled", ExactSpelling = true)]
+        public static extern BOOL IsWinEventHookInstalled([In] EventConstants @event);
+
+        /// <summary>
+        /// <para>
         /// Destroys the specified timer.
         /// </para>
         /// <para>

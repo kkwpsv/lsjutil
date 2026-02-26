@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
+using static Lsj.Util.Win32.Enums.MEMORY_RESOURCE_NOTIFICATION_TYPE;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
 using static Lsj.Util.Win32.Enums.MemoryPageTypes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
@@ -197,6 +198,92 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPagesNuma", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AllocateUserPhysicalPagesNuma([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages,
             [In] ULONG_PTR[] PageArray, [In] DWORD nndPreferred);
+
+        /// <summary>
+        /// <para>
+        /// Creates a memory resource notification object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-creatememoryresourcenotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="NotificationType">
+        /// <para>
+        /// The memory condition under which the object is to be signaled.
+        /// This parameter can be one of the following values from the <see cref="MEMORY_RESOURCE_NOTIFICATION_TYPE"/> enumeration.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="LowMemoryResourceNotification"/>
+        /// </para>
+        /// <para>
+        /// 0
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Available physical memory is running low.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="HighMemoryResourceNotification"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Available physical memory is high.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a handle to a memory resource notification object.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Applications can use memory resource notification events to scale the memory usage as appropriate.
+        /// If available memory is low, the application can reduce its working set.
+        /// If available memory is high, the application can allocate more memory.
+        /// </para>
+        /// <para>
+        /// Any thread of the calling process can specify the memory resource notification handle
+        /// in a call to the <see cref="QueryMemoryResourceNotification"/> function or one of the wait functions.
+        /// The state of the object is signaled when the specified memory condition exists.
+        /// This is a system-wide event, so all applications receive notification when the object is signaled.
+        /// Note that there is a range of memory availability
+        /// where neither the <see cref="LowMemoryResourceNotification"/> or <see cref="HighMemoryResourceNotification"/> object is signaled.
+        /// In this case, applications should attempt to keep the memory use constant.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// The system closes the handle automatically when the process terminates.
+        /// The memory resource notification object is destroyed when its last handle has been closed.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMemoryResourceNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE CreateMemoryResourceNotification([In] MEMORY_RESOURCE_NOTIFICATION_TYPE NotificationType);
 
         /// <summary>
         /// <para>
@@ -3780,6 +3867,40 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPagesScatter", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MapUserPhysicalPagesScatter([In] PVOID[] VirtualAddresses, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the state of the specified memory resource object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-querymemoryresourcenotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ResourceNotificationHandle">
+        /// A handle to a memory resource notification object.
+        /// The <see cref="CreateMemoryResourceNotification"/> function returns this handle.
+        /// </param>
+        /// <param name="ResourceState">
+        /// The memory pointed to by this parameter receives the state of the memory resource notification object.
+        /// The value of this parameter is set to <see cref="TRUE"/> if the specified memory condition exists,
+        /// and <see cref="FALSE"/> if the specified memory condition does not exist.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// For more error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Unlike the wait functions, <see cref="QueryMemoryResourceNotification"/> does not block the calling thread.
+        /// Therefore, it is an efficient way to check the state of physical memory before proceeding with an operation.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryMemoryResourceNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryMemoryResourceNotification([In] HANDLE ResourceNotificationHandle, [Out] out BOOL ResourceState);
 
         /// <summary>
         /// <para>

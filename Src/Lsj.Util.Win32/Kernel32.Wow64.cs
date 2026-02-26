@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -12,6 +13,51 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Retrieves the path of the system directory used by WOW64.
+        /// This directory is not present on 32-bit Windows.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wow64apiset/nf-wow64apiset-getsystemwow64directoryw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer to receive the path.
+        /// This path does not end with a backslash.
+        /// </param>
+        /// <param name="uSize">
+        /// The maximum size of the buffer, in <c>TCHAR</c>s.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the length, in <c>v</c>s,
+        /// of the string copied to the buffer, not including the terminating null character.
+        /// If the length is greater than the size of the buffer,
+        /// the return value is the size of the buffer required to hold the path.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// On 32-bit Windows, the function always fails,
+        /// and the extended error is set to <see cref="ERROR_CALL_NOT_IMPLEMENTED"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// WOW64 uses the system directory to store shared 32-bit code on 64-bit Windows.
+        /// Most applications have no need to access this directory explicitly.
+        /// </para>
+        /// <para>
+        /// For more information on WOW64, see Running 32-bit Applications.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWow64DirectoryW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetSystemWow64Directory([In] LPWSTR lpBuffer, [In] UINT uSize);
+
         /// <summary>
         /// <para>
         /// Determines whether the specified process is running under WOW64 or an Intel64 of x64 processor.
