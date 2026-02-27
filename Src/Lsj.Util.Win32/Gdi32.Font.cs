@@ -1410,6 +1410,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// This function enables or disables support for end-user-defined characters (EUDC).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/gdi/enableeudc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="bEnable">
+        /// Boolean that is set to <see cref="TRUE"/> to enable EUDC, and to <see cref="FALSE"/> to disable EUDC.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If EUDC is disabled, trying to display EUDC characters will result in missing or bad glyphs.
+        /// </para>
+        /// <para>
+        /// During multi-session, this function affects the current session only.
+        /// </para>
+        /// <para>
+        /// It is recommended that you use this function with Windows XP SP2 or later.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// EnableEUDC is recommended to be called only once, as repeated calls may cause performance degradation.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableEUDC", ExactSpelling = true)]
+        public static extern BOOL EnableEUDC([In] BOOL bEnable);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="EnumFontFamilies"/> function enumerates the fonts in a specified font family that are available on a specified device.
         /// </para>
         /// <para>

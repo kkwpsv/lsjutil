@@ -191,6 +191,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ColorCorrectPalette"/> function corrects the entries of a palette
+        /// using the WCS 1.0 parameters in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-colorcorrectpalette"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Specifies a device context whose WCS parameters to use.
+        /// </param>
+        /// <param name="hPal">
+        /// Specifies the handle to the palette to be color corrected.
+        /// </param>
+        /// <param name="deFirst">
+        /// Specifies the first entry in the palette to be color corrected.
+        /// </param>
+        /// <param name="num">
+        /// Specifies the number of entries to color correct.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If this function succeeds, the return value is <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If this function fails, the return value is <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ColorCorrectPalette", ExactSpelling = true)]
+        public static extern BOOL ColorCorrectPalette([In] HDC hdc, [In] HPALETTE hPal, [In] DWORD deFirst, [In] DWORD num);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateColorSpace"/> function creates a logical color space.
         /// </para>
         /// <para>

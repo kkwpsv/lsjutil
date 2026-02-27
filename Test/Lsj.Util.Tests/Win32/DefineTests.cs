@@ -390,11 +390,88 @@ namespace Lsj.Util.Tests.Win32
             
             // 2000
             "AlignRects",                                       // undocument
+            "AnyLinkedFonts",                                   // undocument
+            "BRUSHOBJ_hGetColorTransform",                      // DDI
+            "BRUSHOBJ_pvAllocRbrush",                           // DDI
+            "BRUSHOBJ_pvGetRbrush",                             // DDI
+            "BRUSHOBJ_ulGetBrushColor",                         // DDI
+            "CLIPOBJ_bEnum",                                    // DDI
+            "CLIPOBJ_cEnumStart",                               // DDI
+            "CLIPOBJ_ppoGetPath",                               // DDI
             "CliImmSetHotKey",                                  // undocument
             "CtxInitUser32",                                    // undocument
             "DelayLoadFailureHook",                             // not api
             "DeviceEventWorker",                                // undocument
             "DosPathToSessionPathW",                            // undocument
+            "EndFormPage",                                      // undocument
+            "EngAcquireSemaphore",                              // DDI
+            "EngAlphaBlend",                                    // DDI
+            "EngAssociateSurface",                              // DDI
+            "EngBitBlt",                                        // DDI
+            "EngCheckAbort",                                    // DDI
+            "EngComputeGlyphSet",                               // DDI
+            "EngCopyBits",                                      // DDI
+            "EngCreateBitmap",                                  // DDI
+            "EngCreateClip",                                    // DDI
+            "EngCreateDeviceBitmap",                            // DDI
+            "EngCreateDeviceSurface",                           // DDI
+            "EngCreatePalette",                                 // DDI
+            "EngCreateSemaphore",                               // DDI
+            "EngDeleteClip",                                    // DDI
+            "EngDeletePalette",                                 // DDI
+            "EngDeletePath",                                    // DDI
+            "EngDeleteSemaphore",                               // DDI
+            "EngDeleteSurface",                                 // DDI
+            "EngEraseSurface",                                  // DDI
+            "EngFillPath",                                      // DDI
+            "EngFindResource",                                  // DDI
+            "EngFreeModule",                                    // DDI
+            "EngGetCurrentCodePage",                            // DDI
+            "EngGetDriverName",                                 // DDI
+            "EngGetPrinterDataFileName",                        // DDI
+            "EngGradientFill",                                  // DDI
+            "EngLineTo",                                        // DDI
+            "EngLoadModule",                                    // DDI
+            "EngLockSurface",                                   // DDI
+            "EngMarkBandingSurface",                            // DDI
+            "EngMultiByteToUnicodeN",                           // DDI
+            "EngMultiByteToWideChar",                           // DDI
+            "EngPaint",                                         // DDI
+            "EngPlgBlt",                                        // DDI
+            "EngQueryEMFInfo",                                  // DDI
+            "EngQueryLocalTime",                                // DDI
+            "EngReleaseSemaphore",                              // DDI
+            "EngStretchBlt",                                    // DDI
+            "EngStretchBltROP",                                 // DDI
+            "EngStrokeAndFillPath",                             // DDI
+            "EngStrokePath",                                    // DDI
+            "EngTextOut",                                       // DDI
+            "EngTransparentBlt",                                // DDI
+            "EngUnicodeToMultiByteN",                           // DDI
+            "EngUnlockSurface",                                 // DDI
+            "EngWideCharToMultiByte",                           // DDI
+            "EudcLoadLinkW",                                    // undocument
+            "EudcUnloadLinkW",                                  // undocument
+            "FONTOBJ_cGetAllGlyphHandles",                      // DDI
+            "FONTOBJ_cGetGlyphs",                               // DDI
+            "FONTOBJ_pQueryGlyphAttrs",                         // DDI
+            "FONTOBJ_pfdg",                                     // DDI
+            "FONTOBJ_pifi",                                     // DDI
+            "FONTOBJ_pvTrueTypeFontFile",                       // DDI
+            "FONTOBJ_pxoGetXform",                              // DDI
+            "FONTOBJ_vGetInfo",                                 // DDI
+            "FontIsLinked",                                     // undocument
+            "GdiArtificialDecrementDriver",                     // undocument
+            "GdiConvertBitmapV5",                               // undocument
+            "GdiEntry16",                                       // undocument
+            "GdiFullscreenControl",                             // undocument
+            "GdiInitializeLanguagePack",                        // undocument
+            "GdiIsPlayMetafileDC",                              // undocument
+            "GdiPlayPrivatePageEMF",                            // undocument
+            "GdiPrinterThunk",                                  // undocument
+            "GdiRealizationInfo",                               // undocument
+            "GdiReleaseDC",                                     // undocument
+            "GdiSetLastError",                                  // undocument
             "GetAltTabInfo",                                    // duplicate of GetAltTabInfoW
             "GetAppCompatFlags2",                               // undocument
             "GetConsoleCharType",                               // undocument
@@ -402,18 +479,32 @@ namespace Lsj.Util.Tests.Win32
             "GetConsoleNlsMode",                                // undocument
             "GetCursorFrameInfo",                               // undocument 
             "GetDefaultSortkeySize",                            // undocument
+            "GetEUDCTimeStamp",                                 // undocument
+            "GetEUDCTimeStampExW",                              // undocument
+            "GetFontAssocStatus",                               // undocument
             "GetLinguistLangSize",                              // undocument
             "GetNlsSectionName",                                // undocument
+            "GetStringBitmapW",                                 // undocument
+            "GetTextExtentExPointWPri",                         // undocument
+            "GetTextFaceAliasW",                                // undocument
             "GetWinStationInfo",                                // undocument
             "GetWindowModuleFileName",                          // duplicate of GetWindowModuleFileNameW
+            "HT_Get8BPPFormatPalette",                          // DDI
+            "HT_Get8BPPMaskPalette",                            // DDI
             "InitializeLpkHooks",                               // undocument
             "InitializeWin32EntryTable",                        // undocument
+            "MirrorRgn",                                        // undocument
             "Module32First",                                    // duplicate of Module32FirstW
             "Module32Next",                                     // duplicate of Module32NextW
             "NlsConvertIntegerToString",                        // undocument
             "NlsGetCacheUpdateCount",                           // undocument
             "NlsResetProcessLocale",                            // undocument
             "OpenDataFile",                                     // undocument
+            "PATHOBJ_bEnum",                                    // DDI
+            "PATHOBJ_bEnumClipLines",                           // DDI
+            "PATHOBJ_vEnumStart",                               // DDI
+            "PATHOBJ_vEnumStartClipLines",                      // DDI
+            "PATHOBJ_vGetBounds",                               // DDI
             "PrivCopyFileExW",                                  // undocument
             "PrivateSetDbgTag",                                 // undocument
             "PrivateSetRipFlags",                               // undocument
@@ -421,6 +512,7 @@ namespace Lsj.Util.Tests.Win32
             "Process32First",                                   // duplicate of Process32FirstW
             "Process32Next",                                    // duplicate of Process32NextW
             "QueryUserCounters",                                // undocument
+            "QueryFontAssocStatus",                             // undocument
             "RealGetWindowClass",                               // duplicate of RealGetWindowClassW
             "RegisterConsoleIME",                               // undocument
             "RegisterConsoleOS2",                               // undocument
@@ -434,9 +526,16 @@ namespace Lsj.Util.Tests.Win32
             "SetConsoleLocalEUDC",                              // undocument
             "SetConsoleNlsMode",                                // undocument
             "SetConsoleOS2OemFormat",                           // undocument
+            "SetLayoutWidth",                                   // undocument
             "SetMessageWaitingIndicator",                       // undocument
             "SetTermsrvAppInstallMode",                         // undocument
             "SetTimerQueueTimer",                               // undocument
+            "StartFormPage",                                    // undocument
+            "STROBJ_bEnum",                                     // DDI
+            "STROBJ_bEnumPositionsOnly",                        // DDI
+            "STROBJ_bGetAdvanceWidths",                         // DDI
+            "STROBJ_dwGetCodePage",                             // DDI
+            "STROBJ_vEnumStart",                                // DDI
             "TermsrvAppInstallMode",                            // undocument
             "User32InitializeImmEntryTable",                    // undocument
             "UserLpkPSMTextOut",                                // undocument
@@ -449,6 +548,12 @@ namespace Lsj.Util.Tests.Win32
             "VRipOutput",                                       // undocument
             "VTagOutput",                                       // undocument
             "Win32PoolAllocationStats",                         // undocument
+            "XFORMOBJ_bApplyXform",                             // DDI
+            "XFORMOBJ_iGetXform",                               // DDI
+            "XLATEOBJ_cGetPalette",                             // DDI
+            "XLATEOBJ_hGetColorTransform",                      // DDI
+            "XLATEOBJ_iXlate",                                  // DDI
+            "XLATEOBJ_piVector",                                // DDI
 
             // XP
             "AllowForegroundActivation",                        // undocument
@@ -668,7 +773,7 @@ namespace Lsj.Util.Tests.Win32
                 (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.WindowsNT40) ||
-                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.WindowsNT40))
+                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows2000))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
