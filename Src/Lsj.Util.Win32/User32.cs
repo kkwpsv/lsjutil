@@ -133,6 +133,14 @@ namespace Lsj.Util.Win32
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelShutdown", ExactSpelling = true)]
+        public static extern BOOL CancelShutdown();
+
+        /// <summary>
         /// <para>
         /// Captures the mouse and tracks its movement until the user releases the left button, presses the ESC key,
         /// or moves the mouse outside the drag rectangle around the specified point.
@@ -4876,6 +4884,125 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Indicates that the system cannot be shut down and sets a reason string to be displayed to the user if system shutdown is initiated.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-shutdownblockreasoncreate"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the main window of the application.
+        /// </param>
+        /// <param name="pwszReason">
+        /// The reason the application must block system shutdown.
+        /// This string will be truncated for display purposes after <see cref="MAX_STR_BLOCKREASON"/> characters.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the call succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the call fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function can only be called from the thread that created the window specified by the <paramref name="hWnd"/> parameter.
+        /// Otherwise, the function fails and the last error code is <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// Applications should call this function as they begin an operation that cannot be interrupted, such as burning a CD or DVD.
+        /// When the operation has completed, call the <see cref="ShutdownBlockReasonDestroy"/> function to indicate that the system can be shut down.
+        /// </para>
+        /// <para>
+        /// Because users are typically in a hurry when shutting down the system,
+        /// they may spend only a few seconds looking at the shutdown reasons that are displayed by the system.
+        /// Therefore, it is important that your reason strings are short and clear.
+        /// For example "A CD burn is in progress." is better than
+        /// "This application is blocking system shutdown because a CD burn is in progress. Do not shut down."
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShutdownBlockReasonCreate", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShutdownBlockReasonCreate([In] HWND hWnd, [In] LPCWSTR pwszReason);
+
+        /// <summary>
+        /// <para>
+        /// Indicates that the system can be shut down and frees the reason string.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-shutdownblockreasondestroy"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the main window of the application.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the call succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the call fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function can only be called from the thread that created the window
+        /// specified by the <paramref name="hWnd"/> parameter.
+        /// Otherwise, the function fails and the last error code is <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If system shutdown has been previously blocked by the <see cref="ShutdownBlockReasonCreate"/> function,
+        /// this function frees the reason string. Otherwise, this function is a no-op.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShutdownBlockReasonDestroy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShutdownBlockReasonDestroy([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the reason string set by the <see cref="ShutdownBlockReasonCreate"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-shutdownblockreasonquery"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the main window of the application.
+        /// </param>
+        /// <param name="pwszBuff">
+        /// A pointer to a buffer that receives the reason string.
+        /// If this parameter is <see cref="NULL"/>, the function retrieves the number of characters in the reason string.
+        /// </param>
+        /// <param name="pcchBuff">
+        /// A pointer to a variable that specifies the size of the <paramref name="pwszBuff"/> buffer, in characters.
+        /// If the function succeeds, this variable receives the number of characters copied into the buffer,
+        /// including the null-terminating character.
+        /// If the buffer is too small, the variable receives the required buffer size, in characters,
+        /// not including the null-terminating character.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the call succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the call fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function can only be called from the thread that created the window specified by the <paramref name="hWnd"/> parameter.
+        /// Otherwise, the function fails and the last error code is <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShutdownBlockReasonQuery", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShutdownBlockReasonQuery([In] HWND hWnd, [In] LPWSTR pwszBuff, [Out] DWORD pcchBuff);
+
+        /// <summary>
+        /// <para>
         /// Triggers a visual signal to indicate that a sound is playing.
         /// </para>
         /// <para>
@@ -9476,6 +9603,30 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterDeviceNotification", ExactSpelling = true)]
         public static extern BOOL UnregisterDeviceNotification([In] HDEVNOTIFY Handle);
+
+        /// <summary>
+        /// <para>
+        /// Unregisters the power setting notification.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregisterpowersettingnotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// The handle returned from the <see cref="RegisterPowerSettingNotification"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterPowerSettingNotification([In] HPOWERNOTIFY Handle);
 
         /// <summary>
         /// <para>

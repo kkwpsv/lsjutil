@@ -2899,6 +2899,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="IsWindowRedirectedForPrint"/> function determines whether the specified window is currently redirected for printing.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/printdocs/iswindowredirectedforprint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// The handle of the window.
+        /// </param>
+        /// <returns>
+        /// If the window is currently redirected for printing,
+        /// the function returns a nonzero value; otherwise, it returns zero.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// A window is redirected for printing when it processes a call to <see cref="PrintWindow"/>.
+        /// In a call to <see cref="PrintWindow"/>, a window renders its content to an off-screen device context.
+        /// </para>
+        /// <para>
+        /// This function has no associated import library or header file;
+        /// you must call it by using the <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/> functions.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowRedirectedForPrint", ExactSpelling = true)]
+        public static extern BOOL IsWindowRedirectedForPrint([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>

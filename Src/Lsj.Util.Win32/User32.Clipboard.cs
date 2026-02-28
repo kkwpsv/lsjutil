@@ -19,6 +19,32 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Places the given window in the system-maintained clipboard format listener list.
+        /// </para>
+        /// <para>
+        /// body>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-addclipboardformatlistener"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window to be placed in the clipboard format listener list.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, <see cref="FALSE"/> otherwise.
+        /// Call <see cref="GetLastError"/> for additional details.
+        /// </returns>
+        /// <remarks>
+        /// When a window has been added to the clipboard format listener list,
+        /// it is posted a <see cref="WM_CLIPBOARDUPDATE"/> message whenever the contents of the clipboard have changed.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddClipboardFormatListener", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddClipboardFormatListener([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
         /// Removes a specified window from the chain of clipboard viewers.
         /// </para>
         /// <para>
@@ -406,6 +432,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the currently supported clipboard formats.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getupdatedclipboardformats"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpuiFormats">
+        /// An array of clipboard formats.
+        /// For a description of the standard clipboard formats, see Standard Clipboard Formats.
+        /// </param>
+        /// <param name="cFormats">
+        /// The number of entries in the array pointed to by <paramref name="lpuiFormats"/>.
+        /// </param>
+        /// <param name="pcFormatsOut">
+        /// The actual number of clipboard formats in the array pointed to by <paramref name="lpuiFormats"/>.
+        /// </param>
+        /// <returns>
+        /// The function returns <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// Call <see cref="GetLastError"/> for additional details.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdatedClipboardFormats", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetUpdatedClipboardFormats([Out] StandardClipboardFormats[] lpuiFormats, [In] UINT cFormats, [Out] UINT pcFormatsOut);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the clipboard contains data in the specified format.
         /// </para>
         /// <para>
@@ -514,6 +566,29 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClipboardFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RegisterClipboardFormat([In] LPCWSTR lpszFormat);
+
+        /// <summary>
+        /// <para>
+        /// Removes the given window from the system-maintained clipboard format listener list.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-removeclipboardformatlistener"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window to remove from the clipboard format listener list.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, <see cref="FALSE"/> otherwise.
+        /// Call <see cref="GetLastError"/> for additional details.
+        /// </returns>
+        /// <remarks>
+        /// When a window has been removed from the clipboard format listener list,
+        /// it will no longer receive <see cref="WM_CLIPBOARDUPDATE"/> messages.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveClipboardFormatListener", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveClipboardFormatListener([In] HWND hwnd);
 
         /// <summary>
         /// <para>

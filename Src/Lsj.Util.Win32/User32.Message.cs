@@ -1728,6 +1728,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the last message read from the current thread's queue originated from a <see cref="WOW64"/> process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-iswow64message"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The function returns <see cref="TRUE"/> if the last message
+        /// read from the current thread's queue originated from a WOW64 process, and <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// This function is useful to helping you develop 64-bit native applications
+        /// that can receive private messages sent from 32-bit client applications,
+        /// if the messages are associated with data structures that contain pointer-dependent data.
+        /// In these situations, you can call this function in your 64-bit native application
+        /// to determine if the message originated from a WOW64 process and then thunk the message appropriately.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Message", ExactSpelling = true)]
+        public static extern BOOL IsWow64Message();
+
+        /// <summary>
+        /// <para>
         /// Waits until one or all of the specified objects are in the signaled state or the time-out interval elapses.
         /// The objects can include input event objects, which you specify using the <paramref name="dwWakeMask"/> parameter.
         /// </para>
