@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.BaseTypes.UINT;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CONSOLECONTROL;
 using static Lsj.Util.Win32.Enums.ControlSignalTypes;
 using static Lsj.Util.Win32.Enums.DEVICE_SCALE_FACTOR;
 using static Lsj.Util.Win32.Enums.EndSessionFlags;
@@ -22,6 +23,7 @@ using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
 using static Lsj.Util.Win32.Enums.FontSmoothingTypes;
 using static Lsj.Util.Win32.Enums.JobObjectInformationClasses;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
@@ -139,6 +141,83 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelShutdown", ExactSpelling = true)]
         public static extern BOOL CancelShutdown();
+
+        /// <summary>
+        /// <para>
+        /// Performs special kernel operations for console host applications.
+        /// This includes reparenting the console window,
+        /// allowing the console to pass foreground rights on to launched console subsystem applications and terminating attached processes.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function has no associated import library.
+        /// This function is available as the resource named <see cref="ConsoleControl"/> in User32.dll.
+        /// You must use the <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/> functions to dynamically link to User32.dll.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/console/consolecontrol"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Command">
+        /// One of the <see cref="CONSOLECONTROL"/> values indicating which console control function should be executed.
+        /// </param>
+        /// <param name="ConsoleInformation">
+        /// A pointer to one of the <see cref="CONSOLEENDTASK"/>, <see cref="CONSOLEWINDOWOWNER"/>,
+        /// or <see cref="CONSOLESETFOREGROUND"/> structures specifying additional data for the requested console control function.
+        /// </param>
+        /// <param name="ConsoleInformationLength">
+        /// The size of the structure pointed to by the <paramref name="ConsoleInformation"/> parameter.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="STATUS_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is an <see cref="NTSTATUS"/> indicating the reason for the failure.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is not defined in an SDK header and must be declared by the caller. This function is exported from user32.dll.
+        /// </para>
+        /// <para>
+        /// Each command expects a different struct for the <paramref name="ConsoleInformation"/> parameter.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ConsoleNotifyConsoleApplication"/>: expects a pointer to a <see cref="CONSOLE_PROCESS_INFO"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ConsoleSetCaretInfo"/>: expects a pointer to a <see cref="CONSOLE_CARET_INFO"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ConsoleSetForeground"/>: expects a pointer to a <see cref="CONSOLESETFOREGROUND"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ConsoleSetWindowOwner"/>: expects a pointer to a <see cref="CONSOLEWINDOWOWNER"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ConsoleEndTask"/>: expects a pointer to a <see cref="CONSOLEENDTASK"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConsoleControl", ExactSpelling = true)]
+        public static extern NTSTATUS ConsoleControl([In] CONSOLECONTROL Command, [In] PVOID ConsoleInformation, [In] DWORD ConsoleInformationLength);
 
         /// <summary>
         /// <para>

@@ -596,6 +596,31 @@ namespace Lsj.Util.Tests.Win32
             "UnregisterSessionPort",                            // undocument
             "UpdateWindowTransform",                            // undocument
             "_UserTestTokenForInteractive",                     // undocument
+
+            //7
+            "ControlMagnification",                             // undocument
+            "DwmGetDxSharedSurface",                            // undocument
+            "gapfnScSendMessage",                               // undocument
+            "GetInputLocaleInfo",                               // undocument
+            "GetMagnificationDesktopColorEffect",               // undocument
+            "GetMagnificationDesktopMagnification",             // undocument
+            "GetMagnificationLensCtxInformation",               // undocument
+            "GetTopLevelWindow",                                // undocument
+            "GetWindowCompositionInfo",                         // undocument
+            "gSharedInfo",                                      // undocument
+            "IsTopLevelWindow",                                 // undocument
+            "NotifyOverlayWindow",                              // undocument
+            "SetMagnificationDesktopColorEffect",               // undocument
+            "SetMagnificationDesktopMagnification",             // undocument
+            "SetMagnificationLensCtxInformation",               // undocument
+            "SfmDxBindSwapChain",                               // undocument
+            "SfmDxGetSwapChainStats",                           // undocument
+            "SfmDxOpenSwapChain",                               // undocument
+            "SfmDxQuerySwapChainBindingStatus",                 // undocument
+            "SfmDxReleaseSwapChain",                            // undocument
+            "SfmDxReportPendingBindingsToDwm",                  // undocument
+            "SfmDxSetSwapChainBindingStatus",                   // undocument
+            "SfmDxSetSwapChainStats",                           // undocument
         };
 
     }

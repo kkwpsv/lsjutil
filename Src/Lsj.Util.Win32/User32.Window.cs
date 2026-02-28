@@ -4870,6 +4870,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current value of a specified Desktop Window Manager (DWM) attribute applied to a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dwm/getwindowcompositionattribute"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// An <see cref="HWND"/> specifying the handle to the window for which the attribute value is to be retrieved.
+        /// </param>
+        /// <param name="pwcad">
+        /// A pointer to a <see cref="WINDOWCOMPOSITIONATTRIBDATA"/> structure
+        /// describing which attribute to retrieve and a memory location to hold its value.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The use of this API is not recommended.
+        /// Use <see cref="DwmGetWindowAttribute"/> instead.
+        /// </para>
+        /// <para>
+        /// This function has no associated import library or header file;
+        /// you must call it using the <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/> functions.
+        /// The API is exported from user32.dll.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowCompositionAttribute", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWindowCompositionAttribute([In] HWND hWnd, [In][Out] ref WINDOWCOMPOSITIONATTRIBDATA pwcad);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the Help context identifier, if any, associated with the specified window.
         /// </para>
         /// <para>
@@ -7638,6 +7671,37 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProp([In] HWND hWnd, [In] LPCWSTR lpString, [In] HANDLE hData);
+
+        /// <summary>
+        /// <para>
+        /// Sets the current value of a specified Desktop Window Manager (DWM) attribute applied to a window.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/dwm/setwindowcompositionattribute"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// An <see cref="HWND"/> specifying the handle to the window for which the attribute value is to be set.
+        /// </param>
+        /// <param name="pwcad">
+        /// A pointer to a <see cref="WINDOWCOMPOSITIONATTRIBDATA"/> structure describing which attribute to set and its new value.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The use of this API is not recommended. Use <see cref="DwmSetWindowAttribute"/> instead.
+        /// </para>
+        /// <para>
+        /// This function has no associated import library or header file;
+        /// you must call it using the <see cref="LoadLibrary"/> and <see cref="GetProcAddress"/> functions.
+        /// The API is exported from user32.dll.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowCompositionAttribute", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWindowCompositionAttribute([In] HWND hWnd, [In] in WINDOWCOMPOSITIONATTRIBDATA pwcad);
 
         /// <summary>
         /// <para>
