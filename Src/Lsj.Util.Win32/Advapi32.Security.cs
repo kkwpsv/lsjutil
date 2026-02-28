@@ -4452,6 +4452,731 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetPrivateObjectSecurityEx"/> function modifies the security descriptor of a private object
+        /// maintained by the resource manager calling this function.
+        /// The <see cref="SetPrivateObjectSecurityEx"/> function has a flags parameter
+        /// that specifies whether the resource manager supports automatic inheritance of access control entries (ACEs).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setprivateobjectsecurityex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SecurityInformation">
+        /// Indicates the parts of the security descriptor to set.
+        /// This value can be a combination of the <see cref="SECURITY_INFORMATION"/> bit flags.
+        /// </param>
+        /// <param name="ModificationDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// The parts of this security descriptor indicated by the <paramref name="SecurityInformation"/> parameter
+        /// are applied to the <paramref name="ObjectsSecurityDescriptor"/> security descriptor.
+        /// </param>
+        /// <param name="ObjectsSecurityDescriptor">
+        /// <para>
+        /// A pointer to a pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// This security descriptor must be in self-relative form.
+        /// The memory for the security descriptor must be allocated from the process heap (<see cref="GetProcessHeap"/>)
+        /// with the <see cref="HeapAlloc"/> function.
+        /// </para>
+        /// <para>
+        /// On input, this is the current security descriptor of the private object.
+        /// The function modifies it to produce the new security descriptor.
+        /// If necessary, the <see cref="SetPrivateObjectSecurityEx"/> function allocates additional memory to produce a larger security descriptor.
+        /// </para>
+        /// </param>
+        /// <param name="AutoInheritFlags">
+        /// <para>
+        /// Specifies automatic inheritance of ACEs.
+        /// If the protected server does not implement automatic inheritance, it should specify zero;
+        /// otherwise, it can specify a combination of the following values, defined in Winnt.h.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_DACL_AUTO_INHERIT"/>
+        /// </para>
+        /// <para>
+        /// 0x01
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The new discretionary access control list (DACL) contains ACEs inherited from the DACL of the object's parent,
+        /// as well as any explicit ACEs specified in the DACL of <paramref name="ModificationDescriptor"/>.
+        /// If this flag is not set, the new DACL does not inherit ACEs.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_SACL_AUTO_INHERIT"/>
+        /// </para>
+        /// <para>
+        /// 0x02
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The new system access control list (SACL) contains ACEs inherited
+        /// from the SACL of the security descriptor associated with the object's parent,
+        /// as well as any explicit ACEs specified in the SACL of <paramref name="ModificationDescriptor"/>.
+        /// If this flag is not set, the new SACL does not inherit ACEs.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_AVOID_PRIVILEGE_CHECK"/>
+        /// </para>
+        /// <para>
+        /// 0x08
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function does not perform privilege checking.
+        /// If the <see cref="SEF_AVOID_OWNER_CHECK"/> flag is also set,
+        /// the <paramref name="Token"/> parameter can be <see cref="NULL"/>.
+        /// Use this flag when implementing automatic inheritance to avoid checking privileges on each child updated.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_AVOID_OWNER_CHECK"/>
+        /// </para>
+        /// <para>
+        /// 0x10
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The function does not check the validity of the owner
+        /// in the resultant <paramref name="ObjectsSecurityDescriptor"/> as described in Remarks.
+        /// If the <see cref="SEF_AVOID_PRIVILEGE_CHECK"/> flag is also set,
+        /// the <paramref name="Token"/> parameter can be <see cref="NULL"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_DEFAULT_OWNER_FROM_PARENT"/>
+        /// </para>
+        /// <para>
+        /// 0x20
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The owner of <paramref name="ObjectsSecurityDescriptor"/> defaults to the owner of the object's parent.
+        /// If this flag is not set, the owner of <paramref name="ObjectsSecurityDescriptor"/>
+        /// defaults to the owner of the token specified by the <paramref name="Token"/> parameter.
+        /// The owner of the token is specified in the token itself.
+        /// In either case, if the <paramref name="ModificationDescriptor"/> parameter is not <see cref="NULL"/>,
+        /// the <paramref name="ObjectsSecurityDescriptor"/> owner is set to the owner from <paramref name="ModificationDescriptor"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_DEFAULT_GROUP_FROM_PARENT"/>
+        /// </para>
+        /// <para>
+        /// 0x40
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The group of <paramref name="ObjectsSecurityDescriptor"/> defaults to the group from the owner of the object's parent.
+        /// If this flag is not set, the group of <paramref name="ObjectsSecurityDescriptor"/>
+        /// defaults to the group of the token specified by the <paramref name="Token"/> parameter.
+        /// The group of the token is specified in the token itself.
+        /// In either case, if the <paramref name="ModificationDescriptor"/> parameter is not <see cref="NULL"/>,
+        /// the <paramref name="ObjectsSecurityDescriptor"/> group is set to the group from <paramref name="ModificationDescriptor"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_MACL_NO_WRITE_UP"/>
+        /// </para>
+        /// <para>
+        /// 0x100
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A principal with a mandatory level lower than that of the object cannot write to the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_MACL_NO_READ_UP"/>
+        /// </para>
+        /// <para>
+        /// 0x200
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A principal with a mandatory level lower than that of the object cannot read the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_MACL_NO_EXECUTE_UP"/>
+        /// </para>
+        /// <para>
+        /// 0x400
+        /// </para>
+        /// </term>
+        /// <term>
+        /// A principal with a mandatory level lower than that of the object cannot execute the object.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SEF_AVOID_OWNER_RESTRICTION"/>
+        /// </para>
+        /// <para>
+        /// 0x1000
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Any restrictions specified by the owner of the object's parent that would limit the caller's ability
+        /// to specify a DACL in the <paramref name="ObjectsSecurityDescriptor"/> are ignored.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to a <see cref="GENERIC_MAPPING"/> structure that specifies the specific and standard access rights
+        /// that correspond to each of the generic access rights.
+        /// </param>
+        /// <param name="Token">
+        /// A handle to the access token for the client on whose behalf the private object's security is being modified.
+        /// This parameter is required to ensure that the client has provided a legitimate value for a new owner security identifier (SID).
+        /// The token must be open for <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the <paramref name="AutoInheritFlags"/> parameter is zero,
+        /// <see cref="SetPrivateObjectSecurityEx"/> is identical to the <see cref="SetPrivateObjectSecurity"/> function.
+        /// </para>
+        /// <para>
+        /// This function is intended for use by resource managers only.
+        /// To implement the standard access control semantics for updating security descriptors,
+        /// a resource manager should verify that the following conditions are met before calling <see cref="SetPrivateObjectSecurityEx"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If the object's owner is being set, the calling process must have either <see cref="WRITE_OWNER"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's discretionary access control list (DACL) is being set,
+        /// the calling process must have either <see cref="WRITE_DAC"/> permission or be the object's owner.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If the object's system access control list (SACL) is being set,
+        /// the <see cref="SE_SECURITY_NAME"/> privilege must be enabled for the calling process.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If the preceding conditions are not met,
+        /// a call to this function does not fail; however, standard access policy is not enforced.
+        /// </para>
+        /// <para>
+        /// The process calling this function should not be impersonating a client
+        /// because clients do not typically have appropriate privileges required for underlying token operations.
+        /// </para>
+        /// <para>
+        /// If <paramref name="AutoInheritFlags"/> specifies the <see cref="SEF_DACL_AUTO_INHERIT"/> bit,
+        /// the function applies the following rules to the DACL to create the new security descriptor from the current descriptor:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
+        /// If the <see cref="SE_DACL_PROTECTED"/> flag is not set in the control bits
+        /// of either the current security descriptor or the <paramref name="ModificationDescriptor"/>,
+        /// the function constructs the output security descriptor from the inherited ACEs of the current security descriptor
+        /// and noninherited ACEs of <paramref name="ModificationDescriptor"/>.
+        /// That is, it is impossible to change an inherited ACE by changing the access control list (ACL) on an object.
+        /// This behavior preserves the inherited ACEs as they were inherited from the parent container.
+        /// </para>
+        /// <para>
+        /// An ACL editor should make inherited ACEs unavailable to prevent them from being modified.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// If <see cref="SE_DACL_PROTECTED"/> is set in <paramref name="ModificationDescriptor"/>,
+        /// the current security descriptor is ignored.
+        /// The output security descriptor is built as a copy of <paramref name="ModificationDescriptor"/>
+        /// with any <see cref="INHERITED_ACE"/> bits turned off.
+        /// </para>
+        /// <para>
+        /// Ideally an ACL editor should turn off the <see cref="INHERITED_ACE"/> bits
+        /// that indicate to its caller that the ACEs inherited from the object's parent are now being explicitly set on the object.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If <see cref="SE_DACL_PROTECTED"/> is set in the current security descriptor
+        /// and not in <paramref name="ModificationDescriptor"/>, the current security descriptor is ignored.
+        /// The output security descriptor is built as a copy of <paramref name="ModificationDescriptor"/>.
+        /// It is the caller's responsibility to ensure that the correct ACEs have the <see cref="INHERITED_ACE"/> bit turned on.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="AutoInheritFlags"/> specifies the <see cref="SEF_SACL_AUTO_INHERIT"/> bit,
+        /// the function applies similar rules to the new SACL.
+        /// </para>
+        /// <para>
+        /// For both DACLs and SACLs, certain types of ACEs in the input <paramref name="ObjectsSecurityDescriptor"/>
+        /// and in <paramref name="ModificationDescriptor"/> will be replaced
+        /// by two ACEs in the output <paramref name="ObjectsSecurityDescriptor"/>.
+        /// Specifically, an inheritable ACE that contains at least one of the following mappable elements
+        /// will result in two ACEs in the output <paramref name="ObjectsSecurityDescriptor"/>.
+        /// Mappable elements include:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Generic access rights in the <see cref="ACCESS_MASK"/> structure
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creator Owner SID or Creator Group SID as the ACE subject identifier
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// ACEs with any of these mappable elements will result in the following two ACEs
+        /// in the output <paramref name="ObjectsSecurityDescriptor"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// An ACE that is a copy of the original, but with the <see cref="INHERIT_ONLY_ACE"/> flag set
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// An ACE in which the <see cref="INHERITED_ACE"/> bit is turned on and the generic elements are mapped to specific elements:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Generic access rights are replaced by the corresponding standard
+        /// and specific access rights indicated in the input <paramref name="GenericMapping"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creator Owner SID is replaced with the Owner in the output <paramref name="ObjectsSecurityDescriptor"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creator Group SID is replaced with the Group in the output <paramref name="ObjectsSecurityDescriptor"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="AutoInheritFlags"/> does not specify the <see cref="SEF_AVOID_PRIVILEGE_CHECK"/> bit,
+        /// owner validity checking is performed according to the following rules.
+        /// The Owner in <paramref name="ModificationDescriptor"/>:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Must be a legally formed SID
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Must match the TokenUser in <paramref name="Token"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Or
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Must match a group in the TokenGroups in <paramref name="Token"/> where the attributes on the group:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Include <see cref="SE_GROUP_OWNER"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Include <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// A resource manager that is setting the Owner on a subtree of objects can avoid the overhead of redundant owner validity checking.
+        /// If the Owner in <paramref name="ModificationDescriptor"/> and <paramref name="Token"/>
+        /// remain the same for iterative calls to this function,
+        /// the <see cref="SEF_AVOID_PRIVILEGE_CHECK"/> bit may be set in <paramref name="AutoInheritFlags"/>
+        /// for calls subsequent to an initial call in which owner validity checking is performed.
+        /// Callers that do not have access to the token of the client
+        /// that will ultimately be setting the owner should also choose to skip owner validation checking.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The <see cref="SEF_AVOID_PRIVILEGE_CHECK"/> bit as used in the <see cref="SetPrivateObjectSecurityEx"/> function
+        /// is equivalent to the <see cref="SEF_AVOID_OWNER_CHECK"/> bit used in the <see cref="CreatePrivateObjectSecurityEx"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPrivateObjectSecurityEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetPrivateObjectSecurityEx([In] SECURITY_INFORMATION SecurityInformation,
+            [In] PSECURITY_DESCRIPTOR ModificationDescriptor, [In][Out] ref PSECURITY_DESCRIPTOR ObjectsSecurityDescriptor,
+            [In] SecurityAutoInheritFlags AutoInheritFlags, [In] in GENERIC_MAPPING GenericMapping, [In] HANDLE Token);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorControl"/> function sets the control bits of a security descriptor.
+        /// The function can set only the control bits that relate to automatic inheritance of ACEs.
+        /// To set the other control bits of a security descriptor, use the functions,
+        /// such as <see cref="SetSecurityDescriptorDacl"/>, for modifying the components of a security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure whose control and revision information are set.
+        /// </param>
+        /// <param name="ControlBitsOfInterest">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the control bits to set.
+        /// </param>
+        /// <param name="ControlBitsToSet">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the new values
+        /// for the control bits specified by the <paramref name="ControlBitsToSet"/> mask.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetSecurityDescriptorControl"/> function specifies the control bit or bits to modify, and whether the bits are on or off.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsOfInterest, [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsToSet);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorDacl"/> function sets information in a discretionary access control list (DACL).
+        /// If a DACL is already present in the security descriptor, the DACL is replaced.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the DACL.
+        /// This security descriptor must be in absolute format,
+        /// meaning that its members must be pointers to other structures, rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bDaclPresent">
+        /// A flag that indicates the presence of a DACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_DACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> parameters.
+        /// If this parameter is <see cref="FALSE"/>, the function clears the <see cref="SE_DACL_PRESENT"/> flag,
+        /// and <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pDacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the DACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL DACL is assigned to the security descriptor, which allows all access to the object.
+        /// The DACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bDaclDefaulted">
+        /// A flag that indicates the source of the DACL.
+        /// If this flag is <see cref="TRUE"/>, the DACL has been retrieved by some default mechanism.
+        /// If <see cref="FALSE"/>, the DACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_DACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_DACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the function returns nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// There is an important difference between an empty and a nonexistent DACL.
+        /// When a DACL is empty, it contains no access control entries (ACEs); therefore, no access rights are explicitly granted.
+        /// As a result, access to the object is implicitly denied.
+        /// </para>
+        /// <para>
+        /// When an object has no DACL (when the <paramref name="pDacl"/> parameter is <see cref="NULL"/>),
+        /// no protection is assigned to the object, and all access requests are granted.
+        /// To help maintain security, restrict access by using a DACL.
+        /// </para>
+        /// <para>
+        /// There are three possible outcomes in different configurations of the <paramref name="bDaclPresent"/> flag
+        /// and the <paramref name="pDacl"/> parameter:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// When the <paramref name="pDacl"/> parameter points to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
+        /// a DACL is specified and it must contain access-allowed ACEs to allow access to the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL
+        /// and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>, a <see cref="NULL"/> DACL is specified.
+        /// All access is allowed.
+        /// You should not use a <see cref="NULL"/> DACL with an object because any user can change the DACL and owner of the security descriptor.
+        /// This will interfere with use of the object.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL
+        /// and the <paramref name="bDaclPresent"/> flag is <see cref="FALSE"/>,
+        /// a DACL can be provided for the object through an inheritance or default mechanism.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorDacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorDacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] BOOL bDaclPresent,
+            [In] in ACL pDacl, [In] BOOL bDaclDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorGroup"/> function sets the primary group information of an absolute-format security descriptor,
+        /// replacing any primary group information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose primary group is set by this function.
+        /// The function replaces any existing primary group with the new primary group.
+        /// </param>
+        /// <param name="pGroup">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary group.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's primary group information.
+        /// This marks the security descriptor as having no primary group.
+        /// </param>
+        /// <param name="bGroupDefaulted">
+        /// Indicates whether the primary group information was derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information, and the function stores
+        /// this value as the <see cref="SE_GROUP_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_GROUP_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorGroup([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pGroup, [In] BOOL bGroupDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorOwner"/> function sets the owner information of an absolute-format security descriptor.
+        /// It replaces any owner information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose owner is set by this function.
+        /// The function replaces any existing owner with the new owner.
+        /// </param>
+        /// <param name="pOwner">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary owner.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's owner information.
+        /// This marks the security descriptor as having no owner.
+        /// </param>
+        /// <param name="bOwnerDefaulted">
+        /// Indicates whether the owner information is derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information.
+        /// The function stores this value as the <see cref="SE_OWNER_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_OWNER_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorOwner", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorOwner([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pOwner, [In] BOOL bOwnerDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorRMControl"/> function sets the resource manager control bits in the <see cref="SECURITY_DESCRIPTOR"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorrmcontrol"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that contains the resource manager control bits.
+        /// </param>
+        /// <param name="RMControl">
+        /// A pointer to the bitfield value that the resource manager control bits
+        /// in the <see cref="SECURITY_DESCRIPTOR"/> structure will be set to.
+        /// If the value of this parameter is <see cref="NullRef{UCHAR}"/>,
+        /// the resource manager control bits will be cleared.
+        /// </param>
+        /// <returns>
+        /// The return value is <see cref="ERROR_SUCCESS"/>.
+        /// </returns>
+        /// <remarks>
+        /// The resource manager control bits are eight bits
+        /// in the <see cref="SECURITY_DESCRIPTOR.Sbz1"/> member of the <see cref="SECURITY_DESCRIPTOR"/> structure
+        /// that contains information specific to the resource manager accessing the structure.
+        /// These bits should be accessed only through the <see cref="GetSecurityDescriptorRMControl"/>
+        /// and <see cref="SetSecurityDescriptorRMControl"/> functions.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorRMControl", ExactSpelling = true)]
+        public static extern DWORD SetSecurityDescriptorRMControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in UCHAR RMControl);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorSacl"/> function sets information in a system access control list (SACL).
+        /// If there is already a SACL present in the security descriptor, it is replaced.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the SACL.
+        /// This security descriptor must be in absolute format, meaning that its members must be pointers to other structures,
+        /// rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bSaclPresent">
+        /// Indicates the presence of a SACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_SACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> parameters.
+        /// If it is <see cref="FALSE"/>, the function does not set the <see cref="SE_SACL_PRESENT"/> flag,
+        /// and <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pSacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the SACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL SACL is assigned to the security descriptor.
+        /// The SACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bSaclDefaulted">
+        /// Indicates the source of the SACL.
+        /// If this flag is <see cref="TRUE"/>, the SACL has been retrieved by some default mechanism.
+        /// If it is <see cref="FALSE"/>, the SACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_SACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_SACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorSacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorSacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] BOOL bSaclPresent, [In] in ACL pSacl, [In] BOOL bSaclDefaulted);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetSecurityInfo"/> function sets specified security information in the security descriptor of a specified object.
         /// The caller identifies the object by a handle.
         /// </para>

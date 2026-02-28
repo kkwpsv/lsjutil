@@ -12,7 +12,9 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -92,6 +94,642 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         public delegate void LphandlerFunction([In] DWORD dwControl);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="RegisterServiceCtrlHandlerEx"/> function.
+        /// A service program can use it as the control handler function of a particular service.
+        /// </para>
+        /// <para>
+        /// The <see cref="LPHANDLER_FUNCTION_EX"/> type defines a pointer to this function.
+        /// <c>HandlerEx</c> is a placeholder for the application-defined name.
+        /// </para>
+        /// <para>
+        /// This function supersedes the <c>Handler</c> control handler function
+        /// used with the <see cref="RegisterServiceCtrlHandler"/> function.
+        /// A service can use either control handler,
+        /// but the new control handler supports user-defined context data and additional extended control codes.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nc-winsvc-lphandler_function_ex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwControl">
+        /// <para>
+        /// The control code. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Control code
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_CONTINUE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a paused service that it should resume.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_INTERROGATE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service to report its current status information to the service control manager.
+        /// </para>
+        /// <para>
+        /// The handler should simply return <see cref="NO_ERROR"/>;
+        /// the SCM is aware of the current state of the service.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_NETBINDADD"/>
+        /// </para>
+        /// <para>
+        /// 0x00000007
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a network service that there is a new component for binding.
+        /// The service should bind to the new component.
+        /// </para>
+        /// <para>
+        /// Applications should use Plug and Play functionality instead.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_NETBINDDISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000A
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a network service that one of its bindings has been disabled.
+        /// The service should reread its binding information and remove the binding.
+        /// </para>
+        /// <para>
+        /// Applications should use Plug and Play functionality instead.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_NETBINDENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000009
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a network service that a disabled binding has been enabled.
+        /// The service should reread its binding information and add the new binding.
+        /// </para>
+        /// <para>
+        /// Applications should use Plug and Play functionality instead.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_NETBINDREMOVE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a network service that a component for binding has been removed.
+        /// The service should reread its binding information and unbind from the removed component.
+        /// </para>
+        /// <para>
+        /// Applications should use Plug and Play functionality instead.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_PARAMCHANGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000006
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service that service-specific startup parameters have changed.
+        /// The service should reread its startup parameters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_PAUSE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service that it should pause.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_PRESHUTDOWN"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000F
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service that the system will be shutting down.
+        /// Services that need additional time to perform cleanup tasks
+        /// beyond the tight time restriction at system shutdown can use this notification.
+        /// The service control manager sends this notification to applications
+        /// that have registered for it before sending a <see cref="SERVICE_CONTROL_SHUTDOWN"/> notification
+        /// to applications that have registered for that notification.
+        /// </para>
+        /// <para>
+        /// A service that handles this notification blocks system shutdown
+        /// until the service stops or the preshutdown time-out interval
+        /// specified through <see cref="SERVICE_PRESHUTDOWN_INFO"/> expires.
+        /// Because this affects the user experience, services should use this feature
+        /// only if it is absolutely necessary to avoid data loss or significant recovery time at the next system start.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_SHUTDOWN"/>
+        /// </para>
+        /// <para>
+        /// 0x00000005
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service that the system is shutting down so the service can perform cleanup tasks.
+        /// Note that services that register for <see cref="SERVICE_CONTROL_PRESHUTDOWN"/> notifications
+        /// cannot receive this notification because they have already stopped.
+        /// </para>
+        /// <para>
+        /// If a service accepts this control code,
+        /// it must stop after it performs its cleanup tasks and return <see cref="NO_ERROR"/>.
+        /// After the SCM sends this control code, it will not send other control codes to the service.
+        /// </para>
+        /// <para>
+        /// For more information, see the Remarks section of this topic.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_STOP"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service that it should stop.
+        /// </para>
+        /// <para>
+        /// If a service accepts this control code, it must stop upon receipt and return <see cref="NO_ERROR"/>.
+        /// After the SCM sends this control code, it will not send other control codes to the service.
+        /// </para>
+        /// <para>
+        /// Windows XP:  If the service returns <see cref="NO_ERROR"/> and continues to run,
+        /// it continues to receive control codes.
+        /// This behavior changed starting with Windows Server 2003 and Windows XP with SP2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// This parameter can also be one of the following extended control codes.
+        /// Note that these control codes are not supported by the <c>Handler</c> function.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Control Code
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_DEVICEEVENT"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000B
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service of device events.
+        /// (The service must have registered to receive these notifications
+        /// using the <see cref="RegisterDeviceNotification"/> function.)
+        /// The <paramref name="dwEventType"/> and <paramref name="lpEventData"/> parameters contain additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_HARDWAREPROFILECHANGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000C
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service that the computer's hardware profile has changed.
+        /// The <paramref name="dwEventType"/> parameter contains additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_POWEREVENT"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000D
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service of system power events.
+        /// The <paramref name="dwEventType"/> parameter contains additional information.
+        /// If <paramref name="dwEventType"/> is <see cref="PBT_POWERSETTINGCHANGE"/>,
+        /// the <paramref name="lpEventData"/> parameter also contains additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_SESSIONCHANGE"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000E
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Notifies a service of session change events.
+        /// Note that a service will only be notified of a user logon if it is fully loaded before the logon attempt is made.
+        /// The <paramref name="dwEventType"/> and <paramref name="lpEventData"/> parameters contain additional information.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_TIMECHANGE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service that the system time has changed.
+        /// The <paramref name="lpEventData"/> parameter contains additional information.
+        /// The <paramref name="dwEventType"/> parameter is not used.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This control code is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_TRIGGEREVENT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service registered for a service trigger event that the event has occurred.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This control code is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONTROL_USERMODEREBOOT"/>
+        /// </para>
+        /// <para>
+        /// 0x00000040
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Notifies a service that the user has initiated a reboot.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This control code is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        ///  
+        /// </para>
+        /// <para>
+        /// This parameter can also be a user-defined control code, as described in the following table.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Control code
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Range 128 to 255.
+        /// </term>
+        /// <term>
+        /// The service defines the action associated with the control code.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwEventType">
+        /// <para>
+        /// The type of event that has occurred.
+        /// This parameter is used if <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_DEVICEEVENT"/>,
+        /// <see cref="SERVICE_CONTROL_HARDWAREPROFILECHANGE"/>, <see cref="SERVICE_CONTROL_POWEREVENT"/>,
+        /// or <see cref="SERVICE_CONTROL_SESSIONCHANGE"/>.
+        /// Otherwise, it is zero.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_DEVICEEVENT"/>,
+        /// this parameter can be one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_DEVICEARRIVAL"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_DEVICEREMOVECOMPLETE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_DEVICEQUERYREMOVE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_DEVICEQUERYREMOVEFAILED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_DEVICEREMOVEPENDING"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_CUSTOMEVENT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_HARDWAREPROFILECHANGE"/>,
+        /// this parameter can be one of the following values:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_CONFIGCHANGED"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_QUERYCHANGECONFIG"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="DBT_CONFIGCHANGECANCELED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_POWEREVENT"/>,
+        /// this parameter can be one of the values
+        /// specified in the <c>wParam</c> parameter of the <see cref="WM_POWERBROADCAST"/> message.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_SESSIONCHANGE"/>,
+        /// this parameter can be one of the values
+        /// specified in the <c>wParam</c> parameter of the <see cref="WM_WTSSESSION_CHANGE"/> message.
+        /// </para>
+        /// </param>
+        /// <param name="lpEventData">
+        /// <para>
+        /// Additional device information, if required.
+        /// The format of this data depends on the value of the <paramref name="dwControl"/> and <paramref name="dwEventType"/> parameters.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_DEVICEEVENT"/>,
+        /// this data corresponds to the <c>lParam</c> parameter
+        /// that applications receive as part of a <see cref="WM_DEVICECHANGE"/> message.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_POWEREVENT"/>
+        /// and <paramref name="dwEventType"/> is <see cref="PBT_POWERSETTINGCHANGE"/>,
+        /// this data is a pointer to a <see cref="POWERBROADCAST_SETTING"/> structure.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_SESSIONCHANGE"/>,
+        /// this parameter is a pointer to a <see cref="WTSSESSION_NOTIFICATION"/> structure.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwControl"/> is <see cref="SERVICE_CONTROL_TIMECHANGE"/>,
+        /// this data is a pointer to a <see cref="SERVICE_TIMECHANGE_INFO"/> structure.
+        /// </para>
+        /// </param>
+        /// <param name="lpContext">
+        /// User-defined data passed from <see cref="RegisterServiceCtrlHandlerEx"/>.
+        /// When multiple services share a process, the <paramref name="lpContext"/> parameter can help identify the service.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value for this function depends on the control code received.
+        /// </para>
+        /// <para>
+        /// The following list identifies the rules for this return value:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// In general, if your service does not handle the control, return <see cref="ERROR_CALL_NOT_IMPLEMENTED"/>.
+        /// However, your service should return <see cref="NO_ERROR"/> for <see cref="SERVICE_CONTROL_INTERROGATE"/>
+        /// even if your service does not handle it.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If your service handles <see cref="SERVICE_CONTROL_STOP"/> or <see cref="SERVICE_CONTROL_SHUTDOWN"/>,
+        /// return <see cref="NO_ERROR"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If your service handles <see cref="SERVICE_CONTROL_DEVICEEVENT"/>,
+        /// return <see cref="NO_ERROR"/> to grant the request and an error code to deny the request.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If your service handles <see cref="SERVICE_CONTROL_HARDWAREPROFILECHANGE"/>,
+        /// return <see cref="NO_ERROR"/> to grant the request and an error code to deny the request.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If your service handles <see cref="SERVICE_CONTROL_POWEREVENT"/>,
+        /// return <see cref="NO_ERROR"/> to grant the request and an error code to deny the request.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// For all other control codes your service handles, return <see cref="NO_ERROR"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// When a service is started, its <c>ServiceMain</c> function
+        /// should immediately call the <see cref="RegisterServiceCtrlHandlerEx"/> function
+        /// to specify a <c>HandlerEx</c> function to process control requests.
+        /// To specify the control codes to be accepted,
+        /// use the <see cref="SetServiceStatus"/> and <see cref="RegisterDeviceNotification"/> functions.
+        /// </para>
+        /// <para>
+        /// The control dispatcher in the main thread of a service invokes the control handler function for the specified service
+        /// whenever it receives a control request from the service control manager.
+        /// After processing the control request, the control handler must call <see cref="SetServiceStatus"/>
+        /// if the service state changes to report its new status to the service control manager.
+        /// </para>
+        /// <para>
+        /// The control handler function is intended to receive notification and return immediately.
+        /// The callback function should save its parameters and create other threads to perform additional work.
+        /// (Your application must ensure that such threads have exited before stopping the service.)
+        /// In particular, a control handler should avoid operations that might block, such as taking a lock,
+        /// because this could result in a deadlock or cause the system to stop responding.
+        /// </para>
+        /// <para>
+        /// When the service control manager sends a control code to a service,
+        /// it waits for the handler function to return before sending additional control codes to other services.
+        /// The control handler should return as quickly as possible;
+        /// if it does not return within 30 seconds, the SCM returns an error.
+        /// If a service must do lengthy processing when the service is executing the control handler,
+        /// it should create a secondary thread to perform the lengthy processing, and then return from the control handler.
+        /// This prevents the service from tying up the control dispatcher and blocking other services from receiving control codes.
+        /// </para>
+        /// <para>
+        /// The <see cref="SERVICE_CONTROL_SHUTDOWN"/> control code should only be processed by services
+        /// that must absolutely clean up during shutdown,
+        /// because there is a limited time (about 20 seconds) available for service shutdown.
+        /// After this time expires, system shutdown proceeds regardless of whether service shutdown is complete.
+        /// Note that if the system is left in the shutdown state (not restarted or powered down), the service continues to run.
+        /// If your service registers to accept <see cref="SERVICE_CONTROL_SHUTDOWN"/>,
+        /// it must handle the control code and return <see cref="NO_ERROR"/>.
+        /// Returning an error for this control code and not stopping in a timely fashion
+        /// can increase the time required to shut down the system,
+        /// because the system must wait for the full amount of time allowed for service shutdown before system shutdown can proceed.
+        /// </para>
+        /// <para>
+        /// If the service requires more time to clean up, it should send <see cref="STOP_PENDING"/> status messages,
+        /// along with a wait hint, so the service controller knows
+        /// how long to wait before reporting to the system that service shutdown is complete.
+        /// However, to prevent a service from stopping shutdown, there is a limit to how long the service controller waits.
+        /// If the service is being shut down through the Services snap-in, the limit is 125 seconds.
+        /// If the operating system is rebooting,
+        /// the time limit is specified in the <c>WaitToKillServiceTimeout</c> value of the following registry key:
+        /// </para>
+        /// <para>
+        /// <c>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</c>
+        /// </para>
+        /// <para>
+        /// Be sure to handle Plug and Play device events as quickly as possible;
+        /// otherwise, the system may become unresponsive.
+        /// If your event handler is to perform an operation that may block execution (such as I/O),
+        /// it is best to start another thread to perform the operation asynchronously.
+        /// </para>
+        /// <para>
+        /// Services can also use the <see cref="SetConsoleCtrlHandler"/> function to receive shutdown notification.
+        /// This notification is received when the running applications are shutting down, which occurs before services are shut down.
+        /// </para>
+        /// </remarks>
+        public delegate DWORD LphandlerFunctionEx([In] DWORD dwControl, [In] DWORD dwEventType, [In] LPVOID lpEventData, [In] LPVOID lpContext);
 
         /// <summary>
         /// <para>
@@ -648,6 +1286,288 @@ namespace Lsj.Util.Win32
         public static extern BOOL ChangeServiceConfig([In] SC_HANDLE hService, [In] DWORD dwServiceType, [In] DWORD dwStartType,
             [In] DWORD dwErrorControl, [In] LPCWSTR lpBinaryPathName, [In] LPCWSTR lpLoadOrderGroup, [Out] out DWORD lpdwTagId,
             [In] LPCWSTR lpDependencies, [In] LPCWSTR lpServiceStartName, [In] LPCWSTR lpPassword, [In] LPCWSTR lpDisplayName);
+
+        /// <summary>
+        /// <para>
+        /// Changes the optional configuration parameters of a service.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-changeserviceconfig2w"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// <para>
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="OpenService"/> or <see cref="CreateService"/> function
+        /// and must have the <see cref="SERVICE_CHANGE_CONFIG"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// If the service controller handles the <see cref="SC_ACTION_RESTART"/> action,
+        /// <paramref name="hService"/> must have the <see cref="SERVICE_START"/> access right.
+        /// </para>
+        /// </param>
+        /// <param name="dwInfoLevel">
+        /// <para>
+        /// The configuration information to be changed.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_DELAYED_AUTO_START_INFO"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_DELAYED_AUTO_START_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_DESCRIPTION"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_DESCRIPTION"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_FAILURE_ACTIONS"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_FAILURE_ACTIONS"/> structure.
+        /// </para>
+        /// <para>
+        /// If the service controller handles the <see cref="SC_ACTION_REBOOT"/> action,
+        /// the caller must have the <see cref="SE_SHUTDOWN_NAME"/>.
+        /// For more information, see Running with Special Privileges.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_FAILURE_ACTIONS_FLAG"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_FAILURE_ACTIONS_FLAG"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_PREFERRED_NODE"/>
+        /// </para>
+        /// <para>
+        /// 9
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_PREFERRED_NODE_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_PRESHUTDOWN_INFO"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_PRESHUTDOWN_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_REQUIRED_PRIVILEGES_INFO"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_REQUIRED_PRIVILEGES_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_SERVICE_SID_INFO"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_SID_INFO"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_TRIGGER_INFO"/>
+        /// </para>
+        /// <para>
+        /// 8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpInfo"/> parameter is a pointer to a <see cref="SERVICE_TRIGGER_INFO"/> structure.
+        /// This value is not supported by the ANSI version of <see cref="ChangeServiceConfig2"/>.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported until Windows Server 2008 R2.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_LAUNCH_PROTECTED"/>
+        /// </para>
+        /// <para>
+        /// 12
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpInfo"/> parameter is a pointer a <see cref="SERVICE_LAUNCH_PROTECTED_INFO"/> structure.
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This value is supported starting with Windows 8.1.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpInfo">
+        /// A pointer to the new value to be set for the configuration information.
+        /// The format of this data depends on the value of the <paramref name="dwInfoLevel"/> parameter.
+        /// If this value is <see cref="NULL"/>, the information remains unchanged.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="ChangeServiceConfig2"/> function changes the optional configuration information
+        /// for the specified service in the service control manager database.
+        /// You can obtain the current optional configuration information by using the <see cref="QueryServiceConfig2"/> function.
+        /// </para>
+        /// <para>
+        /// You cannot set the <see cref="SERVICE_CONFIG_FAILURE_ACTIONS"/> value
+        /// for a service that shares the service control manager's process.
+        /// This includes all services whose executable image is "Services.exe".
+        /// </para>
+        /// <para>
+        /// You can change and query additional configuration information
+        /// using the <see cref="ChangeServiceConfigW"/> and <see cref="QueryServiceConfigW"/> functions, respectively.
+        /// </para>
+        /// <para>
+        /// If a service is configured to restart after it finishes with an error,
+        /// the service control manager queues the restart action to occur after the specified time delay.
+        /// A queued restart action cannot be canceled.
+        /// If the service is manually restarted and then stopped before the queued restart action occurs,
+        /// the service will restart unexpectedly when the time delay elapses.
+        /// The service must be explicitly disabled to prevent it from restarting.
+        /// </para>
+        /// <para>
+        /// The <see cref="SERVICE_CONFIG_LAUNCH_PROTECTED"/> value can be used to launch the service as protected.
+        /// In order to launch the service as protected, the service must be signed with a special certificate.
+        /// </para>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_LAUNCH_PROTECTED"/> example:
+        /// </para>
+        /// <code>
+        /// SERVICE_LAUNCH_PROTECTED_INFO Info;
+        /// SC_HANDLE hService;
+        /// 
+        /// Info.dwLaunchProtected = SERVICE_LAUNCH_PROTECTED_ANTIMALWARE_LIGHT;
+        /// 
+        /// hService = CreateService (...);
+        /// 
+        /// if (ChangeServiceConfig2(hService, 
+        ///                         SERVICE_CONFIG_LAUNCH_PROTECTED,
+        ///                         &amp;Info) == FALSE)
+        /// {
+        ///     Result = GetLastError();
+        /// }
+        /// </code>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeServiceConfig2W", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ChangeServiceConfig2([In] SC_HANDLE hService, [In] DWORD dwInfoLevel, [In] LPVOID lpInfo);
 
         /// <summary>
         /// <para>
@@ -2377,6 +3297,311 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates services in the specified service control manager database.
+        /// The name and status of each service are provided, along with additional data based on the specified information level.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-enumservicesstatusexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hSCManager">
+        /// A handle to the service control manager database.
+        /// This handle is returned by the <see cref="OpenSCManager"/> function,
+        /// and must have the <see cref="SC_MANAGER_ENUMERATE_SERVICE"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </param>
+        /// <param name="InfoLevel">
+        /// <para>
+        /// The service attributes that are to be returned.
+        /// Use <see cref="SC_ENUM_PROCESS_INFO"/> to retrieve the name and service status information for each service in the database.
+        /// The <paramref name="lpServices"/> parameter is a pointer to a buffer
+        /// that receives an array of <see cref="ENUM_SERVICE_STATUS_PROCESS"/> structures.
+        /// The buffer must be large enough to hold the structures as well as the strings to which their members point.
+        /// </para>
+        /// <para>
+        /// Currently, no other information levels are defined.
+        /// </para>
+        /// </param>
+        /// <param name="dwServiceType">
+        /// <para>
+        /// The type of services to be enumerated.
+        /// This parameter can be one or more of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_DRIVER"/>
+        /// </para>
+        /// <para>
+        /// 0x0000000B
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Services of type <see cref="SERVICE_KERNEL_DRIVER"/> and <see cref="SERVICE_FILE_SYSTEM_DRIVER"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_FILE_SYSTEM_DRIVER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// File system driver services.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_KERNEL_DRIVER"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Driver services.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_WIN32"/>
+        /// </para>
+        /// <para>
+        /// 0x00000030
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Services of type <see cref="SERVICE_WIN32_OWN_PROCESS"/> and <see cref="SERVICE_WIN32_SHARE_PROCESS"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_WIN32_OWN_PROCESS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000010
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Services that run in their own processes.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_WIN32_SHARE_PROCESS"/>
+        /// </para>
+        /// <para>
+        /// 0x00000020
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Services that share a process with one or more other services.
+        /// For more information, see Service Programs.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwServiceState">
+        /// <para>
+        /// The state of the services to be enumerated. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_ACTIVE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enumerates services that are in the following states:
+        /// <see cref="SERVICE_START_PENDING"/>, <see cref="SERVICE_STOP_PENDING"/>, <see cref="SERVICE_RUNNING"/>,
+        /// <see cref="SERVICE_CONTINUE_PENDING"/>, <see cref="SERVICE_PAUSE_PENDING"/>, and <see cref="SERVICE_PAUSED"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_INACTIVE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Enumerates services that are in the <see cref="SERVICE_STOPPED"/> state.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_STATE_ALL"/>
+        /// </para>
+        /// <para>
+        /// 0x00000003
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Combines the <see cref="SERVICE_ACTIVE"/> and <see cref="SERVICE_INACTIVE"/> states.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpServices">
+        /// <para>
+        /// A pointer to the buffer that receives the status information.
+        /// The format of this data depends on the value of the <paramref name="InfoLevel"/> parameter.
+        /// </para>
+        /// <para>
+        /// The maximum size of this array is 256K bytes.
+        /// To determine the required size, specify <see cref="NULL"/> for this parameter
+        /// and 0 for the <paramref name="cbBufSize"/> parameter.
+        /// The function will fail and <see cref="GetLastError"/> will return <see cref="ERROR_MORE_DATA"/>.
+        /// The <paramref name="pcbBytesNeeded"/> parameter will receive the required size.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// The maximum size of this array is 64K bytes.
+        /// This limit was increased as of Windows Server 2003 with SP1 and Windows XP with SP2.
+        /// </para>
+        /// </param>
+        /// <param name="cbBufSize">
+        /// The size of the buffer pointed to by the <paramref name="lpServices"/> parameter, in bytes.
+        /// </param>
+        /// <param name="pcbBytesNeeded">
+        /// A pointer to a variable that receives the number of bytes needed
+        /// to return the remaining service entries, if the buffer is too small.
+        /// </param>
+        /// <param name="lpServicesReturned">
+        /// A pointer to a variable that receives the number of service entries returned.
+        /// </param>
+        /// <param name="lpResumeHandle">
+        /// A pointer to a variable that, on input, specifies the starting point of enumeration.
+        /// You must set this value to zero the first time the <see cref="EnumServicesStatusEx"/> function is called.
+        /// On output, this value is zero if the function succeeds.
+        /// However, if the function returns zero and the <see cref="GetLastError"/> function returns <see cref="ERROR_MORE_DATA"/>,
+        /// this value indicates the next service entry to be read
+        /// when the <see cref="EnumServicesStatusEx"/> function is called to retrieve the additional data.
+        /// </param>
+        /// <param name="pszGroupName">
+        /// The load-order group name. If this parameter is a string, 
+        /// the only services enumerated are those that belong to the group that has the name specified by the string.
+        /// If this parameter is an empty string, only services that do not belong to any group are enumerated.
+        /// If this parameter is <see cref="NULL"/>, group membership is ignored and all services are enumerated.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following errors may be returned.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The handle does not have the <see cref="SC_MANAGER_ENUMERATE_SERVICE"/> access right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_MORE_DATA"/>
+        /// </term>
+        /// <term>
+        /// The buffer is too small. Not all data in the active database could be returned.
+        /// The <paramref name="pcbBytesNeeded"/> parameter contains the number of bytes required to receive the remaining entries.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// An illegal parameter value was used.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_LEVEL"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="InfoLevel"/> parameter contains an unsupported value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SHUTDOWN_IN_PROGRESS"/>
+        /// </term>
+        /// <term>
+        /// The system is shutting down; this function cannot be called.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If the caller does not have the <see cref="SERVICE_QUERY_STATUS"/> access right to a service,
+        /// the service is silently omitted from the list of services returned to the client.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumServicesStatusExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumServicesStatusEx([In] SC_HANDLE hSCManager, [In] SC_ENUM_TYPE InfoLevel, [In] DWORD dwServiceType,
+            [In] DWORD dwServiceState, [In] nint lpServices, [In] DWORD cbBufSize, [Out] DWORD pcbBytesNeeded,
+            [Out] DWORD lpServicesReturned, [In][Out] ref DWORD lpResumeHandle, [In] LPCWSTR pszGroupName);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the display name of the specified service.
         /// </para>
         /// <para>
@@ -3016,6 +4241,304 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the optional configuration parameters of the specified service.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-queryserviceconfig2w"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="OpenService"/> or <see cref="CreateService"/> function
+        /// and must have the <see cref="SERVICE_QUERY_CONFIG"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </param>
+        /// <param name="dwInfoLevel">
+        /// <para>
+        /// The configuration information to be queried. This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_DELAYED_AUTO_START_INFO"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_DELAYED_AUTO_START_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_DESCRIPTION"/>
+        /// </para>
+        /// <para>
+        /// 1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_DESCRIPTION"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_FAILURE_ACTIONS"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_FAILURE_ACTIONS"/> structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_FAILURE_ACTIONS_FLAG"/>
+        /// </para>
+        /// <para>
+        /// 4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_FAILURE_ACTIONS_FLAG"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:  This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_PREFERRED_NODE"/>
+        /// </para>
+        /// <para>
+        /// 9
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_PREFERRED_NODE_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_PRESHUTDOWN_INFO"/>
+        /// </para>
+        /// <para>
+        /// 7
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_PRESHUTDOWN_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_REQUIRED_PRIVILEGES_INFO"/>
+        /// </para>
+        /// <para>
+        /// 6
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_REQUIRED_PRIVILEGES_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_SERVICE_SID_INFO"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_SID_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_TRIGGER_INFO"/>
+        /// </para>
+        /// <para>
+        /// 8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_TRIGGER_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This value is not supported.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SERVICE_CONFIG_LAUNCH_PROTECTED"/>
+        /// </para>
+        /// <para>
+        /// 12
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The <paramref name="lpBuffer"/> parameter is a pointer a <see cref="SERVICE_LAUNCH_PROTECTED_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This value is supported starting with Windows 8.1.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpBuffer">
+        /// <para>
+        /// A pointer to the buffer that receives the service configuration information.
+        /// The format of this data depends on the value of the <paramref name="dwInfoLevel"/> parameter.
+        /// </para>
+        /// <para>
+        /// The maximum size of this array is 8K bytes.
+        /// To determine the required size, specify <see cref="NULL"/> for this parameter
+        /// and 0 for the <paramref name="cbBufSize"/> parameter.
+        /// The function fails and <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// The <paramref name="pcbBytesNeeded"/> parameter receives the needed size.
+        /// </para>
+        /// </param>
+        /// <param name="cbBufSize">
+        /// The size of the structure pointed to by the <paramref name="lpBuffer"/> parameter, in bytes.
+        /// </param>
+        /// <param name="pcbBytesNeeded">
+        /// A pointer to a variable that receives the number of bytes required to store the configuration information,
+        /// if the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// Others can be set by the registry functions that are called by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The handle does not have the <see cref="SERVICE_QUERY_CONFIG"/> access right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// </term>
+        /// <term>
+        /// There is more service configuration information than would fit into the <paramref name="lpBuffer"/> buffer.
+        /// The number of bytes required to get all the information
+        /// is returned in the <paramref name="pcbBytesNeeded"/> parameter.
+        /// Nothing is written to <paramref name="lpBuffer"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The specified handle is invalid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="QueryServiceConfig2"/> function returns the optional configuration information
+        /// stored in the service control manager database for the specified service.
+        /// You can change this configuration information by using the <see cref="ChangeServiceConfig2"/> function.
+        /// </para>
+        /// <para>
+        /// You can change and query additional configuration information
+        /// using the <see cref="ChangeServiceConfig"/> and <see cref="QueryServiceConfig"/> functions, respectively.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryServiceConfig2W", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryServiceConfig2([In] SC_HANDLE hService, DWORD dwInfoLevel, [In] nint lpBuffer,
+            [In] DWORD cbBufSize, [Out] out DWORD pcbBytesNeeded);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the lock status of the specified service control manager database.
         /// </para>
         /// <para>
@@ -3294,6 +4817,140 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current status of the specified service based on the specified information level.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-queryservicestatusex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hService">
+        /// A handle to the service.
+        /// This handle is returned by the <see cref="CreateService"/> or <see cref="OpenService"/> function,
+        /// and it must have the <see cref="SERVICE_QUERY_STATUS"/> access right.
+        /// For more information, see Service Security and Access Rights.
+        /// </param>
+        /// <param name="InfoLevel">
+        /// <para>
+        /// The service attributes to be returned.
+        /// Use <see cref="SC_STATUS_PROCESS_INFO"/> to retrieve the service status information.
+        /// The <paramref name="lpBuffer"/> parameter is a pointer to a <see cref="SERVICE_STATUS_PROCESS"/> structure.
+        /// </para>
+        /// <para>
+        /// Currently, no other information levels are defined.
+        /// </para>
+        /// </param>
+        /// <param name="lpBuffer">
+        /// <para>
+        /// A pointer to the buffer that receives the status information.
+        /// The format of this data depends on the value of the <paramref name="InfoLevel"/> parameter.
+        /// </para>
+        /// <para>
+        /// The maximum size of this array is 8K bytes.
+        /// To determine the required size, specify NULL for this parameter
+        /// and 0 for the <paramref name="cbBufSize"/> parameter.
+        /// The function will fail and <see cref="GetLastError"/> will return ERROR_INSUFFICIENT_BUFFER.
+        /// The <paramref name="pcbBytesNeeded"/> parameter will receive the required size.
+        /// </para>
+        /// </param>
+        /// <param name="cbBufSize">
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter, in bytes.
+        /// </param>
+        /// <param name="pcbBytesNeeded">
+        /// A pointer to a variable that receives the number of bytes needed to store all status information,
+        /// if the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following errors can be returned.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_HANDLE"/>
+        /// </term>
+        /// <term>
+        /// The handle is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_ACCESS_DENIED"/>
+        /// </term>
+        /// <term>
+        /// The handle does not have the SERVICE_QUERY_STATUS access right.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// </term>
+        /// <term>
+        /// The buffer is too small for the <see cref="SERVICE_STATUS_PROCESS"/> structure.
+        /// Nothing was written to the structure.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The <see cref="SERVICE_STATUS_PROCESS.cbSize"/> member of <see cref="SERVICE_STATUS_PROCESS"/> is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_LEVEL"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="InfoLevel"/> parameter contains an unsupported value.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SHUTDOWN_IN_PROGRESS"/>
+        /// </term>
+        /// <term>
+        /// The system is shutting down; this function cannot be called.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="QueryServiceStatusEx"/> function returns the most recent service status information reported to the service control manager.
+        /// If the service just changed its status, it may not have updated the service control manager yet.
+        /// </para>
+        /// <para>
+        /// The process identifier returned in the <see cref="SERVICE_STATUS_PROCESS"/> structure
+        /// is valid provided that the state of the service is one of <see cref="SERVICE_RUNNING"/>,
+        /// <see cref="SERVICE_PAUSE_PENDING"/>, <see cref="SERVICE_PAUSED"/>, or <see cref="SERVICE_CONTINUE_PENDING"/>.
+        /// If the service is in a <see cref="SERVICE_START_PENDING"/> or <see cref="SERVICE_STOP_PENDING"/> state,
+        /// however, the process identifier may not be valid,
+        /// and if the service is in the <see cref="SERVICE_STOPPED"/> state, it is never valid.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryServiceStatusEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryServiceStatusEx([In] SC_HANDLE hService, DWORD InfoLevel, [In] nint lpBuffer,
+            [In] DWORD cbBufSize, [Out] out DWORD pcbBytesNeeded);
+
+        /// <summary>
+        /// <para>
         /// Registers a function to handle service control requests.
         /// </para>
         /// <para>
@@ -3389,6 +5046,102 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterServiceCtrlHandlerW", ExactSpelling = true, SetLastError = true)]
         public static extern SERVICE_STATUS_HANDLE RegisterServiceCtrlHandler([In] LPCWSTR lpServiceName, [In] LPHANDLER_FUNCTION lpHandlerProc);
+
+        /// <summary>
+        /// <para>
+        /// Registers a function to handle extended service control requests.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpServiceName">
+        /// The name of the service run by the calling thread.
+        /// This is the service name that the service control program
+        /// specified in the <see cref="CreateService"/> function when creating the service.
+        /// </param>
+        /// <param name="lpHandlerProc">
+        /// A pointer to the handler function to be registered.
+        /// For more information, see <c>HandlerEx</c>.
+        /// </param>
+        /// <param name="lpContext">
+        /// Any user-defined data. This parameter, which is passed to the handler function,
+        /// can help identify the service when multiple services share a process.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a service status handle.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// The following error codes can be set by the service control manager.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// Not enough memory is available to convert an ANSI string parameter to Unicode.
+        /// This error does not occur for Unicode string parameters.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_SERVICE_NOT_IN_EXE"/>
+        /// </term>
+        /// <term>
+        /// The service entry was specified incorrectly
+        /// when the process called the <see cref="StartServiceCtrlDispatcher"/> function.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <c>ServiceMain</c> function of a new service should immediately call the <see cref="RegisterServiceCtrlHandlerEx"/> function
+        /// to register a control handler function with the control dispatcher.
+        /// This enables the control dispatcher to invoke the specified function
+        /// when it receives control requests for this service.
+        /// For a list of possible control codes, see <c>HandlerEx</c>.
+        /// The threads of the calling process can use the service status handle returned by this function
+        /// to identify the service in subsequent calls to the <see cref="SetServiceStatus"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="RegisterServiceCtrlHandlerEx"/> function must be called
+        /// before the first <see cref="SetServiceStatus"/> call
+        /// because <see cref="RegisterServiceCtrlHandlerEx"/> returns a service status handle for the caller
+        /// to use so that no other service can inadvertently set this service status.
+        /// In addition, the control handler must be in place to receive control requests
+        /// by the time the service specifies the controls it accepts through the <see cref="SetServiceStatus"/> function.
+        /// </para>
+        /// <para>
+        /// When the control handler function is invoked with a control request,
+        /// the service must call <see cref="SetServiceStatus"/> to report status to the service control manager
+        /// only if the service status has changed, such as when the service is processing stop or shutdown controls.
+        /// If the service status has not changed, the service should not report status to the service control manager.
+        /// </para>
+        /// <para>
+        /// The service status handle does not have to be closed.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterServiceCtrlHandlerExW", ExactSpelling = true, SetLastError = true)]
+        public static extern SERVICE_STATUS_HANDLE RegisterServiceCtrlHandlerEx([In] LPCWSTR lpServiceName,
+            [In] LPHANDLER_FUNCTION_EX lpHandlerProc, [In] LPVOID lpContext);
 
         /// <summary>
         /// <para>

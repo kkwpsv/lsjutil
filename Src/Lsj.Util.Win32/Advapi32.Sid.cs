@@ -1,9 +1,11 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -121,6 +123,145 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopySid", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CopySid([In] DWORD nDestinationSidLength, [In] PSID pDestinationSid, [In] PSID pSourceSid);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ConvertSidToStringSid"/> function converts a security identifier (SID)
+        /// to a string format suitable for display, storage, or transmission.
+        /// </para>
+        /// <para>
+        /// To convert the string-format SID back to a valid, functional SID, call the <see cref="ConvertStringSidToSid"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertsidtostringsidw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Sid">
+        /// A pointer to the <see cref="SID"/> structure to be converted.
+        /// </param>
+        /// <param name="StringSid">
+        /// A pointer to a variable that receives a pointer to a null-terminated SID string.
+        /// To free the returned buffer, call the <see cref="LocalFree"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The <see cref="GetLastError"/> function may return one of the following error codes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// </term>
+        /// <term>
+        /// Insufficient memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_SID"/>
+        /// </term>
+        /// <term>
+        /// The SID is not valid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// One of the parameters contains a value that is not valid.
+        /// This is most often a pointer that is not valid.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ConvertSidToStringSid"/> function uses the standard <c>S-R-I-S-S…</c> format for SID strings.
+        /// For more information about SID string notation, see SID Components.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertSidToStringSidW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ConvertSidToStringSid([In] PSID Sid, [Out] out LPWSTR StringSid);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ConvertStringSidToSid"/> function converts a string-format security identifier (SID) into a valid, functional SID.
+        /// You can use this function to retrieve a SID that the <see cref="ConvertSidToStringSid"/> function converted to string format.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsidtosidw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="StringSid">
+        /// <para>
+        /// A pointer to a null-terminated string containing the string-format SID to convert.
+        /// </para>
+        /// <para>
+        /// The SID string can use either the standard <c>S-R-I-S-S…</c> format for SID strings,
+        /// or the SID string constant format, such as "BA" for built-in administrators.
+        /// For more information about SID string notation, see SID Components.
+        /// </para>
+        /// </param>
+        /// <param name="Sid">
+        /// A pointer to a variable that receives a pointer to the converted SID.
+        /// To free the returned buffer, call the <see cref="LocalFree"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The <see cref="GetLastError"/> function may return one of the following error codes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// Invalid parameter.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_SID"/>
+        /// </term>
+        /// <term>
+        /// Invalid SID.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertStringSidToSidW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ConvertStringSidToSid([In] LPCWSTR StringSid, [Out] PSID Sid);
 
         /// <summary>
         /// <para>

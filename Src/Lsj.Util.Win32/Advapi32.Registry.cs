@@ -6,11 +6,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
-using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.RegistryKeyDispositions;
 using static Lsj.Util.Win32.Enums.RegistryOptions;
@@ -20,11 +21,12 @@ using static Lsj.Util.Win32.Enums.RegRestoreKeyFlags;
 using static Lsj.Util.Win32.Enums.RegSaveKeyExFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.PrivilegeConstants;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.Userenv;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
@@ -1300,6 +1302,36 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteValueW", ExactSpelling = true)]
         public static extern LSTATUS RegDeleteValue([In] HKEY hKey, [In] LPCWSTR lpValueName);
+
+        /// <summary>
+        /// <para>
+        /// Disables handle caching of the predefined registry handle for <see cref="HKEY_CURRENT_USER"/> for the current process.
+        /// This function does not work on a remote computer.
+        /// </para>
+        /// <para>
+        /// To disables handle caching of all predefined registry handles, use the <see cref="RegDisablePredefinedCacheEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regdisablepredefinedcache"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a system error code.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Any access of <see cref="HKEY_CURRENT_USER"/> after this function is called
+        /// will result in operations being performed on <c>HKEY_USERS\SID_of_current_user</c>,
+        /// or on <c>HKEY_USERS\DEFAULT</c> if the current user's hive is not loaded.
+        /// For more information on SIDs, see Security Identifiers.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDisablePredefinedCache", ExactSpelling = true)]
+        public static extern LSTATUS RegDisablePredefinedCache();
 
         /// <summary>
         /// <para>
@@ -2956,6 +2988,178 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyTransactedW", ExactSpelling = true)]
         public static extern LSTATUS RegOpenKeyTransacted([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] RegistryOptions ulOptions,
             [In] REGSAM samDesired, [Out] out HKEY phkResult, [In] HANDLE hTransaction, [In] PVOID pExtendedParemeter);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the <see cref="HKEY_CLASSES_ROOT"/> key for a specified user.
+        /// The user is identified by an access token.
+        /// The returned key has a view of the registry that merges the contents of the <c>HKEY_LOCAL_MACHINE\Software\Classes</c> key
+        /// with the contents of the <c>Software\Classes</c> keys in the user's registry hive.
+        /// For more information, see <see cref="HKEY_CLASSES_ROOT"/> Key.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenuserclassesroot"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hToken">
+        /// <para>
+        /// A handle to a primary or impersonation access token that identifies the user of interest.
+        /// This can be a token handle returned by a call to <see cref="LogonUser"/>,
+        /// <see cref="CreateRestrictedToken"/>, <see cref="DuplicateToken"/>, <see cref="DuplicateTokenEx"/>,
+        /// <see cref="OpenProcessToken"/>, or <see cref="OpenThreadToken"/> functions.
+        /// </para>
+        /// <para>
+        /// The handle must have <see cref="TOKEN_QUERY"/> access.
+        /// For more information, see Access Rights for Access-Token Objects.
+        /// </para>
+        /// </param>
+        /// <param name="dwOptions">
+        /// This parameter is reserved and must be zero.
+        /// </param>
+        /// <param name="samDesired">
+        /// A mask that specifies the desired access rights to the key.
+        /// The function fails if the security descriptor of the key does not permit the requested access for the calling process.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// </param>
+        /// <param name="phkResult">
+        /// A pointer to a variable that receives a handle to the opened key.
+        /// When you no longer need the returned handle, call the <see cref="RegCloseKey"/> function to close it.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function
+        /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag to get a generic description of the error.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="RegOpenUserClassesRoot"/> function enables you to retrieve
+        /// the merged <see cref="HKEY_CLASSES_ROOT"/> information for users other than the interactive user.
+        /// For example, the server component of a client/server application
+        /// could use <see cref="RegOpenUserClassesRoot"/> to retrieve the merged information for a client.
+        /// </para>
+        /// <para>
+        /// <see cref="RegOpenUserClassesRoot"/> fails if the user profile for the specified user is not loaded.
+        /// When a user logs on interactively, the system automatically loads the user's profile.
+        /// For other users, you can call the <see cref="LoadUserProfile"/> function to load the user's profile.
+        /// However, <see cref="LoadUserProfile"/> can be very time-consuming, so do not call it for this purpose
+        /// unless it is absolutely necessary to have the user's merged <see cref="HKEY_CLASSES_ROOT"/> information.
+        /// </para>
+        /// <para>
+        /// Applications running in the security context of the interactively logged-on user
+        /// do not need to use <see cref="RegOpenUserClassesRoot"/>.
+        /// These applications can call the <see cref="RegOpenKeyEx"/> function
+        /// to retrieve a merged view of the <see cref="HKEY_CLASSES_ROOT"/> key for the interactive user.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenUserClassesRoot", ExactSpelling = true)]
+        public static extern LSTATUS RegOpenUserClassesRoot([In] HANDLE hToken, [In] DWORD dwOptions,
+            [In] REGSAM samDesired, [Out] out HKEY phkResult);
+
+        /// <summary>
+        /// <para>
+        /// Maps a predefined registry key to the specified registry key.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regoverridepredefkey"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// <para>
+        /// A handle to one of the following predefined keys:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_CLASSES_ROOT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_CURRENT_CONFIG"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_CURRENT_USER"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_LOCAL_MACHINE"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_PERFORMANCE_DATA"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="HKEY_USERS"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="hNewHKey">
+        /// <para>
+        /// A handle to an open registry key.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/> or <see cref="RegOpenKeyEx"/> function.
+        /// It cannot be one of the predefined keys.
+        /// The function maps <paramref name="hKey"/> to refer to the <paramref name="hNewHKey"/> key.
+        /// This affects only the calling process.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hNewHKey"/> is <see cref="NULL"/>,
+        /// the function restores the default mapping of the predefined key.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function
+        /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag to get a generic description of the error.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="RegOverridePredefKey"/> function is intended for software installation programs.
+        /// It allows them to remap a predefined key, load a DLL component that will be installed on the system,
+        /// call an entry point in the DLL, and examine the changes to the registry that the component attempted to make.
+        /// The installation program can then write those changes to the locations intended by the DLL,
+        /// or make changes to the data before writing it.
+        /// </para>
+        /// <para>
+        /// For example, consider an installation program that installs an ActiveX control as part of an application installation.
+        /// The installation program needs to call the control's <see cref="DllRegisterServer"/> entry point
+        /// to enable the control to register itself.
+        /// Before this call, the installation program can call <see cref="RegOverridePredefKey"/>
+        /// to remap <see cref="HKEY_CLASSES_ROOT"/> to a temporary key such as <c>HKEY_CURRENT_USER\TemporaryInstall\DllRegistration</c>.
+        /// It then calls <see cref="DllRegisterServer"/>, which causes the ActiveX control to write its registry entries to the temporary key.
+        /// The installation program then calls <see cref="RegOverridePredefKey"/> again
+        /// to restore the original mapping of <see cref="HKEY_CLASSES_ROOT"/>.
+        /// The installation program can modify the keys written to the temporary key, if necessary,
+        /// before copying them to the original <see cref="HKEY_CLASSES_ROOT"/>.
+        /// </para>
+        /// <para>
+        /// After the call to <see cref="RegOverridePredefKey"/>,
+        /// you can safely call <see cref="RegCloseKey"/> to close the <paramref name="hNewHKey"/> handle.
+        /// The system maintains its own reference to <paramref name="hNewHKey"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOverridePredefKey", ExactSpelling = true)]
+        public static extern LSTATUS RegOverridePredefKey([In] HKEY hKey, [In] HKEY hNewHKey);
 
         /// <summary>
         /// <para>

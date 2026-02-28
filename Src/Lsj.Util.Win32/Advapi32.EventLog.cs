@@ -134,6 +134,73 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified event log.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-geteventloginformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hEventLog">
+        /// A handle to the event log.
+        /// The <see cref="OpenEventLog"/> or <see cref="RegisterEventSource"/> function returns this handle.
+        /// </param>
+        /// <param name="dwInfoLevel">
+        /// <para>
+        /// The level of event log information to return.
+        /// </para>
+        /// <para>
+        /// This parameter can be the following value.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="EVENTLOG_FULL_INFO"/>
+        /// </term>
+        /// <term>
+        /// Indicate whether the specified log is full.
+        /// The <paramref name="lpBuffer"/> parameter will contain an <see cref="EVENTLOG_FULL_INFORMATION"/> structure.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpBuffer">
+        /// An application-allocated buffer that receives the event log information.
+        /// The format of this data depends on the value of the dwInfoLevel parameter.
+        /// </param>
+        /// <param name="cbBufSize">
+        /// The size of the <paramref name="lpBuffer"/> buffer, in bytes.
+        /// </param>
+        /// <param name="pcbBytesNeeded">
+        /// The function sets this parameter to the required buffer size for the requested information,
+        /// regardless of whether the function succeeds.
+        /// Use this value if the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/> to allocate a buffer of the correct size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEventLogInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetEventLogInformation([In] HANDLE hEventLog, [In] DWORD dwInfoLevel,  [In] LPVOID lpBuffer,
+            [In] DWORD cbBufSize, [Out] out DWORD pcbBytesNeeded);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the number of records in the specified event log.
         /// </para>
         /// <para>

@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace Lsj.Util.Tests.Win32
 {
     [TestClass]
-    public class DefineTests
+    public partial class DefineTests
     {
         private static readonly List<string> _newApis = new List<string>
         {
@@ -395,10 +395,17 @@ namespace Lsj.Util.Tests.Win32
             "BRUSHOBJ_pvAllocRbrush",                           // DDI
             "BRUSHOBJ_pvGetRbrush",                             // DDI
             "BRUSHOBJ_ulGetBrushColor",                         // DDI
+            "CancelOverlappedAccess",                           // undocument
             "CLIPOBJ_bEnum",                                    // DDI
             "CLIPOBJ_cEnumStart",                               // DDI
             "CLIPOBJ_ppoGetPath",                               // DDI
             "CliImmSetHotKey",                                  // undocument
+            "CommandLineFromMsiDescriptor",                     // undocument
+            "ConvertAccessToSecurityDescriptorW",               // undocument
+            "ConvertSDToStringSDRootDomainW",                   // undocument
+            "ConvertSecurityDescriptorToAccessNamedW",          // undocument
+            "ConvertSecurityDescriptorToAccessW",               // undocument
+            "ConvertStringSDToSDRootDomainW",                   // undocument
             "CtxInitUser32",                                    // undocument
             "DelayLoadFailureHook",                             // not api
             "DeviceEventWorker",                                // undocument
@@ -472,6 +479,7 @@ namespace Lsj.Util.Tests.Win32
             "GdiRealizationInfo",                               // undocument
             "GdiReleaseDC",                                     // undocument
             "GdiSetLastError",                                  // undocument
+            "GetAccessPermissionsForObjectW",                   // undocument
             "GetAltTabInfo",                                    // duplicate of GetAltTabInfoW
             "GetAppCompatFlags2",                               // undocument
             "GetConsoleCharType",                               // undocument
@@ -483,7 +491,15 @@ namespace Lsj.Util.Tests.Win32
             "GetEUDCTimeStampExW",                              // undocument
             "GetFontAssocStatus",                               // undocument
             "GetLinguistLangSize",                              // undocument
+            "GetMangledSiteSid",                                // undocument
+            "GetNamedSecurityInfoExW",                          // undocument
             "GetNlsSectionName",                                // undocument
+            "GetOverlappedAccessResults",                       // undocument
+            "GetSecurityInfoExW",                               // undocument
+            "GetSiteDirectoryW",                                // undocument
+            "GetSiteNameFromSid",                               // undocument
+            "GetSiteSidFromToken",                              // undocument
+            "GetSiteSidFromUrl",                                // undocument
             "GetStringBitmapW",                                 // undocument
             "GetTextExtentExPointWPri",                         // undocument
             "GetTextFaceAliasW",                                // undocument
@@ -491,8 +507,14 @@ namespace Lsj.Util.Tests.Win32
             "GetWindowModuleFileName",                          // duplicate of GetWindowModuleFileNameW
             "HT_Get8BPPFormatPalette",                          // DDI
             "HT_Get8BPPMaskPalette",                            // DDI
+            "I_ScIsSecurityProcess",                            // undocument
+            "I_ScPnPGetServiceName",                            // undocument
             "InitializeLpkHooks",                               // undocument
             "InitializeWin32EntryTable",                        // undocument
+            "IsInSandbox",                                      // undocument
+            "IsProcessRestricted",                              // undocument
+            "LsaGetRemoteUserName",                             // undocument
+            "MakeAbsoluteSD2",                                  // undocument
             "MirrorRgn",                                        // undocument
             "Module32First",                                    // duplicate of Module32FirstW
             "Module32Next",                                     // duplicate of Module32NextW
@@ -526,8 +548,12 @@ namespace Lsj.Util.Tests.Win32
             "SetConsoleLocalEUDC",                              // undocument
             "SetConsoleNlsMode",                                // undocument
             "SetConsoleOS2OemFormat",                           // undocument
+            "SetEntriesInAccessListW",                          // undocument
+            "SetEntriesInAuditListW",                           // undocument
             "SetLayoutWidth",                                   // undocument
             "SetMessageWaitingIndicator",                       // undocument
+            "SetNamedSecurityInfoExW",                          // undocument
+            "SetSecurityInfoExW",                               // undocument
             "SetTermsrvAppInstallMode",                         // undocument
             "SetTimerQueueTimer",                               // undocument
             "StartFormPage",                                    // undocument
@@ -536,7 +562,10 @@ namespace Lsj.Util.Tests.Win32
             "STROBJ_bGetAdvanceWidths",                         // DDI
             "STROBJ_dwGetCodePage",                             // DDI
             "STROBJ_vEnumStart",                                // DDI
+            "SystemFunction034",                                // undocument
+            "SystemFunction035",                                // undocument
             "TermsrvAppInstallMode",                            // undocument
+            "TrusteeAccessToObjectW",                           // undocument
             "User32InitializeImmEntryTable",                    // undocument
             "UserLpkPSMTextOut",                                // undocument
             "UserLpkTabbedTextOut",                             // undocument
@@ -548,6 +577,20 @@ namespace Lsj.Util.Tests.Win32
             "VRipOutput",                                       // undocument
             "VTagOutput",                                       // undocument
             "Win32PoolAllocationStats",                         // undocument
+            "WmiCloseBlock",                                    // undocument
+            "WmiDevInstToInstanceNameW",                        // undocument
+            "WmiEnumerateGuids",                                // undocument
+            "WmiExecuteMethodW",                                // undocument
+            "WmiFileHandleToInstanceNameW",                     // undocument
+            "WmiFreeBuffer",                                    // undocument
+            "WmiMofEnumerateResourcesW",                        // undocument
+            "WmiNotificationRegistrationW",                     // undocument
+            "WmiOpenBlock",                                     // undocument
+            "WmiQueryAllDataW",                                 // undocument
+            "WmiQueryGuidInformation",                          // undocument
+            "WmiQuerySingleInstanceW",                          // undocument
+            "WmiSetSingleInstanceW",                            // undocument
+            "WmiSetSingleItemW",                                // undocument
             "XFORMOBJ_bApplyXform",                             // DDI
             "XFORMOBJ_iGetXform",                               // DDI
             "XLATEOBJ_cGetPalette",                             // DDI
@@ -608,163 +651,6 @@ namespace Lsj.Util.Tests.Win32
             "UnregisterUserApiHook",                            // undocument
         };
 
-        private static readonly List<string> _notImplemntApiList = new List<string>
-        {
-            // Tape
-            "CreateTapePartition",
-            "EraseTape",
-            "GetTapeParameters",
-            "GetTapePosition",
-            "GetTapeStatus",
-            "PrepareTape",
-            "SetTapeParameters",
-            "SetTapePosition",
-            "WriteTapemark",
-
-            // WDK
-            "RtlFillMemory",
-            "RtlMoveMemory",
-            "RtlZeroMemory",
-
-            // x86 Only
-            "InterlockedCompareExchange",
-            "InterlockedDecrement",
-            "InterlockedExchange",
-            "InterlockedExchangeAdd",
-            "InterlockedIncrement",
-
-            // printf
-            "wsprintfW",
-            "wvsprintfW",
-
-            // DDE
-            "DdeAbandonTransaction",
-            "DdeAccessData",
-            "DdeAddData",
-            "DdeClientTransaction",
-            "DdeCmpStringHandles",
-            "DdeConnect",
-            "DdeConnectList",
-            "DdeCreateDataHandle",
-            "DdeCreateStringHandleW",
-            "DdeDisconnect",
-            "DdeDisconnectList",
-            "DdeEnableCallback",
-            "DdeFreeDataHandle",
-            "DdeFreeStringHandle",
-            "DdeGetData",
-            "DdeGetLastError",
-            "DdeGetQualityOfService",
-            "DdeInitializeW",
-            "DdeKeepStringHandle",
-            "DdeNameService",
-            "DdePostAdvise",
-            "DdeQueryConvInfo",
-            "DdeQueryNextServer",
-            "DdeQueryStringW",
-            "DdeReconnect",
-            "DdeSetQualityOfService",
-            "DdeSetUserHandle",
-            "DdeUnaccessData",
-            "DdeUninitialize",
-            "FreeDDElParam",
-            "PackDDElParam",
-            "ReuseDDElParam",
-            "UnpackDDElParam",
-
-            // Security
-            "BuildExplicitAccessWithNameW",
-            "BuildImpersonateExplicitAccessWithNameW",
-            "BuildImpersonateTrusteeW",
-            "BuildSecurityDescriptorW",
-            "BuildTrusteeWithNameW",
-            "BuildTrusteeWithSidW",
-            "DeleteAce",
-            "FindFirstFreeAce",
-            "GetAce",
-            "GetAclInformation",
-            "GetAuditedPermissionsFromAclW",
-            "GetEffectiveRightsFromAclW",
-            "GetExplicitEntriesFromAclW",
-            "GetMultipleTrusteeOperationW",
-            "GetMultipleTrusteeW",
-            "GetSecurityDescriptorDacl",
-            "GetSecurityDescriptorGroup",
-            "GetSecurityDescriptorLength",
-            "GetSecurityDescriptorOwner",
-            "GetSecurityDescriptorSacl",
-            "GetTrusteeNameW",
-            "GetTrusteeTypeW",
-            "InitializeAcl",
-            "LookupAccountNameW",
-            "LookupAccountSidW",
-            "LookupPrivilegeDisplayNameW",
-            "LookupSecurityDescriptorPartsW",
-            "MakeAbsoluteSD",
-            "MakeSelfRelativeSD",
-            "SetAclInformation",
-            "SetEntriesInAclW",
-
-            // Crypt
-            "CryptAcquireContextW",
-            "CryptCreateHash",
-            "CryptDecrypt",
-            "CryptDeriveKey",
-            "CryptDestroyHash",
-            "CryptDestroyKey",
-            "CryptEncrypt",
-            "CryptExportKey",
-            "CryptGenKey",
-            "CryptGenRandom",
-            "CryptGetHashParam",
-            "CryptGetKeyParam",
-            "CryptGetProvParam",
-            "CryptGetUserKey",
-            "CryptHashData",
-            "CryptHashSessionKey",
-            "CryptImportKey",
-            "CryptReleaseContext",
-            "CryptSetHashParam",
-            "CryptSetKeyParam",
-            "CryptSetProvParam",
-            "CryptSetProviderW",
-            "CryptSignHashW",
-            "CryptVerifySignatureW",
-
-            // LSA
-            "LsaAddAccountRights",
-            "LsaClose",
-            "LsaCreateTrustedDomain",
-            "LsaDeleteTrustedDomain",
-            "LsaEnumerateAccountRights",
-            "LsaEnumerateAccountsWithUserRight",
-            "LsaEnumerateTrustedDomains",
-            "LsaFreeMemory",
-            "LsaLookupNames",
-            "LsaLookupSids",
-            "LsaNtStatusToWinError",
-            "LsaOpenPolicy",
-            "LsaQueryInformationPolicy",
-            "LsaQueryTrustedDomainInfo",
-            "LsaRemoveAccountRights",
-            "LsaRetrievePrivateData",
-            "LsaSetInformationPolicy",
-            "LsaSetTrustedDomainInformation",
-            "LsaStorePrivateData",
-            
-            // LZ
-            "CopyLZFile",
-            "GetExpandedNameW",
-            "LZClose",
-            "LZCopy",
-            "LZDone",
-            "LZInit",
-            "LZOpenFileW",
-            "LZRead",
-            "LZSeek",
-            "LZStart",
-        };
-
         [TestMethod]
         public void TestMethods()
         {
@@ -772,7 +658,7 @@ namespace Lsj.Util.Tests.Win32
             var toCheckApis = apis.Where(x =>
                 (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
-                (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.WindowsNT40) ||
+                (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
                 (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows2000))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();
