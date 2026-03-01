@@ -631,14 +631,94 @@ namespace Lsj.Util.Tests.Win32
             // Vista
             "CheckDesktopByThreadId",                           // undocument
             "CheckWindowThreadDesktop",                         // undocument
+            "ConfigureOPMProtectedOutput",                      // Output Protection Manager
+            "CreateOPMProtectedOutputs",                        // Output Protection Manager
+            "D3DKMTCheckExclusiveOwnership",                    // DDI
+            "D3DKMTCheckMonitorPowerState",                     // DDI
+            "D3DKMTCheckOcclusion",                             // DDI
+            "D3DKMTCloseAdapter",                               // DDI
+            "D3DKMTCreateAllocation",                           // DDI
+            "D3DKMTCreateContext",                              // DDI
+            "D3DKMTCreateDCFromMemory",                         // DDI
+            "D3DKMTCreateDevice",                               // DDI
+            "D3DKMTCreateOverlay",                              // DDI
+            "D3DKMTCreateSynchronizationObject",                // DDI
+            "D3DKMTDestroyAllocation",                          // DDI
+            "D3DKMTDestroyContext",                             // DDI
+            "D3DKMTDestroyDCFromMemory",                        // DDI
+            "D3DKMTDestroyDevice",                              // DDI
+            "D3DKMTDestroyOverlay",                             // DDI
+            "D3DKMTDestroySynchronizationObject",               // DDI
+            "D3DKMTEscape",                                     // DDI
+            "D3DKMTFlipOverlay",                                // DDI
+            "D3DKMTGetContextSchedulingPriority",               // DDI
+            "D3DKMTGetDeviceState",                             // DDI
+            "D3DKMTGetDisplayModeList",                         // DDI
+            "D3DKMTGetMultisampleMethodList",                   // DDI
+            "D3DKMTGetPresentHistory",                          // DDI
+            "D3DKMTGetProcessSchedulingPriorityClass",          // DDI
+            "D3DKMTGetRuntimeData",                             // DDI
+            "D3DKMTGetScanLine",                                // DDI
+            "D3DKMTGetSharedPrimaryHandle",                     // DDI
+            "D3DKMTInvalidateActiveVidPn",                      // DDI
+            "D3DKMTLock",                                       // DDI
+            "D3DKMTOpenAdapterFromDeviceName",                  // DDI
+            "D3DKMTOpenAdapterFromGdiDisplayName",              // DDI
+            "D3DKMTOpenAdapterFromHdc",                         // DDI
+            "D3DKMTOpenResource",                               // DDI
+            "D3DKMTPollDisplayChildren",                        // DDI
+            "D3DKMTPresent",                                    // DDI
+            "D3DKMTQueryAdapterInfo",                           // DDI
+            "D3DKMTQueryAllocationResidency",                   // DDI
+            "D3DKMTQueryResourceInfo",                          // DDI
+            "D3DKMTQueryStatistics",                            // DDI
+            "D3DKMTReleaseProcessVidPnSourceOwners",            // DDI
+            "D3DKMTRender",                                     // DDI
+            "D3DKMTSetAllocationPriority",                      // DDI
+            "D3DKMTSetContextSchedulingPriority",               // DDI
+            "D3DKMTSetDisplayMode",                             // DDI
+            "D3DKMTSetDisplayPrivateDriverFormat",              // DDI
+            "D3DKMTSetGammaRamp",                               // DDI
+            "D3DKMTSetProcessSchedulingPriorityClass",          // DDI
+            "D3DKMTSetQueuedLimit",                             // DDI
+            "D3DKMTSetVidPnSourceOwner",                        // DDI
+            "D3DKMTSharedPrimaryLockNotification",              // DDI
+            "D3DKMTSharedPrimaryUnLockNotification",            // DDI
+            "D3DKMTSignalSynchronizationObject",                // DDI
+            "D3DKMTUnlock",                                     // DDI
+            "D3DKMTUpdateOverlay",                              // DDI
+            "D3DKMTWaitForIdle",                                // DDI
+            "D3DKMTWaitForSynchronizationObject",               // DDI
+            "D3DKMTWaitForVerticalBlankEvent",                  // DDI
+            "DDCCIGetCapabilitiesString",                       // Monitor Configuration API used by display driver
+            "DDCCIGetCapabilitiesStringLength",                 // Monitor Configuration API used by display driver
+            "DDCCIGetTimingReport",                             // Monitor Configuration API used by display driver
+            "DDCCIGetVCPFeature",                               // Monitor Configuration API used by display driver
+            "DDCCISaveCurrentSettings",                         // Monitor Configuration API used by display driver
+            "DDCCISetVCPFeature",                               // Monitor Configuration API used by display driver
+            "DestroyOPMProtectedOutput",                        // Output Protection Manager
+            "DestroyPhysicalMonitorInternal",                   // Monitor Configuration API used by display driver
             "DoSoundConnect",                                   // undocument
             "DoSoundDisconnect",                                // undocument
+            "DwmGetDirtyRgn",                                   // undocument
             "DwmGetDxRgn",                                      // undocument
+            "DwmGetSurfaceData",                                // undocument
             "DwmHintDxUpdate",                                  // undocument
             "DwmStartRedirection",                              // undocument
             "DwmStopRedirection",                               // undocument
             "FrostCrashedWindow",                               // undocument
+            "GdiGetBitmapBitsSize",                             // undocument
+            "GdiIsScreenDC",                                    // undocument
+            "GetCertificate",                                   // Output Protection Manager
+            "GetCertificateSize",                               // Output Protection Manager
+            "GetCOPPCompatibleOPMInformation",                  // Output Protection Manager
+            "GetNumberOfPhysicalMonitors",                      // Monitor Configuration API used by display driver
+            "GetOPMInformation",                                // Output Protection Manager
+            "GetOPMRandomNumber",                               // Output Protection Manager
+            "GetPhysicalMonitorDescription",                    // Monitor Configuration API used by display driver
+            "GetPhysicalMonitors",                              // Monitor Configuration API used by display driver
             "GetSendMessageReceiver",                           // undocument
+            "GetSuggestedOPMProtectedOutputArraySize",          // Output Protection Manager
             "GetWindowMinimizeRect",                            // undocument
             "GetWindowRgnEx",                                   // undocument
             "GhostWindowFromHungWindow",                        // undocument
@@ -646,6 +726,8 @@ namespace Lsj.Util.Tests.Win32
             "InternalGetWindowIcon",                            // undocument
             "IsSETEnabled",                                     // undocument
             "IsThreadDesktopComposited",                        // undocument
+            "IsValidEnhMetaRecord",                             // undocument
+            "IsValidEnhMetaRecordOffExt",                       // undocument
             "OpenThreadDesktop",                                // undocument
             "PaintMonitor",                                     // undocument
             "PrivateRegisterICSProc",                           // undocument
@@ -656,6 +738,7 @@ namespace Lsj.Util.Tests.Win32
             "SetMirrorRendering",                               // undocument
             "SetWindowRgnEx",                                   // undocument
             "ShowSystemCursor",                                 // undocument
+            "SetOPMSigningKeyAndSequenceNumbers",               // Output Protection Manager 
             "SwitchDesktopWithFade",                            // undocument
             "UnregisterSessionPort",                            // undocument
             "UpdateWindowTransform",                            // undocument
