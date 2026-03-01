@@ -527,6 +527,8 @@ namespace Lsj.Util.Tests.Win32
             "BaseUpdateAppcompatCache",                         // undocument
             "BuildReasonArray",                                 // undocument
             "CalcMenuBar",                                      // undocument
+            "ClearBitmapAttributes",                            // undocument
+            "ClearBrushAttributes",                             // undocument
             "CreateJobSet",                                     // undocument
             "CreateNlsSecurityDescriptor",                      // undocument
             "CreateProcessInternalW",                           // undocument
@@ -534,9 +536,69 @@ namespace Lsj.Util.Tests.Win32
             "CreateSocketHandle",                               // undocument
             "CreateSystemThreads",                              // undocument
             "CsrBroadcastSystemMessageExW",                     // undocument
+            "DdEntry0",                                         // undocument
+            "DdEntry1",                                         // undocument
+            "DdEntry10",                                        // undocument
+            "DdEntry11",                                        // undocument
+            "DdEntry12",                                        // undocument
+            "DdEntry13",                                        // undocument
+            "DdEntry14",                                        // undocument
+            "DdEntry15",                                        // undocument
+            "DdEntry16",                                        // undocument
+            "DdEntry17",                                        // undocument
+            "DdEntry18",                                        // undocument
+            "DdEntry19",                                        // undocument
+            "DdEntry2",                                         // undocument
+            "DdEntry20",                                        // undocument
+            "DdEntry21",                                        // undocument
+            "DdEntry22",                                        // undocument
+            "DdEntry23",                                        // undocument
+            "DdEntry24",                                        // undocument
+            "DdEntry25",                                        // undocument
+            "DdEntry26",                                        // undocument
+            "DdEntry27",                                        // undocument
+            "DdEntry28",                                        // undocument
+            "DdEntry29",                                        // undocument
+            "DdEntry3",                                         // undocument
+            "DdEntry30",                                        // undocument
+            "DdEntry31",                                        // undocument
+            "DdEntry32",                                        // undocument
+            "DdEntry33",                                        // undocument
+            "DdEntry34",                                        // undocument
+            "DdEntry35",                                        // undocument
+            "DdEntry36",                                        // undocument
+            "DdEntry37",                                        // undocument
+            "DdEntry38",                                        // undocument
+            "DdEntry39",                                        // undocument
+            "DdEntry4",                                         // undocument
+            "DdEntry40",                                        // undocument
+            "DdEntry41",                                        // undocument
+            "DdEntry42",                                        // undocument
+            "DdEntry43",                                        // undocument
+            "DdEntry44",                                        // undocument
+            "DdEntry45",                                        // undocument
+            "DdEntry46",                                        // undocument
+            "DdEntry47",                                        // undocument
+            "DdEntry48",                                        // undocument
+            "DdEntry49",                                        // undocument
+            "DdEntry5",                                         // undocument
+            "DdEntry50",                                        // undocument
+            "DdEntry51",                                        // undocument
+            "DdEntry52",                                        // undocument
+            "DdEntry53",                                        // undocument
+            "DdEntry54",                                        // undocument
+            "DdEntry55",                                        // undocument
+            "DdEntry56",                                        // undocument
+            "DdEntry6",                                         // undocument
+            "DdEntry7",                                         // undocument
+            "DdEntry8",                                         // undocument
+            "DdEntry9",                                         // undocument
             "DestroyReasons",                                   // undocument
             "DisplayExitWindowsWarnings",                       // undocument
             "EnumerateLocalComputerNamesW",                     // undocument
+            "GdiDrawStream",                                    // undocument
+            "GetBitmapAttributes",                              // undocument
+            "GetBrushAttributes",                               // undocument
             "GetCPFileNameFromRegistry",                        // undocument
             "GetHandleContext",                                 // undocument
             "GetNumaAvailableMemory",                           // undocument
@@ -557,6 +619,8 @@ namespace Lsj.Util.Tests.Win32
             "RecordShutdownReason",                             // undocument
             "RegisterMessagePumpHook",                          // undocument
             "RegisterUserApiHook",                              // undocument
+            "SetBitmapAttributes",                              // undocument
+            "SetBrushAttributes",                               // undocument
             "SetClientTimeZoneInformation",                     // undocument
             "SetComPlusPackageInstallStatus",                   // undocument
             "SetHandleContext",                                 // undocument
