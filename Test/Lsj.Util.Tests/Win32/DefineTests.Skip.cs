@@ -745,9 +745,36 @@ namespace Lsj.Util.Tests.Win32
             "_UserTestTokenForInteractive",                     // undocument
 
             //7
+            "BeginGdiRendering",                                // undocument
             "ControlMagnification",                             // undocument
+            "CreateBitmapFromDxSurface",                        // undocument
+            "D3DKMTAcquireKeyedMutex",                          // DDI
+            "D3DKMTCheckSharedResourceAccess",                  // DDI
+            "D3DKMTCheckVidPnExclusiveOwnership",               // DDI
+            "D3DKMTConfigureSharedResource",                    // DDI
+            "D3DKMTCreateAllocation2",                          // DDI
+            "D3DKMTCreateKeyedMutex",                           // DDI
+            "D3DKMTCreateSynchronizationObject2",               // DDI
+            "D3DKMTDestroyKeyedMutex",                          // DDI
+            "D3DKMTGetOverlayState",                            // DDI
+            "D3DKMTGetPresentQueueEvent",                       // DDI
+            "D3DKMTOpenKeyedMutex",                             // DDI
+            "D3DKMTOpenResource2",                              // DDI
+            "D3DKMTOpenSynchronizationObject",                  // DDI
+            "D3DKMTReleaseKeyedMutex",                          // DDI
+            "D3DKMTSignalSynchronizationObject2",               // DDI
+            "D3DKMTWaitForSynchronizationObject2",              // DDI
+            "DdCreateFullscreenSprite",                         // undocument
+            "DdDestroyFullscreenSprite",                        // undocument
+            "DdNotifyFullscreenSpriteUpdate",                   // undocument
+            "DdQueryVisRgnUniqueness",                          // undocument
             "DwmGetDxSharedSurface",                            // undocument
+            "EndGdiRendering",                                  // undocument
             "gapfnScSendMessage",                               // undocument
+            "GdiLoadType1Fonts",                                // undocument
+            "GetFontFileData",                                  // undocument
+            "GetFontFileInfo",                                  // undocument
+            "GetFontRealizationInfo",                           // undocument
             "GetInputLocaleInfo",                               // undocument
             "GetMagnificationDesktopColorEffect",               // undocument
             "GetMagnificationDesktopMagnification",             // undocument

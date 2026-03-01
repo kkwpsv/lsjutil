@@ -99,7 +99,7 @@ namespace Lsj.Util.Tests.Win32
                 (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows7) ||
                 (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
-                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.WindowsVista))
+                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
                 .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
